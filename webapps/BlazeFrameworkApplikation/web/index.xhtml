@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://blaze.blazebit.com/web/framework/"
+      xmlns:e="http://blaze.blazebit.com/web/event/"
+      xmlns:fx="http://blaze.blazebit.com/web/fx/">
+	<b:head>
+		<b:script>
+			alert('test');
+		</b:script>
+	</b:head>
+	<b:view>
+		<b:outputText value="Hello World" />
+		<b:panel id="test">
+			<b:outputText value="hallo!" />
+		</b:panel>
+		<b:button value="test" action="#{myBeacon.count}" />
+		<b:button value="eventTest">
+			<e:clickEvent>
+				<fx:slidePanel forId="test" duration="100" delay="0" direction="vertical">
+					<!-- Callback eventHandler -->
+					<e:customHandler name="myHandler">
+						alert('slided down!');
+					</e:customHandler>
+				</fx:slidePanel>
+				<fx:enlargePanel forId="test" duration="100" delay="20" />
+			</e:clickEvent>
+		</b:button>
+	</b:view>
+</html>

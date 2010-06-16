@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<web
+	xmlns="http://blaze.blazebit.com/web/config">
+	<index>index.xhtml</index>
+	<session/>
+	<navigation/>
+	<bean/>
+</web>
