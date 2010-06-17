@@ -1,6 +1,6 @@
 <?php
 namespace blaze\io;
-
+use blaze\lang\StringBuffer;
 /**
  * Description of Readable
  *

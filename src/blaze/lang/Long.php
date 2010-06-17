@@ -3,7 +3,7 @@ namespace blaze\lang;
 use blaze\lang\Object;
 
 /**
- * Description of Byte
+ * Description of Long
  *
  * @author  RedShadow
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,36 +13,43 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class Byte extends Object implements NativeWrapper {
+class Long extends Object implements NativeWrapper{
+
     private $value;
 
     public function __construct($value){
         $this->value = self::asNative($value);
     }
 
+    /**
+     *
+     * @return double
+     */
     public function toNative() {
         return $this->value;
     }
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return integer
+     * @param blaze\lang\Long|long $value
+     * @return long
      */
     public static function asNative($value){
-        if($value instanceof Byte)
+        if($value instanceof Long)
             return $value->value;
+        else if(is_long($value))
+            return $value;
         else
-            return Integer::asNative($value) & 0xFF;
+            return (int)String::asNative($value);
     }
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return blaze\lang\Integer
+     * @param blaze\lang\Long|long $value
+     * @return blaze\lang\Long
      */
     public static function asWrapper($value){
-        if($value instanceof Integer)
+        if($value instanceof Long)
             return $value;
         else
             return new self($value);

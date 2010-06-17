@@ -112,12 +112,12 @@ class ConnectionImpl extends AbstractConnection {
     public function prepareCall($sql) {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
-        return new CallableStatementImpl($this, $sql);
+        return new CallableStatementImpl($this, $this->pdo, $sql);
     }
     public function prepareStatement($sql) {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
-        return new PreparedStatementImpl($this, $sql);
+        return new PreparedStatementImpl($this, $this->pdo, $sql);
     }
     public function rollback() {
         if($this->isClosed())

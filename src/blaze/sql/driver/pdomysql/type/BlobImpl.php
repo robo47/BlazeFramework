@@ -1,7 +1,11 @@
 <?php
 namespace blaze\sql\driver\pdomysql\type;
 use blaze\lang\Object,
-    blaze\sql\type\Blob;
+    blaze\sql\type\Blob,
+    blaze\io\InputStream,
+    blaze\io\PipedInputStream,
+    blaze\io\PipedOutputStream,
+    blaze\sql\Statement;
 
 /**
  * Description of BlobImpl
@@ -16,6 +20,42 @@ use blaze\lang\Object,
  */
 class BlobImpl extends Object implements Blob{
 
+    private $is;
+    private $os = null;
+    private $pipedIn = null;
+
+    public function __construct(InputStream $is) {
+        $this->is = $is;
+    }
+
+    /**
+     *
+     * @return blaze\io\OutputStream
+     */
+    public function getOutputStream(){
+        if($this->os === null){
+            $this->os = new PipedOutputStream();
+            $this->pipedIn = new PipedInputStream($this->os);
+        }
+
+        return $this->os;
+    }
+
+    /**
+     *
+     * @return blaze\io\InputStream
+     */
+    public function getInputStream(){
+        return $this->is;
+    }
+
+    /**
+     *
+     * @return blaze\io\InputStream
+     */
+    public function getPipedInputStream(){
+        return $this->pipedIn;
+    }
 }
 
 ?>

@@ -3,15 +3,18 @@ namespace blaze\sql\driver\pdomysql;
 use blaze\lang\Object,
 blaze\lang\String,
 blaze\lang\Boolean,
+blaze\lang\Long,
+blaze\lang\Float,
 blaze\lang\Byte,
 blaze\lang\Integer,
 blaze\util\ArrayObject,
 blaze\math\BigDecimal,
-blaze\sql\driver\pdobase\AbstractResultSet,
 blaze\sql\Statement,
-blaze\sql\driver\pdomysql\BlobImpl,
-blaze\sql\driver\pdomysql\ClobImpl,
-blaze\sql\driver\pdomysql\NClobImpl;
+blaze\sql\SQLException,
+blaze\sql\driver\pdobase\AbstractResultSet,
+blaze\sql\driver\pdomysql\type\BlobImpl,
+blaze\sql\driver\pdomysql\type\ClobImpl,
+blaze\sql\driver\pdomysql\type\NClobImpl;
 
 /**
  * Description of ResultSetImpl
@@ -24,7 +27,7 @@ blaze\sql\driver\pdomysql\NClobImpl;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class ResultSetImpl extends AbstractResultSet {
+class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticInitialization {
 
     /**
      *
@@ -55,6 +58,16 @@ class ResultSetImpl extends AbstractResultSet {
      * @var blaze\sql\SQLWarning
      */
     protected $warnings;
+
+    private static $dateFormatter;
+    private static $dateTimeFormatter;
+    private static $timeFormatter;
+
+    public static function staticInit(){
+        self::$dateFormatter = new \blaze\text\DateFormat('Y-m-d');
+        self::$dateTimeFormatter = new \blaze\text\DateFormat('Y-m-d H:i:s');
+        self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
+    }
 
     public function __construct(Statement $stmt, \PDOStatement $pdoStmt) {
         $this->stmt = $stmt;
@@ -127,6 +140,8 @@ class ResultSetImpl extends AbstractResultSet {
      * @return integer The actual row number
      */
     public function getRow() {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
         return $this->rowNumber;
     }
 
@@ -135,6 +150,8 @@ class ResultSetImpl extends AbstractResultSet {
      * @return boolean True if the cursor was moved to the new position and false if not
      */
     public function absolute($number) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
         if($number < $this->rowNumber) {
             return false;
         }else if($number == $this->rowNumber) {
@@ -152,6 +169,8 @@ class ResultSetImpl extends AbstractResultSet {
      * @return boolean True if the cursor was moved to the new position and false if not
      */
     public function relative($count) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
         if($number < 0) {
             return false;
         }else if($number == 0) {
@@ -175,9 +194,15 @@ class ResultSetImpl extends AbstractResultSet {
         if(!is_array($this->actRow))
             throw new SQLException('No valid result.');
         if(is_int($identifier)) {
+            //var_dump($this->actRowIndex);
+            if(!isset($this->actRowIndex[$identifier]))
+                throw new SQLException('Index '.$identifier.' was not found.');
             return $this->actRowIndex[$identifier];
         }else {
+            if(!isset($this->actRow[String::asNative($identifier)]))
+                throw new SQLException('Index '.$identifier.' was not found.');
             return $this->actRow[String::asNative($identifier)];
+
         }
     }
 
@@ -187,9 +212,12 @@ class ResultSetImpl extends AbstractResultSet {
      * @return blaze\util\ArrayObject
      */
     public function getArray($identifier) {
-        $a = new ArrayObject();
-        
-        return $a;
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
+//        $a = new ArrayObject();
+//
+//        return $a;
     }
 
     /**
@@ -197,7 +225,11 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\math\BigDecimal
      */
-    public function getDecimal($identifier){
+    public function getDecimal($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        $pair = explode(',',$this->get($identifier));
+        var_dump($pair);
         $d = new BigDecimal();
 
         return $d;
@@ -208,10 +240,10 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\sql\type\Blob
      */
-    public function getBlob($identifier){
-        $b = new BlobImpl();
-
-        return $b;
+    public function getBlob($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return new BlobImpl(new \blaze\io\ByteArrayInputStream($this->get($identifier),$this->stmt));
     }
 
     /**
@@ -219,8 +251,10 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return boolean
      */
-    public function getBoolean($identifier){
-        return Integer::parseInt($this->get($identifier)) == 1;
+    public function getBoolean($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Integer::asNative($this->get($identifier)) === 1;
     }
 
     /**
@@ -228,8 +262,10 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return integer
      */
-    public function getByte($identifier){
-        return Byte::parseByte($this->get($identifier));
+    public function getByte($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Byte::asNative($this->get($identifier));
     }
 
     /**
@@ -237,7 +273,10 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\sql\Clob
      */
-    public function getClob($identifier){
+    public function getClob($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        var_dump($this->get($identifier));
         $c = new ClobImpl();
 
         return $c;
@@ -248,42 +287,78 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\util\Date
      */
-    public function getDate($identifier){}
+    public function getDate($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+
+        return self::$dateFormatter->parseDate($this->get($identifier));
+    }
+
+    /**
+     *
+     * @param blaze\lang\String|string|integer $identifier
+     * @return blaze\util\Date
+     */
+    public function getDateTime($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+
+        return self::$dateTimeFormatter->parseDate($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return double
      */
-    public function getDouble($identifier){}
+    public function getDouble($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Double::asNative($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return float
      */
-    public function getFloat($identifier){}
+    public function getFloat($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Float::asNative($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return integer
      */
-    public function getInt($identifier){}
+    public function getInt($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Integer::asNative($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return long
      */
-    public function getLong($identifier){}
+    public function getLong($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return Long::asNative($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\sql\type\NClob
      */
-    public function getNClob($identifier){
+    public function getNClob($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        var_dump($this->get($identifier));
         $n = new NClobImpl();
 
         return $n;
@@ -295,28 +370,42 @@ class ResultSetImpl extends AbstractResultSet {
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\lang\String
      */
-    public function getNString($identifier){}
+    public function getNString($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return String::asWrapper($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\lang\String
      */
-    public function getString($identifier){}
+    public function getString($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return String::asWrapper($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\util\Date
      */
-    public function getTime($identifier){}
+    public function getTime($identifier) {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        return self::$timeFormatter->parseDate($this->get($identifier));
+    }
 
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\util\Date
      */
-    public function getTimestamp($identifier){}
+    public function getTimestamp($identifier) {
+        return $this->getDateTime($identifier);
+    }
 
 }
 

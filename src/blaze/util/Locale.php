@@ -216,12 +216,11 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * It can be changed using the
      * {@link #setDefault(java.util.Locale) setDefault} method.
      *
-     * @return the default locale for this instance of the Java Virtual Machine
+     * @return blaze\util\Locale the default locale for this instance of the Java Virtual Machine
      */
-//    public static Locale getDefault() {
-//        // do not synchronize this method - see 4071298
-//        // it's OK if more than one default locale happens to be created
-//        if (defaultLocale == null) {
+    public static function getDefault() {
+        if (self::$defaultLocale == null) {
+            //var_dump(setlocale(LC_ALL,0));
 //            String language, region, country, variant;
 //            language = (String) AccessController.doPrivileged(
 //                            new GetPropertyAction("user.language", "en"));
@@ -245,9 +244,9 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
 //                                new GetPropertyAction("user.variant", ""));
 //            }
 //            defaultLocale = getInstance(language, country, variant);
-//        }
-//        return defaultLocale;
-//    }
+        }
+        return self::$defaultLocale;
+    }
 
     /**
      * Sets the default locale for this instance of the Java Virtual Machine.

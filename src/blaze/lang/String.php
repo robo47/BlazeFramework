@@ -21,13 +21,17 @@ class String extends Object implements NativeWrapper {
      *
      * @param blaze\lang\String|string $string
      */
-    public function __construct($string, $beginIndex = 0, $endIndex = -1){
+    public function __construct($string, $beginIndex = 0, $endIndex = null){
+        $string = self::asNative($string);
         $this->count = strlen($string);
         
-        if($endIndex === -1)
+        if($endIndex === null)
             $endIndex = $this->count;
 	if ($beginIndex < 0) {
 	    throw new StringIndexOutOfBoundsException($beginIndex);
+	}
+	if ($endIndex < 0) {
+	    throw new StringIndexOutOfBoundsException($endIndex);
 	}
 	if ($endIndex > $this->count) {
 	    throw new StringIndexOutOfBoundsException($endIndex);
@@ -35,7 +39,7 @@ class String extends Object implements NativeWrapper {
 	if ($beginIndex > $endIndex) {
 	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
 	}
-        $this->string = substr(self::asNative($string),$beginIndex,$endIndex - $beginIndex);
+        $this->string = substr($string,$beginIndex,$endIndex - $beginIndex);
         $this->count = strlen($this->string);
         $this->hash = 0;
     }
@@ -65,8 +69,6 @@ class String extends Object implements NativeWrapper {
     public static function asWrapper($value){
         if($value instanceof String)
             return $value;
-        else if(is_string($value))
-            return new self($value);
         else
             return new self((string)$value);
     }
@@ -720,18 +722,21 @@ class String extends Object implements NativeWrapper {
      *             <code>beginIndex</code> is larger than
      *             <code>endIndex</code>.
      */
-    public function substring($beginIndex, $endIndex = -1) {
-        if($endIndex == -1) {
+    public function substring($beginIndex, $endIndex = null) {
+        if($endIndex === null) {
             $endIndex = $this->count;
         }
 	if ($beginIndex < 0) {
-	    throw new StringIndexOutOfBoundsException(beginIndex);
+	    throw new StringIndexOutOfBoundsException($beginIndex);
+	}
+        if ($endIndex < 0) {
+	    throw new StringIndexOutOfBoundsException($endIndex);
 	}
 	if ($endIndex > $this->count) {
-	    throw new StringIndexOutOfBoundsException(endIndex);
+	    throw new StringIndexOutOfBoundsException($endIndex);
 	}
 	if ($beginIndex > $endIndex) {
-	    throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
+	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
 	}
 	return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
 	    new String($this->string, $beginIndex, $endIndex);

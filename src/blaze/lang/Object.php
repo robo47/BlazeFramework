@@ -63,7 +63,7 @@ class Object {
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function  __toString() {
-        return new String($this->getClass()->getName() . "@" . Integer::toHexString($this->hashCode()));
+        return new String($this->getClass()->getName() . "@" . dechex(($this->hashCode())));
     }
 }
 ?>

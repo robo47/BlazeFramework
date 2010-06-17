@@ -20,7 +20,7 @@ abstract class InputStream extends Object implements Readable, Closeable {
      * @return 	integer The number of chars which are available for read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function available();
+     public abstract function available();
 
     /**
      * Tries to skip over $n chars and returns the number of chars which were skipped over.
@@ -29,7 +29,7 @@ abstract class InputStream extends Object implements Readable, Closeable {
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function skip($n);
+     public abstract function skip($n);
 }
 
 ?>

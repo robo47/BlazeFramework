@@ -1,8 +1,9 @@
 <?php
-namespace blaze\sql\type;
+namespace blaze\text;
+use blaze\lang\Exception;
 
 /**
- * Description of Blob
+ * Description of ParseException
  *
  * @author  RedShadow
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,19 +13,6 @@ namespace blaze\sql\type;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-interface Blob {
-
-    /**
-     *
-     * @return blaze\io\OutputStream
-     */
-    public function getOutputStream();
-
-    /**
-     *
-     * @return blaze\io\InputStream
-     */
-    public function getInputStream();
-}
+class ParseException extends Exception {}
 
 ?>

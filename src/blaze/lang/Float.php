@@ -3,7 +3,7 @@ namespace blaze\lang;
 use blaze\lang\Object;
 
 /**
- * Description of Byte
+ * Description of Float
  *
  * @author  RedShadow
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,36 +13,44 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class Byte extends Object implements NativeWrapper {
+class Float extends Object implements NativeWrapper {
+
     private $value;
 
     public function __construct($value){
         $this->value = self::asNative($value);
     }
 
+
+    /**
+     *
+     * @return float
+     */
     public function toNative() {
         return $this->value;
     }
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return integer
+     * @param blaze\lang\Float|float $value
+     * @return float
      */
     public static function asNative($value){
-        if($value instanceof Byte)
+        if($value instanceof Float)
             return $value->value;
+        else if(is_float($value))
+            return $value;
         else
-            return Integer::asNative($value) & 0xFF;
+            return (float)String::asNative($value);
     }
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return blaze\lang\Integer
+     * @param blaze\lang\Float|float $value
+     * @return blaze\lang\Float
      */
     public static function asWrapper($value){
-        if($value instanceof Integer)
+        if($value instanceof Float)
             return $value;
         else
             return new self($value);

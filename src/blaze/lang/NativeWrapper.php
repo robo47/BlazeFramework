@@ -18,5 +18,17 @@ interface NativeWrapper {
      * @return int|float|string|boolean
      */
     public function toNative();
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return int|float|string|boolean
+     */
+    public static function asWrapper($value);
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return int|float|string|boolean
+     */
+    public static function asNative($value);
 }
 ?>

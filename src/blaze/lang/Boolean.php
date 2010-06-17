@@ -16,7 +16,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
     /**
      * @var boolean
      */
-    private $boolean;
+    private $value;
 
     /**
      * Allocates a <code>Boolean</code> object representing the
@@ -29,12 +29,12 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      *
      * @param blaze\lang\String|boolean|string $boolean
      */
-    public function __construct($boolean){
+    public function __construct($value){
         parent::__construct();
-        if(is_bool($boolean))
-            $this->boolean = $boolean;
-        else if($boolean instanceof String || is_string($boolean))
-            $this->boolean = self::toBoolean($boolean);
+        if(is_bool($value))
+            $this->value = $value;
+        else if($value instanceof String || is_string($value))
+            $this->value = self::toBoolean($value);
         else
             throw new IllegalArgumentException('Parameter must be a blaze\lang\String, boolean or string');
     }
@@ -63,7 +63,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      * @return  the primitive <code>boolean</code> value of this object.
      */
     public function booleanValue(){
-        return $this->boolean;
+        return $this->value;
     }
 
     /**
@@ -103,11 +103,15 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      * @return  a string representation of this object.
      */
     public function __toString(){
-        return $this->boolean ? 'true' : 'false';
+        return $this->value ? 'true' : 'false';
     }
 
+    /**
+     *
+     * @return boolean
+     */
     public function toNative() {
-        return $this->boolean;
+        return $this->value;
     }
 
     /**
@@ -118,7 +122,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      * object represents <tt>false</tt>.
      */
     public function hashCode(){
-        return $this->boolean ? 1231 : 1237;
+        return $this->value ? 1231 : 1237;
     }
 
     /**
@@ -132,7 +136,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      */
     public function equals(Object $obj){
         if($obj instanceof Boolean){
-            return $this->boolean === $obj->booleanValue();
+            return $this->value === $obj->booleanValue();
         }
         return false;
     }
@@ -154,7 +158,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
         if($obj === null)
             throw new NullPointerException();
         if($obj instanceof Boolean)
-            return $this->boolean == $obj->boolean ? 0 : ($this->boolean ? 1 : -1);
+            return $this->value == $obj->value ? 0 : ($this->value ? 1 : -1);
         throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Boolean.');
     }
 
@@ -167,6 +171,33 @@ class Boolean extends Object implements NativeWrapper,Comparable {
             return (($value != null) && $value->equalsIgnoreCase("true"));
         else
             return (($value != null) && $value === "true");
+    }
+
+
+    /**
+     *
+     * @param blaze\lang\Boolean|boolean $value
+     * @return boolean
+     */
+    public static function asNative($value){
+        if($value instanceof Boolean)
+            return $value->value;
+        else if(is_bool($value))
+            return $value;
+        else
+            return (boolean)String::asNative($value);
+    }
+
+    /**
+     *
+     * @param blaze\lang\Boolean|boolean $value
+     * @return blaze\lang\Boolean
+     */
+    public static function asWrapper($value){
+        if($value instanceof Boolean)
+            return $value;
+        else
+            return new self($value);
     }
 
 }

@@ -1,9 +1,9 @@
 <?php
-namespace blaze\web\tagLibrary;
+namespace blaze\util;
 use blaze\lang\Object;
 
 /**
- * Description of PlainTag
+ * Description of TimeZone
  *
  * @author  RedShadow
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,28 +13,16 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class PlainTag extends AbstractTag{
+class TimeZone extends Object {
 
-    private $content;
-    
 
-     public function render(){
-        return $this->content;
-     }
-    public function create() {
+    public static function getDefault(){
         return new self();
     }
-    public function getContent() {
-        return $this->content;
+
+    public static function getTimeZone($identifier){
+        return new self();
     }
-
-    public function setContent($content) {
-        $this->content = $content;
-        return $this;
-    }
-
-
-
 }
 
 ?>
