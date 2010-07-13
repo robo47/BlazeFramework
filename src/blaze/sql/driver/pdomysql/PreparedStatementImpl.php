@@ -1,7 +1,8 @@
 <?php
 namespace blaze\sql\driver\pdomysql;
 use blaze\lang\Object,
-        \blaze\sql\driver\pdobase\AbstractPreparedStatement;
+        \blaze\sql\driver\pdobase\AbstractPreparedStatement,
+        \blaze\sql\Connection;
 
 /**
  * Description of PreparedStatementImpl
@@ -39,21 +40,63 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @return boolean True when the SQL-Statement returned a ResultSet, false if the updateCount was returned or there are no results.
      */
     public function execute(){
-        $this->stmt->execute();
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+
+        try {
+            //$this->reset();
+            if(!$this->stmt->execute())
+                throw new SQLException('Could not execute query.');
+
+            if($this->stmt->columnCount() === 0)
+                return false;
+
+            return true;
+        }catch(\PDOException $e) {
+            throw new SQLException($e->getMessage(), $e->getCode());
+        }
     }
      /**
       *
       * @return blaze\sql\ResultSet
       */
     public function executeQuery(){
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
 
+        try {
+            //$this->reset();
+            if(!$this->stmt->execute())
+                throw new SQLException('Could not execute query.');
+
+            if($this->stmt->columnCount() === 0)
+                throw new SQLException('Statement has no resultset.');
+
+            return $this->getResultSet();
+        }catch(\PDOException $e) {
+            throw new SQLException($e->getMessage(), $e->getCode());
+        }
     }
      /**
       *
       * @return integer The count of the updated rows or 0 if there was no return.
       */
     public function executeUpdate(){
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
 
+        try {
+            //$this->reset();
+            if(!$this->stmt->execute())
+                throw new SQLException('Could not execute query.');
+
+            if($this->stmt->columnCount() !== 0)
+                throw new SQLException('Statement has a resultset.');
+
+            return $this->stmt->rowCount();
+        }catch(\PDOException $e) {
+            throw new SQLException($e->getMessage(), $e->getCode());
+        }
     }
     /**
      * @return blaze\sql\meta\ResultSetMetaData
@@ -61,7 +104,15 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
     public function getMetaData(){
 
     }
-
+    public function getResultSet() {
+        if($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+        if($this->stmt == null)
+                return null;
+        if($this->resultSet == null)
+                $this->resultSet = new ResultSetImpl($this, $this->stmt);
+        return $this->resultSet;
+    }
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
@@ -69,7 +120,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @return blaze\lang\PreparedStatement
      */
     private function set($identifier, $value, $type = \PDO::PARAM_STR){
-        $this->stmt->bindValue($identifier, $value, $type);
+        $this->stmt->bindValue($identifier + 1, $value, $type);
     }
 
     /**
@@ -78,7 +129,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\util\ArrayObject $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setArray($identifier, blaze\util\ArrayObject $value){
+    public function setArray($identifier, \blaze\util\ArrayObject $value){
 
     }
     /**
@@ -87,7 +138,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\math\BigDecimal $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setDecimal($identifier, blaze\math\BigDecimal $value){
+    public function setDecimal($identifier, \blaze\math\BigDecimal $value){
 
     }
     /**
@@ -96,7 +147,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\sql\type\Blob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setBlob($identifier, blaze\sql\type\Blob $value){
+    public function setBlob($identifier, \blaze\sql\type\Blob $value){
 
     }
     /**
@@ -123,7 +174,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\sql\Clob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setClob($identifier, blaze\sql\type\Clob $value){
+    public function setClob($identifier, \blaze\sql\type\Clob $value){
 
     }
     /**
@@ -132,7 +183,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setDate($identifier, blaze\util\Date $value){
+    public function setDate($identifier, \blaze\util\Date $value){
 
     }
     /**
@@ -177,7 +228,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\sql\type\NClob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setNClob($identifier, blaze\sql\type\NClob $value){
+    public function setNClob($identifier, \blaze\sql\type\NClob $value){
 
     }
     /**
@@ -214,7 +265,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setTime($identifier, blaze\util\Date $value){
+    public function setTime($identifier, \blaze\util\Date $value){
         $str = self::$timeFormatter->format($value);
         $this->set($identifier, $str);
     }
@@ -224,8 +275,9 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setTimestamp($identifier, blaze\util\Date $value){
-
+    public function setTimestamp($identifier, \blaze\util\Date $value){
+        $str = self::$dateTimeFormatter->format($value);
+        $this->set($identifier, $str);
     }
 }
 

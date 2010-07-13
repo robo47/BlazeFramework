@@ -14,7 +14,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-abstract class AbstractPreparedStatement extends AbstractStatement implements PreparedStatement {
+abstract class AbstractPreparedStatement extends AbstractStatement1 implements PreparedStatement {
 
 }
 

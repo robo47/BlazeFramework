@@ -50,8 +50,8 @@ class Admin extends Object implements \blaze\web\WebView {
 
         $ds = \blaze\sql\DataSourceManager::getInstance()->getDataSource('bdsc:pdomysql://localhost/mydb?uid=root');
         $con = $ds->getConnection();
-        $stmt = $con->prepareStatement('SELECT * FROM test WHERE test_time = ?');
-        $stmt->setTime(0, new Date(2010,6,17,23,58,10,0));
+        $stmt = $con->prepareStatement('SELECT * FROM test WHERE test_timestamp = ?');
+        $stmt->setTimestamp(0, new Date(2010,6,17,21,11,22,0));
         $stmt->execute();
         $stmt->getResultSet()->next();
         var_dump($stmt->getResultSet()->getDecimal(0));

@@ -9,7 +9,7 @@ blaze\lang\Byte,
 blaze\lang\Integer,
 blaze\util\ArrayObject,
 blaze\math\BigDecimal,
-blaze\sql\Statement,
+blaze\sql\Statement1,
 blaze\sql\SQLException,
 blaze\sql\driver\pdobase\AbstractResultSet,
 blaze\sql\driver\pdomysql\type\BlobImpl,
@@ -69,7 +69,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
     }
 
-    public function __construct(Statement $stmt, \PDOStatement $pdoStmt) {
+    public function __construct(Statement1 $stmt, \PDOStatement $pdoStmt) {
         $this->stmt = $stmt;
         $this->pdoStmt = $pdoStmt;
         $this->rowNumber = 0;
@@ -82,6 +82,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
     public function next() {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
+        
         $this->actRow = $this->pdoStmt->fetch(\PDO::FETCH_ASSOC);
         $this->actRowIndex = is_array($this->actRow) ? array_values($this->actRow) : $this->actRow;
 

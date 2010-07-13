@@ -12,7 +12,7 @@ namespace blaze\sql;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-interface PreparedStatement extends Statement {
+interface PreparedStatement extends Statement1{
     /**
      *
      * @return boolean True when the SQL-Statement returned a ResultSet, false if the updateCount was returned or there are no results.
@@ -39,21 +39,21 @@ interface PreparedStatement extends Statement {
      * @param blaze\util\ArrayObject $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setArray($identifier, blaze\util\ArrayObject $value);
+    public function setArray($identifier, \blaze\util\ArrayObject $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @param blaze\math\BigDecimal $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setDecimal($identifier, blaze\math\BigDecimal $value);
+    public function setDecimal($identifier, \blaze\math\BigDecimal $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @param blaze\sql\type\Blob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setBlob($identifier, blaze\sql\type\Blob $value);
+    public function setBlob($identifier, \blaze\sql\type\Blob $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
@@ -74,14 +74,14 @@ interface PreparedStatement extends Statement {
      * @param blaze\sql\Clob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setClob($identifier, blaze\sql\type\Clob $value);
+    public function setClob($identifier, \blaze\sql\type\Clob $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setDate($identifier, blaze\util\Date $value);
+    public function setDate($identifier, \blaze\util\Date $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
@@ -116,7 +116,7 @@ interface PreparedStatement extends Statement {
      * @param blaze\sql\type\NClob $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setNClob($identifier, blaze\sql\type\NClob $value);
+    public function setNClob($identifier, \blaze\sql\type\NClob $value);
     /**
      * Varchar2
      *
@@ -145,14 +145,14 @@ interface PreparedStatement extends Statement {
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setTime($identifier, blaze\util\Date $value);
+    public function setTime($identifier, \blaze\util\Date $value);
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setTimestamp($identifier, blaze\util\Date $value);
+    public function setTimestamp($identifier, \blaze\util\Date $value);
 
 }
 
