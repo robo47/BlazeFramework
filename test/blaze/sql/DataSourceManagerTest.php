@@ -22,7 +22,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->dsm = \blaze\sql\DataSourceManager::getInstance();
+        $this->dsm = \blaze\ds\DataSourceManager::getInstance();
     }
 
     /**

@@ -11,7 +11,7 @@ use blaze\lang\Object;
  * @since   1.0
  * @version $Revision$
  * @property-read integer $length
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
 class ArrayObject extends Object implements \IteratorAggregate, \Countable, \ArrayAccess {
@@ -22,7 +22,6 @@ class ArrayObject extends Object implements \IteratorAggregate, \Countable, \Arr
     private $objects;
 
     public function __construct($array = null){
-        parent::__construct();
         if($array == null || !is_array($array))
             $this->objects = new \ArrayObject();
         else

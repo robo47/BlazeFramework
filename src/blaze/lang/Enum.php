@@ -8,15 +8,13 @@ namespace blaze\lang;
  * @see     blaze\lang\Object
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Documentation
  */
 abstract class Enum extends Object{
 
-    private $enumName = '';
-    private $constants = array();
-
     /**
+     * Just return __CLASS__
      *
      * @return string
      */
@@ -61,7 +59,7 @@ abstract class Enum extends Object{
 
         $entries = self::getEntries();
 
-        if(!isset($entries[$name]))
+        if(!array_key_exists($name,$entries))
             throw new IllegalArgumentException('The enum constant ' . $name . ' does not exist!');
         return $entries[$name];
     }

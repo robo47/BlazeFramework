@@ -7,7 +7,7 @@ namespace blaze\io;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Documentation.
  */
 interface Serializable {}

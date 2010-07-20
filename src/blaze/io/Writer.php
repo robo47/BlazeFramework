@@ -6,7 +6,7 @@ use blaze\lang\Object;
  * This is the abstract superclass for all string writers. Writer can handle at
  * least string values.
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     blaze\io\Reader

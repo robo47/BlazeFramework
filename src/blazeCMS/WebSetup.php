@@ -8,7 +8,7 @@ use blaze\lang\Object,
 /**
  * Description of WebSetup
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
@@ -64,14 +64,12 @@ class WebSetup extends Object {
      }
 
      public static function initUrlRewrite(){
-        $context = WebContext::getInstance();
-        $uri = self::$request->getRequestURI();
-
+            $context = WebContext::getInstance();
+        $uri = self::$request->getRequestURI()->getPath();
         if($uri->startsWith(self::$urlPrefix,0,true))
                 $uri = $uri->substring(strlen(self::$urlPrefix));
 
-        $uri = $uri->replaceAll('/\/+/','/')->trim('/');
-        $requestPieces = $uri->split('/',5);
+        $requestPieces = $uri->trim('/')->split('/',5);
         /*
          * admin - reserved for cms
          * main - is used for site action which deliver non-Html content

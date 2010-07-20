@@ -5,7 +5,7 @@ use blaze\lang\Object;
 /**
  * Description of URI
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
@@ -15,22 +15,66 @@ use blaze\lang\Object;
  */
 class URI extends Object {
 
+    /**
+     *
+     * @var blaze\lang\String
+     */
     private $scheme;
-    private $userInfo;
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    private $user;
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    private $password;
+    /**
+     *
+     * @var blaze\lang\String
+     */
     private $host;
+    /**
+     *
+     * @var integer
+     */
     private $port;
+    /**
+     *
+     * @var blaze\lang\String
+     */
     private $path;
+    /**
+     *
+     * @var blaze\lang\String
+     */
     private $query;
+    /**
+     *
+     * @var blaze\lang\String
+     */
     private $fragment;
 
-    public function __construct($scheme, $userInfo, $host, $port, $path, $query, $fragment) {
-        $this->scheme = $scheme;
-        $this->userInfo = $userInfo;
-        $this->host = $host;
-        $this->port = $port;
-        $this->path = $path;
-        $this->query = $query;
-        $this->fragment = $fragment;
+    /**
+     *
+     * @param blaze\lang\String|string $scheme
+     * @param blaze\lang\String|string $userInfo
+     * @param blaze\lang\String|string $host
+     * @param integer $port
+     * @param blaze\lang\String|string $path
+     * @param blaze\lang\String|string $query
+     * @param blaze\lang\String|string $fragment
+     */
+    public function __construct($scheme, $user, $password, $host, $port, $path, $query, $fragment) {
+        $this->scheme = \blaze\lang\String::asWrapper($scheme);
+        $this->user = \blaze\lang\String::asWrapper($user);
+        $this->password = \blaze\lang\String::asWrapper($password);
+        $this->host = \blaze\lang\String::asWrapper($host);
+        $this->port = \blaze\lang\Integer::asNative($port);
+        $this->path = \blaze\lang\String::asWrapper($path);
+        $this->query = \blaze\lang\String::asWrapper($query);
+        $this->fragment = \blaze\lang\String::asWrapper($fragment);
     }
 
     /**
@@ -41,52 +85,74 @@ class URI extends Object {
      * @throws	blaze\lang\Exception
      */
      public static function parseURI($uri){
-        $matches = array();
+        $uri = \blaze\lang\String::asWrapper($uri);
+        $idx = $uri->indexOf('://');
 
-        //<scheme>://<user>:<password>@<host>:<port>/<path>?<query>#<anchor>
-        //Check for <scheme>://<userinfo>@<other>
-         if(preg_match('/^(.+):\/\/((.+)@)?(.+)$/', trim($uri, '/'), $matches) == 0)
-                 throw new \blaze\lang\Exception('Invalid URI');
+        if($idx == -1)
+            throw new \blaze\lang\Exception('Invalid URI');
 
-         $scheme = $matches[1];
-         $userInfo = $matches[3];
-         $other = trim($matches[4],'/');
+        $scheme = $uri->substring(0, $idx);
+        $schemes = $scheme->split(':');
+        $uri = $schemes[0].$uri->substring($idx);
+        $parts = parse_url($uri);
 
-         //Check for <host>[:<port>]/<other>
-         if(preg_match('/^(.+):([0-9]{1,5})\\/(.+)$/', $other, $matches) == 0 &&
-            preg_match('/^(.+)()\\/(.+)$/', $other, $matches) == 0 &&
-            preg_match('/^(.+):([0-9]{1,5})()$/', $other, $matches) == 0 &&
-            preg_match('/^(.+)()()$/', $other, $matches) == 0)
-                 throw new \blaze\lang\Exception('Invalid URI');
+        $host = $parts['host'];
+        $port = $parts['port'];
+        $user = $parts['user'];
+        $password = $parts['pass'];
+        $path = $parts['path'];
+        $query = $parts['query'];
+        $fragment = $parts['fragment'];
 
-         $host = $matches[1];
-         $port = $matches[2];
-         $other = $matches[3];
-         $path = null;
-         $query = null;
-         $fragment = null;
-         
-         if(strlen($other) > 0){
-             if(preg_match('/^(.+)\?(.+)#(.+)$/', trim($other, '/'), $matches) == 0 &&
-                preg_match('/^(.+)\?(.+)()$/', trim($other, '/'), $matches) == 0 &&
-                preg_match('/^(.+)()#(.+)$/', trim($other, '/'), $matches) == 0 &&
-                preg_match('/^(.+)()()$/', trim($other, '/'), $matches) == 0)
-                     throw new \blaze\lang\Exception('Invalid URI');
-
-             $path = $matches[1];
-             $query = $matches[2];
-             $fragment = $matches[3];
-         }
-
-         return new URI($scheme, $userInfo, $host, $port, $path, $query, $fragment);
+//        $matches = array();
+//
+//        //<scheme>://<user>:<password>@<host>:<port>/<path>?<query>#<anchor>
+//        //Check for <scheme>://<userinfo>@<other>
+//         if(preg_match('/^(.+):\/\/((.+)@)?(.+)$/', trim($uri, '/'), $matches) == 0)
+//                 throw new \blaze\lang\Exception('Invalid URI');
+//
+//         $scheme = $matches[1];
+//         $userInfo = $matches[3];
+//         $other = trim($matches[4],'/');
+//
+//         //Check for <host>[:<port>]/<other>
+//         if(preg_match('/^(.+):([0-9]{1,5})\\/(.+)$/', $other, $matches) == 0 &&
+//            preg_match('/^(.+)()\\/(.+)$/', $other, $matches) == 0 &&
+//            preg_match('/^(.+):([0-9]{1,5})()$/', $other, $matches) == 0 &&
+//            preg_match('/^(.+)()()$/', $other, $matches) == 0)
+//                 throw new \blaze\lang\Exception('Invalid URI');
+//
+//         $host = $matches[1];
+//         $port = $matches[2];
+//         $other = $matches[3];
+//         $path = null;
+//         $query = null;
+//         $fragment = null;
+//
+//         if(strlen($other) > 0){
+//             if(preg_match('/^(.+)\?(.+)#(.+)$/', trim($other, '/'), $matches) == 0 &&
+//                preg_match('/^(.+)\?(.+)()$/', trim($other, '/'), $matches) == 0 &&
+//                preg_match('/^(.+)()#(.+)$/', trim($other, '/'), $matches) == 0 &&
+//                preg_match('/^(.+)()()$/', trim($other, '/'), $matches) == 0)
+//                     throw new \blaze\lang\Exception('Invalid URI');
+//
+//             $path = $matches[1];
+//             $query = $matches[2];
+//             $fragment = $matches[3];
+//         }
+         return new URI($scheme, $user, $password, $host, $port, $path, $query, $fragment);
      }
 
      public function getScheme() {
          return $this->scheme;
      }
 
-     public function getUserInfo() {
-         return $this->userInfo;
+     public function getUser() {
+         return $this->user;
+     }
+
+     public function getPassword() {
+         return $this->password;
      }
 
      public function getHost() {

@@ -9,7 +9,7 @@ namespace blaze\web;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author RedShadow
+ * @author Christian Beikov
  * @todo    Implementation and documentation.
  */
 interface Application {

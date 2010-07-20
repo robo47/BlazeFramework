@@ -15,7 +15,7 @@ use blaze\web\Application,
 /**
  * Description of Main
  *
- * @author RedShadow
+ * @author Christian Beikov
  */
 class Main{
     public static function main($args){

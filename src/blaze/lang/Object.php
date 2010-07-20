@@ -10,7 +10,7 @@ namespace blaze\lang;
  * @since	1.0
  * @version $Revision$
  * @see 	blaze\lang\ClassWrapper
- * @author 	RedShadow
+ * @author 	Christian Beikov
  */
 class Object {
     /**

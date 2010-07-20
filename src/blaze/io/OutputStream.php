@@ -6,7 +6,7 @@ use blaze\lang\Object;
  * This is the abstract superclass for all output streams. Since there is no
  * native datatyp byte in PHP, this class supports writing for strings.
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     blaze\io\InputStream

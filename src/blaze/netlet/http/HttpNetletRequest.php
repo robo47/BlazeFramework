@@ -10,7 +10,7 @@ use blaze\netlet\NetletRequest;
  * @since	1.0
  * @version     $Revision$
  * @see 	blaze\lang\ClassWrapper
- * @author 	RedShadow
+ * @author 	Christian Beikov
  * @todo        Documenting.
  */
 interface HttpNetletRequest extends NetletRequest{
@@ -81,7 +81,7 @@ interface HttpNetletRequest extends NetletRequest{
     /**
      * Returns an URI for the http request.
      *
-     * @return blaze\lang\String
+     * @return blaze\net\URI
      */
     public function getRequestURI();
     /**

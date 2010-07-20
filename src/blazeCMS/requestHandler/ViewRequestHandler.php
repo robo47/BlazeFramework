@@ -10,7 +10,7 @@ use blaze\lang\Object,
 /**
  * Description of ViewRequestHandler
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
@@ -28,6 +28,7 @@ class ViewRequestHandler extends Object  implements RequestHandler {
 
     public function handle(HttpNetletRequest $request, HttpNetletResponse $response) {
         $context = WebContext::getInstance();
+        \var_dump($context->getParameter('site'));
         $f = new File($this->viewDir,$context->getParameter('site')->toUpperCase(true));
 
         if(!$f->isChildOf($this->viewDir)){
@@ -47,6 +48,7 @@ class ViewRequestHandler extends Object  implements RequestHandler {
 
         if($mapper != null)
             $this->viewDir = $mapper->getBasePath();
+        var_dump($this->viewDir);
     }
 }
 

@@ -5,7 +5,7 @@ namespace blaze\netlet\http;
  * HttpNetletResponse capsulates a HTTP-Response which is sent to the client.
  * The Response can contain anything which is specified in the HTTP-Protocol.
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @since   1.0

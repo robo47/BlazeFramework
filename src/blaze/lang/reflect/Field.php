@@ -11,7 +11,7 @@ use blaze\lang\String;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Methods are not all implemented and documentation is not complete.
  */
 class Field extends Object{

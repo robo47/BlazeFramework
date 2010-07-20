@@ -12,7 +12,7 @@ namespace blaze\lang;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Write a test.
  */
 class ClassLoader extends Object{
@@ -69,7 +69,8 @@ class ClassLoader extends Object{
             //$class->getMethod('staticInit', null)->invoke(null, null);
 
 		// More native because via Reflection it does not work?
-        if(in_array('blaze\lang\StaticInitialization',class_implements($className,true))){
+        $arr = class_implements($className,true);
+        if(is_array($arr) && in_array('blaze\lang\StaticInitialization',$arr)){
 			// Execute the static initializer
             $className::staticInit(); // maybe faster?
         }

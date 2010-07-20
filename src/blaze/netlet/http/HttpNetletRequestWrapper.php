@@ -13,7 +13,7 @@ use blaze\lang\Object,
  * @since	1.0
  * @version     $Revision$
  * @see 	blaze\lang\ClassWrapper
- * @author 	RedShadow
+ * @author 	Christian Beikov
  */
 class HttpNetletRequestWrapper extends Object implements HttpNetletRequest {
 
@@ -117,7 +117,7 @@ class HttpNetletRequestWrapper extends Object implements HttpNetletRequest {
     }
 
     public function getParameter($name) {
-        if(!isset($this->httpHeaders[$name]))
+        if(!array_key_exists($name, $this->httpHeaders))
                 return null;
         return $this->httpHeaders[$name];
     }
@@ -132,7 +132,7 @@ class HttpNetletRequestWrapper extends Object implements HttpNetletRequest {
     public function getParameterValues($name) {
         $values = array();
         
-        if(!isset($this->httpHeaders[$name]))
+        if(!array_key_exists($name, $this->httpHeaders))
             return null;
         
         if(is_array($this->httpHeaders[$name]))
@@ -182,10 +182,10 @@ class HttpNetletRequestWrapper extends Object implements HttpNetletRequest {
         return new String($_SERVER['PHP_AUTH_USER']);
     }
     public function getRequestPath() {
-        return new String($this->getScheme() . '://' . $this->getHost().$this->getRequestURI());
+        return new String($this->getScheme() . '://' . $this->getHost().$_SERVER['REQUEST_URI']);
     }
     public function getRequestURI() {
-        return new String($_SERVER['REQUEST_URI']);
+        return \blaze\net\URI::parseURI($this->getRequestPath());
     }
     public function getScheme() {
         return new String($_SERVER['HTTPS'] ? 'https' : 'http');

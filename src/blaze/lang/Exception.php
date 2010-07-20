@@ -7,7 +7,7 @@ namespace blaze\lang;
  * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Write a test and documentation.
  */
 

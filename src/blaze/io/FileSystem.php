@@ -13,7 +13,7 @@ use blaze\lang\Object,
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Implementation and documentation.
  */
 class FileSystem extends Object implements Singleton{

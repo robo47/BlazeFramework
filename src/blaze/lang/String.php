@@ -9,7 +9,7 @@ namespace blaze\lang;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
 class String extends Object implements NativeWrapper {
@@ -398,15 +398,15 @@ class String extends Object implements NativeWrapper {
      * this.length()-anotherString.length()
      * </pre></blockquote>
      *
-     * @param   anotherString   the <code>String</code> to be compared.
+     * @param blaze\lang\String|string  anotherString   the <code>String</code> to be compared.
      * @return integer the value <code>0</code> if the argument string is equal to
      *          this string; a value less than <code>0</code> if this string
      *          is lexicographically less than the string argument; and a
      *          value greater than <code>0</code> if this string is
      *          lexicographically greater than the string argument.
      */
-    public function compareTo(String $anotherString) {
-        return strcmp($this->string, $anotherString->string);
+    public function compareTo($anotherString) {
+        return strcmp($this->string, String::asNative($anotherString));
     }
 
     /**
@@ -469,8 +469,8 @@ class String extends Object implements NativeWrapper {
      * @see     java.text.Collator#compare(String, String)
      * @since   1.2
      */
-    public function compareToIgnoreCase(String $str) {
-        return strcasecmp($this->string, $str->string);
+    public function compareToIgnoreCase($anotherString) {
+        return strcasecmp($this->string, String::asNative($anotherString));
     }
 
     /**
@@ -670,7 +670,8 @@ class String extends Object implements NativeWrapper {
      *          <code>-1</code> if the character does not occur.
      */
     public function indexOf($ch, $fromIndex = 0) {
-        return strpos($this->string, String::asNative($ch), $fromIndex);
+        $pos = strpos($this->string, String::asNative($ch), $fromIndex);
+        return $pos === false ? -1 : $pos;
     }
 
     /**

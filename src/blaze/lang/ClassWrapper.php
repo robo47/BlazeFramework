@@ -14,7 +14,7 @@ use \ReflectionClass,
  * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Documentations is missing
  */
 final class ClassWrapper extends Object implements Serializable{

@@ -7,7 +7,7 @@ use blaze\lang\Object,
 /**
  * Description of DbAuthentification
  *
- * @author  RedShadow
+ * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
@@ -47,8 +47,8 @@ class DbAuthentification extends Object implements Singleton, Authentification {
         $this->stmt->execute();
         $row = $this->stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if(!isset($row))
-            return null;
+//        if(!isset($row))
+//            return null;
 
         $userObj = new User();
         $userObj->setUserAdded($row['user_added']);

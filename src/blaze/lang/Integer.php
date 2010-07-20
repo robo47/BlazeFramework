@@ -9,7 +9,7 @@ namespace blaze\lang;
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
 class Integer extends Object implements NativeWrapper {

@@ -9,7 +9,7 @@ namespace blaze\lang;
  * @see     blaze\lang\Object
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Write a test.
  */
 class Boolean extends Object implements NativeWrapper,Comparable {

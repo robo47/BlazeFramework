@@ -22,7 +22,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $dsm = \blaze\sql\DataSourceManager::getInstance();
+        $dsm = \blaze\ds\DataSourceManager::getInstance();
         $ds = $dsm->getDataSource('bdsc:pdomysql://localhost/mydb?uid=root');
         $this->con = $ds->getConnection();
     }

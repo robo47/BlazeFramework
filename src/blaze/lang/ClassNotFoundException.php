@@ -8,7 +8,7 @@ namespace blaze\lang;
  * @see     blaze\lang\ClassLoader
  * @since   1.0
  * @version $Revision$
- * @author  RedShadow
+ * @author  Christian Beikov
  * @todo    Documentation
  */
 class ClassNotFoundException extends Exception {}
