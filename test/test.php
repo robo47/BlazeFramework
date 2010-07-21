@@ -10,11 +10,12 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        // put your code here
-        include '../src/blaze/math/BigInteger.php';
-        
-        $var = new BigInteger('5578996322115569887',-1,1);
-        echo($var);
+        use blaze\math\BigDecimal;
+        use blaze\lang\String;
+        use blaze\lang\Object;
+
+        $var = new String('sadfas',1,1);
+        echo($var->__toString());
         ?>
     </body>
 </html>
