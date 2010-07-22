@@ -22,7 +22,7 @@ class BigDecimalTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new BigDecimal('87458644845312845');
+        $this->object = new BigDecimal('87458644845312845',2,1,null);
     }
 
     /**

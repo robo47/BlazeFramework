@@ -82,19 +82,85 @@ class BigInteger extends Object {
             return $this;
         }
         if($this->signum == $val->signum){
-
+           return new BigInteger($this->addMagnitude($val->mag, $this->$signum, null));
 
         }
 
      }
 
      private function addMagnitude($mag){
+        $countthis = count($this->mag);
+        $countpara = count($mag);
+        $newmag = array();
+
+        if($countthis == $countpara){
+            $overlay =0;
+            while($countthis>=0){
+                $addfield = $this->mag[$countpara]+$mag[$countpara];
+                $addfield = $addfield+$overlay;
+                if($addfield>999999999){
+                    $overlay = $addfield -999999999;
+                    $newmag[$countpara]= 999999999;
+                }
+                else{
+                    $overlay = 0;
+                    $newmag[$countpara] = $addfield;
+                }
+                $countpara--;
+            }
+            return $newmag;
+        }
+        if($countpara>$countthis){
+            $overlay =0;
+            while($countthis>=0){
+                $addfield = $this->mag[$countthis]+$mag[$countpara];
+                $addfield = $addfield+$overlay;
+                if($addfield>999999999){
+                    $overlay = $addfield -999999999;
+                    $newmag[$countpara]= 999999999;
+                }
+                else{
+                    $overlay = 0;
+                    $newmag[$countpara] = $addfield;
+                }
+                $countpara--;
+                $countthis--;
+            }
+            while($countpara>=0){
+                $newmag[$countpara] = $mag[$countpara];
+            }
+            return $newmag;
+        }
+        if($countpara<$countthis){
+
+            $overlay =0;
+            while($countpara>=0){
+                $addfield = $this->mag[$countthis]+$mag[$countpara];
+                $addfield = $addfield+$overlay;
+                if($addfield>999999999){
+                    $overlay = $addfield -999999999;
+                    $newmag[$countthis]= 999999999;
+                }
+                else{
+                    $overlay = 0;
+                    $newmag[$countthis] = $addfield;
+                }
+                $countpara--;
+                $countthis--;
+            }
+            while($countthis>=0){
+                $newmag[$countthis] = $mag[$countthis];
+            }
+            return $newmag;
+
+        }
 
      }
 
     public function compareTo(Object $obj) {
 
     }
+
      public function __toString(){
           if($this->signum == 0){
               return '0';
@@ -110,7 +176,6 @@ class BigInteger extends Object {
          }
          return  $ret;
      }
-
 }
 
 ?>
