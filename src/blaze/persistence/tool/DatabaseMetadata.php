@@ -1,0 +1,30 @@
+<?php
+namespace blaze\persistence\tool;
+use blaze\lang\Object,
+    blaze\ds\Connection;
+
+/**
+ * Description of DatabaseMetadata
+ *
+ * @author  Christian Beikov
+ * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+ * @link    http://blazeframework.sourceforge.net
+ * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @since   1.0
+ * @version $Revision$
+ * @todo    Etwas was noch erledigt werden muss
+ */
+class DatabaseMetadata extends Object {
+
+    private $con;
+
+    public function __construct(Connection $con){
+        $this->con = $con;
+    }
+
+    public function getTableMetadata($tableName, $schema){
+        
+    }
+}
+
+?>
