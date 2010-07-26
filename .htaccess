@@ -1,4 +1,0 @@
-Options +Indexes 
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^.*$ index.php [L]
