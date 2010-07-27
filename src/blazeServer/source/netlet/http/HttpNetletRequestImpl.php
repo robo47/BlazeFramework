@@ -1,11 +1,11 @@
 <?php
-namespace blaze\netlet\http;
+namespace blazeServer\source\netlet\http;
 use blaze\lang\Object,
     blaze\lang\String,
     blaze\netlet\NetletContext;
 
 /**
- * The class HttpNetletRequestWrapper is the implementation of HttpNetletRequest
+ * The class HttpNetletRequestImpl is the implementation of HttpNetletRequest
  * which encapsulates the Header data of the Http-Header.
  *
  * @license	http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -15,7 +15,7 @@ use blaze\lang\Object,
  * @see 	blaze\lang\ClassWrapper
  * @author 	Christian Beikov
  */
-class HttpNetletRequestWrapper extends Object implements HttpNetletRequest {
+class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNetletRequest {
 
     private $httpHeaders = array();
     private $attributes = array();

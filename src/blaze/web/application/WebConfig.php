@@ -1,5 +1,5 @@
 <?php
-namespace blaze\web;
+namespace blaze\web\application;
 
 /**
  * Description of WebConfig

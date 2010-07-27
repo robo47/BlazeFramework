@@ -3,8 +3,8 @@
 namespace blazeServer\source\netlet;
 
 use blaze\lang\Object,
- blaze\netlet\http\HttpNetletRequestWrapper,
- blaze\netlet\http\HttpNetletResponseWrapper,
+ blazeServer\source\netlet\http\HttpNetletRequestImpl,
+ blazeServer\source\netlet\http\HttpNetletResponseImpl,
  blaze\lang\ClassWrapper;
 
 /**
@@ -20,77 +20,101 @@ use blaze\lang\Object,
  */
 class NetletContainer extends Object {
 
-    /**
-     * Beschreibung
-     */
-    public function __construct() {
-
-    }
+    const DEBUG = true;
+    
+    public function __construct() { }
 
     public static function main($args) {
         $container = new NetletContainer();
-        $container->process();
+        $request = new HttpNetletRequestImpl();
+        $response = new HttpNetletResponseImpl();
+        $response->setHeader('X-Powered-By',null);
+
+        ob_start();
+
+        $container->process($request, $response);
+
+        if(self::DEBUG)
+            $response->getWriter()->write(ob_get_clean());
+        else
+            ob_end_clean();
+        
+        $container->finish($response);
     }
 
-    public function process() {
-        $request = new HttpNetletRequestWrapper();
-        $response = new HttpNetletResponseWrapper();
-
+    /**
+     * This method wrapps the HTTP-Request and Response and executes the netlets
+     * of a running web application or throws an error if the request does not
+     * fit to any application.
+     */
+    public function process(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+        
         try{
             // Get application and the configuration class of the application
-            $app = \blazeServer\source\core\NetletApplication::getAdminApplication();//getApplication($request);
+            $app = NetletApplication::getApplication($request);
+
+            if($app == null){
+                $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no application for the request found.');
+                return;
+            }
+
             $netletConfMap = $app->getConfig()->getNetletConfigurationMap();
 
             // Create a new NetletContext for the Netlet
-            $netletContext = new NetletContextImpl(array());
+            $netletContext = new NetletContextImpl(array(), $app);
+
 
             // Making sure that the Url ends with a '/'
             $uri = $request->getRequestURI()->getPath();
             if (!$uri->endsWith('/'))
                 $uri = $uri->concat('/');
 
+            // Get the Name of the requested netlet by URL Mapping
             $netletName = $this->getRequestedNetletName($uri, $netletConfMap['netletMapping']);
 
+            // Throw an error if no netlet was found
             if($netletName == null){
                 $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
-                $this->finish($response);
                 return;
             }
 
+            // Get the ClassWrapper object of the netlet
             $netlet = $this->getNetletClassByName($netletName, $netletConfMap['netlets']);
-            
+
+            // Throw an error if the class could not be found
             if($netlet == null){
                 $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the given netlet name found.');
-                $this->finish($response);
                 return;
             }
 
+            // Get all filters for the request by URL mapping
             $filterNames = $this->getRequestedFilterNames($uri, $netletConfMap['filterMapping']);
-
             $filters = array();
 
             foreach($filterNames as $filterName){
+                // Get the ClassWrapper objects of the filter
                 $filter = $this->getFilterClassByName($filterName, $netletConfMap['filters']);
                 
                 if($filter == null){
                     $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no filter for the given filter name found.');
-                    $this->finish($response);
                     return;
                 }else{
                     $filters[$filterName] = $filter;
                 }
             }
 
+            // Filters which will be registered in the FilterChain
             $registeredFilters = array();
 
             foreach($filters as $filterName => $filter){
-                $conf = new \blazeServer\source\filter\FilterConfigImpl($filterName, $netletContext, $this->getFilterInitParams($filterName, $netletConfMap['filters']));
+                $conf = new FilterConfigImpl($filterName, $netletContext, $this->getFilterInitParams($filterName, $netletConfMap['filters']));
                 $filterObj = $filter->newInstance();
                 $filterObj->init($conf);
                 $registeredFilters[] = $filterObj;
             }
 
-            $filterChain = new \blazeServer\source\filter\FilterChainImpl($registeredFilters);
+            // Create and let the FilterChain run
+            $filterChain = new FilterChainImpl($registeredFilters);
             $filterChain->doFilter($request, $response);
 
             // Create a NetletConfig for the Netlet
@@ -104,7 +128,6 @@ class NetletContainer extends Object {
             // Error in the netlet which was not caught
             $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);
         }
-        $this->finish($response);
     }
 
     private function finish(\blaze\netlet\http\HttpNetletResponse $response){

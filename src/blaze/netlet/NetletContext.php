@@ -16,8 +16,10 @@ interface NetletContext {
 
      public function addNetlet($name, $netletClass);
      public function addNetletMapping($name, $urlPattern);
+     public function getNetletMapping();
      public function addFilter($name, $filterClass);
      public function addFilterMapping($name, $urlPattern);
+     public function getFilterMapping();
      public function addListener($name, $listenerClass);
 
     /**

@@ -1,7 +1,6 @@
 <?php
 namespace blazeServer;
 use blaze\lang\Object,
-    blaze\web\WebConfig,
     blaze\lang\Singleton;
 
 /**

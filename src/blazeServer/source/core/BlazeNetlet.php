@@ -14,7 +14,9 @@ use blaze\lang\Object,
     blaze\netlet\http\HttpNetlet,
     blaze\netlet\NetletConfig,
     blaze\netlet\NetletRequest,
-    blaze\netlet\NetletResponse;
+    blaze\netlet\NetletResponse,
+    blaze\netlet\http\HttpNetletRequest,
+    blaze\netlet\http\HttpNetletResponse;
 
 /**
  * Description of NetletContainer
@@ -39,29 +41,23 @@ class BlazeNetlet extends HttpNetlet{
         $this->config = $config;
     }
 
-    private function getViewClass(\blaze\netlet\http\HttpNetletRequest $request, Application $app){
-        // remove the prefix of the url e.g. BlazeFrameworkServer/
-        $reqUrl = $request->getRequestURI()->getPath()->trim('/')->replace($app->getUrl(),'');
-
-        // Requesturl has always to start with a '/'
-        if($reqUrl->length() == 0 || $reqUrl->charAt(0) != '/')
-            $reqUrl = new String('/'.$reqUrl->toNative());
-
-        $navigationMap = $app->getConfig()->getNavigationMap();
-        foreach ($navigationMap as $key => $value) {
-            if($reqUrl->startsWith($key)){
-                // Returns an instance of the requested view
-                return ClassWrapper::forName($value['view']);
-            }
-        }
-        return null;
-    }
-
+    /**
+     *
+     * @param HttpNetletRequest $request
+     * @param HttpNetletResponse $response
+     */
     public function service(NetletRequest $request, NetletResponse $response) {
-        $app = new BlazeApplication(NetletApplication::getApplication($request));
-        $appContext = new ApplicationContext($app);
+        $netletApp = \blazeServer\source\netlet\NetletApplication::getApplication($request);
 
-        $responseViewClass = $requViewClass = $this->getViewClass($request, $app);
+        if($netletApp == null){
+            $response->sendError(HttpNetletResponse::SC_NOT_FOUND);
+            return;
+        }
+
+        $app = new BlazeApplication($netletApp, $request, $response);
+        $appContext = new ApplicationContext($app, $request, $response);
+        $navHandler = $app->getNavigationHandler();
+        $responseViewClass = $requViewClass = $navHandler->getViewClass();
 
         // Parameter mapping, converting and validating parameters
         $paramDefs = $requViewClass->getMethod('getParamDefinitions')->invoke(null, null);
@@ -122,12 +118,25 @@ class BlazeNetlet extends HttpNetlet{
         }
 
         if($navigationMethod != null){
-
+            $app->getNavigationHandler()->navigate($navigationMethod);
         }
 
+        // Render Response
         $responseWriter = $response->getWriter();
         $responseWriter->write($responseViewClass->newInstance()->getComponents()->render());
-        $response->getWriter()->write('Working');
+
+        /**
+         * Start the steps of the lifecycle
+         *
+         * 1 - HTTP Header capsulation
+         * 2 - Parameter mapping and Converting/Validating
+         * 3 - Update models
+         * 4 - Execute Actions
+         * 5 - Render response
+         */
+//        }catch(Exception $e){
+//            echo $e->getMessage();
+//        }
     }
 
 }

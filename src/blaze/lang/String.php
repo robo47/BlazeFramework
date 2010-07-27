@@ -624,6 +624,7 @@ class String extends Object implements NativeWrapper {
      *          as determined by the {@link #equals(Object)} method.
      */
     public function endsWith($suffix, $ignoreCase = false) {
+        $suffix = String::asWrapper($suffix);
 	return $this->startsWith($suffix, $this->count - $suffix->count, $ignoreCase);
     }
 

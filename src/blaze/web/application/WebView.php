@@ -1,9 +1,8 @@
 <?php
-namespace blazeCMS\dao;
-use blaze\lang\Object;
+namespace blaze\web\application;
 
 /**
- * Description of LazyLoadList
+ * Description of WebView
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,34 +12,19 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class LazyLoadList extends Object implements ListI {
-
-    private $con;
-    private $count = 0;
-
+interface WebView {
     /**
      * Beschreibung
      *
      * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
+     * @return 	blaze\web\tagLibrary\Tag Beschreibung was die Methode zurückliefert
      * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
      * @throws	blaze\lang\Exception
      * @todo	Etwas was noch erledigt werden muss
      */
-     public function get($index){
-        if($index < 0 || $index > $this->count)
-            throw new \blaze\lang\IndexOutOfBoundsException($index);
-        return $this->array[$index];
-     }
-
-     public function add($element){
-        $this->array[] = $element;
-        $this->count++;
-     }
-
-     public function count(){
-        return count($this->array);
-     }
+     public function getComponents();
+     public static function getParamDefinitions();
+     public static function getActionDefinitions();
 }
 
 ?>

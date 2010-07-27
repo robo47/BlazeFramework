@@ -8,8 +8,7 @@ use blaze\lang\Object,
     blaze\lang\ClassWrapper,
     blaze\lang\ClassLoader,
     blaze\web\application\Application,
-    blaze\web\application\ApplicationContext,
-    blaze\web\ApplicationError;
+    blaze\web\application\ApplicationContext;
 
 /**
  * Description of BlazeApplication
@@ -25,47 +24,57 @@ use blaze\lang\Object,
 class BlazeApplication extends Object implements Application {
 
     private $netletApplication;
+    private $request;
+    private $response;
+    private $navigationHandler;
+    private $defaultLocale;
+    private $converter;
+    private $validator;
 
     /**
      *
      * @param blaze\io\File $dir
      * @param boolean $running
      */
-    public function __construct(NetletApplication $netletApplication){
+    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response){
         $this->netletApplication = $netletApplication;
+        $this->request = $request;
+        $this->response = $response;
+        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->getConfig()->getNavigationMap(), $request->getRequestURI()->getPath());
+        $this->converter = array();
+        $this->validator = array();
+    }
+
+    public function addConverter($name, $class) {
+        $this->converter[$name] = $class;
+    }
+
+    public function addValidator($name, $class) {
+        $this->validator[$name] = $class;
     }
 
     /**
      *
-     * @return blaze\web\WebView
+     * @return blaze\util\Locale
      */
-    public function getView(\blaze\netlet\http\HttpNetletRequest $request){
-        $class == $this->getViewClass($request);
-
-        if($class == null)
-            return null;
-        
-        return $class->newInstance();
+    public function getDefaultLocale() {
+        return $this->defaultLocale;
     }
 
-    public function getViewClass(\blaze\netlet\http\HttpNetletRequest $request){
-        // remove the prefix of the url e.g. BlazeFrameworkServer/
-        $reqUrl = $request->getRequestURI()->getPath()->trim('/')->replace($this->getUrl(),'');
-
-        // Requesturl has always to start with a '/'
-        if($reqUrl->length() == 0 || $reqUrl->charAt(0) != '/')
-            $reqUrl = new String('/'.$reqUrl->toNative());
-
-        $navigationMap = $this->getConfig()->getNavigationMap();
-        foreach ($navigationMap as $key => $value) {
-            if($reqUrl->startsWith($key))
-                // Returns an instance of the requested view
-                return ClassWrapper::forName($this->getPackage().'\\view\\'.$value['view']);
-        }
-        return null;
+    public function setDefaultLocale(\blaze\util\Locale $locale) {
+        $this->defaultLocale = $locale;
     }
 
-    //-------------- GETTER ---------------------------
+    /**
+     * @return blaze\web\application\NavigationHandler
+     */
+    public function getNavigationHandler() {
+        return $this->navigationHandler;
+    }
+    
+    public function setNavigationHandler(\blaze\web\application\NavigationHandler $handler) {
+        $this->navigationHandler = $handler;
+    }
 
     /**
      *
@@ -76,14 +85,7 @@ class BlazeApplication extends Object implements Application {
     }
     /**
      *
-     * @return blaze\io\File
-     */
-    public function getDir() {
-        return $this->netletApplication->getDir();
-    }
-    /**
-     *
-     * @return blaze\web\WebConfig
+     * @return blaze\web\application\WebConfig
      */
     public function getConfig() {
         return $this->netletApplication->getConfig();
@@ -99,8 +101,8 @@ class BlazeApplication extends Object implements Application {
      *
      * @return blaze\lang\String
      */
-    public function getUrl() {
-        return $this->netletApplication->getUrl();
+    public function getUrlPrefix() {
+        return $this->netletApplication->getUrlPrefix();
     }
 }
 ?>

@@ -1,7 +1,10 @@
 <?php
+
 namespace blaze\web\application;
+
 use blaze\lang\Object,
-    blaze\lang\String;
+ blaze\lang\String,
+ blaze\lang\ClassWrapper;
 
 /**
  * Description of NavigationHandler
@@ -22,53 +25,56 @@ class NavigationHandler extends Object {
      */
     private $mapping;
     /**
+     * @var string
+     */
+    private $requestUri;
+    /**
      *
      * @var blaze\lang\String
      */
-    private $basePath = null;
+    private $action = null;
 
     /**
      * Beschreibung
      */
-    public function __construct($mapping){
-        $this->mapping = $mapping['mapping'];
+    public function __construct($mapping, $requestUri) {
+        $this->mapping = $mapping;
+        $this->requestUri = $requestUri;
     }
 
-    /**
-     *
-     * @param String $uri
-     * @return string
-     */
-    private function getMappingPath(String $uri){
-        if(!$uri->endsWith('/'))
-            $uri = $uri->concat('/');
-        $context = WebContext::getInstance();
-        $path = $context->getParameter('work.dir').'/view';
+    public function navigate($action) {
+        $this->action = String::asWrapper($action);
+    }
 
-        foreach($this->mapping as $key => $value){
-            $regex = '/'.strtolower(str_replace(array('/','*'), array('\/','.*'), $key)).'/';
-            
-            if($uri->matches($regex)){
-                $path .= $value;
-                break;
+    public function getViewClass() {
+        $app = ApplicationContext::getCurrentInstance()->getApplication();
+        // remove the prefix of the url e.g. BlazeFrameworkServer/
+        if(!$this->requestUri->endsWith('/'))
+                $this->requestUri = $this->requestUri->concat('/');
+
+        $reqUrl = $this->requestUri->substring($app->getUrlPrefix()->replace('*', '')->length());
+        
+        // Requesturl has always to start with a '/'
+        if ($reqUrl->length() == 0 || $reqUrl->charAt(0) != '/')
+            $reqUrl = new String('/' . $reqUrl->toNative());
+        
+        foreach ($this->mapping as $key => $value) {
+            if ($reqUrl->startsWith($key)) {
+                if ($this->action == null) {
+                    // Returns an instance of the requested view
+                    return ClassWrapper::forName($value['view']);
+                } else {
+                    // Look for the action in the navigationMap
+                    foreach ($value['action'] as $action) {
+                        if ($this->action->compareTo($action['action']) == 0)
+                            return ClassWrapper::forName($action['view']);
+                    }
+                    return ClassWrapper::forName($value['view']);
+                }
             }
         }
-
-        return $path;
+        return null;
     }
 
-    public function getBasePath(){
-        return $this->basePath;
-    }
-
-    public function getBasePathFor($uri){
-        return $this->getMappingPath(String::asWrapper($uri));
-    }
-
-    public function navigate($action){
-
-        $this->basePath = $this->getBasePathFor($destination);
-    }
 }
-
 ?>

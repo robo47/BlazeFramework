@@ -1,7 +1,7 @@
 <?php
 namespace webapp\helloWorld;
 use blaze\lang\Object,
-    blaze\web\WebConfig,
+    blaze\web\application\WebConfig,
     blaze\lang\Singleton;
 
 /**

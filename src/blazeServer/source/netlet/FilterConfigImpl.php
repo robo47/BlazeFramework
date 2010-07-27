@@ -1,5 +1,5 @@
 <?php
-namespace blazeServer\source\filter;
+namespace blazeServer\source\netlet;
 use blaze\lang\Object,
     blaze\io\File,
     blaze\netlet\Filter,

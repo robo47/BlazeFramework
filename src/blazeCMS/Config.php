@@ -1,5 +1,5 @@
 <?php
-namespace blazeServer;
+namespace blazeCMS;
 use blaze\lang\Object,
     blaze\web\application\WebConfig,
     blaze\lang\Singleton;
@@ -43,13 +43,13 @@ class Config extends Object implements WebConfig, Singleton {
                                                                           array('name'      => 'name',
                                                                                 'default'   => 'test',
                                                                                 'object'    => 'myBeacon2.name')),
-            
+
                                                         'action' => array(array('action'    => 'navigate',
                                                                                 'view'      => 'blazeServer\\view\\TestView'),
                                                                           array('action'    => 'success',
                                                                                 'view'      => 'blazeServer\\view\\SuccessView'))),
-            
-                                       '/' =>     array('view' => 'blazeServer\\view\\IndexView'));
+
+                                       '/' =>     array('view' => 'blazeCMS\\view\\general\\Home'));
     }
 
     /**

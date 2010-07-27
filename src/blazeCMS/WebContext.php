@@ -2,8 +2,7 @@
 namespace blazeCMS;
 use blaze\lang\Object,
     blaze\lang\String,
-    blaze\lang\Singleton,
-    blazeCMS\dao\GenericDAO;
+    blaze\lang\Singleton;
 
 /**
  * Description of WebContext

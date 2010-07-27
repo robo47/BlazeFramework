@@ -1,11 +1,11 @@
 <?php
-namespace blaze\netlet\http;
+namespace blazeServer\source\netlet\http;
 use blaze\lang\Object,
     blaze\io\OutputStreamWriter,
     blaze\netlet\NetletOutputStream;
 
 /**
- * Description of HttpNetletResponseWrapper
+ * Description of HttpNetletResponseImpl
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -15,7 +15,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class HttpNetletResponseWrapper extends Object implements HttpNetletResponse {
+class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNetletResponse {
 
     /**
      *
@@ -38,7 +38,7 @@ class HttpNetletResponseWrapper extends Object implements HttpNetletResponse {
      *
      * @param 	blaze\netlet\http\Cookie $cookie
      */
-     public function addCookie(Cookie $cookie){}
+     public function addCookie(\blaze\netlet\http\HttpCookie $cookie){}
 
     /**
      * Adds a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a

@@ -1,5 +1,5 @@
 <?php
-namespace blaze\netlet\http;
+namespace blazeServer\source\netlet\http;
 use blaze\lang\Object;
 
 /**
@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class HttpSessionHandlerImpl extends Object implements HttpSessionHandler {
+class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSessionHandler {
 
     /**
      *

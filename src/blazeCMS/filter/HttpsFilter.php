@@ -28,7 +28,6 @@ class HttpsFilter extends Object implements Filter {
     public function destroy() { }
 
     public function doFilter(NetletRequest $request, NetletResponse $response, FilterChain $chain) {
-        $context = WebContext::getInstance();
         $isAdmin = false;//$context->getParameter('site')->equalsIgnoreCase('admin');
 
         if($isAdmin && !$request->isSecure()) {

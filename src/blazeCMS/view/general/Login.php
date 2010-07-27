@@ -20,7 +20,7 @@ blaze\lang\String;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class Login extends Object implements \blaze\web\WebView {
+class Login extends Object implements \blaze\web\application\WebView {
 
     /**
      *

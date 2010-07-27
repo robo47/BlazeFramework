@@ -1,7 +1,7 @@
 <?php
 namespace blazeServer\view;
 use blaze\lang\Object,
-    blaze\web\WebView,
+    blaze\web\application\WebView,
     blaze\web\tagLibrary\HtmlTag,
     blaze\web\tagLibrary\ViewTag,
     blaze\web\tagLibrary\OutputTextTag;
@@ -45,6 +45,15 @@ class TestView extends Object implements WebView{
                   );
         return $root;
      }
+     
+     public static function getActionDefinitions() {
+        return array();
+     }
+
+     public static function getParamDefinitions() {
+        return array();
+     }
+
 }
 
 ?>

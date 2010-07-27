@@ -1,5 +1,5 @@
 <?php
-namespace blaze\netlet\http;
+namespace blazeServer\source\netlet\http;
 use blaze\lang\Object,
  blaze\lang\Cloneable,
     blaze\lang\String,
@@ -16,7 +16,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class HttpCookieImpl extends Object implements Cloneable{
+class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\HttpCookie{
 
      private $name;
      private $value;

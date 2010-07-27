@@ -175,7 +175,7 @@ interface HttpNetletResponse extends NetletResponse{
      *
      * @param 	blaze\netlet\http\Cookie $cookie
      */
-     public function addCookie(Cookie $cookie);
+     public function addCookie(HttpCookie $cookie);
 
     /**
      * Adds a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a

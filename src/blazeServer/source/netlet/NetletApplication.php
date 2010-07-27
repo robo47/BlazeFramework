@@ -1,6 +1,6 @@
 <?php
 
-namespace blazeServer\source\core;
+namespace blazeServer\source\netlet;
 use blaze\lang\Object,
     blaze\lang\System,
     blaze\lang\StaticInitialization,
@@ -26,19 +26,15 @@ use blaze\lang\Object,
  */
 class NetletApplication extends Object implements StaticInitialization{
 
+    const SERVER_HOME = 'BlazeFrameworkServer/';
     /**
      *
-     * @var blaze\io\File
+     * @var array
      */
-    private static $runningApplicationPath;
+    private static $serverConfig;
     /**
      *
-     * @var blaze\io\File
-     */
-    private static $avilableApplicationPath;
-    /**
-     *
-     * @var blazeServer\source\BlazeApplication
+     * @var blazeServer\source\NetletApplication
      */
     private static $blazeServer;
 
@@ -54,17 +50,12 @@ class NetletApplication extends Object implements StaticInitialization{
     private $running;
     /**
      *
-     * @var blaze\io\File
-     */
-    private $dir;
-    /**
-     *
      * @var blaze\lang\String
      */
-    private $url;
+    private $urlPrefix;
     /**
      *
-     * @var blaze\web\WebConfig
+     * @var blaze\web\application\WebConfig
      */
     private $config;
     /**
@@ -74,9 +65,8 @@ class NetletApplication extends Object implements StaticInitialization{
     private $package;
 
     public static function staticInit() {
-        self::$avilableApplicationPath = new File(implode(DIRECTORY_SEPARATOR, explode(DIRECTORY_SEPARATOR, __DIR__, -4)).DIRECTORY_SEPARATOR.'webapps');
-        self::$runningApplicationPath = new File(implode(DIRECTORY_SEPARATOR, explode(DIRECTORY_SEPARATOR, __DIR__, -3)).DIRECTORY_SEPARATOR.'webapp');
-        self::$blazeServer = new self(new File(implode(DIRECTORY_SEPARATOR, explode(DIRECTORY_SEPARATOR, __DIR__, -2))), true);
+        self::$serverConfig = \blazeServer\ServerConfig::getInstance()->getConfig();
+        self::$blazeServer = new self('blazeServer', self::$serverConfig['applications']['blazeServer']['name'],'/BlazeFrameworkServer/server/', true);
     }
 
     /**
@@ -84,18 +74,16 @@ class NetletApplication extends Object implements StaticInitialization{
      * @param blaze\io\File $dir
      * @param boolean $running
      */
-    private function __construct($dir, $running){
-        //parent::__construct();
-        $this->name = $dir->getName();
+    private function __construct($package, $name, $urlPrefix, $running){
+        $this->package = String::asWrapper($package);
+        $this->name = String::asWrapper($name);
+        $this->urlPrefix = String::asWrapper($urlPrefix);
         $this->running = $running;
-        $this->dir = $dir;
 
         if(self::$blazeServer == null){
+            // Used by staticInit()
             $this->package = new String('\\blazeServer');
-            $this->url = new String('BlazeFrameworkServer/blazeServer');
-        }else{
-            $this->package = new String('\\webapp\\'.$this->name->toNative());
-            $this->url = new String('BlazeFrameworkServer/'.$this->name->toNative());
+            $this->urlPrefix = new String(self::SERVER_HOME.'blazeServer');
         }
 
         $this->config = ClassWrapper::forName($this->package.'\\Config')->getMethod('getInstance')->invoke(null,null);
@@ -104,15 +92,30 @@ class NetletApplication extends Object implements StaticInitialization{
     /**
      *
      * @return blaze\web\Application
-     * @todo URL Rewriting makes problems with this implementation
-     *       maybe use a configuration to define a server home?
      */
     public static function getApplication(HttpNetletRequest $request) {
-        $dirs = $request->getRequestURI()->getPath()->trim('/')->split('/');
+        $uri = $request->getRequestURI()->getPath();
+        $appPackage = null;
+        $appPrefix = null;
 
-        if(count($dirs) > 1 && $dirs[1] != 'blazeServer')
-            return self::getApplicationByName($dirs[1]);
-        return self::$blazeServer;
+        if(!$uri->endsWith('/'))
+            $uri = $uri->concat('/');
+
+        foreach(self::$serverConfig['mappings'] as $key => $value){
+            $regex = '/'.str_replace(array('/','*'), array('\/','.*'), $key).'/';
+            
+            if($uri->matches($regex)){
+                $appPackage = $value;
+                $appPrefix = $key;
+                break;
+            }
+        }
+        
+        $app = self::getApplicationByPackageName($appPackage);
+        
+        if($app != null)
+            $app->urlPrefix = String::asWrapper($appPrefix);
+        return $app;
     }
 
     /**
@@ -125,18 +128,16 @@ class NetletApplication extends Object implements StaticInitialization{
 
     /**
      *
-     * @return blaze\web\Application
+     * @return blazeServer\source\core\NetletApplication
      */
-    public static function getApplicationByName($name) {
-        $app = new File(self::$runningApplicationPath,$name);
+    public static function getApplicationByPackageName($pkgName) {
+        if($pkgName == null)
+            return null;
 
-        if($app->isChildOf(self::$runningApplicationPath) &&$app->exists())
-                return new NetletApplication($app,true);
+        foreach(self::$serverConfig['applications'] as $appPackage => $options)
+            if($appPackage == $pkgName)
+                return new NetletApplication($appPackage, $options['name'], null, $options['running']);
 
-        $app = new File(self::$avilableApplicationPath,$name);
-
-        if($app->isChildOf(self::$avilableApplicationPath) && $app->exists())
-                return new NetletApplication($app,false);
         return null;
     }
 
@@ -144,11 +145,10 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return array Returns a list of applications which are available on this server
      */
     public static function getAvailableApplications(){
-        $applicationDir = new File(self::$avilableApplicationPath);
         $apps = array();
 
-        foreach($applicationDir->listFiles() as $app){
-            $apps[] = new NetletApplication($app,true);
+        foreach(self::$serverConfig['applications'] as $appPackage => $options){
+            $apps[] = new NetletApplication($appPackage, $options['name'], $options['running']);
         }
 
         return $apps;
@@ -158,11 +158,11 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return array Returns a list of applications which are available on this server
      */
     public static function getRunningApplications(){
-        $applicationDir = new File(self::$runningApplicationPath);
         $apps = array();
 
-        foreach($applicationDir->listFiles() as $app){
-            $apps[] = new NetletApplication($app,true);
+        foreach(self::$serverConfig['applications'] as $appPackage => $options){
+            if($options['running'] == true)
+            $apps[] = new NetletApplication($appPackage, $options['name'], $options['running']);
         }
 
         return $apps;
@@ -186,14 +186,7 @@ class NetletApplication extends Object implements StaticInitialization{
     }
     /**
      *
-     * @return blaze\io\File
-     */
-    public function getDir() {
-        return $this->dir;
-    }
-    /**
-     *
-     * @return blaze\web\WebConfig
+     * @return blaze\web\application\WebConfig
      */
     public function getConfig() {
         return $this->config;
@@ -209,8 +202,8 @@ class NetletApplication extends Object implements StaticInitialization{
      *
      * @return blaze\lang\String
      */
-    public function getUrl() {
-        return $this->url;
+    public function getUrlPrefix() {
+        return $this->urlPrefix;
     }
 }
 ?>

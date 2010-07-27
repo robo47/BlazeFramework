@@ -14,27 +14,29 @@ namespace blaze\web\application;
  */
 interface Application {
 
-    /**
-     * @return blaze\web\WebView
-     */
-    public function getView(\blaze\netlet\http\HttpNetletRequest $request);
-    /**
-     * @return blaze\web\WebView
-     */
-    public function getViewClass(\blaze\netlet\http\HttpNetletRequest $request);
+    public function addConverter($name, $class);
+    public function addValidator($name, $class);
+    // EL scopes?
 
+    /**
+     * @return blaze\util\Locale
+     */
+    public function getDefaultLocale();
+    public function setDefaultLocale(\blaze\util\Locale $locale);
+
+    /**
+     * @return blaze\web\application\NavigationHandler
+     */
+    public function getNavigationHandler();
+    public function setNavigationHandler(NavigationHandler $handler);
 
     /**
      * @return blaz\lang\String
      */
     public function getName();
     /**
-     * @return blaze\io\File
-     */
-    public function getDir();
-    /**
      *
-     * @return blaze\web\WebConfig
+     * @return blaze\web\application\WebConfig
      */
     public function getConfig();
     /**
@@ -46,6 +48,6 @@ interface Application {
      *
      * @return blaze\lang\String
      */
-    public function getUrl();
+    public function getUrlPrefix();
 }
 ?>

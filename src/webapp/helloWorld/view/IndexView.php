@@ -1,7 +1,7 @@
 <?php
 namespace webapp\helloWorld\view;
 use blaze\lang\Object,
-    blaze\web\WebView,
+    blaze\web\application\WebView,
     blaze\web\tagLibrary\HtmlTag,
     blaze\web\tagLibrary\ViewTag,
     blaze\web\tagLibrary\OutputTextTag,

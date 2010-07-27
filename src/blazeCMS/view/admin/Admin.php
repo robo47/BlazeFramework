@@ -20,7 +20,7 @@ blaze\lang\String;
  * @version $Revision$
  * @todo    Etwas was noch erledigt werden muss
  */
-class Admin extends Object implements \blaze\web\WebView {
+class Admin extends Object implements \blaze\web\application\WebView {
 
     /**
      *
