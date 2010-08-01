@@ -1,14 +1,16 @@
 <?php
+
 namespace blazeServer\source\core;
+
 use blaze\lang\Object,
-    blaze\lang\System,
-    blaze\lang\StaticInitialization,
-    blaze\io\File,
-    blaze\lang\String,
-    blaze\lang\ClassWrapper,
-    blaze\lang\ClassLoader,
-    blaze\web\application\Application,
-    blaze\web\application\ApplicationContext;
+ blaze\lang\System,
+ blaze\lang\StaticInitialization,
+ blaze\io\File,
+ blaze\lang\String,
+ blaze\lang\ClassWrapper,
+ blaze\lang\ClassLoader,
+ blaze\web\application\Application,
+ blaze\web\application\BlazeContext;
 
 /**
  * Description of BlazeApplication
@@ -28,21 +30,25 @@ class BlazeApplication extends Object implements Application {
     private $response;
     private $navigationHandler;
     private $defaultLocale;
-    private $converter;
-    private $validator;
+    private $converter = array();
+    private $validator = array();
+    private $taglibs;
+    private $renderKitFactories = array();
 
     /**
      *
      * @param blaze\io\File $dir
      * @param boolean $running
      */
-    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response){
+    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
         $this->netletApplication = $netletApplication;
         $this->request = $request;
         $this->response = $response;
-        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->getConfig()->getNavigationMap(), $request->getRequestURI()->getPath());
-        $this->converter = array();
-        $this->validator = array();
+        $confMap = $this->getConfig()->getConfigurationMap();
+        $this->taglibs = $confMap['taglibs'];
+
+        new BlazeContext($this, $request, $response);
+        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->getConfig()->getNavigationMap());
     }
 
     public function addConverter($name, $class) {
@@ -51,6 +57,23 @@ class BlazeApplication extends Object implements Application {
 
     public function addValidator($name, $class) {
         $this->validator[$name] = $class;
+    }
+
+    public function getRenderKitFactory($componentFamily) {
+        if (!array_key_exists($componentFamily, $this->renderKitFactories)) {
+            if (!array_key_exists($componentFamily, $this->taglibs)) {
+                return null;
+            } else {
+                $this->renderKitFactories[$componentFamily] = ClassWrapper::forName($this->taglibs[$componentFamily]['renderKitFactory'])->getMethod('getInstance')->invoke(null, null);
+
+                if (count($this->taglibs[$componentFamily]['renderKits']) > 0) {
+                    foreach ($this->taglibs[$componentFamily]['renderKits'] as $renderKitId => $renderKit) {
+                        $this->renderKitFactories[$componentFamily]->addRenderKit($componentFamily, $renderKitId, ClassWrapper::forName($renderKit)->newInstance());
+                    }
+                }
+            }
+        }
+        return $this->renderKitFactories[$componentFamily];
     }
 
     /**
@@ -71,7 +94,7 @@ class BlazeApplication extends Object implements Application {
     public function getNavigationHandler() {
         return $this->navigationHandler;
     }
-    
+
     public function setNavigationHandler(\blaze\web\application\NavigationHandler $handler) {
         $this->navigationHandler = $handler;
     }
@@ -83,6 +106,7 @@ class BlazeApplication extends Object implements Application {
     public function getName() {
         return $this->netletApplication->getName();
     }
+
     /**
      *
      * @return blaze\web\application\WebConfig
@@ -90,6 +114,7 @@ class BlazeApplication extends Object implements Application {
     public function getConfig() {
         return $this->netletApplication->getConfig();
     }
+
     /**
      *
      * @return blaze\lang\String
@@ -97,6 +122,7 @@ class BlazeApplication extends Object implements Application {
     public function getPackage() {
         return $this->netletApplication->getPackage();
     }
+
     /**
      *
      * @return blaze\lang\String
@@ -104,5 +130,6 @@ class BlazeApplication extends Object implements Application {
     public function getUrlPrefix() {
         return $this->netletApplication->getUrlPrefix();
     }
+
 }
 ?>

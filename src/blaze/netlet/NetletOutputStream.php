@@ -10,15 +10,16 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class NetletOutputStream extends OutputStream {
     private static $MAX_SIZE = 5242880; // 5 MB
     private $output;
     private $closed;
+    private $response;
 
     /**
      * Opens a new memory stream with the the max value of 5 megabyte.
@@ -28,19 +29,20 @@ class NetletOutputStream extends OutputStream {
      *
      * @throws blaze\io\IOException Is thrown when the stream creation failed.
      */
-    public function __construct(){
+    public function __construct(NetletResponse $response){
         $this->output = fopen('php://temp/maxmemory'.self::$MAX_SIZE, 'r+');
         if(!$this->output)
                 throw new \blaze\io\IOException();
         $this->closed = false;
+        $this->response = $response;
     }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\io\IOException
      * @todo	Check which method is faster
      */
@@ -70,7 +72,9 @@ class NetletOutputStream extends OutputStream {
      public function flush(){
          if($this->closed)
                 throw new \blaze\io\IOException();
+         $contentLength = ftell($this->output);
          rewind($this->output);
+         $this->response->setContentLength($contentLength);
          echo stream_get_contents($this->output);
          //unset($this->output);
          //$this->output = "";

@@ -214,25 +214,47 @@ interface HttpNetletResponse extends NetletResponse{
      */
      public function containsHeader($name);
 
-    /**
-     * Beschreibung
+     /**
+     * Gets the value of the header with the given name.
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\String|string $name The name of the header.
+     * @return 	blaze\lang\String The value of the header.
+     */
+     public function getHeader($name);
+
+     /**
+     * Gets the values of the header with the given name.
+     *
+     * @param 	blaze\lang\String|string $name The name of the header.
+     * @return 	array[blaze\lang\String] The values of the header.
+     */
+     public function getHeaders($name);
+
+     /**
+     * Gets the statuscode of the response.
+     *
+     * @return 	integer The statuscode of the HTTP response.
+     */
+     public function getStatus();
+    /**
+     * Description
+     *
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
      //public function encodeRedirectURL($url);
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
      //public function encodeURL($url);
 
@@ -303,33 +325,8 @@ interface HttpNetletResponse extends NetletResponse{
      */
      public function setStatus($sc);
 
-     public function flush();
 
-     public function isCommited();
 
-     public function reset();
-
-     public function getContentLength();
-
-     public function getCharacterEncoding();
-
-     public function getLocale();
-
-     /**
-      * @return blaze\io\OutputStream
-      */
-     public function getOutputStream();
-
-     /**
-      * @return blaze\io\Writer
-      */
-     public function getWriter();
-
-     public function setContentLength($len);
-
-     public function setContentType($type);
-     
-     public function setLocale($locale);
 
 
 }

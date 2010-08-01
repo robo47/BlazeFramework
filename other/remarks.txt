@@ -1,42 +1,43 @@
-Wrappertypen:
+Wrappertypes:
 
-Es wird nach außen hin überall die Wrapperklasse blaze\lang\String verwendet.
-Ansonsten werden bevorzugt native Typen verwendet, unter anderem auch string,
-jedoch nur Klassenintern.
-Alle Methoden nehmen sowohl blaze\lang\String als auch string als Parameter.
+The public methods of a class can only return blaze\lang\String but no native string.
+Only private or protected methods may return a native string.
+Every public method of a class must accept a native string and a blaze\lang\String.
+To convert every value to a blaze\lang\String use the method blaze\lang\String::asWrapper(). 
+Every other type can be either a wrapper or a native but native is preferred because of performance.
 
 Arrays:
 
-Sofern es nicht notwendig ist bzw. die Anzahl an Elementen innerhalb einer Menge
-unveränderbar ist, wird ein array verwendet, ansonsten ein ArrayObject bzw.
-eine Subklasse davon.
+There are 2 types of Arrays:
+	Mutable: dynamic size
+	Immutable: fix size
+
 
 Enums:
 
-Einträge werden über Konstanten realisiert. Außerdem werden Methoden bereit
-gestellt um auf die Einträge zugreifen zu können. Überprüfung ob eine Klasse
-eine Enum ist, geschieht über Reflection.
+Entries of an enum are realised with const-values.
+An Enum should extend blaze\lang\Enum to get important static methods and must implement the method getClassName() which shall look like this:
+
+public static function getClassName(){
+	return __CLASS__;
+}
+
+Reflection needs the inheritance to determine wether a class is a Enum or not.
+To get good intellisense write the Enum-class as return type or as parameter type in the docblock.
+But in fact you only pass integers or whatever value you give your enum entry, so be careful.
 
 
 Reflection:
 
-Reflection funktioniert nur für Klassen welche von blaze\lang\Object erben,
-jedoch kann ein blaze\lang\reflect\Field einen nativen Datentyp definieren.
+Reflection is defined for classes which implements blaze\lang\Reflectable. The data type of a field in a class can be native too.
+In some cases annotations are used to determine the data type.
 
-
-Caching:
-
-Reflection hat einen internen Cache, trotzdem für Class::forName() versuchen
-einen Cache zu machen. Alle Reflection Aktionen soweit wie möglich cachen
-jedoch trotzdem Performancetests machen.
 
 Annotations:
 
-Implementierung von Annotations überdenken und derweil nicht weiter beachten.
+Annotations are available via Reflection but concrete definitions of annotations are not implemented yet.
 
 Testing:
 
-Bevor eine neue Klasse oder ein neues API geschrieben wird, müssen Tests
-geschrieben werden, welche alle möglichen Nutzungsfälle des Systems abdecken.
-Diese Vorgangsweise nennt man TDD (Test Driven Development) und hilft
-besonders bei den Überlegungen zu einem System.
+Before a class is written there have to be made a test case for the proposed class with a proposed structure.
+When the structure of the class was discussed and it is okay, then it can be implemented.

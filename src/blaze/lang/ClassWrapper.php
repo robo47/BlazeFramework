@@ -18,9 +18,13 @@ use \ReflectionClass,
  * @todo    Documentations is missing
  */
 final class ClassWrapper extends Object implements Serializable{
+    /**
+     *
+     * @var \ReflectionClass
+     */
     private $reflectionClass;
 
-    private function __construct(ReflectionClass $class){
+    private function __construct($class){
         //parent::__construct();
         $this->reflectionClass = $class;
     }
@@ -72,23 +76,12 @@ final class ClassWrapper extends Object implements Serializable{
      * @exception ClassNotFoundException if the class cannot be located
      */
     public static function forName($className){
-        if($className instanceof String){
-            $reflection = new ReflectionClass($className->toNative());
-            
-            if(!$reflection->isSubclassOf('blaze\lang\Object') && $reflection->getName() != 'blaze\lang\Object')
-                throw new IllegalArgumentException('Reflection only works for classes which extend blaze\lang\Object');
-            return new self($reflection);
-        }else{
-            if(is_string($className) || is_object($className)){
-                $reflection = new ReflectionClass($className);
+        $className = String::asNative($className);
+        $reflection = new ReflectionClass($className);
 
-                if(!$reflection->isSubclassOf('blaze\lang\Object') && $reflection->getName() != 'blaze\lang\Object')
-                    throw new IllegalArgumentException('Reflection only works for classes which extend blaze\lang\Object');
-                return new self($reflection);
-            }
-        }
-        
-        return null;
+        if(!$reflection->isSubclassOf('blaze\lang\Reflectable') && $reflection->getName() != 'blaze\lang\Reflectable')
+            throw new IllegalArgumentException('Reflection only works for classes which implement blaze\lang\Reflectable');
+        return new self($reflection, false);
     }
 
     /**
@@ -175,7 +168,7 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function isInstance(Object $obj){
+    public function isInstance(Reflectable $obj){
         return $this->reflectionClass->isInstance($obj);
     }
 
@@ -630,10 +623,11 @@ final class ClassWrapper extends Object implements Serializable{
      * @since JDK1.1
      */
     public function getField($name){
-        if($name instanceof String)
-            return new Field($this->reflectionClass->getProperty($name->toNative()));
-        else
-            return new Field($this->reflectionClass->getProperty($name));
+        try{
+            return new Field($this->reflectionClass->getProperty(String::asNative($name)));
+        }catch(\ReflectionException $e){
+            throw new NoSuchFieldException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -708,17 +702,19 @@ final class ClassWrapper extends Object implements Serializable{
      * @since JDK1.1
      */
     public function getMethod($name) {
-        if($name instanceof String)
-            return new Method($this->reflectionClass->getMethod($name->toNative()));
-        else
-            return new Method($this->reflectionClass->getMethod($name));
+        try{
+            return new Method($this->reflectionClass->getMethod(String::asNative($name)));
+        }catch(\ReflectionException $e){
+            throw new NoSuchMethodException($e->getMessage(), $e->getCode());
+        }
     }
 
     public function getConstant($name) {
-        if($name instanceof String)
-            return new Method($this->reflectionClass->getConstant($name->toNative()));
-        else
-            return new Method($this->reflectionClass->getConstant($name));
+        try{
+            return new Method($this->reflectionClass->getConstant(String::asNative($name)));
+        }catch(\ReflectionException $e){
+            throw new NoSuchFieldException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -888,7 +884,7 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since 1.5
      */
-    public function cast(Object $obj){
+    public function cast(Reflectable $obj){
         if(!$this->reflectionClass->isInstance($obj))
             throw new ClassCastException();
         return $obj;

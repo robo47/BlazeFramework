@@ -2,9 +2,9 @@
 namespace blazeServer\view;
 use blaze\lang\Object,
     blaze\web\application\WebView,
-    blaze\web\tagLibrary\HtmlTag,
-    blaze\web\tagLibrary\ViewTag,
-    blaze\web\tagLibrary\OutputTextTag;
+    blaze\web\tag\ViewRootTag,
+    blaze\web\tag\ViewTag,
+    blaze\web\tag\OutputTextTag;
 
 /**
  * Description of IndexView
@@ -12,46 +12,47 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class TestView extends Object implements WebView{
 
     /**
-     * Beschreibung
-     */
-    public function __construct(){
-
-    }
-
-    /**
-     * Beschreibung
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
-     * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @var blaze\web\tag\Tag
      */
-     public function getComponents(){
-        $root = new HtmlTag('http://www.w3.org/1999/xhtml');
-        $root->add(ViewTag::create()
+    private $root;
+
+    public function __construct(){
+        $this->root = ViewRootTag::create()
+                          ->add(ViewTag::create()
                           ->add(OutputTextTag::create()
                                              ->setValue('This is the TestView'))
                           ->add(OutputTextTag::create()
                                              ->setValue('Just a test!'))
                   );
-        return $root;
-     }
-     
-     public static function getActionDefinitions() {
-        return array();
-     }
+    }
 
-     public static function getParamDefinitions() {
-        return array();
+    public function processApplication(\blaze\web\application\BlazeContext $context) {
+        $this->root->processApplication($context);
+    }
+
+    public function processDecodes(\blaze\web\application\BlazeContext $context) {
+        $this->root->processDecodes($context);
+    }
+
+    public function processUpdates(\blaze\web\application\BlazeContext $context) {
+        $this->root->processUpdates($context);
+    }
+
+    public function processValidations(\blaze\web\application\BlazeContext $context) {
+        $this->root->processValidations($context);
+    }
+
+    public function getViewRoot(){
+        return $this->root;
      }
 
 }

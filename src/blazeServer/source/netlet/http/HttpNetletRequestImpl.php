@@ -21,7 +21,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     private $attributes = array();
     /**
      *
-     * @var blaze\netlet\http\SessionHandler
+     * @var blaze\netlet\http\HttpSessionHandler
      */
     private $sessionHandler;
 
@@ -205,13 +205,13 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
      * @return  blaze\netlet\http\Session
      * @todo    maybe use AbstractFactory for sessions
      */
-    public function getSession() {
+    public function getSession($create = false) {
         if($this->sessionHandler == null)
                 $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
-        return $this->sessionHandler->getSession();
+        return $this->sessionHandler->getCurrentSession($create);
     }
     public function getUserAgent() {
-        return new String($_SERVER['HTTP_USER_AGENT']);
+        return new HttpUserAgentImpl($_SERVER['HTTP_USER_AGENT']);
     }
     public function isSecure() {
         return $_SERVER['HTTPS'];

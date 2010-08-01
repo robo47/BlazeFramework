@@ -1,8 +1,10 @@
 <?php
+
 namespace blazeServer\source\netlet\http;
+
 use blaze\lang\Object,
-    blaze\io\OutputStreamWriter,
-    blaze\netlet\NetletOutputStream;
+ blaze\io\OutputStreamWriter,
+ blaze\netlet\NetletOutputStream;
 
 /**
  * Description of HttpNetletResponseImpl
@@ -10,10 +12,10 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNetletResponse {
 
@@ -29,7 +31,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
     private $writer;
 
     public function __construct() {
-        $this->os = new NetletOutputStream();
+        $this->os = new NetletOutputStream($this);
         $this->writer = new OutputStreamWriter($this->os);
     }
 
@@ -38,7 +40,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      *
      * @param 	blaze\netlet\http\Cookie $cookie
      */
-     public function addCookie(\blaze\netlet\http\HttpCookie $cookie){}
+    public function addCookie(\blaze\netlet\http\HttpCookie $cookie) {
+        setcookie($cookie->getName(), $cookie->getName(), $cookie->getValue(), $cookie->getPath(), $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttponly());
+    }
 
     /**
      * Adds a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a
@@ -48,7 +52,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\util\Date|long $value The name of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setDateHeader
      */
-     public function addDateHeader($name, $value){}
+    public function addDateHeader($name, $value) {
+
+    }
 
     /**
      * Adds a header with the given name and value. This method allows response headers to have multiple values.
@@ -57,7 +63,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\lang\String|string $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setHeader
      */
-     public function addHeader($name, $value){}
+    public function addHeader($name, $value) {
+
+    }
 
     /**
      * Adds a header with the given name and value. This method allows response headers to have multiple values.
@@ -66,7 +74,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	integer $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setIntHeader
      */
-     public function addIntHeader($name, $value){}
+    public function addIntHeader($name, $value) {
+
+    }
 
     /**
      * Returns a boolean which indicates if a header with the given name has
@@ -75,29 +85,31 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\lang\String|string $name The name of the header which shall be sent
      * @return 	boolean true if the header has already been set, otherwise false.
      */
-     public function containsHeader($name){}
+    public function containsHeader($name) {
+
+    }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
-     //public function encodeRedirectURL($url){}
+    //public function encodeRedirectURL($url){}
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
-     //public function encodeURL($url){}
+    //public function encodeURL($url){}
 
     /**
      * Sends an error response to the client using the given status code and
@@ -110,12 +122,12 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @throws	blaze\io\IOException If an input or output exception occurs
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
      */
-     public function sendError($sc, $msg = null){
-         $this->setStatus($sc);
-         
-         if($msg !== null)
+    public function sendError($sc, $msg = null) {
+        $this->setStatus($sc);
+
+        if ($msg !== null)
             $this->getWriter()->write($msg);
-     }
+    }
 
     /**
      * Sends a temporary redirect response to the client using the given
@@ -128,9 +140,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @throws	blaze\io\IOException If an input or output exception occurs
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
      */
-     public function sendRedirect($location){
-         header('Location: '.$location);
-     }
+    public function sendRedirect($location) {
+        header('Location: ' . $location);
+    }
 
     /**
      * Sets a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a
@@ -141,7 +153,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\util\Date|long $value The name of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addDateHeader
      */
-     public function setDateHeader($name, $value){}
+    public function setDateHeader($name, $value) {
+
+    }
 
     /**
      * Sets a header with the given name and value. This method allows response headers to have multiple values.
@@ -151,12 +165,12 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\lang\String|string $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addHeader
      */
-     public function setHeader($name, $value){
-         if($value != null)
-            header($name.': '.$value);
-         else
-             header_remove($name);
-     }
+    public function setHeader($name, $value) {
+        if ($value != null)
+            header($name . ': ' . $value);
+        else
+            header_remove($name);
+    }
 
     /**
      * Sets a header with the given name and value. This method allows response headers to have multiple values.
@@ -166,7 +180,9 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	integer $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addIntHeader
      */
-     public function setIntHeader($name, $value){}
+    public function setIntHeader($name, $value) {
+
+    }
 
     /**
      * Sets the status code for this response.
@@ -174,43 +190,79 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * If there is an error, the sendError method should be used instead.
      *
      * @param 	integer $sc The status code
-     * @see 	blaze\netlet\http\HttpNetletResponse:sedError
+     * @see 	blaze\netlet\http\HttpNetletResponse:sendError
      */
-     public function setStatus($sc){
-         header('HTTP/1.1 '.$sc);
-     }
+    public function setStatus($sc) {
+        header('HTTP/1.1 ' . $sc);
+    }
 
-     public function flush(){}
+    public function flush() {
 
-     public function isCommited(){}
+    }
 
-     public function reset(){}
+    public function isCommited() {
 
-     public function getContentLength(){}
+    }
 
-     public function getCharacterEncoding(){}
+    public function reset() {
 
-     public function getLocale(){}
+    }
 
-     public function getOutputStream(){
-         return $this->os;
-     }
+    public function getContentLength() {
+        return $this->getHeader('Content-Length');
+    }
 
-     public function getWriter(){
-         return $this->writer;
-     }
+    public function getCharacterEncoding() {
 
-     public function setContentLength($len){
-         header('Content-Length: '.$len);
-     }
+    }
 
-     public function setContentType($type){
-         header('Content-Type: '.$type);
-     }
+    public function getLocale() {
 
-     public function setLocale($locale){}
+    }
 
+    public function getOutputStream() {
+        return $this->os;
+    }
+
+    public function getWriter() {
+        return $this->writer;
+    }
+
+    public function setContentLength($len) {
+        header('Content-Length: ' . $len);
+    }
+
+    public function setContentType($type) {
+        header('Content-Type: ' . $type);
+    }
+
+    public function setLocale($locale) {
+
+    }
+
+    public function getHeader($name) {
+        foreach(headers_list() as $header){
+            if(($pos = strpos($header, $name.': ')) !== false)
+                    return substr($header, $pos);
+        }
+        return null;
+    }
+
+    public function getHeaders($name) {
+        return $this->getHeader($name);
+    }
+
+    public function getStatus() {
+
+    }
+
+    public function getContentType() {
+        return $this->getHeader('Content-Type');
+    }
+
+    public function setCharacterEncoding($charset) {
+        
+    }
 
 }
-
 ?>

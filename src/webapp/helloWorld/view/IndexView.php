@@ -2,17 +2,17 @@
 namespace webapp\helloWorld\view;
 use blaze\lang\Object,
     blaze\web\application\WebView,
-    blaze\web\tagLibrary\HtmlTag,
-    blaze\web\tagLibrary\ViewTag,
-    blaze\web\tagLibrary\OutputTextTag,
-    blaze\web\tagLibrary\HeadTag,
-    blaze\web\tagLibrary\ScriptTag,
-    blaze\web\tagLibrary\PanelTag,
-    blaze\web\tagLibrary\ButtonTag,
-    blaze\web\tagLibrary\ClickEventTag,
-    blaze\web\tagLibrary\SlidePanelTag,
-    blaze\web\tagLibrary\EnlargePanelTag,
-    blaze\web\tagLibrary\CustomHandlerTag,
+    blaze\web\tag\HtmlTag,
+    blaze\web\tag\ViewTag,
+    blaze\web\tag\OutputTextTag,
+    blaze\web\tag\HeadTag,
+    blaze\web\tag\ScriptTag,
+    blaze\web\tag\PanelTag,
+    blaze\web\tag\ButtonTag,
+    blaze\web\tag\ClickEventTag,
+    blaze\web\tag\SlidePanelTag,
+    blaze\web\tag\EnlargePanelTag,
+    blaze\web\tag\CustomHandlerTag,
     blaze\web\JSContainer;
 
 /**
@@ -21,28 +21,28 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class IndexView extends Object implements WebView{
 
     /**
-     * Beschreibung
+     * Description
      */
     public function __construct(){
 
     }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
      public function getComponents(){
         $root = new HtmlTag('http://www.w3.org/1999/xhtml');

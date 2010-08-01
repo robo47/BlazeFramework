@@ -80,6 +80,10 @@ class Field extends Object{
         $this->property->setAccessible(true);
         $value = $this->property->getValue($obj);
         if($value === null){
+            $annot = $this->getAnnotations();
+            if(array_key_exists('var', $annot) && isset($annot['var'][0])){
+                return $annot['var'][0];
+            }
             return 'null';
         }else if(is_object($value)){
             return get_class($value);
@@ -111,7 +115,7 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function equals(Object $obj) {
+    public function equals(\blaze\lang\Reflectable $obj) {
 	if ($obj != null && $obj instanceof Field) {
 	    return ($this->getDeclaringClass() == $other->getDeclaringClass())
                 && ($this->getName() == $other->getName())

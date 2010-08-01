@@ -1,0 +1,52 @@
+<?php
+namespace blaze\lang;
+
+/**
+ * Description of Reflectable
+ *
+ * @author  Christian Beikov
+ * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+ * @link    http://blazeframework.sourceforge.net
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+ * @since   1.0
+ * @version $Revision$
+ * @todo    Something which has to be done, implementation or so
+ */
+interface Reflectable {
+    /**
+     * Creates and returns a copy of this object.
+     *
+     * @throws 	blaze\lang\CloneNotSupportedException If the class does not implement the Cloneable interface.
+     *                                                Subclasses can override the clone method and throw this exception.
+     * @return 	blaze\lang\Object Returns the cloned object.
+     */
+    public function cloneObject();
+    /**
+     * Identifies if the given object is equal to this one.
+     *
+     * @param 	blaze\lang\Object $obj The reference object with which to compare.
+     * @return 	blaze\lang\Boolean True if the object is the same as the parameter, otherwise false.
+     */
+    public function equals(Reflectable $obj);
+
+    /**
+     * Returns the runtime class of the object.
+     *
+     * @return 	blaze\lang\ClassWrapper Returns a ClassWrapper which represents the class of the object.
+     */
+    public function getClass();
+    /**
+     * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
+     *
+     * @return 	blaze\lang\String A hash code value for this object.
+     */
+    public function hashCode();
+     /**
+     * Returns a string representation of the Object which includes the hash code of the object.
+      *
+     * @return 	string A string representation of the object.
+     */
+    public function  __toString();
+}
+
+?>

@@ -11,10 +11,10 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class ServerConfig extends Object implements Singleton {
 
@@ -22,7 +22,7 @@ class ServerConfig extends Object implements Singleton {
     private $config;
 
     /**
-     * Beschreibung
+     * Description
      */
     private function __construct() {
         $this->config = array('applications' => array('blazeServer' => array('name' => 'BlazeFramework Application Manager', 'running' => true),

@@ -8,10 +8,10 @@ use blaze\lang\Object;
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class URI extends Object {
 
@@ -78,10 +78,10 @@ class URI extends Object {
     }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\String|string $uri Beschreibung des Parameters
-     * @return 	blaze\net\URI Beschreibung was die Methode zurückliefert
+     * @param 	blaze\lang\String|string $uri Description of the parameter $var
+     * @return 	blaze\net\URI Description of what the method returns
      * @throws	blaze\lang\Exception
      */
      public static function parseURI($uri){

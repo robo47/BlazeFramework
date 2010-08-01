@@ -4,7 +4,7 @@ use blaze\lang\Object,
     blaze\lang\String,
     blazeCMS\component\Compressor,
     blazeCMS\component\Cache,
-    blaze\web\ApplicationContext,
+    blaze\web\BlazeContext,
     blaze\netlet\http\HttpNetletRequest,
     blaze\netlet\http\HttpNetletResponse;
 
@@ -14,10 +14,10 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class Main extends Object {
 
@@ -25,7 +25,7 @@ class Main extends Object {
     private $compressor;
     private $cache;
     /**
-     * Beschreibung
+     * Description
      */
     public function __construct() {
         $this->compressor = new Compressor();
@@ -33,18 +33,18 @@ class Main extends Object {
     }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
     public static function main($args) {
         $main = new Main();
-        $request = ApplicationContext::getInstance()->getRequest();
-        $response = ApplicationContext::getInstance()->getResponse();
+        $request = BlazeContext::getInstance()->getRequest();
+        $response = BlazeContext::getInstance()->getResponse();
         $response->setHeader('X-Powered-By',null);
 
         ob_start();

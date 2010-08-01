@@ -142,7 +142,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      * @return  <code>true</code> if the Boolean objects represent the
      *          same value; <code>false</code> otherwise.
      */
-    public function equals(Object $obj){
+    public function equals(Reflectable $obj){
         if($obj instanceof Boolean){
             return $this->value === $obj->booleanValue();
         }

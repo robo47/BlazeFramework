@@ -11,7 +11,7 @@ namespace blaze\lang;
  * @todo    Write a test and documentation.
  */
 
-class Exception extends \Exception {
+class Exception extends \Exception implements Reflectable {
 
     /**
      *
@@ -20,8 +20,8 @@ class Exception extends \Exception {
      * @param blaze\lang\Exception $previous
      */
     public function __construct ($message = null, $code = null, $previous = null) {
-        parent::__construct(($message instanceof blaze\lang\String ? $message->toNative() : $message),
-                            ($code instanceof blaze\lang\Integer ? $code->toNative() : $code),
+        parent::__construct(String::asNative($message),
+                            Integer::asNative($code),
                             $previous);
 
         if($previous != null && !$previous instanceof Exception)
@@ -37,10 +37,10 @@ class Exception extends \Exception {
     }
     /**
      * @param blaze\lang\Object $obj The reference object with which to compare.
-     * @return blaze\lang\Boolean
+     * @return boolean
      */
-    public function equals(Object $obj){
-        return new Boolean($this === $obj);
+    public function equals(Reflectable $obj){
+        return $this === $obj;
     }
 
     public function  __destruct() {}

@@ -31,6 +31,11 @@ interface Application {
     public function setNavigationHandler(NavigationHandler $handler);
 
     /**
+     * @return array[blaze\web\render\RenderKitFactory]
+     */
+    public function getRenderKitFactory($componentFamily);
+
+    /**
      * @return blaz\lang\String
      */
     public function getName();

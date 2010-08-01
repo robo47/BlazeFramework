@@ -23,7 +23,7 @@ interface HttpNetletRequest extends NetletRequest{
     /**
      * Returns the user agent of the client.
      *
-     * @return blaze\lang\String
+     * @return blaze\netlet\http\HttpUserAgent
      */
     public function getUserAgent();
     /**
@@ -35,7 +35,7 @@ interface HttpNetletRequest extends NetletRequest{
     /**
      * @return blaze\netlet\http\Session
      */
-    public function getSession();
+    public function getSession($create = false);
     /**
      * Returns the date and time when the message was sent.
      *

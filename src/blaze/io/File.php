@@ -1267,7 +1267,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @return boolean  <code>true</code> if and only if the objects are the same;
      *                  <code>false</code> otherwise
      */
-    public function equals(Object $obj) {
+    public function equals(\blaze\lang\Reflectable $obj) {
 	if (($obj != null) && ($obj instanceof File)) {
 	    return $this->compareTo($obj) == 0;
 	}

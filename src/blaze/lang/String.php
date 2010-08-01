@@ -263,7 +263,7 @@ class String extends Object implements NativeWrapper {
      * @see  #compareTo(String)
      * @see  #equalsIgnoreCase(String)
      */
-    public function equals(Object $obj) {
+    public function equals(Reflectable $obj) {
 	if ($this == $obj) {
 	    return true;
 	}

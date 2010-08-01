@@ -1,5 +1,7 @@
 <?php
+
 namespace blazeServer\source\netlet\http;
+
 use blaze\lang\Object;
 
 /**
@@ -8,36 +10,50 @@ use blaze\lang\Object;
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSessionHandler {
-
+    const SESSION_NAME = 'BLAZESESSION';
+    
     /**
      *
      * @var blaze\netlet\http\HttpSessionHandlerImpl
      */
     private static $instance = null;
-    private $session;
+    private $session = null;
 
-    private function __construct(){
-        session_name('BBSESSION');
-        session_set_cookie_params('3600',null,null,true,true);
-        session_start();
-        $this->session = new HttpSessionImpl($this);
+    private function __construct() {
+
     }
 
-    public function getSession(){
+    public function getCurrentSession($create = false) {
+        $cookies = \blaze\web\application\BlazeContext::getCurrentInstance()
+                        ->getRequest()
+                        ->getCookies();
+        $sessionExist = false;
+
+        foreach ($cookies as $cookie)
+            if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0)
+                $sessionExist = true;
+
+        if ($sessionExist || $create) {
+            session_name(self::SESSION_NAME);
+            session_set_cookie_params('3600', null, null, true, true);
+            session_start();
+            $this->session = new HttpSessionImpl($this);
+        }
+
         return $this->session;
     }
 
     public static function getInstance() {
-        if(self::$instance == null)
+        if (self::$instance == null)
             self::$instance = new HttpSessionHandlerImpl();
         return self::$instance;
     }
-}
 
+}
 ?>

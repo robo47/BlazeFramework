@@ -1,6 +1,7 @@
 <?php
 namespace blazeServer\source\netlet\http;
-use blaze\lang\Object;
+use blaze\lang\Object,
+ blaze\netlet\http\HttpSessionHandler;
 
 /**
  * Description of HttpSessionImpl
@@ -8,10 +9,10 @@ use blaze\lang\Object;
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
 
@@ -22,7 +23,7 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      private $maxInactiveInterval;
      private $maxLifetime;
     /**
-     * Beschreibung
+     * Description
      */
     public function __construct(HttpSessionHandler $handler){
         $this->sessionHandler = $handler;
@@ -34,26 +35,29 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
     }
 
     /**
-     * Beschreibung
+     * Description
      *
-     * @param 	blaze\lang\Object $var Beschreibung des Parameters
-     * @return 	blaze\lang\Object Beschreibung was die Methode zurückliefert
-     * @see 	Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+     * @param 	blaze\lang\Object $var Description of the parameter $var
+     * @return 	blaze\lang\Object Description of what the method returns
+     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Etwas was noch erledigt werden muss
+     * @todo	Something which has to be done, implementation or so
      */
      public function invalidate(){
-         
+         session_destroy();
      }
 
      public function getAttribute($name){
-         array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
+         //return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
+         return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
      }
      public function setAttribute($name, $value){
-        $this->sessionMap[$name] = $value;
+        //$this->sessionMap[$name] = $value;
+        $_SESSION[$name] = $value;
      }
      public function removeAttribute($name){
-        unset($this->sessionMap[$name]);
+        //unset($this->sessionMap[$name]);
+        unset($_SESSION[$name]);
      }
 
      public function getId() {
@@ -61,7 +65,8 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      }
 
      public function getSessionMap() {
-         return $this->sessionMap;
+         //return $this->sessionMap;
+         return $_SESSION;
      }
 
      public function getCreationTime() {

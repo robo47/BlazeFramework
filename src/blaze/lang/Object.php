@@ -12,7 +12,7 @@ namespace blaze\lang;
  * @see 	blaze\lang\ClassWrapper
  * @author 	Christian Beikov
  */
-class Object {
+class Object implements Reflectable{
     /**
      * Creates and returns a copy of this object.
      *
@@ -37,7 +37,7 @@ class Object {
      * @param 	blaze\lang\Object $obj The reference object with which to compare.
      * @return 	blaze\lang\Boolean True if the object is the same as the parameter, otherwise false.
      */
-    public function equals(Object $obj){
+    public function equals(Reflectable $obj){
         return $this == $obj;
     }
 
@@ -63,7 +63,7 @@ class Object {
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function  __toString() {
-        return new String($this->getClass()->getName() . "@" . dechex(($this->hashCode())));
+        return $this->getClass()->getName() . "@" . dechex(($this->hashCode()));
     }
 }
 ?>

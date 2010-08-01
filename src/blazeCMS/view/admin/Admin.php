@@ -2,9 +2,9 @@
 namespace blazeCMS\view\admin;
 use blaze\lang\Object,
 blaze\util\Date,
-blaze\web\tagLibrary\HtmlTag,
-blaze\web\tagLibrary\ViewTag,
-blaze\web\tagLibrary\PlainTag,
+blaze\web\tag\HtmlTag,
+blaze\web\tag\ViewTag,
+blaze\web\tag\PlainTag,
 blaze\ds\Connection,
 blaze\ds\SQLException,
 blaze\lang\String;
@@ -15,10 +15,10 @@ blaze\lang\String;
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Klassen welche nützlich für das Verständnis sein könnten oder etwas mit der aktuellen Klasse zu tun haben
+ * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Etwas was noch erledigt werden muss
+ * @todo    Something which has to be done, implementation or so
  */
 class Admin extends Object implements \blaze\web\application\WebView {
 
