@@ -35,8 +35,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 require_once dirname(__FILE__).'/../htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
-require_once dirname(__FILE__).'/../htdocs/Site_Template/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
-require_once dirname(__FILE__).'/../htdocs/Site_Template/htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
+require_once dirname(__FILE__).'/../htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
+require_once dirname(__FILE__).'/../htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
 spl_autoload_register('blaze\lang\ClassLoader::autoLoad');
 
 if (extension_loaded('xdebug')) {
