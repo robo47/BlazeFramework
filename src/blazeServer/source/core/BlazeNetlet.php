@@ -55,10 +55,14 @@ class BlazeNetlet extends HttpNetlet{
             return;
         }
 
+        $c = \blaze\cache\LocalCacher::getInstance();
+        $m = \blaze\cache\CacheManager::getInstance('test', $c);
+
         $app = new BlazeApplication($netletApp, $request, $response);
-        $appContext = BlazeContext::getCurrentInstance();
+        $appContext = new BlazeContext($app, $request, $response);
         $appContext->setExceptionHandler(new \blaze\web\application\ExceptionHandler());
-$request->getUserAgent();
+        
+        
         $lifecycle = new \blazeServer\source\web\lifecycle\LifecycleImpl();
         $lifecycle->execute($appContext);
         $lifecycle->render($appContext);

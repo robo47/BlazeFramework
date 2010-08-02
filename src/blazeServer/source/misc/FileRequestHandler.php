@@ -1,12 +1,14 @@
 <?php
-namespace blazeCMS\requestHandler;
+namespace blazeServerblazeServer\misc\misc;
 use blaze\lang\Object,
+    blaze\io\File,
+    blaze\lang\Exception,
     blazeCMS\WebContext,
     blaze\netlet\http\HttpNetletRequest,
     blaze\netlet\http\HttpNetletResponse;
 
 /**
- * Description of LoginRequestHandler
+ * Description of FileRequestHandler
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -14,9 +16,9 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Make a filter or listener of this
  */
-class LoginRequestHandler extends Object  implements RequestHandler {
+class FileRequestHandler extends Object  implements RequestHandler {
 
     public function handle(HttpNetletRequest $request, HttpNetletResponse $response) {
         $context = WebContext::getInstance();
@@ -48,7 +50,7 @@ class LoginRequestHandler extends Object  implements RequestHandler {
 
 
                     try{
-                        $f = new \blaze\io\File($basedir, $context->getParameter('module.params'));
+                        $f = new File($basedir, $context->getParameter('module.params'));
 
                         if($f->isChildOf($context->getParameter('work.dir')) && $f->exists()){
                             //$fis = new \blaze\io\FileInputStream($f);
@@ -79,7 +81,7 @@ class LoginRequestHandler extends Object  implements RequestHandler {
         return;
     }
     public function init(RequestHandlerConfig $config) {
-
+        
     }
 
     /**
@@ -127,8 +129,8 @@ class LoginRequestHandler extends Object  implements RequestHandler {
                 default:
                     break;
             }
-        }catch(\blaze\lang\Exception $e){
-
+        }catch(Exception $e){
+            
         }
 
         return $type;

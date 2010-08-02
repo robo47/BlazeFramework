@@ -31,8 +31,15 @@ class RenderResponsePhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        $writer = $context->getResponse()->getWriter();
-        $writer->write($context->getView()->getViewRoot()->render());
+        $oldViewId = $context->getViewRoot()->getViewId();
+        $newView = $context->getViewHandler()->getRequestView($context);
+        $newViewId = $newView->getViewId();
+
+        if ($oldViewId != $newViewId) {
+            $context->setView($newView);
+        }
+        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot());
+        $context->getViewRoot()->processRender($context);
     }
 
     /**

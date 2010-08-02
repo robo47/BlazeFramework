@@ -26,9 +26,9 @@ use blaze\lang\Object,
 class BlazeApplication extends Object implements Application {
 
     private $netletApplication;
-    private $request;
-    private $response;
+    private $elContext;
     private $navigationHandler;
+    private $viewHandler;
     private $defaultLocale;
     private $converter = array();
     private $validator = array();
@@ -40,15 +40,22 @@ class BlazeApplication extends Object implements Application {
      * @param blaze\io\File $dir
      * @param boolean $running
      */
-    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication) {
         $this->netletApplication = $netletApplication;
-        $this->request = $request;
-        $this->response = $response;
+
         $confMap = $this->getConfig()->getConfigurationMap();
         $this->taglibs = $confMap['taglibs'];
 
-        new BlazeContext($this, $request, $response);
+        $conf = $this->getConfig()->getNetletConfigurationMap();
+        $variableMapper = new \blaze\util\HashMap();
+
+        foreach ($conf['nuts'] as $nut) {
+            $variableMapper->set($nut['name'], \blaze\lang\ClassWrapper::forName($nut['class'])->newInstance());
+        }
+
+        $this->elContext = new \blaze\web\el\ELContext($variableMapper);
         $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->getConfig()->getNavigationMap());
+        $this->viewHandler = new \blaze\web\application\ViewHandler($this->getConfig()->getConfigurationMap(), $this->getConfig()->getNavigationMap());
     }
 
     public function addConverter($name, $class) {
@@ -86,6 +93,22 @@ class BlazeApplication extends Object implements Application {
 
     public function setDefaultLocale(\blaze\util\Locale $locale) {
         $this->defaultLocale = $locale;
+    }
+
+    /**
+     *
+     * @return blaze\web\el\ELContext
+     */
+    public function getELContext() {
+        return $this->elContext;
+    }
+
+    /**
+     *
+     * @return \blaze\web\application\ViewHandler
+     */
+    public function getViewHandler() {
+        return $this->viewHandler;
     }
 
     /**

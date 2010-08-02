@@ -31,7 +31,7 @@ class UpdateModelPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        $context->getView()->processUpdates($context);
+        //$context->getView()->processUpdates($context);
     }
 
     /**

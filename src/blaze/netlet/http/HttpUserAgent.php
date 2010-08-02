@@ -78,6 +78,8 @@ interface HttpUserAgent extends Cloneable{
 
      public function getBrowserMinorVersion();
 
+     public function getBrowserVersionString();
+
      public function getOperatingSystem();
 
      public function getHtmlVersion();

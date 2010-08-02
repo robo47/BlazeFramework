@@ -13,15 +13,33 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class TimeZone extends Object {
+class TimeZone extends Object implements \blaze\lang\StaticInitialization{
 
+    private $gmtDifference;
+    private static $timeZones = array();
+    private static $defaultTimeZone;
+
+    public static function staticInit() {
+        self::$timeZones['GMT'] = new self('GMT','GMT',0);
+    }
+
+    private function __construct($id, $name, $gmtDiff){
+        $this->gmtDifference = $gmtDiff;
+    }
 
     public static function getDefault(){
-        return new self();
+        //var_dump(date_default_timezone_get());
+        return self::$defaultTimeZone;
+    }
+
+    public static function setDefault(TimeZone $timeZone){
+        self::$defaultTimeZone = $timeZone;
     }
 
     public static function getTimeZone($identifier){
-        return new self();
+        if(array_key_exists($identifier, self::$timeZones))
+                return self::$timeZones[$identifier];
+        return null;
     }
 }
 

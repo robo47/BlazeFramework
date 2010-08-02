@@ -31,14 +31,8 @@ class InvokeApplicationPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context) {
-        $context->getView()->processApplication($context);
-        $oldView = $context->getView();
-        $newView = $context->getApplication()->getNavigationHandler()->getResponseView();
-
-        if ($oldView->getClass()->getName() != $newView->getClass()->getName()) {
-            $context->setView($newView);
-        }
-        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getView());
+        //$context->getView()->processApplication($context);
+        
     }
 
     /**

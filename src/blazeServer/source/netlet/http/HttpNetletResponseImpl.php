@@ -53,7 +53,10 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:setDateHeader
      */
     public function addDateHeader($name, $value) {
-
+        if(!$value instanceof \blaze\util\Date)
+            $value = \blaze\util\Date::fromUnixTime(\blaze\lang\Long::asNative($value));
+        $df = new \blaze\text\DateFormat('D, d M Y H:i:s');
+        $this->addHeader($name, $df->format($value));
     }
 
     /**
@@ -64,7 +67,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:setHeader
      */
     public function addHeader($name, $value) {
-
+        header($name.': '.$value);
     }
 
     /**
@@ -75,7 +78,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:setIntHeader
      */
     public function addIntHeader($name, $value) {
-
+        $this->addHeader($name, $value);
     }
 
     /**
@@ -86,7 +89,10 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @return 	boolean true if the header has already been set, otherwise false.
      */
     public function containsHeader($name) {
-
+        foreach(headers_list() as $header)
+            if(stripos($header, $name) == 0)
+                    return true;
+        return false;
     }
 
     /**
@@ -141,7 +147,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
      */
     public function sendRedirect($location) {
-        header('Location: ' . $location);
+        $this->addHeader('Location', $location);
     }
 
     /**
@@ -154,7 +160,8 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:addDateHeader
      */
     public function setDateHeader($name, $value) {
-
+        $df = new \blaze\text\DateFormat('D, d M Y H:i:s');
+        $this->setHeader($name, $df->format($value));
     }
 
     /**
@@ -166,10 +173,13 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:addHeader
      */
     public function setHeader($name, $value) {
-        if ($value != null)
+        if ($value != null){
+            if($this->containsHeader($name))
+                header_remove($name);
             header($name . ': ' . $value);
-        else
+        }else{
             header_remove($name);
+        }
     }
 
     /**
@@ -181,7 +191,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @see 	blaze\netlet\http\HttpNetletResponse:addIntHeader
      */
     public function setIntHeader($name, $value) {
-
+        $this->setHeader($name, $value);
     }
 
     /**
@@ -201,7 +211,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
     }
 
     public function isCommited() {
-
+        return false;
     }
 
     public function reset() {
@@ -253,7 +263,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
     }
 
     public function getStatus() {
-
+        
     }
 
     public function getContentType() {

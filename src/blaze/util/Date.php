@@ -90,6 +90,14 @@ class Date extends Object {
     }
 
     /**
+     * Generates a Date object with a timestamp and a timezone.
+     * @param long $timestamp 
+     */
+    public static function fromUnixTime($timestamp, TimeZone $timeZone = null){
+        return self::fromTime($timestamp * 1000, $timeZone);
+    }
+
+    /**
      * Calculates the date from the timestamp
      */
     private function calculateDate(){

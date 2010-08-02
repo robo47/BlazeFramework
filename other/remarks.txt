@@ -41,3 +41,12 @@ Testing:
 
 Before a class is written there have to be made a test case for the proposed class with a proposed structure.
 When the structure of the class was discussed and it is okay, then it can be implemented.
+
+Files:
+
+file_get_contents() is faster than normal file operations and should be used for the FileInputStream implementation
+
+Caching:
+
+Caching in files with serialization is often faster than the new creation of the objects.
+Use Serialization for application/session scope but the session will be saved in the db for maximal scaleability.

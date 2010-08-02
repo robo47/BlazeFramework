@@ -25,6 +25,8 @@ interface UIComponent {
       * @return blaze\web\render\Renderer
       */
      public function getRenderer(\blaze\web\application\BlazeContext $context);
+     public function getRendererId();
+     public function getComponentFamily();
 
      public function processDecodes(\blaze\web\application\BlazeContext $context);
      public function processValidations(\blaze\web\application\BlazeContext $context);

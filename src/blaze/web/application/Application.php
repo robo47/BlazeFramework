@@ -2,7 +2,7 @@
 namespace blaze\web\application;
 
 /**
- * Description of String
+ * Description of Application
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
@@ -19,6 +19,16 @@ interface Application {
     // EL scopes?
 
     /**
+     *
+     * @return blaze\web\el\ELContext
+     */
+    public function getELContext();
+    /**
+     * @return blaze\web\application\ViewHandler
+     */
+    public function getViewHandler();
+    
+    /**
      * @return blaze\util\Locale
      */
     public function getDefaultLocale();
@@ -31,7 +41,7 @@ interface Application {
     public function setNavigationHandler(NavigationHandler $handler);
 
     /**
-     * @return array[blaze\web\render\RenderKitFactory]
+     * @return blaze\web\render\RenderKitFactory
      */
     public function getRenderKitFactory($componentFamily);
 

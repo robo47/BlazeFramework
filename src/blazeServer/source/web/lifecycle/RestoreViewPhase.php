@@ -32,12 +32,7 @@ class RestoreViewPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        $session = $context->getRequest()->getSession(true);
-        $lastView = $session->getAttribute('blaze.view_restore');
-
-        if($lastView == null)
-            $lastView = $context->getApplication()->getNavigationHandler()->getRequestView();
-        $context->setView($lastView);
+        $context->getViewHandler()->restoreOrCreateView($context);
     }
 
     /**

@@ -25,7 +25,6 @@ class BlazeContext extends Object {
     private $request;
     private $response;
     private $application;
-    private $elContext;
     private $attributes = array();
     private $messages = array();
     private $validationFailed = false;
@@ -33,22 +32,13 @@ class BlazeContext extends Object {
     private $responseComplete = false;
     private $currentPhaseId = null;
     private $exceptionHandler = null;
-    private $view = null;
+    private $viewRoot = null;
 
     public function __construct(Application $application, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
         self::$instance = $this;
         $this->application = $application;
         $this->request = $request;
         $this->response = $response;
-
-        $conf = $this->application->getConfig()->getNetletConfigurationMap();
-        $variableMapper = new \blaze\util\HashMap();
-
-        foreach ($conf['nuts'] as $nut) {
-            $variableMapper->set($nut['name'], \blaze\lang\ClassWrapper::forName($nut['class'])->newInstance());
-        }
-
-        $this->elContext = new \blaze\web\el\ELContext($variableMapper);
     }
 
     /**
@@ -140,7 +130,7 @@ class BlazeContext extends Object {
      * @return blaze\web\el\ELContext
      */
     public function getELContext() {
-        return $this->elContext;
+        return $this->application->getELContext();
     }
 
     /**
@@ -198,18 +188,26 @@ class BlazeContext extends Object {
 
     /**
      *
-     * @return \blaze\web\application\WebView
+     * @return \blaze\web\component\UIViewRoot
      */
-    public function getView() {
-        return $this->view;
+    public function getViewRoot() {
+        return $this->viewRoot;
     }
 
     /**
      *
-     * @param blaze\web\application\WebView $view
+     * @param \blaze\web\component\UIViewRoot $viewRoot
      */
-    public function setView(\blaze\web\application\WebView $view) {
-        $this->view = $view;
+    public function setViewRoot(\blaze\web\component\UIViewRoot $viewRoot) {
+        $this->viewRoot = $viewRoot;
+    }
+
+    /**
+     *
+     * @return \blaze\web\application\ViewHandler
+     */
+    public function getViewHandler() {
+        return $this->application->getViewHandler();
     }
 
     /**

@@ -84,15 +84,12 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
 
     public function execute(BlazeContext $context) {
         for ($i = 0; $i < count($this->phases) - 1; $i++) {
-            //$event = new \blaze\web\event\PhaseEvent($context, $this->phases[$i]->getId(), $this);
-            //$this->processPhaseListener($event, true);
-
             if ($context->getDoRenderResponse() || $context->getResponseComplete()) {
                 break;
             }
 
+            // PhaseListener are executed in the doPhase()
             $this->phases[$i]->doPhase($context, $this, $this->phaseListener);
-            //$this->processPhaseListener($event, false);
         }
     }
 

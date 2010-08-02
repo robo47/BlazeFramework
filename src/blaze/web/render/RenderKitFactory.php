@@ -14,6 +14,9 @@ namespace blaze\web\render;
  */
 interface RenderKitFactory extends \blaze\lang\Singleton{
     public function addRenderKit($componentFamily, $renderKitId, RenderKit $renderKit);
+    /**
+     * @return blaze\web\render\RenderKit
+     */
      public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily);
 }
 

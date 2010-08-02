@@ -24,28 +24,67 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
      * @var blaze\netlet\http\HttpSessionHandler
      */
     private $sessionHandler;
+    private $authType;
+    private $characterEncoding;
+    private $characterSet;
+    private $contentType;
+    //private $contentLength;
+    private $serverName;
+    //private $serverPort;
+    private $cookies;
+    private $dateHeader;
+    private $localAddr;
+    private $localName;
+    private $localPort;
+    private $locale;
+    private $locales;
+    private $method;
+    private $parameterMap;
+    private $headerMap;
+    private $protocol;
+    private $queryString;
+    private $refferer;
+    private $remoteAddr;
+    private $remoteHost;
+    private $remotePort;
+    private $remoteUser;
+    private $requestPath;
+    private $requestUri;
+    private $scheme;
+    private $userAgent;
+    //private $secure;
 
     public function __construct() {
-        $this->httpHeaders = $this->getHttpParameters();
+        
     }
 
     public function getAuthType() {
-        return new String($_SERVER['AUTH_TYPE']);
+        if($this->authType == null)
+                $this->authType = new String($_SERVER['AUTH_TYPE']);
+        return $this->authType;
     }
     public function getCharacterEncoding() {
-        return new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        if($this->characterEncoding == null)
+                $this->characterEncoding = new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        return $this->characterEncoding;
     }
     public function getCharacterSet() {
-        return new String($_SERVER['HTTP_ACCEPT_CHARSET']);
+        if($this->characterSet == null)
+                $this->characterSet = new String($_SERVER['HTTP_ACCEPT_CHARSET']);
+        return $this->characterSet;
     }
     public function getContentType() {
-        return new String($_SERVER['HTTP_ACCEPT']);
+        if($this->contentType == null)
+                $this->contentType = new String($_SERVER['HTTP_ACCEPT']);
+        return $this->contentType;
     }
     public function getContentLength() {
         return -1;
     }
     public function getServerName(){
-        return new String($_SERVER['HTTP_HOST']);
+        if($this->serverName == null)
+                $this->serverName = new String($_SERVER['HTTP_HOST']);
+        return $this->serverName;
     }
     public function getServerPort(){
         return $this->isSecure() ? 443 : 80;
@@ -56,48 +95,54 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
      * @todo    maybe use AbstractFactory for cookies
      */
     public function getCookies() {
-        $cookies = array();
+        if($this->cookies == null){
+        $this->cookies = array();
 
         if($_COOKIE != null){
             foreach($_COOKIE as $key => $value)
-                $cookies[] = new HttpCookieImpl($key, $value);
+                $this->cookies[] = new HttpCookieImpl($key, $value);
         }
-        
-        return $cookies;
+        }
+        return $this->cookies;
     }
     public function getDateHeader() {
-        return new String($_SERVER['HTTP_REQUEST_TIME']);
+        if($this->dateHeader == null)
+                $this->dateHeader = new String($_SERVER['HTTP_REQUEST_TIME']);
+        return $this->dateHeader;
     }
     public function getLocalAddr() {
-        return new String($_SERVER['SERVER_ADDR']);
+        if($this->localAddr == null)
+                $this->localAddr = new String($_SERVER['SERVER_ADDR']);
+        return $this->localAddr;
     }
     public function getLocalName() {
-        return new String($_SERVER['SERVER_NAME']);
+        if($this->localName == null)
+                $this->localName = new String($_SERVER['SERVER_NAME']);
+        return $this->localName;
     }
     public function getLocalPort() {
-        return new String($_SERVER['SERVER_PORT']);
+        if($this->localPort == null)
+                $this->localPort = new String($_SERVER['SERVER_PORT']);
+        return $this->localPort;
     }
+    /**
+     * @todo which parameters to use for the locale?
+     */
     public function getLocale() {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-        return new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        if($this->locale == null)
+                $this->locale = new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        return $this->locale;
     }
     public function getLocales() {
-        return new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        if($this->locales == null)
+                $this->locales = new String($_SERVER['HTTP_ACCEPT_ENCODING']);
+        return $this->locales;
     }
     public function getMethod() {
-        return new String($_SERVER['REQUEST_METHOD']);
-    }
-
-    private function getHttpParameters(){
-        $headers = array();
-
-        foreach($_SERVER as $key => $value) {
-            if (substr($key,0,5)=="HTTP_") {
-                $key = str_replace(" ","-",ucwords(strtolower(str_replace("_"," ",substr($key,5)))));
-                $headers[$key]=$value;
-            }
-        }
-        return $headers;
+        if($this->method == null)
+                $this->method = new String($_SERVER['REQUEST_METHOD']);
+        return $this->method;
     }
 
     public function getParameter($name, $postType = null) {
@@ -113,9 +158,10 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         return $context[$name];
     }
     public function getParameterMap() {
-        $map = new HashMap();
-        $map->add($_REQUEST);
-        return $map;
+        if($this->parameterMap == null){
+        $this->parameterMap = new HashMap($_REQUEST);
+        }
+        return $this->parameterMap;
     }
     /**
      * @param blaze\lang\String|string $name
@@ -141,26 +187,41 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     }
 
     public function getHeader($name) {
-        if(!array_key_exists($name, $this->httpHeaders))
-                return null;
-        return $this->httpHeaders[$name];
+        return $this->getHeaderMap()->get($name);
     }
     public function getHeaderMap() {
-        $map = new HashMap();
-        $map->add($this->httpHeaders);
-        return $map;
+        if($this->headerMap == null){
+            $headers = array();
+
+        foreach($_SERVER as $key => $value) {
+            if (substr($key,0,5)=="HTTP_") {
+                $key = str_replace(" ","-",ucwords(strtolower(str_replace("_"," ",substr($key,5)))));
+                $headers[$key]=$value;
+            }
+        }
+            $this->headerMap = new HashMap();
+            $this->headerMap->add($headers);
+        }
+        return $this->headerMap;
     }
 
     public function getProtocol() {
-        return new String($_SERVER['SERVER_PROTOCOL']);
+        if($this->protocol == null)
+                $this->protocol = new String($_SERVER['SERVER_PROTOCOL']);
+        return $this->protocol;
     }
     public function getQueryString() {
-        return new String($_SERVER['QUERY_STRING']);
+        if($this->queryString == null)
+                $this->queryString = new String($_SERVER['QUERY_STRING']);
+        return $this->queryString;
     }
     public function getRefferer() {
-        return new String($_SERVER['HTTP_REFERER']);
+        if($this->refferer == null)
+                $this->refferer = new String($_SERVER['HTTP_REFERER']);
+        return $this->refferer;
     }
     public function getRemoteAddr() {
+        if($this->remoteAddr == null){
         if (getenv('HTTP_CLIENT_IP')) {
             $ip = getenv('HTTP_CLIENT_IP');
         }
@@ -179,25 +240,39 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        return new String($ip);
+        $this->remoteAddr = new String($ip);
+        }
+        return $this->remoteAddr;
     }
     public function getRemoteHost() {
-        return new String($_SERVER['REMOTE_HOST']);
+        if($this->remoteHost == null)
+                $this->remoteHost = new String($_SERVER['REMOTE_HOST']);
+        return $this->remoteHost;
     }
     public function getRemotePort() {
-        return new String($_SERVER['REMOTE_PORT']);
+        if($this->remotePort == null)
+                $this->remotePort = new String($_SERVER['REMOTE_PORT']);
+        return $this->remotePort;
     }
     public function getRemoteUser() {
-        return new String($_SERVER['PHP_AUTH_USER']);
+        if($this->remoteUser == null)
+                $this->remoteUser = new String($_SERVER['PHP_AUTH_USER']);
+        return $this->remoteUser;
     }
     public function getRequestPath() {
-        return new String($this->getScheme() . '://' . $this->getServerName().$_SERVER['REQUEST_URI']);
+        if($this->requestPath == null)
+                $this->requestPath = new String($this->getScheme() . '://' . $this->getServerName().$_SERVER['REQUEST_URI']);
+        return $this->requestPath;
     }
     public function getRequestURI() {
-        return \blaze\net\URI::parseURI($this->getRequestPath());
+        if($this->requestUri == null)
+                $this->requestUri = \blaze\net\URI::parseURI($this->getRequestPath());
+        return $this->requestUri;
     }
     public function getScheme() {
-        return new String($_SERVER['HTTPS'] ? 'https' : 'http');
+        if($this->scheme == null)
+                $this->scheme = new String($_SERVER['HTTPS'] ? 'https' : 'http');
+        return $this->scheme;
     }
 
     /**
@@ -211,7 +286,9 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         return $this->sessionHandler->getCurrentSession($create);
     }
     public function getUserAgent() {
-        return new HttpUserAgentImpl($_SERVER['HTTP_USER_AGENT']);
+        if($this->userAgent == null)
+                $this->userAgent = new HttpUserAgentImpl($_SERVER['HTTP_USER_AGENT']);
+        return $this->userAgent;
     }
     public function isSecure() {
         return $_SERVER['HTTPS'];

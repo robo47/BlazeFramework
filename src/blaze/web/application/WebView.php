@@ -23,10 +23,6 @@ interface WebView {
      * @todo	Something which has to be done, implementation or so
      */
      public function getViewRoot();
-     public function processDecodes(\blaze\web\application\BlazeContext $context);
-     public function processValidations(\blaze\web\application\BlazeContext $context);
-     public function processUpdates(\blaze\web\application\BlazeContext $context);
-     public function processApplication(\blaze\web\application\BlazeContext $context);
 }
 
 ?>

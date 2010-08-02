@@ -12,7 +12,9 @@ namespace blaze\web\render;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class RenderKitFactoryImpl {
+class RenderKitFactoryImpl  extends \blaze\lang\Object{
+    
+    private static $instance;
     private $renderKits = array();
 
     private function __construct(){
@@ -23,7 +25,9 @@ class RenderKitFactoryImpl {
         $this->renderKits[$componentFamily][$renderKitId] = $renderKit;
     }
      public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily){
-        $context->getRequest()->getUserAgent()->getBrowser();
+//        if($context->getRequest()->getUserAgent()->getHtmlVersion() == 5)
+//                return $this->renderKits[$componentFamily]['html5'];
+        return $this->renderKits[$componentFamily]['html4'];
      }
 
      public static function getInstance(){

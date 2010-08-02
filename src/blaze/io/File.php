@@ -681,16 +681,20 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         /**
          * @var array[string]
          */
-	$ss = $this->listFiles();
-	if ($ss == null) return null;
-	$v = new ArrayList();
-	for ($i = 0 ; $i < $ss->length ; $i++) {
-	    $f = new File($ss[$i], $this);
-	    if (($filter == null) || $filter->accept($f)) {
-		$v->add($f);
-	    }
-	}
-	return $v->toArray();
+
+
+	return self::$fs->listFiles($this);
+//	$ss = self::$fs->listFiles($this);
+
+//        if ($ss == null) return null;
+//        $v = new ArrayList();
+//        for ($i = 0 ; $i < $ss->length ; $i++) {
+//            $f = new File($ss[$i], $this);
+//            if (($filter == null) || $filter->accept($f)) {
+//                $v->add($f);
+//            }
+//        }
+//        return $v->toArray();
     }
 
     /**

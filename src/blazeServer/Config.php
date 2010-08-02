@@ -24,11 +24,15 @@ class Config extends Object implements WebConfig, Singleton {
      * Description
      */
     private function __construct(){
-        $this->configMap       = array( '' => '');
+        $this->configMap       = array( 'taglibs' => array('blaze.web' => array('renderKitFactory' => 'blaze\\web\\render\\RenderKitFactoryImpl',
+                                                                                'renderKits' => array('html4' => 'blaze\\web\\render\\html4\\RenderKitImpl',
+                                                                                                      'html5' => 'blaze\\web\\render\\html5\\RenderKitImpl'))),
+                                        'views' => array('blazeServer\\view\\TestView' => 'blazeServer\\view\\TestView',
+                                                         'blazeServer\\view\\IndexView' => 'blazeServer\\view\\IndexView'));
         $this->netletConfigMap = array( 'netlets' => array(array('name' => 'BlazeNetlet', 'class' => 'blazeServer\\source\\core\\BlazeNetlet', 'initParams' => array())),
                                         'netletMapping' => array('/*' => 'BlazeNetlet'),
-                                        'filters' => array(array('name' => 'HttpsFilter', 'class' => 'blazeCMS\\filter\\HttpsFilter', 'initParams' => array())),
-                                        'filterMapping' => array('/*' => 'HttpsFilter'),
+                                        'filters' => array(),//array('name' => 'HttpsFilter', 'class' => 'blazeCMS\\filter\\HttpsFilter', 'initParams' => array())),
+                                        'filterMapping' => array(),//'/*' => 'HttpsFilter'),
                                         'listeners' => array(),
                                         'initParams' => array(),
                                         'nuts' => array(array('name' => 'test', 'class' => 'blazeServer\\Test', 'scope' => 'application')));

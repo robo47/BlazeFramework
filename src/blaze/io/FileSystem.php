@@ -261,7 +261,7 @@ class FileSystem extends Object implements Singleton{
      * @return delete
      */
     public function delete(File $f){
-        return;
+        return unlink($f->getAbsolutePath());
     }
 
     /**
@@ -272,7 +272,15 @@ class FileSystem extends Object implements Singleton{
      * @return array[string]
      */
     public function listFiles(File $f){
-        return;
+        $dir = opendir($f->getAbsolutePath());
+        $dirArray = array();
+
+        while($entry = readdir($dir)) {
+                $dirArray[] = new File($f, $entry);
+        }
+
+        closedir($dir);
+        return $dirArray;
     }
 
     /**
