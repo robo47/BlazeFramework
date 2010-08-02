@@ -24,7 +24,6 @@ interface WebConfig {
      */
      public function getConfigurationMap();
      public function getNetletConfigurationMap();
-     public function getNavigationMap();
 }
 
 ?>

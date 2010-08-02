@@ -21,12 +21,22 @@ class UIViewRoot extends \blaze\web\component\UIComponentBase{
     public function __construct(){
     }
 
+    public static function create(){
+        return new UIViewRoot();
+    }
+
     public function getViewId() {
         return $this->viewId;
     }
 
+    /**
+     *
+     * @param string|blaze\lang\String $viewId
+     * @return blaze\web\component\UIViewRoot 
+     */
     public function setViewId($viewId) {
         $this->viewId = $viewId;
+         return $this;
     }
 
     public function getComponentFamily() {

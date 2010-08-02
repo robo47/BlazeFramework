@@ -14,13 +14,32 @@ namespace blaze\web\component;
  */
 interface UIComponent {
      public function getId();
+     /**
+      * @param string|blaze\lang\String $id
+      * @return blaze\web\component\UIComponent
+      */
      public function setId($id);
      public function getParent();
+     /**
+      * @param blaze\web\component\UIComponent $parent
+      * @return blaze\web\component\UIComponent
+      */
      public function setParent($parent);
      public function getChildren();
+     /**
+      * @param blaze\web\component\UIComponent $child
+      * @return blaze\web\component\UIComponent
+      */
      public function addChildren(UIComponent $child);
      public function getRendered();
+     /**
+      * @param boolean $rendered
+      * @return blaze\web\component\UIComponent
+      */
      public function setRendered($rendered);
+
+     public static function create();
+
      /**
       * @return blaze\web\render\Renderer
       */

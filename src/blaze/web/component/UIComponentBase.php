@@ -24,6 +24,7 @@ abstract class UIComponentBase implements UIComponent{
      }
      public function addChildren(UIComponent $child){
          $this->children[] = $child;
+         return $this;
      }
      public function getId() {
          return $this->id;
@@ -31,6 +32,7 @@ abstract class UIComponentBase implements UIComponent{
 
      public function setId($id) {
          $this->id = $id;
+         return $this;
      }
 
      public function getParent() {
@@ -39,6 +41,7 @@ abstract class UIComponentBase implements UIComponent{
 
      public function setParent($parent) {
          $this->parent = $parent;
+         return $this;
      }
 
      public function getRendered() {
@@ -47,6 +50,7 @@ abstract class UIComponentBase implements UIComponent{
 
      public function setRendered($rendered) {
          $this->rendered = $rendered;
+         return $this;
      }
 
 

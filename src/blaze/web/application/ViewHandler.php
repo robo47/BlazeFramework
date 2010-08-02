@@ -28,8 +28,11 @@ class ViewHandler extends Object {
     private $mapping;
     
     public function __construct($viewIds, $mapping) {
-        $this->viewIds = $viewIds['views'];
         $this->mapping = $mapping;
+        $this->viewIds = $viewIds;
+
+        foreach($viewIds as $viewId => $viewClass)
+            $this->views[$viewId] = ClassWrapper::forName($viewClass)->newInstance()->getViewRoot();
     }
 
     public function restoreOrCreateView(BlazeContext $context){

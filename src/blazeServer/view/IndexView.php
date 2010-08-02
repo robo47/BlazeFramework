@@ -29,7 +29,7 @@ class IndexView extends Object implements WebView{
     private $root;
 
     public function __construct(){
-        $this->root = new \blaze\web\component\UIViewRoot();
+        $this->root = \blaze\web\component\UIViewRoot::create();
 //        $this->root = ViewRootTag::create()
 //                          ->setViewId('blazeServer\\view\\IndexView')
 //                          ->add(ViewTag::create()

@@ -14,13 +14,22 @@ namespace blaze\netlet;
  */
 interface NetletContext {
 
-     public function addNetlet($name, $netletClass);
-     public function addNetletMapping($name, $urlPattern);
+     public function addNetlet($name, \blaze\netlet\Netlet $netlet);
+     public function getNetlets();
+     
+     public function addNetletMapping($uriMapping, $name);
      public function getNetletMapping();
-     public function addFilter($name, $filterClass);
-     public function addFilterMapping($name, $urlPattern);
+
+     public function addFilter($name, \blaze\netlet\Filter $filter);
+     public function getFilters();
+
+     public function addFilterMapping($uriMapping, $name);
      public function getFilterMapping();
+
      public function addListener($name, $listenerClass);
+     public function getListeners();
+
+     public function getNetletApplication();
 
     /**
      * @param blaze\lang\String|string $name

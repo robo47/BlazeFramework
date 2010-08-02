@@ -32,6 +32,35 @@ class InvokeApplicationPhase extends Phase {
      */
     public function execute(BlazeContext $context) {
         //$context->getView()->processApplication($context);
+        // Action
+        // 1. ActionListener 2. Action
+//        $navigationMethod = null;
+//        $actionDefs = $requViewClass->getMethod('getActionDefinitions')->invoke(null, null);
+//
+//        foreach ($actionDefs as $actionDef) {
+//            $val = $request->getParameter($actionDef->getName());
+//            if ($val != null) {
+//                $actionListener = $actionDef->getActionListener();
+//
+//                if ($actionListener != null) {
+//                    $actionListVal = String::asWrapper($actionListener);
+//                    $valueExpr = new \blaze\web\el\Expression($actionListVal->substring(1, $actionListVal->length() - 1));
+//                    $appContext->getElContext()->getELResolver()->invoke($valueExpr, null);
+//                }
+//
+//                $action = $actionDef->getAction();
+//
+//                if ($action != null) {
+//                    $actionVal = String::asWrapper($action);
+//                    if ($actionVal->matches('/^{.*}$/')) {
+//                        $valueExpr = new \blaze\web\el\Expression($actionVal->substring(1, $actionVal->length() - 1));
+//                        $navigationMethod = $appContext->getElContext()->getELResolver()->invoke($valueExpr, null);
+//                    } else {
+//                        $navigationMethod = $actionVal;
+//                    }
+//                }
+//            }
+//        }
         
     }
 

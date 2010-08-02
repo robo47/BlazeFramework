@@ -23,11 +23,11 @@ class NetletContextImpl extends Object implements NetletContext {
      * @var blazeServer\source\core\NetletApplication
      */
     private $netletApplication;
-    private $netlets;
-    private $netletMapping;
-    private $filters;
-    private $filterMapping;
-    private $listeners;
+    private $netlets = array();
+    private $netletMapping = array();
+    private $filters = array();
+    private $filterMapping = array();
+    private $listeners = array();
     private $attributes = array();
     private $initParams;
 
@@ -36,73 +36,61 @@ class NetletContextImpl extends Object implements NetletContext {
         $this->netletApplication = $netletApplication;
     }
 
-    /**
-     * @todo Persist for the server
-     */
-    public function addNetlet($name, $netletClass) {
-        $this->netlets[$name] = $netletClass;
+    public function  getNetletApplication() {
+        return $this->netletApplication;
     }
 
-    /**
-     * @todo Persist for the server
-     */
-    public function addNetletMapping($name, $urlPattern) {
-        $this->netletMapping[$name][] = $urlPattern;
+    public function addNetlet($name, \blaze\netlet\Netlet $netlet){
+        $this->netlets[$name] = $netlet;
+    }
+
+    public function addNetletMapping($uriMapping, $name){
+        $this->netletMapping[$uriMapping] = $name;
+    }
+
+    public function addFilter($name, \blaze\netlet\Filter $filter){
+        $this->filters[$name] = $filter;
+    }
+
+    public function addFilterMapping($uriMapping, $name){
+        $this->filterMapping[$uriMapping] = $name;
     }
     
     public function getNetletMapping() {
-        $conf = $this->netletApplication->getConfig();
-        $netletMap = $conf->getNetletConfigurationMap();
-        return $netletMap['netletMapping'];
-        //return $this->netletMapping;
-    }
-
-    /**
-     * @todo Persist for the server
-     */
-    public function addFilter($name, $filterClass) {
-        $this->filters[$name] = $filterClass;
-    }
-
-    /**
-     * @todo Persist for the server
-     */
-    public function addFilterMapping($name, $urlPattern) {
-        $this->filterMapping[$name][] = $urlPattern;
+        return $this->netletMapping;
     }
 
     public function getFilterMapping() {
-        $conf = $this->netletApplication->getConfig();
-        $netletMap = $conf->getNetletConfigurationMap();
-        return $netletMap['filterMapping'];
-        //return $this->filterMapping;
+        return $this->filterMapping;
+    }
+
+    public function getNetlets() {
+        return $this->netlets;
+    }
+
+    public function getFilters() {
+        return $this->filters;
+    }
+
+    public function getListeners() {
+        return $this->listeners;
     }
 
     /**
      * @todo Persist for the server
      */
-    public function addListener($name, $listenerClass) {
-        $this->listeners[$name] = $listenerClass;
+    public function addListener($name, $listener) {
+        $this->listeners[$name] = $listener;
     }
 
     public function getInitParameter($name, $postType = null) {
-        $conf = $this->netletApplication->getConfig();
-        $netletMap = $conf->getNetletConfigurationMap();
-
-        if(!array_key_exists($name, $netletMap['initParams']))
+        if(!array_key_exists($name, $this->initParams))
                 return null;
-        return $netletMap['initParams'][$name];
-
-//        if(!array_key_exists($name, $this->initParams))
-//                return null;
-//        return $this->initParams[$name];
+        return $this->initParams[$name];
     }
 
     public function getInitParameterMap() {
-        $conf = $this->netletApplication->getConfig();
-        $netletMap = $conf->getNetletConfigurationMap();
-        return $netletMap['initParams'];
-        //return $this->initParams;
+        return $this->initParams;
     }
 
     public function getAttribute($name) {
@@ -111,16 +99,10 @@ class NetletContextImpl extends Object implements NetletContext {
         return $this->attributes[$name];
     }
 
-    /**
-     * @todo Persist for the server
-     */
     public function removeAttribute($name) {
         unset($this->attributes[$name]);
     }
 
-    /**
-     * @todo Persist for the server
-     */
     public function setAttribute($name, $o) {
         $this->attributes[$name] = $o;
     }

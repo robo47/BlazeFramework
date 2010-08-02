@@ -27,12 +27,12 @@ class BlazeApplication extends Object implements Application {
 
     private $netletApplication;
     private $elContext;
-    private $navigationHandler;
     private $viewHandler;
+    private $navigationHandler;
     private $defaultLocale;
+    private $navigationCases = array();
     private $converter = array();
     private $validator = array();
-    private $taglibs;
     private $renderKitFactories = array();
 
     /**
@@ -42,20 +42,36 @@ class BlazeApplication extends Object implements Application {
      */
     public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication) {
         $this->netletApplication = $netletApplication;
+        $this->init();
+    }
 
+    private function init(){
         $confMap = $this->getConfig()->getConfigurationMap();
-        $this->taglibs = $confMap['taglibs'];
 
-        $conf = $this->getConfig()->getNetletConfigurationMap();
+        // Taglibraries
+        foreach($confMap['taglibs'] as $componentFamily => $options){
+            $this->renderKitFactories[$componentFamily] = ClassWrapper::forName($options['renderKitFactory'])->getMethod('getInstance')->invoke(null, null);
+
+            foreach ($options['renderKits'] as $renderKitId => $renderKit) {
+                $this->renderKitFactories[$componentFamily]->addRenderKit($componentFamily, $renderKitId, ClassWrapper::forName($renderKit)->newInstance());
+            }
+        }
+
+        // ManagedNuts
         $variableMapper = new \blaze\util\HashMap();
-
-        foreach ($conf['nuts'] as $nut) {
+        foreach ($confMap['nuts'] as $nut) {
             $variableMapper->set($nut['name'], \blaze\lang\ClassWrapper::forName($nut['class'])->newInstance());
         }
 
+        // NavigationRules
+//        foreach($confMap['navigation'] as $navLocation => $options){
+//
+//        }
+        $this->navigationCases = $confMap['navigation'];
+
         $this->elContext = new \blaze\web\el\ELContext($variableMapper);
-        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->getConfig()->getNavigationMap());
-        $this->viewHandler = new \blaze\web\application\ViewHandler($this->getConfig()->getConfigurationMap(), $this->getConfig()->getNavigationMap());
+        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->navigationCases);
+        $this->viewHandler = new \blaze\web\application\ViewHandler($confMap['views'], $this->navigationCases);
     }
 
     public function addConverter($name, $class) {
@@ -66,20 +82,11 @@ class BlazeApplication extends Object implements Application {
         $this->validator[$name] = $class;
     }
 
-    public function getRenderKitFactory($componentFamily) {
-        if (!array_key_exists($componentFamily, $this->renderKitFactories)) {
-            if (!array_key_exists($componentFamily, $this->taglibs)) {
-                return null;
-            } else {
-                $this->renderKitFactories[$componentFamily] = ClassWrapper::forName($this->taglibs[$componentFamily]['renderKitFactory'])->getMethod('getInstance')->invoke(null, null);
+    public function addNavigationCase($uri, $defaultViewId, $binds, $actions){
 
-                if (count($this->taglibs[$componentFamily]['renderKits']) > 0) {
-                    foreach ($this->taglibs[$componentFamily]['renderKits'] as $renderKitId => $renderKit) {
-                        $this->renderKitFactories[$componentFamily]->addRenderKit($componentFamily, $renderKitId, ClassWrapper::forName($renderKit)->newInstance());
-                    }
-                }
-            }
-        }
+    }
+
+    public function getRenderKitFactory($componentFamily) {
         return $this->renderKitFactories[$componentFamily];
     }
 

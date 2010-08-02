@@ -25,8 +25,8 @@ class ServerConfig extends Object implements Singleton {
      * Description
      */
     private function __construct() {
-        $this->config = array('applications' => array('blazeServer' => array('name' => 'BlazeFramework Application Manager', 'running' => true),
-                                                      'blazeCMS' => array('name' => 'Blazebit Content Management System', 'running' => true)),
+        $this->config = array('applications' => array('blazeServer' => array('name' => 'BlazeFramework Application Manager', 'running' => true, 'uriPrefix' => '/BlazeFrameworkServer'),
+                                                      'blazeCMS' => array('name' => 'Blazebit Content Management System', 'running' => true, 'uriPrefix' => '/BlazeFrameworkServer')),
                               'mappings' => array('/BlazeFrameworkServer/*' => 'blazeServer'));
     }
 

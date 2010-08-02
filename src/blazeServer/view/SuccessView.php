@@ -26,7 +26,7 @@ class TestView extends Object implements WebView{
     private $root;
 
     public function __construct(){
-        $this->root = new \blaze\web\component\UIViewRoot();
+        $this->root = \blaze\web\component\UIViewRoot::create();
     }
 
     public function getViewRoot(){

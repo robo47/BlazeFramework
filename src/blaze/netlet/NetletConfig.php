@@ -25,6 +25,9 @@ interface NetletConfig {
      public function getNetletName();
      public function getInitParameter($name);
      public function getInitParameterMap();
+     /**
+      * @return blaze\netlet\NetletContext
+      */
      public function getNetletContext();
 }
 
