@@ -52,10 +52,10 @@ class ClassLoader extends Object{
      * @param blaze\lang\String|string $name The full name of the class which shall be loaded.
      */
     public function loadClass($className){
-		// Setup the full path to the class within the classpath
-        $fullName = $this->classPath.DIRECTORY_SEPARATOR.$className.'.php';
+	// Setup the full path to the class within the classpath
+        $fullName = $this->classPath.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $className).'.php';
         
-		// Check if the file exists, otherwise throw exception
+	// Check if the file exists, otherwise throw exception
         if(!file_exists($fullName))
             throw new ClassNotFoundException($className);
 
