@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\component;
 
 /**
@@ -12,84 +13,109 @@ namespace blaze\web\component;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIComponentBase implements UIComponent{
-    protected $id;
-    protected $parent;
-    protected $children = array();
-    protected $rendered;
+abstract class UIComponentBase implements UIComponent {
 
+    private $id;
+    private $parent;
+    private $children = array();
+    private $rendered;
 
-     public function getChildren(){
-         return $this->children;
-     }
-     public function addChildren(UIComponent $child){
-         $this->children[] = $child;
-         return $this;
-     }
-     public function getId() {
-         return $this->id;
-     }
+    public function getChildren() {
+        return $this->children;
+    }
 
-     public function setId($id) {
-         $this->id = $id;
-         return $this;
-     }
+    public function addChild(UIComponent $child) {
+        $this->children[] = $child->setParent($this);
+        return $this;
+    }
 
-     public function getParent() {
-         return $this->parent;
-     }
+    public function getId() {
+        return $this->id;
+    }
 
-     public function setParent($parent) {
-         $this->parent = $parent;
-         return $this;
-     }
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
 
-     public function getRendered() {
-         return $this->rendered;
-     }
+    public function getParent() {
+        return $this->parent;
+    }
 
-     public function setRendered($rendered) {
-         $this->rendered = $rendered;
-         return $this;
-     }
+    public function setParent($parent) {
+        $this->parent = $parent;
+        return $this;
+    }
 
+    public function getRendered() {
+        return $this->rendered;
+    }
 
-     /**
-      * @return blaze\web\render\Renderer
-      */
-     public function getRenderer(\blaze\web\application\BlazeContext $context){
+    public function setRendered($rendered) {
+        $this->rendered = $rendered;
+        return $this;
+    }
+
+    protected function getResolvedExpression(\blaze\web\el\Expression $expr = null){
+        if($expr == null)
+            return null;
+        if(!$expr->isValid())
+                return $expr->getExpressionString();
+        $context = \blaze\web\application\BlazeContext::getCurrentInstance();
+        return $context->getELContext()->getELResolver()->getValue($expr);
+    }
+
+    protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null){
+        if($expr == null)
+            return null;
+        if(!$expr->isValid())
+                return $expr->getExpressionString();
+        $context = \blaze\web\application\BlazeContext::getCurrentInstance();
+        return $context->getELContext()->getELResolver()->invoke($expr,array());
+    }
+
+    /**
+     * @return blaze\web\render\Renderer
+     */
+    public function getRenderer(\blaze\web\application\BlazeContext $context) {
         return $context->getApplication()
-                       ->getRenderKitFactory($this->getComponentFamily())
-                       ->getRenderKit($context, $this->getComponentFamily())
-                       ->getRenderer($this->getRendererId());
-     }
+                ->getRenderKitFactory($this->getComponentFamily())
+                ->getRenderKit($context, $this->getComponentFamily())
+                ->getRenderer($this->getRendererId());
+    }
 
-     public function processDecodes(\blaze\web\application\BlazeContext $context){
-         
-     }
-     public function processValidations(\blaze\web\application\BlazeContext $context){
-
-     }
-     public function processUpdates(\blaze\web\application\BlazeContext $context){
-
-     }
-     public function processApplication(\blaze\web\application\BlazeContext $context){
-
-     }
-     public function processRender(\blaze\web\application\BlazeContext $context){
+    public function processDecodes(\blaze\web\application\BlazeContext $context) {
         $renderer = $this->getRenderer($context);
+        $renderer->decode($context, $this);
+
+        foreach ($this->children as $child)
+            $child->processDecodes($context);
+    }
+
+    public function processValidations(\blaze\web\application\BlazeContext $context) {
+        foreach ($this->children as $child)
+            $child->processValidations($context);
+    }
+
+    public function processUpdates(\blaze\web\application\BlazeContext $context) {
+        foreach ($this->children as $child)
+            $child->processUpdates($context);
+    }
+
+    public function processApplication(\blaze\web\application\BlazeContext $context) {
+        foreach ($this->children as $child)
+            $child->processApplication($context);
+    }
+
+    public function processRender(\blaze\web\application\BlazeContext $context) {
+        if ($this->rendered)
+            return;
+        $renderer = $this->getRenderer($context);
+
         $renderer->renderBegin($context, $this);
         $renderer->renderChildren($context, $this);
         $renderer->renderEnd($context, $this);
-     }
-     
-     public function decode(\blaze\web\application\BlazeContext $context){
-         if($context == null) throw new \blaze\lang\NullPointerException();
-         $renderer = $this->getRenderer($context);
+    }
 
-         if($renderer != null)
-             $renderer->decode ($context, $this);
-     }
 }
-
 ?>

@@ -2,9 +2,13 @@
 namespace blazeServer\view;
 use blaze\lang\Object,
     blaze\web\application\WebView,
-    blaze\web\tag\ViewRootTag,
-    blaze\web\tag\ViewTag,
-    blaze\web\tag\OutputTextTag;
+    blaze\web\component\UIViewRoot,
+    blaze\web\component\html\Body,
+    blaze\web\component\html\Head,
+    blaze\web\component\html\Title,
+    blaze\web\component\html\OutputText,
+    blaze\web\component\html\CommandLink,
+    blaze\web\component\html\Form;
 
 /**
  * Description of IndexView
@@ -26,7 +30,12 @@ class TestView extends Object implements WebView{
     private $root;
 
     public function __construct(){
-        $this->root = \blaze\web\component\UIViewRoot::create();
+        $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\TestView')
+                            ->addChild(Head::create()
+                                            ->addChild(Title::create()
+                                                            ->setValue('Index page')))
+                            ->addChild(Body::create()
+                                            ->addChild(OutputText::create()->setValue('Successfully navigated!')));
     }
 
     public function getViewRoot(){

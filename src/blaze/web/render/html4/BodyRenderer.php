@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of ViewRootRenderer
+ * Description of BodyRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,7 +12,7 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ViewRootRenderer extends \blaze\web\render\Renderer{
+class BodyRenderer extends \blaze\web\render\Renderer{
 
     public function __construct(){
 
@@ -23,12 +23,12 @@ class ViewRootRenderer extends \blaze\web\render\Renderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml">');
+        $writer->write('<body>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</html>');
+        $writer->write('</body>');
     }
 
 

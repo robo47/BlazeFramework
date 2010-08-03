@@ -2,12 +2,13 @@
 namespace blazeServer\view;
 use blaze\lang\Object,
     blaze\web\application\WebView,
-    blaze\web\tag\ViewRootTag,
-    blaze\web\tag\ViewTag,
-    blaze\web\tag\OutputTextTag,
-    blaze\web\tag\InputTextTag,
-    blaze\web\tag\FormTag,
-    blaze\web\tag\CommandButtonTag;
+    blaze\web\component\UIViewRoot,
+    blaze\web\component\html\Body,
+    blaze\web\component\html\Head,
+    blaze\web\component\html\Title,
+    blaze\web\component\html\OutputText,
+    blaze\web\component\html\CommandLink,
+    blaze\web\component\html\Form;
 
 /**
  * Description of IndexView
@@ -29,7 +30,17 @@ class IndexView extends Object implements WebView{
     private $root;
 
     public function __construct(){
-        $this->root = \blaze\web\component\UIViewRoot::create();
+        $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\IndexView')
+                                          ->addChild(Head::create()->addChild(Title::create()->setValue('Index page')))
+                                          ->addChild(Body::create()->addChild(OutputText::create()->setValue('Test successful!'))
+                                                                   ->addChild(Form::create()->setId('myForm')
+                                                                                            ->addChild(CommandLink::create()->setId('testNavigate')
+                                                                                                                            ->setValue('Navigation test')
+                                                                                                                            ->setAction('navigate'))
+                                                                                            ->addChild(OutputText::create()->setValue(' - '))
+                                                                                            ->addChild(CommandLink::create()->setId('testSuccess')
+                                                                                                                            ->setValue('Success test')
+                                                                                                                            ->setAction('success'))));
 //        $this->root = ViewRootTag::create()
 //                          ->setViewId('blazeServer\\view\\IndexView')
 //                          ->add(ViewTag::create()

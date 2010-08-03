@@ -1,9 +1,8 @@
 <?php
-namespace blaze\web\converter;
-use blaze\lang\Singleton;
+namespace blaze\web\component;
 
 /**
- * Description of Converter
+ * Description of ActionSource
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,9 +12,13 @@ use blaze\lang\Singleton;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface Converter{
-     public function toString(\blaze\web\application\BlazeContext $context, $obj);
-     public function toObject(\blaze\web\application\BlazeContext $context, $string);
+interface ActionSource {
+     public function getAction();
+     public function setAction($action);
+     public function getActionListener();
+     public function setActionListener($actionListener);
+
+     // Immediate and more actionListeners?
 }
 
 ?>

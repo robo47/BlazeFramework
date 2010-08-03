@@ -30,7 +30,7 @@ interface UIComponent {
       * @param blaze\web\component\UIComponent $child
       * @return blaze\web\component\UIComponent
       */
-     public function addChildren(UIComponent $child);
+     public function addChild(UIComponent $child);
      public function getRendered();
      /**
       * @param boolean $rendered
@@ -52,8 +52,6 @@ interface UIComponent {
      public function processUpdates(\blaze\web\application\BlazeContext $context);
      public function processApplication(\blaze\web\application\BlazeContext $context);
      public function processRender(\blaze\web\application\BlazeContext $context);
-     
-     public function decode(\blaze\web\application\BlazeContext $context);
 }
 
 ?>

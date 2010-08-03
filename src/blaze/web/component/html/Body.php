@@ -1,9 +1,9 @@
 <?php
-namespace blaze\web\component;
+namespace blaze\web\component\html;
 use blaze\lang\Object;
 
 /**
- * Description of UIViewRoot
+ * Description of Body
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,29 +13,13 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class UIViewRoot extends \blaze\web\component\UIComponentBase{
+class Body extends \blaze\web\component\UIComponentBase{
 
-    private $viewId; 
-    
     public function __construct(){
     }
 
     public static function create(){
-        return new UIViewRoot();
-    }
-
-    public function getViewId() {
-        return $this->viewId;
-    }
-
-    /**
-     *
-     * @param string|blaze\lang\String $viewId
-     * @return blaze\web\component\UIViewRoot 
-     */
-    public function setViewId($viewId) {
-        $this->viewId = $viewId;
-         return $this;
+        return new Body();
     }
 
     public function getComponentFamily() {
@@ -43,9 +27,8 @@ class UIViewRoot extends \blaze\web\component\UIComponentBase{
     }
 
     public function getRendererId() {
-        return 'ViewRootRenderer';
+        return 'BodyRenderer';
     }
-
 
 }
 

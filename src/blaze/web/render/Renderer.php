@@ -12,12 +12,19 @@ namespace blaze\web\render;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface Renderer {
-     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
-     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
-     public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+abstract class Renderer extends \blaze\lang\Object{
+     public abstract function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+     public abstract function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+     public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
+         foreach($component->getChildren() as $child){
+            $renderer = $child->getRenderer($context);
+            $renderer->renderBegin($context, $child);
+            $renderer->renderChildren($context, $child);
+            $renderer->renderEnd($context, $child);
+        }
+     }
      
-     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+     public abstract function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
 }
 
 ?>

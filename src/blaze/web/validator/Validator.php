@@ -14,7 +14,7 @@ use blaze\lang\Singleton;
  * @todo    Something which has to be done, implementation or so
  */
 interface Validator{
-     public function validate($obj);
+     public function validate(\blaze\web\application\BlazeContext $context, $obj);
 }
 
 ?>

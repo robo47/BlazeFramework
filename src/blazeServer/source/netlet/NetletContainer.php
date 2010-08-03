@@ -69,7 +69,7 @@ class NetletContainer extends Object {
                 $app = $cacheMgr->getCache($appName);
             }else{
                 $app = NetletApplication::getApplicationByName($appName);
-                $cacheMgr->doCache($appName, $app);
+                //$cacheMgr->doCache($appName, $app);
             }
 
             if($app == null){

@@ -27,6 +27,8 @@ class ELResolver extends Object{
     }
 
     public function getValue(Expression $expr){
+        if(!Expression::isExpression($expr))
+            return $expr->getExpressionString();
         $str = $expr->getExpressionString();
         $parts = $str->split('.',null,true);
         $partsCount = count($parts);

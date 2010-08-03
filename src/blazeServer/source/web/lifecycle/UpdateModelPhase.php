@@ -31,7 +31,7 @@ class UpdateModelPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        //$context->getView()->processUpdates($context);
+        $context->getViewRoot()->processUpdates($context);
 //        // Update Model
 //        foreach ($paramDefs as $paramDef) {
 //            $expr = String::asWrapper($paramDef->getExpression());

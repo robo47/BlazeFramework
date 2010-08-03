@@ -17,11 +17,11 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class IntegerConverter implements Converter{
-    public function toObject($string) {
+    public function toObject(\blaze\web\application\BlazeContext $context, $string) {
         return Integer::asNative($string);
     }
 
-    public function toString($obj) {
+    public function toString(\blaze\web\application\BlazeContext $context, $obj) {
         return String::asWrapper($obj);
     }
 

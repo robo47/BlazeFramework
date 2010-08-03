@@ -28,7 +28,14 @@ class Expression extends Object{
         return $this->expressionString;
     }
 
+    public static function isExpression($expr){
+        $expr = \blaze\lang\String::asWrapper($expr);
+        return $expr->matches('/^{.*}$/');
+    }
 
+    public function isValid(){
+        return self::isExpression($this->expressionString);
+    }
 }
 
 ?>

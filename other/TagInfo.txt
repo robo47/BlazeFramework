@@ -1,0 +1,23 @@
+<a>
+	This tag can be used with the commandLink-tag which can navigate with navigation rules or links.
+	Example:
+	<b:commandLink action="{myNut.nextView}"/>
+	
+	To be able to use normal links too the link-tag can be used, which does not require a form as parent.
+	Example:
+	TBA
+
+<abbr>
+	This tag can be added as normal text into a textblock.
+	There will be no own component, except a contributor suggests a solution.
+	Example:
+
+	<b:outputText value="That is the <abbr=\"World wide web\">WWW</abbr>"/>
+
+<address>
+	This tag can be used with the address-tag which is just a container
+	Example:
+	<b:address>
+		<b:outputText value="{user.addressInfo}"/>
+	</b:address>
+	

@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of ViewRootRenderer
+ * Description of CommandLinkRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,23 +12,29 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ViewRootRenderer extends \blaze\web\render\Renderer{
+class CommandLinkRenderer extends \blaze\web\render\Renderer{
 
     public function __construct(){
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-
+        if($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER') == $component->getId()){
+                $component->setClicked(true);
+        }
     }
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml">');
+        $writer->write('<script type="text/javascript">function commandLinkClick(link){ var parentForm=link.parentNode; while(parentForm.nodeName != "FORM"){ parentForm=parentForm.parentNode; } var identifier = document.createElement("input"); identifier.type="hidden"; identifier.name="BLAZE_COMMAND_IDENTIFIER"; identifier.value=link.id; parentForm.appendChild(identifier); parentForm.submit(); } </script>');
+        $writer->write('<a onclick="commandLinkClick(this)" href="#"');
+        $writer->write(' id="'.$component->getId().'"');
+        $writer->write('>');
+        $writer->write($component->getValue());
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</html>');
+        $writer->write('</a>');
     }
 
 

@@ -17,7 +17,7 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class IntegerValidator implements Validator{
-    public function validate($obj) {
+    public function validate(\blaze\web\application\BlazeContext $context, $obj) {
         if(!Integer::isNativeType($obj))
             throw new ValidatorException('No valid integer.');
     }

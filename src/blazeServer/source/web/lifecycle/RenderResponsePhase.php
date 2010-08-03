@@ -31,14 +31,15 @@ class RenderResponsePhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        $oldViewId = $context->getViewRoot()->getViewId();
-        $newView = $context->getViewHandler()->getRequestView($context);
-        $newViewId = $newView->getViewId();
+        $oldViewId = $context->getRequest()->getSession()->getAttribute('blaze.view_restore');
+        $actViewId = $context->getViewRoot()->getViewId();
+        $requestedView = $context->getViewHandler()->getRequestView($context);
+        $requestedViewId = $requestedView->getViewId();
 
-        if ($oldViewId != $newViewId) {
-            $context->setView($newView);
+        if ($oldViewId == $actViewId) {
+            $context->setViewRoot($requestedView);
         }
-        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot());
+        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot()->getViewId());
         $context->getViewRoot()->processRender($context);
     }
 

@@ -27,7 +27,8 @@ class Config extends Object implements WebConfig, Singleton {
                                                                                 'renderKits' => array('html4' => 'blaze\\web\\render\\html4\\RenderKitImpl',
                                                                                                       'html5' => 'blaze\\web\\render\\html5\\RenderKitImpl'))),
                                         'views' => array('blazeServer\\view\\TestView' => 'blazeServer\\view\\TestView',
-                                                         'blazeServer\\view\\IndexView' => 'blazeServer\\view\\IndexView'),
+                                                         'blazeServer\\view\\IndexView' => 'blazeServer\\view\\IndexView',
+                                                         'blazeServer\\view\\SuccessView' => 'blazeServer\\view\\SuccessView'),
                                         'nuts' => array(array('name' => 'test', 'class' => 'blazeServer\\Test', 'scope' => 'application')),
                                         /**
                                          * Navigation part contains the navigationstrings in an orderd from
@@ -46,7 +47,11 @@ class Config extends Object implements WebConfig, Singleton {
                                                                                                   array('action'    => 'success',
                                                                                                         'view'      => 'blazeServer\\view\\SuccessView'))),
 
-                                                               '/' =>     array('view' => 'blazeServer\\view\\IndexView')));
+                                                               '/' =>     array('view' => 'blazeServer\\view\\IndexView',
+                                                                                'action' => array(array('action'    => 'navigate',
+                                                                                                        'view'      => 'blazeServer\\view\\TestView'),
+                                                                                                  array('action'    => 'success',
+                                                                                                        'view'      => 'blazeServer\\view\\SuccessView')))));
         $this->netletConfigMap = array( 'netlets' => array(array('name' => 'BlazeNetlet', 'class' => 'blazeServer\\source\\core\\BlazeNetlet', 'initParams' => array())),
                                         'netletMapping' => array('/*' => 'BlazeNetlet'),
                                         'filters' => array(),//array('name' => 'HttpsFilter', 'class' => 'blazeCMS\\filter\\HttpsFilter', 'initParams' => array())),

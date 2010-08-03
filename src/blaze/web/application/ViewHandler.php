@@ -37,8 +37,11 @@ class ViewHandler extends Object {
 
     public function restoreOrCreateView(BlazeContext $context){
         $session = $context->getRequest()->getSession(true);
-        $lastView = $session->getAttribute('blaze.view_restore');
+        $lastViewId = $session->getAttribute('blaze.view_restore');
+        $lastView = null;
 
+        if($lastViewId != null)
+            $lastView = $this->getView($context, $lastViewId);
         if($lastView == null)
             $lastView = $this->getRequestView($context);
         if($lastView == null)

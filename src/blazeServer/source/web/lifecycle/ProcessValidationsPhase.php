@@ -31,7 +31,7 @@ class ProcessValidationsPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context){
-        //$context->getView()->processValidations($context);
+        $context->getViewRoot()->processValidations($context);
     }
 
     /**

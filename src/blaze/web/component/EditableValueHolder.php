@@ -27,7 +27,9 @@ interface EditableValueHolder extends ValueHolder {
      public function getValidators();
      public function removeValidator(\blaze\web\validator\Validator $validator);
      
-     
+     public function getValid();
+     public function setValid($valid);
+
 //     public function addValueChangeListener(\blaze\web\event\ValueChangeListener $validator);
 //     /**
 //      * @return blaze\web\event\ValueChangeListener
