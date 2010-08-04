@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of AddressRenderer
+ * Description of LinkRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,7 +12,7 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class AddressRenderer extends \blaze\web\render\html4\CoreRenderer{
+class LinkRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function __construct(){
 
@@ -20,18 +20,24 @@ class AddressRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<address');
+        $writer->write('<a');
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes($context, $component);
+        parent::renderAttributes( $context,  $component);
         $writer = $context->getResponse()->getWriter();
+        $value = $component->getValue();
+        $href = $component->getHref();
+
+        if($href != null)
+            $writer->write(' href="'.$href.'"');
         $writer->write('>');
+        $writer->write($component->getValue());
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</address>');
+        $writer->write('</a>');
     }
 
 

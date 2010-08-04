@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIOutput extends \blaze\web\component\UIComponentBase implements ValueHolder{
+abstract class UIOutput extends \blaze\web\component\UIComponentCore implements ValueHolder{
 
     /**
      *

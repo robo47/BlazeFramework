@@ -45,7 +45,9 @@ class Config extends Object implements WebConfig, Singleton {
                                                                                 'action' => array(array('action'    => 'navigate',
                                                                                                         'view'      => 'blazeServer\\view\\TestView'),
                                                                                                   array('action'    => 'success',
-                                                                                                        'view'      => 'blazeServer\\view\\SuccessView'))),
+                                                                                                        'view'      => 'blazeServer\\view\\SuccessView'),
+                                                                                                  array('action'    => 'return',
+                                                                                                        'view'      => 'blazeServer\\view\\IndexView'))),
 
                                                                '/' =>     array('view' => 'blazeServer\\view\\IndexView',
                                                                                 'action' => array(array('action'    => 'navigate',

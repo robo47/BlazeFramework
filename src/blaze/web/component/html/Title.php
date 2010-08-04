@@ -13,7 +13,9 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Title extends \blaze\web\component\UIOutput{
+class Title extends \blaze\web\component\UIComponentBase{
+
+    private $value;
 
     public function __construct(){
     }
@@ -28,6 +30,15 @@ class Title extends \blaze\web\component\UIOutput{
 
     public function getRendererId() {
         return 'TitleRenderer';
+    }
+
+    public function getValue() {
+        return $this->getResolvedExpression($this->value);
+    }
+
+    public function setValue($value) {
+        $this->value = new \blaze\web\el\Expression($value);
+        return $this;
     }
 
 }

@@ -24,13 +24,13 @@ interface UIComponent {
       * @param blaze\web\component\UIComponent $parent
       * @return blaze\web\component\UIComponent
       */
-     public function setParent($parent);
+     public function setParent(\blaze\web\component\UIComponent $parent);
      public function getChildren();
      /**
       * @param blaze\web\component\UIComponent $child
       * @return blaze\web\component\UIComponent
       */
-     public function addChild(UIComponent $child);
+     public function addChild(\blaze\web\component\UIComponent $child);
      public function getRendered();
      /**
       * @param boolean $rendered

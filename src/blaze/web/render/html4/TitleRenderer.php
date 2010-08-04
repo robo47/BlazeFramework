@@ -24,13 +24,7 @@ class TitleRenderer extends \blaze\web\render\Renderer{
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
         $writer->write('<title>');
-
-        $converter = $component->getConverter();
-
-        if($converter != null)
-            $writer->write($converter->asString($context, $component->getLocalValue()));
-        else
-            $writer->write($component->getLocalValue());
+        $writer->write($component->getValue());
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {

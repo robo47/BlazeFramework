@@ -12,13 +12,12 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class FormRenderer extends \blaze\web\render\Renderer{
+class FormRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function __construct(){
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        //var_dump($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER'));
         if($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER') == $component->getId()){
                 $component->setSubmitted(true);
         }
@@ -26,10 +25,16 @@ class FormRenderer extends \blaze\web\render\Renderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<form method="post" action=""><input type="hidden" name="BLAZE_FORM_IDENTIFIER" value="'.$component->getId().'"/>');
+        $writer->write('<form');
     }
 
-    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+    public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        parent::renderAttributes( $context,  $component);
+        $writer = $context->getResponse()->getWriter();
+        $writer->write(' method="post" action=""><input type="hidden" name="BLAZE_FORM_IDENTIFIER" value="'.$component->getId().'"/>');
+    }
+
+        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
         $writer->write('</form>');
     }

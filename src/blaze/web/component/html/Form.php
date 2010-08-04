@@ -15,6 +15,8 @@ use blaze\lang\Object;
  */
 class Form extends \blaze\web\component\UIForm{
 
+    private $destination;
+
     public function __construct(){
     }
 
@@ -28,6 +30,15 @@ class Form extends \blaze\web\component\UIForm{
 
     public function getRendererId() {
         return 'FormRenderer';
+    }
+
+    public function getDestination() {
+        return $this->getResolvedExpression($this->destination);
+    }
+
+    public function setdestination($destination) {
+        $this->destination = new \blaze\web\el\Expression($destination);
+        return $this;
     }
 
 }

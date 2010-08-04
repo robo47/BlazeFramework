@@ -8,6 +8,10 @@ use blaze\lang\Object,
     blaze\web\component\html\Title,
     blaze\web\component\html\OutputText,
     blaze\web\component\html\CommandLink,
+    blaze\web\component\html\Link,
+    blaze\web\component\html\CommandButton,
+    blaze\web\component\html\Image,
+    blaze\web\component\html\Area,
     blaze\web\component\html\Form;
 
 /**
@@ -33,13 +37,28 @@ class IndexView extends Object implements WebView{
         $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\IndexView')
                                           ->addChild(Head::create()->addChild(Title::create()->setValue('Index page')))
                                           ->addChild(Body::create()->addChild(OutputText::create()->setValue('Test successful!'))
+                                                                   ->addChild(Image::create()->setSrc('http://www.queensu.ca/iigr/apps/database/sale/no_image.gif')
+                                                                                             ->setId('firstImage')
+                                                                                             ->addChild(Area::create()->setAlt('Yeah an area!')
+                                                                                                                      ->setShape('rect')
+                                                                                                                      ->setCoords('0,0,100,100')
+                                                                                                                      ->setHref('http://www.google.at')))
                                                                    ->addChild(Form::create()->setId('myForm')
+                                                                                            ->setDestination('')
                                                                                             ->addChild(CommandLink::create()->setId('testNavigate')
                                                                                                                             ->setValue('Navigation test')
                                                                                                                             ->setAction('navigate'))
                                                                                             ->addChild(OutputText::create()->setValue(' - '))
                                                                                             ->addChild(CommandLink::create()->setId('testSuccess')
                                                                                                                             ->setValue('Success test')
+                                                                                                                            ->setAction('success'))
+                                                                                            ->addChild(OutputText::create()->setValue(' - '))
+                                                                                            ->addChild(Link::create()->setId('normalLink')
+                                                                                                                            ->setValue('Normal link')
+                                                                                                                            ->setHref('test'))
+                                                                                            ->addChild(OutputText::create()->setValue(' - '))
+                                                                                            ->addChild(CommandButton::create()->setId('testButton')
+                                                                                                                            ->setValue('Button test')
                                                                                                                             ->setAction('success'))));
 //        $this->root = ViewRootTag::create()
 //                          ->setViewId('blazeServer\\view\\IndexView')

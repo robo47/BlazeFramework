@@ -17,8 +17,6 @@ use blaze\lang\Object;
  */
 class Head extends \blaze\web\component\UIComponentBase {
 
-    private $title;
-
     public function __construct() {
 
     }
@@ -33,15 +31,6 @@ class Head extends \blaze\web\component\UIComponentBase {
 
     public function getRendererId() {
         return 'HeadRenderer';
-    }
-
-    public function getTitle() {
-        return $this->getResolvedExpression($this->title);
-    }
-
-    public function setTitle($title) {
-        $this->title = new \blaze\web\el\Expression($title);
-        return $this;
     }
 
 }

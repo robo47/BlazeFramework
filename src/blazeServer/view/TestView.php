@@ -8,6 +8,8 @@ use blaze\lang\Object,
     blaze\web\component\html\Title,
     blaze\web\component\html\OutputText,
     blaze\web\component\html\CommandLink,
+    blaze\web\component\html\Link,
+    blaze\web\component\html\CommandButton,
     blaze\web\component\html\Form;
 
 /**
@@ -35,7 +37,14 @@ class TestView extends Object implements WebView{
                                             ->addChild(Title::create()
                                                             ->setValue('Index page')))
                             ->addChild(Body::create()
-                                            ->addChild(OutputText::create()->setValue('Successfully navigated!')));
+                                            ->addChild(OutputText::create()->setValue('Successfully navigated!'))
+                                            ->addChild(Form::create()->setId('testForm')
+                                                                    ->addChild(CommandButton::create()->setId('submitButton')
+                                                                                                    ->setValue('Button test')
+                                                                                                    ->setAction('success'))
+                                                                    ->addChild(CommandButton::create()->setId('returnButton')
+                                                                                                    ->setValue('Return')
+                                                                                                    ->setAction('return'))));
     }
 
     public function getViewRoot(){

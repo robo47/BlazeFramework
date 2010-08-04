@@ -15,7 +15,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UICommand extends \blaze\web\component\UIComponentBase implements ActionSource {
+abstract class UICommand extends \blaze\web\component\UIComponentCore implements ActionSource {
 
 //    /**
 //     *

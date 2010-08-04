@@ -1,11 +1,12 @@
 <a>
-	This tag can be used with the commandLink-tag which can navigate with navigation rules or links.
+	This tag can be used with the commandLink-tag which can navigate with navigation rules and is equal to an commandButton.
 	Example:
 	<b:commandLink action="{myNut.nextView}"/>
 	
-	To be able to use normal links too the link-tag can be used, which does not require a form as parent.
+	To be able to use normal links too the link-tag can be used, which does not require a form as parent. The link is not able to use navigation rules but can change the url.
+	The best practise is to use links for the normal navigation and use the commandLink/Button only for forms, because submitting with these components does not affect the url.
 	Example:
-	TBA
+	<b:link href="http://www.google.com" value="Google site"/>
 
 <abbr>
 	This tag can be added as normal text into a textblock.
@@ -21,3 +22,9 @@
 		<b:outputText value="{user.addressInfo}"/>
 	</b:address>
 	
+<area>
+	This tag can be used with the area-tag within an image-tag.
+	Example:
+	<b:image id="myImage" src="path/to/image.jpg" alt="Image">
+		<b:area shape="rect" coords="0,0,100,100" href="http://www.google.com" alt="Google site"/>
+	</b:image>

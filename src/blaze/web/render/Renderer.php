@@ -15,16 +15,22 @@ namespace blaze\web\render;
 abstract class Renderer extends \blaze\lang\Object{
      public abstract function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
      public abstract function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
+         
+     }
      public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
          foreach($component->getChildren() as $child){
             $renderer = $child->getRenderer($context);
             $renderer->renderBegin($context, $child);
+            $renderer->renderAttributes($context, $child);
             $renderer->renderChildren($context, $child);
             $renderer->renderEnd($context, $child);
         }
      }
      
-     public abstract function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+
+    }
 }
 
 ?>

@@ -24,7 +24,7 @@ abstract class UIComponentBase implements UIComponent {
         return $this->children;
     }
 
-    public function addChild(UIComponent $child) {
+    public function addChild(\blaze\web\component\UIComponent $child) {
         $this->children[] = $child->setParent($this);
         return $this;
     }
@@ -42,7 +42,7 @@ abstract class UIComponentBase implements UIComponent {
         return $this->parent;
     }
 
-    public function setParent($parent) {
+    public function setParent(\blaze\web\component\UIComponent $parent) {
         $this->parent = $parent;
         return $this;
     }
@@ -113,6 +113,7 @@ abstract class UIComponentBase implements UIComponent {
         $renderer = $this->getRenderer($context);
 
         $renderer->renderBegin($context, $this);
+        $renderer->renderAttributes($context, $this);
         $renderer->renderChildren($context, $this);
         $renderer->renderEnd($context, $this);
     }

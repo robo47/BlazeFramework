@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of AddressRenderer
+ * Description of CommandButtonRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,26 +12,32 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class AddressRenderer extends \blaze\web\render\html4\CoreRenderer{
+class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function __construct(){
 
     }
+    public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        if($context->getRequest()->getParameter($component->getId()) != null){
+                $component->setClicked(true);
+        }
+    }
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<address');
+        $writer->write('<input');
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes($context, $component);
+        parent::renderAttributes( $context, $component);
         $writer = $context->getResponse()->getWriter();
-        $writer->write('>');
+        $writer->write(' type="submit" name="'.$component->getId().'"');
+        $writer->write(' value="'.$component->getValue().'"');
     }
 
-    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        $writer = $context->getResponse()->getWriter();
-        $writer->write('</address>');
+        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+         $writer = $context->getResponse()->getWriter();
+        $writer->write('/>');
     }
 
 

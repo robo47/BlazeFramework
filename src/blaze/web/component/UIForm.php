@@ -15,7 +15,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIForm extends \blaze\web\component\UIComponentBase {
+abstract class UIForm extends \blaze\web\component\UIComponentCore {
 
     private $submitted = false;
 
