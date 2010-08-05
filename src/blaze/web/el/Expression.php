@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el;
+
 use blaze\lang\Object;
 
 /**
@@ -13,16 +15,54 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Expression extends Object{
+class Expression extends Object {
+
     protected $expressionString;
     protected $valid;
+    protected $expressionParts = array();
 
     public function __construct($expressionString) {
         $this->expressionString = \blaze\lang\String::asWrapper($expressionString);
         $this->valid = self::isExpression($this->expressionString);
-        if($this->valid)
-            $this->expressionString = $this->expressionString->substring(1, $this->expressionString->length()-1);
+        if ($this->valid)
+            $this->splitExpressionString();
     }
+
+    public static function create($expressionString){
+        return new Expression($expressionString);
+    }
+
+    protected function splitExpressionString() {
+        $start = 0;
+        $lastEnd = $this->expressionString->indexOf('}');
+        $lastStart = $this->expressionString->indexOf('{');
+
+        while ($lastStart != -1 && $lastEnd != -1) {
+            $lastStart = $this->expressionString->indexOf('{', $lastStart + 1);
+
+            if ($lastStart > $lastEnd) {
+                $firstStart = $this->expressionString->indexOf('{', $start);
+                $this->expressionParts[] = $this->expressionString->substring($start, $firstStart);
+                $this->expressionParts[] = $this->expressionString->substring($firstStart, $lastEnd + 1);
+                $start = $lastEnd + 1;
+                $lastEnd = $this->expressionString->indexOf('}', $lastEnd + 1);
+            } else {
+                if ($this->expressionString->lastIndexOf('}') == $lastEnd) {
+                    $firstStart = $this->expressionString->indexOf('{', $start);
+                    
+                    if ($start != $firstStart)
+                        $this->expressionParts[] = $this->expressionString->substring($start, $firstStart);
+
+                    $this->expressionParts[] = $this->expressionString->substring($firstStart, $lastEnd + 1);
+
+                    if ($lastEnd + 1 != $this->expressionString->length())
+                        $this->expressionParts[] = $this->expressionString->substring($lastEnd + 1, $this->expressionString->length());
+                }else
+                    $lastEnd = $this->expressionString->indexOf('}', $lastEnd + 1);
+            }
+        }
+    }
+
 
     /**
      *
@@ -32,14 +72,22 @@ class Expression extends Object{
         return $this->expressionString;
     }
 
-    public static function isExpression($expr){
-        $expr = \blaze\lang\String::asWrapper($expr);
-        return $expr->matches('/^{.*}$/');
+    /**
+     *
+     * @return array
+     */
+    public function getExpressionParts() {
+        return $this->expressionParts;
     }
 
-    public function isValid(){
+    public static function isExpression($expr) {
+        $expr = \blaze\lang\String::asWrapper($expr);
+        return $expr->matches('/{.*}/');
+    }
+
+    public function isValid() {
         return $this->valid;
     }
-}
 
+}
 ?>

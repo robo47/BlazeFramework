@@ -708,8 +708,9 @@ class String extends Object implements NativeWrapper {
      *          character sequence represented by this object, or
      *          <code>-1</code> if the character does not occur.
      */
-    public function lastIndexOf($ch, $fromIndex = 0) {
-	return strrpos($this->string, String::asNative($ch), $fromIndex);
+    public function lastIndexOf($ch, $fromIndex = null) {
+	$pos = strrpos($this->string, String::asNative($ch), $fromIndex);
+        return $pos === false ? -1 : $pos;
     }
 
     /**

@@ -16,7 +16,11 @@ use blaze\lang\Object,
     blaze\web\component\html\DataTable,
     blaze\web\component\html\DataTableColumn,
     blaze\web\component\html\DataTableHeader,
-    blaze\web\component\html\DataTableFooter;
+    blaze\web\component\html\DataTableFooter,
+        blaze\web\component\html\ContentType,
+        blaze\web\component\html\ContentLanguage,
+        blaze\web\component\html\Keywords,
+        blaze\web\component\html\Description;
 
 /**
  * Description of IndexView
@@ -39,16 +43,20 @@ class IndexView extends Object implements WebView{
 
     public function __construct(){
         $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\IndexView')
-                                          ->addChild(Head::create()->addChild(Title::create()->setValue('Index page')))
+                                          ->addChild(Head::create()->addChild(Title::create()->setValue('Index page'))
+                                                                   ->addChild(ContentType::create()->setValue('text/html')->setCharset('utf8'))
+                                                                   ->addChild(ContentLanguage::create()->setValue('en'))
+                                                                   ->addChild(Keywords::create()->setValue('blaze, framework, test, components, eventdriven'))
+                                                                   ->addChild(Description::create()->setValue('This is a test of the BlazeFramework which components are implemented to work event driven with.')))
                                           ->addChild(Body::create()->addChild(OutputText::create()->setValue('Test successful!'))
                                                                    ->addChild(DataTable::create()->setValue('{testList}')
                                                                                                  ->setVar('tblVar')
                                                                                                  ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Firstname')))
-                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.name}')))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('Hehe {tblVar.name}')))
                                                                                                  ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Lastname')))
-                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.label}')))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('huhu {tblVar.label}')))
                                                                                                  ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Attribute')))
-                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.value}'))))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.value} :P'))))
                                                                    ->addChild(Image::create()->setSrc('http://www.queensu.ca/iigr/apps/database/sale/no_image.gif')
                                                                                              ->setId('firstImage')
                                                                                              ->addChild(Area::create()->setAlt('Yeah an area!')

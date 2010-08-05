@@ -111,19 +111,21 @@
 <dd> 		
 <del> 		
 <details>
+
 <dfn> 	 		
 	-> see p-tag
 		
 <div> 		
 <dl> 		
-<dt> 		
+<dt> 	
+	
 <em> 	 		
 	-> see p-tag
 	
 <embed> 
 	-> see <object>	
 
-	<fieldset> 	
+<fieldset> 	
 <figcaption>
 <figure>
 <footer>
@@ -137,6 +139,7 @@
 		<b:head>
 		</b:head>
 	</b:viewRoot>
+	
 <header>
 <hgroup>
 <hr /> 	
@@ -162,6 +165,7 @@
 <input /> 	
 <ins> 	
 <keygen>	
+
 <kbd> 		 		
 	-> see p-tag
 	
@@ -169,7 +173,10 @@
 <legend> 	
 <li> 		
 <link /> 	
+
 <map> 	
+	this tag is automatically used when an area is defined for an image.
+	
 <mark>	
 <menu>
 <meta />
@@ -181,6 +188,7 @@
 <optgroup> 	
 <option> 	
 <output>
+
 <p> 		
 	this tag can be used with the outputText-tag and is a container with variable behaviour which can be defined with the type attribute.
 	The standard value is "p" which means that the text will be rendered in a paragraph. (Other values -> em, strong, dfn, code, samp, kbd, var, cite)
@@ -204,6 +212,7 @@
 <rp>
 <rt>
 <ruby>
+
 <samp> 		 		
 	-> see p-tag
 	
@@ -213,6 +222,7 @@
 <small> 
 <source>	
 <span> 		
+
 <strong> 	 		
 	-> see p-tag
 	
@@ -220,6 +230,7 @@
 <sub> 	
 <summary>	
 <sup> 		
+
 <table> 	
 	This tag can be used with the dataTable-tag and can only be used with lists as values. Static tables are not possible.(Maybe make a wrapper?)
 	Examples:
@@ -261,11 +272,24 @@
 	</b:dataTable>
 
 <tbody> 	
+	This tag is the outside container of any tag in a dataTableColumn-tag which is not in the dataTableFooter or Header-tag.
+	
 <td> 		
+	This tag is automatically used for the content in the dataTableFooter-tag and for body content.
+	
 <textarea> 	
-<tfoot> 	
+
+<tfoot>
+	This tag can be used with the dataTableFooter-tag and can have the attribute span which defines the colspan.
+	-> see <table> for examples
+	
 <th> 		
+	This tag is automatically used for the content in the dataTableHeader-tag.
+	
 <thead> 
+	This tag can be used with the dataTableHeader-tag and can have the attribute span which defines the colspan.
+	-> see <table> for examples
+	
 <time>	
 
 <title> 	
@@ -277,8 +301,10 @@
 		</b:head>
 	</b:viewRoot>
 	
-<tr> 		
+<tr> 	
+	This tag is automatically used for the rows in the dataTable-tag.
 <ul> 		
+
 <var> 		 		
 	-> see p-tag
 	
