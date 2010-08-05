@@ -28,9 +28,15 @@ class LinkRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $value = $component->getValue();
         $href = $component->getHref();
+        $target = $component->getTarget();
+        $rel = $component->getRel();
 
         if($href != null)
             $writer->write(' href="'.$href.'"');
+        if($rel != null)
+            $writer->write(' rel="'.$rel.'"');
+        if($target != null)
+            $writer->write(' target="'.$target.'"');
         $writer->write('>');
         $writer->write($component->getValue());
     }

@@ -26,12 +26,17 @@ class Test extends Object{
         
     }
 
+    public static function create(){
+        return new Test();
+    }
+
     public function getName() {
         return $this->name;
     }
 
     public function setName($name) {
         $this->name = $name;
+        return $this;
     }
 
     public function getValue() {
@@ -40,6 +45,7 @@ class Test extends Object{
 
     public function setValue($value) {
         $this->value = $value;
+        return $this;
     }
 
     public function getLabel() {
@@ -48,6 +54,7 @@ class Test extends Object{
 
     public function setLabel($label) {
         $this->label = $label;
+        return $this;
     }
 
     public function doSomething(){

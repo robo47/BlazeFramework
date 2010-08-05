@@ -61,6 +61,12 @@ class BlazeNetlet extends HttpNetlet{
      */
     public function service(NetletRequest $request, NetletResponse $response) {
         $appContext = new BlazeContext($this->application, $request, $response);
+
+        $list = new \blaze\util\ArrayList();
+        $list->add(\blazeServer\Test::create()->setName('Christian')->setLabel('Beikov')->setValue('Nice'));
+        $list->add(\blazeServer\Test::create()->setName('Bernd')->setLabel('Artmueller')->setValue('Lazy'));
+        $list->add(\blazeServer\Test::create()->setName('Oliver')->setLabel('Kotzina')->setValue('In Love'));
+        $appContext->getELContext()->getVariableMapper()->set('testList', $list);
         //$appContext->setExceptionHandler(new \blaze\web\application\ExceptionHandler());
 
         /**

@@ -12,7 +12,11 @@ use blaze\lang\Object,
     blaze\web\component\html\CommandButton,
     blaze\web\component\html\Image,
     blaze\web\component\html\Area,
-    blaze\web\component\html\Form;
+    blaze\web\component\html\Form,
+    blaze\web\component\html\DataTable,
+    blaze\web\component\html\DataTableColumn,
+    blaze\web\component\html\DataTableHeader,
+    blaze\web\component\html\DataTableFooter;
 
 /**
  * Description of IndexView
@@ -37,6 +41,14 @@ class IndexView extends Object implements WebView{
         $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\IndexView')
                                           ->addChild(Head::create()->addChild(Title::create()->setValue('Index page')))
                                           ->addChild(Body::create()->addChild(OutputText::create()->setValue('Test successful!'))
+                                                                   ->addChild(DataTable::create()->setValue('{testList}')
+                                                                                                 ->setVar('tblVar')
+                                                                                                 ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Firstname')))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.name}')))
+                                                                                                 ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Lastname')))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.label}')))
+                                                                                                 ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Attribute')))
+                                                                                                                                     ->addChild(OutputText::create()->setValue('{tblVar.value}'))))
                                                                    ->addChild(Image::create()->setSrc('http://www.queensu.ca/iigr/apps/database/sale/no_image.gif')
                                                                                              ->setId('firstImage')
                                                                                              ->addChild(Area::create()->setAlt('Yeah an area!')

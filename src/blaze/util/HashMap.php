@@ -41,7 +41,7 @@ class HashMap extends Object implements Map {
     }
 
     public function set($name, Object $value){
-        $this->objects[$name] = $value;
+        $this->objects[String::asNative($name)] = $value;
     }
     public function count() {
         return $this->objects->count();

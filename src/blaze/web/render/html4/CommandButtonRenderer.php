@@ -31,8 +31,13 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         parent::renderAttributes( $context, $component);
         $writer = $context->getResponse()->getWriter();
+        $disabled = $component->getDisabled();
+
         $writer->write(' type="submit" name="'.$component->getId().'"');
         $writer->write(' value="'.$component->getValue().'"');
+        
+        if($disabled != null)
+            $writer->write(' disabled="'.$disabled.'"');
     }
 
         public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {

@@ -36,7 +36,7 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
     }
 
     public function getValue(){
-        return $this->value;
+        return $this->getResolvedExpression($this->value);
     }
 
     public function removeConverter() {

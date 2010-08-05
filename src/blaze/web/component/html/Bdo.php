@@ -3,7 +3,7 @@ namespace blaze\web\component\html;
 use blaze\lang\Object;
 
 /**
- * Description of UIOutput
+ * Description of Bdo
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,27 +13,15 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class OutputText extends \blaze\web\component\UIOutput{
+class Bdo extends \blaze\web\component\UIComponentCore{
 
-     /**
-     * - p -> default
-     * - b
-     * - em
-     * - strong
-     * - dfn
-     * - code
-     * - samp
-     * - kbd
-     * - var
-     * - cite
-     */
-    private $type;
+    private $dir;
 
     public function __construct(){
     }
 
     public static function create(){
-        return new OutputText();
+        return new Bdo();
     }
 
     public function getComponentFamily() {
@@ -41,18 +29,17 @@ class OutputText extends \blaze\web\component\UIOutput{
     }
 
     public function getRendererId() {
-        return 'OutputTextRenderer';
+        return 'BdoRenderer';
     }
 
-    public function getType() {
-        return $this->getResolvedExpression($this->type);
+    public function getDir() {
+        return $this->getResolvedExpression($this->dir);
     }
 
-    public function setType($type) {
-        $this->type = new \blaze\web\el\Expression($type);
+    public function setValue($dir) {
+        $this->dir = new \blaze\web\el\Expression($dir);
         return $this;
     }
-
 }
 
 ?>

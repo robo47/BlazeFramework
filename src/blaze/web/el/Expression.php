@@ -15,9 +15,13 @@ use blaze\lang\Object;
  */
 class Expression extends Object{
     protected $expressionString;
+    protected $valid;
 
     public function __construct($expressionString) {
         $this->expressionString = \blaze\lang\String::asWrapper($expressionString);
+        $this->valid = self::isExpression($this->expressionString);
+        if($this->valid)
+            $this->expressionString = $this->expressionString->substring(1, $this->expressionString->length()-1);
     }
 
     /**
@@ -34,7 +38,7 @@ class Expression extends Object{
     }
 
     public function isValid(){
-        return self::isExpression($this->expressionString);
+        return $this->valid;
     }
 }
 

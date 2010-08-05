@@ -3,7 +3,7 @@ namespace blaze\web\component\html;
 use blaze\lang\Object;
 
 /**
- * Description of UIOutput
+ * Description of Quote
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,27 +13,16 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class OutputText extends \blaze\web\component\UIOutput{
+class Quote extends \blaze\web\component\UIComponentCore{
 
-     /**
-     * - p -> default
-     * - b
-     * - em
-     * - strong
-     * - dfn
-     * - code
-     * - samp
-     * - kbd
-     * - var
-     * - cite
-     */
-    private $type;
+    private $cite;
+    private $block;
 
     public function __construct(){
     }
 
     public static function create(){
-        return new OutputText();
+        return new Quote();
     }
 
     public function getComponentFamily() {
@@ -41,18 +30,27 @@ class OutputText extends \blaze\web\component\UIOutput{
     }
 
     public function getRendererId() {
-        return 'OutputTextRenderer';
+        return 'QuoteRenderer';
     }
 
-    public function getType() {
-        return $this->getResolvedExpression($this->type);
+    public function getCite() {
+        return $this->getResolvedExpression($this->cite);
     }
 
-    public function setType($type) {
-        $this->type = new \blaze\web\el\Expression($type);
+    public function setCite($cite) {
+        $this->cite = new \blaze\web\el\Expression($cite);
         return $this;
     }
 
+    public function getBlock() {
+        if($this->block == null) return true;
+        return $this->getResolvedExpression($this->block);
+    }
+
+    public function setBlock($block) {
+        $this->block = new \blaze\web\el\Expression($block);
+        return $this;
+    }
 }
 
 ?>

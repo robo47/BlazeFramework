@@ -28,3 +28,258 @@
 	<b:image id="myImage" src="path/to/image.jpg" alt="Image">
 		<b:area shape="rect" coords="0,0,100,100" href="http://www.google.com" alt="Google site"/>
 	</b:image>
+	
+<article>
+	This tag can be used with the article-tag and is a semantic container for external content. HTML4 renders it as Div.
+	Example:
+	<b:article>
+		...
+	</b:article>
+	
+<aside>
+	This tag can be used with the aside-tag and is a semantic container for content which is aside from the main content. HTML4 renders it as Div.
+	Example:
+	<b:aside>
+		...
+	</b:aside>
+	
+<audio> -> needs JS and/or flash, so do later
+
+<b> 		
+	This tag can be used with the b-tag and is a container which defines that the content should be displayd bold.
+	Example:
+	<b:b>
+		<b:outputText value="Some Text"/>
+	</b:b>
+	
+<base /> 	
+	This tag can be used with the base-tag and defines a default URL and/or default target for all elements on the page.
+	Example:
+	<b:head>
+		<b:base href="http://www.myserver.com/base/folder" target="_blank"/>
+	</b:head>
+	
+<bdo> 	
+	This tag can be used with the bdo-tag and is a container which defines the direction of the childtext by the dir attribute(rtl = right to left).
+	Example:
+	<b:bdo dir="rtl">
+		<b:outputText value="Some Text"/>
+	</b:bdo>
+	
+<blockquote>
+	This tag can be used with the quote-tag and is a container which defines a quoted block from another source. The source can be cited with the cite attribute.
+	The block attribute specifies if the content is renderd within a blockquote- or a q-tag.
+	Example:
+	<b:quote cite="http://www.google.at" block="true">
+		<b:outputText value="Google finds everything"/>
+	</b:quote>
+
+<body> 		
+	This tag can be used with the body-tag within a viewRoot-tag and is like a wrapper.
+	Example:
+	<b:viewRoot>
+		<b:body>
+		</b:body>
+	</b:viewRoot>
+	
+<br /> 	
+	-> necessary? need to be discussed
+
+<button>
+	-> see input type submit, reset type has to be discussed 
+
+<canvas> 
+	-> need goods JS-lib, so do later 	
+
+<caption> 	
+	-> see table-tag, discuss if an own tag is needed
+
+<cite> 		
+	-> see p-tag
+	
+<code> 		
+	-> see p-tag
+	 		
+<col /> 	
+	-> see table
+
+<colgroup> 	
+	-> see table columnClasses(Example: <col span="2" class="asd"/> look like <b:dataTable columnClasses="asd, asd")
+	
+<command>
+<datalist>
+<dd> 		
+<del> 		
+<details>
+<dfn> 	 		
+	-> see p-tag
+		
+<div> 		
+<dl> 		
+<dt> 		
+<em> 	 		
+	-> see p-tag
+	
+<embed> 
+	-> see <object>	
+
+	<fieldset> 	
+<figcaption>
+<figure>
+<footer>
+<form> 		
+<h1> to <h6>
+
+<head> 		
+	This tag can be used with the head-tag within a viewRoot-tag and is like a wrapper.
+	Example:
+	<b:viewRoot>
+		<b:head>
+		</b:head>
+	</b:viewRoot>
+<header>
+<hgroup>
+<hr /> 	
+	
+<html> 		
+	This tag is automatically used in the UIViewRoot and decides on the useragent which renderer to choose.
+	Example:
+	<b:viewRoot>
+		...
+	</b:viewRoot>
+	
+<i> 		
+<iframe> 	
+
+<img />
+	This tag can be used with the image-tag and is like a wrapper with the exception that areas can be defined for that image.
+	Example:
+	
+	<b:image id="myImage" src="path/to/image.jpg" alt="Image">
+		<b:area shape="rect" coords="0,0,100,100" href="http://www.google.com" alt="Google site"/>
+	</b:image>
+	
+<input /> 	
+<ins> 	
+<keygen>	
+<kbd> 		 		
+	-> see p-tag
+	
+<label> 	
+<legend> 	
+<li> 		
+<link /> 	
+<map> 	
+<mark>	
+<menu>
+<meta />
+<meter>
+<nav> 	
+<noscript> 	
+<object> 	
+<ol> 		
+<optgroup> 	
+<option> 	
+<output>
+<p> 		
+	this tag can be used with the outputText-tag and is a container with variable behaviour which can be defined with the type attribute.
+	The standard value is "p" which means that the text will be rendered in a paragraph. (Other values -> em, strong, dfn, code, samp, kbd, var, cite)
+	Example:
+	
+	<b:outputText value="{myNut.description}" type="em"/>
+	
+<param /> 	
+<pre> 		
+
+<progress>
+
+<q> 	
+	This tag can be used with the quote-tag and is a container which defines a quoted block from another source. The source can be cited with the cite attribute.
+	The block attribute specifies if the content is renderd within a blockquote- or a q-tag.
+	Example:
+	<b:quote cite="http://www.google.at" block="true">
+		<b:outputText value="Google finds everything"/>
+	</b:quote>
+	
+<rp>
+<rt>
+<ruby>
+<samp> 		 		
+	-> see p-tag
+	
+<script> 	
+<section>
+<select> 	
+<small> 
+<source>	
+<span> 		
+<strong> 	 		
+	-> see p-tag
+	
+<style> 	
+<sub> 	
+<summary>	
+<sup> 		
+<table> 	
+	This tag can be used with the dataTable-tag and can only be used with lists as values. Static tables are not possible.(Maybe make a wrapper?)
+	Examples:
+	Full dynamic table with dynamic columns and dynamic rows.
+
+	<b:dataTable value="{myNut.entries}" var="entry">
+		<b:dataTableColumns value="{myNut.columns}" var="column">
+			<b:dataTableHeader>
+				<b:outputText value="{column.header}"/>
+			</b:dataTableHeader>
+			<b:dataTableFooter>
+				<b:outputText value="{column.footer}"/>
+			</b:dataTableFooter>
+			<b:outputText value="{entry.{column.key}}"/>
+		</b:dataTableColumns>
+	</b:dataTable>
+
+	Dynamic table with static columns and dynamic rows.
+
+	<b:dataTable value="{myNut.entries}" var="entry">
+		<b:dataTableColumn>
+			<b:dataTableHeader>
+				<b:outputText value="Name"/>
+			</b:dataTableHeader>
+			<b:dataTableFooter>
+				<b:outputText value="Amount" type="b"/>
+			</b:dataTableFooter>
+			<b:outputText value="{entry.name}"/>
+		</b:dataTableColumn>
+		<b:dataTableColumn>
+			<b:dataTableHeader>
+				<b:outputText value="Money"/>
+			</b:dataTableHeader>
+			<b:dataTableFooter>
+				<b:outputText value="{entry.amount}"/>
+			</b:dataTableFooter>
+			<b:outputText value="{entry.money}"/>
+		</b:dataTableColumn>
+	</b:dataTable>
+
+<tbody> 	
+<td> 		
+<textarea> 	
+<tfoot> 	
+<th> 		
+<thead> 
+<time>	
+
+<title> 	
+	This tag can be used with the title-tag within a head-tag and is like a wrapper.
+	Example:
+	<b:viewRoot>
+		<b:head>
+			<b:title value="{myNut.pageTitle}"/>
+		</b:head>
+	</b:viewRoot>
+	
+<tr> 		
+<ul> 		
+<var> 		 		
+	-> see p-tag
+	
+<video>

@@ -12,7 +12,7 @@ namespace blaze\util;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface ListI {
+interface ListI extends \IteratorAggregate, \Countable, \ArrayAccess{
     /**
      * Description
      *
@@ -23,7 +23,7 @@ interface ListI {
      * @todo	Something which has to be done, implementation or so
      */
      public function get($index);
-     public function count();
+     public function add($element);
 }
 
 ?>

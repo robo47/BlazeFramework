@@ -17,6 +17,7 @@ class CommandButton extends \blaze\web\component\UICommand{
 
     private $clicked;
     private $value;
+    private $disabled;
 
     public function __construct(){
     }
@@ -39,6 +40,15 @@ class CommandButton extends \blaze\web\component\UICommand{
 
     public function setValue($value) {
         $this->value = new \blaze\web\el\Expression($value);
+        return $this;
+    }
+
+    public function getDisabled() {
+        return $this->getResolvedExpression($this->disabled);
+    }
+
+    public function setDisabled($disabled) {
+        $this->disabled = new \blaze\web\el\Expression($disabled);
         return $this;
     }
 

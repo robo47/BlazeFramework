@@ -25,7 +25,7 @@ class ELContext extends Object{
 
     /**
      *
-     * @return blaze\lang\Map
+     * @return blaze\util\Map
      */
     public function getVariableMapper() {
         return $this->variableMapper;

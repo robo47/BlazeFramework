@@ -3,7 +3,7 @@ namespace blaze\web\component\html;
 use blaze\lang\Object;
 
 /**
- * Description of Link
+ * Description of Base
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,18 +13,16 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Link extends \blaze\web\component\UIComponentCore{
+class Base extends \blaze\web\component\UIComponentBase{
 
-    private $value;
     private $href;
-    private $rel;
     private $target;
 
     public function __construct(){
     }
 
     public static function create(){
-        return new Link();
+        return new Base();
     }
 
     public function getComponentFamily() {
@@ -32,16 +30,7 @@ class Link extends \blaze\web\component\UIComponentCore{
     }
 
     public function getRendererId() {
-        return 'LinkRenderer';
-    }
-
-    public function getValue() {
-        return $this->getResolvedExpression($this->value);
-    }
-
-    public function setValue($value) {
-        $this->value = new \blaze\web\el\Expression($value);
-        return $this;
+        return 'BaseRenderer';
     }
 
     public function getHref() {
@@ -53,15 +42,6 @@ class Link extends \blaze\web\component\UIComponentCore{
         return $this;
     }
 
-    public function getRel() {
-        return $this->getResolvedExpression($this->rel);
-    }
-
-    public function setRel($rel) {
-        $this->rel = new \blaze\web\el\Expression($rel);
-        return $this;
-    }
-
     public function getTarget() {
         return $this->getResolvedExpression($this->target);
     }
@@ -70,7 +50,6 @@ class Link extends \blaze\web\component\UIComponentCore{
         $this->target = new \blaze\web\el\Expression($target);
         return $this;
     }
-
 
 }
 

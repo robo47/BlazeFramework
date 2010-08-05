@@ -18,26 +18,59 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     }
 
+    private function getTypeTag(\blaze\web\component\UIComponent $component){
+        $type = $component->getType();
+
+        switch($type){
+            case 'em':
+                return'em';
+            case 'strong':
+                return'strong';
+            case 'dfn':
+                return'dfn';
+            case 'code':
+                return'code';
+            case 'samp':
+                return'samp';
+            case 'kbd':
+                return'kbd';
+            case 'var':
+                return'var';
+            case 'cite':
+                return'cite';
+            case 'b':
+                return'b';
+            case 'p':
+            default:
+                return'p';
+        }
+    }
+
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<p');
+        $writer->write('<'.$this->getTypeTag($component));
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+
         parent::renderAttributes( $context, $component);
         $writer = $context->getResponse()->getWriter();
         $converter = $component->getConverter();
 
         $writer->write('>');
+        $value = $component->getValue();
+        if($value == null)
+            $value = $component->getLocalValue();
+
         if($converter != null)
-            $writer->write($converter->asString($context, $component->getLocalValue()));
+            $writer->write($converter->asString($context, $value));
         else
-            $writer->write($component->getLocalValue());
+            $writer->write($value);
     }
 
         public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</p>');
+        $writer->write('</'.$this->getTypeTag($component).'>');
     }
 
 

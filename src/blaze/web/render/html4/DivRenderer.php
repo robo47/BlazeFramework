@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of TitleRenderer
+ * Description of DivRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,7 +12,7 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class TitleRenderer extends \blaze\web\render\Renderer{
+class DivRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function __construct(){
 
@@ -20,13 +20,18 @@ class TitleRenderer extends \blaze\web\render\Renderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<title>');
-        $writer->write($component->getValue());
+        $writer->write('<div');
+    }
+
+    public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        parent::renderAttributes($context, $component);
+        $writer = $context->getResponse()->getWriter();
+        $writer->write('>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</title>');
+        $writer->write('</div>');
     }
 
 
