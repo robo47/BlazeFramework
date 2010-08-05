@@ -2,6 +2,8 @@
 namespace blaze\math;
 use blaze\lang\Object;
 use blaze\lang\Integer;
+use blaze\lang\Comparable;
+use blaze\lang\String;
 
 /**
  * Description of BigDecimal
@@ -14,46 +16,75 @@ use blaze\lang\Integer;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class BigDecimal extends Object {
-    //Java-Implementation with BigInteger
+class BigDecimal extends Object implements Comparable {
+    private $value;
+    private $scale;
 
-    var $value;
-
-    /**
-     * The number of decimal digits in this BigDecimal, or 0 if the
-     * number of digits are not known (lookaside information).  If
-     * nonzero, the value is guaranteed correct.  Use the precision()
-     * method to obtain and set the value if it might be 0.  This
-     * field is mutable until set nonzero.
-     *
-     *
-     */
-    var $precision;
-
-    public function __construct($value, $precision = 2, $signum = 1, $random = null){
-        $this->precision = $precision;
-        //if(is_string($value)){
-            $this->value = new BigDecimal($value, $precision, $signum, $random);
-        //}
-
+    public function __construct($value, $scale = null){
+        $this->value = trim($value,'0');
+        if($scale!=null){
+            $this->scale = $scale;
+        }
+        else{
+            $ar = split('[\.]', $this->value);
+            if($ar[1]!=null){
+                $this->scale = strlen($ar[1]);
+            }
+            else
+                $this->scale = 0;
+            }
     }
-    public function __toString(){
-          if($this->signum == 0){
-              return '0';
-          }
-         if($this->signum == -1){
-             $ret = '-';
+
+     public function add(BigDecimal $summand, Integer $scale = null){
+         if($scale == null){
+            return new BigDecimal(bcadd($this, $summand,$this->scale));
          }
          else{
-             $ret = '';
+             return new BigDecimal(bcadd($this, $summand,$scale));
          }
-         foreach($this->mag AS $element){
-            $ret = $ret.$element;
-         }
-            $len = strlen($ret);
-            $sub = $len-$this->precision;
-         return substr($ret, 0,$sub).substr($ret,$sub);
      }
+
+     public function sub(BigDecimal $subtrahend , Integer $scale = null){
+        if($scale == null){
+            return new BigDecimal(bcsub($this, $summand,$this->scale));
+         }
+         else{
+             return new BigDecimal(bcsub($this, $summand,$scale));
+         }
+         }
+     
+
+     public function div(BigDecimal $divisor , Integer $scale = null){
+
+        if($scale == null){
+         return new BigDecimal(bcdiv($this, $divisor,$this->scale));
+         }
+         else{
+             return new BigDecimal(bcdiv($this, $divisor,$scale));
+         }
+     }
+
+      public function mul(BigDecimal $multiplicator , Integer $scale = null){
+
+        if($scale == null){
+         return new BigDecimal(bcmul($this, $multiplicator,$this->scale+$multiplicator->scale));
+         }
+         else{
+             return new BigDecimal(bcmul($this, $multiplicator,$scale));
+         }
+     }
+
+    public function __toString(){
+        return $this->value;
+    }
+
+    public function compareTo(Object $obj){
+        $hthis = new String($this->value);
+        $hobj = new String($obj->value);
+
+        return $hthis->compareTo($hobj);
+
+    }
 
 
 }
