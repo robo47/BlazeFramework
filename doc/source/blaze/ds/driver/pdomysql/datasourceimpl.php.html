@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\ds\driver\pdomysql\DataSourceImpl.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\datasourceimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\ds\driver\pdomysql\DataSourceImpl.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\ds\driver\pdomysql;
+<a name="line3"></a>use blaze\lang\Object,
+<a name="line4"></a>blaze\ds\DataSource,
+<a name="line5"></a>blaze\ds\driver\pdomysql\ConnectionImpl;
+<a name="line6"></a>
+<a name="line7"></a>/**
+<a name="line8"></a> * Description of DataSourceImpl
+<a name="line9"></a> *
+<a name="line10"></a> * @author  Christian Beikov
+<a name="line11"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line12"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line13"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line14"></a> * @since   1.0
+<a name="line15"></a> * @version $Revision$
+<a name="line16"></a> * @todo    Something which has to be done, implementation or so
+<a name="line17"></a> */
+<a name="line18"></a>class DataSourceImpl extends Object implements DataSource {
+<a name="line19"></a>
+<a name="line20"></a>    /**
+<a name="line21"></a>     *
+<a name="line22"></a>     * @var string
+<a name="line23"></a>     */
+<a name="line24"></a>    private $driver;
+<a name="line25"></a>    /**
+<a name="line26"></a>     *
+<a name="line27"></a>     * @var string
+<a name="line28"></a>     */
+<a name="line29"></a>    private $host;
+<a name="line30"></a>    /**
+<a name="line31"></a>     *
+<a name="line32"></a>     * @var integer
+<a name="line33"></a>     */
+<a name="line34"></a>    private $port;
+<a name="line35"></a>    /**
+<a name="line36"></a>     *
+<a name="line37"></a>     * @var string
+<a name="line38"></a>     */
+<a name="line39"></a>    private $database;
+<a name="line40"></a>    /**
+<a name="line41"></a>     *
+<a name="line42"></a>     * @var string
+<a name="line43"></a>     */
+<a name="line44"></a>    private $user;
+<a name="line45"></a>    /**
+<a name="line46"></a>     *
+<a name="line47"></a>     * @var string
+<a name="line48"></a>     */
+<a name="line49"></a>    private $password;
+<a name="line50"></a>    /**
+<a name="line51"></a>     *
+<a name="line52"></a>     * @var array
+<a name="line53"></a>     */
+<a name="line54"></a>    private $options;
+<a name="line55"></a>
+<a name="line56"></a>    private function __construct($driver, $host, $port, $database, $user, $password, $options) {
+<a name="line57"></a>        $this->driver = $driver;
+<a name="line58"></a>        $this->host = $host;
+<a name="line59"></a>        $this->port = $port;
+<a name="line60"></a>        $this->database = $database;
+<a name="line61"></a>        $this->user = $user;
+<a name="line62"></a>        $this->password = $password;
+<a name="line63"></a>        $this->options = $options;
+<a name="line64"></a>    }
+<a name="line65"></a>
+<a name="line66"></a>    public function getConnection($user = null, $password = null, $options = null) {
+<a name="line67"></a>        if($user != null)
+<a name="line68"></a>            $this->user = $user;
+<a name="line69"></a>        if($password != null)
+<a name="line70"></a>            $this->password = $password;
+<a name="line71"></a>        if($options != null)
+<a name="line72"></a>            $this->options = array_merge($this->options, $options);
+<a name="line73"></a>
+<a name="line74"></a>        return new ConnectionImpl($this->driver, $this->host, $this->port, $this->database, $this->user, $this->password, $this->options);
+<a name="line75"></a>    }
+<a name="line76"></a>
+<a name="line77"></a>    public static function getDataSource($host, $port, $database, $user = null, $password = null, $options = null) {
+<a name="line78"></a>        $driver = 'mysql';
+<a name="line79"></a>        
+<a name="line80"></a>        if(!in_array($driver,\PDO::getAvailableDrivers()))
+<a name="line81"></a>                throw new \blaze\lang\IllegalArgumentException('Driver '.$dirver.' does not exist.');
+<a name="line82"></a>        if($port == null || $port < 1 || $port > 65536)
+<a name="line83"></a>            $port = 3306;
+<a name="line84"></a>        
+<a name="line85"></a>        return new DataSourceImpl($driver, $host, $port, $database, $user, $password, $options);
+<a name="line86"></a>    }
+<a name="line87"></a>}
+<a name="line88"></a>
+<a name="line89"></a>?>
+<a name="line90"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\datasourceimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

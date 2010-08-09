@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\web\application\BlazeContext.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\web\application\blazecontext.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\web\application\BlazeContext.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>
+<a name="line3"></a>namespace blaze\web\application;
+<a name="line4"></a>
+<a name="line5"></a>use blaze\lang\Object,
+<a name="line6"></a> blaze\lang\Singleton,
+<a name="line7"></a> blaze\netlet\http\HttpNetletRequestWrapper,
+<a name="line8"></a> blaze\netlet\http\HttpNetletResponseWrapper;
+<a name="line9"></a>
+<a name="line10"></a>/**
+<a name="line11"></a> * The BlazeContext contains information about a request and is only for
+<a name="line12"></a> * the time until a response is made available.
+<a name="line13"></a> *
+<a name="line14"></a> * @author  Christian Beikov
+<a name="line15"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line16"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line17"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line18"></a> * @since   1.0
+<a name="line19"></a> * @version $Revision$
+<a name="line20"></a> * @todo    Something which has to be done, implementation or so
+<a name="line21"></a> */
+<a name="line22"></a>class BlazeContext extends Object {
+<a name="line23"></a>
+<a name="line24"></a>    private static $instance;
+<a name="line25"></a>    private $request;
+<a name="line26"></a>    private $response;
+<a name="line27"></a>    private $application;
+<a name="line28"></a>    private $attributes = array();
+<a name="line29"></a>    private $messages = array();
+<a name="line30"></a>    private $validationFailed = false;
+<a name="line31"></a>    private $doRenderResponse = false;
+<a name="line32"></a>    private $responseComplete = false;
+<a name="line33"></a>    private $currentPhaseId = null;
+<a name="line34"></a>    private $exceptionHandler = null;
+<a name="line35"></a>    private $viewRoot = null;
+<a name="line36"></a>
+<a name="line37"></a>    public function __construct(Application $application, \blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+<a name="line38"></a>        self::$instance = $this;
+<a name="line39"></a>        $this->application = $application;
+<a name="line40"></a>        $this->request = $request;
+<a name="line41"></a>        $this->response = $response;
+<a name="line42"></a>    }
+<a name="line43"></a>
+<a name="line44"></a>    /**
+<a name="line45"></a>     *
+<a name="line46"></a>     * @param string|blaze\lang\String $messageId
+<a name="line47"></a>     * @param blaze\web\application\BlazeMessage $message
+<a name="line48"></a>     */
+<a name="line49"></a>    public function addMessage($messageId, BlazeMessage $message) {
+<a name="line50"></a>        $this->attributes[\blaze\lang\String::asNative($messageId)][] = $message;
+<a name="line51"></a>    }
+<a name="line52"></a>
+<a name="line53"></a>    /**
+<a name="line54"></a>     *
+<a name="line55"></a>     * @param string|blaze\lang\String $messageId
+<a name="line56"></a>     * @return array[blaze\web\application\BlazeMessage]
+<a name="line57"></a>     */
+<a name="line58"></a>    public function getMessages($messageId) {
+<a name="line59"></a>        $messageId = \blaze\lang\String::asNative($messageId);
+<a name="line60"></a>        if (!array_key_exists($messageId, $this->messages))
+<a name="line61"></a>            return null;
+<a name="line62"></a>        return $this->messages[$messageId];
+<a name="line63"></a>    }
+<a name="line64"></a>
+<a name="line65"></a>    /**
+<a name="line66"></a>     *
+<a name="line67"></a>     * @param string|blaze\lang\String $name
+<a name="line68"></a>     * @return mixed
+<a name="line69"></a>     */
+<a name="line70"></a>    public function getAttribute($name) {
+<a name="line71"></a>        $name = \blaze\lang\String::asNative($name);
+<a name="line72"></a>        if (!array_key_exists($name, $this->attributes))
+<a name="line73"></a>            return null;
+<a name="line74"></a>        return $this->attributes[$name];
+<a name="line75"></a>    }
+<a name="line76"></a>
+<a name="line77"></a>    /**
+<a name="line78"></a>     *
+<a name="line79"></a>     * @param string|blaze\lang\String $name
+<a name="line80"></a>     * @param mixed $value
+<a name="line81"></a>     */
+<a name="line82"></a>    public function setAttribute($name, $value) {
+<a name="line83"></a>        $this->attributes[\blaze\lang\String::asNative($name)] = $value;
+<a name="line84"></a>    }
+<a name="line85"></a>
+<a name="line86"></a>    /**
+<a name="line87"></a>     *
+<a name="line88"></a>     * @param string|blaze\lang\String $name
+<a name="line89"></a>     */
+<a name="line90"></a>    public function removeAttribute($name) {
+<a name="line91"></a>        unset($this->attributes[\blaze\lang\String::asNative($name)]);
+<a name="line92"></a>    }
+<a name="line93"></a>
+<a name="line94"></a>    /**
+<a name="line95"></a>     *
+<a name="line96"></a>     * @return blaze\netlet\http\HttpNetletRequest
+<a name="line97"></a>     */
+<a name="line98"></a>    public function getRequest() {
+<a name="line99"></a>        return $this->request;
+<a name="line100"></a>    }
+<a name="line101"></a>
+<a name="line102"></a>    /**
+<a name="line103"></a>     *
+<a name="line104"></a>     * @return blaze\netlet\http\HttpNetletResponse
+<a name="line105"></a>     */
+<a name="line106"></a>    public function getResponse() {
+<a name="line107"></a>        return $this->response;
+<a name="line108"></a>    }
+<a name="line109"></a>
+<a name="line110"></a>    /**
+<a name="line111"></a>     * Return the BlazeContext instance for the request that is being processed by the current thread.
+<a name="line112"></a>     *
+<a name="line113"></a>     * @return blaze\web\application\BlazeContext
+<a name="line114"></a>     */
+<a name="line115"></a>    public static function getCurrentInstance() {
+<a name="line116"></a>        // No threads available, so the instance is a singleton instance
+<a name="line117"></a>        return self::$instance;
+<a name="line118"></a>    }
+<a name="line119"></a>
+<a name="line120"></a>    /**
+<a name="line121"></a>     *
+<a name="line122"></a>     * @return blaze\web\application\Application
+<a name="line123"></a>     */
+<a name="line124"></a>    public function getApplication() {
+<a name="line125"></a>        return $this->application;
+<a name="line126"></a>    }
+<a name="line127"></a>
+<a name="line128"></a>    /**
+<a name="line129"></a>     *
+<a name="line130"></a>     * @return blaze\web\el\ELContext
+<a name="line131"></a>     */
+<a name="line132"></a>    public function getELContext() {
+<a name="line133"></a>        return $this->application->getELContext();
+<a name="line134"></a>    }
+<a name="line135"></a>
+<a name="line136"></a>    /**
+<a name="line137"></a>     * Sets a flag which indicates that the conversion/validation failed.
+<a name="line138"></a>     */
+<a name="line139"></a>    public function validationFailed() {
+<a name="line140"></a>        $this->validationFailed = true;
+<a name="line141"></a>    }
+<a name="line142"></a>
+<a name="line143"></a>    /**
+<a name="line144"></a>     * Sets a flag which indicates that the next phase will render the response.
+<a name="line145"></a>     */
+<a name="line146"></a>    public function renderResponse() {
+<a name="line147"></a>        $this->doRenderResponse = true;
+<a name="line148"></a>    }
+<a name="line149"></a>
+<a name="line150"></a>    /**
+<a name="line151"></a>     * Stops the lifecycle as soon as possible. Helpfull for HTTP redirects.
+<a name="line152"></a>     */
+<a name="line153"></a>    public function responseComplete() {
+<a name="line154"></a>        $this->responseComplete = true;
+<a name="line155"></a>    }
+<a name="line156"></a>
+<a name="line157"></a>    /**
+<a name="line158"></a>     *
+<a name="line159"></a>     * @return blaze\web\event\PhaseId
+<a name="line160"></a>     */
+<a name="line161"></a>    public function getCurrentPhaseId() {
+<a name="line162"></a>        return $this->currentPhaseId;
+<a name="line163"></a>    }
+<a name="line164"></a>
+<a name="line165"></a>    /**
+<a name="line166"></a>     *
+<a name="line167"></a>     * @param blaze\web\event\PhaseId $currentPhaseId
+<a name="line168"></a>     */
+<a name="line169"></a>    public function setCurrentPhaseId($currentPhaseId) {
+<a name="line170"></a>        $this->currentPhaseId = $currentPhaseId;
+<a name="line171"></a>    }
+<a name="line172"></a>
+<a name="line173"></a>    /**
+<a name="line174"></a>     *
+<a name="line175"></a>     * @return blaze\web\application\ExceptionHandler
+<a name="line176"></a>     */
+<a name="line177"></a>    public function getExceptionHandler() {
+<a name="line178"></a>        return $this->exceptionHandler;
+<a name="line179"></a>    }
+<a name="line180"></a>
+<a name="line181"></a>    /**
+<a name="line182"></a>     *
+<a name="line183"></a>     * @param blaze\web\application\ExceptionHandler $exceptionHandler
+<a name="line184"></a>     */
+<a name="line185"></a>    public function setExceptionHandler(ExceptionHandler $exceptionHandler) {
+<a name="line186"></a>        $this->exceptionHandler = $exceptionHandler;
+<a name="line187"></a>    }
+<a name="line188"></a>
+<a name="line189"></a>    /**
+<a name="line190"></a>     *
+<a name="line191"></a>     * @return \blaze\web\component\UIViewRoot
+<a name="line192"></a>     */
+<a name="line193"></a>    public function getViewRoot() {
+<a name="line194"></a>        return $this->viewRoot;
+<a name="line195"></a>    }
+<a name="line196"></a>
+<a name="line197"></a>    /**
+<a name="line198"></a>     *
+<a name="line199"></a>     * @param \blaze\web\component\UIViewRoot $viewRoot
+<a name="line200"></a>     */
+<a name="line201"></a>    public function setViewRoot(\blaze\web\component\UIViewRoot $viewRoot) {
+<a name="line202"></a>        $this->viewRoot = $viewRoot;
+<a name="line203"></a>    }
+<a name="line204"></a>
+<a name="line205"></a>    /**
+<a name="line206"></a>     *
+<a name="line207"></a>     * @return \blaze\web\application\ViewHandler
+<a name="line208"></a>     */
+<a name="line209"></a>    public function getViewHandler() {
+<a name="line210"></a>        return $this->application->getViewHandler();
+<a name="line211"></a>    }
+<a name="line212"></a>
+<a name="line213"></a>    /**
+<a name="line214"></a>     *
+<a name="line215"></a>     * @return boolean
+<a name="line216"></a>     */
+<a name="line217"></a>    public function getValidationFailed() {
+<a name="line218"></a>        return $this->validationFailed;
+<a name="line219"></a>    }
+<a name="line220"></a>
+<a name="line221"></a>    /**
+<a name="line222"></a>     *
+<a name="line223"></a>     * @return boolean
+<a name="line224"></a>     */
+<a name="line225"></a>    public function getDoRenderResponse() {
+<a name="line226"></a>        return $this->doRenderResponse;
+<a name="line227"></a>    }
+<a name="line228"></a>
+<a name="line229"></a>    /**
+<a name="line230"></a>     *
+<a name="line231"></a>     * @return boolean
+<a name="line232"></a>     */
+<a name="line233"></a>    public function getResponseComplete() {
+<a name="line234"></a>        return $this->responseComplete;
+<a name="line235"></a>    }
+<a name="line236"></a>
+<a name="line237"></a>}
+<a name="line238"></a>?>
+<a name="line239"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\web\application\blazecontext.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

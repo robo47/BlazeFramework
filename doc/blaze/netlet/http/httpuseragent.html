@@ -1,0 +1,892 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:00 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+<link rel="start" href="../../../overview-summary.html">
+
+<title>HttpUserAgent (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/netlet/http/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/netlet/http/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\netlet\http\httpuseragent.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\netlet\http\HttpUserAgent</div>
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line16" class="location">blaze\netlet\http\HttpUserAgent.php at line 16</a>
+
+<h1>Interface HttpUserAgent</h1>
+
+<pre class="tree"><a href="../../../blaze/lang/cloneable.html">Cloneable</a><br>    └─<strong>HttpUserAgent</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  interface <strong>HttpUserAgent</strong><br>extends <a href="../../../blaze/lang/cloneable.html">Cloneable</a>
+
+</p>
+
+<div class="comment" id="overview_description"><p>Description of HttpUserAgent</p></div>
+
+<dl>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd>which could be useful for the understanding of this class. e.g. ClassName::methodName</dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Todo:</dt>
+<dd>Something which has to be done, implementation or so</dd>
+</dl>
+<hr>
+
+<table id="summary_field">
+<tr><th colspan="2">Constant Summary</th></tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_AMAYA">BROWSER_AMAYA</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_ANDROID">BROWSER_ANDROID</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_BLACKBERRY">BROWSER_BLACKBERRY</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_CHROME">BROWSER_CHROME</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_FIREBIRD">BROWSER_FIREBIRD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_FIREFOX">BROWSER_FIREFOX</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_GALEON">BROWSER_GALEON</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_GOOGLEBOT">BROWSER_GOOGLEBOT</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_ICAB">BROWSER_ICAB</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_ICECAT">BROWSER_ICECAT</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_ICEWEASEL">BROWSER_ICEWEASEL</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_IE">BROWSER_IE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_IPAD">BROWSER_IPAD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_IPHONE">BROWSER_IPHONE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_IPOD">BROWSER_IPOD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_KONQUEROR">BROWSER_KONQUEROR</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_LYNX">BROWSER_LYNX</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_MOZILLA">BROWSER_MOZILLA</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_NETPOSITIVE">BROWSER_NETPOSITIVE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_NETSCAPE_NAVIGATOR">BROWSER_NETSCAPE_NAVIGATOR</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_NOKIA">BROWSER_NOKIA</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_NOKIA_S60">BROWSER_NOKIA_S60</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_OMNIWEB">BROWSER_OMNIWEB</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_OPERA">BROWSER_OPERA</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_OPERA_MINI">BROWSER_OPERA_MINI</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_PHOENIX">BROWSER_PHOENIX</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_POCKET_IE">BROWSER_POCKET_IE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_SAFARI">BROWSER_SAFARI</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_SHIRETOKO">BROWSER_SHIRETOKO</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_SLURP">BROWSER_SLURP</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_UNKNOWN">BROWSER_UNKNOWN</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_W3CVALIDATOR">BROWSER_W3CVALIDATOR</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#BROWSER_WEBTV">BROWSER_WEBTV</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_APPLE">OS_APPLE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_BEOS">OS_BEOS</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_BLACKBERRY">OS_BLACKBERRY</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_FREEBSD">OS_FREEBSD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_IPAD">OS_IPAD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_IPHONE">OS_IPHONE</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_IPOD">OS_IPOD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_LINUX">OS_LINUX</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_NETBSD">OS_NETBSD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_NOKIA">OS_NOKIA</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_OPENBSD">OS_OPENBSD</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_OPENSOLARIS">OS_OPENSOLARIS</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_OS2">OS_OS2</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_SUNOS">OS_SUNOS</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_UNKNOWN">OS_UNKNOWN</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_WINDOWS">OS_WINDOWS</a></p></td>
+</tr>
+<tr>
+<td class="type">final static  str</td>
+<td class="description"><p class="name"><a href="#OS_WINDOWS_CE">OS_WINDOWS_CE</a></p></td>
+</tr>
+</table>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getBrowser()">getBrowser</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getBrowserMajorVersion()">getBrowserMajorVersion</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getBrowserMinorVersion()">getBrowserMinorVersion</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getBrowserVersionString()">getBrowserVersionString</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getCssVersion()">getCssVersion</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getHtmlVersion()">getHtmlVersion</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getOperatingSystem()">getOperatingSystem</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getUserAgentString()">getUserAgentString</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#isMobile()">isMobile</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#isRobot()">isRobot</a>()</p></td>
+</tr>
+</table>
+
+<h2 id="detail_field">Constant Detail</h2>
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line33" class="location">blaze\netlet\http\HttpUserAgent.php at line 33</a>
+
+<h3 id="BROWSER_AMAYA">BROWSER_AMAYA</h3>
+<code class="signature">public final static  str <strong>BROWSER_AMAYA</strong> = 'Amaya'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line40" class="location">blaze\netlet\http\HttpUserAgent.php at line 40</a>
+
+<h3 id="BROWSER_ANDROID">BROWSER_ANDROID</h3>
+<code class="signature">public final static  str <strong>BROWSER_ANDROID</strong> = 'Android'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line44" class="location">blaze\netlet\http\HttpUserAgent.php at line 44</a>
+
+<h3 id="BROWSER_BLACKBERRY">BROWSER_BLACKBERRY</h3>
+<code class="signature">public final static  str <strong>BROWSER_BLACKBERRY</strong> = 'BlackBerry'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line39" class="location">blaze\netlet\http\HttpUserAgent.php at line 39</a>
+
+<h3 id="BROWSER_CHROME">BROWSER_CHROME</h3>
+<code class="signature">public final static  str <strong>BROWSER_CHROME</strong> = 'Chrome'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line28" class="location">blaze\netlet\http\HttpUserAgent.php at line 28</a>
+
+<h3 id="BROWSER_FIREBIRD">BROWSER_FIREBIRD</h3>
+<code class="signature">public final static  str <strong>BROWSER_FIREBIRD</strong> = 'Firebird'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line29" class="location">blaze\netlet\http\HttpUserAgent.php at line 29</a>
+
+<h3 id="BROWSER_FIREFOX">BROWSER_FIREFOX</h3>
+<code class="signature">public final static  str <strong>BROWSER_FIREFOX</strong> = 'Firefox'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line50" class="location">blaze\netlet\http\HttpUserAgent.php at line 50</a>
+
+<h3 id="BROWSER_GALEON">BROWSER_GALEON</h3>
+<code class="signature">public final static  str <strong>BROWSER_GALEON</strong> = 'Galeon'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line41" class="location">blaze\netlet\http\HttpUserAgent.php at line 41</a>
+
+<h3 id="BROWSER_GOOGLEBOT">BROWSER_GOOGLEBOT</h3>
+<code class="signature">public final static  str <strong>BROWSER_GOOGLEBOT</strong> = 'GoogleBot'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line26" class="location">blaze\netlet\http\HttpUserAgent.php at line 26</a>
+
+<h3 id="BROWSER_ICAB">BROWSER_ICAB</h3>
+<code class="signature">public final static  str <strong>BROWSER_ICAB</strong> = 'iCab'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line45" class="location">blaze\netlet\http\HttpUserAgent.php at line 45</a>
+
+<h3 id="BROWSER_ICECAT">BROWSER_ICECAT</h3>
+<code class="signature">public final static  str <strong>BROWSER_ICECAT</strong> = 'IceCat'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line30" class="location">blaze\netlet\http\HttpUserAgent.php at line 30</a>
+
+<h3 id="BROWSER_ICEWEASEL">BROWSER_ICEWEASEL</h3>
+<code class="signature">public final static  str <strong>BROWSER_ICEWEASEL</strong> = 'Iceweasel'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line23" class="location">blaze\netlet\http\HttpUserAgent.php at line 23</a>
+
+<h3 id="BROWSER_IE">BROWSER_IE</h3>
+<code class="signature">public final static  str <strong>BROWSER_IE</strong> = 'Internet Explorer'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line38" class="location">blaze\netlet\http\HttpUserAgent.php at line 38</a>
+
+<h3 id="BROWSER_IPAD">BROWSER_IPAD</h3>
+<code class="signature">public final static  str <strong>BROWSER_IPAD</strong> = 'iPad'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line36" class="location">blaze\netlet\http\HttpUserAgent.php at line 36</a>
+
+<h3 id="BROWSER_IPHONE">BROWSER_IPHONE</h3>
+<code class="signature">public final static  str <strong>BROWSER_IPHONE</strong> = 'iPhone'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line37" class="location">blaze\netlet\http\HttpUserAgent.php at line 37</a>
+
+<h3 id="BROWSER_IPOD">BROWSER_IPOD</h3>
+<code class="signature">public final static  str <strong>BROWSER_IPOD</strong> = 'iPod'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line25" class="location">blaze\netlet\http\HttpUserAgent.php at line 25</a>
+
+<h3 id="BROWSER_KONQUEROR">BROWSER_KONQUEROR</h3>
+<code class="signature">public final static  str <strong>BROWSER_KONQUEROR</strong> = 'Konqueror'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line34" class="location">blaze\netlet\http\HttpUserAgent.php at line 34</a>
+
+<h3 id="BROWSER_LYNX">BROWSER_LYNX</h3>
+<code class="signature">public final static  str <strong>BROWSER_LYNX</strong> = 'Lynx'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line32" class="location">blaze\netlet\http\HttpUserAgent.php at line 32</a>
+
+<h3 id="BROWSER_MOZILLA">BROWSER_MOZILLA</h3>
+<code class="signature">public final static  str <strong>BROWSER_MOZILLA</strong> = 'Mozilla'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line51" class="location">blaze\netlet\http\HttpUserAgent.php at line 51</a>
+
+<h3 id="BROWSER_NETPOSITIVE">BROWSER_NETPOSITIVE</h3>
+<code class="signature">public final static  str <strong>BROWSER_NETPOSITIVE</strong> = 'NetPositive'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line49" class="location">blaze\netlet\http\HttpUserAgent.php at line 49</a>
+
+<h3 id="BROWSER_NETSCAPE_NAVIGATOR">BROWSER_NETSCAPE_NAVIGATOR</h3>
+<code class="signature">public final static  str <strong>BROWSER_NETSCAPE_NAVIGATOR</strong> = 'Netscape Navigator'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line47" class="location">blaze\netlet\http\HttpUserAgent.php at line 47</a>
+
+<h3 id="BROWSER_NOKIA">BROWSER_NOKIA</h3>
+<code class="signature">public final static  str <strong>BROWSER_NOKIA</strong> = 'Nokia Browser'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line46" class="location">blaze\netlet\http\HttpUserAgent.php at line 46</a>
+
+<h3 id="BROWSER_NOKIA_S60">BROWSER_NOKIA_S60</h3>
+<code class="signature">public final static  str <strong>BROWSER_NOKIA_S60</strong> = 'Nokia S60 OSS Browser'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line27" class="location">blaze\netlet\http\HttpUserAgent.php at line 27</a>
+
+<h3 id="BROWSER_OMNIWEB">BROWSER_OMNIWEB</h3>
+<code class="signature">public final static  str <strong>BROWSER_OMNIWEB</strong> = 'OmniWeb'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line20" class="location">blaze\netlet\http\HttpUserAgent.php at line 20</a>
+
+<h3 id="BROWSER_OPERA">BROWSER_OPERA</h3>
+<code class="signature">public final static  str <strong>BROWSER_OPERA</strong> = 'Opera'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line21" class="location">blaze\netlet\http\HttpUserAgent.php at line 21</a>
+
+<h3 id="BROWSER_OPERA_MINI">BROWSER_OPERA_MINI</h3>
+<code class="signature">public final static  str <strong>BROWSER_OPERA_MINI</strong> = 'Opera Mini'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line52" class="location">blaze\netlet\http\HttpUserAgent.php at line 52</a>
+
+<h3 id="BROWSER_PHOENIX">BROWSER_PHOENIX</h3>
+<code class="signature">public final static  str <strong>BROWSER_PHOENIX</strong> = 'Phoenix'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line24" class="location">blaze\netlet\http\HttpUserAgent.php at line 24</a>
+
+<h3 id="BROWSER_POCKET_IE">BROWSER_POCKET_IE</h3>
+<code class="signature">public final static  str <strong>BROWSER_POCKET_IE</strong> = 'Pocket Internet Explorer'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line35" class="location">blaze\netlet\http\HttpUserAgent.php at line 35</a>
+
+<h3 id="BROWSER_SAFARI">BROWSER_SAFARI</h3>
+<code class="signature">public final static  str <strong>BROWSER_SAFARI</strong> = 'Safari'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line31" class="location">blaze\netlet\http\HttpUserAgent.php at line 31</a>
+
+<h3 id="BROWSER_SHIRETOKO">BROWSER_SHIRETOKO</h3>
+<code class="signature">public final static  str <strong>BROWSER_SHIRETOKO</strong> = 'Shiretoko'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line42" class="location">blaze\netlet\http\HttpUserAgent.php at line 42</a>
+
+<h3 id="BROWSER_SLURP">BROWSER_SLURP</h3>
+<code class="signature">public final static  str <strong>BROWSER_SLURP</strong> = 'Yahoo! Slurp'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line18" class="location">blaze\netlet\http\HttpUserAgent.php at line 18</a>
+
+<h3 id="BROWSER_UNKNOWN">BROWSER_UNKNOWN</h3>
+<code class="signature">public final static  str <strong>BROWSER_UNKNOWN</strong> = 'unknown'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line43" class="location">blaze\netlet\http\HttpUserAgent.php at line 43</a>
+
+<h3 id="BROWSER_W3CVALIDATOR">BROWSER_W3CVALIDATOR</h3>
+<code class="signature">public final static  str <strong>BROWSER_W3CVALIDATOR</strong> = 'W3C Validator'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line22" class="location">blaze\netlet\http\HttpUserAgent.php at line 22</a>
+
+<h3 id="BROWSER_WEBTV">BROWSER_WEBTV</h3>
+<code class="signature">public final static  str <strong>BROWSER_WEBTV</strong> = 'WebTV'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line56" class="location">blaze\netlet\http\HttpUserAgent.php at line 56</a>
+
+<h3 id="OS_APPLE">OS_APPLE</h3>
+<code class="signature">public final static  str <strong>OS_APPLE</strong> = 'Apple'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line59" class="location">blaze\netlet\http\HttpUserAgent.php at line 59</a>
+
+<h3 id="OS_BEOS">OS_BEOS</h3>
+<code class="signature">public final static  str <strong>OS_BEOS</strong> = 'BeOS'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line63" class="location">blaze\netlet\http\HttpUserAgent.php at line 63</a>
+
+<h3 id="OS_BLACKBERRY">OS_BLACKBERRY</h3>
+<code class="signature">public final static  str <strong>OS_BLACKBERRY</strong> = 'BlackBerry'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line65" class="location">blaze\netlet\http\HttpUserAgent.php at line 65</a>
+
+<h3 id="OS_FREEBSD">OS_FREEBSD</h3>
+<code class="signature">public final static  str <strong>OS_FREEBSD</strong> = 'FreeBSD'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line62" class="location">blaze\netlet\http\HttpUserAgent.php at line 62</a>
+
+<h3 id="OS_IPAD">OS_IPAD</h3>
+<code class="signature">public final static  str <strong>OS_IPAD</strong> = 'iPad'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line60" class="location">blaze\netlet\http\HttpUserAgent.php at line 60</a>
+
+<h3 id="OS_IPHONE">OS_IPHONE</h3>
+<code class="signature">public final static  str <strong>OS_IPHONE</strong> = 'iPhone'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line61" class="location">blaze\netlet\http\HttpUserAgent.php at line 61</a>
+
+<h3 id="OS_IPOD">OS_IPOD</h3>
+<code class="signature">public final static  str <strong>OS_IPOD</strong> = 'iPod'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line57" class="location">blaze\netlet\http\HttpUserAgent.php at line 57</a>
+
+<h3 id="OS_LINUX">OS_LINUX</h3>
+<code class="signature">public final static  str <strong>OS_LINUX</strong> = 'Linux'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line67" class="location">blaze\netlet\http\HttpUserAgent.php at line 67</a>
+
+<h3 id="OS_NETBSD">OS_NETBSD</h3>
+<code class="signature">public final static  str <strong>OS_NETBSD</strong> = 'NetBSD'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line64" class="location">blaze\netlet\http\HttpUserAgent.php at line 64</a>
+
+<h3 id="OS_NOKIA">OS_NOKIA</h3>
+<code class="signature">public final static  str <strong>OS_NOKIA</strong> = 'Nokia'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line66" class="location">blaze\netlet\http\HttpUserAgent.php at line 66</a>
+
+<h3 id="OS_OPENBSD">OS_OPENBSD</h3>
+<code class="signature">public final static  str <strong>OS_OPENBSD</strong> = 'OpenBSD'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line69" class="location">blaze\netlet\http\HttpUserAgent.php at line 69</a>
+
+<h3 id="OS_OPENSOLARIS">OS_OPENSOLARIS</h3>
+<code class="signature">public final static  str <strong>OS_OPENSOLARIS</strong> = 'OpenSolaris'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line58" class="location">blaze\netlet\http\HttpUserAgent.php at line 58</a>
+
+<h3 id="OS_OS2">OS_OS2</h3>
+<code class="signature">public final static  str <strong>OS_OS2</strong> = 'OS/2'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line68" class="location">blaze\netlet\http\HttpUserAgent.php at line 68</a>
+
+<h3 id="OS_SUNOS">OS_SUNOS</h3>
+<code class="signature">public final static  str <strong>OS_SUNOS</strong> = 'SunOS'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line71" class="location">blaze\netlet\http\HttpUserAgent.php at line 71</a>
+
+<h3 id="OS_UNKNOWN">OS_UNKNOWN</h3>
+<code class="signature">public final static  str <strong>OS_UNKNOWN</strong> = 'unknown'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line54" class="location">blaze\netlet\http\HttpUserAgent.php at line 54</a>
+
+<h3 id="OS_WINDOWS">OS_WINDOWS</h3>
+<code class="signature">public final static  str <strong>OS_WINDOWS</strong> = 'Windows'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line55" class="location">blaze\netlet\http\HttpUserAgent.php at line 55</a>
+
+<h3 id="OS_WINDOWS_CE">OS_WINDOWS_CE</h3>
+<code class="signature">public final static  str <strong>OS_WINDOWS_CE</strong> = 'Windows CE'</code>
+<div class="details">
+</div>
+
+<hr>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line75" class="location">blaze\netlet\http\HttpUserAgent.php at line 75</a>
+
+<h3 id="getBrowser()">getBrowser</h3>
+<code class="signature">public  void <strong>getBrowser</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line77" class="location">blaze\netlet\http\HttpUserAgent.php at line 77</a>
+
+<h3 id="getBrowserMajorVersion()">getBrowserMajorVersion</h3>
+<code class="signature">public  void <strong>getBrowserMajorVersion</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line79" class="location">blaze\netlet\http\HttpUserAgent.php at line 79</a>
+
+<h3 id="getBrowserMinorVersion()">getBrowserMinorVersion</h3>
+<code class="signature">public  void <strong>getBrowserMinorVersion</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line81" class="location">blaze\netlet\http\HttpUserAgent.php at line 81</a>
+
+<h3 id="getBrowserVersionString()">getBrowserVersionString</h3>
+<code class="signature">public  void <strong>getBrowserVersionString</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line87" class="location">blaze\netlet\http\HttpUserAgent.php at line 87</a>
+
+<h3 id="getCssVersion()">getCssVersion</h3>
+<code class="signature">public  void <strong>getCssVersion</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line85" class="location">blaze\netlet\http\HttpUserAgent.php at line 85</a>
+
+<h3 id="getHtmlVersion()">getHtmlVersion</h3>
+<code class="signature">public  void <strong>getHtmlVersion</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line83" class="location">blaze\netlet\http\HttpUserAgent.php at line 83</a>
+
+<h3 id="getOperatingSystem()">getOperatingSystem</h3>
+<code class="signature">public  void <strong>getOperatingSystem</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line73" class="location">blaze\netlet\http\HttpUserAgent.php at line 73</a>
+
+<h3 id="getUserAgentString()">getUserAgentString</h3>
+<code class="signature">public  void <strong>getUserAgentString</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line89" class="location">blaze\netlet\http\HttpUserAgent.php at line 89</a>
+
+<h3 id="isMobile()">isMobile</h3>
+<code class="signature">public  void <strong>isMobile</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\netlet\http\httpuseragent.php.html#line91" class="location">blaze\netlet\http\HttpUserAgent.php at line 91</a>
+
+<h3 id="isRobot()">isRobot</h3>
+<code class="signature">public  void <strong>isRobot</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/netlet/http/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/netlet/http/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\netlet\http\httpuseragent.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

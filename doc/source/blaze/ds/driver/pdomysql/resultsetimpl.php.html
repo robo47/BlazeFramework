@@ -1,0 +1,544 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\ds\driver\pdomysql\ResultSetImpl.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\resultsetimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\ds\driver\pdomysql\ResultSetImpl.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\ds\driver\pdomysql;
+<a name="line3"></a>use blaze\lang\Object,
+<a name="line4"></a>blaze\lang\String,
+<a name="line5"></a>blaze\lang\Boolean,
+<a name="line6"></a>blaze\lang\Long,
+<a name="line7"></a>blaze\lang\Float,
+<a name="line8"></a>blaze\lang\Byte,
+<a name="line9"></a>blaze\lang\Integer,
+<a name="line10"></a>blaze\util\ArrayObject,
+<a name="line11"></a>blaze\math\BigDecimal,
+<a name="line12"></a>blaze\ds\Statement1,
+<a name="line13"></a>blaze\ds\SQLException,
+<a name="line14"></a>blaze\ds\driver\pdobase\AbstractResultSet,
+<a name="line15"></a>blaze\ds\driver\pdomysql\type\BlobImpl,
+<a name="line16"></a>blaze\ds\driver\pdomysql\type\ClobImpl,
+<a name="line17"></a>blaze\ds\driver\pdomysql\type\NClobImpl;
+<a name="line18"></a>
+<a name="line19"></a>/**
+<a name="line20"></a> * Description of ResultSetImpl
+<a name="line21"></a> *
+<a name="line22"></a> * @author  Christian Beikov
+<a name="line23"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line24"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line25"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line26"></a> * @since   1.0
+<a name="line27"></a> * @version $Revision$
+<a name="line28"></a> * @todo    Something which has to be done, implementation or so
+<a name="line29"></a> */
+<a name="line30"></a>class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticInitialization {
+<a name="line31"></a>
+<a name="line32"></a>    /**
+<a name="line33"></a>     *
+<a name="line34"></a>     * @var blaze\ds\Statement
+<a name="line35"></a>     */
+<a name="line36"></a>    private $stmt;
+<a name="line37"></a>    /**
+<a name="line38"></a>     *
+<a name="line39"></a>     * @var \PDOStatement
+<a name="line40"></a>     */
+<a name="line41"></a>    private $pdoStmt;
+<a name="line42"></a>    /**
+<a name="line43"></a>     *
+<a name="line44"></a>     * @var mixed
+<a name="line45"></a>     */
+<a name="line46"></a>    private $actRow;
+<a name="line47"></a>    /**
+<a name="line48"></a>     * @var mixed
+<a name="line49"></a>     */
+<a name="line50"></a>    private $actRowIndex;
+<a name="line51"></a>    /**
+<a name="line52"></a>     *
+<a name="line53"></a>     * @var integer
+<a name="line54"></a>     */
+<a name="line55"></a>    private $rowNumber;
+<a name="line56"></a>    /**
+<a name="line57"></a>     *
+<a name="line58"></a>     * @var blaze\ds\SQLWarning
+<a name="line59"></a>     */
+<a name="line60"></a>    protected $warnings;
+<a name="line61"></a>
+<a name="line62"></a>    private static $dateFormatter;
+<a name="line63"></a>    private static $dateTimeFormatter;
+<a name="line64"></a>    private static $timeFormatter;
+<a name="line65"></a>
+<a name="line66"></a>    public static function staticInit(){
+<a name="line67"></a>        self::$dateFormatter = new \blaze\text\DateFormat('Y-m-d');
+<a name="line68"></a>        self::$dateTimeFormatter = new \blaze\text\DateFormat('Y-m-d H:i:s');
+<a name="line69"></a>        self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
+<a name="line70"></a>    }
+<a name="line71"></a>
+<a name="line72"></a>    public function __construct(Statement1 $stmt, \PDOStatement $pdoStmt) {
+<a name="line73"></a>        $this->stmt = $stmt;
+<a name="line74"></a>        $this->pdoStmt = $pdoStmt;
+<a name="line75"></a>        $this->rowNumber = 0;
+<a name="line76"></a>    }
+<a name="line77"></a>
+<a name="line78"></a>
+<a name="line79"></a>    /**
+<a name="line80"></a>     * @return boolean
+<a name="line81"></a>     */
+<a name="line82"></a>    public function next() {
+<a name="line83"></a>        if($this->isClosed())
+<a name="line84"></a>            throw new SQLException('Statement is already closed.');
+<a name="line85"></a>        
+<a name="line86"></a>        $this->actRow = $this->pdoStmt->fetch(\PDO::FETCH_ASSOC);
+<a name="line87"></a>        $this->actRowIndex = is_array($this->actRow) ? array_values($this->actRow) : $this->actRow;
+<a name="line88"></a>
+<a name="line89"></a>        if($this->actRow !== false) {
+<a name="line90"></a>            $this->rowNumber++;
+<a name="line91"></a>            return true;
+<a name="line92"></a>        }
+<a name="line93"></a>
+<a name="line94"></a>        return false;
+<a name="line95"></a>    }
+<a name="line96"></a>
+<a name="line97"></a>    /**
+<a name="line98"></a>     * Closes the ResultSet
+<a name="line99"></a>     */
+<a name="line100"></a>    public function close() {
+<a name="line101"></a>        if(!$this->isClosed())
+<a name="line102"></a>            $this->stmt = null;
+<a name="line103"></a>    }
+<a name="line104"></a>
+<a name="line105"></a>    /**
+<a name="line106"></a>     * Returns wether the ResultSet is closed or not.
+<a name="line107"></a>     *
+<a name="line108"></a>     * @return boolean
+<a name="line109"></a>     */
+<a name="line110"></a>    public function isClosed() {
+<a name="line111"></a>        return $this->stmt == null;
+<a name="line112"></a>    }
+<a name="line113"></a>
+<a name="line114"></a>    /**
+<a name="line115"></a>     * Returns the warnings which from the database
+<a name="line116"></a>     *
+<a name="line117"></a>     * @return blaze\ds\SQLWarning
+<a name="line118"></a>     */
+<a name="line119"></a>    public function getWarnings() {
+<a name="line120"></a>        if($this->isClosed())
+<a name="line121"></a>            throw new SQLException('Statement is already closed.');
+<a name="line122"></a>        return $this->warnings;
+<a name="line123"></a>    }
+<a name="line124"></a>
+<a name="line125"></a>    /**
+<a name="line126"></a>     *
+<a name="line127"></a>     * @return blaze\ds\Statement
+<a name="line128"></a>     */
+<a name="line129"></a>    public function getStatement() {
+<a name="line130"></a>        if($this->isClosed())
+<a name="line131"></a>            throw new SQLException('Statement is already closed.');
+<a name="line132"></a>        return $this->stmt;
+<a name="line133"></a>    }
+<a name="line134"></a>
+<a name="line135"></a>    /**
+<a name="line136"></a>     *
+<a name="line137"></a>     * @return integer The actual row number
+<a name="line138"></a>     */
+<a name="line139"></a>    public function getRow() {
+<a name="line140"></a>        if($this->isClosed())
+<a name="line141"></a>            throw new SQLException('Statement is already closed.');
+<a name="line142"></a>        return $this->rowNumber;
+<a name="line143"></a>    }
+<a name="line144"></a>
+<a name="line145"></a>    /**
+<a name="line146"></a>     *
+<a name="line147"></a>     * @return boolean True if the cursor was moved to the new position and false if not
+<a name="line148"></a>     */
+<a name="line149"></a>    public function absolute($number) {
+<a name="line150"></a>        if($this->isClosed())
+<a name="line151"></a>            throw new SQLException('Statement is already closed.');
+<a name="line152"></a>        if($number < $this->rowNumber) {
+<a name="line153"></a>            return false;
+<a name="line154"></a>        }else if($number == $this->rowNumber) {
+<a name="line155"></a>            return true;
+<a name="line156"></a>        }else {
+<a name="line157"></a>            while($this->next())
+<a name="line158"></a>                if($this->rowNumber == $number)
+<a name="line159"></a>                    return true;
+<a name="line160"></a>            return false;
+<a name="line161"></a>        }
+<a name="line162"></a>    }
+<a name="line163"></a>
+<a name="line164"></a>    /**
+<a name="line165"></a>     *
+<a name="line166"></a>     * @return boolean True if the cursor was moved to the new position and false if not
+<a name="line167"></a>     */
+<a name="line168"></a>    public function relative($count) {
+<a name="line169"></a>        if($this->isClosed())
+<a name="line170"></a>            throw new SQLException('Statement is already closed.');
+<a name="line171"></a>        if($number < 0) {
+<a name="line172"></a>            return false;
+<a name="line173"></a>        }else if($number == 0) {
+<a name="line174"></a>            return true;
+<a name="line175"></a>        }else {
+<a name="line176"></a>            $target = $this->rowNumber + $count;
+<a name="line177"></a>
+<a name="line178"></a>            while($this->next())
+<a name="line179"></a>                if($this->rowNumber == $target)
+<a name="line180"></a>                    return true;
+<a name="line181"></a>            return false;
+<a name="line182"></a>        }
+<a name="line183"></a>    }
+<a name="line184"></a>
+<a name="line185"></a>    /**
+<a name="line186"></a>     *
+<a name="line187"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line188"></a>     *
+<a name="line189"></a>     */
+<a name="line190"></a>    private function get($identifier) {
+<a name="line191"></a>        if(!is_array($this->actRow))
+<a name="line192"></a>            throw new SQLException('No valid result.');
+<a name="line193"></a>        if(is_int($identifier)) {
+<a name="line194"></a>            if(!array_key_exists($identifier, $this->actRowIndex))
+<a name="line195"></a>                throw new SQLException('Index '.$identifier.' was not found.');
+<a name="line196"></a>            return $this->actRowIndex[$identifier];
+<a name="line197"></a>        }else {
+<a name="line198"></a>            if(!array_key_exists(String::asNative($identifier), $this->actRow))
+<a name="line199"></a>                throw new SQLException('Index '.$identifier.' was not found.');
+<a name="line200"></a>            return $this->actRow[String::asNative($identifier)];
+<a name="line201"></a>
+<a name="line202"></a>        }
+<a name="line203"></a>    }
+<a name="line204"></a>
+<a name="line205"></a>    /**
+<a name="line206"></a>     *
+<a name="line207"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line208"></a>     * @return blaze\util\ArrayObject
+<a name="line209"></a>     */
+<a name="line210"></a>    public function getArray($identifier) {
+<a name="line211"></a>        if($this->isClosed())
+<a name="line212"></a>            throw new SQLException('Statement is already closed.');
+<a name="line213"></a>        throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
+<a name="line214"></a>//        $a = new ArrayObject();
+<a name="line215"></a>//
+<a name="line216"></a>//        return $a;
+<a name="line217"></a>    }
+<a name="line218"></a>
+<a name="line219"></a>    /**
+<a name="line220"></a>     *
+<a name="line221"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line222"></a>     * @return blaze\math\BigDecimal
+<a name="line223"></a>     */
+<a name="line224"></a>    public function getDecimal($identifier) {
+<a name="line225"></a>        if($this->isClosed())
+<a name="line226"></a>            throw new SQLException('Statement is already closed.');
+<a name="line227"></a>        $val = $this->get($identifier);
+<a name="line228"></a>
+<a name="line229"></a>        if($val == null)
+<a name="line230"></a>            return null;
+<a name="line231"></a>
+<a name="line232"></a>        $pair = explode(',',$val);
+<a name="line233"></a>        var_dump($pair);
+<a name="line234"></a>        $d = new BigDecimal();
+<a name="line235"></a>
+<a name="line236"></a>        return $d;
+<a name="line237"></a>    }
+<a name="line238"></a>
+<a name="line239"></a>    /**
+<a name="line240"></a>     *
+<a name="line241"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line242"></a>     * @return blaze\ds\type\Blob
+<a name="line243"></a>     */
+<a name="line244"></a>    public function getBlob($identifier) {
+<a name="line245"></a>        if($this->isClosed())
+<a name="line246"></a>            throw new SQLException('Statement is already closed.');
+<a name="line247"></a>        $val = $this->get($identifier);
+<a name="line248"></a>        
+<a name="line249"></a>        if($val == null)
+<a name="line250"></a>            return null;
+<a name="line251"></a>        
+<a name="line252"></a>        return new BlobImpl(new \blaze\io\ByteArrayInputStream($val,$this->stmt));
+<a name="line253"></a>    }
+<a name="line254"></a>
+<a name="line255"></a>    /**
+<a name="line256"></a>     *
+<a name="line257"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line258"></a>     * @return boolean
+<a name="line259"></a>     */
+<a name="line260"></a>    public function getBoolean($identifier) {
+<a name="line261"></a>        if($this->isClosed())
+<a name="line262"></a>            throw new SQLException('Statement is already closed.');
+<a name="line263"></a>        $val = $this->get($identifier);
+<a name="line264"></a>        
+<a name="line265"></a>        if($val == null)
+<a name="line266"></a>            return null;
+<a name="line267"></a>        
+<a name="line268"></a>        return Integer::asNative($val) === 1;
+<a name="line269"></a>    }
+<a name="line270"></a>
+<a name="line271"></a>    /**
+<a name="line272"></a>     *
+<a name="line273"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line274"></a>     * @return integer
+<a name="line275"></a>     */
+<a name="line276"></a>    public function getByte($identifier) {
+<a name="line277"></a>        if($this->isClosed())
+<a name="line278"></a>            throw new SQLException('Statement is already closed.');
+<a name="line279"></a>        $val = $this->get($identifier);
+<a name="line280"></a>        
+<a name="line281"></a>        if($val == null)
+<a name="line282"></a>            return null;
+<a name="line283"></a>        
+<a name="line284"></a>        return Byte::asNative($val);
+<a name="line285"></a>    }
+<a name="line286"></a>
+<a name="line287"></a>    /**
+<a name="line288"></a>     *
+<a name="line289"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line290"></a>     * @return blaze\ds\Clob
+<a name="line291"></a>     */
+<a name="line292"></a>    public function getClob($identifier) {
+<a name="line293"></a>        throw new \blaze\lang\NotYetImplementedException();
+<a name="line294"></a>        if($this->isClosed())
+<a name="line295"></a>            throw new SQLException('Statement is already closed.');
+<a name="line296"></a>        $val = $this->get($identifier);
+<a name="line297"></a>        
+<a name="line298"></a>        if($val == null)
+<a name="line299"></a>            return null;
+<a name="line300"></a>        
+<a name="line301"></a>        var_dump($val);
+<a name="line302"></a>        $c = new ClobImpl();
+<a name="line303"></a>
+<a name="line304"></a>        return $c;
+<a name="line305"></a>    }
+<a name="line306"></a>
+<a name="line307"></a>    /**
+<a name="line308"></a>     *
+<a name="line309"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line310"></a>     * @return blaze\util\Date
+<a name="line311"></a>     */
+<a name="line312"></a>    public function getDate($identifier) {
+<a name="line313"></a>        if($this->isClosed())
+<a name="line314"></a>            throw new SQLException('Statement is already closed.');
+<a name="line315"></a>        $val = $this->get($identifier);
+<a name="line316"></a>
+<a name="line317"></a>        if($val == null)
+<a name="line318"></a>            return null;
+<a name="line319"></a>
+<a name="line320"></a>
+<a name="line321"></a>        return self::$dateFormatter->parseDate($val);
+<a name="line322"></a>    }
+<a name="line323"></a>
+<a name="line324"></a>    /**
+<a name="line325"></a>     *
+<a name="line326"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line327"></a>     * @return blaze\util\Date
+<a name="line328"></a>     */
+<a name="line329"></a>    public function getDateTime($identifier) {
+<a name="line330"></a>        if($this->isClosed())
+<a name="line331"></a>            throw new SQLException('Statement is already closed.');
+<a name="line332"></a>        $val = $this->get($identifier);
+<a name="line333"></a>
+<a name="line334"></a>        if($val == null)
+<a name="line335"></a>            return null;
+<a name="line336"></a>
+<a name="line337"></a>
+<a name="line338"></a>        return self::$dateTimeFormatter->parseDate($val);
+<a name="line339"></a>    }
+<a name="line340"></a>
+<a name="line341"></a>    /**
+<a name="line342"></a>     *
+<a name="line343"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line344"></a>     * @return double
+<a name="line345"></a>     */
+<a name="line346"></a>    public function getDouble($identifier) {
+<a name="line347"></a>        if($this->isClosed())
+<a name="line348"></a>            throw new SQLException('Statement is already closed.');
+<a name="line349"></a>        $val = $this->get($identifier);
+<a name="line350"></a>        
+<a name="line351"></a>        if($val == null)
+<a name="line352"></a>            return null;
+<a name="line353"></a>        
+<a name="line354"></a>        return Double::asNative($val);
+<a name="line355"></a>    }
+<a name="line356"></a>
+<a name="line357"></a>    /**
+<a name="line358"></a>     *
+<a name="line359"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line360"></a>     * @return float
+<a name="line361"></a>     */
+<a name="line362"></a>    public function getFloat($identifier) {
+<a name="line363"></a>        if($this->isClosed())
+<a name="line364"></a>            throw new SQLException('Statement is already closed.');
+<a name="line365"></a>        $val = $this->get($identifier);
+<a name="line366"></a>        
+<a name="line367"></a>        if($val == null)
+<a name="line368"></a>            return null;
+<a name="line369"></a>        
+<a name="line370"></a>        return Float::asNative($val);
+<a name="line371"></a>    }
+<a name="line372"></a>
+<a name="line373"></a>    /**
+<a name="line374"></a>     *
+<a name="line375"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line376"></a>     * @return integer
+<a name="line377"></a>     */
+<a name="line378"></a>    public function getInt($identifier) {
+<a name="line379"></a>        if($this->isClosed())
+<a name="line380"></a>            throw new SQLException('Statement is already closed.');
+<a name="line381"></a>        $val = $this->get($identifier);
+<a name="line382"></a>        
+<a name="line383"></a>        if($val == null)
+<a name="line384"></a>            return null;
+<a name="line385"></a>        
+<a name="line386"></a>        return Integer::asNative($val);
+<a name="line387"></a>    }
+<a name="line388"></a>
+<a name="line389"></a>    /**
+<a name="line390"></a>     *
+<a name="line391"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line392"></a>     * @return long
+<a name="line393"></a>     */
+<a name="line394"></a>    public function getLong($identifier) {
+<a name="line395"></a>        if($this->isClosed())
+<a name="line396"></a>            throw new SQLException('Statement is already closed.');
+<a name="line397"></a>        $val = $this->get($identifier);
+<a name="line398"></a>        
+<a name="line399"></a>        if($val == null)
+<a name="line400"></a>            return null;
+<a name="line401"></a>        
+<a name="line402"></a>        return Long::asNative($val);
+<a name="line403"></a>    }
+<a name="line404"></a>
+<a name="line405"></a>    /**
+<a name="line406"></a>     *
+<a name="line407"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line408"></a>     * @return blaze\ds\type\NClob
+<a name="line409"></a>     */
+<a name="line410"></a>    public function getNClob($identifier) {
+<a name="line411"></a>        throw new \blaze\lang\NotYetImplementedException();
+<a name="line412"></a>        if($this->isClosed())
+<a name="line413"></a>            throw new SQLException('Statement is already closed.');
+<a name="line414"></a>        $val = $this->get($identifier);
+<a name="line415"></a>        
+<a name="line416"></a>        if($val == null)
+<a name="line417"></a>            return null;
+<a name="line418"></a>        
+<a name="line419"></a>        var_dump($val);
+<a name="line420"></a>        $n = new NClobImpl();
+<a name="line421"></a>
+<a name="line422"></a>        return $n;
+<a name="line423"></a>    }
+<a name="line424"></a>
+<a name="line425"></a>    /**
+<a name="line426"></a>     * Varchar2
+<a name="line427"></a>     *
+<a name="line428"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line429"></a>     * @return blaze\lang\String
+<a name="line430"></a>     */
+<a name="line431"></a>    public function getNString($identifier) {
+<a name="line432"></a>        if($this->isClosed())
+<a name="line433"></a>            throw new SQLException('Statement is already closed.');
+<a name="line434"></a>        $val = $this->get($identifier);
+<a name="line435"></a>        
+<a name="line436"></a>        if($val == null)
+<a name="line437"></a>            return null;
+<a name="line438"></a>        
+<a name="line439"></a>        return String::asWrapper($val);
+<a name="line440"></a>    }
+<a name="line441"></a>
+<a name="line442"></a>    /**
+<a name="line443"></a>     *
+<a name="line444"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line445"></a>     * @return blaze\lang\String
+<a name="line446"></a>     */
+<a name="line447"></a>    public function getString($identifier) {
+<a name="line448"></a>        if($this->isClosed())
+<a name="line449"></a>            throw new SQLException('Statement is already closed.');
+<a name="line450"></a>        $val = $this->get($identifier);
+<a name="line451"></a>        
+<a name="line452"></a>        if($val == null)
+<a name="line453"></a>            return null;
+<a name="line454"></a>        
+<a name="line455"></a>        return String::asWrapper($val);
+<a name="line456"></a>    }
+<a name="line457"></a>
+<a name="line458"></a>    /**
+<a name="line459"></a>     *
+<a name="line460"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line461"></a>     * @return blaze\util\Date
+<a name="line462"></a>     */
+<a name="line463"></a>    public function getTime($identifier) {
+<a name="line464"></a>        if($this->isClosed())
+<a name="line465"></a>            throw new SQLException('Statement is already closed.');
+<a name="line466"></a>        $val = $this->get($identifier);
+<a name="line467"></a>        
+<a name="line468"></a>        if($val == null)
+<a name="line469"></a>            return null;
+<a name="line470"></a>        
+<a name="line471"></a>        return self::$timeFormatter->parseDate($val);
+<a name="line472"></a>    }
+<a name="line473"></a>
+<a name="line474"></a>    /**
+<a name="line475"></a>     *
+<a name="line476"></a>     * @param blaze\lang\String|string|integer $identifier
+<a name="line477"></a>     * @return blaze\util\Date
+<a name="line478"></a>     */
+<a name="line479"></a>    public function getTimestamp($identifier) {
+<a name="line480"></a>        return $this->getDateTime($identifier);
+<a name="line481"></a>    }
+<a name="line482"></a>
+<a name="line483"></a>}
+<a name="line484"></a>
+<a name="line485"></a>?>
+<a name="line486"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\resultsetimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\ds\driver\pdomysql\meta\TableMetaDataImpl.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\meta\tablemetadataimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\ds\driver\pdomysql\meta\TableMetaDataImpl.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\ds\driver\pdomysql\meta;
+<a name="line3"></a>use blaze\ds\driver\pdobase\meta\AbstractTableMetaData;
+<a name="line4"></a>
+<a name="line5"></a>/**
+<a name="line6"></a> * Description of TableMetaDataImpl
+<a name="line7"></a> *
+<a name="line8"></a> * @author  Christian Beikov
+<a name="line9"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line10"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line11"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line12"></a> * @since   1.0
+<a name="line13"></a> * @version $Revision$
+<a name="line14"></a> * @todo    Something which has to be done, implementation or so
+<a name="line15"></a> */
+<a name="line16"></a>class TableMetaDataImpl extends AbstractTableMetaData{
+<a name="line17"></a>
+<a name="line18"></a>    public function __construct(\blaze\ds\meta\SchemaMetaData $schema, $tableName, $tableComment, $tableCharset, $tableCollation){
+<a name="line19"></a>        $this->schema = $schema;
+<a name="line20"></a>        $this->tableName = $tableName;
+<a name="line21"></a>        $this->tableComment = $tableComment;
+<a name="line22"></a>        $this->tableCharset = $tableCharset;
+<a name="line23"></a>        $this->tableCollation = $tableCollation;
+<a name="line24"></a>    }
+<a name="line25"></a>
+<a name="line26"></a>    /**
+<a name="line27"></a>     * @return blaze\lang\String
+<a name="line28"></a>     */
+<a name="line29"></a>    public function getTableName(){
+<a name="line30"></a>        return $this->tableName;
+<a name="line31"></a>    }
+<a name="line32"></a>    /**
+<a name="line33"></a>     * @return blaze\lang\String
+<a name="line34"></a>     */
+<a name="line35"></a>    public function getTableComment(){
+<a name="line36"></a>        return $this->tableComment;
+<a name="line37"></a>    }
+<a name="line38"></a>    /**
+<a name="line39"></a>     * @return blaze\lang\String
+<a name="line40"></a>     */
+<a name="line41"></a>    public function getTableCharset(){
+<a name="line42"></a>        return $this->tableCharset;
+<a name="line43"></a>    }
+<a name="line44"></a>    /**
+<a name="line45"></a>     * @return blaze\lang\String
+<a name="line46"></a>     */
+<a name="line47"></a>    public function getTableCollation(){
+<a name="line48"></a>        return $this->tableCollation;
+<a name="line49"></a>    }
+<a name="line50"></a>    /**
+<a name="line51"></a>     * @return blaze\ds\meta\SchemaMetaData
+<a name="line52"></a>     */
+<a name="line53"></a>    public function getSchema(){
+<a name="line54"></a>        return $this->schema;
+<a name="line55"></a>    }
+<a name="line56"></a>
+<a name="line57"></a>    /**
+<a name="line58"></a>     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+<a name="line59"></a>     */
+<a name="line60"></a>    public function getColumns(){
+<a name="line61"></a>        $stmt = null;
+<a name="line62"></a>        $rs = null;
+<a name="line63"></a>        $columns = array();
+<a name="line64"></a>
+<a name="line65"></a>        try{
+<a name="line66"></a>            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
+<a name="line67"></a>            $stmt->setString(0, $this->schema->getSchemaName());
+<a name="line68"></a>            $stmt->setString(1, $this->tableName);
+<a name="line69"></a>            $stmt->execute();
+<a name="line70"></a>            $rs = $stmt->getResultSet();
+<a name="line71"></a>
+<a name="line72"></a>            while($rs->next())
+<a name="line73"></a>                $columns[] = new ColumnMetaDataImpl($this, $rs->getString('COLUMN_NAME'));
+<a name="line74"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line75"></a>
+<a name="line76"></a>        if($stmt != null)
+<a name="line77"></a>            $stmt->close();
+<a name="line78"></a>        if($rs != null)
+<a name="line79"></a>            $rs->close();
+<a name="line80"></a>
+<a name="line81"></a>        return $columns;
+<a name="line82"></a>    }
+<a name="line83"></a>    /**
+<a name="line84"></a>     * @return blaze\ds\meta\ColumnMetaData
+<a name="line85"></a>     */
+<a name="line86"></a>    public function getColumn($columnName){
+<a name="line87"></a>        
+<a name="line88"></a>        $stmt = null;
+<a name="line89"></a>        $rs = null;
+<a name="line90"></a>        $column = null;
+<a name="line91"></a>
+<a name="line92"></a>        try{
+<a name="line93"></a>            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
+<a name="line94"></a>            $stmt->setString(0, $this->schema->getSchemaName());
+<a name="line95"></a>            $stmt->setString(1, $this->tableName);
+<a name="line96"></a>            $stmt->setString(2, $columnName);
+<a name="line97"></a>            $stmt->execute();
+<a name="line98"></a>            $rs = $stmt->getResultSet();
+<a name="line99"></a>
+<a name="line100"></a>            if($rs->next())
+<a name="line101"></a>                $column = new ColumnMetaDataImpl($this, $rs->getString('COLUMN_NAME'));
+<a name="line102"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line103"></a>
+<a name="line104"></a>        if($stmt != null)
+<a name="line105"></a>            $stmt->close();
+<a name="line106"></a>        if($rs != null)
+<a name="line107"></a>            $rs->close();
+<a name="line108"></a>
+<a name="line109"></a>        return $column;
+<a name="line110"></a>    }
+<a name="line111"></a>    /**
+<a name="line112"></a>     * @return blaze\util\ListI[blaze\ds\meta\TriggerMetaData]
+<a name="line113"></a>     */
+<a name="line114"></a>    public function getTriggers(){
+<a name="line115"></a>        $stmt = null;
+<a name="line116"></a>        $rs = null;
+<a name="line117"></a>        $triggers = array();
+<a name="line118"></a>
+<a name="line119"></a>        try{
+<a name="line120"></a>            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.TRIGGERS WHERE EVENT_OBJECT_SCHEMA = ? AND EVENT_OBJECT_TABLE = ?');
+<a name="line121"></a>            $stmt->setString(0, $this->schema->getSchemaName());
+<a name="line122"></a>            $stmt->setString(1, $this->tableName);
+<a name="line123"></a>            $stmt->execute();
+<a name="line124"></a>            $rs = $stmt->getResultSet();
+<a name="line125"></a>
+<a name="line126"></a>            while($rs->next())
+<a name="line127"></a>                $triggers[] = new TriggerMetaDataImpl($this, $rs->getString('ACTION_TIMING'),
+<a name="line128"></a>                                                            $rs->getString('EVENT_MANIPULATION'),
+<a name="line129"></a>                                                            $rs->getString('ACTION_ORDER'),
+<a name="line130"></a>                                                            $rs->getString('TRIGGER_NAME'),
+<a name="line131"></a>                                                            $rs->getString('ACTION_STATEMENT'),
+<a name="line132"></a>                                                            $rs->getString('ACTION_REFERENCE_OLD_ROW'),
+<a name="line133"></a>                                                            $rs->getString('ACTION_REFERENCE_NEW_ROW'));
+<a name="line134"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line135"></a>
+<a name="line136"></a>        if($stmt != null)
+<a name="line137"></a>            $stmt->close();
+<a name="line138"></a>        if($rs != null)
+<a name="line139"></a>            $rs->close();
+<a name="line140"></a>
+<a name="line141"></a>        return $triggers;
+<a name="line142"></a>    }
+<a name="line143"></a>    /**
+<a name="line144"></a>     * @return blaze\ds\meta\TriggerMetaData
+<a name="line145"></a>     */
+<a name="line146"></a>    public function getTrigger($triggerName){
+<a name="line147"></a>        $stmt = null;
+<a name="line148"></a>        $rs = null;
+<a name="line149"></a>        $trigger = array();
+<a name="line150"></a>
+<a name="line151"></a>        try{
+<a name="line152"></a>            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.TRIGGERS WHERE EVENT_OBJECT_SCHEMA = ? AND EVENT_OBJECT_TABLE = ? AND TRIGGER_NAME = ?');
+<a name="line153"></a>            $stmt->setString(0, $this->schema->getSchemaName());
+<a name="line154"></a>            $stmt->setString(1, $this->tableName);
+<a name="line155"></a>            $stmt->setString(1, $triggerName);
+<a name="line156"></a>            $stmt->execute();
+<a name="line157"></a>            $rs = $stmt->getResultSet();
+<a name="line158"></a>
+<a name="line159"></a>            if($rs->next())
+<a name="line160"></a>                $trigger = new TriggerMetaDataImpl($this, $rs->getString('ACTION_TIMING'),
+<a name="line161"></a>                                                            $rs->getString('EVENT_MANIPULATION'),
+<a name="line162"></a>                                                            $rs->getString('ACTION_ORDER'),
+<a name="line163"></a>                                                            $rs->getString('TRIGGER_NAME'),
+<a name="line164"></a>                                                            $rs->getString('ACTION_STATEMENT'),
+<a name="line165"></a>                                                            $rs->getString('ACTION_REFERENCE_OLD_ROW'),
+<a name="line166"></a>                                                            $rs->getString('ACTION_REFERENCE_NEW_ROW'));
+<a name="line167"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line168"></a>
+<a name="line169"></a>        if($stmt != null)
+<a name="line170"></a>            $stmt->close();
+<a name="line171"></a>        if($rs != null)
+<a name="line172"></a>            $rs->close();
+<a name="line173"></a>
+<a name="line174"></a>        return $trigger;
+<a name="line175"></a>    }
+<a name="line176"></a>    /**
+<a name="line177"></a>     * @return blaze\util\ListI[blaze\ds\meta\IndexMetaData]
+<a name="line178"></a>     */
+<a name="line179"></a>    public function getIndizes(){
+<a name="line180"></a>        $stmt = null;
+<a name="line181"></a>        $rs = null;
+<a name="line182"></a>        $indizes = array();
+<a name="line183"></a>
+<a name="line184"></a>        try{
+<a name="line185"></a>            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SHOW INDEX FROM '.$this->schema->getSchemaName().'.'.$this->tableName);
+<a name="line186"></a>            $stmt->execute();
+<a name="line187"></a>            $rs = $stmt->getResultSet();
+<a name="line188"></a>
+<a name="line189"></a>            while($rs->next())
+<a name="line190"></a>                $indizes[] = new IndexMetaDataImpl($this, $rs->getString('Key_Name'),
+<a name="line191"></a>                                                          !$rs->getBoolean('Non_unique'),
+<a name="line192"></a>                                                          $rs->getString('Null')->equalsIgnoreCase('YES'),
+<a name="line193"></a>                                                          $rs->getString('Index_type'));
+<a name="line194"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line195"></a>
+<a name="line196"></a>        if($stmt != null)
+<a name="line197"></a>            $stmt->close();
+<a name="line198"></a>        if($rs != null)
+<a name="line199"></a>            $rs->close();
+<a name="line200"></a>
+<a name="line201"></a>        return $indizes;
+<a name="line202"></a>    }
+<a name="line203"></a>    /**
+<a name="line204"></a>     * @return blaze\ds\meta\IndexMetaData
+<a name="line205"></a>     */
+<a name="line206"></a>    public function getIndex($indexName){
+<a name="line207"></a>        $stmt = null;
+<a name="line208"></a>        $rs = null;
+<a name="line209"></a>        $index = null;
+<a name="line210"></a>
+<a name="line211"></a>        try{
+<a name="line212"></a>            $stmt = $this->schema
+<a name="line213"></a>                         ->getDatabaseMetaData()
+<a name="line214"></a>                         ->getConnection()
+<a name="line215"></a>                         ->prepareStatement('SHOW INDEX FROM '.$this->schema->getSchemaName().'.'.$this->tableName.' WHERE Key_name = \''.\blaze\lang\String::asNative($indexName).'\'');
+<a name="line216"></a>            $stmt->execute();
+<a name="line217"></a>            $rs = $stmt->getResultSet();
+<a name="line218"></a>
+<a name="line219"></a>            if($rs->next())
+<a name="line220"></a>                $index = new IndexMetaDataImpl($this, $rs->getString('Key_name'),
+<a name="line221"></a>                                                      !$rs->getBoolean('Non_unique'),
+<a name="line222"></a>                                                      $rs->getString('Null')->equalsIgnoreCase('YES'),
+<a name="line223"></a>                                                      $rs->getString('Index_type'));
+<a name="line224"></a>        }catch(\blaze\ds\SQLException $e){}
+<a name="line225"></a>
+<a name="line226"></a>        if($stmt != null)
+<a name="line227"></a>            $stmt->close();
+<a name="line228"></a>        if($rs != null)
+<a name="line229"></a>            $rs->close();
+<a name="line230"></a>
+<a name="line231"></a>        return $index;
+<a name="line232"></a>    }
+<a name="line233"></a>
+<a name="line234"></a>    /**
+<a name="line235"></a>     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+<a name="line236"></a>     */
+<a name="line237"></a>    public function getPrimaryKeys(){
+<a name="line238"></a>        $arr = array();
+<a name="line239"></a>        $cols = $this->getColumns();
+<a name="line240"></a>        
+<a name="line241"></a>        for($i = 0; $i < count($cols); $i++)
+<a name="line242"></a>            if($cols[$i]->isPrimaryKey())
+<a name="line243"></a>                    $arr[] = $cols[$i];
+<a name="line244"></a>        return $arr;
+<a name="line245"></a>    }
+<a name="line246"></a>    /**
+<a name="line247"></a>     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+<a name="line248"></a>     */
+<a name="line249"></a>    public function getForeignKeys(){
+<a name="line250"></a>        $arr = array();
+<a name="line251"></a>        $cols = $this->getColumns();
+<a name="line252"></a>        
+<a name="line253"></a>        for($i = 0; $i < count($cols); $i++)
+<a name="line254"></a>            if($cols[$i]->isForeignKey())
+<a name="line255"></a>                    $arr[] = $cols[$i];
+<a name="line256"></a>        return $arr;
+<a name="line257"></a>    }
+<a name="line258"></a>    /**
+<a name="line259"></a>     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+<a name="line260"></a>     */
+<a name="line261"></a>    public function getUniqueKeys(){
+<a name="line262"></a>        $arr = array();
+<a name="line263"></a>        $cols = $this->getColumns();
+<a name="line264"></a>        
+<a name="line265"></a>        for($i = 0; $i < count($cols); $i++)
+<a name="line266"></a>            if($cols[$i]->isUniqueKey())
+<a name="line267"></a>                    $arr[] = $cols[$i];
+<a name="line268"></a>        return $arr;
+<a name="line269"></a>    }
+<a name="line270"></a>}
+<a name="line271"></a>
+<a name="line272"></a>?>
+<a name="line273"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\meta\tablemetadataimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

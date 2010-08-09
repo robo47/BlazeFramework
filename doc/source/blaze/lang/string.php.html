@@ -1,0 +1,1589 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\lang\String.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\lang\string.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\lang\String.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\lang;
+<a name="line3"></a>
+<a name="line4"></a>/**
+<a name="line5"></a> * Description of String
+<a name="line6"></a> *
+<a name="line7"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line8"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line9"></a> * @see     blaze\lang\ClassWrapper
+<a name="line10"></a> * @since   1.0
+<a name="line11"></a> * @version $Revision$
+<a name="line12"></a> * @author  Christian Beikov
+<a name="line13"></a> * @todo    Implementing and documenting.
+<a name="line14"></a> */
+<a name="line15"></a>class String extends Object implements NativeWrapper {
+<a name="line16"></a>    private $string;
+<a name="line17"></a>    private $count;
+<a name="line18"></a>    private $hash;
+<a name="line19"></a>
+<a name="line20"></a>    /**
+<a name="line21"></a>     *
+<a name="line22"></a>     * @param blaze\lang\String|string $string
+<a name="line23"></a>     */
+<a name="line24"></a>    public function __construct($string, $beginIndex = 0, $endIndex = null){
+<a name="line25"></a>        $string = self::asNative($string);
+<a name="line26"></a>        $this->count = strlen($string);
+<a name="line27"></a>        
+<a name="line28"></a>        if($endIndex === null)
+<a name="line29"></a>            $endIndex = $this->count;
+<a name="line30"></a>	if ($beginIndex < 0) {
+<a name="line31"></a>	    throw new StringIndexOutOfBoundsException($beginIndex);
+<a name="line32"></a>	}
+<a name="line33"></a>	if ($endIndex < 0) {
+<a name="line34"></a>	    throw new StringIndexOutOfBoundsException($endIndex);
+<a name="line35"></a>	}
+<a name="line36"></a>	if ($endIndex > $this->count) {
+<a name="line37"></a>	    throw new StringIndexOutOfBoundsException($endIndex);
+<a name="line38"></a>	}
+<a name="line39"></a>	if ($beginIndex > $endIndex) {
+<a name="line40"></a>	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
+<a name="line41"></a>	}
+<a name="line42"></a>        $this->string = substr($string,$beginIndex,$endIndex - $beginIndex);
+<a name="line43"></a>        if($this->string === false)
+<a name="line44"></a>                $this->string = '';
+<a name="line45"></a>        $this->count = strlen($this->string);
+<a name="line46"></a>        $this->hash = 0;
+<a name="line47"></a>    }
+<a name="line48"></a>    public function toNative() {
+<a name="line49"></a>        return $this->string;
+<a name="line50"></a>    }
+<a name="line51"></a>    /**
+<a name="line52"></a>     *
+<a name="line53"></a>     * @param mixed $value
+<a name="line54"></a>     * @return boolean
+<a name="line55"></a>     */
+<a name="line56"></a>    public static function isNativeType($value) {
+<a name="line57"></a>        return is_string($value);
+<a name="line58"></a>    }
+<a name="line59"></a>
+<a name="line60"></a>    /**
+<a name="line61"></a>     *
+<a name="line62"></a>     * @param blaze\lang\String|string $value
+<a name="line63"></a>     * @return string
+<a name="line64"></a>     */
+<a name="line65"></a>    public static function asNative($value){
+<a name="line66"></a>        if($value instanceof String)
+<a name="line67"></a>            return $value->toNative();
+<a name="line68"></a>        else if(is_string($value))
+<a name="line69"></a>            return $value;
+<a name="line70"></a>        else
+<a name="line71"></a>            return (string)$value;
+<a name="line72"></a>    }
+<a name="line73"></a>
+<a name="line74"></a>    /**
+<a name="line75"></a>     *
+<a name="line76"></a>     * @param blaze\lang\String|string $value
+<a name="line77"></a>     * @return blaze\lang\String
+<a name="line78"></a>     */
+<a name="line79"></a>    public static function asWrapper($value){
+<a name="line80"></a>        if($value instanceof String)
+<a name="line81"></a>            return $value;
+<a name="line82"></a>        else
+<a name="line83"></a>            return new self((string)$value);
+<a name="line84"></a>    }
+<a name="line85"></a>
+<a name="line86"></a>    public function __toString(){
+<a name="line87"></a>        return $this->string;
+<a name="line88"></a>    }
+<a name="line89"></a>
+<a name="line90"></a>    /**
+<a name="line91"></a>     * Returns the length of this string.
+<a name="line92"></a>     * The length is equal to the number of <a href="Character.html#unicode">Unicode
+<a name="line93"></a>     * code units</a> in the string.
+<a name="line94"></a>     *
+<a name="line95"></a>     * @return integer the length of the sequence of characters represented by this
+<a name="line96"></a>     *          object.
+<a name="line97"></a>     */
+<a name="line98"></a>    public function length() {
+<a name="line99"></a>        return $this->count;
+<a name="line100"></a>    }
+<a name="line101"></a>
+<a name="line102"></a>    /**
+<a name="line103"></a>     * Returns <tt>true</tt> if, and only if, {@link #length()} is <tt>0</tt>.
+<a name="line104"></a>     *
+<a name="line105"></a>     * @return boolean <tt>true</tt> if {@link #length()} is <tt>0</tt>, otherwise
+<a name="line106"></a>     * <tt>false</tt>
+<a name="line107"></a>     *
+<a name="line108"></a>     * @since 1.6
+<a name="line109"></a>     */
+<a name="line110"></a>    public function isEmpty() {
+<a name="line111"></a>	return $this->count == 0;
+<a name="line112"></a>    }
+<a name="line113"></a>
+<a name="line114"></a>    /**
+<a name="line115"></a>     * Returns the <code>char</code> value at the
+<a name="line116"></a>     * specified index. An index ranges from <code>0</code> to
+<a name="line117"></a>     * <code>length() - 1</code>. The first <code>char</code> value of the sequence
+<a name="line118"></a>     * is at index <code>0</code>, the next at index <code>1</code>,
+<a name="line119"></a>     * and so on, as for array indexing.
+<a name="line120"></a>     *
+<a name="line121"></a>     * <p>If the <code>char</code> value specified by the index is a
+<a name="line122"></a>     * <a href="Character.html#unicode">surrogate</a>, the surrogate
+<a name="line123"></a>     * value is returned.
+<a name="line124"></a>     *
+<a name="line125"></a>     * @param      index   the index of the <code>char</code> value.
+<a name="line126"></a>     * @return string    the <code>char</code> value at the specified index of this string.
+<a name="line127"></a>     *             The first <code>char</code> value is at index <code>0</code>.
+<a name="line128"></a>     * @exception  IndexOutOfBoundsException  if the <code>index</code>
+<a name="line129"></a>     *             argument is negative or not less than the length of this
+<a name="line130"></a>     *             string.
+<a name="line131"></a>     */
+<a name="line132"></a>    public function charAt($index) {
+<a name="line133"></a>
+<a name="line134"></a>        if (($index < 0) || ($index >= $this->count)) {
+<a name="line135"></a>            throw new StringIndexOutOfBoundsException($index);
+<a name="line136"></a>        }
+<a name="line137"></a>        return $this->string[$index];
+<a name="line138"></a>    }
+<a name="line139"></a>
+<a name="line140"></a>    /**
+<a name="line141"></a>     * Copies characters from this string into the destination character
+<a name="line142"></a>     * array.
+<a name="line143"></a>     * <p>
+<a name="line144"></a>     * The first character to be copied is at index <code>srcBegin</code>;
+<a name="line145"></a>     * the last character to be copied is at index <code>srcEnd-1</code>
+<a name="line146"></a>     * (thus the total number of characters to be copied is
+<a name="line147"></a>     * <code>srcEnd-srcBegin</code>). The characters are copied into the
+<a name="line148"></a>     * subarray of <code>dst</code> starting at index <code>dstBegin</code>
+<a name="line149"></a>     * and ending at index:
+<a name="line150"></a>     * <p><blockquote><pre>
+<a name="line151"></a>     *     dstbegin + (srcEnd-srcBegin) - 1
+<a name="line152"></a>     * </pre></blockquote>
+<a name="line153"></a>     *
+<a name="line154"></a>     * @param      srcBegin   index of the first character in the string
+<a name="line155"></a>     *                        to copy.
+<a name="line156"></a>     * @param      srcEnd     index after the last character in the string
+<a name="line157"></a>     *                        to copy.
+<a name="line158"></a>     * @param      dst        the destination array.
+<a name="line159"></a>     * @param      dstBegin   the start offset in the destination array.
+<a name="line160"></a>     * @exception IndexOutOfBoundsException If any of the following
+<a name="line161"></a>     *            is true:
+<a name="line162"></a>     *            <ul><li><code>srcBegin</code> is negative.
+<a name="line163"></a>     *            <li><code>srcBegin</code> is greater than <code>srcEnd</code>
+<a name="line164"></a>     *            <li><code>srcEnd</code> is greater than the length of this
+<a name="line165"></a>     *                string
+<a name="line166"></a>     *            <li><code>dstBegin</code> is negative
+<a name="line167"></a>     *            <li><code>dstBegin+(srcEnd-srcBegin)</code> is larger than
+<a name="line168"></a>     *                <code>dst.length</code></ul>
+<a name="line169"></a>     */
+<a name="line170"></a>//    public void getChars(int srcBegin, int srcEnd, char dst[], int dstBegin) {
+<a name="line171"></a>//        if (srcBegin < 0) {
+<a name="line172"></a>//            throw new StringIndexOutOfBoundsException(srcBegin);
+<a name="line173"></a>//        }
+<a name="line174"></a>//        if (srcEnd > count) {
+<a name="line175"></a>//            throw new StringIndexOutOfBoundsException(srcEnd);
+<a name="line176"></a>//        }
+<a name="line177"></a>//        if (srcBegin > srcEnd) {
+<a name="line178"></a>//            throw new StringIndexOutOfBoundsException(srcEnd - srcBegin);
+<a name="line179"></a>//        }
+<a name="line180"></a>//        System.arraycopy(value, offset + srcBegin, dst, dstBegin,
+<a name="line181"></a>//             srcEnd - srcBegin);
+<a name="line182"></a>//    }
+<a name="line183"></a>
+<a name="line184"></a>    /**
+<a name="line185"></a>     * Encodes this {@code String} into a sequence of bytes using the named
+<a name="line186"></a>     * charset, storing the result into a new byte array.
+<a name="line187"></a>     *
+<a name="line188"></a>     * <p> The behavior of this method when this string cannot be encoded in
+<a name="line189"></a>     * the given charset is unspecified.  The {@link
+<a name="line190"></a>     * java.nio.charset.CharsetEncoder} class should be used when more control
+<a name="line191"></a>     * over the encoding process is required.
+<a name="line192"></a>     *
+<a name="line193"></a>     * @param  charsetName
+<a name="line194"></a>     *         The name of a supported {@linkplain java.nio.charset.Charset
+<a name="line195"></a>     *         charset}
+<a name="line196"></a>     *
+<a name="line197"></a>     * @return  The resultant byte array
+<a name="line198"></a>     *
+<a name="line199"></a>     * @throws  UnsupportedEncodingException
+<a name="line200"></a>     *          If the named charset is not supported
+<a name="line201"></a>     *
+<a name="line202"></a>     * @since  JDK1.1
+<a name="line203"></a>     */
+<a name="line204"></a>    public function getBytes(String $charsetName)
+<a name="line205"></a>	//throws UnsupportedEncodingException
+<a name="line206"></a>    {
+<a name="line207"></a>//	if (charsetName == null) throw new NullPointerException();
+<a name="line208"></a>//	return StringCoding.encode(charsetName, value, offset, count);
+<a name="line209"></a>    }
+<a name="line210"></a>
+<a name="line211"></a>    /**
+<a name="line212"></a>     * Encodes this {@code String} into a sequence of bytes using the given
+<a name="line213"></a>     * {@linkplain java.nio.charset.Charset charset}, storing the result into a
+<a name="line214"></a>     * new byte array.
+<a name="line215"></a>     *
+<a name="line216"></a>     * <p> This method always replaces malformed-input and unmappable-character
+<a name="line217"></a>     * sequences with this charset's default replacement byte array.  The
+<a name="line218"></a>     * {@link java.nio.charset.CharsetEncoder} class should be used when more
+<a name="line219"></a>     * control over the encoding process is required.
+<a name="line220"></a>     *
+<a name="line221"></a>     * @param  charset
+<a name="line222"></a>     *         The {@linkplain java.nio.charset.Charset} to be used to encode
+<a name="line223"></a>     *         the {@code String}
+<a name="line224"></a>     *
+<a name="line225"></a>     * @return  The resultant byte array
+<a name="line226"></a>     *
+<a name="line227"></a>     * @since  1.6
+<a name="line228"></a>     */
+<a name="line229"></a>//    public function getBytes(Charset $charset) {
+<a name="line230"></a>//	if (charset == null) throw new NullPointerException();
+<a name="line231"></a>//	return StringCoding.encode(charset, value, offset, count);
+<a name="line232"></a>//    }
+<a name="line233"></a>
+<a name="line234"></a>    /**
+<a name="line235"></a>     * Encodes this {@code String} into a sequence of bytes using the
+<a name="line236"></a>     * platform's default charset, storing the result into a new byte array.
+<a name="line237"></a>     *
+<a name="line238"></a>     * <p> The behavior of this method when this string cannot be encoded in
+<a name="line239"></a>     * the default charset is unspecified.  The {@link
+<a name="line240"></a>     * java.nio.charset.CharsetEncoder} class should be used when more control
+<a name="line241"></a>     * over the encoding process is required.
+<a name="line242"></a>     *
+<a name="line243"></a>     * @return array[byte] The resultant byte array
+<a name="line244"></a>     *
+<a name="line245"></a>     * @since      JDK1.1
+<a name="line246"></a>     */
+<a name="line247"></a>//    public function getBytes() {
+<a name="line248"></a>//	return StringCoding.encode(value, offset, count);
+<a name="line249"></a>//    }
+<a name="line250"></a>
+<a name="line251"></a>    /**
+<a name="line252"></a>     * Compares this string to the specified object.  The result is {@code
+<a name="line253"></a>     * true} if and only if the argument is not {@code null} and is a {@code
+<a name="line254"></a>     * String} object that represents the same sequence of characters as this
+<a name="line255"></a>     * object.
+<a name="line256"></a>     *
+<a name="line257"></a>     * @param  anObject
+<a name="line258"></a>     *         The object to compare this {@code String} against
+<a name="line259"></a>     *
+<a name="line260"></a>     * @return boolean {@code true} if the given object represents a {@code String}
+<a name="line261"></a>     *          equivalent to this string, {@code false} otherwise
+<a name="line262"></a>     *
+<a name="line263"></a>     * @see  #compareTo(String)
+<a name="line264"></a>     * @see  #equalsIgnoreCase(String)
+<a name="line265"></a>     */
+<a name="line266"></a>    public function equals(Reflectable $obj) {
+<a name="line267"></a>	if ($this == $obj) {
+<a name="line268"></a>	    return true;
+<a name="line269"></a>	}
+<a name="line270"></a>	if ($obj instanceof String) {
+<a name="line271"></a>	    if($this->string !== $obj->string)
+<a name="line272"></a>                    return false;
+<a name="line273"></a>            return true;
+<a name="line274"></a>	}
+<a name="line275"></a>	return false;
+<a name="line276"></a>    }
+<a name="line277"></a>
+<a name="line278"></a>    /**
+<a name="line279"></a>     * Compares this string to the specified {@code StringBuffer}.  The result
+<a name="line280"></a>     * is {@code true} if and only if this {@code String} represents the same
+<a name="line281"></a>     * sequence of characters as the specified {@code StringBuffer}.
+<a name="line282"></a>     *
+<a name="line283"></a>     * @param  sb
+<a name="line284"></a>     *         The {@code StringBuffer} to compare this {@code String} against
+<a name="line285"></a>     *
+<a name="line286"></a>     * @return boolean {@code true} if this {@code String} represents the same
+<a name="line287"></a>     *          sequence of characters as the specified {@code StringBuffer},
+<a name="line288"></a>     *          {@code false} otherwise
+<a name="line289"></a>     *
+<a name="line290"></a>     * @since  1.4
+<a name="line291"></a>     */
+<a name="line292"></a>//    public function contentEquals(StringBuffer $sb) {
+<a name="line293"></a>//        synchronized(sb) {
+<a name="line294"></a>//            return contentEquals((CharSequence)sb);
+<a name="line295"></a>//        }
+<a name="line296"></a>//    }
+<a name="line297"></a>
+<a name="line298"></a>    /**
+<a name="line299"></a>     * Compares this string to the specified {@code CharSequence}.  The result
+<a name="line300"></a>     * is {@code true} if and only if this {@code String} represents the same
+<a name="line301"></a>     * sequence of char values as the specified sequence.
+<a name="line302"></a>     *
+<a name="line303"></a>     * @param  cs
+<a name="line304"></a>     *         The sequence to compare this {@code String} against
+<a name="line305"></a>     *
+<a name="line306"></a>     * @return boolean {@code true} if this {@code String} represents the same
+<a name="line307"></a>     *          sequence of char values as the specified sequence, {@code
+<a name="line308"></a>     *          false} otherwise
+<a name="line309"></a>     *
+<a name="line310"></a>     * @since  1.5
+<a name="line311"></a>     */
+<a name="line312"></a>    public function contentEquals(CharSequence $cs) {
+<a name="line313"></a>//        if (count != cs.length())
+<a name="line314"></a>//            return false;
+<a name="line315"></a>//        // Argument is a StringBuffer, StringBuilder
+<a name="line316"></a>//        if (cs instanceof AbstractStringBuilder) {
+<a name="line317"></a>//            char v1[] = value;
+<a name="line318"></a>//            char v2[] = ((AbstractStringBuilder)cs).getValue();
+<a name="line319"></a>//            int i = offset;
+<a name="line320"></a>//            int j = 0;
+<a name="line321"></a>//            int n = count;
+<a name="line322"></a>//            while (n-- != 0) {
+<a name="line323"></a>//                if (v1[i++] != v2[j++])
+<a name="line324"></a>//                    return false;
+<a name="line325"></a>//            }
+<a name="line326"></a>//        }
+<a name="line327"></a>//        // Argument is a String
+<a name="line328"></a>//        if (cs.equals(this))
+<a name="line329"></a>//            return true;
+<a name="line330"></a>//        // Argument is a generic CharSequence
+<a name="line331"></a>//        char v1[] = value;
+<a name="line332"></a>//        int i = offset;
+<a name="line333"></a>//        int j = 0;
+<a name="line334"></a>//        int n = count;
+<a name="line335"></a>//        while (n-- != 0) {
+<a name="line336"></a>//            if (v1[i++] != cs.charAt(j++))
+<a name="line337"></a>//                return false;
+<a name="line338"></a>//        }
+<a name="line339"></a>//        return true;
+<a name="line340"></a>    }
+<a name="line341"></a>
+<a name="line342"></a>    /**
+<a name="line343"></a>     * Compares this {@code String} to another {@code String}, ignoring case
+<a name="line344"></a>     * considerations.  Two strings are considered equal ignoring case if they
+<a name="line345"></a>     * are of the same length and corresponding characters in the two strings
+<a name="line346"></a>     * are equal ignoring case.
+<a name="line347"></a>     *
+<a name="line348"></a>     * <p> Two characters {@code c1} and {@code c2} are considered the same
+<a name="line349"></a>     * ignoring case if at least one of the following is true:
+<a name="line350"></a>     * <ul>
+<a name="line351"></a>     *   <li> The two characters are the same (as compared by the
+<a name="line352"></a>     *        {@code ==} operator)
+<a name="line353"></a>     *   <li> Applying the method {@link
+<a name="line354"></a>     *        java.lang.Character#toUpperCase(char)} to each character
+<a name="line355"></a>     *        produces the same result
+<a name="line356"></a>     *   <li> Applying the method {@link
+<a name="line357"></a>     *        java.lang.Character#toLowerCase(char)} to each character
+<a name="line358"></a>     *        produces the same result
+<a name="line359"></a>     * </ul>
+<a name="line360"></a>     *
+<a name="line361"></a>     * @param  $anotherString
+<a name="line362"></a>     *         The {@code String} to compare this {@code String} against
+<a name="line363"></a>     *
+<a name="line364"></a>     * @return boolean {@code true} if the argument is not {@code null} and it
+<a name="line365"></a>     *          represents an equivalent {@code String} ignoring case; {@code
+<a name="line366"></a>     *          false} otherwise
+<a name="line367"></a>     *
+<a name="line368"></a>     * @see  #equals(Object)
+<a name="line369"></a>     */
+<a name="line370"></a>    public function equalsIgnoreCase($anotherString) {
+<a name="line371"></a>        $anotherString = String::asNative($anotherString);
+<a name="line372"></a>        return ($this->string == $anotherString) ? true :
+<a name="line373"></a>                ($anotherString != null) && (strlen($anotherString) == $this->count) &&
+<a name="line374"></a>                strcasecmp($this->string, $anotherString) == 0;
+<a name="line375"></a>    }
+<a name="line376"></a>
+<a name="line377"></a>    /**
+<a name="line378"></a>     * Compares two strings lexicographically.
+<a name="line379"></a>     * The comparison is based on the Unicode value of each character in
+<a name="line380"></a>     * the strings. The character sequence represented by this
+<a name="line381"></a>     * <code>String</code> object is compared lexicographically to the
+<a name="line382"></a>     * character sequence represented by the argument string. The result is
+<a name="line383"></a>     * a negative integer if this <code>String</code> object
+<a name="line384"></a>     * lexicographically precedes the argument string. The result is a
+<a name="line385"></a>     * positive integer if this <code>String</code> object lexicographically
+<a name="line386"></a>     * follows the argument string. The result is zero if the strings
+<a name="line387"></a>     * are equal; <code>compareTo</code> returns <code>0</code> exactly when
+<a name="line388"></a>     * the {@link #equals(Object)} method would return <code>true</code>.
+<a name="line389"></a>     * <p>
+<a name="line390"></a>     * This is the definition of lexicographic ordering. If two strings are
+<a name="line391"></a>     * different, then either they have different characters at some index
+<a name="line392"></a>     * that is a valid index for both strings, or their lengths are different,
+<a name="line393"></a>     * or both. If they have different characters at one or more index
+<a name="line394"></a>     * positions, let <i>k</i> be the smallest such index; then the string
+<a name="line395"></a>     * whose character at position <i>k</i> has the smaller value, as
+<a name="line396"></a>     * determined by using the &lt; operator, lexicographically precedes the
+<a name="line397"></a>     * other string. In this case, <code>compareTo</code> returns the
+<a name="line398"></a>     * difference of the two character values at position <code>k</code> in
+<a name="line399"></a>     * the two string -- that is, the value:
+<a name="line400"></a>     * <blockquote><pre>
+<a name="line401"></a>     * this.charAt(k)-anotherString.charAt(k)
+<a name="line402"></a>     * </pre></blockquote>
+<a name="line403"></a>     * If there is no index position at which they differ, then the shorter
+<a name="line404"></a>     * string lexicographically precedes the longer string. In this case,
+<a name="line405"></a>     * <code>compareTo</code> returns the difference of the lengths of the
+<a name="line406"></a>     * strings -- that is, the value:
+<a name="line407"></a>     * <blockquote><pre>
+<a name="line408"></a>     * this.length()-anotherString.length()
+<a name="line409"></a>     * </pre></blockquote>
+<a name="line410"></a>     *
+<a name="line411"></a>     * @param blaze\lang\String|string  anotherString   the <code>String</code> to be compared.
+<a name="line412"></a>     * @return integer the value <code>0</code> if the argument string is equal to
+<a name="line413"></a>     *          this string; a value less than <code>0</code> if this string
+<a name="line414"></a>     *          is lexicographically less than the string argument; and a
+<a name="line415"></a>     *          value greater than <code>0</code> if this string is
+<a name="line416"></a>     *          lexicographically greater than the string argument.
+<a name="line417"></a>     */
+<a name="line418"></a>    public function compareTo($anotherString) {
+<a name="line419"></a>        return strcmp($this->string, String::asNative($anotherString));
+<a name="line420"></a>    }
+<a name="line421"></a>
+<a name="line422"></a>    /**
+<a name="line423"></a>     * A Comparator that orders <code>String</code> objects as by
+<a name="line424"></a>     * <code>compareToIgnoreCase</code>. This comparator is serializable.
+<a name="line425"></a>     * <p>
+<a name="line426"></a>     * Note that this Comparator does <em>not</em> take locale into account,
+<a name="line427"></a>     * and will result in an unsatisfactory ordering for certain locales.
+<a name="line428"></a>     * The java.text package provides <em>Collators</em> to allow
+<a name="line429"></a>     * locale-sensitive ordering.
+<a name="line430"></a>     *
+<a name="line431"></a>     * @see     java.text.Collator#compare(String, String)
+<a name="line432"></a>     * @since   1.2
+<a name="line433"></a>     */
+<a name="line434"></a>//    public static final Comparator<String> CASE_INSENSITIVE_ORDER
+<a name="line435"></a>//                                         = new CaseInsensitiveComparator();
+<a name="line436"></a>//    private static class CaseInsensitiveComparator
+<a name="line437"></a>//                         implements Comparator<String>, java.io.Serializable {
+<a name="line438"></a>//	// use serialVersionUID from JDK 1.2.2 for interoperability
+<a name="line439"></a>//	private static final long serialVersionUID = 8575799808933029326L;
+<a name="line440"></a>//
+<a name="line441"></a>//        public int compare(String s1, String s2) {
+<a name="line442"></a>//            int n1=s1.length(), n2=s2.length();
+<a name="line443"></a>//            for (int i1=0, i2=0; i1<n1 && i2<n2; i1++, i2++) {
+<a name="line444"></a>//                char c1 = s1.charAt(i1);
+<a name="line445"></a>//                char c2 = s2.charAt(i2);
+<a name="line446"></a>//                if (c1 != c2) {
+<a name="line447"></a>//                    c1 = Character.toUpperCase(c1);
+<a name="line448"></a>//                    c2 = Character.toUpperCase(c2);
+<a name="line449"></a>//                    if (c1 != c2) {
+<a name="line450"></a>//                        c1 = Character.toLowerCase(c1);
+<a name="line451"></a>//                        c2 = Character.toLowerCase(c2);
+<a name="line452"></a>//                        if (c1 != c2) {
+<a name="line453"></a>//                            return c1 - c2;
+<a name="line454"></a>//                        }
+<a name="line455"></a>//                    }
+<a name="line456"></a>//                }
+<a name="line457"></a>//            }
+<a name="line458"></a>//            return n1 - n2;
+<a name="line459"></a>//        }
+<a name="line460"></a>//    }
+<a name="line461"></a>
+<a name="line462"></a>    /**
+<a name="line463"></a>     * Compares two strings lexicographically, ignoring case
+<a name="line464"></a>     * differences. This method returns an integer whose sign is that of
+<a name="line465"></a>     * calling <code>compareTo</code> with normalized versions of the strings
+<a name="line466"></a>     * where case differences have been eliminated by calling
+<a name="line467"></a>     * <code>Character.toLowerCase(Character.toUpperCase(character))</code> on
+<a name="line468"></a>     * each character.
+<a name="line469"></a>     * <p>
+<a name="line470"></a>     * Note that this method does <em>not</em> take locale into account,
+<a name="line471"></a>     * and will result in an unsatisfactory ordering for certain locales.
+<a name="line472"></a>     * The java.text package provides <em>collators</em> to allow
+<a name="line473"></a>     * locale-sensitive ordering.
+<a name="line474"></a>     *
+<a name="line475"></a>     * @param   str   the <code>String</code> to be compared.
+<a name="line476"></a>     * @return integer a negative integer, zero, or a positive integer as the
+<a name="line477"></a>     *		specified String is greater than, equal to, or less
+<a name="line478"></a>     *		than this String, ignoring case considerations.
+<a name="line479"></a>     * @see     java.text.Collator#compare(String, String)
+<a name="line480"></a>     * @since   1.2
+<a name="line481"></a>     */
+<a name="line482"></a>    public function compareToIgnoreCase($anotherString) {
+<a name="line483"></a>        return strcasecmp($this->string, String::asNative($anotherString));
+<a name="line484"></a>    }
+<a name="line485"></a>
+<a name="line486"></a>    /**
+<a name="line487"></a>     * Tests if two string regions are equal.
+<a name="line488"></a>     * <p>
+<a name="line489"></a>     * A substring of this <tt>String</tt> object is compared to a substring
+<a name="line490"></a>     * of the argument <tt>other</tt>. The result is <tt>true</tt> if these
+<a name="line491"></a>     * substrings represent character sequences that are the same, ignoring
+<a name="line492"></a>     * case if and only if <tt>ignoreCase</tt> is true. The substring of
+<a name="line493"></a>     * this <tt>String</tt> object to be compared begins at index
+<a name="line494"></a>     * <tt>toffset</tt> and has length <tt>len</tt>. The substring of
+<a name="line495"></a>     * <tt>other</tt> to be compared begins at index <tt>ooffset</tt> and
+<a name="line496"></a>     * has length <tt>len</tt>. The result is <tt>false</tt> if and only if
+<a name="line497"></a>     * at least one of the following is true:
+<a name="line498"></a>     * <ul><li><tt>toffset</tt> is negative.
+<a name="line499"></a>     * <li><tt>ooffset</tt> is negative.
+<a name="line500"></a>     * <li><tt>toffset+len</tt> is greater than the length of this
+<a name="line501"></a>     * <tt>String</tt> object.
+<a name="line502"></a>     * <li><tt>ooffset+len</tt> is greater than the length of the other
+<a name="line503"></a>     * argument.
+<a name="line504"></a>     * <li><tt>ignoreCase</tt> is <tt>false</tt> and there is some nonnegative
+<a name="line505"></a>     * integer <i>k</i> less than <tt>len</tt> such that:
+<a name="line506"></a>     * <blockquote><pre>
+<a name="line507"></a>     * this.charAt(toffset+k) != other.charAt(ooffset+k)
+<a name="line508"></a>     * </pre></blockquote>
+<a name="line509"></a>     * <li><tt>ignoreCase</tt> is <tt>true</tt> and there is some nonnegative
+<a name="line510"></a>     * integer <i>k</i> less than <tt>len</tt> such that:
+<a name="line511"></a>     * <blockquote><pre>
+<a name="line512"></a>     * Character.toLowerCase(this.charAt(toffset+k)) !=
+<a name="line513"></a>               Character.toLowerCase(other.charAt(ooffset+k))
+<a name="line514"></a>     * </pre></blockquote>
+<a name="line515"></a>     * and:
+<a name="line516"></a>     * <blockquote><pre>
+<a name="line517"></a>     * Character.toUpperCase(this.charAt(toffset+k)) !=
+<a name="line518"></a>     *         Character.toUpperCase(other.charAt(ooffset+k))
+<a name="line519"></a>     * </pre></blockquote>
+<a name="line520"></a>     * </ul>
+<a name="line521"></a>     *
+<a name="line522"></a>     * @param boolean  ignoreCase   if <code>true</code>, ignore case when comparing
+<a name="line523"></a>     *                       characters.
+<a name="line524"></a>     * @param integer  toffset      the starting offset of the subregion in this
+<a name="line525"></a>     *                       string.
+<a name="line526"></a>     * @param blaze\lang\String  other        the string argument.
+<a name="line527"></a>     * @param integer  ooffset      the starting offset of the subregion in the string
+<a name="line528"></a>     *                       argument.
+<a name="line529"></a>     * @param integer   len          the number of characters to compare.
+<a name="line530"></a>     * @return boolean <code>true</code> if the specified subregion of this string
+<a name="line531"></a>     *          matches the specified subregion of the string argument;
+<a name="line532"></a>     *          <code>false</code> otherwise. Whether the matching is exact
+<a name="line533"></a>     *          or case insensitive depends on the <code>ignoreCase</code>
+<a name="line534"></a>     *          argument.
+<a name="line535"></a>     */
+<a name="line536"></a>    public function regionMatches(String $other, $toffset, $ooffset,
+<a name="line537"></a>                                           $len, $ignoreCase = false) {
+<a name="line538"></a>        $ta = $this->string;
+<a name="line539"></a>        $to = $toffset;
+<a name="line540"></a>        $pa = $other->string;
+<a name="line541"></a>        $po = $ooffset;
+<a name="line542"></a>        // Note: toffset, ooffset, or len might be near -1>>>1.
+<a name="line543"></a>        if (($ooffset < 0) || ($toffset < 0) || ($toffset > $this->count - $len) ||
+<a name="line544"></a>                ($ooffset > $other->count - $len)) {
+<a name="line545"></a>            return false;
+<a name="line546"></a>        }
+<a name="line547"></a>        while ($len-- > 0) {
+<a name="line548"></a>            $c1 = $ta[$to];
+<a name="line549"></a>            $c2 = $pa[$po];
+<a name="line550"></a>            if ($c1 == $c2) {
+<a name="line551"></a>                continue;
+<a name="line552"></a>            }
+<a name="line553"></a>            if ($ignoreCase) {
+<a name="line554"></a>                // If characters don't match but case may be ignored,
+<a name="line555"></a>                // try converting both characters to uppercase.
+<a name="line556"></a>                // If the results match, then the comparison scan should
+<a name="line557"></a>                // continue.
+<a name="line558"></a>                if (ucfirst($c1) == ucfirst($c2)) {
+<a name="line559"></a>                    continue;
+<a name="line560"></a>                }
+<a name="line561"></a>                // Unfortunately, conversion to uppercase does not work properly
+<a name="line562"></a>                // for the Georgian alphabet, which has strange rules about case
+<a name="line563"></a>                // conversion.  So we need to make one last check before
+<a name="line564"></a>                // exiting.
+<a name="line565"></a>//                if (Character.toLowerCase(u1) == Character.toLowerCase(u2)) {
+<a name="line566"></a>//                    continue;
+<a name="line567"></a>//                }
+<a name="line568"></a>            }
+<a name="line569"></a>            return false;
+<a name="line570"></a>        }
+<a name="line571"></a>        return true;
+<a name="line572"></a>    }
+<a name="line573"></a>
+<a name="line574"></a>    /**
+<a name="line575"></a>     * Tests if the substring of this string beginning at the
+<a name="line576"></a>     * specified index starts with the specified prefix.
+<a name="line577"></a>     *
+<a name="line578"></a>     * @param blaze\lang\String|string  prefix    the prefix.
+<a name="line579"></a>     * @param   toffset   where to begin looking in this string.
+<a name="line580"></a>     * @return boolean <code>true</code> if the character sequence represented by the
+<a name="line581"></a>     *          argument is a prefix of the substring of this object starting
+<a name="line582"></a>     *          at index <code>toffset</code>; <code>false</code> otherwise.
+<a name="line583"></a>     *          The result is <code>false</code> if <code>toffset</code> is
+<a name="line584"></a>     *          negative or greater than the length of this
+<a name="line585"></a>     *          <code>String</code> object; otherwise the result is the same
+<a name="line586"></a>     *          as the result of the expression
+<a name="line587"></a>     *          <pre>
+<a name="line588"></a>     *          this.substring(toffset).startsWith(prefix)
+<a name="line589"></a>     *          </pre>
+<a name="line590"></a>     */
+<a name="line591"></a>    public function startsWith($prefix, $toffset = 0, $ignoreCase = false) {
+<a name="line592"></a>        $prefix = String::asWrapper($prefix);
+<a name="line593"></a>        if($ignoreCase){
+<a name="line594"></a>            return strcasecmp(substr($this->string, $toffset, $prefix->count),$prefix->string)===0;
+<a name="line595"></a>        }
+<a name="line596"></a>        return strcmp(substr($this->string, $toffset, $prefix->count),$prefix->string)===0;
+<a name="line597"></a>
+<a name="line598"></a>//	char ta[] = value;
+<a name="line599"></a>//	int to = offset + toffset;
+<a name="line600"></a>//	char pa[] = prefix.value;
+<a name="line601"></a>//	int po = prefix.offset;
+<a name="line602"></a>//	int pc = prefix.count;
+<a name="line603"></a>//	// Note: toffset might be near -1>>>1.
+<a name="line604"></a>//	if ((toffset < 0) || (toffset > count - pc)) {
+<a name="line605"></a>//	    return false;
+<a name="line606"></a>//	}
+<a name="line607"></a>//	while (--pc >= 0) {
+<a name="line608"></a>//	    if (ta[to++] != pa[po++]) {
+<a name="line609"></a>//	        return false;
+<a name="line610"></a>//	    }
+<a name="line611"></a>//	}
+<a name="line612"></a>//	return true;
+<a name="line613"></a>    }
+<a name="line614"></a>
+<a name="line615"></a>    /**
+<a name="line616"></a>     * Tests if this string ends with the specified suffix.
+<a name="line617"></a>     *
+<a name="line618"></a>     * @param   suffix   the suffix.
+<a name="line619"></a>     * @return boolean <code>true</code> if the character sequence represented by the
+<a name="line620"></a>     *          argument is a suffix of the character sequence represented by
+<a name="line621"></a>     *          this object; <code>false</code> otherwise. Note that the
+<a name="line622"></a>     *          result will be <code>true</code> if the argument is the
+<a name="line623"></a>     *          empty string or is equal to this <code>String</code> object
+<a name="line624"></a>     *          as determined by the {@link #equals(Object)} method.
+<a name="line625"></a>     */
+<a name="line626"></a>    public function endsWith($suffix, $ignoreCase = false) {
+<a name="line627"></a>        $suffix = String::asWrapper($suffix);
+<a name="line628"></a>	return $this->startsWith($suffix, $this->count - $suffix->count, $ignoreCase);
+<a name="line629"></a>    }
+<a name="line630"></a>
+<a name="line631"></a>    /**
+<a name="line632"></a>     * Returns a hash code for this string. The hash code for a
+<a name="line633"></a>     * <code>String</code> object is computed as
+<a name="line634"></a>     * <blockquote><pre>
+<a name="line635"></a>     * s[0]*31^(n-1) + s[1]*31^(n-2) + ... + s[n-1]
+<a name="line636"></a>     * </pre></blockquote>
+<a name="line637"></a>     * using <code>int</code> arithmetic, where <code>s[i]</code> is the
+<a name="line638"></a>     * <i>i</i>th character of the string, <code>n</code> is the length of
+<a name="line639"></a>     * the string, and <code>^</code> indicates exponentiation.
+<a name="line640"></a>     * (The hash value of the empty string is zero.)
+<a name="line641"></a>     *
+<a name="line642"></a>     * @return integer a hash code value for this object.
+<a name="line643"></a>     */
+<a name="line644"></a>    public function hashCode() {
+<a name="line645"></a>	$h = $this->hash;
+<a name="line646"></a>	if ($h == 0) {
+<a name="line647"></a>	    $off = 0;
+<a name="line648"></a>	    $val = $this->string;
+<a name="line649"></a>	    $len = $this->count;
+<a name="line650"></a>
+<a name="line651"></a>            for ($i = 0; $i < $len; $i++) {
+<a name="line652"></a>                $h = 31*$h + $val[$off++];
+<a name="line653"></a>            }
+<a name="line654"></a>            $this->hash = $h;
+<a name="line655"></a>        }
+<a name="line656"></a>        return $h;
+<a name="line657"></a>    }
+<a name="line658"></a>
+<a name="line659"></a>    /**
+<a name="line660"></a>     * Returns the index within this string of the first occurrence of
+<a name="line661"></a>     * the specified character. If a character with value
+<a name="line662"></a>     * <code>ch</code> occurs in the character sequence represented by
+<a name="line663"></a>     * this <code>String</code> object, then the index (in Unicode
+<a name="line664"></a>     * code units) of the first such occurrence is returned. For
+<a name="line665"></a>     * values of <code>ch</code> in the range from 0 to 0xFFFF
+<a name="line666"></a>     * (inclusive), this is the smallest value <i>k</i> such that:
+<a name="line667"></a>     * <blockquote><pre>
+<a name="line668"></a>     * this.charAt(<i>k</i>) == ch
+<a name="line669"></a>     * </pre></blockquote>
+<a name="line670"></a>     * is true. For other values of <code>ch</code>, it is the
+<a name="line671"></a>     * smallest value <i>k</i> such that:
+<a name="line672"></a>     * <blockquote><pre>
+<a name="line673"></a>     * this.codePointAt(<i>k</i>) == ch
+<a name="line674"></a>     * </pre></blockquote>
+<a name="line675"></a>     * is true. In either case, if no such character occurs in this
+<a name="line676"></a>     * string, then <code>-1</code> is returned.
+<a name="line677"></a>     *
+<a name="line678"></a>     * @param blaze\lang\String|string  ch   a character (Unicode code point).
+<a name="line679"></a>     * @return integer the index of the first occurrence of the character in the
+<a name="line680"></a>     *          character sequence represented by this object, or
+<a name="line681"></a>     *          <code>-1</code> if the character does not occur.
+<a name="line682"></a>     */
+<a name="line683"></a>    public function indexOf($ch, $fromIndex = 0) {
+<a name="line684"></a>        $pos = strpos($this->string, String::asNative($ch), $fromIndex);
+<a name="line685"></a>        return $pos === false ? -1 : $pos;
+<a name="line686"></a>    }
+<a name="line687"></a>
+<a name="line688"></a>    /**
+<a name="line689"></a>     * Returns the index within this string of the last occurrence of
+<a name="line690"></a>     * the specified character. For values of <code>ch</code> in the
+<a name="line691"></a>     * range from 0 to 0xFFFF (inclusive), the index (in Unicode code
+<a name="line692"></a>     * units) returned is the largest value <i>k</i> such that:
+<a name="line693"></a>     * <blockquote><pre>
+<a name="line694"></a>     * this.charAt(<i>k</i>) == ch
+<a name="line695"></a>     * </pre></blockquote>
+<a name="line696"></a>     * is true. For other values of <code>ch</code>, it is the
+<a name="line697"></a>     * largest value <i>k</i> such that:
+<a name="line698"></a>     * <blockquote><pre>
+<a name="line699"></a>     * this.codePointAt(<i>k</i>) == ch
+<a name="line700"></a>     * </pre></blockquote>
+<a name="line701"></a>     * is true.  In either case, if no such character occurs in this
+<a name="line702"></a>     * string, then <code>-1</code> is returned.  The
+<a name="line703"></a>     * <code>String</code> is searched backwards starting at the last
+<a name="line704"></a>     * character.
+<a name="line705"></a>     *
+<a name="line706"></a>     * @param blaze\lang\String|string  ch   a character (Unicode code point).
+<a name="line707"></a>     * @return integer the index of the last occurrence of the character in the
+<a name="line708"></a>     *          character sequence represented by this object, or
+<a name="line709"></a>     *          <code>-1</code> if the character does not occur.
+<a name="line710"></a>     */
+<a name="line711"></a>    public function lastIndexOf($ch, $fromIndex = null) {
+<a name="line712"></a>	$pos = strrpos($this->string, String::asNative($ch), $fromIndex);
+<a name="line713"></a>        return $pos === false ? -1 : $pos;
+<a name="line714"></a>    }
+<a name="line715"></a>
+<a name="line716"></a>    /**
+<a name="line717"></a>     * Returns a new string that is a substring of this string. The
+<a name="line718"></a>     * substring begins at the specified <code>beginIndex</code> and
+<a name="line719"></a>     * extends to the character at index <code>endIndex - 1</code>.
+<a name="line720"></a>     * Thus the length of the substring is <code>endIndex-beginIndex</code>.
+<a name="line721"></a>     * <p>
+<a name="line722"></a>     * Examples:
+<a name="line723"></a>     * <blockquote><pre>
+<a name="line724"></a>     * "hamburger".substring(4, 8) returns "urge"
+<a name="line725"></a>     * "smiles".substring(1, 5) returns "mile"
+<a name="line726"></a>     * </pre></blockquote>
+<a name="line727"></a>     *
+<a name="line728"></a>     * @param      beginIndex   the beginning index, inclusive.
+<a name="line729"></a>     * @param      endIndex     the ending index, exclusive.
+<a name="line730"></a>     * @return  blaze\lang\String    the specified substring.
+<a name="line731"></a>     * @exception  IndexOutOfBoundsException  if the
+<a name="line732"></a>     *             <code>beginIndex</code> is negative, or
+<a name="line733"></a>     *             <code>endIndex</code> is larger than the length of
+<a name="line734"></a>     *             this <code>String</code> object, or
+<a name="line735"></a>     *             <code>beginIndex</code> is larger than
+<a name="line736"></a>     *             <code>endIndex</code>.
+<a name="line737"></a>     */
+<a name="line738"></a>    public function substring($beginIndex, $endIndex = null) {
+<a name="line739"></a>        if($endIndex === null) {
+<a name="line740"></a>            $endIndex = $this->count;
+<a name="line741"></a>        }
+<a name="line742"></a>	if ($beginIndex < 0) {
+<a name="line743"></a>	    throw new StringIndexOutOfBoundsException($beginIndex);
+<a name="line744"></a>	}
+<a name="line745"></a>        if ($endIndex < 0) {
+<a name="line746"></a>	    throw new StringIndexOutOfBoundsException($endIndex);
+<a name="line747"></a>	}
+<a name="line748"></a>	if ($endIndex > $this->count) {
+<a name="line749"></a>	    throw new StringIndexOutOfBoundsException($endIndex);
+<a name="line750"></a>	}
+<a name="line751"></a>	if ($beginIndex > $endIndex) {
+<a name="line752"></a>	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
+<a name="line753"></a>	}
+<a name="line754"></a>	return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
+<a name="line755"></a>	    new String($this->string, $beginIndex, $endIndex);
+<a name="line756"></a>    }
+<a name="line757"></a>
+<a name="line758"></a>    /**
+<a name="line759"></a>     * Concatenates the specified string to the end of this string.
+<a name="line760"></a>     * <p>
+<a name="line761"></a>     * If the length of the argument string is <code>0</code>, then this
+<a name="line762"></a>     * <code>String</code> object is returned. Otherwise, a new
+<a name="line763"></a>     * <code>String</code> object is created, representing a character
+<a name="line764"></a>     * sequence that is the concatenation of the character sequence
+<a name="line765"></a>     * represented by this <code>String</code> object and the character
+<a name="line766"></a>     * sequence represented by the argument string.<p>
+<a name="line767"></a>     * Examples:
+<a name="line768"></a>     * <blockquote><pre>
+<a name="line769"></a>     * "cares".concat("s") returns "caress"
+<a name="line770"></a>     * "to".concat("get").concat("her") returns "together"
+<a name="line771"></a>     * </pre></blockquote>
+<a name="line772"></a>     *
+<a name="line773"></a>     * @param   str   the <code>String</code> that is concatenated to the end
+<a name="line774"></a>     *                of this <code>String</code>.
+<a name="line775"></a>     * @return  blaze\lang\String a string that represents the concatenation of this object's
+<a name="line776"></a>     *          characters followed by the string argument's characters.
+<a name="line777"></a>     */
+<a name="line778"></a>    public function concat($str) {
+<a name="line779"></a>	return new String($this->string . String::asNative($str));
+<a name="line780"></a>    }
+<a name="line781"></a>
+<a name="line782"></a>    /**
+<a name="line783"></a>     * Returns a new string resulting from replacing all occurrences of
+<a name="line784"></a>     * <code>oldChar</code> in this string with <code>newChar</code>.
+<a name="line785"></a>     * <p>
+<a name="line786"></a>     * If the character <code>oldChar</code> does not occur in the
+<a name="line787"></a>     * character sequence represented by this <code>String</code> object,
+<a name="line788"></a>     * then a reference to this <code>String</code> object is returned.
+<a name="line789"></a>     * Otherwise, a new <code>String</code> object is created that
+<a name="line790"></a>     * represents a character sequence identical to the character sequence
+<a name="line791"></a>     * represented by this <code>String</code> object, except that every
+<a name="line792"></a>     * occurrence of <code>oldChar</code> is replaced by an occurrence
+<a name="line793"></a>     * of <code>newChar</code>.
+<a name="line794"></a>     * <p>
+<a name="line795"></a>     * Examples:
+<a name="line796"></a>     * <blockquote><pre>
+<a name="line797"></a>     * "mesquite in your cellar".replace('e', 'o')
+<a name="line798"></a>     *         returns "mosquito in your collar"
+<a name="line799"></a>     * "the war of baronets".replace('r', 'y')
+<a name="line800"></a>     *         returns "the way of bayonets"
+<a name="line801"></a>     * "sparring with a purple porpoise".replace('p', 't')
+<a name="line802"></a>     *         returns "starring with a turtle tortoise"
+<a name="line803"></a>     * "JonL".replace('q', 'x') returns "JonL" (no change)
+<a name="line804"></a>     * </pre></blockquote>
+<a name="line805"></a>     *
+<a name="line806"></a>     * @param   oldChar   the old character.
+<a name="line807"></a>     * @param   newChar   the new character.
+<a name="line808"></a>     * @return  blaze\lang\String a string derived from this string by replacing every
+<a name="line809"></a>     *          occurrence of <code>oldChar</code> with <code>newChar</code>.
+<a name="line810"></a>     */
+<a name="line811"></a>    public function replace($oldChar, $newChar, $ignoreCase = false) {
+<a name="line812"></a>        if($ignoreCase)
+<a name="line813"></a>            return new String(str_ireplace(String::asNative($oldChar), String::asNative($newChar), $this->string));
+<a name="line814"></a>
+<a name="line815"></a>        return new String(str_replace(String::asNative($oldChar), String::asNative($newChar), $this->string));
+<a name="line816"></a>//	if (oldChar != newChar) {
+<a name="line817"></a>//	    int len = count;
+<a name="line818"></a>//	    int i = -1;
+<a name="line819"></a>//	    char[] val = value; /* avoid getfield opcode */
+<a name="line820"></a>//	    int off = offset;   /* avoid getfield opcode */
+<a name="line821"></a>//
+<a name="line822"></a>//	    while (++i < len) {
+<a name="line823"></a>//		if (val[off + i] == oldChar) {
+<a name="line824"></a>//		    break;
+<a name="line825"></a>//		}
+<a name="line826"></a>//	    }
+<a name="line827"></a>//	    if (i < len) {
+<a name="line828"></a>//		char buf[] = new char[len];
+<a name="line829"></a>//		for (int j = 0 ; j < i ; j++) {
+<a name="line830"></a>//		    buf[j] = val[off+j];
+<a name="line831"></a>//		}
+<a name="line832"></a>//		while (i < len) {
+<a name="line833"></a>//		    char c = val[off + i];
+<a name="line834"></a>//		    buf[i] = (c == oldChar) ? newChar : c;
+<a name="line835"></a>//		    i++;
+<a name="line836"></a>//		}
+<a name="line837"></a>//		return new String(0, len, buf);
+<a name="line838"></a>//	    }
+<a name="line839"></a>//	}
+<a name="line840"></a>//	return this;
+<a name="line841"></a>    }
+<a name="line842"></a>
+<a name="line843"></a>    /**
+<a name="line844"></a>     * Tells whether or not this string matches the given <a
+<a name="line845"></a>     * href="../util/regex/Pattern.html#sum">regular expression</a>.
+<a name="line846"></a>     *
+<a name="line847"></a>     * <p> An invocation of this method of the form
+<a name="line848"></a>     * <i>str</i><tt>.matches(</tt><i>regex</i><tt>)</tt> yields exactly the
+<a name="line849"></a>     * same result as the expression
+<a name="line850"></a>     *
+<a name="line851"></a>     * <blockquote><tt> {@link java.util.regex.Pattern}.{@link
+<a name="line852"></a>     * java.util.regex.Pattern#matches(String,CharSequence)
+<a name="line853"></a>     * matches}(</tt><i>regex</i><tt>,</tt> <i>str</i><tt>)</tt></blockquote>
+<a name="line854"></a>     *
+<a name="line855"></a>     * @param   regex
+<a name="line856"></a>     *          the regular expression to which this string is to be matched
+<a name="line857"></a>     *
+<a name="line858"></a>     * @return boolean <tt>true</tt> if, and only if, this string matches the
+<a name="line859"></a>     *          given regular expression
+<a name="line860"></a>     *
+<a name="line861"></a>     * @throws  PatternSyntaxException
+<a name="line862"></a>     *          if the regular expression's syntax is invalid
+<a name="line863"></a>     *
+<a name="line864"></a>     * @see java.util.regex.Pattern
+<a name="line865"></a>     *
+<a name="line866"></a>     * @since 1.4
+<a name="line867"></a>     * @spec JSR-51
+<a name="line868"></a>     */
+<a name="line869"></a>    public function matches($regex) {
+<a name="line870"></a>        $regex = String::asNative($regex);
+<a name="line871"></a>        return preg_match($regex, $this->string) != 0;
+<a name="line872"></a>//        return Pattern.matches(regex, this);
+<a name="line873"></a>    }
+<a name="line874"></a>
+<a name="line875"></a>    /**
+<a name="line876"></a>     * Returns true if and only if this string contains the specified
+<a name="line877"></a>     * sequence of char values.
+<a name="line878"></a>     *
+<a name="line879"></a>     * @param s the sequence to search for
+<a name="line880"></a>     * @return boolean true if this string contains <code>s</code>, false otherwise
+<a name="line881"></a>     * @throws NullPointerException if <code>s</code> is <code>null</code>
+<a name="line882"></a>     * @since 1.5
+<a name="line883"></a>     */
+<a name="line884"></a>    public function contains($s) {
+<a name="line885"></a>        $str = String::asNative($s);
+<a name="line886"></a>        return $this->indexOf($str) > -1;
+<a name="line887"></a>    }
+<a name="line888"></a>
+<a name="line889"></a>    /**
+<a name="line890"></a>     * Replaces the first substring of this string that matches the given <a
+<a name="line891"></a>     * href="../util/regex/Pattern.html#sum">regular expression</a> with the
+<a name="line892"></a>     * given replacement.
+<a name="line893"></a>     *
+<a name="line894"></a>     * <p> An invocation of this method of the form
+<a name="line895"></a>     * <i>str</i><tt>.replaceFirst(</tt><i>regex</i><tt>,</tt> <i>repl</i><tt>)</tt>
+<a name="line896"></a>     * yields exactly the same result as the expression
+<a name="line897"></a>     *
+<a name="line898"></a>     * <blockquote><tt>
+<a name="line899"></a>     * {@link java.util.regex.Pattern}.{@link java.util.regex.Pattern#compile
+<a name="line900"></a>     * compile}(</tt><i>regex</i><tt>).{@link
+<a name="line901"></a>     * java.util.regex.Pattern#matcher(java.lang.CharSequence)
+<a name="line902"></a>     * matcher}(</tt><i>str</i><tt>).{@link java.util.regex.Matcher#replaceFirst
+<a name="line903"></a>     * replaceFirst}(</tt><i>repl</i><tt>)</tt></blockquote>
+<a name="line904"></a>     *
+<a name="line905"></a>     *<p>
+<a name="line906"></a>     * Note that backslashes (<tt>\</tt>) and dollar signs (<tt>$</tt>) in the
+<a name="line907"></a>     * replacement string may cause the results to be different than if it were
+<a name="line908"></a>     * being treated as a literal replacement string; see
+<a name="line909"></a>     * {@link java.util.regex.Matcher#replaceFirst}.
+<a name="line910"></a>     * Use {@link java.util.regex.Matcher#quoteReplacement} to suppress the special
+<a name="line911"></a>     * meaning of these characters, if desired.
+<a name="line912"></a>     *
+<a name="line913"></a>     * @param   regex
+<a name="line914"></a>     *          the regular expression to which this string is to be matched
+<a name="line915"></a>     * @param   replacement
+<a name="line916"></a>     *          the string to be substituted for the first match
+<a name="line917"></a>     *
+<a name="line918"></a>     * @return  blaze\lang\String The resulting <tt>String</tt>
+<a name="line919"></a>     *
+<a name="line920"></a>     * @throws  PatternSyntaxException
+<a name="line921"></a>     *          if the regular expression's syntax is invalid
+<a name="line922"></a>     *
+<a name="line923"></a>     * @see java.util.regex.Pattern
+<a name="line924"></a>     *
+<a name="line925"></a>     * @since 1.4
+<a name="line926"></a>     * @spec JSR-51
+<a name="line927"></a>     */
+<a name="line928"></a>    public function replaceRegex($regex, $replacement, $limit = 1) {
+<a name="line929"></a>        $regex = String::asNative($regex);
+<a name="line930"></a>        $replacement = String::asNative($replacement);
+<a name="line931"></a>
+<a name="line932"></a>        return preg_replace($regex, $replacement, $this->string, $limit);
+<a name="line933"></a>//	return Pattern.compile(regex).matcher(this).replaceFirst(replacement);
+<a name="line934"></a>    }
+<a name="line935"></a>
+<a name="line936"></a>    /**
+<a name="line937"></a>     * Replaces each substring of this string that matches the given <a
+<a name="line938"></a>     * href="../util/regex/Pattern.html#sum">regular expression</a> with the
+<a name="line939"></a>     * given replacement.
+<a name="line940"></a>     *
+<a name="line941"></a>     * <p> An invocation of this method of the form
+<a name="line942"></a>     * <i>str</i><tt>.replaceAll(</tt><i>regex</i><tt>,</tt> <i>repl</i><tt>)</tt>
+<a name="line943"></a>     * yields exactly the same result as the expression
+<a name="line944"></a>     *
+<a name="line945"></a>     * <blockquote><tt>
+<a name="line946"></a>     * {@link java.util.regex.Pattern}.{@link java.util.regex.Pattern#compile
+<a name="line947"></a>     * compile}(</tt><i>regex</i><tt>).{@link
+<a name="line948"></a>     * java.util.regex.Pattern#matcher(java.lang.CharSequence)
+<a name="line949"></a>     * matcher}(</tt><i>str</i><tt>).{@link java.util.regex.Matcher#replaceAll
+<a name="line950"></a>     * replaceAll}(</tt><i>repl</i><tt>)</tt></blockquote>
+<a name="line951"></a>     *
+<a name="line952"></a>     *<p>
+<a name="line953"></a>     * Note that backslashes (<tt>\</tt>) and dollar signs (<tt>$</tt>) in the
+<a name="line954"></a>     * replacement string may cause the results to be different than if it were
+<a name="line955"></a>     * being treated as a literal replacement string; see
+<a name="line956"></a>     * {@link java.util.regex.Matcher#replaceAll Matcher.replaceAll}.
+<a name="line957"></a>     * Use {@link java.util.regex.Matcher#quoteReplacement} to suppress the special
+<a name="line958"></a>     * meaning of these characters, if desired.
+<a name="line959"></a>     *
+<a name="line960"></a>     * @param   regex
+<a name="line961"></a>     *          the regular expression to which this string is to be matched
+<a name="line962"></a>     * @param   replacement
+<a name="line963"></a>     *          the string to be substituted for each match
+<a name="line964"></a>     *
+<a name="line965"></a>     * @return  blaze\lang\String The resulting <tt>String</tt>
+<a name="line966"></a>     *
+<a name="line967"></a>     * @throws  PatternSyntaxException
+<a name="line968"></a>     *          if the regular expression's syntax is invalid
+<a name="line969"></a>     *
+<a name="line970"></a>     * @see java.util.regex.Pattern
+<a name="line971"></a>     *
+<a name="line972"></a>     * @since 1.4
+<a name="line973"></a>     * @spec JSR-51
+<a name="line974"></a>     */
+<a name="line975"></a>    public function replaceAll($regex, $replacement) {
+<a name="line976"></a>        $regex = String::asNative($regex);
+<a name="line977"></a>        $replacement = String::asNative($replacement);
+<a name="line978"></a>
+<a name="line979"></a>        return new String(preg_replace($regex, $replacement, $this->string));
+<a name="line980"></a>//	return Pattern.compile(regex).matcher(this).replaceAll(replacement);
+<a name="line981"></a>    }
+<a name="line982"></a>
+<a name="line983"></a>    /**
+<a name="line984"></a>     * Splits this string around matches of the given <a
+<a name="line985"></a>     * href="../util/regex/Pattern.html#sum">regular expression</a>.
+<a name="line986"></a>     *
+<a name="line987"></a>     * <p> This method works as if by invoking the two-argument {@link
+<a name="line988"></a>     * #split(String, int) split} method with the given expression and a limit
+<a name="line989"></a>     * argument of zero.  Trailing empty strings are therefore not included in
+<a name="line990"></a>     * the resulting array.
+<a name="line991"></a>     *
+<a name="line992"></a>     * <p> The string <tt>"boo:and:foo"</tt>, for example, yields the following
+<a name="line993"></a>     * results with these expressions:
+<a name="line994"></a>     *
+<a name="line995"></a>     * <blockquote><table cellpadding=1 cellspacing=0 summary="Split examples showing regex and result">
+<a name="line996"></a>     * <tr>
+<a name="line997"></a>     *  <th>Regex</th>
+<a name="line998"></a>     *  <th>Result</th>
+<a name="line999"></a>     * </tr>
+<a name="line1000"></a>     * <tr><td align=center>:</td>
+<a name="line1001"></a>     *     <td><tt>{ "boo", "and", "foo" }</tt></td></tr>
+<a name="line1002"></a>     * <tr><td align=center>o</td>
+<a name="line1003"></a>     *     <td><tt>{ "b", "", ":and:f" }</tt></td></tr>
+<a name="line1004"></a>     * </table></blockquote>
+<a name="line1005"></a>     *
+<a name="line1006"></a>     *
+<a name="line1007"></a>     * @param  regex
+<a name="line1008"></a>     *         the delimiting regular expression
+<a name="line1009"></a>     *
+<a name="line1010"></a>     * @return array[blaze\lang\String] the array of strings computed by splitting this string
+<a name="line1011"></a>     *          around matches of the given regular expression
+<a name="line1012"></a>     *
+<a name="line1013"></a>     * @throws  PatternSyntaxException
+<a name="line1014"></a>     *          if the regular expression's syntax is invalid
+<a name="line1015"></a>     *
+<a name="line1016"></a>     * @see java.util.regex.Pattern
+<a name="line1017"></a>     *
+<a name="line1018"></a>     * @since 1.4
+<a name="line1019"></a>     * @spec JSR-51
+<a name="line1020"></a>     */
+<a name="line1021"></a>    public function split($delimiter, $limit = null, $wrapper = false) {
+<a name="line1022"></a>        $delimiter = String::asNative($delimiter);
+<a name="line1023"></a>        if($limit != null)
+<a name="line1024"></a>            $pieces = explode($delimiter, $this->string, $limit);
+<a name="line1025"></a>        else
+<a name="line1026"></a>            $pieces = explode($delimiter, $this->string);
+<a name="line1027"></a>
+<a name="line1028"></a>        if(!$wrapper)
+<a name="line1029"></a>            return $pieces;
+<a name="line1030"></a>        $result = array();
+<a name="line1031"></a>
+<a name="line1032"></a>        foreach($pieces as $piece)
+<a name="line1033"></a>            $result[] = new String($piece);
+<a name="line1034"></a>        return $result;
+<a name="line1035"></a>    }
+<a name="line1036"></a>
+<a name="line1037"></a>    /**
+<a name="line1038"></a>     * Splits this string around matches of the given <a
+<a name="line1039"></a>     * href="../util/regex/Pattern.html#sum">regular expression</a>.
+<a name="line1040"></a>     *
+<a name="line1041"></a>     * <p> This method works as if by invoking the two-argument {@link
+<a name="line1042"></a>     * #split(String, int) split} method with the given expression and a limit
+<a name="line1043"></a>     * argument of zero.  Trailing empty strings are therefore not included in
+<a name="line1044"></a>     * the resulting array.
+<a name="line1045"></a>     *
+<a name="line1046"></a>     * <p> The string <tt>"boo:and:foo"</tt>, for example, yields the following
+<a name="line1047"></a>     * results with these expressions:
+<a name="line1048"></a>     *
+<a name="line1049"></a>     * <blockquote><table cellpadding=1 cellspacing=0 summary="Split examples showing regex and result">
+<a name="line1050"></a>     * <tr>
+<a name="line1051"></a>     *  <th>Regex</th>
+<a name="line1052"></a>     *  <th>Result</th>
+<a name="line1053"></a>     * </tr>
+<a name="line1054"></a>     * <tr><td align=center>:</td>
+<a name="line1055"></a>     *     <td><tt>{ "boo", "and", "foo" }</tt></td></tr>
+<a name="line1056"></a>     * <tr><td align=center>o</td>
+<a name="line1057"></a>     *     <td><tt>{ "b", "", ":and:f" }</tt></td></tr>
+<a name="line1058"></a>     * </table></blockquote>
+<a name="line1059"></a>     *
+<a name="line1060"></a>     *
+<a name="line1061"></a>     * @param  regex
+<a name="line1062"></a>     *         the delimiting regular expression
+<a name="line1063"></a>     *
+<a name="line1064"></a>     * @return array[blaze\lang\String] the array of strings computed by splitting this string
+<a name="line1065"></a>     *          around matches of the given regular expression
+<a name="line1066"></a>     *
+<a name="line1067"></a>     * @throws  PatternSyntaxException
+<a name="line1068"></a>     *          if the regular expression's syntax is invalid
+<a name="line1069"></a>     *
+<a name="line1070"></a>     * @see java.util.regex.Pattern
+<a name="line1071"></a>     *
+<a name="line1072"></a>     * @since 1.4
+<a name="line1073"></a>     * @spec JSR-51
+<a name="line1074"></a>     */
+<a name="line1075"></a>    public function splitRegex($regex, $limit = null, $wrapper = false) {
+<a name="line1076"></a>        $regex = String::asNative($regex);
+<a name="line1077"></a>        if(!$wrapper)
+<a name="line1078"></a>            return preg_split($regex, $this->string, $limit);
+<a name="line1079"></a>        $pieces = preg_split($regex, $this->string, $limit);
+<a name="line1080"></a>        $result = array();
+<a name="line1081"></a>
+<a name="line1082"></a>        foreach($pieces as $piece)
+<a name="line1083"></a>            $result[] = new String($piece);
+<a name="line1084"></a>        return $result;
+<a name="line1085"></a>    }
+<a name="line1086"></a>
+<a name="line1087"></a>    /**
+<a name="line1088"></a>     * Converts all of the characters in this <code>String</code> to lower
+<a name="line1089"></a>     * case using the rules of the given <code>Locale</code>.  Case mapping is based
+<a name="line1090"></a>     * on the Unicode Standard version specified by the {@link java.lang.Character Character}
+<a name="line1091"></a>     * class. Since case mappings are not always 1:1 char mappings, the resulting
+<a name="line1092"></a>     * <code>String</code> may be a different length than the original <code>String</code>.
+<a name="line1093"></a>     * <p>
+<a name="line1094"></a>     * Examples of lowercase  mappings are in the following table:
+<a name="line1095"></a>     * <table border="1" summary="Lowercase mapping examples showing language code of locale, upper case, lower case, and description">
+<a name="line1096"></a>     * <tr>
+<a name="line1097"></a>     *   <th>Language Code of Locale</th>
+<a name="line1098"></a>     *   <th>Upper Case</th>
+<a name="line1099"></a>     *   <th>Lower Case</th>
+<a name="line1100"></a>     *   <th>Description</th>
+<a name="line1101"></a>     * </tr>
+<a name="line1102"></a>     * <tr>
+<a name="line1103"></a>     *   <td>tr (Turkish)</td>
+<a name="line1104"></a>     *   <td>&#92;u0130</td>
+<a name="line1105"></a>     *   <td>&#92;u0069</td>
+<a name="line1106"></a>     *   <td>capital letter I with dot above -&gt; small letter i</td>
+<a name="line1107"></a>     * </tr>
+<a name="line1108"></a>     * <tr>
+<a name="line1109"></a>     *   <td>tr (Turkish)</td>
+<a name="line1110"></a>     *   <td>&#92;u0049</td>
+<a name="line1111"></a>     *   <td>&#92;u0131</td>
+<a name="line1112"></a>     *   <td>capital letter I -&gt; small letter dotless i </td>
+<a name="line1113"></a>     * </tr>
+<a name="line1114"></a>     * <tr>
+<a name="line1115"></a>     *   <td>(all)</td>
+<a name="line1116"></a>     *   <td>French Fries</td>
+<a name="line1117"></a>     *   <td>french fries</td>
+<a name="line1118"></a>     *   <td>lowercased all chars in String</td>
+<a name="line1119"></a>     * </tr>
+<a name="line1120"></a>     * <tr>
+<a name="line1121"></a>     *   <td>(all)</td>
+<a name="line1122"></a>     *   <td><img src="doc-files/capiota.gif" alt="capiota"><img src="doc-files/capchi.gif" alt="capchi">
+<a name="line1123"></a>     *       <img src="doc-files/captheta.gif" alt="captheta"><img src="doc-files/capupsil.gif" alt="capupsil">
+<a name="line1124"></a>     *       <img src="doc-files/capsigma.gif" alt="capsigma"></td>
+<a name="line1125"></a>     *   <td><img src="doc-files/iota.gif" alt="iota"><img src="doc-files/chi.gif" alt="chi">
+<a name="line1126"></a>     *       <img src="doc-files/theta.gif" alt="theta"><img src="doc-files/upsilon.gif" alt="upsilon">
+<a name="line1127"></a>     *       <img src="doc-files/sigma1.gif" alt="sigma"></td>
+<a name="line1128"></a>     *   <td>lowercased all chars in String</td>
+<a name="line1129"></a>     * </tr>
+<a name="line1130"></a>     * </table>
+<a name="line1131"></a>     *
+<a name="line1132"></a>     * @param locale use the case transformation rules for this locale
+<a name="line1133"></a>     * @return  blaze\lang\String the <code>String</code>, converted to lowercase.
+<a name="line1134"></a>     * @see     java.lang.String#toLowerCase()
+<a name="line1135"></a>     * @see     java.lang.String#toUpperCase()
+<a name="line1136"></a>     * @see     java.lang.String#toUpperCase(Locale)
+<a name="line1137"></a>     * @since   1.1
+<a name="line1138"></a>     */
+<a name="line1139"></a>    public function toLowerCase($first = false, Locale $locale = null) {
+<a name="line1140"></a>        if($first)
+<a name="line1141"></a>            return new String(lcfirst($this->string));
+<a name="line1142"></a>        return new String(strtolower($this->string));
+<a name="line1143"></a>//	if (locale == null) {
+<a name="line1144"></a>//	    throw new NullPointerException();
+<a name="line1145"></a>//        }
+<a name="line1146"></a>//
+<a name="line1147"></a>//        int     firstUpper;
+<a name="line1148"></a>//
+<a name="line1149"></a>//	/* Now check if there are any characters that need to be changed. */
+<a name="line1150"></a>//	scan: {
+<a name="line1151"></a>//	    for (firstUpper = 0 ; firstUpper < count; ) {
+<a name="line1152"></a>//		char c = value[offset+firstUpper];
+<a name="line1153"></a>//		if ((c >= Character.MIN_HIGH_SURROGATE) &&
+<a name="line1154"></a>//		    (c <= Character.MAX_HIGH_SURROGATE)) {
+<a name="line1155"></a>//		    int supplChar = codePointAt(firstUpper);
+<a name="line1156"></a>//		    if (supplChar != Character.toLowerCase(supplChar)) {
+<a name="line1157"></a>//		        break scan;
+<a name="line1158"></a>//		    }
+<a name="line1159"></a>//		    firstUpper += Character.charCount(supplChar);
+<a name="line1160"></a>//		} else {
+<a name="line1161"></a>//		    if (c != Character.toLowerCase(c)) {
+<a name="line1162"></a>//		        break scan;
+<a name="line1163"></a>//		    }
+<a name="line1164"></a>//		    firstUpper++;
+<a name="line1165"></a>//		}
+<a name="line1166"></a>//	    }
+<a name="line1167"></a>//	    return this;
+<a name="line1168"></a>//	}
+<a name="line1169"></a>//
+<a name="line1170"></a>//        char[]  result = new char[count];
+<a name="line1171"></a>//	int     resultOffset = 0;  /* result may grow, so i+resultOffset
+<a name="line1172"></a>//				    * is the write location in result */
+<a name="line1173"></a>//
+<a name="line1174"></a>//        /* Just copy the first few lowerCase characters. */
+<a name="line1175"></a>//        System.arraycopy(value, offset, result, 0, firstUpper);
+<a name="line1176"></a>//
+<a name="line1177"></a>//	String lang = locale.getLanguage();
+<a name="line1178"></a>//	boolean localeDependent =
+<a name="line1179"></a>//            (lang == "tr" || lang == "az" || lang == "lt");
+<a name="line1180"></a>//        char[] lowerCharArray;
+<a name="line1181"></a>//        int lowerChar;
+<a name="line1182"></a>//        int srcChar;
+<a name="line1183"></a>//        int srcCount;
+<a name="line1184"></a>//        for (int i = firstUpper; i < count; i += srcCount) {
+<a name="line1185"></a>//	    srcChar = (int)value[offset+i];
+<a name="line1186"></a>//	    if ((char)srcChar >= Character.MIN_HIGH_SURROGATE &&
+<a name="line1187"></a>//	        (char)srcChar <= Character.MAX_HIGH_SURROGATE) {
+<a name="line1188"></a>//		srcChar = codePointAt(i);
+<a name="line1189"></a>//		srcCount = Character.charCount(srcChar);
+<a name="line1190"></a>//	    } else {
+<a name="line1191"></a>//	        srcCount = 1;
+<a name="line1192"></a>//	    }
+<a name="line1193"></a>//            if (localeDependent || srcChar == '\u03A3') { // GREEK CAPITAL LETTER SIGMA
+<a name="line1194"></a>//                lowerChar = ConditionalSpecialCasing.toLowerCaseEx(this, i, locale);
+<a name="line1195"></a>//            } else {
+<a name="line1196"></a>//                lowerChar = Character.toLowerCase(srcChar);
+<a name="line1197"></a>//            }
+<a name="line1198"></a>//            if ((lowerChar == Character.ERROR) ||
+<a name="line1199"></a>//                (lowerChar >= Character.MIN_SUPPLEMENTARY_CODE_POINT)) {
+<a name="line1200"></a>//                if (lowerChar == Character.ERROR) {
+<a name="line1201"></a>//                    lowerCharArray =
+<a name="line1202"></a>//                        ConditionalSpecialCasing.toLowerCaseCharArray(this, i, locale);
+<a name="line1203"></a>//                } else if (srcCount == 2) {
+<a name="line1204"></a>//		    resultOffset += Character.toChars(lowerChar, result, i + resultOffset) - srcCount;
+<a name="line1205"></a>//		    continue;
+<a name="line1206"></a>//                } else {
+<a name="line1207"></a>//		    lowerCharArray = Character.toChars(lowerChar);
+<a name="line1208"></a>//		}
+<a name="line1209"></a>//
+<a name="line1210"></a>//                /* Grow result if needed */
+<a name="line1211"></a>//                int mapLen = lowerCharArray.length;
+<a name="line1212"></a>//		if (mapLen > srcCount) {
+<a name="line1213"></a>//                    char[] result2 = new char[result.length + mapLen - srcCount];
+<a name="line1214"></a>//                    System.arraycopy(result, 0, result2, 0,
+<a name="line1215"></a>//                        i + resultOffset);
+<a name="line1216"></a>//                    result = result2;
+<a name="line1217"></a>//		}
+<a name="line1218"></a>//                for (int x=0; x<mapLen; ++x) {
+<a name="line1219"></a>//                    result[i+resultOffset+x] = lowerCharArray[x];
+<a name="line1220"></a>//                }
+<a name="line1221"></a>//                resultOffset += (mapLen - srcCount);
+<a name="line1222"></a>//            } else {
+<a name="line1223"></a>//                result[i+resultOffset] = (char)lowerChar;
+<a name="line1224"></a>//            }
+<a name="line1225"></a>//        }
+<a name="line1226"></a>//        return new String(0, count+resultOffset, result);
+<a name="line1227"></a>    }
+<a name="line1228"></a>
+<a name="line1229"></a>    /**
+<a name="line1230"></a>     * Converts all of the characters in this <code>String</code> to lower
+<a name="line1231"></a>     * case using the rules of the default locale. This is equivalent to calling
+<a name="line1232"></a>     * <code>toLowerCase(Locale.getDefault())</code>.
+<a name="line1233"></a>     * <p>
+<a name="line1234"></a>     * <b>Note:</b> This method is locale sensitive, and may produce unexpected
+<a name="line1235"></a>     * results if used for strings that are intended to be interpreted locale
+<a name="line1236"></a>     * independently.
+<a name="line1237"></a>     * Examples are programming language identifiers, protocol keys, and HTML
+<a name="line1238"></a>     * tags.
+<a name="line1239"></a>     * For instance, <code>"TITLE".toLowerCase()</code> in a Turkish locale
+<a name="line1240"></a>     * returns <code>"t\u0131tle"</code>, where '\u0131' is the LATIN SMALL
+<a name="line1241"></a>     * LETTER DOTLESS I character.
+<a name="line1242"></a>     * To obtain correct results for locale insensitive strings, use
+<a name="line1243"></a>     * <code>toLowerCase(Locale.ENGLISH)</code>.
+<a name="line1244"></a>     * <p>
+<a name="line1245"></a>     * @return blaze\lang\String the <code>String</code>, converted to lowercase.
+<a name="line1246"></a>     * @see     java.lang.String#toLowerCase(Locale)
+<a name="line1247"></a>     */
+<a name="line1248"></a>//    public function toLowerCase() {
+<a name="line1249"></a>//        return toLowerCase(Locale.getDefault());
+<a name="line1250"></a>//    }
+<a name="line1251"></a>
+<a name="line1252"></a>    /**
+<a name="line1253"></a>     * Converts all of the characters in this <code>String</code> to upper
+<a name="line1254"></a>     * case using the rules of the given <code>Locale</code>. Case mapping is based
+<a name="line1255"></a>     * on the Unicode Standard version specified by the {@link java.lang.Character Character}
+<a name="line1256"></a>     * class. Since case mappings are not always 1:1 char mappings, the resulting
+<a name="line1257"></a>     * <code>String</code> may be a different length than the original <code>String</code>.
+<a name="line1258"></a>     * <p>
+<a name="line1259"></a>     * Examples of locale-sensitive and 1:M case mappings are in the following table.
+<a name="line1260"></a>     * <p>
+<a name="line1261"></a>     * <table border="1" summary="Examples of locale-sensitive and 1:M case mappings. Shows Language code of locale, lower case, upper case, and description.">
+<a name="line1262"></a>     * <tr>
+<a name="line1263"></a>     *   <th>Language Code of Locale</th>
+<a name="line1264"></a>     *   <th>Lower Case</th>
+<a name="line1265"></a>     *   <th>Upper Case</th>
+<a name="line1266"></a>     *   <th>Description</th>
+<a name="line1267"></a>     * </tr>
+<a name="line1268"></a>     * <tr>
+<a name="line1269"></a>     *   <td>tr (Turkish)</td>
+<a name="line1270"></a>     *   <td>&#92;u0069</td>
+<a name="line1271"></a>     *   <td>&#92;u0130</td>
+<a name="line1272"></a>     *   <td>small letter i -&gt; capital letter I with dot above</td>
+<a name="line1273"></a>     * </tr>
+<a name="line1274"></a>     * <tr>
+<a name="line1275"></a>     *   <td>tr (Turkish)</td>
+<a name="line1276"></a>     *   <td>&#92;u0131</td>
+<a name="line1277"></a>     *   <td>&#92;u0049</td>
+<a name="line1278"></a>     *   <td>small letter dotless i -&gt; capital letter I</td>
+<a name="line1279"></a>     * </tr>
+<a name="line1280"></a>     * <tr>
+<a name="line1281"></a>     *   <td>(all)</td>
+<a name="line1282"></a>     *   <td>&#92;u00df</td>
+<a name="line1283"></a>     *   <td>&#92;u0053 &#92;u0053</td>
+<a name="line1284"></a>     *   <td>small letter sharp s -&gt; two letters: SS</td>
+<a name="line1285"></a>     * </tr>
+<a name="line1286"></a>     * <tr>
+<a name="line1287"></a>     *   <td>(all)</td>
+<a name="line1288"></a>     *   <td>Fahrvergn&uuml;gen</td>
+<a name="line1289"></a>     *   <td>FAHRVERGN&Uuml;GEN</td>
+<a name="line1290"></a>     *   <td></td>
+<a name="line1291"></a>     * </tr>
+<a name="line1292"></a>     * </table>
+<a name="line1293"></a>     * @param locale use the case transformation rules for this locale
+<a name="line1294"></a>     * @return blaze\lang\String the <code>String</code>, converted to uppercase.
+<a name="line1295"></a>     * @see     java.lang.String#toUpperCase()
+<a name="line1296"></a>     * @see     java.lang.String#toLowerCase()
+<a name="line1297"></a>     * @see     java.lang.String#toLowerCase(Locale)
+<a name="line1298"></a>     * @since   1.1
+<a name="line1299"></a>     */
+<a name="line1300"></a>    public function toUpperCase($first = false, Locale $locale = null) {
+<a name="line1301"></a>        if($first)
+<a name="line1302"></a>            return new String(ucfirst($this->string));
+<a name="line1303"></a>        return new String(strtoupper($this->string));
+<a name="line1304"></a>//	if (locale == null) {
+<a name="line1305"></a>//	    throw new NullPointerException();
+<a name="line1306"></a>//        }
+<a name="line1307"></a>//
+<a name="line1308"></a>//        int     firstLower;
+<a name="line1309"></a>//
+<a name="line1310"></a>//	/* Now check if there are any characters that need to be changed. */
+<a name="line1311"></a>//	scan: {
+<a name="line1312"></a>//	    for (firstLower = 0 ; firstLower < count; ) {
+<a name="line1313"></a>//		int c = (int)value[offset+firstLower];
+<a name="line1314"></a>//		int srcCount;
+<a name="line1315"></a>//		if ((c >= Character.MIN_HIGH_SURROGATE) &&
+<a name="line1316"></a>//		    (c <= Character.MAX_HIGH_SURROGATE)) {
+<a name="line1317"></a>//		    c = codePointAt(firstLower);
+<a name="line1318"></a>//		    srcCount = Character.charCount(c);
+<a name="line1319"></a>//		} else {
+<a name="line1320"></a>//		    srcCount = 1;
+<a name="line1321"></a>//		}
+<a name="line1322"></a>//		int upperCaseChar = Character.toUpperCaseEx(c);
+<a name="line1323"></a>//		if ((upperCaseChar == Character.ERROR) ||
+<a name="line1324"></a>//		    (c != upperCaseChar)) {
+<a name="line1325"></a>//		    break scan;
+<a name="line1326"></a>//		}
+<a name="line1327"></a>//		firstLower += srcCount;
+<a name="line1328"></a>//	    }
+<a name="line1329"></a>//	    return this;
+<a name="line1330"></a>//	}
+<a name="line1331"></a>//
+<a name="line1332"></a>//        char[]  result       = new char[count]; /* may grow */
+<a name="line1333"></a>//	int     resultOffset = 0;  /* result may grow, so i+resultOffset
+<a name="line1334"></a>//				    * is the write location in result */
+<a name="line1335"></a>//
+<a name="line1336"></a>//	/* Just copy the first few upperCase characters. */
+<a name="line1337"></a>//	System.arraycopy(value, offset, result, 0, firstLower);
+<a name="line1338"></a>//
+<a name="line1339"></a>//	String lang = locale.getLanguage();
+<a name="line1340"></a>//	boolean localeDependent =
+<a name="line1341"></a>//            (lang == "tr" || lang == "az" || lang == "lt");
+<a name="line1342"></a>//        char[] upperCharArray;
+<a name="line1343"></a>//        int upperChar;
+<a name="line1344"></a>//        int srcChar;
+<a name="line1345"></a>//        int srcCount;
+<a name="line1346"></a>//        for (int i = firstLower; i < count; i += srcCount) {
+<a name="line1347"></a>//	    srcChar = (int)value[offset+i];
+<a name="line1348"></a>//	    if ((char)srcChar >= Character.MIN_HIGH_SURROGATE &&
+<a name="line1349"></a>//	        (char)srcChar <= Character.MAX_HIGH_SURROGATE) {
+<a name="line1350"></a>//		srcChar = codePointAt(i);
+<a name="line1351"></a>//		srcCount = Character.charCount(srcChar);
+<a name="line1352"></a>//	    } else {
+<a name="line1353"></a>//	        srcCount = 1;
+<a name="line1354"></a>//	    }
+<a name="line1355"></a>//            if (localeDependent) {
+<a name="line1356"></a>//                upperChar = ConditionalSpecialCasing.toUpperCaseEx(this, i, locale);
+<a name="line1357"></a>//            } else {
+<a name="line1358"></a>//                upperChar = Character.toUpperCaseEx(srcChar);
+<a name="line1359"></a>//            }
+<a name="line1360"></a>//            if ((upperChar == Character.ERROR) ||
+<a name="line1361"></a>//                (upperChar >= Character.MIN_SUPPLEMENTARY_CODE_POINT)) {
+<a name="line1362"></a>//                if (upperChar == Character.ERROR) {
+<a name="line1363"></a>//                    if (localeDependent) {
+<a name="line1364"></a>//                        upperCharArray =
+<a name="line1365"></a>//                            ConditionalSpecialCasing.toUpperCaseCharArray(this, i, locale);
+<a name="line1366"></a>//                    } else {
+<a name="line1367"></a>//                        upperCharArray = Character.toUpperCaseCharArray(srcChar);
+<a name="line1368"></a>//                    }
+<a name="line1369"></a>//                } else if (srcCount == 2) {
+<a name="line1370"></a>//		    resultOffset += Character.toChars(upperChar, result, i + resultOffset) - srcCount;
+<a name="line1371"></a>//		    continue;
+<a name="line1372"></a>//                } else {
+<a name="line1373"></a>//                    upperCharArray = Character.toChars(upperChar);
+<a name="line1374"></a>//		}
+<a name="line1375"></a>//
+<a name="line1376"></a>//                /* Grow result if needed */
+<a name="line1377"></a>//                int mapLen = upperCharArray.length;
+<a name="line1378"></a>//		if (mapLen > srcCount) {
+<a name="line1379"></a>//                    char[] result2 = new char[result.length + mapLen - srcCount];
+<a name="line1380"></a>//                    System.arraycopy(result, 0, result2, 0,
+<a name="line1381"></a>//                        i + resultOffset);
+<a name="line1382"></a>//                    result = result2;
+<a name="line1383"></a>//		}
+<a name="line1384"></a>//                for (int x=0; x<mapLen; ++x) {
+<a name="line1385"></a>//                    result[i+resultOffset+x] = upperCharArray[x];
+<a name="line1386"></a>//                }
+<a name="line1387"></a>//                resultOffset += (mapLen - srcCount);
+<a name="line1388"></a>//            } else {
+<a name="line1389"></a>//                result[i+resultOffset] = (char)upperChar;
+<a name="line1390"></a>//            }
+<a name="line1391"></a>//        }
+<a name="line1392"></a>//        return new String(0, count+resultOffset, result);
+<a name="line1393"></a>    }
+<a name="line1394"></a>
+<a name="line1395"></a>    /**
+<a name="line1396"></a>     * Converts all of the characters in this <code>String</code> to upper
+<a name="line1397"></a>     * case using the rules of the default locale. This method is equivalent to
+<a name="line1398"></a>     * <code>toUpperCase(Locale.getDefault())</code>.
+<a name="line1399"></a>     * <p>
+<a name="line1400"></a>     * <b>Note:</b> This method is locale sensitive, and may produce unexpected
+<a name="line1401"></a>     * results if used for strings that are intended to be interpreted locale
+<a name="line1402"></a>     * independently.
+<a name="line1403"></a>     * Examples are programming language identifiers, protocol keys, and HTML
+<a name="line1404"></a>     * tags.
+<a name="line1405"></a>     * For instance, <code>"title".toUpperCase()</code> in a Turkish locale
+<a name="line1406"></a>     * returns <code>"T\u0130TLE"</code>, where '\u0130' is the LATIN CAPITAL
+<a name="line1407"></a>     * LETTER I WITH DOT ABOVE character.
+<a name="line1408"></a>     * To obtain correct results for locale insensitive strings, use
+<a name="line1409"></a>     * <code>toUpperCase(Locale.ENGLISH)</code>.
+<a name="line1410"></a>     * <p>
+<a name="line1411"></a>     * @return blaze\lang\String the <code>String</code>, converted to uppercase.
+<a name="line1412"></a>     * @see     java.lang.String#toUpperCase(Locale)
+<a name="line1413"></a>     */
+<a name="line1414"></a>//    public function toUpperCase() {
+<a name="line1415"></a>//        return toUpperCase(Locale.getDefault());
+<a name="line1416"></a>//    }
+<a name="line1417"></a>
+<a name="line1418"></a>    /**
+<a name="line1419"></a>     * Returns a copy of the string, with leading and trailing whitespace
+<a name="line1420"></a>     * omitted.
+<a name="line1421"></a>     * <p>
+<a name="line1422"></a>     * If this <code>String</code> object represents an empty character
+<a name="line1423"></a>     * sequence, or the first and last characters of character sequence
+<a name="line1424"></a>     * represented by this <code>String</code> object both have codes
+<a name="line1425"></a>     * greater than <code>'&#92;u0020'</code> (the space character), then a
+<a name="line1426"></a>     * reference to this <code>String</code> object is returned.
+<a name="line1427"></a>     * <p>
+<a name="line1428"></a>     * Otherwise, if there is no character with a code greater than
+<a name="line1429"></a>     * <code>'&#92;u0020'</code> in the string, then a new
+<a name="line1430"></a>     * <code>String</code> object representing an empty string is created
+<a name="line1431"></a>     * and returned.
+<a name="line1432"></a>     * <p>
+<a name="line1433"></a>     * Otherwise, let <i>k</i> be the index of the first character in the
+<a name="line1434"></a>     * string whose code is greater than <code>'&#92;u0020'</code>, and let
+<a name="line1435"></a>     * <i>m</i> be the index of the last character in the string whose code
+<a name="line1436"></a>     * is greater than <code>'&#92;u0020'</code>. A new <code>String</code>
+<a name="line1437"></a>     * object is created, representing the substring of this string that
+<a name="line1438"></a>     * begins with the character at index <i>k</i> and ends with the
+<a name="line1439"></a>     * character at index <i>m</i>-that is, the result of
+<a name="line1440"></a>     * <code>this.substring(<i>k</i>,&nbsp;<i>m</i>+1)</code>.
+<a name="line1441"></a>     * <p>
+<a name="line1442"></a>     * This method may be used to trim whitespace (as defined above) from
+<a name="line1443"></a>     * the beginning and end of a string.
+<a name="line1444"></a>     *
+<a name="line1445"></a>     * @return blaze\lang\String A copy of this string with leading and trailing white
+<a name="line1446"></a>     *          space removed, or this string if it has no leading or
+<a name="line1447"></a>     *          trailing white space.
+<a name="line1448"></a>     */
+<a name="line1449"></a>    public function trim($charlist = null) {
+<a name="line1450"></a>        return new String(trim($this->string, $charlist));
+<a name="line1451"></a>    }
+<a name="line1452"></a>
+<a name="line1453"></a>
+<a name="line1454"></a>    /**
+<a name="line1455"></a>     * Returns a formatted string using the specified locale, format string,
+<a name="line1456"></a>     * and arguments.
+<a name="line1457"></a>     *
+<a name="line1458"></a>     * @param  l
+<a name="line1459"></a>     *         The {@linkplain java.util.Locale locale} to apply during
+<a name="line1460"></a>     *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
+<a name="line1461"></a>     *         is applied.
+<a name="line1462"></a>     *
+<a name="line1463"></a>     * @param blaze\lang\String|string $format
+<a name="line1464"></a>     *         A <a href="../util/Formatter.html#syntax">format string</a>
+<a name="line1465"></a>     *
+<a name="line1466"></a>     * @param array[blaze\lang\Object] args
+<a name="line1467"></a>     *         Arguments referenced by the format specifiers in the format
+<a name="line1468"></a>     *         string.  If there are more arguments than format specifiers, the
+<a name="line1469"></a>     *         extra arguments are ignored.  The number of arguments is
+<a name="line1470"></a>     *         variable and may be zero.  The maximum number of arguments is
+<a name="line1471"></a>     *         limited by the maximum dimension of a Java array as defined by
+<a name="line1472"></a>     *         the <a href="http://java.sun.com/docs/books/vmspec/">Java
+<a name="line1473"></a>     *         Virtual Machine Specification</a>.  The behaviour on a
+<a name="line1474"></a>     *         <tt>null</tt> argument depends on the <a
+<a name="line1475"></a>     *         href="../util/Formatter.html#syntax">conversion</a>.
+<a name="line1476"></a>     *
+<a name="line1477"></a>     * @throws  IllegalFormatException
+<a name="line1478"></a>     *          If a format string contains an illegal syntax, a format
+<a name="line1479"></a>     *          specifier that is incompatible with the given arguments,
+<a name="line1480"></a>     *          insufficient arguments given the format string, or other
+<a name="line1481"></a>     *          illegal conditions.  For specification of all possible
+<a name="line1482"></a>     *          formatting errors, see the <a
+<a name="line1483"></a>     *          href="../util/Formatter.html#detail">Details</a> section of the
+<a name="line1484"></a>     *          formatter class specification
+<a name="line1485"></a>     *
+<a name="line1486"></a>     * @throws  NullPointerException
+<a name="line1487"></a>     *          If the <tt>format</tt> is <tt>null</tt>
+<a name="line1488"></a>     *
+<a name="line1489"></a>     * @return blaze\lang\String A formatted string
+<a name="line1490"></a>     *
+<a name="line1491"></a>     * @see  java.util.Formatter
+<a name="line1492"></a>     * @since  1.5
+<a name="line1493"></a>     */
+<a name="line1494"></a>    public static function format($format, $args, Locale $l = null) {
+<a name="line1495"></a>        $f = new Formatter($l);
+<a name="line1496"></a>	return $f->format($format, $args)->toString();
+<a name="line1497"></a>    }
+<a name="line1498"></a>
+<a name="line1499"></a>    /**
+<a name="line1500"></a>     * Returns the string representation of the <code>double</code> argument.
+<a name="line1501"></a>     * <p>
+<a name="line1502"></a>     * The representation is exactly the one returned by the
+<a name="line1503"></a>     * <code>Double.toString</code> method of one argument.
+<a name="line1504"></a>     *
+<a name="line1505"></a>     * @param   d   a <code>double</code>.
+<a name="line1506"></a>     * @return blaze\lang\String a  string representation of the <code>double</code> argument.
+<a name="line1507"></a>     * @see     java.lang.Double#toString(double)
+<a name="line1508"></a>     */
+<a name="line1509"></a>    public static function valueOf($value) {
+<a name="line1510"></a>        if($value === null){
+<a name="line1511"></a>            return 'null';
+<a name="line1512"></a>        }else if(is_object($value) && $value instanceof Object){
+<a name="line1513"></a>            return $value->__toString();
+<a name="line1514"></a>        }else if(is_bool($value)){
+<a name="line1515"></a>            return $value ? 'true' : 'false';
+<a name="line1516"></a>        }else if(is_float($value)){
+<a name="line1517"></a>            return Float::toString($value);
+<a name="line1518"></a>        }else if(is_double($value)){
+<a name="line1519"></a>            return Double::toString($value);
+<a name="line1520"></a>        }else if(is_int($value)){
+<a name="line1521"></a>            return Integer::toString($value);
+<a name="line1522"></a>        }else if(is_string($value)){
+<a name="line1523"></a>            return $value;
+<a name="line1524"></a>        }else{
+<a name="line1525"></a>            throw new IllegalArgumentException($value);
+<a name="line1526"></a>        }
+<a name="line1527"></a>    }
+<a name="line1528"></a>
+<a name="line1529"></a>}
+<a name="line1530"></a>?>
+<a name="line1531"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\lang\string.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

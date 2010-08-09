@@ -1,0 +1,341 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:20:50 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+<link rel="start" href="../../../overview-summary.html">
+
+<title>NetletContextImpl (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blazeserver/source/netlet/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blazeserver/source/netlet/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blazeserver\source\netlet\netletcontextimpl.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blazeServer\source\netlet\NetletContextImpl</div>
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line19" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 19</a>
+
+<h1>Class NetletContextImpl</h1>
+
+<pre class="tree"><a href="../../../blaze/lang/object.html">Object</a><br>    └─<strong>NetletContextImpl</strong><br /></pre>
+
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../blaze/netlet/netletcontext.html">blaze\netlet\NetletContext</a> </dd>
+</dl>
+
+<hr>
+
+<p class="signature">public  class <strong>NetletContextImpl</strong><br>extends <a href="../../../blaze/lang/object.html">Object</a>
+
+</p>
+
+<div class="comment" id="overview_description"><p>Description of NetletContextImpl</p></div>
+
+<dl>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd>which could be useful for the understanding of this class. e.g. ClassName::methodName</dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Todo:</dt>
+<dd>Something which has to be done, implementation or so</dd>
+</dl>
+<hr>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(mixed initParams, <a href="../../../blazeserver/source/netlet/netletapplication.html">NetletApplication</a> netletApplication)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addFilter()">addFilter</a>(mixed name, <a href="../../../blaze/netlet/filter.html">Filter</a> filter)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addFilterMapping()">addFilterMapping</a>(mixed uriMapping, mixed name)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addListener()">addListener</a>(mixed name, mixed listener)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addNetlet()">addNetlet</a>(mixed name, <a href="../../../blaze/netlet/netlet.html">Netlet</a> netlet)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addNetletMapping()">addNetletMapping</a>(mixed uriMapping, mixed name)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getAttribute()">getAttribute</a>(mixed name)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getFilterMapping()">getFilterMapping</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getFilters()">getFilters</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getInitParameter()">getInitParameter</a>(mixed name, mixed postType)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getInitParameterMap()">getInitParameterMap</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getListeners()">getListeners</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getNetletApplication()">getNetletApplication</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getNetletMapping()">getNetletMapping</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getNetlets()">getNetlets</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#removeAttribute()">removeAttribute</a>(mixed name)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setAttribute()">setAttribute</a>(mixed name, mixed o)</p></td>
+</tr>
+</table>
+
+<table class="inherit">
+<tr><th colspan="2">Methods inherited from blaze\lang\Object</th></tr>
+<tr><td><a href="../../../blaze/lang/object.html#cloneObject()">cloneObject</a>, <a href="../../../blaze/lang/object.html#equals()">equals</a>, <a href="../../../blaze/lang/object.html#getClass()">getClass</a>, <a href="../../../blaze/lang/object.html#hashCode()">hashCode</a></td></tr></table>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line34" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 34</a>
+
+<h3 id="__construct()">__construct</h3>
+<code class="signature">public  void <strong>__construct</strong>(mixed initParams, <a href="../../../blazeserver/source/netlet/netletapplication.html">NetletApplication</a> netletApplication)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line51" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 51</a>
+
+<h3 id="addFilter()">addFilter</h3>
+<code class="signature">public  void <strong>addFilter</strong>(mixed name, <a href="../../../blaze/netlet/filter.html">Filter</a> filter)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line55" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 55</a>
+
+<h3 id="addFilterMapping()">addFilterMapping</h3>
+<code class="signature">public  void <strong>addFilterMapping</strong>(mixed uriMapping, mixed name)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line82" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 82</a>
+
+<h3 id="addListener()">addListener</h3>
+<code class="signature">public  void <strong>addListener</strong>(mixed name, mixed listener)</code>
+<div class="details">
+<p></p><dl>
+<dt>Todo:</dt>
+<dd>Persist for the server</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line43" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 43</a>
+
+<h3 id="addNetlet()">addNetlet</h3>
+<code class="signature">public  void <strong>addNetlet</strong>(mixed name, <a href="../../../blaze/netlet/netlet.html">Netlet</a> netlet)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line47" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 47</a>
+
+<h3 id="addNetletMapping()">addNetletMapping</h3>
+<code class="signature">public  void <strong>addNetletMapping</strong>(mixed uriMapping, mixed name)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line96" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 96</a>
+
+<h3 id="getAttribute()">getAttribute</h3>
+<code class="signature">public  void <strong>getAttribute</strong>(mixed name)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line63" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 63</a>
+
+<h3 id="getFilterMapping()">getFilterMapping</h3>
+<code class="signature">public  void <strong>getFilterMapping</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line71" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 71</a>
+
+<h3 id="getFilters()">getFilters</h3>
+<code class="signature">public  void <strong>getFilters</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line86" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 86</a>
+
+<h3 id="getInitParameter()">getInitParameter</h3>
+<code class="signature">public  void <strong>getInitParameter</strong>(mixed name, mixed postType)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line92" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 92</a>
+
+<h3 id="getInitParameterMap()">getInitParameterMap</h3>
+<code class="signature">public  void <strong>getInitParameterMap</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line75" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 75</a>
+
+<h3 id="getListeners()">getListeners</h3>
+<code class="signature">public  void <strong>getListeners</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line39" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 39</a>
+
+<h3 id="getNetletApplication()">getNetletApplication</h3>
+<code class="signature">public  void <strong>getNetletApplication</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line59" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 59</a>
+
+<h3 id="getNetletMapping()">getNetletMapping</h3>
+<code class="signature">public  void <strong>getNetletMapping</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line67" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 67</a>
+
+<h3 id="getNetlets()">getNetlets</h3>
+<code class="signature">public  void <strong>getNetlets</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line102" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 102</a>
+
+<h3 id="removeAttribute()">removeAttribute</h3>
+<code class="signature">public  void <strong>removeAttribute</strong>(mixed name)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blazeserver\source\netlet\netletcontextimpl.php.html#line106" class="location">blazeServer\source\netlet\NetletContextImpl.php at line 106</a>
+
+<h3 id="setAttribute()">setAttribute</h3>
+<code class="signature">public  void <strong>setAttribute</strong>(mixed name, mixed o)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blazeserver/source/netlet/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blazeserver/source/netlet/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blazeserver\source\netlet\netletcontextimpl.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

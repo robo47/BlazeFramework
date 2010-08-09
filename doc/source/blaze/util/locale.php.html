@@ -1,0 +1,876 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\util\Locale.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\util\locale.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\util\Locale.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\util;
+<a name="line3"></a>use blaze\lang\Object,
+<a name="line4"></a>    blaze\io\Serializable,
+<a name="line5"></a>    blaze\lang\Cloneable,
+<a name="line6"></a>    blaze\lang\StaticInitialization;
+<a name="line7"></a>
+<a name="line8"></a>/**
+<a name="line9"></a> * Description of Locale
+<a name="line10"></a> *
+<a name="line11"></a> * @author  Christian Beikov
+<a name="line12"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line13"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line14"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line15"></a> * @since   1.0
+<a name="line16"></a> * @version $Revision$
+<a name="line17"></a> * @todo    Something which has to be done, implementation or so
+<a name="line18"></a> */
+<a name="line19"></a>final class Locale extends Object implements Cloneable, Serializable, StaticInitialization {
+<a name="line20"></a>
+<a name="line21"></a>    private static $cache = array();// = new ConcurrentHashMap<String, Locale>(32);
+<a name="line22"></a>
+<a name="line23"></a>    /** Useful constant for language.
+<a name="line24"></a>     */
+<a name="line25"></a>    public static $ENGLISH;
+<a name="line26"></a>
+<a name="line27"></a>    /** Useful constant for language.
+<a name="line28"></a>     */
+<a name="line29"></a>    public static $FRENCH;
+<a name="line30"></a>
+<a name="line31"></a>    /** Useful constant for language.
+<a name="line32"></a>     */
+<a name="line33"></a>    public static $GERMAN;
+<a name="line34"></a>
+<a name="line35"></a>    /** Useful constant for language.
+<a name="line36"></a>     */
+<a name="line37"></a>    public static $ITALIAN;
+<a name="line38"></a>
+<a name="line39"></a>    /** Useful constant for language.
+<a name="line40"></a>     */
+<a name="line41"></a>    public static $JAPANESE;
+<a name="line42"></a>
+<a name="line43"></a>    /** Useful constant for language.
+<a name="line44"></a>     */
+<a name="line45"></a>    public static $KOREAN;
+<a name="line46"></a>
+<a name="line47"></a>    /** Useful constant for language.
+<a name="line48"></a>     */
+<a name="line49"></a>    public static $CHINESE;
+<a name="line50"></a>
+<a name="line51"></a>    /** Useful constant for language.
+<a name="line52"></a>     */
+<a name="line53"></a>    public static $SIMPLIFIED_CHINESE;
+<a name="line54"></a>
+<a name="line55"></a>    /** Useful constant for language.
+<a name="line56"></a>     */
+<a name="line57"></a>    public static $TRADITIONAL_CHINESE;
+<a name="line58"></a>
+<a name="line59"></a>    /** Useful constant for country.
+<a name="line60"></a>     */
+<a name="line61"></a>    public static $FRANCE;
+<a name="line62"></a>
+<a name="line63"></a>    /** Useful constant for country.
+<a name="line64"></a>     */
+<a name="line65"></a>    public static $GERMANY;
+<a name="line66"></a>
+<a name="line67"></a>    /** Useful constant for country.
+<a name="line68"></a>     */
+<a name="line69"></a>    public static $ITALY;
+<a name="line70"></a>
+<a name="line71"></a>    /** Useful constant for country.
+<a name="line72"></a>     */
+<a name="line73"></a>    public static $JAPAN;
+<a name="line74"></a>
+<a name="line75"></a>    /** Useful constant for country.
+<a name="line76"></a>     */
+<a name="line77"></a>    public static $KOREA;
+<a name="line78"></a>
+<a name="line79"></a>    /** Useful constant for country.
+<a name="line80"></a>     */
+<a name="line81"></a>    public static $CHINA;
+<a name="line82"></a>
+<a name="line83"></a>    /** Useful constant for country.
+<a name="line84"></a>     */
+<a name="line85"></a>    public static $PRC;
+<a name="line86"></a>
+<a name="line87"></a>    /** Useful constant for country.
+<a name="line88"></a>     */
+<a name="line89"></a>    public static $TAIWAN;
+<a name="line90"></a>
+<a name="line91"></a>    /** Useful constant for country.
+<a name="line92"></a>     */
+<a name="line93"></a>    public static $UK;
+<a name="line94"></a>
+<a name="line95"></a>    /** Useful constant for country.
+<a name="line96"></a>     */
+<a name="line97"></a>    public static $US;
+<a name="line98"></a>
+<a name="line99"></a>    /** Useful constant for country.
+<a name="line100"></a>     */
+<a name="line101"></a>    public static $CANADA;
+<a name="line102"></a>
+<a name="line103"></a>    /** Useful constant for country.
+<a name="line104"></a>     */
+<a name="line105"></a>    public static $CANADA_FRENCH;
+<a name="line106"></a>
+<a name="line107"></a>    /**
+<a name="line108"></a>     * Useful constant for the root locale.  The root locale is the locale whose
+<a name="line109"></a>     * language, country, and variant are empty ("") strings.  This is regarded
+<a name="line110"></a>     * as the base locale of all locales, and is used as the language/country
+<a name="line111"></a>     * neutral locale for the locale sensitive operations.
+<a name="line112"></a>     *
+<a name="line113"></a>     * @since 1.6
+<a name="line114"></a>     */
+<a name="line115"></a>    //public static $ROOT = self::getSingleton("__", "", "");
+<a name="line116"></a>
+<a name="line117"></a>
+<a name="line118"></a>    private static $isoLanguages = null;
+<a name="line119"></a>
+<a name="line120"></a>    private static $isoCountries = null;
+<a name="line121"></a>
+<a name="line122"></a>    private static $defaultLocale = null;
+<a name="line123"></a>
+<a name="line124"></a>    private $hash = -1;
+<a name="line125"></a>
+<a name="line126"></a>    private $language;
+<a name="line127"></a>    private $country;
+<a name="line128"></a>    private $variant;
+<a name="line129"></a>
+<a name="line130"></a>    /**
+<a name="line131"></a>     * Description
+<a name="line132"></a>     */
+<a name="line133"></a>    public function __construct($language, $country = '', $variant = ''){
+<a name="line134"></a>        $this->language = $this->convertOldISOCodes($language);
+<a name="line135"></a>        $this->country = strtoupper($country);
+<a name="line136"></a>        $this->variant = $variant;
+<a name="line137"></a>    }
+<a name="line138"></a>
+<a name="line139"></a>    public static function staticInit() {
+<a name="line140"></a>        self::$ENGLISH = self::getSingleton("en__", "en", "");
+<a name="line141"></a>        self::$FRENCH = self::getSingleton("fr__", "fr", "");
+<a name="line142"></a>        self::$GERMAN = self::getSingleton("de__", "de", "");
+<a name="line143"></a>        self::$ITALIAN = self::getSingleton("it__", "it", "");
+<a name="line144"></a>        self::$JAPANESE = self::getSingleton("ja__", "ja", "");
+<a name="line145"></a>        self::$KOREAN = self::getSingleton("ko__", "ko", "");
+<a name="line146"></a>        self::$CHINESE = self::getSingleton("zh__", "zh", "");
+<a name="line147"></a>        self::$SIMPLIFIED_CHINESE = self::getSingleton("zh_CN_", "zh", "CN");
+<a name="line148"></a>        self::$TRADITIONAL_CHINESE = self::getSingleton("zh_TW_", "zh", "TW");
+<a name="line149"></a>        self::$FRANCE = self::getSingleton("fr_FR_", "fr", "FR");
+<a name="line150"></a>        self::$GERMANY = self::getSingleton("de_DE_", "de", "DE");
+<a name="line151"></a>        self::$ITALY = self::getSingleton("it_IT_", "it", "IT");
+<a name="line152"></a>        self::$JAPAN = self::getSingleton("ja_JP_", "ja", "JP");
+<a name="line153"></a>        self::$KOREA = self::getSingleton("ko_KR_", "ko", "KR");
+<a name="line154"></a>        self::$CHINA = self::$SIMPLIFIED_CHINESE;
+<a name="line155"></a>        self::$PRC = self::$SIMPLIFIED_CHINESE;
+<a name="line156"></a>        self::$TAIWAN = self::$TRADITIONAL_CHINESE;
+<a name="line157"></a>        self::$UK = self::getSingleton("en_GB_", "en", "GB");
+<a name="line158"></a>        self::$US = self::getSingleton("en_US_", "en", "US");
+<a name="line159"></a>        self::$CANADA = self::getSingleton("en_CA_", "en", "CA");
+<a name="line160"></a>        self::$CANADA_FRENCH = self::getSingleton("fr_CA_", "fr", "CA");
+<a name="line161"></a>        setlocale(LC_ALL,0);
+<a name="line162"></a>    }
+<a name="line163"></a>
+<a name="line164"></a>    /**
+<a name="line165"></a>     * Description
+<a name="line166"></a>     *
+<a name="line167"></a>     * @param 	blaze\lang\Object $var Description of the parameter $var
+<a name="line168"></a>     * @return 	blaze\lang\Object Description of what the method returns
+<a name="line169"></a>     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line170"></a>     * @throws	blaze\lang\Exception
+<a name="line171"></a>     * @todo	Something which has to be done, implementation or so
+<a name="line172"></a>     */
+<a name="line173"></a>     private static function getSingleton($key, $language, $country){
+<a name="line174"></a>        if(!isset(self::$cache[$key]))
+<a name="line175"></a>            self::$cache[$key] = new self($language,$country);
+<a name="line176"></a>
+<a name="line177"></a>        return self::$cache[$key];
+<a name="line178"></a>     }
+<a name="line179"></a>
+<a name="line180"></a>     private function convertOldISOCodes($language) {
+<a name="line181"></a>        // we accept both the old and the new ISO codes for the languages whose ISO
+<a name="line182"></a>        // codes have changed, but we always store the OLD code, for backward compatibility
+<a name="line183"></a>        $language = strtolower($language);
+<a name="line184"></a>        if ($language == "he") {
+<a name="line185"></a>            return "iw";
+<a name="line186"></a>        } else if ($language == "yi") {
+<a name="line187"></a>            return "ji"; 
+<a name="line188"></a>        } else if ($language == "id") {
+<a name="line189"></a>            return "in";
+<a name="line190"></a>        } else {
+<a name="line191"></a>            return $language;
+<a name="line192"></a>        }
+<a name="line193"></a>    }
+<a name="line194"></a>
+<a name="line195"></a>    public function getLanguage() {
+<a name="line196"></a>        return $this->language;
+<a name="line197"></a>    }
+<a name="line198"></a>
+<a name="line199"></a>    public function getCountry() {
+<a name="line200"></a>        return $this->country;
+<a name="line201"></a>    }
+<a name="line202"></a>
+<a name="line203"></a>    public function getVariant() {
+<a name="line204"></a>        return $this->variant;
+<a name="line205"></a>    }
+<a name="line206"></a>
+<a name="line207"></a>    
+<a name="line208"></a>
+<a name="line209"></a>    /**
+<a name="line210"></a>     * Gets the current value of the default locale for this instance
+<a name="line211"></a>     * of the Java Virtual Machine.
+<a name="line212"></a>     * <p>
+<a name="line213"></a>     * The Java Virtual Machine sets the default locale during startup
+<a name="line214"></a>     * based on the host environment. It is used by many locale-sensitive
+<a name="line215"></a>     * methods if no locale is explicitly specified.
+<a name="line216"></a>     * It can be changed using the
+<a name="line217"></a>     * {@link #setDefault(java.util.Locale) setDefault} method.
+<a name="line218"></a>     *
+<a name="line219"></a>     * @return blaze\util\Locale the default locale for this instance of the Java Virtual Machine
+<a name="line220"></a>     */
+<a name="line221"></a>    public static function getDefault() {
+<a name="line222"></a>        if (self::$defaultLocale == null) {
+<a name="line223"></a>            //var_dump(setlocale(LC_ALL,0));
+<a name="line224"></a>//            String language, region, country, variant;
+<a name="line225"></a>//            language = (String) AccessController.doPrivileged(
+<a name="line226"></a>//                            new GetPropertyAction("user.language", "en"));
+<a name="line227"></a>//            // for compatibility, check for old user.region property
+<a name="line228"></a>//            region = (String) AccessController.doPrivileged(
+<a name="line229"></a>//                            new GetPropertyAction("user.region"));
+<a name="line230"></a>//            if (region != null) {
+<a name="line231"></a>//                // region can be of form country, country_variant, or _variant
+<a name="line232"></a>//                int i = region.indexOf('_');
+<a name="line233"></a>//                if (i >= 0) {
+<a name="line234"></a>//                    country = region.substring(0, i);
+<a name="line235"></a>//                    variant = region.substring(i + 1);
+<a name="line236"></a>//                } else {
+<a name="line237"></a>//                    country = region;
+<a name="line238"></a>//                    variant = "";
+<a name="line239"></a>//                }
+<a name="line240"></a>//            } else {
+<a name="line241"></a>//                country = (String) AccessController.doPrivileged(
+<a name="line242"></a>//                                new GetPropertyAction("user.country", ""));
+<a name="line243"></a>//                variant = (String) AccessController.doPrivileged(
+<a name="line244"></a>//                                new GetPropertyAction("user.variant", ""));
+<a name="line245"></a>//            }
+<a name="line246"></a>//            defaultLocale = getInstance(language, country, variant);
+<a name="line247"></a>        }
+<a name="line248"></a>        return self::$defaultLocale;
+<a name="line249"></a>    }
+<a name="line250"></a>
+<a name="line251"></a>    /**
+<a name="line252"></a>     * Sets the default locale for this instance of the Java Virtual Machine.
+<a name="line253"></a>     * This does not affect the host locale.
+<a name="line254"></a>     * <p>
+<a name="line255"></a>     * If there is a security manager, its <code>checkPermission</code>
+<a name="line256"></a>     * method is called with a <code>PropertyPermission("user.language", "write")</code>
+<a name="line257"></a>     * permission before the default locale is changed.
+<a name="line258"></a>     * <p>
+<a name="line259"></a>     * The Java Virtual Machine sets the default locale during startup
+<a name="line260"></a>     * based on the host environment. It is used by many locale-sensitive
+<a name="line261"></a>     * methods if no locale is explicitly specified.
+<a name="line262"></a>     * <p>
+<a name="line263"></a>     * Since changing the default locale may affect many different areas
+<a name="line264"></a>     * of functionality, this method should only be used if the caller
+<a name="line265"></a>     * is prepared to reinitialize locale-sensitive code running
+<a name="line266"></a>     * within the same Java Virtual Machine.
+<a name="line267"></a>     *
+<a name="line268"></a>     * @throws SecurityException
+<a name="line269"></a>     *        if a security manager exists and its
+<a name="line270"></a>     *        <code>checkPermission</code> method doesn't allow the operation.
+<a name="line271"></a>     * @throws NullPointerException if <code>newLocale</code> is null
+<a name="line272"></a>     * @param newLocale the new default locale
+<a name="line273"></a>     * @see SecurityManager#checkPermission
+<a name="line274"></a>     * @see java.util.PropertyPermission
+<a name="line275"></a>     */
+<a name="line276"></a>//    public static synchronized void setDefault(Locale newLocale) {
+<a name="line277"></a>//        if (newLocale == null)
+<a name="line278"></a>//            throw new NullPointerException("Can't set default locale to NULL");
+<a name="line279"></a>//
+<a name="line280"></a>//        SecurityManager sm = System.getSecurityManager();
+<a name="line281"></a>//        if (sm != null) sm.checkPermission(new PropertyPermission
+<a name="line282"></a>//                        ("user.language", "write"));
+<a name="line283"></a>//            defaultLocale = newLocale;
+<a name="line284"></a>//    }
+<a name="line285"></a>
+<a name="line286"></a>
+<a name="line287"></a>    /**
+<a name="line288"></a>     * Returns an array of all installed locales.
+<a name="line289"></a>     * The returned array represents the union of locales supported
+<a name="line290"></a>     * by the Java runtime environment and by installed
+<a name="line291"></a>     * {@link java.util.spi.LocaleServiceProvider LocaleServiceProvider}
+<a name="line292"></a>     * implementations.  It must contain at least a <code>Locale</code>
+<a name="line293"></a>     * instance equal to {@link java.util.Locale#US Locale.US}.
+<a name="line294"></a>     *
+<a name="line295"></a>     * @return An array of installed locales.
+<a name="line296"></a>     */
+<a name="line297"></a>//    public static Locale[] getAvailableLocales() {
+<a name="line298"></a>//        return LocaleServiceProviderPool.getAllAvailableLocales();
+<a name="line299"></a>//    }
+<a name="line300"></a>
+<a name="line301"></a>    /**
+<a name="line302"></a>     * Returns a list of all 2-letter country codes defined in ISO 3166.
+<a name="line303"></a>     * Can be used to create Locales.
+<a name="line304"></a>     */
+<a name="line305"></a>//    public static String[] getISOCountries() {
+<a name="line306"></a>//        if (isoCountries == null) {
+<a name="line307"></a>//            isoCountries = getISO2Table(LocaleISOData.isoCountryTable);
+<a name="line308"></a>//        }
+<a name="line309"></a>//        String[] result = new String[isoCountries.length];
+<a name="line310"></a>//        System.arraycopy(isoCountries, 0, result, 0, isoCountries.length);
+<a name="line311"></a>//        return result;
+<a name="line312"></a>//    }
+<a name="line313"></a>
+<a name="line314"></a>    /**
+<a name="line315"></a>     * Returns a list of all 2-letter language codes defined in ISO 639.
+<a name="line316"></a>     * Can be used to create Locales.
+<a name="line317"></a>     * [NOTE:  ISO 639 is not a stable standard-- some languages' codes have changed.
+<a name="line318"></a>     * The list this function returns includes both the new and the old codes for the
+<a name="line319"></a>     * languages whose codes have changed.]
+<a name="line320"></a>     */
+<a name="line321"></a>//    public static String[] getISOLanguages() {
+<a name="line322"></a>//        if (isoLanguages == null) {
+<a name="line323"></a>//            isoLanguages = getISO2Table(LocaleISOData.isoLanguageTable);
+<a name="line324"></a>//        }
+<a name="line325"></a>//        String[] result = new String[isoLanguages.length];
+<a name="line326"></a>//        System.arraycopy(isoLanguages, 0, result, 0, isoLanguages.length);
+<a name="line327"></a>//        return result;
+<a name="line328"></a>//    }
+<a name="line329"></a>//
+<a name="line330"></a>//    private static final String[] getISO2Table(String table) {
+<a name="line331"></a>//	int len = table.length() / 5;
+<a name="line332"></a>//	String[] isoTable = new String[len];
+<a name="line333"></a>//	for (int i = 0, j = 0; i < len; i++, j += 5) {
+<a name="line334"></a>//	    isoTable[i] = table.substring(j, j + 2);
+<a name="line335"></a>//	}
+<a name="line336"></a>//	return isoTable;
+<a name="line337"></a>//    }
+<a name="line338"></a>
+<a name="line339"></a>
+<a name="line340"></a>    /**
+<a name="line341"></a>     * Getter for the programmatic name of the entire locale,
+<a name="line342"></a>     * with the language, country and variant separated by underbars.
+<a name="line343"></a>     * Language is always lower case, and country is always upper case.
+<a name="line344"></a>     * If the language is missing, the string will begin with an underbar.
+<a name="line345"></a>     * If both the language and country fields are missing, this function
+<a name="line346"></a>     * will return the empty string, even if the variant field is filled in
+<a name="line347"></a>     * (you can't have a locale with just a variant-- the variant must accompany
+<a name="line348"></a>     * a valid language or country code).
+<a name="line349"></a>     * Examples: "en", "de_DE", "_GB", "en_US_WIN", "de__POSIX", "fr__MAC"
+<a name="line350"></a>     * @see #getDisplayName
+<a name="line351"></a>     */
+<a name="line352"></a>//    public final String toString() {
+<a name="line353"></a>//        boolean l = language.length() != 0;
+<a name="line354"></a>//        boolean c = country.length() != 0;
+<a name="line355"></a>//        boolean v = variant.length() != 0;
+<a name="line356"></a>//        StringBuilder result = new StringBuilder(language);
+<a name="line357"></a>//        if (c||(l&&v)) {
+<a name="line358"></a>//            result.append('_').append(country); // This may just append '_'
+<a name="line359"></a>//        }
+<a name="line360"></a>//        if (v&&(l||c)) {
+<a name="line361"></a>//            result.append('_').append(variant);
+<a name="line362"></a>//        }
+<a name="line363"></a>//        return result.toString();
+<a name="line364"></a>//    }
+<a name="line365"></a>
+<a name="line366"></a>    /**
+<a name="line367"></a>     * Returns a three-letter abbreviation for this locale's language.  If the locale
+<a name="line368"></a>     * doesn't specify a language, this will be the empty string.  Otherwise, this will
+<a name="line369"></a>     * be a lowercase ISO 639-2/T language code.
+<a name="line370"></a>     * The ISO 639-2 language codes can be found on-line at
+<a name="line371"></a>     * <a href="http://www.loc.gov/standards/iso639-2/englangn.html">
+<a name="line372"></a>     * <code>http://www.loc.gov/standards/iso639-2/englangn.html</code>.</a>
+<a name="line373"></a>     * @exception MissingResourceException Throws MissingResourceException if the
+<a name="line374"></a>     * three-letter language abbreviation is not available for this locale.
+<a name="line375"></a>     */
+<a name="line376"></a>//    public String getISO3Language() throws MissingResourceException {
+<a name="line377"></a>//	String language3 = getISO3Code(language, LocaleISOData.isoLanguageTable);
+<a name="line378"></a>//        if (language3 == null) {
+<a name="line379"></a>//            throw new MissingResourceException("Couldn't find 3-letter language code for "
+<a name="line380"></a>//                    + language, "FormatData_" + toString(), "ShortLanguage");
+<a name="line381"></a>//        }
+<a name="line382"></a>//        return language3;
+<a name="line383"></a>//    }
+<a name="line384"></a>
+<a name="line385"></a>    /**
+<a name="line386"></a>     * Returns a three-letter abbreviation for this locale's country.  If the locale
+<a name="line387"></a>     * doesn't specify a country, this will be the empty string.  Otherwise, this will
+<a name="line388"></a>     * be an uppercase ISO 3166 3-letter country code.
+<a name="line389"></a>     * The ISO 3166-2 country codes can be found on-line at
+<a name="line390"></a>     * <a href="http://www.davros.org/misc/iso3166.txt">
+<a name="line391"></a>     * <code>http://www.davros.org/misc/iso3166.txt</code>.</a>
+<a name="line392"></a>     * @exception MissingResourceException Throws MissingResourceException if the
+<a name="line393"></a>     * three-letter country abbreviation is not available for this locale.
+<a name="line394"></a>     */
+<a name="line395"></a>//    public String getISO3Country() throws MissingResourceException {
+<a name="line396"></a>//	String country3 = getISO3Code(country, LocaleISOData.isoCountryTable);
+<a name="line397"></a>//        if (country3 == null) {
+<a name="line398"></a>//            throw new MissingResourceException("Couldn't find 3-letter country code for "
+<a name="line399"></a>//                    + country, "FormatData_" + toString(), "ShortCountry");
+<a name="line400"></a>//        }
+<a name="line401"></a>//	return country3;
+<a name="line402"></a>//    }
+<a name="line403"></a>
+<a name="line404"></a>//    private static final String getISO3Code(String iso2Code, String table) {
+<a name="line405"></a>//	int codeLength = iso2Code.length();
+<a name="line406"></a>//        if (codeLength == 0) {
+<a name="line407"></a>//            return "";
+<a name="line408"></a>//        }
+<a name="line409"></a>//
+<a name="line410"></a>//	int tableLength = table.length();
+<a name="line411"></a>//        int index = tableLength;
+<a name="line412"></a>//	if (codeLength == 2) {
+<a name="line413"></a>//	    char c1 = iso2Code.charAt(0);
+<a name="line414"></a>//	    char c2 = iso2Code.charAt(1);
+<a name="line415"></a>//	    for (index = 0; index < tableLength; index += 5) {
+<a name="line416"></a>//		if (table.charAt(index) == c1
+<a name="line417"></a>//		    && table.charAt(index + 1) == c2) {
+<a name="line418"></a>//		    break;
+<a name="line419"></a>//		}
+<a name="line420"></a>//	    }
+<a name="line421"></a>//	}
+<a name="line422"></a>//        return index < tableLength ? table.substring(index + 2, index + 5) : null;
+<a name="line423"></a>//    }
+<a name="line424"></a>
+<a name="line425"></a>    /**
+<a name="line426"></a>     * Returns a name for the locale's language that is appropriate for display to the
+<a name="line427"></a>     * user.
+<a name="line428"></a>     * If possible, the name returned will be localized for the default locale.
+<a name="line429"></a>     * For example, if the locale is fr_FR and the default locale
+<a name="line430"></a>     * is en_US, getDisplayLanguage() will return "French"; if the locale is en_US and
+<a name="line431"></a>     * the default locale is fr_FR, getDisplayLanguage() will return "anglais".
+<a name="line432"></a>     * If the name returned cannot be localized for the default locale,
+<a name="line433"></a>     * (say, we don't have a Japanese name for Croatian),
+<a name="line434"></a>     * this function falls back on the English name, and uses the ISO code as a last-resort
+<a name="line435"></a>     * value.  If the locale doesn't specify a language, this function returns the empty string.
+<a name="line436"></a>     */
+<a name="line437"></a>//    public final String getDisplayLanguage() {
+<a name="line438"></a>//        return getDisplayLanguage(getDefault());
+<a name="line439"></a>//    }
+<a name="line440"></a>
+<a name="line441"></a>    /**
+<a name="line442"></a>     * Returns a name for the locale's language that is appropriate for display to the
+<a name="line443"></a>     * user.
+<a name="line444"></a>     * If possible, the name returned will be localized according to inLocale.
+<a name="line445"></a>     * For example, if the locale is fr_FR and inLocale
+<a name="line446"></a>     * is en_US, getDisplayLanguage() will return "French"; if the locale is en_US and
+<a name="line447"></a>     * inLocale is fr_FR, getDisplayLanguage() will return "anglais".
+<a name="line448"></a>     * If the name returned cannot be localized according to inLocale,
+<a name="line449"></a>     * (say, we don't have a Japanese name for Croatian),
+<a name="line450"></a>     * this function falls back on the English name, and finally
+<a name="line451"></a>     * on the ISO code as a last-resort value.  If the locale doesn't specify a language,
+<a name="line452"></a>     * this function returns the empty string.
+<a name="line453"></a>     *
+<a name="line454"></a>     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+<a name="line455"></a>     */
+<a name="line456"></a>//    public String getDisplayLanguage(Locale inLocale) {
+<a name="line457"></a>//        return getDisplayString(language, inLocale, DISPLAY_LANGUAGE);
+<a name="line458"></a>//    }
+<a name="line459"></a>
+<a name="line460"></a>    /**
+<a name="line461"></a>     * Returns a name for the locale's country that is appropriate for display to the
+<a name="line462"></a>     * user.
+<a name="line463"></a>     * If possible, the name returned will be localized for the default locale.
+<a name="line464"></a>     * For example, if the locale is fr_FR and the default locale
+<a name="line465"></a>     * is en_US, getDisplayCountry() will return "France"; if the locale is en_US and
+<a name="line466"></a>     * the default locale is fr_FR, getDisplayCountry() will return "Etats-Unis".
+<a name="line467"></a>     * If the name returned cannot be localized for the default locale,
+<a name="line468"></a>     * (say, we don't have a Japanese name for Croatia),
+<a name="line469"></a>     * this function falls back on the English name, and uses the ISO code as a last-resort
+<a name="line470"></a>     * value.  If the locale doesn't specify a country, this function returns the empty string.
+<a name="line471"></a>     */
+<a name="line472"></a>//    public final String getDisplayCountry() {
+<a name="line473"></a>//        return getDisplayCountry(getDefault());
+<a name="line474"></a>//    }
+<a name="line475"></a>
+<a name="line476"></a>    /**
+<a name="line477"></a>     * Returns a name for the locale's country that is appropriate for display to the
+<a name="line478"></a>     * user.
+<a name="line479"></a>     * If possible, the name returned will be localized according to inLocale.
+<a name="line480"></a>     * For example, if the locale is fr_FR and inLocale
+<a name="line481"></a>     * is en_US, getDisplayCountry() will return "France"; if the locale is en_US and
+<a name="line482"></a>     * inLocale is fr_FR, getDisplayCountry() will return "Etats-Unis".
+<a name="line483"></a>     * If the name returned cannot be localized according to inLocale.
+<a name="line484"></a>     * (say, we don't have a Japanese name for Croatia),
+<a name="line485"></a>     * this function falls back on the English name, and finally
+<a name="line486"></a>     * on the ISO code as a last-resort value.  If the locale doesn't specify a country,
+<a name="line487"></a>     * this function returns the empty string.
+<a name="line488"></a>     *
+<a name="line489"></a>     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+<a name="line490"></a>     */
+<a name="line491"></a>//    public String getDisplayCountry(Locale inLocale) {
+<a name="line492"></a>//        return getDisplayString(country, inLocale, DISPLAY_COUNTRY);
+<a name="line493"></a>//    }
+<a name="line494"></a>
+<a name="line495"></a>//    private String getDisplayString(String code, Locale inLocale, int type) {
+<a name="line496"></a>//        if (code.length() == 0) {
+<a name="line497"></a>//            return "";
+<a name="line498"></a>//        }
+<a name="line499"></a>//
+<a name="line500"></a>//        if (inLocale == null) {
+<a name="line501"></a>//            throw new NullPointerException();
+<a name="line502"></a>//        }
+<a name="line503"></a>//
+<a name="line504"></a>//        try {
+<a name="line505"></a>//            OpenListResourceBundle bundle = LocaleData.getLocaleNames(inLocale);
+<a name="line506"></a>//            String key = (type == DISPLAY_VARIANT ? "%%"+code : code);
+<a name="line507"></a>//            String result = null;
+<a name="line508"></a>//
+<a name="line509"></a>//            // Check whether a provider can provide an implementation that's closer
+<a name="line510"></a>//            // to the requested locale than what the Java runtime itself can provide.
+<a name="line511"></a>//            LocaleServiceProviderPool pool =
+<a name="line512"></a>//                LocaleServiceProviderPool.getPool(LocaleNameProvider.class);
+<a name="line513"></a>//            if (pool.hasProviders()) {
+<a name="line514"></a>//                result = pool.getLocalizedObject(
+<a name="line515"></a>//                                    LocaleNameGetter.INSTANCE,
+<a name="line516"></a>//                                    inLocale, bundle, key,
+<a name="line517"></a>//                                    type, code);
+<a name="line518"></a>//            }
+<a name="line519"></a>//
+<a name="line520"></a>//            if (result == null) {
+<a name="line521"></a>//                result = bundle.getString(key);
+<a name="line522"></a>//            }
+<a name="line523"></a>//
+<a name="line524"></a>//            if (result != null) {
+<a name="line525"></a>//                return result;
+<a name="line526"></a>//            }
+<a name="line527"></a>//        }
+<a name="line528"></a>//        catch (Exception e) {
+<a name="line529"></a>//            // just fall through
+<a name="line530"></a>//        }
+<a name="line531"></a>//        return code;
+<a name="line532"></a>//    }
+<a name="line533"></a>
+<a name="line534"></a>    /**
+<a name="line535"></a>     * Returns a name for the locale's variant code that is appropriate for display to the
+<a name="line536"></a>     * user.  If possible, the name will be localized for the default locale.  If the locale
+<a name="line537"></a>     * doesn't specify a variant code, this function returns the empty string.
+<a name="line538"></a>     */
+<a name="line539"></a>//    public final String getDisplayVariant() {
+<a name="line540"></a>//        return getDisplayVariant(getDefault());
+<a name="line541"></a>//    }
+<a name="line542"></a>
+<a name="line543"></a>    /**
+<a name="line544"></a>     * Returns a name for the locale's variant code that is appropriate for display to the
+<a name="line545"></a>     * user.  If possible, the name will be localized for inLocale.  If the locale
+<a name="line546"></a>     * doesn't specify a variant code, this function returns the empty string.
+<a name="line547"></a>     *
+<a name="line548"></a>     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+<a name="line549"></a>     */
+<a name="line550"></a>//    public String getDisplayVariant(Locale inLocale) {
+<a name="line551"></a>//        if (variant.length() == 0)
+<a name="line552"></a>//            return "";
+<a name="line553"></a>//
+<a name="line554"></a>//        OpenListResourceBundle bundle = LocaleData.getLocaleNames(inLocale);
+<a name="line555"></a>//
+<a name="line556"></a>//        String names[] = getDisplayVariantArray(bundle, inLocale);
+<a name="line557"></a>//
+<a name="line558"></a>//        // Get the localized patterns for formatting a list, and use
+<a name="line559"></a>//        // them to format the list.
+<a name="line560"></a>//        String listPattern = null;
+<a name="line561"></a>//        String listCompositionPattern = null;
+<a name="line562"></a>//        try {
+<a name="line563"></a>//            listPattern = bundle.getString("ListPattern");
+<a name="line564"></a>//            listCompositionPattern = bundle.getString("ListCompositionPattern");
+<a name="line565"></a>//        } catch (MissingResourceException e) {
+<a name="line566"></a>//        }
+<a name="line567"></a>//        return formatList(names, listPattern, listCompositionPattern);
+<a name="line568"></a>//    }
+<a name="line569"></a>
+<a name="line570"></a>    /**
+<a name="line571"></a>     * Returns a name for the locale that is appropriate for display to the
+<a name="line572"></a>     * user.  This will be the values returned by getDisplayLanguage(), getDisplayCountry(),
+<a name="line573"></a>     * and getDisplayVariant() assembled into a single string.  The display name will have
+<a name="line574"></a>     * one of the following forms:<p><blockquote>
+<a name="line575"></a>     * language (country, variant)<p>
+<a name="line576"></a>     * language (country)<p>
+<a name="line577"></a>     * language (variant)<p>
+<a name="line578"></a>     * country (variant)<p>
+<a name="line579"></a>     * language<p>
+<a name="line580"></a>     * country<p>
+<a name="line581"></a>     * variant<p></blockquote>
+<a name="line582"></a>     * depending on which fields are specified in the locale.  If the language, country,
+<a name="line583"></a>     * and variant fields are all empty, this function returns the empty string.
+<a name="line584"></a>     */
+<a name="line585"></a>//    public final String getDisplayName() {
+<a name="line586"></a>//        return getDisplayName(getDefault());
+<a name="line587"></a>//    }
+<a name="line588"></a>
+<a name="line589"></a>    /**
+<a name="line590"></a>     * Returns a name for the locale that is appropriate for display to the
+<a name="line591"></a>     * user.  This will be the values returned by getDisplayLanguage(), getDisplayCountry(),
+<a name="line592"></a>     * and getDisplayVariant() assembled into a single string.  The display name will have
+<a name="line593"></a>     * one of the following forms:<p><blockquote>
+<a name="line594"></a>     * language (country, variant)<p>
+<a name="line595"></a>     * language (country)<p>
+<a name="line596"></a>     * language (variant)<p>
+<a name="line597"></a>     * country (variant)<p>
+<a name="line598"></a>     * language<p>
+<a name="line599"></a>     * country<p>
+<a name="line600"></a>     * variant<p></blockquote>
+<a name="line601"></a>     * depending on which fields are specified in the locale.  If the language, country,
+<a name="line602"></a>     * and variant fields are all empty, this function returns the empty string.
+<a name="line603"></a>     *
+<a name="line604"></a>     * @exception NullPointerException if <code>inLocale</code> is <code>null</code>
+<a name="line605"></a>     */
+<a name="line606"></a>//    public String getDisplayName(Locale inLocale) {
+<a name="line607"></a>//        OpenListResourceBundle bundle = LocaleData.getLocaleNames(inLocale);
+<a name="line608"></a>//
+<a name="line609"></a>//        String languageName = getDisplayLanguage(inLocale);
+<a name="line610"></a>//        String countryName = getDisplayCountry(inLocale);
+<a name="line611"></a>//        String[] variantNames = getDisplayVariantArray(bundle, inLocale);
+<a name="line612"></a>//
+<a name="line613"></a>//        // Get the localized patterns for formatting a display name.
+<a name="line614"></a>//        String displayNamePattern = null;
+<a name="line615"></a>//        String listPattern = null;
+<a name="line616"></a>//        String listCompositionPattern = null;
+<a name="line617"></a>//        try {
+<a name="line618"></a>//            displayNamePattern = bundle.getString("DisplayNamePattern");
+<a name="line619"></a>//            listPattern = bundle.getString("ListPattern");
+<a name="line620"></a>//            listCompositionPattern = bundle.getString("ListCompositionPattern");
+<a name="line621"></a>//        } catch (MissingResourceException e) {
+<a name="line622"></a>//        }
+<a name="line623"></a>//
+<a name="line624"></a>//        // The display name consists of a main name, followed by qualifiers.
+<a name="line625"></a>//        // Typically, the format is "MainName (Qualifier, Qualifier)" but this
+<a name="line626"></a>//        // depends on what pattern is stored in the display locale.
+<a name="line627"></a>//        String   mainName       = null;
+<a name="line628"></a>//        String[] qualifierNames = null;
+<a name="line629"></a>//
+<a name="line630"></a>//        // The main name is the language, or if there is no language, the country.
+<a name="line631"></a>//        // If there is neither language nor country (an anomalous situation) then
+<a name="line632"></a>//        // the display name is simply the variant's display name.
+<a name="line633"></a>//        if (languageName.length() != 0) {
+<a name="line634"></a>//            mainName = languageName;
+<a name="line635"></a>//            if (countryName.length() != 0) {
+<a name="line636"></a>//                qualifierNames = new String[variantNames.length + 1];
+<a name="line637"></a>//                System.arraycopy(variantNames, 0, qualifierNames, 1, variantNames.length);
+<a name="line638"></a>//                qualifierNames[0] = countryName;
+<a name="line639"></a>//            }
+<a name="line640"></a>//            else qualifierNames = variantNames;
+<a name="line641"></a>//        }
+<a name="line642"></a>//        else if (countryName.length() != 0) {
+<a name="line643"></a>//            mainName = countryName;
+<a name="line644"></a>//            qualifierNames = variantNames;
+<a name="line645"></a>//        }
+<a name="line646"></a>//        else {
+<a name="line647"></a>//            return formatList(variantNames, listPattern, listCompositionPattern);
+<a name="line648"></a>//        }
+<a name="line649"></a>//
+<a name="line650"></a>//        // Create an array whose first element is the number of remaining
+<a name="line651"></a>//        // elements.  This serves as a selector into a ChoiceFormat pattern from
+<a name="line652"></a>//        // the resource.  The second and third elements are the main name and
+<a name="line653"></a>//        // the qualifier; if there are no qualifiers, the third element is
+<a name="line654"></a>//        // unused by the format pattern.
+<a name="line655"></a>//        Object[] displayNames = {
+<a name="line656"></a>//            new Integer(qualifierNames.length != 0 ? 2 : 1),
+<a name="line657"></a>//            mainName,
+<a name="line658"></a>//            // We could also just call formatList() and have it handle the empty
+<a name="line659"></a>//            // list case, but this is more efficient, and we want it to be
+<a name="line660"></a>//            // efficient since all the language-only locales will not have any
+<a name="line661"></a>//            // qualifiers.
+<a name="line662"></a>//            qualifierNames.length != 0 ? formatList(qualifierNames, listPattern, listCompositionPattern) : null
+<a name="line663"></a>//        };
+<a name="line664"></a>//
+<a name="line665"></a>//        if (displayNamePattern != null) {
+<a name="line666"></a>//            return new MessageFormat(displayNamePattern).format(displayNames);
+<a name="line667"></a>//        }
+<a name="line668"></a>//        else {
+<a name="line669"></a>//            // If we cannot get the message format pattern, then we use a simple
+<a name="line670"></a>//            // hard-coded pattern.  This should not occur in practice unless the
+<a name="line671"></a>//            // installation is missing some core files (FormatData etc.).
+<a name="line672"></a>//            StringBuilder result = new StringBuilder();
+<a name="line673"></a>//            result.append((String)displayNames[1]);
+<a name="line674"></a>//            if (displayNames.length > 2) {
+<a name="line675"></a>//                result.append(" (");
+<a name="line676"></a>//                result.append((String)displayNames[2]);
+<a name="line677"></a>//                result.append(')');
+<a name="line678"></a>//            }
+<a name="line679"></a>//            return result.toString();
+<a name="line680"></a>//        }
+<a name="line681"></a>//    }
+<a name="line682"></a>
+<a name="line683"></a>    /**
+<a name="line684"></a>     * Override hashCode.
+<a name="line685"></a>     * Since Locales are often used in hashtables, caches the value
+<a name="line686"></a>     * for speed.
+<a name="line687"></a>     */
+<a name="line688"></a>    public function hashCode() {
+<a name="line689"></a>        $hc = $this->hash;
+<a name="line690"></a>        if ($hc == 0) {
+<a name="line691"></a>            $language = new String($this->language);
+<a name="line692"></a>            $country = new String($this->country);
+<a name="line693"></a>            $variant = new String($this->variant);
+<a name="line694"></a>	    $hc = ($language->hashCode() << 8) ^ $country->hashCode() ^ ($variant->hashCode() << 4);
+<a name="line695"></a>            $this->hash = $hc;
+<a name="line696"></a>        }
+<a name="line697"></a>        return $hc;
+<a name="line698"></a>    }
+<a name="line699"></a>
+<a name="line700"></a>    // Overrides
+<a name="line701"></a>
+<a name="line702"></a>    /**
+<a name="line703"></a>     * Returns true if this Locale is equal to another object.  A Locale is
+<a name="line704"></a>     * deemed equal to another Locale with identical language, country,
+<a name="line705"></a>     * and variant, and unequal to all other objects.
+<a name="line706"></a>     *
+<a name="line707"></a>     * @return boolean true if this Locale is equal to the specified object.
+<a name="line708"></a>     */
+<a name="line709"></a>
+<a name="line710"></a>    public function equals(\blaze\lang\Reflectable $obj) {
+<a name="line711"></a>        if ($this == $obj)                      // quick check
+<a name="line712"></a>            return true;
+<a name="line713"></a>        if (!($obj instanceof Locale))
+<a name="line714"></a>            return false;
+<a name="line715"></a>	return $this->language == $obj->language
+<a name="line716"></a>            && $this->country == $obj->country
+<a name="line717"></a>            && $this->variant == $obj->variant;
+<a name="line718"></a>    }
+<a name="line719"></a>
+<a name="line720"></a>
+<a name="line721"></a>    /**
+<a name="line722"></a>     * Return an array of the display names of the variant.
+<a name="line723"></a>     * @param bundle the ResourceBundle to use to get the display names
+<a name="line724"></a>     * @return an array of display names, possible of zero length.
+<a name="line725"></a>     */
+<a name="line726"></a>//    private String[] getDisplayVariantArray(OpenListResourceBundle bundle, Locale inLocale) {
+<a name="line727"></a>//        // Split the variant name into tokens separated by '_'.
+<a name="line728"></a>//        StringTokenizer tokenizer = new StringTokenizer(variant, "_");
+<a name="line729"></a>//        String[] names = new String[tokenizer.countTokens()];
+<a name="line730"></a>//
+<a name="line731"></a>//        // For each variant token, lookup the display name.  If
+<a name="line732"></a>//        // not found, use the variant name itself.
+<a name="line733"></a>//        for (int i=0; i<names.length; ++i) {
+<a name="line734"></a>//            names[i] = getDisplayString(tokenizer.nextToken(),
+<a name="line735"></a>//                                inLocale, DISPLAY_VARIANT);
+<a name="line736"></a>//        }
+<a name="line737"></a>//
+<a name="line738"></a>//        return names;
+<a name="line739"></a>//    }
+<a name="line740"></a>
+<a name="line741"></a>    /**
+<a name="line742"></a>     * Format a list using given pattern strings.
+<a name="line743"></a>     * If either of the patterns is null, then a the list is
+<a name="line744"></a>     * formatted by concatenation with the delimiter ','.
+<a name="line745"></a>     * @param stringList the list of strings to be formatted.
+<a name="line746"></a>     * @param listPattern should create a MessageFormat taking 0-3 arguments
+<a name="line747"></a>     * and formatting them into a list.
+<a name="line748"></a>     * @param listCompositionPattern should take 2 arguments
+<a name="line749"></a>     * and is used by composeList.
+<a name="line750"></a>     * @return a string representing the list.
+<a name="line751"></a>     */
+<a name="line752"></a>//    private static String formatList(String[] stringList, String listPattern, String listCompositionPattern) {
+<a name="line753"></a>//        // If we have no list patterns, compose the list in a simple,
+<a name="line754"></a>//        // non-localized way.
+<a name="line755"></a>//        if (listPattern == null || listCompositionPattern == null) {
+<a name="line756"></a>//            StringBuffer result = new StringBuffer();
+<a name="line757"></a>//            for (int i=0; i<stringList.length; ++i) {
+<a name="line758"></a>//                if (i>0) result.append(',');
+<a name="line759"></a>//                result.append(stringList[i]);
+<a name="line760"></a>//            }
+<a name="line761"></a>//            return result.toString();
+<a name="line762"></a>//        }
+<a name="line763"></a>//
+<a name="line764"></a>//        // Compose the list down to three elements if necessary
+<a name="line765"></a>//        if (stringList.length > 3) {
+<a name="line766"></a>//            MessageFormat format = new MessageFormat(listCompositionPattern);
+<a name="line767"></a>//            stringList = composeList(format, stringList);
+<a name="line768"></a>//        }
+<a name="line769"></a>//
+<a name="line770"></a>//        // Rebuild the argument list with the list length as the first element
+<a name="line771"></a>//        Object[] args = new Object[stringList.length + 1];
+<a name="line772"></a>//        System.arraycopy(stringList, 0, args, 1, stringList.length);
+<a name="line773"></a>//        args[0] = new Integer(stringList.length);
+<a name="line774"></a>//
+<a name="line775"></a>//        // Format it using the pattern in the resource
+<a name="line776"></a>//        MessageFormat format = new MessageFormat(listPattern);
+<a name="line777"></a>//        return format.format(args);
+<a name="line778"></a>//    }
+<a name="line779"></a>
+<a name="line780"></a>    /**
+<a name="line781"></a>     * Given a list of strings, return a list shortened to three elements.
+<a name="line782"></a>     * Shorten it by applying the given format to the first two elements
+<a name="line783"></a>     * recursively.
+<a name="line784"></a>     * @param format a format which takes two arguments
+<a name="line785"></a>     * @param list a list of strings
+<a name="line786"></a>     * @return if the list is three elements or shorter, the same list;
+<a name="line787"></a>     * otherwise, a new list of three elements.
+<a name="line788"></a>     */
+<a name="line789"></a>//    private static String[] composeList(MessageFormat format, String[] list) {
+<a name="line790"></a>//        if (list.length <= 3) return list;
+<a name="line791"></a>//
+<a name="line792"></a>//        // Use the given format to compose the first two elements into one
+<a name="line793"></a>//        String[] listItems = { list[0], list[1] };
+<a name="line794"></a>//        String newItem = format.format(listItems);
+<a name="line795"></a>//
+<a name="line796"></a>//        // Form a new list one element shorter
+<a name="line797"></a>//        String[] newList = new String[list.length-1];
+<a name="line798"></a>//        System.arraycopy(list, 2, newList, 1, newList.length-1);
+<a name="line799"></a>//        newList[0] = newItem;
+<a name="line800"></a>//
+<a name="line801"></a>//        // Recurse
+<a name="line802"></a>//        return composeList(format, newList);
+<a name="line803"></a>//    }
+<a name="line804"></a>
+<a name="line805"></a>    /**
+<a name="line806"></a>     * Replace the deserialized Locale object with a newly
+<a name="line807"></a>     * created object. Newer language codes are replaced with older ISO
+<a name="line808"></a>     * codes. The country and variant codes are replaced with internalized
+<a name="line809"></a>     * String copies.
+<a name="line810"></a>     */
+<a name="line811"></a>//    private Object readResolve() throws java.io.ObjectStreamException {
+<a name="line812"></a>//        return getInstance(language, country, variant);
+<a name="line813"></a>//    }
+<a name="line814"></a>
+<a name="line815"></a>}
+<a name="line816"></a>
+<a name="line817"></a>?>
+<a name="line818"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\util\locale.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

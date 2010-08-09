@@ -1,0 +1,667 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blazeServer\source\netlet\http\HttpUserAgentImpl.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blazeserver\source\netlet\http\httpuseragentimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blazeServer\source\netlet\http\HttpUserAgentImpl.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>
+<a name="line3"></a>namespace blazeServer\source\netlet\http;
+<a name="line4"></a>
+<a name="line5"></a>use blaze\lang\Object,
+<a name="line6"></a> blaze\lang\Cloneable,
+<a name="line7"></a> blaze\lang\String,
+<a name="line8"></a> blaze\lang\IllegalArgumentException;
+<a name="line9"></a>
+<a name="line10"></a>/**
+<a name="line11"></a> * Description of HttpCookieImpl
+<a name="line12"></a> *
+<a name="line13"></a> * @author  Christian Beikov
+<a name="line14"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line15"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line16"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line17"></a> * @since   1.0
+<a name="line18"></a> * @version $Revision$
+<a name="line19"></a> * @todo    Something which has to be done, implementation or so
+<a name="line20"></a> */
+<a name="line21"></a>class HttpUserAgentImpl extends Object implements Cloneable, \blaze\netlet\http\HttpUserAgent {
+<a name="line22"></a>
+<a name="line23"></a>    private $browser = self::BROWSER_UNKNOWN;
+<a name="line24"></a>    private $browserMajorVersion = 0;
+<a name="line25"></a>    private $browserMinorVersion = 0;
+<a name="line26"></a>    private $browserVersionString = '';
+<a name="line27"></a>    private $cssVersion = 2;
+<a name="line28"></a>    private $htmlVersion = 4;
+<a name="line29"></a>    private $robot = false;
+<a name="line30"></a>    private $mobile = false;
+<a name="line31"></a>    private $operatingSystem = self::OS_UNKNOWN;
+<a name="line32"></a>    private $userAgentString;
+<a name="line33"></a>    // Only for lazy determination
+<a name="line34"></a>    private $checkedBrowser = false;
+<a name="line35"></a>    private $checkedOs = false;
+<a name="line36"></a>
+<a name="line37"></a>    /**
+<a name="line38"></a>     *
+<a name="line39"></a>     * @param blaze\lang\String|string $userAgent The user agent string
+<a name="line40"></a>     */
+<a name="line41"></a>    public function __construct($userAgent) {
+<a name="line42"></a>        $this->userAgentString = String::asWrapper($userAgent);
+<a name="line43"></a>    }
+<a name="line44"></a>
+<a name="line45"></a>    public function getBrowser() {
+<a name="line46"></a>        if (!$this->checkedBrowser)
+<a name="line47"></a>            $this->determineBrowser();
+<a name="line48"></a>        return $this->browser;
+<a name="line49"></a>    }
+<a name="line50"></a>
+<a name="line51"></a>    public function getBrowserMajorVersion() {
+<a name="line52"></a>        if (!$this->checkedBrowser)
+<a name="line53"></a>            $this->determineBrowser();
+<a name="line54"></a>        return $this->browserMajorVersion;
+<a name="line55"></a>    }
+<a name="line56"></a>
+<a name="line57"></a>    public function getBrowserMinorVersion() {
+<a name="line58"></a>        if (!$this->checkedBrowser)
+<a name="line59"></a>            $this->determineBrowser();
+<a name="line60"></a>        return $this->browserMinorVersion;
+<a name="line61"></a>    }
+<a name="line62"></a>
+<a name="line63"></a>    public function getBrowserVersionString() {
+<a name="line64"></a>        if (!$this->checkedBrowser)
+<a name="line65"></a>            $this->determineBrowser();
+<a name="line66"></a>        return $this->browserVersionString;
+<a name="line67"></a>    }
+<a name="line68"></a>
+<a name="line69"></a>    public function getCssVersion() {
+<a name="line70"></a>        if (!$this->checkedBrowser)
+<a name="line71"></a>            $this->determineBrowser();
+<a name="line72"></a>        return $this->cssVersion;
+<a name="line73"></a>    }
+<a name="line74"></a>
+<a name="line75"></a>    public function getHtmlVersion() {
+<a name="line76"></a>        if (!$this->checkedBrowser)
+<a name="line77"></a>            $this->determineBrowser();
+<a name="line78"></a>        return $this->htmlVersion;
+<a name="line79"></a>    }
+<a name="line80"></a>
+<a name="line81"></a>    public function getOperatingSystem() {
+<a name="line82"></a>        if (!$this->checkedOs)
+<a name="line83"></a>            $this->determineOs();
+<a name="line84"></a>        return $this->operatingSystem;
+<a name="line85"></a>    }
+<a name="line86"></a>
+<a name="line87"></a>    public function isMobile() {
+<a name="line88"></a>        if (!$this->checked)
+<a name="line89"></a>            $this->determine();
+<a name="line90"></a>        return $this->mobile;
+<a name="line91"></a>    }
+<a name="line92"></a>
+<a name="line93"></a>    public function isRobot() {
+<a name="line94"></a>        if (!$this->checked)
+<a name="line95"></a>            $this->determine();
+<a name="line96"></a>        return $this->robot;
+<a name="line97"></a>    }
+<a name="line98"></a>
+<a name="line99"></a>    public function getUserAgentString() {
+<a name="line100"></a>        return $this->userAgentString;
+<a name="line101"></a>    }
+<a name="line102"></a>
+<a name="line103"></a>    private function setBrowserVersionString($versionString) {
+<a name="line104"></a>        $this->browserVersionString = $versionString;
+<a name="line105"></a>        preg_match('/^([0-9])\.([0-9])(.*)/i', $this->browserVersionString, $matches);
+<a name="line106"></a>        $this->browserMajorVersion = $matches[1];
+<a name="line107"></a>        $this->browserMinorVersion = $matches[2];
+<a name="line108"></a>    }
+<a name="line109"></a>
+<a name="line110"></a>    private function determineBrowser() {
+<a name="line111"></a>        // well-known, well-used
+<a name="line112"></a>        // Special Notes:
+<a name="line113"></a>        // (1) Opera must be checked before FireFox due to the odd
+<a name="line114"></a>        //     user agents used in some older versions of Opera
+<a name="line115"></a>        // (2) WebTV is strapped onto Internet Explorer so we must
+<a name="line116"></a>        //     check for WebTV before IE
+<a name="line117"></a>        // (3) (deprecated) Galeon is based on Firefox and needs to be
+<a name="line118"></a>        //     tested before Firefox is tested
+<a name="line119"></a>        // (4) OmniWeb is based on Safari so OmniWeb check must occur
+<a name="line120"></a>        //     before Safari
+<a name="line121"></a>        // (5) Netscape 9+ is based on Firefox so Netscape checks
+<a name="line122"></a>        //     before FireFox are necessary
+<a name="line123"></a>        return $this->checkBrowserWebTv() ||
+<a name="line124"></a>        $this->checkBrowserInternetExplorer() ||
+<a name="line125"></a>        $this->checkBrowserOpera() ||
+<a name="line126"></a>        $this->checkBrowserGaleon() ||
+<a name="line127"></a>        $this->checkBrowserNetscapeNavigator9Plus() ||
+<a name="line128"></a>        $this->checkBrowserFirefox() ||
+<a name="line129"></a>        $this->checkBrowserChrome() ||
+<a name="line130"></a>        $this->checkBrowserOmniWeb() ||
+<a name="line131"></a>        $this->checkBrowserSafari() ||
+<a name="line132"></a>        // mobile
+<a name="line133"></a>        $this->checkBrowserAndroid() ||
+<a name="line134"></a>        $this->checkBrowseriPad() ||
+<a name="line135"></a>        $this->checkBrowseriPod() ||
+<a name="line136"></a>        $this->checkBrowseriPhone() ||
+<a name="line137"></a>        $this->checkBrowserBlackBerry() ||
+<a name="line138"></a>        $this->checkBrowserNokia() ||
+<a name="line139"></a>        // bots
+<a name="line140"></a>        $this->checkBrowserGoogleBot() ||
+<a name="line141"></a>        $this->checkBrowserSlurp() ||
+<a name="line142"></a>        // other
+<a name="line143"></a>        $this->checkBrowserNetPositive() ||
+<a name="line144"></a>        $this->checkBrowserFirebird() ||
+<a name="line145"></a>        $this->checkBrowserKonqueror() ||
+<a name="line146"></a>        $this->checkBrowserIcab() ||
+<a name="line147"></a>        $this->checkBrowserPhoenix() ||
+<a name="line148"></a>        $this->checkBrowserAmaya() ||
+<a name="line149"></a>        $this->checkBrowserLynx() ||
+<a name="line150"></a>        $this->checkBrowserShiretoko() ||
+<a name="line151"></a>        $this->checkBrowserIceCat() ||
+<a name="line152"></a>        $this->checkBrowserW3CValidator() ||
+<a name="line153"></a>        $this->checkBrowserAol() ||
+<a name="line154"></a>        $this->checkBrowserMozilla(); /* Mozilla is such an open standard that you must check it last */
+<a name="line155"></a>    }
+<a name="line156"></a>
+<a name="line157"></a>    private function determineOs() {
+<a name="line158"></a>        if (stripos($this->userAgentString, 'windows') !== false) {
+<a name="line159"></a>            $this->operatingSystem = self::OS_WINDOWS;
+<a name="line160"></a>        } else if (stripos($this->userAgentString, 'iPad') !== false) {
+<a name="line161"></a>            $this->operatingSystem = self::OS_IPAD;
+<a name="line162"></a>        } else if (stripos($this->userAgentString, 'iPod') !== false) {
+<a name="line163"></a>            $this->operatingSystem = self::OS_IPOD;
+<a name="line164"></a>        } else if (stripos($this->userAgentString, 'iPhone') !== false) {
+<a name="line165"></a>            $this->operatingSystem = self::OS_IPHONE;
+<a name="line166"></a>        } elseif (stripos($this->userAgentString, 'mac') !== false) {
+<a name="line167"></a>            $this->operatingSystem = self::OS_APPLE;
+<a name="line168"></a>        } elseif (stripos($this->userAgentString, 'linux') !== false) {
+<a name="line169"></a>            $this->operatingSystem = self::OS_LINUX;
+<a name="line170"></a>        } else if (stripos($this->userAgentString, 'Nokia') !== false) {
+<a name="line171"></a>            $this->operatingSystem = self::OS_NOKIA;
+<a name="line172"></a>        } else if (stripos($this->userAgentString, 'BlackBerry') !== false) {
+<a name="line173"></a>            $this->operatingSystem = self::OS_BLACKBERRY;
+<a name="line174"></a>        } elseif (stripos($this->userAgentString, 'FreeBSD') !== false) {
+<a name="line175"></a>            $this->operatingSystem = self::OS_FREEBSD;
+<a name="line176"></a>        } elseif (stripos($this->userAgentString, 'OpenBSD') !== false) {
+<a name="line177"></a>            $this->operatingSystem = self::OS_OPENBSD;
+<a name="line178"></a>        } elseif (stripos($this->userAgentString, 'NetBSD') !== false) {
+<a name="line179"></a>            $this->operatingSystem = self::OS_NETBSD;
+<a name="line180"></a>        } elseif (stripos($this->userAgentString, 'OpenSolaris') !== false) {
+<a name="line181"></a>            $this->operatingSystem = self::OS_OPENSOLARIS;
+<a name="line182"></a>        } elseif (stripos($this->userAgentString, 'SunOS') !== false) {
+<a name="line183"></a>            $this->operatingSystem = self::OS_SUNOS;
+<a name="line184"></a>        } elseif (stripos($this->userAgentString, 'OS\/2') !== false) {
+<a name="line185"></a>            $this->operatingSystem = self::OS_OS2;
+<a name="line186"></a>        } elseif (stripos($this->userAgentString, 'BeOS') !== false) {
+<a name="line187"></a>            $this->operatingSystem = self::OS_BEOS;
+<a name="line188"></a>        } elseif (stripos($this->userAgentString, 'win') !== false) {
+<a name="line189"></a>            $this->operatingSystem = self::OS_WINDOWS;
+<a name="line190"></a>        }
+<a name="line191"></a>    }
+<a name="line192"></a>
+<a name="line193"></a>    // ---------------------------------
+<a name="line194"></a>    // checks for the browsers
+<a name="line195"></a>
+<a name="line196"></a>    private function checkBrowserBlackBerry() {
+<a name="line197"></a>        if (stripos($this->userAgentString, 'blackberry') !== false) {
+<a name="line198"></a>            $aresult = explode('/', stristr($this->userAgentString, 'BlackBerry'));
+<a name="line199"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line200"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line201"></a>            $this->browser = self::BROWSER_BLACKBERRY;
+<a name="line202"></a>            $this->mobile = true;
+<a name="line203"></a>            return true;
+<a name="line204"></a>        }
+<a name="line205"></a>        return false;
+<a name="line206"></a>    }
+<a name="line207"></a>
+<a name="line208"></a>    private function checkBrowserAol() {
+<a name="line209"></a>        if (stripos($this->userAgentString, 'aol') !== false) {
+<a name="line210"></a>            $aversion = explode(' ', stristr($this->userAgentString, 'AOL'));
+<a name="line211"></a>            $this->browser = self::BROWSER_AOL;
+<a name="line212"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line213"></a>            return true;
+<a name="line214"></a>        }
+<a name="line215"></a>        return false;
+<a name="line216"></a>    }
+<a name="line217"></a>
+<a name="line218"></a>    private function checkBrowserGoogleBot() {
+<a name="line219"></a>        if (stripos($this->userAgentString, 'googlebot') !== false) {
+<a name="line220"></a>            $aresult = explode('/', stristr($this->userAgentString, 'googlebot'));
+<a name="line221"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line222"></a>            $this->setBrowserVersionString(str_replace(';', '', $aversion[0]));
+<a name="line223"></a>            $this->browser = self::BROWSER_GOOGLEBOT;
+<a name="line224"></a>            $this->robot = true;
+<a name="line225"></a>            return true;
+<a name="line226"></a>        }
+<a name="line227"></a>        return false;
+<a name="line228"></a>    }
+<a name="line229"></a>
+<a name="line230"></a>    private function checkBrowserW3CValidator() {
+<a name="line231"></a>        if (stripos($this->userAgentString, 'W3C-checklink') !== false) {
+<a name="line232"></a>            $aresult = explode('/', stristr($this->userAgentString, 'W3C-checklink'));
+<a name="line233"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line234"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line235"></a>            $this->browser = self::BROWSER_W3CVALIDATOR;
+<a name="line236"></a>            return true;
+<a name="line237"></a>        } else if (stripos($this->userAgentString, 'W3C_Validator') !== false) {
+<a name="line238"></a>            // Some of the Validator versions do not delineate w/ a slash - add it back in
+<a name="line239"></a>            $ua = str_replace('W3C_Validator ', 'W3C_Validator/', $this->userAgentString);
+<a name="line240"></a>            $aresult = explode('/', stristr($ua, 'W3C_Validator'));
+<a name="line241"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line242"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line243"></a>            $this->browser = self::BROWSER_W3CVALIDATOR;
+<a name="line244"></a>            return true;
+<a name="line245"></a>        }
+<a name="line246"></a>        return false;
+<a name="line247"></a>    }
+<a name="line248"></a>
+<a name="line249"></a>    private function checkBrowserSlurp() {
+<a name="line250"></a>        if (stripos($this->userAgentString, 'slurp') !== false) {
+<a name="line251"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Slurp'));
+<a name="line252"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line253"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line254"></a>            $this->browser = self::BROWSER_SLURP;
+<a name="line255"></a>            $this->robot = true;
+<a name="line256"></a>            return true;
+<a name="line257"></a>        }
+<a name="line258"></a>        return false;
+<a name="line259"></a>    }
+<a name="line260"></a>
+<a name="line261"></a>    private function checkBrowserInternetExplorer() {
+<a name="line262"></a>
+<a name="line263"></a>        // Test for v1 - v1.5 IE
+<a name="line264"></a>        if (stripos($this->userAgentString, 'microsoft internet explorer') !== false) {
+<a name="line265"></a>            $this->browser = self::BROWSER_IE;
+<a name="line266"></a>            $this->setBrowserVersionString('1.0');
+<a name="line267"></a>            $aresult = stristr($this->userAgentString, '/');
+<a name="line268"></a>            if (preg_match('/308|425|426|474|0b1/i', $aresult)) {
+<a name="line269"></a>                $this->setBrowserVersionString('1.5');
+<a name="line270"></a>            }
+<a name="line271"></a>            return true;
+<a name="line272"></a>        }
+<a name="line273"></a>        // Test for versions > 1.5
+<a name="line274"></a>        else if (stripos($this->userAgentString, 'msie') !== false && stripos($this->userAgentString, 'opera') === false) {
+<a name="line275"></a>            $aresult = explode(' ', stristr(str_replace(';', '; ', $this->userAgentString), 'msie'));
+<a name="line276"></a>            $this->browser = self::BROWSER_IE;
+<a name="line277"></a>            $this->setBrowserVersionString(str_replace(array('(', ')', ';'), '', $aresult[1]));
+<a name="line278"></a>            return true;
+<a name="line279"></a>        }
+<a name="line280"></a>        // Test for Pocket IE
+<a name="line281"></a>        else if (stripos($this->userAgentString, 'mspie') !== false || stripos($this->userAgentString, 'pocket') !== false) {
+<a name="line282"></a>            $aresult = explode(' ', stristr($this->userAgentString, 'mspie'));
+<a name="line283"></a>            $this->operatingSystem = self::OS_WINDOWS_CE;
+<a name="line284"></a>            $this->browser = self::BROWSER_POCKET_IE;
+<a name="line285"></a>            $this->mobile = true;
+<a name="line286"></a>
+<a name="line287"></a>            if (stripos($this->userAgentString, 'mspie') !== false) {
+<a name="line288"></a>                $this->setBrowserVersionString($aresult[1]);
+<a name="line289"></a>            } else {
+<a name="line290"></a>                $aversion = explode('/', $this->userAgentString);
+<a name="line291"></a>                $this->setBrowserVersionString($aversion[1]);
+<a name="line292"></a>            }
+<a name="line293"></a>            return true;
+<a name="line294"></a>        }
+<a name="line295"></a>        return false;
+<a name="line296"></a>    }
+<a name="line297"></a>
+<a name="line298"></a>    private function checkBrowserOpera() {
+<a name="line299"></a>        if (stripos($this->userAgentString, 'opera mini') !== false) {
+<a name="line300"></a>            $resultant = stristr($this->userAgentString, 'opera mini');
+<a name="line301"></a>            if (preg_match('/\//', $resultant)) {
+<a name="line302"></a>                $aresult = explode('/', $resultant);
+<a name="line303"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line304"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line305"></a>            } else {
+<a name="line306"></a>                $aversion = explode(' ', stristr($resultant, 'opera mini'));
+<a name="line307"></a>                $this->setBrowserVersionString($aversion[1]);
+<a name="line308"></a>            }
+<a name="line309"></a>            $this->browser = self::BROWSER_OPERA_MINI;
+<a name="line310"></a>            $this->mobile = true;
+<a name="line311"></a>            return true;
+<a name="line312"></a>        } else if (stripos($this->userAgentString, 'opera') !== false) {
+<a name="line313"></a>            $resultant = stristr($this->userAgentString, 'opera');
+<a name="line314"></a>            if (preg_match('/Version\/(10.*)$/', $resultant, $matches)) {
+<a name="line315"></a>                $this->setBrowserVersionString($matches[1]);
+<a name="line316"></a>            } else if (preg_match('/\//', $resultant)) {
+<a name="line317"></a>                $aresult = explode('/', str_replace('(', ' ', $resultant));
+<a name="line318"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line319"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line320"></a>            } else {
+<a name="line321"></a>                $aversion = explode(' ', stristr($resultant, 'opera'));
+<a name="line322"></a>                $this->setBrowserVersionString(isset($aversion[1]) ? $aversion[1] : '');
+<a name="line323"></a>            }
+<a name="line324"></a>            $this->browser = self::BROWSER_OPERA;
+<a name="line325"></a>            return true;
+<a name="line326"></a>        }
+<a name="line327"></a>        return false;
+<a name="line328"></a>    }
+<a name="line329"></a>
+<a name="line330"></a>    private function checkBrowserChrome() {
+<a name="line331"></a>        if (stripos($this->userAgentString, 'Chrome') !== false) {
+<a name="line332"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Chrome'));
+<a name="line333"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line334"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line335"></a>            $this->browser = self::BROWSER_CHROME;
+<a name="line336"></a>            return true;
+<a name="line337"></a>        }
+<a name="line338"></a>        return false;
+<a name="line339"></a>    }
+<a name="line340"></a>
+<a name="line341"></a>    private function checkBrowserWebTv() {
+<a name="line342"></a>        if (stripos($this->userAgentString, 'webtv') !== false) {
+<a name="line343"></a>            $aresult = explode('/', stristr($this->userAgentString, 'webtv'));
+<a name="line344"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line345"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line346"></a>            $this->browser = self::BROWSER_WEBTV;
+<a name="line347"></a>            return true;
+<a name="line348"></a>        }
+<a name="line349"></a>        return false;
+<a name="line350"></a>    }
+<a name="line351"></a>
+<a name="line352"></a>    private function checkBrowserNetPositive() {
+<a name="line353"></a>        if (stripos($this->userAgentString, 'NetPositive') !== false) {
+<a name="line354"></a>            $aresult = explode('/', stristr($this->userAgentString, 'NetPositive'));
+<a name="line355"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line356"></a>            $this->setBrowserVersionString(str_replace(array('(', ')', ';'), '', $aversion[0]));
+<a name="line357"></a>            $this->browser = self::BROWSER_NETPOSITIVE;
+<a name="line358"></a>            return true;
+<a name="line359"></a>        }
+<a name="line360"></a>        return false;
+<a name="line361"></a>    }
+<a name="line362"></a>
+<a name="line363"></a>    private function checkBrowserGaleon() {
+<a name="line364"></a>        if (stripos($this->userAgentString, 'galeon') !== false) {
+<a name="line365"></a>            $aresult = explode(' ', stristr($this->userAgentString, 'galeon'));
+<a name="line366"></a>            $aversion = explode('/', $aresult[0]);
+<a name="line367"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line368"></a>            $this->browser = self::BROWSER_GALEON;
+<a name="line369"></a>            return true;
+<a name="line370"></a>        }
+<a name="line371"></a>        return false;
+<a name="line372"></a>    }
+<a name="line373"></a>
+<a name="line374"></a>    private function checkBrowserKonqueror() {
+<a name="line375"></a>        if (stripos($this->userAgentString, 'Konqueror') !== false) {
+<a name="line376"></a>            $aresult = explode(' ', stristr($this->userAgentString, 'Konqueror'));
+<a name="line377"></a>            $aversion = explode('/', $aresult[0]);
+<a name="line378"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line379"></a>            $this->browser = self::BROWSER_KONQUEROR;
+<a name="line380"></a>            return true;
+<a name="line381"></a>        }
+<a name="line382"></a>        return false;
+<a name="line383"></a>    }
+<a name="line384"></a>
+<a name="line385"></a>    private function checkBrowserIcab() {
+<a name="line386"></a>        if (stripos($this->userAgentString, 'icab') !== false) {
+<a name="line387"></a>            $aversion = explode(' ', stristr(str_replace('/', ' ', $this->userAgentString), 'icab'));
+<a name="line388"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line389"></a>            $this->browser = self::BROWSER_ICAB;
+<a name="line390"></a>            return true;
+<a name="line391"></a>        }
+<a name="line392"></a>        return false;
+<a name="line393"></a>    }
+<a name="line394"></a>
+<a name="line395"></a>    private function checkBrowserOmniWeb() {
+<a name="line396"></a>        if (stripos($this->userAgentString, 'omniweb') !== false) {
+<a name="line397"></a>            $aresult = explode('/', stristr($this->userAgentString, 'omniweb'));
+<a name="line398"></a>            $aversion = explode(' ', isset($aresult[1]) ? $aresult[1] : '');
+<a name="line399"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line400"></a>            $this->browser = self::BROWSER_OMNIWEB;
+<a name="line401"></a>            return true;
+<a name="line402"></a>        }
+<a name="line403"></a>        return false;
+<a name="line404"></a>    }
+<a name="line405"></a>
+<a name="line406"></a>    private function checkBrowserPhoenix() {
+<a name="line407"></a>        if (stripos($this->userAgentString, 'Phoenix') !== false) {
+<a name="line408"></a>            $aversion = explode('/', stristr($this->userAgentString, 'Phoenix'));
+<a name="line409"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line410"></a>            $this->browser = self::BROWSER_PHOENIX;
+<a name="line411"></a>            return true;
+<a name="line412"></a>        }
+<a name="line413"></a>        return false;
+<a name="line414"></a>    }
+<a name="line415"></a>
+<a name="line416"></a>    private function checkBrowserFirebird() {
+<a name="line417"></a>        if (stripos($this->userAgentString, 'Firebird') !== false) {
+<a name="line418"></a>            $aversion = explode('/', stristr($this->userAgentString, 'Firebird'));
+<a name="line419"></a>            $this->setBrowserVersionString($aversion[1]);
+<a name="line420"></a>            $this->browser = self::BROWSER_FIREBIRD;
+<a name="line421"></a>            return true;
+<a name="line422"></a>        }
+<a name="line423"></a>        return false;
+<a name="line424"></a>    }
+<a name="line425"></a>
+<a name="line426"></a>    private function checkBrowserNetscapeNavigator9Plus() {
+<a name="line427"></a>        if (stripos($this->userAgentString, 'Firefox') !== false && preg_match('/Navigator\/([^ ]*)/i', $this->userAgentString, $matches)) {
+<a name="line428"></a>            $this->setBrowserVersionString($matches[1]);
+<a name="line429"></a>            $this->browser = self::BROWSER_NETSCAPE_NAVIGATOR;
+<a name="line430"></a>            return true;
+<a name="line431"></a>        } else if (stripos($this->userAgentString, 'Firefox') === false && preg_match('/Netscape6?\/([^ ]*)/i', $this->userAgentString, $matches)) {
+<a name="line432"></a>            $this->setBrowserVersionString($matches[1]);
+<a name="line433"></a>            $this->browser = self::BROWSER_NETSCAPE_NAVIGATOR;
+<a name="line434"></a>            return true;
+<a name="line435"></a>        }
+<a name="line436"></a>        return false;
+<a name="line437"></a>    }
+<a name="line438"></a>
+<a name="line439"></a>    private function checkBrowserShiretoko() {
+<a name="line440"></a>        if (stripos($this->userAgentString, 'Mozilla') !== false && preg_match('/Shiretoko\/([^ ]*)/i', $this->userAgentString, $matches)) {
+<a name="line441"></a>            $this->setBrowserVersionString($matches[1]);
+<a name="line442"></a>            $this->browser = self::BROWSER_SHIRETOKO;
+<a name="line443"></a>            return true;
+<a name="line444"></a>        }
+<a name="line445"></a>        return false;
+<a name="line446"></a>    }
+<a name="line447"></a>
+<a name="line448"></a>    private function checkBrowserIceCat() {
+<a name="line449"></a>        if (stripos($this->userAgentString, 'Mozilla') !== false && preg_match('/IceCat\/([^ ]*)/i', $this->userAgentString, $matches)) {
+<a name="line450"></a>            $this->setBrowserVersionString($matches[1]);
+<a name="line451"></a>            $this->browser = self::BROWSER_ICECAT;
+<a name="line452"></a>            return true;
+<a name="line453"></a>        }
+<a name="line454"></a>        return false;
+<a name="line455"></a>    }
+<a name="line456"></a>
+<a name="line457"></a>    private function checkBrowserNokia() {
+<a name="line458"></a>        if (preg_match('/Nokia([^\/]+)\/([^ SP]+)/i', $this->userAgentString, $matches)) {
+<a name="line459"></a>            $this->setBrowserVersionString($matches[2]);
+<a name="line460"></a>            if (stripos($this->userAgentString, 'Series60') !== false || strpos($this->userAgentString, 'S60') !== false) {
+<a name="line461"></a>                $this->browser = self::BROWSER_NOKIA_S60;
+<a name="line462"></a>            } else {
+<a name="line463"></a>                $this->browser = self::BROWSER_NOKIA;
+<a name="line464"></a>            }
+<a name="line465"></a>            $this->mobile = true;
+<a name="line466"></a>            return true;
+<a name="line467"></a>        }
+<a name="line468"></a>        return false;
+<a name="line469"></a>    }
+<a name="line470"></a>
+<a name="line471"></a>    private function checkBrowserFirefox() {
+<a name="line472"></a>        if (stripos($this->userAgentString, 'safari') === false) {
+<a name="line473"></a>            if (preg_match('/Firefox[\/ \(]([^ ;\)]+)/i', $this->userAgentString, $matches)) {
+<a name="line474"></a>                $this->setBrowserVersionString($matches[1]);
+<a name="line475"></a>                $this->browser = self::BROWSER_FIREFOX;
+<a name="line476"></a>                return true;
+<a name="line477"></a>            } else if (preg_match('/Firefox$/i', $this->userAgentString, $matches)) {
+<a name="line478"></a>                $this->browser = self::BROWSER_FIREFOX;
+<a name="line479"></a>                return true;
+<a name="line480"></a>            }
+<a name="line481"></a>        }
+<a name="line482"></a>        return false;
+<a name="line483"></a>    }
+<a name="line484"></a>
+<a name="line485"></a>    private function checkBrowserIceweasel() {
+<a name="line486"></a>        if (stripos($this->userAgentString, 'Iceweasel') !== false) {
+<a name="line487"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Iceweasel'));
+<a name="line488"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line489"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line490"></a>            $this->browser = self::BROWSER_ICEWEASEL;
+<a name="line491"></a>            return true;
+<a name="line492"></a>        }
+<a name="line493"></a>        return false;
+<a name="line494"></a>    }
+<a name="line495"></a>
+<a name="line496"></a>    private function checkBrowserMozilla() {
+<a name="line497"></a>        if (stripos($this->userAgentString, 'mozilla') !== false && preg_match('/rv:[0-9].[0-9][a-b]?/i', $this->userAgentString) && stripos($this->userAgentString, 'netscape') === false) {
+<a name="line498"></a>            $aversion = explode(' ', stristr($this->userAgentString, 'rv:'));
+<a name="line499"></a>            preg_match('/rv:[0-9].[0-9][a-b]?/i', $this->userAgentString, $aversion);
+<a name="line500"></a>            $this->setBrowserVersionString(str_replace('rv:', '', $aversion[0]));
+<a name="line501"></a>            $this->browser = self::BROWSER_MOZILLA;
+<a name="line502"></a>            return true;
+<a name="line503"></a>        } else if (stripos($this->userAgentString, 'mozilla') !== false && preg_match('/rv:[0-9]\.[0-9]/i', $this->userAgentString) && stripos($this->userAgentString, 'netscape') === false) {
+<a name="line504"></a>            $aversion = explode('', stristr($this->userAgentString, 'rv:'));
+<a name="line505"></a>            $this->setBrowserVersionString(str_replace('rv:', '', $aversion[0]));
+<a name="line506"></a>            $this->browser = self::BROWSER_MOZILLA;
+<a name="line507"></a>            return true;
+<a name="line508"></a>        } else if (stripos($this->userAgentString, 'mozilla') !== false && preg_match('/mozilla\/([^ ]*)/i', $this->userAgentString, $matches) && stripos($this->userAgentString, 'netscape') === false) {
+<a name="line509"></a>            $this->setBrowserVersionString($matches[1]);
+<a name="line510"></a>            $this->browser = self::BROWSER_MOZILLA;
+<a name="line511"></a>            return true;
+<a name="line512"></a>        }
+<a name="line513"></a>        return false;
+<a name="line514"></a>    }
+<a name="line515"></a>
+<a name="line516"></a>    private function checkBrowserLynx() {
+<a name="line517"></a>        if (stripos($this->userAgentString, 'lynx') !== false) {
+<a name="line518"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Lynx'));
+<a name="line519"></a>            $aversion = explode(' ', (isset($aresult[1]) ? $aresult[1] : ''));
+<a name="line520"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line521"></a>            $this->browser = self::BROWSER_LYNX;
+<a name="line522"></a>            return true;
+<a name="line523"></a>        }
+<a name="line524"></a>        return false;
+<a name="line525"></a>    }
+<a name="line526"></a>
+<a name="line527"></a>    private function checkBrowserAmaya() {
+<a name="line528"></a>        if (stripos($this->userAgentString, 'amaya') !== false) {
+<a name="line529"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Amaya'));
+<a name="line530"></a>            $aversion = explode(' ', $aresult[1]);
+<a name="line531"></a>            $this->setBrowserVersionString($aversion[0]);
+<a name="line532"></a>            $this->browser = self::BROWSER_AMAYA;
+<a name="line533"></a>            return true;
+<a name="line534"></a>        }
+<a name="line535"></a>        return false;
+<a name="line536"></a>    }
+<a name="line537"></a>
+<a name="line538"></a>    private function checkBrowserSafari() {
+<a name="line539"></a>        if (stripos($this->userAgentString, 'Safari') !== false && stripos($this->userAgentString, 'iPhone') === false && stripos($this->userAgentString, 'iPod') === false) {
+<a name="line540"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Version'));
+<a name="line541"></a>            if (isset($aresult[1])) {
+<a name="line542"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line543"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line544"></a>            }
+<a name="line545"></a>            $this->browser = self::BROWSER_SAFARI;
+<a name="line546"></a>            return true;
+<a name="line547"></a>        }
+<a name="line548"></a>        return false;
+<a name="line549"></a>    }
+<a name="line550"></a>
+<a name="line551"></a>    private function checkBrowseriPhone() {
+<a name="line552"></a>        if (stripos($this->userAgentString, 'iPhone') !== false) {
+<a name="line553"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Version'));
+<a name="line554"></a>            if (isset($aresult[1])) {
+<a name="line555"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line556"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line557"></a>            }
+<a name="line558"></a>            $this->mobile = true;
+<a name="line559"></a>            $this->browser = self::BROWSER_IPHONE;
+<a name="line560"></a>            return true;
+<a name="line561"></a>        }
+<a name="line562"></a>        return false;
+<a name="line563"></a>    }
+<a name="line564"></a>
+<a name="line565"></a>    private function checkBrowseriPad() {
+<a name="line566"></a>        if (stripos($this->userAgentString, 'iPad') !== false) {
+<a name="line567"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Version'));
+<a name="line568"></a>            if (isset($aresult[1])) {
+<a name="line569"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line570"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line571"></a>            }
+<a name="line572"></a>            $this->mobile = true;
+<a name="line573"></a>            $this->browser = self::BROWSER_IPAD;
+<a name="line574"></a>            return true;
+<a name="line575"></a>        }
+<a name="line576"></a>        return false;
+<a name="line577"></a>    }
+<a name="line578"></a>
+<a name="line579"></a>    private function checkBrowseriPod() {
+<a name="line580"></a>        if (stripos($this->userAgentString, 'iPod') !== false) {
+<a name="line581"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Version'));
+<a name="line582"></a>            if (isset($aresult[1])) {
+<a name="line583"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line584"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line585"></a>            }
+<a name="line586"></a>            $this->mobile = true;
+<a name="line587"></a>            $this->browser = self::BROWSER_IPOD;
+<a name="line588"></a>            return true;
+<a name="line589"></a>        }
+<a name="line590"></a>        return false;
+<a name="line591"></a>    }
+<a name="line592"></a>
+<a name="line593"></a>    private function checkBrowserAndroid() {
+<a name="line594"></a>        if (stripos($this->userAgentString, 'Android') !== false) {
+<a name="line595"></a>            $aresult = explode('/', stristr($this->userAgentString, 'Version'));
+<a name="line596"></a>            if (isset($aresult[1])) {
+<a name="line597"></a>                $aversion = explode(' ', $aresult[1]);
+<a name="line598"></a>                $this->setBrowserVersionString($aversion[0]);
+<a name="line599"></a>            }
+<a name="line600"></a>            $this->mobile = true;
+<a name="line601"></a>            $this->browser = self::BROWSER_ANDROID;
+<a name="line602"></a>            return true;
+<a name="line603"></a>        }
+<a name="line604"></a>        return false;
+<a name="line605"></a>    }
+<a name="line606"></a>
+<a name="line607"></a>}
+<a name="line608"></a>?>
+<a name="line609"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blazeserver\source\netlet\http\httpuseragentimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

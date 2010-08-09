@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:01 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+<link rel="start" href="../../../overview-summary.html">
+
+<title>ConstraintMetadata (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/persistence/tool/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/persistence/tool/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\persistence\tool\constraintmetadata.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\persistence\tool\ConstraintMetadata</div>
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line16" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 16</a>
+
+<h1>Class ConstraintMetadata</h1>
+
+<pre class="tree"><a href="../../../blaze/lang/object.html">Object</a><br>    └─<strong>ConstraintMetadata</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  class <strong>ConstraintMetadata</strong><br>extends <a href="../../../blaze/lang/object.html">Object</a>
+
+</p>
+
+<div class="comment" id="overview_description"><p>Description of ConstraintMetadata</p></div>
+
+<dl>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd>which could be useful for the understanding of this class. e.g. ClassName::methodName</dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Todo:</dt>
+<dd>Something which has to be done, implementation or so</dd>
+</dl>
+<hr>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getColumnName()">getColumnName</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getConstraintName()">getConstraintName</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../../blaze/persistence/tool/constrainttype.html">ConstraintType</a></td>
+<td class="description"><p class="name"><a href="#getConstraintType()">getConstraintType</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getReferencedColumnName()">getReferencedColumnName</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getReferencedTableName()">getReferencedTableName</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getReferencedTableSchema()">getReferencedTableSchema</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getTableName()">getTableName</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getTableSchema()">getTableSchema</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setColumnName()">setColumnName</a>(mixed columnName)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setConstraintName()">setConstraintName</a>(mixed constraintName)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setConstraintType()">setConstraintType</a>(<a href="../../../blaze/persistence/tool/constrainttype.html">ConstraintType</a> constraintType)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setReferencedColumnName()">setReferencedColumnName</a>(mixed referencedColumnName)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setReferencedTableName()">setReferencedTableName</a>(mixed referencedTableName)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setReferencedTableSchema()">setReferencedTableSchema</a>(mixed referencedTableSchema)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setTableName()">setTableName</a>(mixed tableName)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setTableSchema()">setTableSchema</a>(mixed tableSchema)</p></td>
+</tr>
+</table>
+
+<table class="inherit">
+<tr><th colspan="2">Methods inherited from blaze\lang\Object</th></tr>
+<tr><td><a href="../../../blaze/lang/object.html#cloneObject()">cloneObject</a>, <a href="../../../blaze/lang/object.html#equals()">equals</a>, <a href="../../../blaze/lang/object.html#getClass()">getClass</a>, <a href="../../../blaze/lang/object.html#hashCode()">hashCode</a></td></tr></table>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line69" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 69</a>
+
+<h3 id="getColumnName()">getColumnName</h3>
+<code class="signature">public  void <strong>getColumnName</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line29" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 29</a>
+
+<h3 id="getConstraintName()">getConstraintName</h3>
+<code class="signature">public  void <strong>getConstraintName</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line41" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 41</a>
+
+<h3 id="getConstraintType()">getConstraintType</h3>
+<code class="signature">public  <a href="../../../blaze/persistence/tool/constrainttype.html">ConstraintType</a> <strong>getConstraintType</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line93" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 93</a>
+
+<h3 id="getReferencedColumnName()">getReferencedColumnName</h3>
+<code class="signature">public  void <strong>getReferencedColumnName</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line85" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 85</a>
+
+<h3 id="getReferencedTableName()">getReferencedTableName</h3>
+<code class="signature">public  void <strong>getReferencedTableName</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line77" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 77</a>
+
+<h3 id="getReferencedTableSchema()">getReferencedTableSchema</h3>
+<code class="signature">public  void <strong>getReferencedTableSchema</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line61" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 61</a>
+
+<h3 id="getTableName()">getTableName</h3>
+<code class="signature">public  void <strong>getTableName</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line53" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 53</a>
+
+<h3 id="getTableSchema()">getTableSchema</h3>
+<code class="signature">public  void <strong>getTableSchema</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line73" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 73</a>
+
+<h3 id="setColumnName()">setColumnName</h3>
+<code class="signature">public  void <strong>setColumnName</strong>(mixed columnName)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line33" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 33</a>
+
+<h3 id="setConstraintName()">setConstraintName</h3>
+<code class="signature">public  void <strong>setConstraintName</strong>(mixed constraintName)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line49" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 49</a>
+
+<h3 id="setConstraintType()">setConstraintType</h3>
+<code class="signature">public  void <strong>setConstraintType</strong>(<a href="../../../blaze/persistence/tool/constrainttype.html">ConstraintType</a> constraintType)</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line97" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 97</a>
+
+<h3 id="setReferencedColumnName()">setReferencedColumnName</h3>
+<code class="signature">public  void <strong>setReferencedColumnName</strong>(mixed referencedColumnName)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line89" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 89</a>
+
+<h3 id="setReferencedTableName()">setReferencedTableName</h3>
+<code class="signature">public  void <strong>setReferencedTableName</strong>(mixed referencedTableName)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line81" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 81</a>
+
+<h3 id="setReferencedTableSchema()">setReferencedTableSchema</h3>
+<code class="signature">public  void <strong>setReferencedTableSchema</strong>(mixed referencedTableSchema)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line65" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 65</a>
+
+<h3 id="setTableName()">setTableName</h3>
+<code class="signature">public  void <strong>setTableName</strong>(mixed tableName)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../../source/blaze\persistence\tool\constraintmetadata.php.html#line57" class="location">blaze\persistence\tool\ConstraintMetadata.php at line 57</a>
+
+<h3 id="setTableSchema()">setTableSchema</h3>
+<code class="signature">public  void <strong>setTableSchema</strong>(mixed tableSchema)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/persistence/tool/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/persistence/tool/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\persistence\tool\constraintmetadata.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\ds\driver\pdomysql\meta\ColumnMetaDataImpl.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\meta\columnmetadataimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\ds\driver\pdomysql\meta\ColumnMetaDataImpl.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>
+<a name="line3"></a>namespace blaze\ds\driver\pdomysql\meta;
+<a name="line4"></a>
+<a name="line5"></a>use blaze\ds\driver\pdobase\meta\AbstractColumnMetaData;
+<a name="line6"></a>
+<a name="line7"></a>/**
+<a name="line8"></a> * Description of ColumnMetaDataImpl
+<a name="line9"></a> *
+<a name="line10"></a> * @author  Christian Beikov
+<a name="line11"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line12"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line13"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line14"></a> * @since   1.0
+<a name="line15"></a> * @version $Revision$
+<a name="line16"></a> * @todo    Something which has to be done, implementation or so
+<a name="line17"></a> */
+<a name="line18"></a>class ColumnMetaDataImpl extends AbstractColumnMetaData {
+<a name="line19"></a>
+<a name="line20"></a>    public function __construct(\blaze\ds\meta\TableMetaData $table, $columnName) {
+<a name="line21"></a>        $this->table = $table;
+<a name="line22"></a>        $this->columnName = \blaze\lang\String::asWrapper($columnName);
+<a name="line23"></a>        $this->getColumnInfo();
+<a name="line24"></a>    }
+<a name="line25"></a>
+<a name="line26"></a>    /**
+<a name="line27"></a>     * Map the database specific type names to class names.
+<a name="line28"></a>     *
+<a name="line29"></a>     * @return blaze\lang\String
+<a name="line30"></a>     */
+<a name="line31"></a>    private function getClassName($nativeName) {
+<a name="line32"></a>        $className = null;
+<a name="line33"></a>        switch (\blaze\lang\String::asNative($nativeName->toLowerCase())) {
+<a name="line34"></a>            case 'decimal': $className = '\\blaze\\math\\BigDecimal';
+<a name="line35"></a>                break;
+<a name="line36"></a>            case 'int': $className = 'integer';
+<a name="line37"></a>                break;
+<a name="line38"></a>            case 'date': $className = '\\blaze\\util\\Date';
+<a name="line39"></a>                break;
+<a name="line40"></a>            case 'blob': $className = '\\blaze\\ds\\type\\Blob';
+<a name="line41"></a>                break;
+<a name="line42"></a>            default: $className = '\\blaze\\lang\\String';
+<a name="line43"></a>                break;
+<a name="line44"></a>        }
+<a name="line45"></a>        return new \blaze\lang\String($className);
+<a name="line46"></a>    }
+<a name="line47"></a>
+<a name="line48"></a>    /**
+<a name="line49"></a>     * Map the database specific type names to class names.
+<a name="line50"></a>     *
+<a name="line51"></a>     * @return blaze\lang\String
+<a name="line52"></a>     */
+<a name="line53"></a>    private function getColumnInfo() {
+<a name="line54"></a>        $stmt = $this->table->getSchema()
+<a name="line55"></a>                        ->getDatabaseMetaData()
+<a name="line56"></a>                        ->getConnection()
+<a name="line57"></a>                        ->prepareStatement('SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
+<a name="line58"></a>        $stmt->setString(0, $this->table->getSchema()->getSchemaName());
+<a name="line59"></a>        $stmt->setString(1, $this->table->getTableName());
+<a name="line60"></a>        $stmt->setString(2, $this->columnName);
+<a name="line61"></a>        $stmt->execute();
+<a name="line62"></a>        $rs = $stmt->getResultSet();
+<a name="line63"></a>        $rs->next();
+<a name="line64"></a>
+<a name="line65"></a>        $this->columnDefault = $rs->getString('COLUMN_DEFAULT');
+<a name="line66"></a>        $this->nullable = $rs->getBoolean('IS_NULLABLE');
+<a name="line67"></a>        $this->columnTypeName = $rs->getString('DATA_TYPE');
+<a name="line68"></a>        $this->columnClassName = $this->getClassName($this->columnTypeName);
+<a name="line69"></a>        $this->columnLength = $rs->getInt('NUMERIC_SCALE');
+<a name="line70"></a>
+<a name="line71"></a>        if ($this->columnLength == null)
+<a name="line72"></a>            $this->columnLength = $rs->getInt('CHARACTER_MAXIMUM_LENGTH');
+<a name="line73"></a>
+<a name="line74"></a>        $this->columnPrecision = $rs->getInt('NUMERIC_PRECISION');
+<a name="line75"></a>        $this->signed = !$rs->getString('COLUMN_TYPE')->contains('unsigned');
+<a name="line76"></a>        $extra = $rs->getString('EXTRA');
+<a name="line77"></a>        $this->autoIncrement = $extra != null ? $extra->contains('auto_increment') : false;
+<a name="line78"></a>        $this->columnComment = $rs->getString('COLUMN_COMMENT');
+<a name="line79"></a>
+<a name="line80"></a>        $keyVal = $rs->getString('COLUMN_KEY');
+<a name="line81"></a>        $this->primaryKey = $keyVal != null ? $keyVal->compareToIgnoreCase('PRI') == 0 : false;
+<a name="line82"></a>
+<a name="line83"></a>        if ($this->primaryKey)
+<a name="line84"></a>            $this->uniqueKey = true;
+<a name="line85"></a>        else
+<a name="line86"></a>            $this->uniqueKey = $keyVal != null ? $keyVal->compareToIgnoreCase('UNI') == 0 : false;
+<a name="line87"></a>
+<a name="line88"></a>        $this->foreignKey = false;
+<a name="line89"></a>        $rs->close();
+<a name="line90"></a>        $stmt->close();
+<a name="line91"></a>
+<a name="line92"></a>        $stmt = $this->table->getSchema()
+<a name="line93"></a>                        ->getDatabaseMetaData()
+<a name="line94"></a>                        ->getConnection()
+<a name="line95"></a>                        ->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
+<a name="line96"></a>        $stmt->setString(0, $this->table->getSchema()->getSchemaName());
+<a name="line97"></a>        $stmt->setString(1, $this->table->getTableName());
+<a name="line98"></a>        $stmt->setString(2, $this->columnName);
+<a name="line99"></a>        $stmt->execute();
+<a name="line100"></a>        $rs = $stmt->getResultSet();
+<a name="line101"></a>
+<a name="line102"></a>        if ($rs->next() && $rs->getString('REFERENCED_TABLE_SCHEMA') != null)
+<a name="line103"></a>            $this->foreignKey = true;
+<a name="line104"></a>        $rs->close();
+<a name="line105"></a>        $stmt->close();
+<a name="line106"></a>    }
+<a name="line107"></a>
+<a name="line108"></a>    /**
+<a name="line109"></a>     * @return blaze\lang\String
+<a name="line110"></a>     */
+<a name="line111"></a>    public function getColumnName() {
+<a name="line112"></a>        return $this->columnName;
+<a name="line113"></a>    }
+<a name="line114"></a>
+<a name="line115"></a>    /**
+<a name="line116"></a>     * Native database types like varchar etc.
+<a name="line117"></a>     *
+<a name="line118"></a>     * @return blaze\lang\String
+<a name="line119"></a>     */
+<a name="line120"></a>    public function getColumnTypeName() {
+<a name="line121"></a>        return $this->columnTypeName;
+<a name="line122"></a>    }
+<a name="line123"></a>
+<a name="line124"></a>    /**
+<a name="line125"></a>     * PHP datatypes of the columns
+<a name="line126"></a>     *
+<a name="line127"></a>     * @return blaze\lang\String
+<a name="line128"></a>     */
+<a name="line129"></a>    public function getColumnClassName() {
+<a name="line130"></a>        return $this->columnClassName;
+<a name="line131"></a>    }
+<a name="line132"></a>
+<a name="line133"></a>    /**
+<a name="line134"></a>     * @return integer
+<a name="line135"></a>     */
+<a name="line136"></a>    public function getColumnLength() {
+<a name="line137"></a>        return $this->columnLength;
+<a name="line138"></a>    }
+<a name="line139"></a>
+<a name="line140"></a>    /**
+<a name="line141"></a>     * @return integer
+<a name="line142"></a>     */
+<a name="line143"></a>    public function getColumnPrecision() {
+<a name="line144"></a>        return $this->columnPrecision;
+<a name="line145"></a>    }
+<a name="line146"></a>
+<a name="line147"></a>    /**
+<a name="line148"></a>     * @return blaze\lang\String
+<a name="line149"></a>     */
+<a name="line150"></a>    public function getColumnDefault() {
+<a name="line151"></a>        return $this->columnDefault;
+<a name="line152"></a>    }
+<a name="line153"></a>
+<a name="line154"></a>    /**
+<a name="line155"></a>     * @return blaze\lang\String
+<a name="line156"></a>     */
+<a name="line157"></a>    public function getColumnComment() {
+<a name="line158"></a>        return $this->columnComment;
+<a name="line159"></a>    }
+<a name="line160"></a>
+<a name="line161"></a>    /**
+<a name="line162"></a>     * @return boolean
+<a name="line163"></a>     */
+<a name="line164"></a>    public function isNullable() {
+<a name="line165"></a>        return $this->nullable;
+<a name="line166"></a>    }
+<a name="line167"></a>
+<a name="line168"></a>    /**
+<a name="line169"></a>     * @return boolean
+<a name="line170"></a>     */
+<a name="line171"></a>    public function isAutoIncrement() {
+<a name="line172"></a>        return $this->autoIncrement;
+<a name="line173"></a>    }
+<a name="line174"></a>
+<a name="line175"></a>    /**
+<a name="line176"></a>     * @return boolean
+<a name="line177"></a>     */
+<a name="line178"></a>    public function isSigned() {
+<a name="line179"></a>        return $this->signed;
+<a name="line180"></a>    }
+<a name="line181"></a>
+<a name="line182"></a>    /**
+<a name="line183"></a>     * @return boolean
+<a name="line184"></a>     */
+<a name="line185"></a>    public function isPrimaryKey() {
+<a name="line186"></a>        return $this->primaryKey;
+<a name="line187"></a>    }
+<a name="line188"></a>
+<a name="line189"></a>    /**
+<a name="line190"></a>     * @return boolean
+<a name="line191"></a>     */
+<a name="line192"></a>    public function isForeignKey() {
+<a name="line193"></a>        return $this->foreignKey;
+<a name="line194"></a>    }
+<a name="line195"></a>
+<a name="line196"></a>    /**
+<a name="line197"></a>     * @return boolean
+<a name="line198"></a>     */
+<a name="line199"></a>    public function isUniqueKey() {
+<a name="line200"></a>        return $this->uniqueKey;
+<a name="line201"></a>    }
+<a name="line202"></a>
+<a name="line203"></a>    /**
+<a name="line204"></a>     * @return blaze\ds\meta\TableMetaData
+<a name="line205"></a>     */
+<a name="line206"></a>    public function getTable() {
+<a name="line207"></a>        return $this->table;
+<a name="line208"></a>    }
+<a name="line209"></a>
+<a name="line210"></a>    /**
+<a name="line211"></a>     * @return blaze\util\ListI[blaze\ds\meta\ConstraintMetaData]
+<a name="line212"></a>     */
+<a name="line213"></a>    public function getConstraints() {
+<a name="line214"></a>        $stmt = null;
+<a name="line215"></a>        $rs = null;
+<a name="line216"></a>        $tblConst = array();
+<a name="line217"></a>        $constraints = array();
+<a name="line218"></a>
+<a name="line219"></a>        try {
+<a name="line220"></a>            $stmt = $this->table->getSchema()->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
+<a name="line221"></a>            $stmt->setString(0, $this->table->getSchema()->getSchemaName());
+<a name="line222"></a>            $stmt->setString(1, $this->table->getTableName());
+<a name="line223"></a>            $stmt->execute();
+<a name="line224"></a>            $rs = $stmt->getResultSet();
+<a name="line225"></a>
+<a name="line226"></a>            while ($rs->next())
+<a name="line227"></a>                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()] = $rs->getString('CONSTRAINT_TYPE');
+<a name="line228"></a>
+<a name="line229"></a>            if ($stmt != null)
+<a name="line230"></a>                $stmt->close();
+<a name="line231"></a>            if ($rs != null)
+<a name="line232"></a>                $rs->close();
+<a name="line233"></a>
+<a name="line234"></a>            $stmt = $this->table->getSchema()->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
+<a name="line235"></a>            $stmt->setString(0, $this->table->getSchema()->getSchemaName());
+<a name="line236"></a>            $stmt->setString(1, $this->table->getTableName());
+<a name="line237"></a>            $stmt->setString(2, $this->columnName);
+<a name="line238"></a>            $stmt->execute();
+<a name="line239"></a>            $rs = $stmt->getResultSet();
+<a name="line240"></a>
+<a name="line241"></a>            while ($rs->next()) {
+<a name="line242"></a>                switch ($tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]) {
+<a name="line243"></a>                    case 'PRIMARY KEY':
+<a name="line244"></a>                        $constraints[] = new ConstraintMetaDataImpl($this, $rs->getString('CONSTRAINT_NAME'), 'PRIMARY KEY');
+<a name="line245"></a>                        break;
+<a name="line246"></a>                    case 'FOREIGN KEY':
+<a name="line247"></a>                        $refSch = $this->table
+<a name="line248"></a>                                        ->getSchema()
+<a name="line249"></a>                                        ->getDatabaseMetaData()
+<a name="line250"></a>                                        ->getSchema($rs->getString('REFERENCED_TABLE_SCHEMA'));
+<a name="line251"></a>
+<a name="line252"></a>                        if ($refSch == null)
+<a name="line253"></a>                            break;
+<a name="line254"></a>
+<a name="line255"></a>                        $refCol = $refSch->getTable($rs->getString('REFERENCED_TABLE_NAME'))
+<a name="line256"></a>                                        ->getColumn($rs->getString('REFERENCED_COLUMN_NAME'));
+<a name="line257"></a>                        $constraints[] = new ForeignKeyMetaDataImpl($this, $refCol, $rs->getString('CONSTRAINT_NAME'));
+<a name="line258"></a>                        break;
+<a name="line259"></a>                    case 'UNIQUE':
+<a name="line260"></a>                        $constraints[] = new ConstraintMetaDataImpl($this, $rs->getString('CONSTRAINT_NAME'), 'UNIQUE KEY');
+<a name="line261"></a>                        break;
+<a name="line262"></a>                    default:
+<a name="line263"></a>                        $constraints[] = new ConstraintMetaDataImpl($this, $rs->getString('CONSTRAINT_NAME'), 'UNKNOWN');
+<a name="line264"></a>                        break;
+<a name="line265"></a>                }
+<a name="line266"></a>            }
+<a name="line267"></a>        } catch (\blaze\ds\SQLException $e) {
+<a name="line268"></a>            throw $e;
+<a name="line269"></a>        }
+<a name="line270"></a>
+<a name="line271"></a>        if ($stmt != null)
+<a name="line272"></a>            $stmt->close();
+<a name="line273"></a>        if ($rs != null)
+<a name="line274"></a>            $rs->close();
+<a name="line275"></a>
+<a name="line276"></a>        return $constraints;
+<a name="line277"></a>    }
+<a name="line278"></a>
+<a name="line279"></a>    /**
+<a name="line280"></a>     * @return blaze\ds\meta\ConstraintMetaData
+<a name="line281"></a>     */
+<a name="line282"></a>    public function getConstraint($constraintName) {
+<a name="line283"></a>        $stmt = null;
+<a name="line284"></a>        $rs = null;
+<a name="line285"></a>        $constType = null;
+<a name="line286"></a>        $constraint = null;
+<a name="line287"></a>
+<a name="line288"></a>        try {
+<a name="line289"></a>            $stmt = $this->table->getSchema()->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLE_CONSTRAINTS JOIN information_schema.KEY_COLUMN_USAGE ON KEY_COLUMN_USAGE.TABLE_SCHEMA = TABLE_CONSTRAINTS.TABLE_SCHEMA AND KEY_COLUMN_USAGE.TABLE_NAME = TABLE_CONSTRAINTS.TABLE_NAME AND KEY_COLUMN_USAGE.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME WHERE KEY_COLUMN_USAGE.TABLE_SCHEMA = ? AND KEY_COLUMN_USAGE.TABLE_NAME = ? AND KEY_COLUMN_USAGE.CONSTRAINT_NAME = ?');
+<a name="line290"></a>            $stmt->setString(0, $this->table->getSchema()->getSchemaName());
+<a name="line291"></a>            $stmt->setString(1, $this->table->getTableName());
+<a name="line292"></a>            $stmt->setString(2, $constraintName);
+<a name="line293"></a>            $stmt->execute();
+<a name="line294"></a>
+<a name="line295"></a>            $rs = $stmt->getResultSet();
+<a name="line296"></a>            $rsmd = $stmt->getMetaData();
+<a name="line297"></a>
+<a name="line298"></a>            while ($rs->next()) {
+<a name="line299"></a>                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]['type'] = $rs->getString('CONSTRAINT_TYPE');
+<a name="line300"></a>                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]['columns'][] = array('column' => $this->table->getColumn($rs->getString('COLUMN_NAME')),
+<a name="line301"></a>                                                                                                'REFERENCED_TABLE_SCHEMA' => $rs->getString('REFERENCED_TABLE_SCHEMA'),
+<a name="line302"></a>                                                                                                'REFERENCED_TABLE_NAME' => $rs->getString('REFERENCED_TABLE_NAME'),
+<a name="line303"></a>                                                                                                'REFERENCED_COLUMN_NAME' => $rs->getString('REFERENCED_COLUMN_NAME'));
+<a name="line304"></a>            }
+<a name="line305"></a>
+<a name="line306"></a>            if (count($tblConst) != 0) {
+<a name="line307"></a>                foreach ($tblConst as $constName => $constOpt) {
+<a name="line308"></a>                    if (count($constOpt['columns']) != 0) {
+<a name="line309"></a>                        switch ($constOpt['type']) {
+<a name="line310"></a>                            case 'PRIMARY KEY':
+<a name="line311"></a>                                $cols = array();
+<a name="line312"></a>                                foreach ($constOpt['columns'] as $column)
+<a name="line313"></a>                                    $cols[] = $column['column'];
+<a name="line314"></a>
+<a name="line315"></a>                                $constraint = new ConstraintMetaDataImpl($cols, $constName, 'PRIMARY KEY');
+<a name="line316"></a>                                break;
+<a name="line317"></a>                            case 'FOREIGN KEY':
+<a name="line318"></a>                                $cols = array();
+<a name="line319"></a>                                $refCols = array();
+<a name="line320"></a>
+<a name="line321"></a>                                foreach ($constOpt['columns'] as $column) {
+<a name="line322"></a>                                    $refSch = $this->table
+<a name="line323"></a>                                                    ->getSchema()
+<a name="line324"></a>                                                    ->getDatabaseMetaData()
+<a name="line325"></a>                                                    ->getSchema($column['REFERENCED_TABLE_SCHEMA']);
+<a name="line326"></a>
+<a name="line327"></a>                                    if ($refSch == null)
+<a name="line328"></a>                                        break;
+<a name="line329"></a>                                    $cols[] = $column['column'];
+<a name="line330"></a>                                    $refCols[] = $refSch->getTable($column['REFERENCED_TABLE_NAME'])
+<a name="line331"></a>                                                    ->getColumn($column['REFERENCED_COLUMN_NAME']);
+<a name="line332"></a>                                }
+<a name="line333"></a>
+<a name="line334"></a>                                $constraint = new ForeignKeyMetaDataImpl($cols, $refCols, $constName);
+<a name="line335"></a>                                break;
+<a name="line336"></a>                            case 'UNIQUE':
+<a name="line337"></a>                                $cols = array();
+<a name="line338"></a>                                foreach ($constOpt['columns'] as $column)
+<a name="line339"></a>                                    $cols[] = $column['column'];
+<a name="line340"></a>
+<a name="line341"></a>                                $constraint = new ConstraintMetaDataImpl($cols, $constName, 'UNIQUE KEY');
+<a name="line342"></a>                                break;
+<a name="line343"></a>                            default:
+<a name="line344"></a>                                $cols = array();
+<a name="line345"></a>                                foreach ($constOpt['columns'] as $column)
+<a name="line346"></a>                                    $cols[] = $column['column'];
+<a name="line347"></a>
+<a name="line348"></a>                                $constraint = new ConstraintMetaDataImpl($cols, $constName, 'UNKNOWN');
+<a name="line349"></a>                                break;
+<a name="line350"></a>                        }
+<a name="line351"></a>                    }
+<a name="line352"></a>                }
+<a name="line353"></a>            }
+<a name="line354"></a>        } catch (\blaze\ds\SQLException $e) {
+<a name="line355"></a>            throw $e;
+<a name="line356"></a>        }
+<a name="line357"></a>
+<a name="line358"></a>        if ($stmt != null)
+<a name="line359"></a>            $stmt->close();
+<a name="line360"></a>        if ($rs != null)
+<a name="line361"></a>            $rs->close();
+<a name="line362"></a>
+<a name="line363"></a>        return $constraint;
+<a name="line364"></a>    }
+<a name="line365"></a>
+<a name="line366"></a>}
+<a name="line367"></a>?>
+<a name="line368"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\ds\driver\pdomysql\meta\columnmetadataimpl.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

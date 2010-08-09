@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:10 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\cache\LocalCacher.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\cache\localcacher.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\cache\LocalCacher.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\cache;
+<a name="line3"></a>
+<a name="line4"></a>/**
+<a name="line5"></a> * Description of LocalCacher
+<a name="line6"></a> *
+<a name="line7"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line8"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line9"></a> * @see     blaze\lang\ClassWrapper
+<a name="line10"></a> * @since   1.0
+<a name="line11"></a> * @version $Revision$
+<a name="line12"></a> * @author Christian Beikov
+<a name="line13"></a> * @todo    Implementation and documentation.
+<a name="line14"></a> */
+<a name="line15"></a>class LocalCacher implements Cacher, \blaze\lang\Singleton {
+<a name="line16"></a>
+<a name="line17"></a>    private static $instance;
+<a name="line18"></a>    /**
+<a name="line19"></a>     *
+<a name="line20"></a>     * @var blaze\io\File
+<a name="line21"></a>     */
+<a name="line22"></a>    private $cacheDir;
+<a name="line23"></a>    private $cached = array();
+<a name="line24"></a>
+<a name="line25"></a>    private function __construct(\blaze\io\File $dir){
+<a name="line26"></a>        $this->cacheDir = $dir;
+<a name="line27"></a>    }
+<a name="line28"></a>
+<a name="line29"></a>    /**
+<a name="line30"></a>     *
+<a name="line31"></a>     * @return blaze\cache\Cacher
+<a name="line32"></a>     */
+<a name="line33"></a>    public static function getInstance() {
+<a name="line34"></a>        if(self::$instance == null){
+<a name="line35"></a>            self::$instance = new self(new \blaze\io\File(\blaze\lang\ClassLoader::getClassPath().'/../cache'));
+<a name="line36"></a>        }
+<a name="line37"></a>
+<a name="line38"></a>        return self::$instance;
+<a name="line39"></a>    }
+<a name="line40"></a>    public function doCache($key, $value){
+<a name="line41"></a>                $this->cached[$key] = $value;
+<a name="line42"></a>        $f = new \blaze\io\File($this->cacheDir, $key);
+<a name="line43"></a>        $h = fopen($f->getAbsolutePath(), 'w');
+<a name="line44"></a>        fwrite($h, serialize($value));
+<a name="line45"></a>        fclose($h);
+<a name="line46"></a>    }
+<a name="line47"></a>    public function isCached($key){
+<a name="line48"></a>        if(array_key_exists($key, $this->cached))
+<a name="line49"></a>                return true;
+<a name="line50"></a>        $f = new \blaze\io\File($this->cacheDir, $key);
+<a name="line51"></a>        return $f->exists();
+<a name="line52"></a>    }
+<a name="line53"></a>    public function getCache($key){
+<a name="line54"></a>        if(array_key_exists($key, $this->cached))
+<a name="line55"></a>                return $this->cached[$key];
+<a name="line56"></a>        $f = new \blaze\io\File($this->cacheDir, $key);
+<a name="line57"></a>        if(!$f->exists())
+<a name="line58"></a>            throw new CacheNotFoundException($key);
+<a name="line59"></a>        return $this->cached[$key] = unserialize(file_get_contents($f->getAbsolutePath()));
+<a name="line60"></a>    }
+<a name="line61"></a>    public function invalidate($key){
+<a name="line62"></a>        if(array_key_exists($key, $this->cached))
+<a name="line63"></a>                unset($this->cached[$key]);
+<a name="line64"></a>        $f = new \blaze\io\File($this->cacheDir, $key);
+<a name="line65"></a>        if($f->exists())
+<a name="line66"></a>            $f->delete();
+<a name="line67"></a>    }
+<a name="line68"></a>    public function invalidateAll($keyPrefix){
+<a name="line69"></a>        foreach(array_keys($this->cached) as $key){
+<a name="line70"></a>            if(strpos($key, $keyPrefix) == 0)
+<a name="line71"></a>                    unset($this->cached[$key]);
+<a name="line72"></a>        }
+<a name="line73"></a>        foreach($this->cacheDir->listFiles() as $file)
+<a name="line74"></a>                if($file->getName()->startsWith($keyPrefix))
+<a name="line75"></a>                        $file->delete();
+<a name="line76"></a>    }
+<a name="line77"></a>}
+<a name="line78"></a>?>
+<a name="line79"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\cache\localcacher.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

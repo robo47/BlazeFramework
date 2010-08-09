@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blazeServer\source\netlet\NetletContainer.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blazeserver\source\netlet\netletcontainer.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blazeServer\source\netlet\NetletContainer.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>
+<a name="line3"></a>namespace blazeServer\source\netlet;
+<a name="line4"></a>
+<a name="line5"></a>use blaze\lang\Object,
+<a name="line6"></a> blazeServer\source\netlet\http\HttpNetletRequestImpl,
+<a name="line7"></a> blazeServer\source\netlet\http\HttpNetletResponseImpl,
+<a name="line8"></a> blaze\lang\ClassWrapper;
+<a name="line9"></a>
+<a name="line10"></a>/**
+<a name="line11"></a> * Description of NetletContainer
+<a name="line12"></a> *
+<a name="line13"></a> * @author  Christian Beikov
+<a name="line14"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line15"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line16"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line17"></a> * @since   1.0
+<a name="line18"></a> * @version $Revision$
+<a name="line19"></a> * @todo    Something which has to be done, implementation or so
+<a name="line20"></a> */
+<a name="line21"></a>class NetletContainer extends Object {
+<a name="line22"></a>
+<a name="line23"></a>    const DEBUG = true;
+<a name="line24"></a>    
+<a name="line25"></a>    public function __construct() { }
+<a name="line26"></a>
+<a name="line27"></a>    public static function main($args) {
+<a name="line28"></a>//        // Caching performance test
+<a name="line29"></a>//        $t = new \blaze\util\Timer();
+<a name="line30"></a>//        $t->start();
+<a name="line31"></a>        $container = new NetletContainer();
+<a name="line32"></a>        $request = new HttpNetletRequestImpl();
+<a name="line33"></a>        $response = new HttpNetletResponseImpl();
+<a name="line34"></a>        $response->setHeader('X-Powered-By','BlazeServer');
+<a name="line35"></a>
+<a name="line36"></a>        ob_start();
+<a name="line37"></a>
+<a name="line38"></a>        $container->process($request, $response);
+<a name="line39"></a>
+<a name="line40"></a>        if(self::DEBUG)
+<a name="line41"></a>            $response->getWriter()->write(ob_get_clean());
+<a name="line42"></a>        else
+<a name="line43"></a>            ob_end_clean();
+<a name="line44"></a>
+<a name="line45"></a>//        $response->getWriter()->write($t->stop());
+<a name="line46"></a>        $container->finish($response);
+<a name="line47"></a>    }
+<a name="line48"></a>
+<a name="line49"></a>    /**
+<a name="line50"></a>     * This method wrapps the HTTP-Request and Response and executes the netlets
+<a name="line51"></a>     * of a running web application or throws an error if the request does not
+<a name="line52"></a>     * fit to any application.
+<a name="line53"></a>     */
+<a name="line54"></a>    public function process(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+<a name="line55"></a>        
+<a name="line56"></a>        try{
+<a name="line57"></a>            $cacher = \blaze\cache\LocalCacher::getInstance();
+<a name="line58"></a>            $cacheMgr = \blaze\cache\CacheManager::getInstance('blazeContainer', $cacher);
+<a name="line59"></a>
+<a name="line60"></a>            $appName = NetletApplication::getApplicationName($request);
+<a name="line61"></a>            $app = null;
+<a name="line62"></a>
+<a name="line63"></a>            if($appName == null){
+<a name="line64"></a>                $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no application for the request found.');
+<a name="line65"></a>                return;
+<a name="line66"></a>            }
+<a name="line67"></a>
+<a name="line68"></a>            if($cacheMgr->isCached($appName)){
+<a name="line69"></a>                $app = $cacheMgr->getCache($appName);
+<a name="line70"></a>            }else{
+<a name="line71"></a>                $app = NetletApplication::getApplicationByName($appName);
+<a name="line72"></a>                //$cacheMgr->doCache($appName, $app);
+<a name="line73"></a>            }
+<a name="line74"></a>
+<a name="line75"></a>            if($app == null){
+<a name="line76"></a>                $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no application for the request found.');
+<a name="line77"></a>                return;
+<a name="line78"></a>            }
+<a name="line79"></a>            
+<a name="line80"></a>            $context = $app->getNetletContext();
+<a name="line81"></a>
+<a name="line82"></a>            $chain = new FilterChainImpl($this->getRequestedFilters($request, $context));
+<a name="line83"></a>            $chain->doFilter($request, $response);
+<a name="line84"></a>
+<a name="line85"></a>            $netlet = $this->getRequestedNetlet($request, $context);
+<a name="line86"></a>
+<a name="line87"></a>            if($netlet == null){
+<a name="line88"></a>                $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
+<a name="line89"></a>                return;
+<a name="line90"></a>            }
+<a name="line91"></a>            $netlet->service($request, $response);
+<a name="line92"></a>        }catch(Exception $e){
+<a name="line93"></a>            // Error in the netlet which was not caught
+<a name="line94"></a>            $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);
+<a name="line95"></a>        }
+<a name="line96"></a>    }
+<a name="line97"></a>
+<a name="line98"></a>    private function finish(\blaze\netlet\http\HttpNetletResponse $response){
+<a name="line99"></a>        try{
+<a name="line100"></a>            $responseWriter = $response->getWriter();
+<a name="line101"></a>            $responseWriter->close();
+<a name="line102"></a>        }catch(Exception $e){
+<a name="line103"></a>            // Error of the NetletOutputStream
+<a name="line104"></a>            var_dump('UNEXPECTED ERROR: '.$e->getMessage());
+<a name="line105"></a>        }
+<a name="line106"></a>    }
+<a name="line107"></a>
+<a name="line108"></a>    private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context){
+<a name="line109"></a>        // Making sure that the Url ends with a '/'
+<a name="line110"></a>        $uri = $request->getRequestURI()->getPath();
+<a name="line111"></a>        if (!$uri->endsWith('/'))
+<a name="line112"></a>            $uri = $uri->concat('/');
+<a name="line113"></a>
+<a name="line114"></a>        foreach ($context->getNetletMapping() as $key => $value) {
+<a name="line115"></a>            // Make a regex placeholders of the wildcards
+<a name="line116"></a>            $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
+<a name="line117"></a>
+<a name="line118"></a>            // Check if the requested url fits a netlet mapping
+<a name="line119"></a>            if ($uri->matches($regex)) {
+<a name="line120"></a>                $netlets = $context->getNetlets();
+<a name="line121"></a>                return $netlets[$value];
+<a name="line122"></a>            }
+<a name="line123"></a>        }
+<a name="line124"></a>
+<a name="line125"></a>        return null;
+<a name="line126"></a>    }
+<a name="line127"></a>
+<a name="line128"></a>    private function getRequestedFilters(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context){
+<a name="line129"></a>        $uri = $request->getRequestURI()->getPath();
+<a name="line130"></a>        if (!$uri->endsWith('/'))
+<a name="line131"></a>            $uri = $uri->concat('/');
+<a name="line132"></a>        $filters = array();
+<a name="line133"></a>
+<a name="line134"></a>        // Looking in the filter mapping for a filter that fits the url
+<a name="line135"></a>        foreach ($context->getFilterMapping() as $key => $value) {
+<a name="line136"></a>            // Make a regex placeholders of the wildcards
+<a name="line137"></a>            $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
+<a name="line138"></a>
+<a name="line139"></a>            // Check if the requested url fits a netlet mapping
+<a name="line140"></a>            if ($uri->matches($regex)) {
+<a name="line141"></a>                $filters = $context->getFilters();
+<a name="line142"></a>                $filters[] = $filters[$value];
+<a name="line143"></a>            }
+<a name="line144"></a>        }
+<a name="line145"></a>
+<a name="line146"></a>        return $filters;
+<a name="line147"></a>    }
+<a name="line148"></a>}
+<a name="line149"></a>?>
+<a name="line150"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blazeserver\source\netlet\netletcontainer.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

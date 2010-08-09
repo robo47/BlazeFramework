@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:20:54 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+<link rel="start" href="../../../overview-summary.html">
+
+<title>IndexMetaData (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/ds/meta/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/ds/meta/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\ds\meta\indexmetadata.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\ds\meta\IndexMetaData</div>
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line15" class="location">blaze\ds\meta\IndexMetaData.php at line 15</a>
+
+<h1>Interface IndexMetaData</h1>
+
+<pre class="tree"><strong>IndexMetaData</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  interface <strong>IndexMetaData</strong></p>
+
+<div class="comment" id="overview_description"><p>Description of IndexMetaData</p></div>
+
+<dl>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd>which could be useful for the understanding of this class. e.g. ClassName::methodName</dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Todo:</dt>
+<dd>Something which has to be done, implementation or so</dd>
+</dl>
+<hr>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> blaze\util\ListI[blaze\ds\meta\ColumnMetaData]</td>
+<td class="description"><p class="name"><a href="#getColumns()">getColumns</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getIndexName()">getIndexName</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getIndexType()">getIndexType</a>()</p><p class="description">Btree, Bitmap etc.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../../blaze/ds/meta/tablemetadata.html">TableMetaData</a></td>
+<td class="description"><p class="name"><a href="#getTable()">getTable</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isNullable()">isNullable</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isUnique()">isUnique</a>()</p><p class="description"></p></td>
+</tr>
+</table>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line27" class="location">blaze\ds\meta\IndexMetaData.php at line 27</a>
+
+<h3 id="getColumns()">getColumns</h3>
+<code class="signature">public  blaze\util\ListI[blaze\ds\meta\ColumnMetaData] <strong>getColumns</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line19" class="location">blaze\ds\meta\IndexMetaData.php at line 19</a>
+
+<h3 id="getIndexName()">getIndexName</h3>
+<code class="signature">public  <a href="../../../blaze/lang/string.html">String</a> <strong>getIndexName</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line41" class="location">blaze\ds\meta\IndexMetaData.php at line 41</a>
+
+<h3 id="getIndexType()">getIndexType</h3>
+<code class="signature">public  <a href="../../../blaze/lang/string.html">String</a> <strong>getIndexType</strong>()</code>
+<div class="details">
+<p>Btree, Bitmap etc.</p></div>
+
+<hr>
+
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line23" class="location">blaze\ds\meta\IndexMetaData.php at line 23</a>
+
+<h3 id="getTable()">getTable</h3>
+<code class="signature">public  <a href="../../../blaze/ds/meta/tablemetadata.html">TableMetaData</a> <strong>getTable</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line35" class="location">blaze\ds\meta\IndexMetaData.php at line 35</a>
+
+<h3 id="isNullable()">isNullable</h3>
+<code class="signature">public  boolean <strong>isNullable</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../../source/blaze\ds\meta\indexmetadata.php.html#line31" class="location">blaze\ds\meta\IndexMetaData.php at line 31</a>
+
+<h3 id="isUnique()">isUnique</h3>
+<code class="signature">public  boolean <strong>isUnique</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../../overview-summary.html">Overview</a></li>
+<li><a href="../../../blaze/ds/meta/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../../blaze/ds/meta/package-tree.html">Tree</a></li>
+<li><a href="../../../overview-files.html">Files</a></li>
+<li><a href="../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../../index.html" target="_top">Frames</a>
+<a href="../../../blaze\ds\meta\indexmetadata.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

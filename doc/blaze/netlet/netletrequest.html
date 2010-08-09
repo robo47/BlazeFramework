@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:00 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="start" href="../../overview-summary.html">
+
+<title>NetletRequest (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/netlet/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/netlet/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\netlet\netletrequest.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\netlet\NetletRequest</div>
+<a href="../../source/blaze\netlet\netletrequest.php.html#line15" class="location">blaze\netlet\NetletRequest.php at line 15</a>
+
+<h1>Interface NetletRequest</h1>
+
+<pre class="tree"><strong>NetletRequest</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  interface <strong>NetletRequest</strong></p>
+
+<div class="comment" id="overview_description"><p>Description of NetletRequest</p></div>
+
+<dl>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd>which could be useful for the understanding of this class. e.g. ClassName::methodName</dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Todo:</dt>
+<dd>Something which has to be done, implementation or so</dd>
+</dl>
+<hr>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> mixed</td>
+<td class="description"><p class="name"><a href="#getAttribute()">getAttribute</a>(blaze\lang\String|string name)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getCharacterEncoding()">getCharacterEncoding</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#getCharacterSet()">getCharacterSet</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#getContentLength()">getContentLength</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getContentType()">getContentType</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getLocalAddr()">getLocalAddr</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getLocalName()">getLocalName</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#getLocalPort()">getLocalPort</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/util/locale.html">Locale</a></td>
+<td class="description"><p class="name"><a href="#getLocale()">getLocale</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> array[blaze\util\Locale]</td>
+<td class="description"><p class="name"><a href="#getLocales()">getLocales</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getParameter()">getParameter</a>(blaze\lang\String|string name, boolean postType)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/util/map.html">Map</a></td>
+<td class="description"><p class="name"><a href="#getParameterMap()">getParameterMap</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getProtocol()">getProtocol</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getRemoteAddr()">getRemoteAddr</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getRemoteHost()">getRemoteHost</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#getRemotePort()">getRemotePort</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getScheme()">getScheme</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getServerName()">getServerName</a>()</p><p class="description">Returns the host name of the server to which the request was sent.</p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#getServerPort()">getServerPort</a>()</p><p class="description">Returns the port number to which the request was sent.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isSecure()">isSecure</a>()</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#removeAttribute()">removeAttribute</a>(blaze\lang\String|string name)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#setAttribute()">setAttribute</a>(blaze\lang\String|string name, mixed o)</p><p class="description"></p></td>
+</tr>
+</table>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../source/blaze\netlet\netletrequest.php.html#line35" class="location">blaze\netlet\NetletRequest.php at line 35</a>
+
+<h3 id="getAttribute()">getAttribute</h3>
+<code class="signature">public  mixed <strong>getAttribute</strong>(blaze\lang\String|string name)</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line43" class="location">blaze\netlet\NetletRequest.php at line 43</a>
+
+<h3 id="getCharacterEncoding()">getCharacterEncoding</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getCharacterEncoding</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line47" class="location">blaze\netlet\NetletRequest.php at line 47</a>
+
+<h3 id="getCharacterSet()">getCharacterSet</h3>
+<code class="signature">public  integer <strong>getCharacterSet</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line55" class="location">blaze\netlet\NetletRequest.php at line 55</a>
+
+<h3 id="getContentLength()">getContentLength</h3>
+<code class="signature">public  integer <strong>getContentLength</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line51" class="location">blaze\netlet\NetletRequest.php at line 51</a>
+
+<h3 id="getContentType()">getContentType</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getContentType</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line59" class="location">blaze\netlet\NetletRequest.php at line 59</a>
+
+<h3 id="getLocalAddr()">getLocalAddr</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getLocalAddr</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line63" class="location">blaze\netlet\NetletRequest.php at line 63</a>
+
+<h3 id="getLocalName()">getLocalName</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getLocalName</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line67" class="location">blaze\netlet\NetletRequest.php at line 67</a>
+
+<h3 id="getLocalPort()">getLocalPort</h3>
+<code class="signature">public  integer <strong>getLocalPort</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line83" class="location">blaze\netlet\NetletRequest.php at line 83</a>
+
+<h3 id="getLocale()">getLocale</h3>
+<code class="signature">public  <a href="../../blaze/util/locale.html">Locale</a> <strong>getLocale</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line87" class="location">blaze\netlet\NetletRequest.php at line 87</a>
+
+<h3 id="getLocales()">getLocales</h3>
+<code class="signature">public  array[blaze\util\Locale] <strong>getLocales</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line21" class="location">blaze\netlet\NetletRequest.php at line 21</a>
+
+<h3 id="getParameter()">getParameter</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getParameter</strong>(blaze\lang\String|string name, boolean postType)</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line25" class="location">blaze\netlet\NetletRequest.php at line 25</a>
+
+<h3 id="getParameterMap()">getParameterMap</h3>
+<code class="signature">public  <a href="../../blaze/util/map.html">Map</a> <strong>getParameterMap</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line91" class="location">blaze\netlet\NetletRequest.php at line 91</a>
+
+<h3 id="getProtocol()">getProtocol</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getProtocol</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line71" class="location">blaze\netlet\NetletRequest.php at line 71</a>
+
+<h3 id="getRemoteAddr()">getRemoteAddr</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getRemoteAddr</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line75" class="location">blaze\netlet\NetletRequest.php at line 75</a>
+
+<h3 id="getRemoteHost()">getRemoteHost</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getRemoteHost</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line79" class="location">blaze\netlet\NetletRequest.php at line 79</a>
+
+<h3 id="getRemotePort()">getRemotePort</h3>
+<code class="signature">public  integer <strong>getRemotePort</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line95" class="location">blaze\netlet\NetletRequest.php at line 95</a>
+
+<h3 id="getScheme()">getScheme</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getScheme</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line101" class="location">blaze\netlet\NetletRequest.php at line 101</a>
+
+<h3 id="getServerName()">getServerName</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getServerName</strong>()</code>
+<div class="details">
+<p>Returns the host name of the server to which the request was sent.</p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line107" class="location">blaze\netlet\NetletRequest.php at line 107</a>
+
+<h3 id="getServerPort()">getServerPort</h3>
+<code class="signature">public  integer <strong>getServerPort</strong>()</code>
+<div class="details">
+<p>Returns the port number to which the request was sent.</p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line111" class="location">blaze\netlet\NetletRequest.php at line 111</a>
+
+<h3 id="isSecure()">isSecure</h3>
+<code class="signature">public  boolean <strong>isSecure</strong>()</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line39" class="location">blaze\netlet\NetletRequest.php at line 39</a>
+
+<h3 id="removeAttribute()">removeAttribute</h3>
+<code class="signature">public  void <strong>removeAttribute</strong>(blaze\lang\String|string name)</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<a href="../../source/blaze\netlet\netletrequest.php.html#line30" class="location">blaze\netlet\NetletRequest.php at line 30</a>
+
+<h3 id="setAttribute()">setAttribute</h3>
+<code class="signature">public  void <strong>setAttribute</strong>(blaze\lang\String|string name, mixed o)</code>
+<div class="details">
+<p></p></div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/netlet/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/netlet/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\netlet\netletrequest.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

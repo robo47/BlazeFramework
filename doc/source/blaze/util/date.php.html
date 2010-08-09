@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\util\Date.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\util\date.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\util\Date.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\util;
+<a name="line3"></a>use blaze\lang\Object,
+<a name="line4"></a>    blaze\lang\Integer;
+<a name="line5"></a>
+<a name="line6"></a>/**
+<a name="line7"></a> * Description of Date
+<a name="line8"></a> *
+<a name="line9"></a> * @author  Christian Beikov
+<a name="line10"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line11"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line12"></a> * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+<a name="line13"></a> * @since   1.0
+<a name="line14"></a> * @version $Revision$
+<a name="line15"></a> * @todo    Something which has to be done, implementation or so
+<a name="line16"></a> */
+<a name="line17"></a>class Date extends Object {
+<a name="line18"></a>    
+<a name="line19"></a>    /**
+<a name="line20"></a>     *
+<a name="line21"></a>     * @var integer
+<a name="line22"></a>     */
+<a name="line23"></a>    private $year = 0;
+<a name="line24"></a>    /**
+<a name="line25"></a>     *
+<a name="line26"></a>     * @var integer
+<a name="line27"></a>     */
+<a name="line28"></a>    private $month = 0;
+<a name="line29"></a>    /**
+<a name="line30"></a>     *
+<a name="line31"></a>     * @var integer
+<a name="line32"></a>     */
+<a name="line33"></a>    private $day = 0;
+<a name="line34"></a>    /**
+<a name="line35"></a>     *
+<a name="line36"></a>     * @var integer
+<a name="line37"></a>     */
+<a name="line38"></a>    private $hour = 0;
+<a name="line39"></a>    /**
+<a name="line40"></a>     *
+<a name="line41"></a>     * @var integer
+<a name="line42"></a>     */
+<a name="line43"></a>    private $minute = 0;
+<a name="line44"></a>    /**
+<a name="line45"></a>     *
+<a name="line46"></a>     * @var integer
+<a name="line47"></a>     */
+<a name="line48"></a>    private $second = 0;
+<a name="line49"></a>    /**
+<a name="line50"></a>     *
+<a name="line51"></a>     * @var integer
+<a name="line52"></a>     */
+<a name="line53"></a>    private $millisecond = 0;
+<a name="line54"></a>    /**
+<a name="line55"></a>     *
+<a name="line56"></a>     * @var integer
+<a name="line57"></a>     */
+<a name="line58"></a>    private $timestamp = 0;
+<a name="line59"></a>    /**
+<a name="line60"></a>     *
+<a name="line61"></a>     * @var blaze\util\TimeZone
+<a name="line62"></a>     */
+<a name="line63"></a>    private $timeZone = null;
+<a name="line64"></a>    /**
+<a name="line65"></a>     *
+<a name="line66"></a>     * @var boolean
+<a name="line67"></a>     */
+<a name="line68"></a>    private $newTime = false;
+<a name="line69"></a>
+<a name="line70"></a>    public function __construct($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $millisecond = 0, TimeZone $timeZone = null) {
+<a name="line71"></a>        $this->setYear($year);
+<a name="line72"></a>        $this->setMonth($month);
+<a name="line73"></a>        $this->setDay($day);
+<a name="line74"></a>        $this->setHour($hour);
+<a name="line75"></a>        $this->setMinute($minute);
+<a name="line76"></a>        $this->setSecond($second);
+<a name="line77"></a>        $this->setMillisecond($millisecond);
+<a name="line78"></a>        $this->setTimeZone($timeZone);
+<a name="line79"></a>    }
+<a name="line80"></a>
+<a name="line81"></a>    /**
+<a name="line82"></a>     * Generates a Date object with a timestamp and a timezone.
+<a name="line83"></a>     * @param long $timestamp 
+<a name="line84"></a>     */
+<a name="line85"></a>    public static function fromTime($timestamp, TimeZone $timeZone = null){
+<a name="line86"></a>        $d = new self();
+<a name="line87"></a>        $d->setTimeZone($timeZone);
+<a name="line88"></a>        $d->setTime(Long::asNative($timestamp));
+<a name="line89"></a>        return $d;
+<a name="line90"></a>    }
+<a name="line91"></a>
+<a name="line92"></a>    /**
+<a name="line93"></a>     * Generates a Date object with a timestamp and a timezone.
+<a name="line94"></a>     * @param long $timestamp 
+<a name="line95"></a>     */
+<a name="line96"></a>    public static function fromUnixTime($timestamp, TimeZone $timeZone = null){
+<a name="line97"></a>        return self::fromTime($timestamp * 1000, $timeZone);
+<a name="line98"></a>    }
+<a name="line99"></a>
+<a name="line100"></a>    /**
+<a name="line101"></a>     * Calculates the date from the timestamp
+<a name="line102"></a>     */
+<a name="line103"></a>    private function calculateDate(){
+<a name="line104"></a>        $info = getdate((int)($this->timestamp / 1000));
+<a name="line105"></a>        $this->setYear($info['year']);
+<a name="line106"></a>        $this->setMonth($info['mon']);
+<a name="line107"></a>        $this->setDay($info['mday']);
+<a name="line108"></a>        $this->setHour($info['hours']);
+<a name="line109"></a>        $this->setMinute($info['minutes']);
+<a name="line110"></a>        $this->setSecond($info['seconds']);
+<a name="line111"></a>        $this->setMillisecond(Integer::asWrapper($this->timestamp)->subNumber(0,3));
+<a name="line112"></a>    }
+<a name="line113"></a>
+<a name="line114"></a>    /**
+<a name="line115"></a>     * Calculates the timestamp from the date
+<a name="line116"></a>     */
+<a name="line117"></a>    private function calculateTimestamp(){
+<a name="line118"></a>        $this->timestamp = mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year) * 1000 + $this->millisecond;
+<a name="line119"></a>        $this->newTime = false;
+<a name="line120"></a>    }
+<a name="line121"></a>
+<a name="line122"></a>    /**
+<a name="line123"></a>     *
+<a name="line124"></a>     * @param Date $when
+<a name="line125"></a>     * @return boolean
+<a name="line126"></a>     */
+<a name="line127"></a>    public function before(Date $when) {
+<a name="line128"></a>        return $when->after($this);
+<a name="line129"></a>    }
+<a name="line130"></a>
+<a name="line131"></a>    /**
+<a name="line132"></a>     *
+<a name="line133"></a>     * @param Date $when
+<a name="line134"></a>     * @return boolean
+<a name="line135"></a>     */
+<a name="line136"></a>    public function after(Date $when) {
+<a name="line137"></a>        return $this->getTime() > $when->getTime();
+<a name="line138"></a>    }
+<a name="line139"></a>
+<a name="line140"></a>    /**
+<a name="line141"></a>     *
+<a name="line142"></a>     * @return integer
+<a name="line143"></a>     */
+<a name="line144"></a>    public function getYear() {
+<a name="line145"></a>        return $this->year;
+<a name="line146"></a>    }
+<a name="line147"></a>
+<a name="line148"></a>    /**
+<a name="line149"></a>     *
+<a name="line150"></a>     * @param integer $year
+<a name="line151"></a>     * @return blaze\util\Date
+<a name="line152"></a>     */
+<a name="line153"></a>    public function setYear($year) {
+<a name="line154"></a>        $this->year = Integer::asNative($year);
+<a name="line155"></a>        if($this->year < 0)
+<a name="line156"></a>            $this->year = 0;
+<a name="line157"></a>        $this->newTime = true;
+<a name="line158"></a>        return $this;
+<a name="line159"></a>    }
+<a name="line160"></a>
+<a name="line161"></a>    /**
+<a name="line162"></a>     *
+<a name="line163"></a>     * @return integer
+<a name="line164"></a>     */
+<a name="line165"></a>    public function getMonth() {
+<a name="line166"></a>        return $this->month;
+<a name="line167"></a>    }
+<a name="line168"></a>
+<a name="line169"></a>    /**
+<a name="line170"></a>     *
+<a name="line171"></a>     * @param integer $month
+<a name="line172"></a>     * @return blaze\util\Date
+<a name="line173"></a>     */
+<a name="line174"></a>    public function setMonth($month) {
+<a name="line175"></a>        $this->month = Integer::asNative($month);
+<a name="line176"></a>        if($this->month < 1)
+<a name="line177"></a>            $this->month = 1;
+<a name="line178"></a>        $this->newTime = true;
+<a name="line179"></a>        return $this;
+<a name="line180"></a>    }
+<a name="line181"></a>
+<a name="line182"></a>    /**
+<a name="line183"></a>     *
+<a name="line184"></a>     * @return integer
+<a name="line185"></a>     */
+<a name="line186"></a>    public function getDay() {
+<a name="line187"></a>        return $this->day;
+<a name="line188"></a>    }
+<a name="line189"></a>
+<a name="line190"></a>    /**
+<a name="line191"></a>     *
+<a name="line192"></a>     * @param integer $day
+<a name="line193"></a>     * @return blaze\util\Date
+<a name="line194"></a>     */
+<a name="line195"></a>    public function setDay($day) {
+<a name="line196"></a>        $this->day = Integer::asNative($day);
+<a name="line197"></a>        if($this->day < 1)
+<a name="line198"></a>            $this->day = 1;
+<a name="line199"></a>        $this->newTime = true;
+<a name="line200"></a>        return $this;
+<a name="line201"></a>    }
+<a name="line202"></a>
+<a name="line203"></a>    /**
+<a name="line204"></a>     *
+<a name="line205"></a>     * @return integer
+<a name="line206"></a>     */
+<a name="line207"></a>    public function getHour() {
+<a name="line208"></a>        return $this->hour;
+<a name="line209"></a>    }
+<a name="line210"></a>
+<a name="line211"></a>    /**
+<a name="line212"></a>     *
+<a name="line213"></a>     * @param integer $hour
+<a name="line214"></a>     * @return blaze\util\Date
+<a name="line215"></a>     */
+<a name="line216"></a>    public function setHour($hour) {
+<a name="line217"></a>        $this->hour = Integer::asNative($hour);
+<a name="line218"></a>        if($this->hour < 0)
+<a name="line219"></a>            $this->hour = 0;
+<a name="line220"></a>        $this->newTime = true;
+<a name="line221"></a>        return $this;
+<a name="line222"></a>    }
+<a name="line223"></a>
+<a name="line224"></a>    /**
+<a name="line225"></a>     *
+<a name="line226"></a>     * @return integer
+<a name="line227"></a>     */
+<a name="line228"></a>    public function getMinute() {
+<a name="line229"></a>        return $this->minute;
+<a name="line230"></a>    }
+<a name="line231"></a>
+<a name="line232"></a>    /**
+<a name="line233"></a>     *
+<a name="line234"></a>     * @param integer $minute
+<a name="line235"></a>     * @return blaze\util\Date
+<a name="line236"></a>     */
+<a name="line237"></a>    public function setMinute($minute) {
+<a name="line238"></a>        $this->minute = Integer::asNative($minute);
+<a name="line239"></a>        if($this->minute < 0)
+<a name="line240"></a>            $this->minute = 0;
+<a name="line241"></a>        $this->newTime = true;
+<a name="line242"></a>        return $this;
+<a name="line243"></a>    }
+<a name="line244"></a>
+<a name="line245"></a>    /**
+<a name="line246"></a>     *
+<a name="line247"></a>     * @return integer
+<a name="line248"></a>     */
+<a name="line249"></a>    public function getSecond() {
+<a name="line250"></a>        return $this->second;
+<a name="line251"></a>    }
+<a name="line252"></a>
+<a name="line253"></a>    /**
+<a name="line254"></a>     *
+<a name="line255"></a>     * @param integer $second
+<a name="line256"></a>     * @return blaze\util\Date
+<a name="line257"></a>     */
+<a name="line258"></a>    public function setSecond($second) {
+<a name="line259"></a>        $this->second = Integer::asNative($second);
+<a name="line260"></a>        if($this->second < 0)
+<a name="line261"></a>            $this->second = 0;
+<a name="line262"></a>        $this->newTime = true;
+<a name="line263"></a>        return $this;
+<a name="line264"></a>    }
+<a name="line265"></a>    
+<a name="line266"></a>    /**
+<a name="line267"></a>     *
+<a name="line268"></a>     * @return integer
+<a name="line269"></a>     */
+<a name="line270"></a>    public function getMillisecond() {
+<a name="line271"></a>        return $this->millisecond;
+<a name="line272"></a>    }
+<a name="line273"></a>
+<a name="line274"></a>    /**
+<a name="line275"></a>     *
+<a name="line276"></a>     * @param integer $millisecond
+<a name="line277"></a>     * @return blaze\util\Date
+<a name="line278"></a>     */
+<a name="line279"></a>    public function setMillisecond($millisecond) {
+<a name="line280"></a>        $this->millisecond = Integer::asNative($millisecond);
+<a name="line281"></a>        if($this->millisecond < 0)
+<a name="line282"></a>            $this->millisecond = 0;
+<a name="line283"></a>        $this->newTime = true;
+<a name="line284"></a>        return $this;
+<a name="line285"></a>    }
+<a name="line286"></a>
+<a name="line287"></a>    /**
+<a name="line288"></a>     *
+<a name="line289"></a>     * @return long
+<a name="line290"></a>     */
+<a name="line291"></a>    public function getTime() {
+<a name="line292"></a>        if($this->newTime)
+<a name="line293"></a>            $this->calculateTimestamp();
+<a name="line294"></a>        return $this->timestamp;
+<a name="line295"></a>    }
+<a name="line296"></a>
+<a name="line297"></a>    /**
+<a name="line298"></a>     * @param long $timestamp
+<a name="line299"></a>     * @return blaze\util\Date
+<a name="line300"></a>     */
+<a name="line301"></a>    public function setTime($timestamp) {
+<a name="line302"></a>        $this->timestamp = Long::asNative($timestamp);
+<a name="line303"></a>        $this->calculateDate();
+<a name="line304"></a>        return $this;
+<a name="line305"></a>    }
+<a name="line306"></a>
+<a name="line307"></a>    /**
+<a name="line308"></a>     *
+<a name="line309"></a>     * @return long
+<a name="line310"></a>     */
+<a name="line311"></a>    public function getUnixTime() {
+<a name="line312"></a>        return (int)($this->getTime() / 1000);
+<a name="line313"></a>    }
+<a name="line314"></a>
+<a name="line315"></a>    /**
+<a name="line316"></a>     * @param long $timestamp
+<a name="line317"></a>     * @return blaze\util\Date
+<a name="line318"></a>     */
+<a name="line319"></a>    public function setUnixTime($timestamp) {
+<a name="line320"></a>        return $this->setTime(Long::asNative($timestamp) * 1000);
+<a name="line321"></a>    }
+<a name="line322"></a>
+<a name="line323"></a>    /**
+<a name="line324"></a>     *
+<a name="line325"></a>     * @return blaze\util\TimeZone
+<a name="line326"></a>     */
+<a name="line327"></a>    public function getTimeZone() {
+<a name="line328"></a>        return $this->timeZone;
+<a name="line329"></a>    }
+<a name="line330"></a>
+<a name="line331"></a>    /**
+<a name="line332"></a>     *
+<a name="line333"></a>     * @param blaze\util\TimeZone $timezone
+<a name="line334"></a>     * @return blaze\util\Date
+<a name="line335"></a>     */
+<a name="line336"></a>    public function setTimeZone($timeZone) {
+<a name="line337"></a>        if($timeZone == null)
+<a name="line338"></a>            $this->timeZone = TimeZone::getDefault();
+<a name="line339"></a>        else
+<a name="line340"></a>            $this->timeZone = $timeZone;
+<a name="line341"></a>        return $this;
+<a name="line342"></a>    }
+<a name="line343"></a>
+<a name="line344"></a>    public function __toString(){
+<a name="line345"></a>        return $this->day.'.'.$this->month.'.'.$this->year.' '.$this->hour.':'.$this->minute.':'.$this->second.','.$this->millisecond;
+<a name="line346"></a>    }
+<a name="line347"></a>}
+<a name="line348"></a>
+<a name="line349"></a>?>
+<a name="line350"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\util\date.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

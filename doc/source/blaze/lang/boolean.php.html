@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:21:11 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>blaze\lang\Boolean.php (Blaze Framework)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\lang\boolean.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>blaze\lang\Boolean.php</h1>
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>namespace blaze\lang;
+<a name="line3"></a>
+<a name="line4"></a>/**
+<a name="line5"></a> * Description of Boolean
+<a name="line6"></a> *
+<a name="line7"></a> * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
+<a name="line8"></a> * @link    http://blazeframework.sourceforge.net
+<a name="line9"></a> * @see     blaze\lang\Object
+<a name="line10"></a> * @since   1.0
+<a name="line11"></a> * @version $Revision$
+<a name="line12"></a> * @author  Christian Beikov
+<a name="line13"></a> * @todo    Write a test.
+<a name="line14"></a> */
+<a name="line15"></a>class Boolean extends Object implements NativeWrapper,Comparable {
+<a name="line16"></a>    /**
+<a name="line17"></a>     * @var boolean
+<a name="line18"></a>     */
+<a name="line19"></a>    private $value;
+<a name="line20"></a>
+<a name="line21"></a>    /**
+<a name="line22"></a>     * Allocates a <code>Boolean</code> object representing the
+<a name="line23"></a>     * <code>value</code> argument.
+<a name="line24"></a>     *
+<a name="line25"></a>     * <p><b>Note: It is rarely appropriate to use this constructor.
+<a name="line26"></a>     * Unless a <i>new</i> instance is required, the static factory
+<a name="line27"></a>     * {@link #valueOf(boolean)} is generally a better choice. It is
+<a name="line28"></a>     * likely to yield significantly better space and time performance.</b>
+<a name="line29"></a>     *
+<a name="line30"></a>     * @param blaze\lang\String|boolean|string $boolean
+<a name="line31"></a>     */
+<a name="line32"></a>    public function __construct($value){
+<a name="line33"></a>        parent::__construct();
+<a name="line34"></a>        if(is_bool($value))
+<a name="line35"></a>            $this->value = $value;
+<a name="line36"></a>        else if($value instanceof String || is_string($value))
+<a name="line37"></a>            $this->value = self::toBoolean($value);
+<a name="line38"></a>        else
+<a name="line39"></a>            throw new IllegalArgumentException('Parameter must be a blaze\lang\String, boolean or string');
+<a name="line40"></a>    }
+<a name="line41"></a>
+<a name="line42"></a>    /**
+<a name="line43"></a>     * Parses the string argument as a boolean.  The <code>boolean</code>
+<a name="line44"></a>     * returned represents the value <code>true</code> if the string argument
+<a name="line45"></a>     * is not <code>null</code> and is equal, ignoring case, to the string
+<a name="line46"></a>     * {@code "true"}. <p>
+<a name="line47"></a>     * Example: {@code Boolean.parseBoolean("True")} returns <tt>true</tt>.<br>
+<a name="line48"></a>     * Example: {@code Boolean.parseBoolean("yes")} returns <tt>false</tt>.
+<a name="line49"></a>     *
+<a name="line50"></a>     * @param string|blaze\lang\String     s   the <code>String</code> containing the boolean
+<a name="line51"></a>     *                 representation to be parsed
+<a name="line52"></a>     * @return     the boolean represented by the string argument
+<a name="line53"></a>     * @since 1.5
+<a name="line54"></a>     */
+<a name="line55"></a>    public static function parseBoolean($value){
+<a name="line56"></a>        return self::toBoolean($value);
+<a name="line57"></a>    }
+<a name="line58"></a>
+<a name="line59"></a>    /**
+<a name="line60"></a>     * Returns the value of this <tt>Boolean</tt> object as a boolean
+<a name="line61"></a>     * primitive.
+<a name="line62"></a>     *
+<a name="line63"></a>     * @return  the primitive <code>boolean</code> value of this object.
+<a name="line64"></a>     */
+<a name="line65"></a>    public function booleanValue(){
+<a name="line66"></a>        return $this->value;
+<a name="line67"></a>    }
+<a name="line68"></a>
+<a name="line69"></a>    /**
+<a name="line70"></a>     * Returns a <code>Boolean</code> with a value represented by the
+<a name="line71"></a>     * specified string.  The <code>Boolean</code> returned represents a
+<a name="line72"></a>     * true value if the string argument is not <code>null</code>
+<a name="line73"></a>     * and is equal, ignoring case, to the string {@code "true"}.
+<a name="line74"></a>     *
+<a name="line75"></a>     * @param   s   a string.
+<a name="line76"></a>     * @return  the <code>Boolean</code> value represented by the string.
+<a name="line77"></a>     */
+<a name="line78"></a>    public static function valueOf($value){
+<a name="line79"></a>        $b = new Boolean($value);
+<a name="line80"></a>        return $b->toNative();
+<a name="line81"></a>    }
+<a name="line82"></a>
+<a name="line83"></a>    /**
+<a name="line84"></a>     * Returns a <tt>String</tt> object representing the specified
+<a name="line85"></a>     * boolean.  If the specified boolean is <code>true</code>, then
+<a name="line86"></a>     * the string {@code "true"} will be returned, otherwise the
+<a name="line87"></a>     * string {@code "false"} will be returned.
+<a name="line88"></a>     *
+<a name="line89"></a>     * @param b	the boolean to be converted
+<a name="line90"></a>     * @return the string representation of the specified <code>boolean</code>
+<a name="line91"></a>     * @since 1.4
+<a name="line92"></a>     */
+<a name="line93"></a>    public function toString($b){
+<a name="line94"></a>        return $b ? 'true' : 'false';
+<a name="line95"></a>    }
+<a name="line96"></a>
+<a name="line97"></a>    /**
+<a name="line98"></a>     * Returns a <tt>String</tt> object representing this Boolean's
+<a name="line99"></a>     * value.  If this object represents the value <code>true</code>,
+<a name="line100"></a>     * a string equal to {@code "true"} is returned. Otherwise, a
+<a name="line101"></a>     * string equal to {@code "false"} is returned.
+<a name="line102"></a>     *
+<a name="line103"></a>     * @return  a string representation of this object.
+<a name="line104"></a>     */
+<a name="line105"></a>    public function __toString(){
+<a name="line106"></a>        return $this->value ? 'true' : 'false';
+<a name="line107"></a>    }
+<a name="line108"></a>
+<a name="line109"></a>    /**
+<a name="line110"></a>     *
+<a name="line111"></a>     * @return boolean
+<a name="line112"></a>     */
+<a name="line113"></a>    public function toNative() {
+<a name="line114"></a>        return $this->value;
+<a name="line115"></a>    }
+<a name="line116"></a>
+<a name="line117"></a>    /**
+<a name="line118"></a>     * @param mixed $value
+<a name="line119"></a>     * @return boolean
+<a name="line120"></a>     */
+<a name="line121"></a>    public static function isNativeType($value) {
+<a name="line122"></a>        return is_bool($value);
+<a name="line123"></a>    }
+<a name="line124"></a>
+<a name="line125"></a>    /**
+<a name="line126"></a>     * Returns a hash code for this <tt>Boolean</tt> object.
+<a name="line127"></a>     *
+<a name="line128"></a>     * @return  the integer <tt>1231</tt> if this object represents
+<a name="line129"></a>     * <tt>true</tt>; returns the integer <tt>1237</tt> if this
+<a name="line130"></a>     * object represents <tt>false</tt>.
+<a name="line131"></a>     */
+<a name="line132"></a>    public function hashCode(){
+<a name="line133"></a>        return $this->value ? 1231 : 1237;
+<a name="line134"></a>    }
+<a name="line135"></a>
+<a name="line136"></a>    /**
+<a name="line137"></a>     * Returns <code>true</code> if and only if the argument is not
+<a name="line138"></a>     * <code>null</code> and is a <code>Boolean</code> object that
+<a name="line139"></a>     * represents the same <code>boolean</code> value as this object.
+<a name="line140"></a>     *
+<a name="line141"></a>     * @param   obj   the object to compare with.
+<a name="line142"></a>     * @return  <code>true</code> if the Boolean objects represent the
+<a name="line143"></a>     *          same value; <code>false</code> otherwise.
+<a name="line144"></a>     */
+<a name="line145"></a>    public function equals(Reflectable $obj){
+<a name="line146"></a>        if($obj instanceof Boolean){
+<a name="line147"></a>            return $this->value === $obj->booleanValue();
+<a name="line148"></a>        }
+<a name="line149"></a>        return false;
+<a name="line150"></a>    }
+<a name="line151"></a>
+<a name="line152"></a>
+<a name="line153"></a>    /**
+<a name="line154"></a>     * Compares this <tt>Boolean</tt> instance with another.
+<a name="line155"></a>     *
+<a name="line156"></a>     * @param   b the <tt>Boolean</tt> instance to be compared
+<a name="line157"></a>     * @return  zero if this object represents the same boolean value as the
+<a name="line158"></a>     *          argument; a positive value if this object represents true
+<a name="line159"></a>     *          and the argument represents false; and a negative value if
+<a name="line160"></a>     *          this object represents false and the argument represents true
+<a name="line161"></a>     * @throws  NullPointerException if the argument is <tt>null</tt>
+<a name="line162"></a>     * @see     Comparable
+<a name="line163"></a>     * @since  1.5
+<a name="line164"></a>     */
+<a name="line165"></a>    public function compareTo(Object $obj) {
+<a name="line166"></a>        if($obj === null)
+<a name="line167"></a>            throw new NullPointerException();
+<a name="line168"></a>        if($obj instanceof Boolean)
+<a name="line169"></a>            return $this->value == $obj->value ? 0 : ($this->value ? 1 : -1);
+<a name="line170"></a>        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Boolean.');
+<a name="line171"></a>    }
+<a name="line172"></a>
+<a name="line173"></a>    /**
+<a name="line174"></a>     *
+<a name="line175"></a>     * @param string|blaze\lang\String $value
+<a name="line176"></a>     */
+<a name="line177"></a>    public static function toBoolean($value){
+<a name="line178"></a>        if($value instanceof String)
+<a name="line179"></a>            return (($value != null) && $value->equalsIgnoreCase("true"));
+<a name="line180"></a>        else
+<a name="line181"></a>            return (($value != null) && $value === "true");
+<a name="line182"></a>    }
+<a name="line183"></a>
+<a name="line184"></a>
+<a name="line185"></a>    /**
+<a name="line186"></a>     *
+<a name="line187"></a>     * @param blaze\lang\Boolean|boolean $value
+<a name="line188"></a>     * @return boolean
+<a name="line189"></a>     */
+<a name="line190"></a>    public static function asNative($value){
+<a name="line191"></a>        if($value instanceof Boolean)
+<a name="line192"></a>            return $value->value;
+<a name="line193"></a>        else if(is_bool($value))
+<a name="line194"></a>            return $value;
+<a name="line195"></a>        else
+<a name="line196"></a>            return (boolean)String::asNative($value);
+<a name="line197"></a>    }
+<a name="line198"></a>
+<a name="line199"></a>    /**
+<a name="line200"></a>     *
+<a name="line201"></a>     * @param blaze\lang\Boolean|boolean $value
+<a name="line202"></a>     * @return blaze\lang\Boolean
+<a name="line203"></a>     */
+<a name="line204"></a>    public static function asWrapper($value){
+<a name="line205"></a>        if($value instanceof Boolean)
+<a name="line206"></a>            return $value;
+<a name="line207"></a>        else
+<a name="line208"></a>            return new self($value);
+<a name="line209"></a>    }
+<a name="line210"></a>
+<a name="line211"></a>}
+<a name="line212"></a>?>
+<a name="line213"></a></pre>
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\blaze\lang\boolean.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

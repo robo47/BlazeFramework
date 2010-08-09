@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:20:57 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="start" href="../../overview-summary.html">
+
+<title>Object (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/lang/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/lang/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\lang\object.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\lang\Object</div>
+<a href="../../source/blaze\lang\object.php.html#line15" class="location">blaze\lang\Object.php at line 15</a>
+
+<h1>Class Object</h1>
+
+<pre class="tree"><strong>Object</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  class <strong>Object</strong></p>
+
+<div class="comment" id="overview_description"><p>The class Object is the root of the BlazeFramework
+which has to be the superclass of every other class.</p></div>
+
+<dl>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>See Also:</dt>
+<dd><a href="../../blaze/lang/classwrapper.html">blaze\lang\ClassWrapper</a></dd>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+</dl>
+<hr>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/object.html">Object</a></td>
+<td class="description"><p class="name"><a href="#cloneObject()">cloneObject</a>()</p><p class="description">Creates and returns a copy of this object.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/boolean.html">Boolean</a></td>
+<td class="description"><p class="name"><a href="#equals()">equals</a>(<a href="../../blaze/lang/object.html">Object</a> obj)</p><p class="description">Identifies if the given object is equal to this one.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/classwrapper.html">ClassWrapper</a></td>
+<td class="description"><p class="name"><a href="#getClass()">getClass</a>()</p><p class="description">Returns the runtime class of the object.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#hashCode()">hashCode</a>()</p><p class="description">Returns a hash code for the object. </p></td>
+</tr>
+</table>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../source/blaze\lang\object.php.html#line23" class="location">blaze\lang\Object.php at line 23</a>
+
+<h3 id="cloneObject()">cloneObject</h3>
+<code class="signature">public  <a href="../../blaze/lang/object.html">Object</a> <strong>cloneObject</strong>()</code>
+<div class="details">
+<p>Creates and returns a copy of this object.</p><dl>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/lang/clonenotsupportedexception.html">If the class does not implement the Cloneable interface. Subclasses can override the clone method and throw this exception.</a></dd>
+<dt>Returns:</dt>
+<dd>Returns the cloned object.</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\lang\object.php.html#line40" class="location">blaze\lang\Object.php at line 40</a>
+
+<h3 id="equals()">equals</h3>
+<code class="signature">public  <a href="../../blaze/lang/boolean.html">Boolean</a> <strong>equals</strong>(<a href="../../blaze/lang/object.html">Object</a> obj)</code>
+<div class="details">
+<p>Identifies if the given object is equal to this one.</p><dl>
+<dt>Parameters:</dt>
+<dd>obj - The reference object with which to compare.</dd>
+<dt>Returns:</dt>
+<dd>True if the object is the same as the parameter, otherwise false.</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\lang\object.php.html#line49" class="location">blaze\lang\Object.php at line 49</a>
+
+<h3 id="getClass()">getClass</h3>
+<code class="signature">public  <a href="../../blaze/lang/classwrapper.html">ClassWrapper</a> <strong>getClass</strong>()</code>
+<div class="details">
+<p>Returns the runtime class of the object.</p><dl>
+<dt>Returns:</dt>
+<dd>Returns a ClassWrapper which represents the class of the object.</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\lang\object.php.html#line57" class="location">blaze\lang\Object.php at line 57</a>
+
+<h3 id="hashCode()">hashCode</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>hashCode</strong>()</code>
+<div class="details">
+<p>Returns a hash code for the object. This method is used by blaze\util\Hashtable.</p><dl>
+<dt>Returns:</dt>
+<dd>A hash code value for this object.</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/lang/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/lang/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\lang\object.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

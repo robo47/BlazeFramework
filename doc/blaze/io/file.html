@@ -1,0 +1,1292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Aug 2010 18:20:56 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="start" href="../../overview-summary.html">
+
+<title>File (Blaze Framework)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/io/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/io/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\io\file.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">blaze\io\File</div>
+<a href="../../source/blaze\io\file.php.html#line21" class="location">blaze\io\File.php at line 21</a>
+
+<h1>Class File</h1>
+
+<pre class="tree"><a href="../../blaze/lang/object.html">Object</a><br>    └─<strong>File</strong><br /></pre>
+
+<hr>
+
+<p class="signature">public  class <strong>File</strong><br>extends <a href="../../blaze/lang/object.html">Object</a>
+
+</p>
+
+<div class="comment" id="overview_description"><p>Description of File</p></div>
+
+<dl>
+<dt>License:</dt>
+<dd>http://www.opensource.org/licenses/gpl-3.0.html GPL</dd>
+<dt>See Also:</dt>
+<dd><code><a href="http://blazeframework.sourceforge.net">http://blazeframework.sourceforge.net</a></code></dd>
+<dt>See Also:</dt>
+<dd><a href="../../blaze/lang/classwrapper.html">blaze\lang\ClassWrapper</a></dd>
+<dt>Since:</dt>
+<dd>1.0</dd>
+<dt>Version:</dt>
+<dd>$Revision$</dd>
+<dt>Author:</dt>
+<dd>Christian Beikov</dd>
+<dt>Todo:</dt>
+<dd>Implementation and documentation.</dd>
+</dl>
+<hr>
+
+<table id="summary_field">
+<tr><th colspan="2">Field Summary</th></tr>
+<tr>
+<td class="type">static  mixed</td>
+<td class="description"><p class="name"><a href="#directorySeparator">$directorySeparator</a></p></td>
+</tr>
+<tr>
+<td class="type">static  mixed</td>
+<td class="description"><p class="name"><a href="#pathSeparator">$pathSeparator</a></p></td>
+</tr>
+</table>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(<a href="../../blaze/lang/string.html">String</a> parent, <a href="../../blaze/lang/string.html">String</a> child)</p><p class="description">Description of the constructor of File</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#canExecute()">canExecute</a>()</p><p class="description">Tests whether the application can execute the file denoted by this
+abstract pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#canRead()">canRead</a>()</p><p class="description">Tests whether the application can read the file denoted by this
+abstract pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#canWrite()">canWrite</a>()</p><p class="description">Tests whether the application can modify the file denoted by this
+abstract pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> integer</td>
+<td class="description"><p class="name"><a href="#compareTo()">compareTo</a>(<a href="../../blaze/lang/object.html">Object</a> pathname, pathname The)</p><p class="description">Compares two abstract pathnames lexicographically. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#createNewFile()">createNewFile</a>()</p><p class="description">Atomically creates a new, empty file named by this abstract pathname if
+and only if a file with this name does not yet exist. </p></td>
+</tr>
+<tr>
+<td class="type">static  blaze\lang\File</td>
+<td class="description"><p class="name"><a href="#createTempFile()">createTempFile</a>(mixed prefix, mixed suffix, <a href="../../blaze/io/file.html">File</a> directory, directory The)</p><p class="description"> Creates a new empty file in the specified directory, using the
+given prefix and suffix strings to generate its name. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#delete()">delete</a>()</p><p class="description">Deletes the file or directory denoted by this abstract pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#deleteOnExit()">deleteOnExit</a>()</p><p class="description">Requests that the file or directory denoted by this abstract
+pathname be deleted when the virtual machine terminates.
+</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#equals()">equals</a>(<a href="../../blaze/lang/reflectable.html">Reflectable</a> obj, obj The)</p><p class="description">Tests this abstract pathname for equality with the given object.
+</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#exists()">exists</a>()</p><p class="description">Tests whether the file or directory denoted by this abstract pathname
+exists.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/io/file.html">File</a></td>
+<td class="description"><p class="name"><a href="#getAbsoluteFile()">getAbsoluteFile</a>()</p><p class="description">Returns the absolute form of this abstract pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getAbsolutePath()">getAbsolutePath</a>()</p><p class="description">Returns the absolute pathname string of this abstract pathname.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/io/file.html">File</a></td>
+<td class="description"><p class="name"><a href="#getCanonicalFile()">getCanonicalFile</a>()</p><p class="description">Returns the canonical form of this abstract pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getCanonicalPath()">getCanonicalPath</a>()</p><p class="description">Returns the canonical pathname string of this abstract pathname.
+</p></td>
+</tr>
+<tr>
+<td class="type"> long</td>
+<td class="description"><p class="name"><a href="#getFreeSpace()">getFreeSpace</a>()</p><p class="description">Returns the number of unallocated bytes in the partition <a
+href="#partName">named</a> by this abstract path name.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getName()">getName</a>()</p><p class="description">Returns the name of the file or directory denoted by this abstract
+pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getParent()">getParent</a>()</p><p class="description">Returns the pathname string of this abstract pathname's parent, or
+null if this pathname does not name a parent directory.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/io/file.html">File</a></td>
+<td class="description"><p class="name"><a href="#getParentFile()">getParentFile</a>()</p><p class="description">Returns the abstract pathname of this abstract pathname's parent,
+or null if this pathname does not name a parent
+directory.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/lang/string.html">String</a></td>
+<td class="description"><p class="name"><a href="#getPath()">getPath</a>()</p><p class="description">Converts this abstract pathname into a pathname string. </p></td>
+</tr>
+<tr>
+<td class="type"> long</td>
+<td class="description"><p class="name"><a href="#getTotalSpace()">getTotalSpace</a>()</p><p class="description">Returns the size of the partition <a href="#partName">named</a> by this
+abstract pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> long</td>
+<td class="description"><p class="name"><a href="#getUsableSpace()">getUsableSpace</a>()</p><p class="description">Returns the number of bytes available to this virtual machine on the
+partition <a href="#partName">named</a> by this abstract pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#hashCode()">hashCode</a>()</p><p class="description">Computes a hash code for this abstract pathname. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isAbsolute()">isAbsolute</a>()</p><p class="description">Tests whether this abstract pathname is absolute. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isChildOf()">isChildOf</a>(blaze\io\File|blaze\lang\String|string file, boolean direct)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isDirectory()">isDirectory</a>()</p><p class="description">Tests whether the file denoted by this abstract pathname is a
+directory.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isFile()">isFile</a>()</p><p class="description">Tests whether the file denoted by this abstract pathname is a normal
+file. </p></td>
+</tr>
+<tr>
+<td class="type"> <code>true</code></td>
+<td class="description"><p class="name"><a href="#isHidden()">isHidden</a>()</p><p class="description">Tests whether the file named by this abstract pathname is a hidden
+file. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#isParentOf()">isParentOf</a>(blaze\io\File|blaze\lang\String|string file, boolean direct)</p><p class="description"></p></td>
+</tr>
+<tr>
+<td class="type"> long</td>
+<td class="description"><p class="name"><a href="#lastModified()">lastModified</a>()</p><p class="description">Returns the time that the file denoted by this abstract pathname was
+last modified.</p></td>
+</tr>
+<tr>
+<td class="type"> long</td>
+<td class="description"><p class="name"><a href="#length()">length</a>()</p><p class="description">Returns the length of the file denoted by this abstract pathname.
+</p></td>
+</tr>
+<tr>
+<td class="type"> array[blaze\lang\String]</td>
+<td class="description"><p class="name"><a href="#listFilenames()">listFilenames</a>(FilenameFilter filter, filter A)</p><p class="description">Returns an array of strings naming the files and directories in the
+directory denoted by this abstract pathname that satisfy the specified
+filter. </p></td>
+</tr>
+<tr>
+<td class="type"> array[blaze\lang\File]</td>
+<td class="description"><p class="name"><a href="#listFiles()">listFiles</a>(FileFilter filter, filter A)</p><p class="description">Returns an array of abstract pathnames denoting the files and
+directories in the directory denoted by this abstract pathname that
+satisfy the specified filter. </p></td>
+</tr>
+<tr>
+<td class="type">static  array[blaze\io\File]</td>
+<td class="description"><p class="name"><a href="#listRoots()">listRoots</a>()</p><p class="description">List the available filesystem roots.
+</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#mkdir()">mkdir</a>()</p><p class="description">Creates the directory named by this abstract pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#mkdirs()">mkdirs</a>()</p><p class="description">Creates the directory named by this abstract pathname, including any
+necessary but nonexistent parent directories. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#renameTo()">renameTo</a>(<a href="../../blaze/io/file.html">File</a> dest, dest The)</p><p class="description">Renames the file denoted by this abstract pathname.
+</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#setExecutable()">setExecutable</a>(boolean executable, boolean ownerOnly)</p><p class="description">Sets the owner's or everybody's execute permission for this abstract
+pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#setLastModified()">setLastModified</a>(long time)</p><p class="description">Sets the last-modified time of the file or directory named by this
+abstract pathname.
+</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#setReadOnly()">setReadOnly</a>()</p><p class="description">Marks the file or directory named by this abstract pathname so that
+only read operations are allowed. </p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#setReadable()">setReadable</a>(boolean readable, boolean ownerOnly)</p><p class="description">Sets the owner's or everybody's read permission for this abstract
+pathname.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#setWritable()">setWritable</a>(boolean writable, boolean ownerOnly)</p><p class="description">Sets the owner's or everybody's write permission for this abstract
+pathname.</p></td>
+</tr>
+<tr>
+<td class="type">static  void</td>
+<td class="description"><p class="name"><a href="#staticInit()">staticInit</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../blaze/net/uri.html">URI</a></td>
+<td class="description"><p class="name"><a href="#toURI()">toURI</a>()</p><p class="description">Constructs a file: URI that represents this abstract pathname.
+</p></td>
+</tr>
+</table>
+
+<table class="inherit">
+<tr><th colspan="2">Methods inherited from blaze\lang\Object</th></tr>
+<tr><td><a href="../../blaze/lang/object.html#cloneObject()">cloneObject</a>, <a href="../../blaze/lang/object.html#equals()">equals</a>, <a href="../../blaze/lang/object.html#getClass()">getClass</a>, <a href="../../blaze/lang/object.html#hashCode()">hashCode</a></td></tr></table>
+
+<h2 id="detail_field">Field Detail</h2>
+<a href="../../source/blaze\io\file.php.html#line31" class="location">blaze\io\File.php at line 31</a>
+
+<h3 id="directorySeparator">directorySeparator</h3>
+<code class="signature">public static  mixed <strong>$directorySeparator</strong></code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line30" class="location">blaze\io\File.php at line 30</a>
+
+<h3 id="pathSeparator">pathSeparator</h3>
+<code class="signature">public static  mixed <strong>$pathSeparator</strong></code>
+<div class="details">
+</div>
+
+<hr>
+
+<h2 id="detail_method">Method Detail</h2>
+<a href="../../source/blaze\io\file.php.html#line44" class="location">blaze\io\File.php at line 44</a>
+
+<h3 id="__construct()">__construct</h3>
+<code class="signature">public  void <strong>__construct</strong>(<a href="../../blaze/lang/string.html">String</a> parent, <a href="../../blaze/lang/string.html">String</a> child)</code>
+<div class="details">
+<p>Description of the constructor of File</p><dl>
+<dt>Parameters:</dt>
+<dd>parent - The parent File-object or a string which represents a path</dd>
+<dd>child - The child pathname</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line943" class="location">blaze\io\File.php at line 943</a>
+
+<h3 id="canExecute()">canExecute</h3>
+<code class="signature">public  boolean <strong>canExecute</strong>()</code>
+<div class="details">
+<p>Tests whether the application can execute the file denoted by this
+abstract pathname.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the abstract pathname exists <em>and</em> the application is allowed to execute the file</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkExec(java.lang.String)}</code> method denies execute access to the file</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line396" class="location">blaze\io\File.php at line 396</a>
+
+<h3 id="canRead()">canRead</h3>
+<code class="signature">public  boolean <strong>canRead</strong>()</code>
+<div class="details">
+<p>Tests whether the application can read the file denoted by this
+abstract pathname.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file specified by this abstract pathname exists <em>and</em> can be read by the application; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line414" class="location">blaze\io\File.php at line 414</a>
+
+<h3 id="canWrite()">canWrite</h3>
+<code class="signature">public  boolean <strong>canWrite</strong>()</code>
+<div class="details">
+<p>Tests whether the application can modify the file denoted by this
+abstract pathname.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file system actually contains a file denoted by this abstract pathname <em>and</em> the application is allowed to write to the file; <code>false</code> otherwise.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1253" class="location">blaze\io\File.php at line 1253</a>
+
+<h3 id="compareTo()">compareTo</h3>
+<code class="signature">public  integer <strong>compareTo</strong>(<a href="../../blaze/lang/object.html">Object</a> pathname, pathname The)</code>
+<div class="details">
+<p>Compares two abstract pathnames lexicographically.  The ordering
+defined by this method depends upon the underlying system.  On UNIX
+systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
+systems it is not.</p><dl>
+<dt>Parameters:</dt>
+<dd>The - abstract pathname to be compared to this abstract pathname</dd>
+<dt>Returns:</dt>
+<dd>Zero if the argument is equal to this abstract pathname, a value less than zero if this abstract pathname is lexicographically less than the argument, or a value greater than zero if this abstract pathname is lexicographically greater than the argument</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line557" class="location">blaze\io\File.php at line 557</a>
+
+<h3 id="createNewFile()">createNewFile</h3>
+<code class="signature">public  boolean <strong>createNewFile</strong>()</code>
+<div class="details">
+<p>Atomically creates a new, empty file named by this abstract pathname if
+and only if a file with this name does not yet exist.  The check for the
+existence of the file and the creation of the file if it does not exist
+are a single operation that is atomic with respect to all other
+filesystem activities that might affect the file.
+<P>
+Note: this method should <i>not</i> be used for file-locking, as
+the resulting protocol cannot be made to work reliably. The
+<code>FileLock</code>
+facility should be used instead.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if the named file does not exist and was successfully created; <code>false</code> if the named file already exists</dd>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/io/ioexception.html">If an I/O error occurred</a></dd>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the file</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1211" class="location">blaze\io\File.php at line 1211</a>
+
+<h3 id="createTempFile()">createTempFile</h3>
+<code class="signature">public static  blaze\lang\File <strong>createTempFile</strong>(mixed prefix, mixed suffix, <a href="../../blaze/io/file.html">File</a> directory, directory The)</code>
+<div class="details">
+<p><p> Creates a new empty file in the specified directory, using the
+given prefix and suffix strings to generate its name.  If this method
+returns successfully then it is guaranteed that:</p><p><ol>
+<li> The file denoted by the returned abstract pathname did not exist
+before this method was invoked, and
+<li> Neither this method nor any of its variants will return the same
+abstract pathname again in the current invocation of the virtual
+machine.
+</ol></p><p>This method provides only part of a temporary-file facility.  To arrange
+for a file created by this method to be deleted automatically, use the
+<code><code>#deleteOnExit</code></code> method.</p><p><p> The <code>prefix</code> argument must be at least three characters
+long.  It is recommended that the prefix be a short, meaningful string
+such as <code>"hjb"</code> or <code>"mail"</code>.  The
+<code>suffix</code> argument may be <code>null</code>, in which case the
+suffix <code>".tmp"</code> will be used.</p><p><p> To create the new file, the prefix and the suffix may first be
+adjusted to fit the limitations of the underlying platform.  If the
+prefix is too long then it will be truncated, but its first three
+characters will always be preserved.  If the suffix is too long then it
+too will be truncated, but if it begins with a period character
+(<code>'.'</code>) then the period and the first three characters
+following it will always be preserved.  Once these adjustments have been
+made the name of the new file will be generated by concatenating the
+prefix, five or more internally-generated characters, and the suffix.</p><p><p> If the <code>directory</code> argument is <code>null</code> then the
+system-dependent default temporary-file directory will be used.  The
+default temporary-file directory is specified by the system property
+<code>java.io.tmpdir</code>.  On UNIX systems the default value of this
+property is typically <code>"/tmp"</code> or <code>"/var/tmp"</code>; on
+Microsoft Windows systems it is typically <code>"C:\\WINNT\\TEMP"</code>.  A different
+value may be given to this system property when the Java virtual machine
+is invoked, but programmatic changes to this property are not guaranteed
+to have any effect upon the temporary directory used by this method.</p><dl>
+<dt>Parameters:</dt>
+<dd>The - prefix string to be used in generating the file's name; must be at least three characters long</dd>
+<dd>The - suffix string to be used in generating the file's name; may be <code>null</code>, in which case the suffix <code>".tmp"</code> will be used</dd>
+<dd>The - directory in which the file is to be created, or <code>null</code> if the default temporary-file directory is to be used</dd>
+<dt>Returns:</dt>
+<dd>An abstract pathname denoting a newly-created empty file</dd>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/lang/illegalargumentexception.html">If the <code>prefix</code> argument contains fewer than three characters</a></dd>
+<dd><a href="../../blaze/io/ioexception.html">If a file could not be created</a></dd>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method does not allow a file to be created</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line574" class="location">blaze\io\File.php at line 574</a>
+
+<h3 id="delete()">delete</h3>
+<code class="signature">public  boolean <strong>delete</strong>()</code>
+<div class="details">
+<p>Deletes the file or directory denoted by this abstract pathname.  If
+this pathname denotes a directory, then the directory must be empty in
+order to be deleted.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file or directory is successfully deleted; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkDelete}</code> method denies delete access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line606" class="location">blaze\io\File.php at line 606</a>
+
+<h3 id="deleteOnExit()">deleteOnExit</h3>
+<code class="signature">public  void <strong>deleteOnExit</strong>()</code>
+<div class="details">
+<p>Requests that the file or directory denoted by this abstract
+pathname be deleted when the virtual machine terminates.
+Files (or directories) are deleted in the reverse order that
+they are registered. Invoking this method to delete a file or
+directory that is already registered for deletion has no effect.
+Deletion will be attempted only for normal termination of the
+virtual machine, as defined by the Java Language Specification.</p><p><p> Once deletion has been requested, it is not possible to cancel the
+request.  This method should therefore be used with care.</p><p><P>
+Note: this method should <i>not</i> be used for file-locking, as
+the resulting protocol cannot be made to work reliably. The
+<code>FileLock</code>
+facility should be used instead.</p><dl>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkDelete}</code> method denies delete access to the file</dd>
+<dt>See Also:</dt>
+<dd>#delete</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+<dt>Todo:</dt>
+<dd>Class DeleteOnExitHook must be implemented</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1273" class="location">blaze\io\File.php at line 1273</a>
+
+<h3 id="equals()">equals</h3>
+<code class="signature">public  boolean <strong>equals</strong>(<a href="../../blaze/lang/reflectable.html">Reflectable</a> obj, obj The)</code>
+<div class="details">
+<p>Tests this abstract pathname for equality with the given object.
+Returns <code>true</code> if and only if the argument is not
+<code>null</code> and is an abstract pathname that denotes the same file
+or directory as this abstract pathname.  Whether or not two abstract
+pathnames are equal depends upon the underlying system.  On UNIX
+systems, alphabetic case is significant in comparing pathnames; on Microsoft Windows
+systems it is not.</p><dl>
+<dt>Parameters:</dt>
+<dd>The - object to be compared with this abstract pathname</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the objects are the same; <code>false</code> otherwise</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line430" class="location">blaze\io\File.php at line 430</a>
+
+<h3 id="exists()">exists</h3>
+<code class="signature">public  boolean <strong>exists</strong>()</code>
+<div class="details">
+<p>Tests whether the file or directory denoted by this abstract pathname
+exists.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file or directory denoted by this abstract pathname exists; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file or directory</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line227" class="location">blaze\io\File.php at line 227</a>
+
+<h3 id="getAbsoluteFile()">getAbsoluteFile</h3>
+<code class="signature">public  <a href="../../blaze/io/file.html">File</a> <strong>getAbsoluteFile</strong>()</code>
+<div class="details">
+<p>Returns the absolute form of this abstract pathname.  Equivalent to
+<code>new&nbsp;File(this.<code>#getAbsolutePath</code>)</code>.</p><dl>
+<dt>Returns:</dt>
+<dd>The absolute abstract pathname denoting the same file or directory as this abstract pathname</dd>
+<dt>Throws:</dt>
+<dd>If a required system property value cannot be accessed.</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line211" class="location">blaze\io\File.php at line 211</a>
+
+<h3 id="getAbsolutePath()">getAbsolutePath</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getAbsolutePath</strong>()</code>
+<div class="details">
+<p>Returns the absolute pathname string of this abstract pathname.</p><p><p> If this abstract pathname is already absolute, then the pathname
+string is simply returned as if by the <code><code>#getPath</code></code>
+method.  If this abstract pathname is the empty abstract pathname then
+the pathname string of the current user directory, which is named by the
+system property <code>user.dir</code>, is returned.  Otherwise this
+pathname is resolved in a system-dependent way.  On UNIX systems, a
+relative pathname is made absolute by resolving it against the current
+user directory.  On Microsoft Windows systems, a relative pathname is made absolute
+by resolving it against the current directory of the drive named by the
+pathname, if any; if not, it is resolved against the current user
+directory.</p><dl>
+<dt>Returns:</dt>
+<dd>The absolute pathname string denoting the same file or directory as this abstract pathname</dd>
+<dt>Throws:</dt>
+<dd>If a required system property value cannot be accessed.</dd>
+<dt>See Also:</dt>
+<dd>java.io.File#isAbsolute()</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line293" class="location">blaze\io\File.php at line 293</a>
+
+<h3 id="getCanonicalFile()">getCanonicalFile</h3>
+<code class="signature">public  <a href="../../blaze/io/file.html">File</a> <strong>getCanonicalFile</strong>()</code>
+<div class="details">
+<p>Returns the canonical form of this abstract pathname.  Equivalent to
+<code>new&nbsp;File(this.<code>#getCanonicalPath</code>)</code>.</p><dl>
+<dt>Returns:</dt>
+<dd>The canonical pathname string denoting the same file or directory as this abstract pathname</dd>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/io/ioexception.html">If an I/O error occurs, which is possible because the construction of the canonical pathname may require filesystem queries</a></dd>
+<dd>If a required system property value cannot be accessed, or if a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead}</code> method denies read access to the file</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line269" class="location">blaze\io\File.php at line 269</a>
+
+<h3 id="getCanonicalPath()">getCanonicalPath</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getCanonicalPath</strong>()</code>
+<div class="details">
+<p>Returns the canonical pathname string of this abstract pathname.</p><p><p> A canonical pathname is both absolute and unique.  The precise
+definition of canonical form is system-dependent.  This method first
+converts this pathname to absolute form if necessary, as if by invoking the
+<code>#getAbsolutePath</code> method, and then maps it to its unique form in a
+system-dependent way.  This typically involves removing redundant names
+such as <tt>"."</tt> and <tt>".."</tt> from the pathname, resolving
+symbolic links (on UNIX platforms), and converting drive letters to a
+standard case (on Microsoft Windows platforms).</p><p><p> Every pathname that denotes an existing file or directory has a
+unique canonical form.  Every pathname that denotes a nonexistent file
+or directory also has a unique canonical form.  The canonical form of
+the pathname of a nonexistent file or directory may be different from
+the canonical form of the same pathname after the file or directory is
+created.  Similarly, the canonical form of the pathname of an existing
+file or directory may be different from the canonical form of the same
+pathname after the file or directory is deleted.</p><dl>
+<dt>Returns:</dt>
+<dd>The canonical pathname string denoting the same file or directory as this abstract pathname</dd>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/io/ioexception.html">If an I/O error occurs, which is possible because the construction of the canonical pathname may require filesystem queries</a></dd>
+<dd>If a required system property value cannot be accessed, or if a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead}</code> method denies read access to the file</dd>
+<dt>Since:</dt>
+<dd>JDK1.1</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1044" class="location">blaze\io\File.php at line 1044</a>
+
+<h3 id="getFreeSpace()">getFreeSpace</h3>
+<code class="signature">public  long <strong>getFreeSpace</strong>()</code>
+<div class="details">
+<p>Returns the number of unallocated bytes in the partition <a
+href="#partName">named</a> by this abstract path name.</p><p><p> The returned number of unallocated bytes is a hint, but not
+a guarantee, that it is possible to use most or any of these
+bytes.  The number of unallocated bytes is most likely to be
+accurate immediately after this call.  It is likely to be made
+inaccurate by any external I/O operations including those made
+on the system outside of this virtual machine.  This method
+makes no guarantee that write operations to this file system
+will succeed.</p><dl>
+<dt>Returns:</dt>
+<dd>The number of unallocated bytes on the partition <tt>0L</tt> if the abstract pathname does not name a partition. This value will be less than or equal to the total file system size returned by {@link #getTotalSpace}.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager has been installed and it denies {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt> or its {@link SecurityManager#checkRead(String)} method denies read access to the file named by this abstract pathname</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line83" class="location">blaze\io\File.php at line 83</a>
+
+<h3 id="getName()">getName</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getName</strong>()</code>
+<div class="details">
+<p>Returns the name of the file or directory denoted by this abstract
+pathname.  This is just the last name in the pathname's name
+sequence.  If the pathname's name sequence is empty, then the empty
+string is returned.</p><dl>
+<dt>Returns:</dt>
+<dd>The name of the file or directory denoted by this abstract pathname, or the empty string if this pathname's name sequence is empty</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line101" class="location">blaze\io\File.php at line 101</a>
+
+<h3 id="getParent()">getParent</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getParent</strong>()</code>
+<div class="details">
+<p>Returns the pathname string of this abstract pathname's parent, or
+<code>null</code> if this pathname does not name a parent directory.</p><p><p> The <em>parent</em> of an abstract pathname consists of the
+pathname's prefix, if any, and each name in the pathname's name
+sequence except for the last.  If the name sequence is empty then
+the pathname does not name a parent directory.</p><dl>
+<dt>Returns:</dt>
+<dd>The pathname string of the parent directory named by this abstract pathname, or <code>null</code> if this pathname does not name a parent</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line122" class="location">blaze\io\File.php at line 122</a>
+
+<h3 id="getParentFile()">getParentFile</h3>
+<code class="signature">public  <a href="../../blaze/io/file.html">File</a> <strong>getParentFile</strong>()</code>
+<div class="details">
+<p>Returns the abstract pathname of this abstract pathname's parent,
+or <code>null</code> if this pathname does not name a parent
+directory.</p><p><p> The <em>parent</em> of an abstract pathname consists of the
+pathname's prefix, if any, and each name in the pathname's name
+sequence except for the last.  If the name sequence is empty then
+the pathname does not name a parent directory.</p><dl>
+<dt>Returns:</dt>
+<dd>The abstract pathname of the parent directory named by this abstract pathname, or <code>null</code> if this pathname does not name a parent</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line135" class="location">blaze\io\File.php at line 135</a>
+
+<h3 id="getPath()">getPath</h3>
+<code class="signature">public  <a href="../../blaze/lang/string.html">String</a> <strong>getPath</strong>()</code>
+<div class="details">
+<p>Converts this abstract pathname into a pathname string.  The resulting
+string uses the <code>default name-separator character</code> to
+separate the names in the name sequence.</p><dl>
+<dt>Returns:</dt>
+<dd>The string form of this abstract pathname</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1014" class="location">blaze\io\File.php at line 1014</a>
+
+<h3 id="getTotalSpace()">getTotalSpace</h3>
+<code class="signature">public  long <strong>getTotalSpace</strong>()</code>
+<div class="details">
+<p>Returns the size of the partition <a href="#partName">named</a> by this
+abstract pathname.</p><dl>
+<dt>Returns:</dt>
+<dd>The size, in bytes, of the partition or <tt>0L</tt> if this abstract pathname does not name a partition</dd>
+<dt>Throws:</dt>
+<dd>If a security manager has been installed and it denies {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt> or its {@link SecurityManager#checkRead(String)} method denies read access to the file named by this abstract pathname</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1077" class="location">blaze\io\File.php at line 1077</a>
+
+<h3 id="getUsableSpace()">getUsableSpace</h3>
+<code class="signature">public  long <strong>getUsableSpace</strong>()</code>
+<div class="details">
+<p>Returns the number of bytes available to this virtual machine on the
+partition <a href="#partName">named</a> by this abstract pathname.  When
+possible, this method checks for write permissions and other operating
+system restrictions and will therefore usually provide a more accurate
+estimate of how much new data can actually be written than .</p><p><p> The returned number of available bytes is a hint, but not a
+guarantee, that it is possible to use most or any of these bytes.  The
+number of unallocated bytes is most likely to be accurate immediately
+after this call.  It is likely to be made inaccurate by any external
+I/O operations including those made on the system outside of this
+virtual machine.  This method makes no guarantee that write operations
+to this file system will succeed.</p><dl>
+<dt>Returns:</dt>
+<dd>The number of available bytes on the partition or <tt>0L</tt> if the abstract pathname does not name a partition. On systems where this information is not available, this method will be equivalent to a call to {@link #getFreeSpace}.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager has been installed and it denies {@link RuntimePermission}<tt>("getFileSystemAttributes")</tt> or its {@link SecurityManager#checkRead(String)} method denies read access to the file named by this abstract pathname</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line1294" class="location">blaze\io\File.php at line 1294</a>
+
+<h3 id="hashCode()">hashCode</h3>
+<code class="signature">public  string <strong>hashCode</strong>()</code>
+<div class="details">
+<p>Computes a hash code for this abstract pathname.  Because equality of
+abstract pathnames is inherently system-dependent, so is the computation
+of their hash codes.  On UNIX systems, the hash code of an abstract
+pathname is equal to the exclusive <em>or</em> of the hash code
+of its pathname string and the decimal value
+<code>1234321</code>.  On Microsoft Windows systems, the hash
+code is equal to the exclusive <em>or</em> of the hash code of
+its pathname string converted to lower case and the decimal
+value <code>1234321</code>.  Locale is not taken into account on
+lowercasing the pathname string.</p><dl>
+<dt>Returns:</dt>
+<dd>A hash code for this abstract pathname</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line152" class="location">blaze\io\File.php at line 152</a>
+
+<h3 id="isAbsolute()">isAbsolute</h3>
+<code class="signature">public  boolean <strong>isAbsolute</strong>()</code>
+<div class="details">
+<p>Tests whether this abstract pathname is absolute.  The definition of
+absolute pathname is system dependent.  On UNIX systems, a pathname is
+absolute if its prefix is <code>"/"</code>.  On Microsoft Windows systems, a
+pathname is absolute if its prefix is a drive specifier followed by
+<code>"\\"</code>, or if its prefix is <code>"\\\\"</code>.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if this abstract pathname is absolute, <code>false</code> otherwise</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line162" class="location">blaze\io\File.php at line 162</a>
+
+<h3 id="isChildOf()">isChildOf</h3>
+<code class="signature">public  boolean <strong>isChildOf</strong>(blaze\io\File|blaze\lang\String|string file, boolean direct)</code>
+<div class="details">
+<p></p><dl>
+<dt>Parameters:</dt>
+<dd>file - The File-Object or path of the child.</dd>
+<dd></dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line447" class="location">blaze\io\File.php at line 447</a>
+
+<h3 id="isDirectory()">isDirectory</h3>
+<code class="signature">public  boolean <strong>isDirectory</strong>()</code>
+<div class="details">
+<p>Tests whether the file denoted by this abstract pathname is a
+directory.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file denoted by this abstract pathname exists <em>and</em> is a directory; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line466" class="location">blaze\io\File.php at line 466</a>
+
+<h3 id="isFile()">isFile</h3>
+<code class="signature">public  boolean <strong>isFile</strong>()</code>
+<div class="details">
+<p>Tests whether the file denoted by this abstract pathname is a normal
+file.  A file is <em>normal</em> if it is not a directory and, in
+addition, satisfies other system-dependent criteria.  Any non-directory
+file created by a Java application is guaranteed to be a normal file.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the file denoted by this abstract pathname exists <em>and</em> is a normal file; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line488" class="location">blaze\io\File.php at line 488</a>
+
+<h3 id="isHidden()">isHidden</h3>
+<code class="signature">public  <code>true</code> <strong>isHidden</strong>()</code>
+<div class="details">
+<p>Tests whether the file named by this abstract pathname is a hidden
+file.  The exact definition of <em>hidden</em> is system-dependent.  On
+UNIX systems, a file is considered to be hidden if its name begins with
+a period character (<code>'.'</code>).  On Microsoft Windows systems, a file is
+considered to be hidden if it has been marked as such in the filesystem.</p><dl>
+<dt>Returns:</dt>
+<dd>if and only if the file denoted by this abstract pathname is hidden according to the conventions of the underlying platform</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line183" class="location">blaze\io\File.php at line 183</a>
+
+<h3 id="isParentOf()">isParentOf</h3>
+<code class="signature">public  boolean <strong>isParentOf</strong>(blaze\io\File|blaze\lang\String|string file, boolean direct)</code>
+<div class="details">
+<p></p><dl>
+<dt>Parameters:</dt>
+<dd>file - The File-Object or path of the parent.</dd>
+<dd></dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line506" class="location">blaze\io\File.php at line 506</a>
+
+<h3 id="lastModified()">lastModified</h3>
+<code class="signature">public  long <strong>lastModified</strong>()</code>
+<div class="details">
+<p>Returns the time that the file denoted by this abstract pathname was
+last modified.</p><dl>
+<dt>Returns:</dt>
+<dd>A <code>long</code> value representing the time the file was last modified, measured in milliseconds since the epoch (00:00:00 GMT, January 1, 1970), or <code>0L</code> if the file does not exist or if an I/O error occurs</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line524" class="location">blaze\io\File.php at line 524</a>
+
+<h3 id="length()">length</h3>
+<code class="signature">public  long <strong>length</strong>()</code>
+<div class="details">
+<p>Returns the length of the file denoted by this abstract pathname.
+The return value is unspecified if this pathname denotes a directory.</p><dl>
+<dt>Returns:</dt>
+<dd>The length, in bytes, of the file denoted by this abstract pathname, or <code>0L</code> if the file does not exist. Some operating systems may return <code>0L</code> for pathnames denoting system-dependent entities such as devices or pipes.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the file</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line637" class="location">blaze\io\File.php at line 637</a>
+
+<h3 id="listFilenames()">listFilenames</h3>
+<code class="signature">public  array[blaze\lang\String] <strong>listFilenames</strong>(FilenameFilter filter, filter A)</code>
+<div class="details">
+<p>Returns an array of strings naming the files and directories in the
+directory denoted by this abstract pathname that satisfy the specified
+filter.  The behavior of this method is the same as that of the
+<code><code>#list()</code></code> method, except that the strings in the
+returned array must satisfy the filter.  If the given
+<code>filter</code> is <code>null</code> then all names are accepted.
+Otherwise, a name satisfies the filter if and only if the value
+<code>true</code> results when the <code></code> method of the filter is invoked on this
+abstract pathname and the name of a file or directory in the directory
+that it denotes.</p><dl>
+<dt>Parameters:</dt>
+<dd>A - filename filter</dd>
+<dt>Returns:</dt>
+<dd>An array of strings naming the files and directories in the directory denoted by this abstract pathname that were accepted by the given <code>filter</code>. The array will be empty if the directory is empty or if no names were accepted by the filter. Returns <code>null</code> if this abstract pathname does not denote a directory, or if an I/O error occurs.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the directory</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line680" class="location">blaze\io\File.php at line 680</a>
+
+<h3 id="listFiles()">listFiles</h3>
+<code class="signature">public  array[blaze\lang\File] <strong>listFiles</strong>(FileFilter filter, filter A)</code>
+<div class="details">
+<p>Returns an array of abstract pathnames denoting the files and
+directories in the directory denoted by this abstract pathname that
+satisfy the specified filter.  The behavior of this method is the
+same as that of the <code><code>#listFiles()</code></code> method, except
+that the pathnames in the returned array must satisfy the filter.
+If the given <code>filter</code> is <code>null</code> then all
+pathnames are accepted.  Otherwise, a pathname satisfies the filter
+if and only if the value <code>true</code> results when the
+<code><code>FileFilter#accept(java.io.File)</code></code> method of
+the filter is invoked on the pathname.</p><dl>
+<dt>Parameters:</dt>
+<dd>A - file filter</dd>
+<dt>Returns:</dt>
+<dd>An array of abstract pathnames denoting the files and directories in the directory denoted by this abstract pathname. The array will be empty if the directory is empty. Returns <code>null</code> if this abstract pathname does not denote a directory, or if an I/O error occurs.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method denies read access to the directory</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line992" class="location">blaze\io\File.php at line 992</a>
+
+<h3 id="listRoots()">listRoots</h3>
+<code class="signature">public static  array[blaze\io\File] <strong>listRoots</strong>()</code>
+<div class="details">
+<p>List the available filesystem roots.</p><p><p> A particular Java platform may support zero or more
+hierarchically-organized file systems.  Each file system has a
+<code>root</code> directory from which all other files in that file
+system can be reached.  Windows platforms, for example, have a root
+directory for each active drive; UNIX platforms have a single root
+directory, namely <code>"/"</code>.  The set of available filesystem
+roots is affected by various system-level operations such as the insertion
+or ejection of removable media and the disconnecting or unmounting of
+physical or virtual disk drives.</p><p><p> This method returns an array of <code>File</code> objects that
+denote the root directories of the available filesystem roots.  It is
+guaranteed that the canonical pathname of any file physically present on
+the local machine will begin with one of the roots returned by this
+method.</p><p><p> The canonical pathname of a file that resides on some other machine
+and is accessed via a remote-filesystem protocol such as SMB or NFS may
+or may not begin with one of the roots returned by this method.  If the
+pathname of a remote file is syntactically indistinguishable from the
+pathname of a local file then it will begin with one of the roots
+returned by this method.  Thus, for example, <code>File</code> objects
+denoting the root directories of the mapped network drives of a Windows
+platform will be returned by this method, while <code>File</code>
+objects containing UNC pathnames will not be returned by this method.</p><p><p> Unlike most methods in this class, this method does not throw
+security exceptions.  If a security manager exists and its <code></code> method
+denies read access to a particular root directory, then that directory
+will not appear in the result.</p><dl>
+<dt>Returns:</dt>
+<dd>An array of <code>File</code> objects denoting the available filesystem roots, or <code>null</code> if the set of roots could not be determined. The array will be empty if there are no filesystem roots.</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line711" class="location">blaze\io\File.php at line 711</a>
+
+<h3 id="mkdir()">mkdir</h3>
+<code class="signature">public  boolean <strong>mkdir</strong>()</code>
+<div class="details">
+<p>Creates the directory named by this abstract pathname.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the directory was created; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method does not permit the named directory to be created</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line735" class="location">blaze\io\File.php at line 735</a>
+
+<h3 id="mkdirs()">mkdirs</h3>
+<code class="signature">public  boolean <strong>mkdirs</strong>()</code>
+<div class="details">
+<p>Creates the directory named by this abstract pathname, including any
+necessary but nonexistent parent directories.  Note that if this
+operation fails it may have succeeded in creating some of the necessary
+parent directories.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the directory was created, along with all necessary parent directories; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkRead(java.lang.String)}</code> method does not permit verification of the existence of the named directory and all necessary parent directories; or if the <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method does not permit the named directory and all necessary parent directories to be created</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line777" class="location">blaze\io\File.php at line 777</a>
+
+<h3 id="renameTo()">renameTo</h3>
+<code class="signature">public  boolean <strong>renameTo</strong>(<a href="../../blaze/io/file.html">File</a> dest, dest The)</code>
+<div class="details">
+<p>Renames the file denoted by this abstract pathname.</p><p><p> Many aspects of the behavior of this method are inherently
+platform-dependent: The rename operation might not be able to move a
+file from one filesystem to another, it might not be atomic, and it
+might not succeed if a file with the destination abstract pathname
+already exists.  The return value should always be checked to make sure
+that the rename operation was successful.</p><dl>
+<dt>Parameters:</dt>
+<dd>The - new abstract pathname for the named file</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the renaming succeeded; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to either the old or new pathnames</dd>
+<dd><a href="../../blaze/lang/nullpointerexception.html">If parameter <code>dest</code> is <code>null</code></a></dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line925" class="location">blaze\io\File.php at line 925</a>
+
+<h3 id="setExecutable()">setExecutable</h3>
+<code class="signature">public  boolean <strong>setExecutable</strong>(boolean executable, boolean ownerOnly)</code>
+<div class="details">
+<p>Sets the owner's or everybody's execute permission for this abstract
+pathname.</p><dl>
+<dt>Parameters:</dt>
+<dd>executable - If <code>true</code>, sets the access permission to allow execute operations; if <code>false</code> to disallow execute operations</dd>
+<dd>ownerOnly - If <code>true</code>, the execute permission applies only to the owner's execute permission; otherwise, it applies to everybody. If the underlying file system can not distinguish the owner's execute permission from that of others, then the permission will apply to everybody, regardless of this value.</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the operation succeeded. The operation will fail if the user does not have permission to change the access permissions of this abstract pathname. If <code>executable</code> is <code>false</code> and the underlying file system does not implement an execute permission, then the operation will fail.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the file</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line807" class="location">blaze\io\File.php at line 807</a>
+
+<h3 id="setLastModified()">setLastModified</h3>
+<code class="signature">public  boolean <strong>setLastModified</strong>(long time)</code>
+<div class="details">
+<p>Sets the last-modified time of the file or directory named by this
+abstract pathname.</p><p><p> All platforms support file-modification times to the nearest second,
+but some provide more precision.  The argument will be truncated to fit
+the supported precision.  If the operation succeeds and no intervening
+operations on the file take place, then the next invocation of the
+<code><code>#lastModified</code></code> method will return the (possibly
+truncated) <code>time</code> argument that was passed to this method.</p><dl>
+<dt>Parameters:</dt>
+<dd>time - The new last-modified time, measured in milliseconds since the epoch (00:00:00 GMT, January 1, 1970)</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the operation succeeded; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd><a href="../../blaze/lang/illegalargumentexception.html">If the argument is negative</a></dd>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the named file</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line829" class="location">blaze\io\File.php at line 829</a>
+
+<h3 id="setReadOnly()">setReadOnly</h3>
+<code class="signature">public  boolean <strong>setReadOnly</strong>()</code>
+<div class="details">
+<p>Marks the file or directory named by this abstract pathname so that
+only read operations are allowed.  After invoking this method the file
+or directory is guaranteed not to change until it is either deleted or
+marked to allow write access.  Whether or not a read-only file or
+directory may be deleted depends upon the underlying system.</p><dl>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the operation succeeded; <code>false</code> otherwise</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the named file</dd>
+<dt>Since:</dt>
+<dd>1.2</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line892" class="location">blaze\io\File.php at line 892</a>
+
+<h3 id="setReadable()">setReadable</h3>
+<code class="signature">public  boolean <strong>setReadable</strong>(boolean readable, boolean ownerOnly)</code>
+<div class="details">
+<p>Sets the owner's or everybody's read permission for this abstract
+pathname.</p><dl>
+<dt>Parameters:</dt>
+<dd>readable - If <code>true</code>, sets the access permission to allow read operations; if <code>false</code> to disallow read operations</dd>
+<dd>ownerOnly - If <code>true</code>, the read permission applies only to the owner's read permission; otherwise, it applies to everybody. If the underlying file system can not distinguish the owner's read permission from that of others, then the permission will apply to everybody, regardless of this value.</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the operation succeeded. The operation will fail if the user does not have permission to change the access permissions of this abstract pathname. If <code>readable</code> is <code>false</code> and the underlying file system does not implement a read permission, then the operation will fail.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the file</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line859" class="location">blaze\io\File.php at line 859</a>
+
+<h3 id="setWritable()">setWritable</h3>
+<code class="signature">public  boolean <strong>setWritable</strong>(boolean writable, boolean ownerOnly)</code>
+<div class="details">
+<p>Sets the owner's or everybody's write permission for this abstract
+pathname.</p><dl>
+<dt>Parameters:</dt>
+<dd>writable - If <code>true</code>, sets the access permission to allow write operations; if <code>false</code> to disallow write operations</dd>
+<dd>ownerOnly - If <code>true</code>, the write permission applies only to the owner's write permission; otherwise, it applies to everybody. If the underlying file system can not distinguish the owner's write permission from that of others, then the permission will apply to everybody, regardless of this value.</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if and only if the operation succeeded. The operation will fail if the user does not have permission to change the access permissions of this abstract pathname.</dd>
+<dt>Throws:</dt>
+<dd>If a security manager exists and its <code>{@link java.lang.SecurityManager#checkWrite(java.lang.String)}</code> method denies write access to the named file</dd>
+<dt>Since:</dt>
+<dd>1.6</dd>
+</dl>
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line33" class="location">blaze\io\File.php at line 33</a>
+
+<h3 id="staticInit()">staticInit</h3>
+<code class="signature">public static  void <strong>staticInit</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<a href="../../source/blaze\io\file.php.html#line368" class="location">blaze\io\File.php at line 368</a>
+
+<h3 id="toURI()">toURI</h3>
+<code class="signature">public  <a href="../../blaze/net/uri.html">URI</a> <strong>toURI</strong>()</code>
+<div class="details">
+<p>Constructs a <tt>file:</tt> URI that represents this abstract pathname.</p><p><p> The exact form of the URI is system-dependent.  If it can be
+determined that the file denoted by this abstract pathname is a
+directory, then the resulting URI will end with a slash.</p><p><p> For a given abstract pathname <i>f</i>, it is guaranteed that</p><p><blockquote><tt>
+new <code>File</code>(</tt><i>&nbsp;f</i><tt>.toURI()).equals(</tt><i>&nbsp;f</i><tt>.<code>getAbsoluteFile</code>())
+</tt></blockquote></p><p>so long as the original abstract pathname, the URI, and the new abstract
+pathname are all created in (possibly different invocations of) the same
+Java virtual machine.  Due to the system-dependent nature of abstract
+pathnames, however, this relationship typically does not hold when a
+<tt>file:</tt> URI that is created in a virtual machine on one operating
+system is converted into an abstract pathname in a virtual machine on a
+different operating system.</p><dl>
+<dt>Returns:</dt>
+<dd>An absolute, hierarchical URI with a scheme equal to <tt>"file"</tt>, a path representing this abstract pathname, and undefined authority, query, and fragment components</dd>
+<dt>Throws:</dt>
+<dd>If a required system property value cannot be accessed.</dd>
+<dt>See Also:</dt>
+<dd>#File(java.net.URI)</dd>
+<dd>java.net.URI</dd>
+<dd>java.net.URI#toURL()</dd>
+<dt>Since:</dt>
+<dd>1.4</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="header">
+<h1>Blaze Framework</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../blaze/io/package-summary.html">Package</a></li>
+<li class="active">Class</li>
+<li><a href="../../blaze/io/package-tree.html">Tree</a></li>
+<li><a href="../../overview-files.html">Files</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../blaze\io\file.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>
