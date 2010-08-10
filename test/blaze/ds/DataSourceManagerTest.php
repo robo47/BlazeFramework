@@ -32,6 +32,10 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      * @var Connection
      */
     protected $con = array();
+    /**
+     * @var Strin/SQL
+     */
+    protected $sqlstmt = array();
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -39,7 +43,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         //bdsc:<driver-name>://<Host>[:Port][/DB][?UID=User][&PWD=Password][&Option=Value]..
-        $this->bdsc[0] = 'bdsc:pdomysql://localhost:3306/dstest';
+        $this->bdsc[0] = 'bdsc:pdomysql://localhost:3306/test?UID=root';
     }
 
     /**
@@ -47,44 +51,122 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-
-    }
-
-    /**
-     * Begin Test DataSourceManager
-     */
-    public function testGetInstance() {
-        // Remove the following lines when you implement this test.
-        $this->dsm = DataSourceManager::getInstance();
-        $this->assertNotNull($this->dsm);
-    }
-
-    public function testGetDataSource() {
-        // Remove the following lines when you implement this test.7
-        $this->dsm = DataSourceManager::getInstance();
-        for ($i = 0; i < (count($this->bdsc) - 1); $i++) {
-            $this->ds[$i] = $this->dsm->getDataSource($this->bdsc[$i], 'root');
-            $this->assertNotNull($this->ds[$i]);
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $this->con[$i]->close();
+            $this->assertTrue($this->con[$i]->isClosed());
         }
     }
 
-    /**
-     * End   Test DataSourceManager
-     * Begin Test DataSource
-     */
-    public function testGetConnection() {
-        for ($i = 0; i < (count($this->bdsc) - 1); $i++) {
+    protected function setupConnection() {
+
+        $this->dsm = DataSourceManager::getInstance();
+        $this->assertNotNull($this->dsm);
+
+        for ($i = 0; $i < (count($this->bdsc)); $i++) {
+            $this->ds[$i] = $this->dsm->getDataSource($this->bdsc[$i]);
+            $this->assertNotNull($this->ds[$i]);
+        }
+
+        for ($i = 0; $i < (count($this->bdsc)); $i++) {
             $this->con[$i] = $this->ds[$i]->getConnection();
             $this->assertNotNull($this->con[$i]);
         }
     }
 
-    public function testGetDataSourcefromDataSource(){
-        for ($i = 0; i < (count($this->bdsc) - 1); $i++) {
-           $this->assertNotNull(DataSource::getDataSource('localhost', '3306', 'dstest'));
-           $this->assertNotNull(DataSource::getDataSource('localhost', '3306', 'dstest','root'));
+    /**
+     * Begin Test DataSourceManager
+     */
+    public function testSelectStatement() {
+        // Remove the following lines when you implement this test.
+        $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->createStatement();
+            $this->assertNotNull($stm);
+
+            $rs = $stm->executeQuery('Select datum,zahl,zeichen,geld  from test');
+
+            while ($rs->next()) {
+                $rs->getDate(0);
+                $rs->getInt(1);
+                $rs->getString(2);
+                $rs->getDouble(3);
+            }
+        }
+    }
+
+    public function testInsertStatement() {
+        $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->createStatement();
+            $this->assertNotNull($stm);
+
+            $rs = $stm->executeQuery('Select MAX(zahl) from test');
+            while ($rs->next()) {
+                $max = $rs->getInt(0);
+            }
+            $max++;
+
+
+            $this->con[$i]->beginTransaction();
+            $stm = $this->con[$i]->createStatement();
+            $ret = $stm->executeUpdate('INSERT INTO test (zahl ,zeichen ,datum ,geld)
+                                         VALUES (' . $max . ',TEST' . $max . ',2010-01-24,' . $max * 0, 334);
+            echo 'RET:' . $ret . '    MAX:    ' . $max;
+            $this->con[$i]->commit();
+        }
+    }
+
+    public function testSelectPreparedStatement() {
+        $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->prepareStatement('Select datum,zahl,zeichen,geld  from test');
+            $this->assertNotNull($stm);
+
+
+            $rs = $stm->executeQuery();
+
+            while ($rs->next()) {
+                $rs->getDate(0);
+                $rs->getInt(1);
+                $rs->getString(2);
+                $rs->getDouble(3);
+            }
+        }
+    }
+
+    public function testInsertPreparedStatement() {
+        $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->prepareStatement('INSERT INTO test (zahl ,zeichen ,datum ,geld) VALUES (?,?,?,?)');
+            $this->assertNotNull($stm);
+
+            $maxstm = $this->con[$i]->createStatement();
+            $rs = $maxstm->executeQuery('Select MAX(zahl) from test');
+            while ($rs->next()) {
+                $max = $rs->getInt(0);
+            }
+            $max++;
+
+            $stm->setInt(0, $max);
+            $stm->setString(1, 'Test' . $max);
+            $stm->setDate(2, new \blaze\util\Date(2010, 02, $max));
+            $stm->setDouble(3, 0.45);
+
+            $ret = $stm->executeUpdate();
+
+            $this->assertEquals(1, $ret);
         }
     }
 
 }
+
 ?>
