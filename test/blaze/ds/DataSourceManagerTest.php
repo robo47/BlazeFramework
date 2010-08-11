@@ -37,7 +37,6 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      */
     protected $sqlstmt = array();
 
-
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -65,7 +64,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         $this->dsm = DataSourceManager::getInstance();
         $this->assertNotNull($this->dsm);
 
-     
+
         for ($i = 0; $i < (count($this->bdsc)); $i++) {
             $this->ds[$i] = $this->dsm->getDataSource($this->bdsc[$i]);
             $this->assertNotNull($this->ds[$i]);
@@ -97,7 +96,6 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $rs->getString(2);
                 $rs->getDouble(3);
             }
-
         }
     }
 
@@ -119,14 +117,13 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $max++;
 
 
-            
+
             $stm = $this->con[$i]->createStatement();
             $ret = $stm->executeUpdate("INSERT INTO `test`.`test` (`zahl`, `zeichen`, `datum`, `geld`) VALUES ('.$max.', 'Stmt', '2010-08-28', '1.04')");
 
             $this->con[$i]->commit();
 
             $this->assertEquals(1, $ret);
-
         }
     }
 
@@ -155,7 +152,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
         for ($i = 0; $i < (count($this->con)); $i++) {
             $this->assertFalse($this->con[$i]->isClosed());
-           
+
             $this->con[$i]->beginTransaction();
 
             $stm = $this->con[$i]->prepareStatement('INSERT INTO test (zahl ,zeichen ,datum ,geld) VALUES (?,?,?,?)');
@@ -186,8 +183,8 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
         for ($i = 0; $i < (count($this->con)); $i++) {
             $this->assertFalse($this->con[$i]->isClosed());
-            
-            
+
+
 
             $maxstm = $this->con[$i]->createStatement();
             $rs = $maxstm->executeQuery('Select MAX(zahl) from test');
@@ -196,7 +193,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             }
             $max++;
 
-             $this->con[$i]->setAutoCommit(false);
+            $this->con[$i]->setAutoCommit(false);
             $this->con[$i]->beginTransaction();
             $stm = $this->con[$i]->prepareStatement('INSERT INTO test (zahl ,zeichen ,datum ,geld) VALUES (?,?,?,?)');
             $this->assertNotNull($stm);
@@ -204,7 +201,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $stm->setString(1, 'PreStmRollback' . $max);
             $stm->setDate(2, new \blaze\util\Date(2010, 02, $max));
             $stm->setDouble(3, 0.45);
-            
+
             $ret = $stm->executeUpdate();
 
             $this->assertEquals(1, $ret);
@@ -212,28 +209,57 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testMetaData(){
+    public function testMetaData() {
         $this->setupConnection();
 
         for ($i = 0; $i < (count($this->con)); $i++) {
             $this->assertFalse($this->con[$i]->isClosed());
 
             $meta = $this->con[$i]->getMetaData();
-             $strar = split(':', $this->bdsc[$i]);
-             $strar[2]= \trim($strar[2], '//');
-             $strar[3]= split('/',$strar[3]);
-             $strar[3][1]= split('\?',$strar[3][1]);
-             \var_dump($strar);
-            $this->assertTrue ($meta->getConnection()==$this->con[$i]);
-             $this->assertTrue ($meta->getDatabaseName()==$strar[3][1][0]);
 
-            $this->assertTrue ($meta->getHost()==$strar[2]);
-            $this->assertTrue ($meta->getPort()==$strar[3][0]);
+            $strar = split(':', $this->bdsc[$i]);
+            $strar[2] = \trim($strar[2], '//');
+            $strar[3] = split('/', $strar[3]);
+            $strar[3][1] = split('\?', $strar[3][1]);
+
+            $this->assertTrue($meta->getConnection() == $this->con[$i]);
+            $this->assertTrue($meta->getDatabaseName() == $strar[3][1][0]);
+            $this->assertTrue($meta->getHost() == $strar[2]);
+            $this->assertTrue($meta->getPort() == $strar[3][0]);
+            
+
         }
-
     }
 
+    public function testResultSet(){
+        $this->setupConnection();
 
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->prepareStatement('Select tblob, tbool, tdate, tdecimal, tdouble, tfloat, tstring, tint from testall');
+            $this->assertNotNull($stm);
+
+
+            $rs = $stm->executeQuery();
+
+            while ($rs->next()) {
+                $rs->getBlob(0);
+                $rs->getBoolean(1);
+                $rs->getDate(2);
+                $rs->getDecimal(3);
+                $rs->getDouble(4);
+                $rs->getFloat(5);
+                $rs->getString(6);
+                $rs->getInt(7);
+                }
+                
+                $this->assertTrue($rs->relative(-1));
+                $this->assertFalse($rs->isClosed());
+                $rs->close();
+                $this->assertTrue($rs->isClosed());
+                }
+
+    }
 
 }
 

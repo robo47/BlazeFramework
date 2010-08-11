@@ -7,6 +7,7 @@ blaze\lang\Long,
 blaze\lang\Float,
 blaze\lang\Byte,
 blaze\lang\Integer,
+blaze\lang\Double,
 blaze\util\ArrayObject,
 blaze\math\BigDecimal,
 blaze\ds\Statement1,
@@ -230,8 +231,8 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
             return null;
 
         $pair = explode(',',$val);
-        var_dump($pair);
-        $d = new BigDecimal();
+        var_dump($val);
+        $d = new BigDecimal($val);
 
         return $d;
     }
