@@ -258,7 +258,6 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $rs->close();
                 $this->assertTrue($rs->isClosed());
                 }
-
     }
 
 }
