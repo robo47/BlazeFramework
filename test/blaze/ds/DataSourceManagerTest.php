@@ -48,7 +48,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Tears down the fixture, for example, closes a network connection.
+     * Tears down the fixture, for example, closesd a network connection.
      * This method is called after a test is executed.
      */
     protected function tearDown() {
@@ -119,11 +119,17 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
 
             $stm = $this->con[$i]->createStatement();
-            $ret = $stm->executeUpdate("INSERT INTO `test`.`test` (`zahl`, `zeichen`, `datum`, `geld`) VALUES ('.$max.', 'Stmt', '2010-08-28', '1.04')");
+            $ret = $stm->executeUpdate('INSERT INTO test (zahl, zeichen, datum, geld) VALUES (' . $max . ', \'Stmt' . $max . '\', \'2010-08-28\', \'1.04\')');
+
 
             $this->con[$i]->commit();
-
             $this->assertEquals(1, $ret);
+
+            $stm = $this->con[$i]->createStatement();
+            $rs = $stm->executeQuery('Select zahl from test where zahl = ' . $max);
+            while ($rs->next()) {
+                $this->assertTrue($rs->getInt(0) == $max);
+            }
         }
     }
 
@@ -175,6 +181,13 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->con[$i]->commit();
 
             $this->assertEquals(1, $ret);
+
+            $stm = $this->con[$i]->createStatement();
+            $rs = $stm->executeQuery('Select zahl from test where zahl = ' . $max);
+            while ($rs->next()) {
+
+                $this->assertTrue($rs->getInt(0) == $max);
+            }
         }
     }
 
@@ -194,6 +207,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $max++;
 
             $this->con[$i]->setAutoCommit(false);
+
             $this->con[$i]->beginTransaction();
             $stm = $this->con[$i]->prepareStatement('INSERT INTO test (zahl ,zeichen ,datum ,geld) VALUES (?,?,?,?)');
             $this->assertNotNull($stm);
@@ -206,6 +220,11 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
             $this->assertEquals(1, $ret);
             $this->con[$i]->rollback();
+
+            $stm = $this->con[$i]->createStatement();
+            $rs = $stm->executeQuery('Select zahl from test where zahl = ' . $max);
+
+            $this->assertFalse($rs->next());
         }
     }
 
@@ -226,12 +245,48 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertTrue($meta->getDatabaseName() == $strar[3][1][0]);
             $this->assertTrue($meta->getHost() == $strar[2]);
             $this->assertTrue($meta->getPort() == $strar[3][0]);
-            
 
+            $this->assertNotNull($meta->getSchemas());
+            $schema = $meta->getSchema($strar[3][1][0]);
+            $this->assertNotNull($schema);
+            $this->assertTrue($schema->getDatabaseMetaData()==$meta);
+
+            $this->schemaTest($schema);
+           
+ 
         }
     }
 
-    public function testResultSet(){
+    public function schemaTest(meta\SchemaMetaData $schema){
+
+        $this->assertNotNull($schema->getSchemaCharset());
+        $this->assertNotNull($schema->getSchemaCollation());
+        $this->assertNotNull($schema->getSchemaName());
+        $this->assertNotNull($schema->getTables());
+
+        $table = $schema->getTable('test');
+        $this->assertNotNull($table);
+
+        $this->tableTest($table);
+    }
+
+    public function tableTest(meta\TableMetaData $table){
+        $this->assertNotNull($table->getColumns());
+        $this->assertNotNull($table->getTableCharset());
+        $this->assertNotNull($table->getTableCollation());
+        $this->assertNotNull($table->getTableName());
+        $this->assertNotNull($table->getForeignKeys());
+        $this->assertNotNull($table->getPrimaryKeys());
+        $this->assertNotNull($table->getUniqueKeys());
+
+        $column = $table->getColumn('zahl');
+        $this->assertNotNull($column);
+
+
+    }
+    
+
+    public function testResultSet() {
         $this->setupConnection();
 
         for ($i = 0; $i < (count($this->con)); $i++) {
@@ -243,23 +298,22 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $rs = $stm->executeQuery();
 
             while ($rs->next()) {
-                $rs->getBlob(0);
-                $rs->getBoolean(1);
-                $rs->getDate(2);
-                $rs->getDecimal(3);
-                $rs->getDouble(4);
-                $rs->getFloat(5);
-                $rs->getString(6);
-                $rs->getInt(7);
-                }
-                
-                $this->assertTrue($rs->relative(-1));
-                $this->assertFalse($rs->isClosed());
-                $rs->close();
-                $this->assertTrue($rs->isClosed());
-                }
+                $this->assertNotNull($rs->getBlob(0));
+                $this->assertNotNull($rs->getBoolean(1));
+                $this->assertNotNull($rs->getDate(2));
+                $this->assertNotNull($rs->getDecimal(3));
+                $this->assertNotNull($rs->getDouble(4));
+                $this->assertNotNull($rs->getFloat(5));
+                $this->assertNotNull($rs->getString(6));
+                $this->assertNotNull($rs->getInt(7));
+            }
+
+            $this->assertTrue($rs->relative(-1));
+            $this->assertFalse($rs->isClosed());
+            $rs->close();
+            $this->assertTrue($rs->isClosed());
+        }
     }
 
 }
-
 ?>

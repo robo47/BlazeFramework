@@ -231,7 +231,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
             return null;
 
         $pair = explode(',',$val);
-        var_dump($val);
+  
         $d = new BigDecimal($val);
 
         return $d;
