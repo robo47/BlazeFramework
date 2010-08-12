@@ -21,23 +21,35 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
     public function execute($sql) {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
-        if($this->stmt != null)
-                $this->stmt->closeCursor();
-        $this->stmt = $this->pdo->query($sql);
+
+        try {
+            $this->reset();
+            $this->stmt = $this->pdo->query($sql);
+
+            if($this->stmt instanceof \PDOStatement)
+                return true;
+
+            $this->stmt = null;
+            return false;
+        }catch(\PDOException $e) {
+            throw new SQLException($e->getMessage(), $e->getCode());
+        }
     }
-    public function executeQuery($sql) {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
-        if($this->stmt != null)
-                $this->stmt->closeCursor();
-        $this->stmt = $this->pdo->query($sql);
-    }
+    
     public function executeUpdate($sql) {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
-        if($this->stmt != null)
-                $this->stmt->closeCursor();
-        $this->stmt = $this->pdo->exec($sql);
+
+        $result = 0;
+
+        try{
+            $this->reset();
+            $result = $this->pdo->exec($sql);
+        }catch(\PDOException $e){
+            throw new SQLException($e->getMessage(), $e->getCode());
+        }
+
+        return $result;
     }
 
 }

@@ -69,15 +69,13 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
             throw new SQLException('Statement is already closed.');
         $this->batch = '';
     }
+   
     public function close() {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
         if($this->stmt != null)
-                $this->stmt->closeCursor();
-        $this->stmt = null;
-        if($this->resultSet != null)
-                $this->resultSet->close();
-        $this->resultSet = null;
+            $this->stmt->closeCursor();
+        $this->reset();
         $this->pdo = null;
     }
     
@@ -85,8 +83,7 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
         try {
-            if($this->stmt != null)
-                $this->stmt->closeCursor();
+            $this->reset();
             $autoCom = $this->con->getAutoCommit();
             $queries = explode(';',$this->batch);
             $results = array();
@@ -97,8 +94,6 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
             foreach($queries as $query) {
                 if(strlen($query) > 0) {
                     $results[] = $this->pdo->query($query);
-                    var_dump('PDO_ERROR');
-                    var_dump($this->pdo->errorInfo());
                 }
             }
 
@@ -109,21 +104,22 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
             $this->con->rollback();
             throw new SQLException($e->getMessage(), $e->getCode());
         }
+
+        $this->batch = '';
     }
     public function getConnection() {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
         return $this->con;
     }
-    public function getResultSet() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
-        return $this->resultSet;
-    }
+   
     public function getUpdateCount() {
         if($this->isClosed())
             throw new SQLException('Statement is already closed.');
-        return $this->stmt->rowCount();
+
+        if($this->updateCount == 0 && $this->stmt != null)
+                return $this->stmt->rowCount();
+        return $this->updateCount;
     }
     public function getWarnings() {
         if($this->isClosed())
@@ -134,6 +130,14 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         return $this->pdo == null;
     }
 
+    protected function reset(){
+        if($this->stmt != null)
+                $this->stmt->closeCursor();
+        $this->stmt = null;
+        $this->rsmd = null;
+        $this->resultSet = null;
+        $this->updateCount = 0;
+    }
 
 }
 
