@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\ds\driver\pdobase;
+
 use blaze\lang\Object,
-blaze\ds\Connection,
-blaze\ds\Statement1,
-PDO;
+ blaze\ds\Connection,
+ blaze\ds\Statement1,
+ PDO;
 
 /**
  * Description of AbstractStatement
@@ -48,7 +50,6 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
      * @var array[blaze\ds\SQLWarning]
      */
     protected $warnings = array();
-
     /**
      *
      * @var string
@@ -59,47 +60,45 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         $this->con = $con;
         $this->pdo = $pdo;
     }
+
     public function addBatch($sql) {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
         $this->batch .= $sql;
     }
+
     public function clearBatch() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
         $this->batch = '';
     }
-   
+
     public function close() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
-        if($this->stmt != null)
+        $this->checkclosed();
+        if ($this->stmt != null)
             $this->stmt->closeCursor();
         $this->reset();
         $this->pdo = null;
     }
-    
+
     public function executeBatch() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
         try {
             $this->reset();
             $autoCom = $this->con->getAutoCommit();
-            $queries = explode(';',$this->batch);
+            $queries = explode(';', $this->batch);
             $results = array();
 
             $this->con->setAutoCommit(false);
             $this->con->beginTransaction();
 
-            foreach($queries as $query) {
-                if(strlen($query) > 0) {
+            foreach ($queries as $query) {
+                if (strlen($query) > 0) {
                     $results[] = $this->pdo->query($query);
                 }
             }
 
             $this->con->commit();
             $this->con->setAutoCommit($autoCom);
-        }catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             $this->con->setAutoCommit($autoCom);
             $this->con->rollback();
             throw new SQLException($e->getMessage(), $e->getCode());
@@ -107,38 +106,42 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
 
         $this->batch = '';
     }
+
     public function getConnection() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
         return $this->con;
     }
-   
-    public function getUpdateCount() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
 
-        if($this->updateCount == 0 && $this->stmt != null)
-                return $this->stmt->rowCount();
+    public function getUpdateCount() {
+        $this->checkclosed();
+
+        if ($this->updateCount == 0 && $this->stmt != null)
+            return $this->stmt->rowCount();
         return $this->updateCount;
     }
+
     public function getWarnings() {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
         return $this->warnings;
     }
+
     public function isClosed() {
         return $this->pdo == null;
     }
 
-    protected function reset(){
-        if($this->stmt != null)
-                $this->stmt->closeCursor();
+    protected function reset() {
+        if ($this->stmt != null)
+            $this->stmt->closeCursor();
         $this->stmt = null;
         $this->rsmd = null;
         $this->resultSet = null;
         $this->updateCount = 0;
     }
 
-}
+    protected function checkclosed() {
+        if ($this->isClosed())
+            throw new SQLException('Statement is already closed.');
+    }
 
+}
 ?>

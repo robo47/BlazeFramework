@@ -1,8 +1,10 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql;
+
 use blaze\lang\Object,
-blaze\ds\DataSource,
-blaze\ds\driver\pdomysql\ConnectionImpl;
+ blaze\ds\DataSource,
+ blaze\ds\driver\pdomysql\ConnectionImpl;
 
 /**
  * Description of DataSourceImpl
@@ -64,11 +66,11 @@ class DataSourceImpl extends Object implements DataSource {
     }
 
     public function getConnection($user = null, $password = null, $options = null) {
-        if($user != null)
+        if ($user != null)
             $this->user = $user;
-        if($password != null)
+        if ($password != null)
             $this->password = $password;
-        if($options != null)
+        if ($options != null)
             $this->options = array_merge($this->options, $options);
 
         return new ConnectionImpl($this->driver, $this->host, $this->port, $this->database, $this->user, $this->password, $this->options);
@@ -76,14 +78,14 @@ class DataSourceImpl extends Object implements DataSource {
 
     public static function getDataSource($host, $port, $database, $user = null, $password = null, $options = null) {
         $driver = 'mysql';
-        
-        if(!in_array($driver,\PDO::getAvailableDrivers()))
-                throw new \blaze\lang\IllegalArgumentException('Driver '.$dirver.' does not exist.');
-        if($port == null || $port < 1 || $port > 65536)
+
+        if (!in_array($driver, \PDO::getAvailableDrivers()))
+            throw new \blaze\lang\IllegalArgumentException('Driver ' . $dirver . ' does not exist.');
+        if ($port == null || $port < 1 || $port > 65536)
             $port = 3306;
-        
+
         return new DataSourceImpl($driver, $host, $port, $database, $user, $password, $options);
     }
-}
 
+}
 ?>

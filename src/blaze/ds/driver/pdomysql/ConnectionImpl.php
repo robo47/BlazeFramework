@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql;
+
 use blaze\lang\Object,
-    blaze\ds\driver\pdobase\AbstractConnection,
-    blaze\ds\driver\pdomysql\meta\DatabaseMetaDataImpl,
-    PDO;
+ blaze\ds\driver\pdobase\AbstractConnection,
+ blaze\ds\driver\pdomysql\meta\DatabaseMetaDataImpl,
+ PDO;
 
 /**
  * Description of ConnectionImpl
@@ -22,48 +24,42 @@ class ConnectionImpl extends AbstractConnection {
         parent::__construct($driver, $host, $port, $database, $user, $password, $options);
     }
 
-   
     public function createStatement() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return new StatementImpl($this, $this->pdo);
     }
-    
+
     public function getMetaData() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return new DatabaseMetaDataImpl($this, $this->pdo, $this->host, $this->port, $this->database, $this->user, $this->options);
     }
+
     /**
      *
      * @todo Implement
      */
     public function getTransactionIsolation() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return null;
     }
+
     public function prepareCall($sql) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return new CallableStatementImpl($this, $this->pdo, $sql);
     }
+
     public function prepareStatement($sql) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return new PreparedStatementImpl($this, $this->pdo, $sql);
     }
-
 
     /**
      *
      * @Implement
      */
     public function setTransactionIsolation($level) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
     }
 
 }
-
 ?>

@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\ds\driver\pdobase;
+
 use blaze\lang\Object,
-blaze\ds\Connection,
-blaze\ds\Statement,
-PDO;
+ blaze\ds\Connection,
+ blaze\ds\Statement,
+ PDO;
 
 /**
  * Description of AbstractStatement
@@ -19,33 +21,31 @@ PDO;
 abstract class AbstractStatement extends AbstractStatement1 implements Statement {
 
     public function execute($sql) {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
 
         try {
             $this->reset();
             $this->stmt = $this->pdo->query($sql);
 
-            if($this->stmt instanceof \PDOStatement)
+            if ($this->stmt instanceof \PDOStatement)
                 return true;
 
             $this->stmt = null;
             return false;
-        }catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             throw new SQLException($e->getMessage(), $e->getCode());
         }
     }
-    
+
     public function executeUpdate($sql) {
-        if($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+        $this->checkclosed();
 
         $result = 0;
 
-        try{
+        try {
             $this->reset();
             $result = $this->pdo->exec($sql);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new SQLException($e->getMessage(), $e->getCode());
         }
 
@@ -53,5 +53,4 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
     }
 
 }
-
 ?>

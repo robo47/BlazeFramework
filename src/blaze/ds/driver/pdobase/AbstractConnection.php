@@ -1,8 +1,10 @@
 <?php
+
 namespace blaze\ds\driver\pdobase;
+
 use blaze\lang\Object,
-    blaze\ds\Connection,
-    PDO;
+ blaze\ds\Connection,
+ PDO;
 
 /**
  * Description of AbstractConnection
@@ -66,64 +68,65 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->user = $user;
         $this->password = $password;
         $this->options = $options;
-        $dsn = $driver.':host='.$host.';port='.$port.';dbname='.$database;
+        $dsn = $driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $database;
         $this->pdo = new PDO($dsn, $user, $password, $options);
     }
 
     public function beginTransaction() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         $this->pdo->beginTransaction();
     }
+
     public function close() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         $this->pdo = null;
     }
-    public function isClosed(){
+
+    public function isClosed() {
         return $this->pdo == null;
     }
+
     public function commit() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         $this->pdo->commit();
     }
-    
+
     public function getAutoCommit() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return $this->pdo->getAttribute(PDO::ATTR_AUTOCOMMIT);
     }
 
     /**
      *
-     *@todo Implement
+     * @todo Implement
      */
     public function getTransactionIsolation() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return null;
     }
-    
+
     public function rollback() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         $this->pdo->rollBack();
     }
+
     public function setAutoCommit($autoCommit) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
     }
+
     /**
      *
-     *@todo Implement
+     * @todo Implement
      */
     public function setTransactionIsolation($level) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
+        $this->checkClosed();
+    }
+
+    protected function checkClosed() {
+        if ($this->isClosed())
+            throw new SQLException('Connection is already closed.');
     }
 
 }
-
 ?>
