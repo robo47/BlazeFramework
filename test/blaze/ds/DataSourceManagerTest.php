@@ -2,6 +2,8 @@
 
 namespace blaze\ds;
 
+use blaze\ds\meta\ColumnMetaData;
+
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
@@ -279,8 +281,10 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($table->getPrimaryKeys());
         $this->assertNotNull($table->getUniqueKeys());
 
-        $column = $table->getColumn('zahl');
-        $this->assertNotNull($column);
+        $col = $table->getColumn('zahl');
+        $this->assertNotNull($col);
+
+
 
 
     }
@@ -312,6 +316,48 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertFalse($rs->isClosed());
             $rs->close();
             $this->assertTrue($rs->isClosed());
+        }
+    }
+
+    public function testBatch(){
+         $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+
+           
+
+            $stm = $this->con[$i]->createStatement();
+            $this->assertNotNull($stm);
+
+            $rs = $stm->executeQuery('Select MAX(zahl) from test');
+            while ($rs->next()) {
+                $max = $rs->getInt(0);
+            }
+            $max++;
+
+
+
+            $stm = $this->con[$i]->createStatement();
+            $ret = $stm->addBatch('INSERT INTO test (zahl, zeichen, datum, geld) VALUES (' . $max . ', \'Batch' . $max . '\', \'2010-08-28\', \'1.04\');');
+            $max++;
+            $ret = $stm->addBatch('INSERT INTO test (zahl, zeichen, datum, geld) VALUES (' . $max . ', \'Batch' . $max . '\', \'2010-08-28\', \'1.04\');');
+            $max++;
+            $ret = $stm->addBatch('INSERT INTO test (zahl, zeichen, datum, geld) VALUES (' . $max . ', \'Batch' . $max . '\', \'2010-08-28\', \'1.04\');');
+
+           
+
+
+            $ret = $stm->executeBatch();
+            
+
+            $stm = $this->con[$i]->createStatement();
+            $rs = $stm->executeQuery('Select zahl from test where zahl <= '.$max.' and zahl>='.($max-2));
+            $max = $max-2;
+            while ($rs->next()) {
+                $this->assertTrue($rs->getInt(0)==$max);
+                $max++;
+            }
         }
     }
 
