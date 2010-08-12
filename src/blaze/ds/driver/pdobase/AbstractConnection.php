@@ -88,36 +88,23 @@ abstract class AbstractConnection extends Object implements Connection {
                 throw new SQLException('Connection is already closed.');
         $this->pdo->commit();
     }
-    public function createStatement() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
-        return new StatementImpl($this, $this->pdo);
-    }
+    
     public function getAutoCommit() {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
         return $this->pdo->getAttribute(PDO::ATTR_AUTOCOMMIT);
     }
-    public function getMetaData() {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
-        return new DatabaseMetaDataImpl($this, $dsn, $user);
-    }
+
+    /**
+     *
+     *@todo Implement
+     */
     public function getTransactionIsolation() {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
         return null;
     }
-    public function prepareCall($sql) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
-        return new CallableStatementImpl($this, $sql);
-    }
-    public function prepareStatement($sql) {
-        if($this->isClosed())
-                throw new SQLException('Connection is already closed.');
-        return new PreparedStatementImpl($this, $sql);
-    }
+    
     public function rollback() {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
@@ -128,6 +115,10 @@ abstract class AbstractConnection extends Object implements Connection {
                 throw new SQLException('Connection is already closed.');
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
     }
+    /**
+     *
+     *@todo Implement
+     */
     public function setTransactionIsolation($level) {
         if($this->isClosed())
                 throw new SQLException('Connection is already closed.');
