@@ -1,5 +1,7 @@
 <?php
 namespace blaze\lang;
+use blaze\math\BigInteger,
+    blaze\math\BigDecimal;
 
 /**
  * Description of Integer
@@ -12,16 +14,20 @@ namespace blaze\lang;
  * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
-class Number extends Object implements StaticInitialization{
+abstract class Number extends Object implements NativeWrapper{
 
-    private static $numberClasses = array();
+    private static $numberClasses = null;
 
-    public static function staticInit() {
+    private static function lazyInit() {
+        self::$numberClasses = array();
         self::$numberClasses[0] = ClassWrapper::forName('blaze\lang\Byte');
-        self::$numberClasses[1] = ClassWrapper::forName('blaze\lang\Double');
-        self::$numberClasses[2] = ClassWrapper::forName('blaze\lang\Float');
-        self::$numberClasses[3] = ClassWrapper::forName('blaze\lang\Integer');
-        self::$numberClasses[4] = ClassWrapper::forName('blaze\lang\Long');
+        self::$numberClasses[1] = ClassWrapper::forName('blaze\lang\Short');
+        self::$numberClasses[2] = ClassWrapper::forName('blaze\lang\Double');
+        self::$numberClasses[3] = ClassWrapper::forName('blaze\lang\Float');
+        self::$numberClasses[4] = ClassWrapper::forName('blaze\lang\Integer');
+        self::$numberClasses[5] = ClassWrapper::forName('blaze\lang\Long');
+        self::$numberClasses[6] = ClassWrapper::forName('blaze\math\BigInteger');
+        self::$numberClasses[7] = ClassWrapper::forName('blaze\math\BigDecimal');
     }
 
     /**
@@ -30,6 +36,9 @@ class Number extends Object implements StaticInitialization{
      * @return blaze\lang\ClassWrapper
      */
     public static function getNumberClass($value){
+        if(self::$numberClasses == null)
+            self::lazyInit();
+        
         if(is_string($value)){
             if(preg_match('/^[0-9]*$/', $value))
                 return self::$numberClasses[3];
@@ -37,17 +46,36 @@ class Number extends Object implements StaticInitialization{
                 return null;
         }else if(Byte::isNativeType($value) || $value instanceof Byte){
             return self::$numberClasses[0];
-        }else if(Double::isNativeType($value) || $value instanceof Double){
+        }else if(Short::isNativeType($value) || $value instanceof Short){
             return self::$numberClasses[1];
-        }else if(Float::isNativeType($value) || $value instanceof Float){
+        }else if(Double::isNativeType($value) || $value instanceof Double){
             return self::$numberClasses[2];
-        }else if(Integer::isNativeType($value) || $value instanceof Integer){
+        }else if(Float::isNativeType($value) || $value instanceof Float){
             return self::$numberClasses[3];
-        }else if(Long::isNativeType($value) || $value instanceof Long){
+        }else if(Integer::isNativeType($value) || $value instanceof Integer){
             return self::$numberClasses[4];
+        }else if(Long::isNativeType($value) || $value instanceof Long){
+            return self::$numberClasses[5];
+        }else if(BigInteger::isNativeType($value) || $value instanceof BigInteger){
+            return self::$numberClasses[6];
+        }else if(BigDecimal::isNativeType($value) || $value instanceof BigDecimal){
+            return self::$numberClasses[7];
         }
 
         return null;
     }
+
+    /**
+     * Parses a string to the native representation of the Class
+     * @param string|blaze\lang\String $value
+     * @throws blaze\lang\NumberFormatException
+     */
+    public static abstract function parse($value);
+    public abstract function byteValue();
+    public abstract function doubleValue();
+    public abstract function floatValue();
+    public abstract function intValue();
+    public abstract function longValue();
+    public abstract function shortValue();
 }
 ?>

@@ -2,7 +2,9 @@
 namespace blaze\math;
 use blaze\lang\Object;
 use blaze\lang\Integer;
+use blaze\lang\StaticInitialization;
 use blaze\lang\Comparable;
+use blaze\lang\Number;
 use blaze\lang\String;
 
 /**
@@ -16,7 +18,8 @@ use blaze\lang\String;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class BigDecimal extends Object implements Comparable {
+class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Comparable {
+    private static $bcExists;
     private $value;
     private $scale;
 
@@ -39,6 +42,66 @@ class BigDecimal extends Object implements Comparable {
                 $this->scale = 0;
             }
     }
+    public static function staticInit(){
+         if(function_exists('bcadd')){
+             self::$bcExists = true;
+         }
+
+     }
+
+    public static function asNative($value) {
+
+    }
+
+    public static function asWrapper($value) {
+
+    }
+
+    public static function isNativeType($value) {
+
+    }
+
+    public static function isType($value) {
+
+    }
+
+    public static function isWrapperType($value) {
+
+    }
+
+    public function toNative() {
+
+    }
+
+    public function byteValue() {
+
+    }
+
+    public function doubleValue() {
+
+    }
+
+    public function floatValue() {
+
+    }
+
+    public function intValue() {
+
+    }
+
+    public function longValue() {
+
+    }
+
+    public static function parse($value) {
+
+    }
+
+    public function shortValue() {
+
+    }
+
+
     /**
      *Add to BigDecimal.
      * @param BigDecimal $summand The Object wich should be add to the this

@@ -12,13 +12,40 @@ namespace blaze\lang;
  * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
-class Integer extends Object implements NativeWrapper {
+class Integer extends Number {
     private $value;
     private $digitCount;
 
     public function __construct($value){
         $this->value = self::asNative($value);
         $this->digitCount = 1 + floor(log10(abs($this->value)));
+    }
+    public function byteValue() {
+
+    }
+
+    public function doubleValue() {
+
+    }
+
+    public function floatValue() {
+
+    }
+
+    public function intValue() {
+
+    }
+
+    public function longValue() {
+
+    }
+
+    public static function parse($value) {
+
+    }
+
+    public function shortValue() {
+
     }
 
     public function toNative() {

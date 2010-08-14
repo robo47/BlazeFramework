@@ -13,11 +13,38 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Byte extends Object implements NativeWrapper {
+class Byte extends Number {
     private $value;
 
     public function __construct($value){
         $this->value = self::asNative($value);
+    }
+    public function byteValue() {
+
+    }
+
+    public function doubleValue() {
+
+    }
+
+    public function floatValue() {
+
+    }
+
+    public function intValue() {
+
+    }
+
+    public function longValue() {
+
+    }
+
+    public static function parse($value) {
+
+    }
+
+    public function shortValue() {
+
     }
 
     public function toNative() {

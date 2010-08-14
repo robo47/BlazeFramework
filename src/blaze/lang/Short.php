@@ -3,7 +3,7 @@ namespace blaze\lang;
 use blaze\lang\Object;
 
 /**
- * Description of Float
+ * Description of Byte
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,8 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Float extends Number {
-
+class Short extends Number {
     private $value;
 
     public function __construct($value){
@@ -48,20 +47,17 @@ class Float extends Number {
 
     }
 
-        /**
-     *
-     * @return float
-     */
     public function toNative() {
         return $this->value;
     }
+
     /**
      *
      * @param mixed $value
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_float($value);
+        return is_int($value) && $value < 0xFFFF;
     }
 
     /**
@@ -70,7 +66,7 @@ class Float extends Number {
      * @return boolean
      */
     public static function isWrapperType($value) {
-        return $value instanceof Float;
+        return $value instanceof Short;
     }
 
     /**
@@ -84,25 +80,23 @@ class Float extends Number {
 
     /**
      *
-     * @param blaze\lang\Float|float $value
-     * @return float
+     * @param blaze\lang\Integer|integer $value
+     * @return integer
      */
     public static function asNative($value){
-        if($value instanceof Float)
+        if($value instanceof Short)
             return $value->value;
-        else if(is_float($value))
-            return $value;
         else
-            return (float)String::asNative($value);
+            return Integer::asNative($value) & 0xFFFF;
     }
 
     /**
      *
-     * @param blaze\lang\Float|float $value
-     * @return blaze\lang\Float
+     * @param blaze\lang\Integer|integer $value
+     * @return blaze\lang\Integer
      */
     public static function asWrapper($value){
-        if($value instanceof Float)
+        if($value instanceof Short)
             return $value;
         else
             return new self($value);
