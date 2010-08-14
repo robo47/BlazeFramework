@@ -16,7 +16,6 @@ use blaze\lang\Object;
  * @todo    Something which has to be done, implementation or so
  */
 class ExpressionContent extends Object{
-        private $hasSubExpression = false;
 	/**
 	 * Contains all subexpressions
 	 */
@@ -29,8 +28,6 @@ class ExpressionContent extends Object{
 	 * subexpressions get replaced with the placeholders {number} and number is the index of the elements in contentParts
 	 */
 	private $contentString;
-
-        private $hasBracket = false;
 	/**
 	 * If any brackets are in the content, this array contains the brackets as ExpressionBracket objects and Strings.
 	 */
@@ -91,6 +88,20 @@ class ExpressionContent extends Object{
         public function getValue(\blaze\web\application\BlazeContext $context){
              return $this->expressionOperation->getValue($context, $this->contentParts, $this->bracketParts);
         }
+
+        public function setValue(\blaze\web\application\BlazeContext $context, $value){
+		if(count($this->bracketParts) != 1)
+		   throw new Exception('Invalid Expression for value bindings');
+
+		$this->expressionOperation->setValue($context, $this->contentParts, $this->bracketParts, $value);
+	}
+
+	public function invoke(\blaze\web\application\BlazeContext $context, $value){
+		if(count($this->bracketParts) != 1)
+		   throw new Exception('Invalid Expression for method bindings');
+
+		return $this->expressionOperation->invoke($context, $this->contentParts, $this->bracketParts, $value);
+	}
 }
 
 ?>

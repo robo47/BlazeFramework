@@ -15,8 +15,8 @@ use blaze\lang\Object;
  */
 class GreaterOrEqualOperation extends ComplexOperation{
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
-        $left = $this->getValueFromExpression($context, $subExpressions, $subBrackets, $this->getLeftOperation());
-        $right = $this->getValueFromExpression($context, $subExpressions, $subBrackets, $this->getRightOperation());
+        $left = $this->getLeftOperation()->getValue($context, $subExpressions, $subBrackets);
+        $right = $this->getRightOperation()->getValue($context, $subExpressions, $subBrackets);
         return $left >= $right;
     }
 }

@@ -59,7 +59,7 @@ class BlazeApplication extends Object implements Application {
 
         // ManagedNuts
         $this->elContext = new \blaze\web\el\ELContext();
-        $scopes = array();
+        $scopes = array('application' => array(), 'session' => array(), 'view' => array(), 'request' => array());
 
         foreach ($confMap['nuts'] as $nut) {
                 $scopes[$nut['scope']][$nut['name']] = \blaze\lang\ClassWrapper::forName($nut['class']);

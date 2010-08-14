@@ -70,6 +70,8 @@ class ClassLoader extends Object{
 
 		// More native because via Reflection it does not work?
         $arr = class_implements($className,true);
+        
+        
         if(is_array($arr) && in_array('blaze\lang\StaticInitialization',$arr)){
 			// Execute the static initializer
             $className::staticInit(); // maybe faster?

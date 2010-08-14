@@ -36,10 +36,11 @@ class RenderResponsePhase extends Phase {
         $requestedView = $context->getViewHandler()->getRequestView($context);
         $requestedViewId = $requestedView->getViewId();
 
-        if ($oldViewId == $actViewId) {
+        if ($oldViewId === $actViewId) {
             if($requestedViewId != $actViewId){
                 $context->setViewRoot($requestedView);
                 // clean up the el view scope
+                $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_VIEW)->resetValues();
             }
         }
         $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot()->getViewId());

@@ -23,7 +23,9 @@ class Test extends Object{
      * Description
      */
     public function __construct(){
-        
+        $this->name = 'Hugo';
+        $this->value = 12;
+        $this->label = true;
     }
 
     public static function create(){
@@ -58,11 +60,10 @@ class Test extends Object{
     }
 
     public function doSomething(){
-        var_dump('ActionListener works!');
     }
 
     public function navigateSomewhere(){
-        var_dump('Action works!');
+        return 'navigate';
     }
 
 

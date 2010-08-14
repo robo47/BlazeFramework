@@ -75,7 +75,7 @@ class Expression extends Object {
 		   !($this->expressionParts[0] instanceof ExpressionContent))
 		   throw new Exception('Invalid Expression for value bindings');
 
-		$this->expressionParts[0]->setValue();
+		$this->expressionParts[0]->setValue($context, $value);
 	}
 
 	public function invoke(\blaze\web\application\BlazeContext $context, $value){
@@ -83,7 +83,7 @@ class Expression extends Object {
 		   !($this->expressionParts[0] instanceof ExpressionContent))
 		   throw new Exception('Invalid Expression for method bindings');
 
-		$this->expressionParts[0]->invoke();
+		return $this->expressionParts[0]->invoke($context, $value);
 	}
 
     /**
@@ -92,14 +92,6 @@ class Expression extends Object {
      */
     public function getExpressionString() {
         return $this->expressionString;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function getExpressionParts() {
-        return $this->expressionParts;
     }
 
     public static function isExpression($expr) {

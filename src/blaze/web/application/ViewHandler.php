@@ -31,8 +31,9 @@ class ViewHandler extends Object {
         $this->mapping = $mapping;
         $this->viewIds = $viewIds;
 
-        foreach($viewIds as $viewId => $viewClass)
+        foreach($viewIds as $viewId => $viewClass){
             $this->views[$viewId] = ClassWrapper::forName($viewClass)->newInstance()->getViewRoot();
+        }
     }
 
     public function restoreOrCreateView(BlazeContext $context){

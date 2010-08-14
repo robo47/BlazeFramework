@@ -44,7 +44,7 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
 //    }
 
     public function getAction() {
-        return $this->invokeResolvedExpression($this->action);
+        return $this->action;
     }
 
     public function setAction($action) {
@@ -52,7 +52,7 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
         return $this;
     }
     public function getActionListener() {
-        return $this->invokeResolvedExpression($this->actionListener);
+        return $this->actionListener;
     }
 
     public function setActionListener($actionListener) {

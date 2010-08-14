@@ -50,14 +50,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetExpressionParts() {
-        $this->assertEquals(3,count($this->singleSimpleExp->getExpressionParts()));
-        $this->assertEquals(3,count($this->singleNestedExp->getExpressionParts()));
-        $this->assertEquals(6,count($this->multipleSimpleExp->getExpressionParts()));
-        $this->assertEquals(7,count($this->multipleNestedExp->getExpressionParts()));
-        $this->assertNotEquals(2,count($this->wrongExp->getExpressionParts()));
-    }
-
     public function testIsExpression() {
         $this->assertTrue(Expression::isExpression('{sdfg}'));
         $this->assertTrue(Expression::isExpression('asfd{sdfg}asdfasdf'));

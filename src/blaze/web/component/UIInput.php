@@ -113,7 +113,7 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
             if($valExpr == null)
                 return;
 
-            $context->getELContext()->getELResolver()->setValue($valExpr, $this->getLocalValue());
+            $valExpr->setValue($context, $this->getLocalValue());
         }catch(\blaze\lang\Exception $e){
             $context->renderResponse();
             throw $e;
