@@ -33,12 +33,14 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
         $sessionExist = false;
 
         foreach ($cookies as $cookie)
-            if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0)
+            if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
                 $sessionExist = true;
+                break;
+            }
 
         if ($sessionExist || $create) {
             session_name(self::SESSION_NAME);
-            session_set_cookie_params('3600', null, null, true, true);
+            session_set_cookie_params('3600', '/', '', true, true);
             session_start();
             $this->session = new HttpSessionImpl($this);
         }
