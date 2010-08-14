@@ -36,16 +36,24 @@ class ViewHandler extends Object {
     }
 
     public function restoreOrCreateView(BlazeContext $context){
-        $session = $context->getRequest()->getSession(true);
-        $lastViewId = $session->getAttribute('blaze.view_restore');
+        $session = $context->getRequest()->getSession();
         $lastView = null;
 
-        if($lastViewId != null)
-            $lastView = $this->getView($context, $lastViewId);
-        if($lastView == null)
+        if($session != null){
+            $lastViewId = $session->getAttribute('blaze.view_restore');
+
+            if($lastViewId != null)
+                $lastView = $this->getView($context, $lastViewId);
+            if($lastView == null)
+                $lastView = $this->getRequestView($context);
+            if($lastView == null)
+                throw new \blaze\lang\Exception('No view found.');
+        }else{
             $lastView = $this->getRequestView($context);
-        if($lastView == null)
-            throw new \blaze\lang\Exception('No view found.');
+            if($lastView == null)
+                throw new \blaze\lang\Exception('No view found.');
+        }
+        
         $context->setViewRoot($lastView);
     }
 

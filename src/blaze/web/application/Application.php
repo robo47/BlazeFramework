@@ -20,7 +20,7 @@ interface Application {
     // EL scopes?
 
     /**
-     *
+     * Returns the ELContext for the application scope
      * @return blaze\web\el\ELContext
      */
     public function getELContext();

@@ -157,13 +157,17 @@ class NetletApplication extends Object implements StaticInitialization{
         return null;
     }
 
+    /**
+     *
+     * @return blaze\netlet\NetletContext
+     */
     public function getNetletContext() {
         return $this->netletContext;
     }
 
     /**
      *
-     * @return blaze\web\Application
+     * @return blazeServer\source\netlet\NetletApplication
      */
     public static function getAdminApplication() {
         return self::$blazeServer;

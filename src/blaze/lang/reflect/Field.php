@@ -261,6 +261,8 @@ class Field extends Object{
     public function get(Object $obj)
         //throws IllegalArgumentException, IllegalAccessException
     {
+        $this->property->setAccessible(true);
+        return $this->property->getValue($obj);
         //return $this->getFieldAccessor($obj)->get($obj);
     }
 

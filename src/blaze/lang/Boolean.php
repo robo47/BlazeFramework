@@ -123,6 +123,24 @@ class Boolean extends Object implements NativeWrapper,Comparable {
     }
 
     /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isWrapperType($value) {
+        return $value instanceof Boolean;
+    }
+
+    /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isType($value) {
+        return $this->isNativeType($value) || $this->isWrapperType($value);
+    }
+
+    /**
      * Returns a hash code for this <tt>Boolean</tt> object.
      *
      * @return  the integer <tt>1231</tt> if this object represents

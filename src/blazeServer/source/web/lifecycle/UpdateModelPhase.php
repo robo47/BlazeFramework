@@ -32,14 +32,6 @@ class UpdateModelPhase extends Phase {
      */
     public function execute(BlazeContext $context){
         $context->getViewRoot()->processUpdates($context);
-//        // Update Model
-//        foreach ($paramDefs as $paramDef) {
-//            $expr = String::asWrapper($paramDef->getExpression());
-//            if ($expr != null) {
-//                $valueExpr = new \blaze\web\el\Expression($expr->substring(1, $expr->length() - 1));
-//                $appContext->getElContext()->getELResolver()->setValue($valueExpr, $paramDef->getValue());
-//            }
-//        }
     }
 
     /**

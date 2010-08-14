@@ -40,6 +40,24 @@ class Float extends Object implements NativeWrapper {
 
     /**
      *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isWrapperType($value) {
+        return $value instanceof Float;
+    }
+
+    /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isType($value) {
+        return $this->isNativeType($value) || $this->isWrapperType($value);
+    }
+
+    /**
+     *
      * @param blaze\lang\Float|float $value
      * @return float
      */

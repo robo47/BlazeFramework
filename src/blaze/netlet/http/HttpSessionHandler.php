@@ -17,7 +17,7 @@ interface HttpSessionHandler extends Singleton {
     /**
      * @param boolean $create Indicates wether a session shall be created when no session is available or not.
      */
-     public function getCurrentSession($create = false);
+     public function getCurrentSession($cookies, $create = false);
 }
 
 ?>

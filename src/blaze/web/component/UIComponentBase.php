@@ -62,7 +62,7 @@ abstract class UIComponentBase implements UIComponent {
         if(!$expr->isValid())
                 return $expr->getExpressionString();
         $context = \blaze\web\application\BlazeContext::getCurrentInstance();
-        return $context->getELContext()->getELResolver()->getValue($expr);
+        return $expr->getValue($context);
     }
 
     protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null){

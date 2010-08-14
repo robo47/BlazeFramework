@@ -39,6 +39,9 @@ class BlazeContext extends Object {
         $this->application = $application;
         $this->request = $request;
         $this->response = $response;
+        
+        $confMap = $application->getConfig()->getConfigurationMap();
+        $this->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($this);
     }
 
     /**
@@ -93,6 +96,14 @@ class BlazeContext extends Object {
 
     /**
      *
+     * @return blaze\web\el\ELContext
+     */
+    public function getELContext(){
+        return $this->application->getELContext();
+    }
+
+    /**
+     *
      * @return blaze\netlet\http\HttpNetletRequest
      */
     public function getRequest() {
@@ -123,14 +134,6 @@ class BlazeContext extends Object {
      */
     public function getApplication() {
         return $this->application;
-    }
-
-    /**
-     *
-     * @return blaze\web\el\ELContext
-     */
-    public function getELContext() {
-        return $this->application->getELContext();
     }
 
     /**

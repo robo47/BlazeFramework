@@ -29,10 +29,7 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
 
     }
 
-    public function getCurrentSession($create = false) {
-        $cookies = \blaze\web\application\BlazeContext::getCurrentInstance()
-                        ->getRequest()
-                        ->getCookies();
+    public function getCurrentSession($cookies, $create = false) {
         $sessionExist = false;
 
         foreach ($cookies as $cookie)

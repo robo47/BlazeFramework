@@ -22,8 +22,9 @@ class Expression extends Object {
     protected $expressionParts = array();
 
     public function __construct($expressionString) {
-        $this->expressionString = \blaze\lang\String::asWrapper($expressionString);
+        $this->expressionString = $expressionString;//\blaze\lang\String::asWrapper($expressionString);
         $this->valid = self::isExpression($this->expressionString);
+
         if ($this->valid)
             $this->splitExpressionString();
     }
@@ -33,36 +34,57 @@ class Expression extends Object {
     }
 
     protected function splitExpressionString() {
-        $start = 0;
-        $lastEnd = $this->expressionString->indexOf('}');
-        $lastStart = $this->expressionString->indexOf('{');
+		$tokenizer = new ExpressionTokenizer('{','}');
+        $tokens = $tokenizer->tokenize($this->expressionString);
 
-        while ($lastStart != -1 && $lastEnd != -1) {
-            $lastStart = $this->expressionString->indexOf('{', $lastStart + 1);
-
-            if ($lastStart > $lastEnd) {
-                $firstStart = $this->expressionString->indexOf('{', $start);
-                $this->expressionParts[] = $this->expressionString->substring($start, $firstStart);
-                $this->expressionParts[] = $this->expressionString->substring($firstStart, $lastEnd + 1);
-                $start = $lastEnd + 1;
-                $lastEnd = $this->expressionString->indexOf('}', $lastEnd + 1);
-            } else {
-                if ($this->expressionString->lastIndexOf('}') == $lastEnd) {
-                    $firstStart = $this->expressionString->indexOf('{', $start);
-                    
-                    if ($start != $firstStart)
-                        $this->expressionParts[] = $this->expressionString->substring($start, $firstStart);
-
-                    $this->expressionParts[] = $this->expressionString->substring($firstStart, $lastEnd + 1);
-
-                    if ($lastEnd + 1 != $this->expressionString->length())
-                        $this->expressionParts[] = $this->expressionString->substring($lastEnd + 1, $this->expressionString->length());
-                }else
-                    $lastEnd = $this->expressionString->indexOf('}', $lastEnd + 1);
-            }
-        }
+		if($tokens != null){
+			foreach($tokens as $token){
+				if(is_array($token)){
+					$this->expressionParts[] = new ExpressionContent($token);
+				}else{
+					$this->expressionParts[] = $token;
+				}
+			}
+		}
     }
 
+	public function getValue(\blaze\web\application\BlazeContext $context){
+		$value = null;
+
+		if(count($this->expressionParts) == 1){
+			if($this->expressionParts[0] instanceof ExpressionContent)
+				$value = $this->expressionParts[0]->getValue($context);
+			else
+				$value = $this->expressionParts[0];
+		}else{
+			$value = '';
+
+			foreach($this->expressionParts as $part){
+				if($part instanceof ExpressionContent)
+					$value .= $part->getValue($context);
+				else
+					$value .= $part;
+			}
+		}
+
+		return $value;
+	}
+
+	public function setValue(\blaze\web\application\BlazeContext $context, $value){
+		if(count($this->expressionParts) != 1 ||
+		   !($this->expressionParts[0] instanceof ExpressionContent))
+		   throw new Exception('Invalid Expression for value bindings');
+
+		$this->expressionParts[0]->setValue();
+	}
+
+	public function invoke(\blaze\web\application\BlazeContext $context, $value){
+		if(count($this->expressionParts) != 1 ||
+		   !($this->expressionParts[0] instanceof ExpressionContent))
+		   throw new Exception('Invalid Expression for method bindings');
+
+		$this->expressionParts[0]->invoke();
+	}
 
     /**
      *
@@ -81,8 +103,9 @@ class Expression extends Object {
     }
 
     public static function isExpression($expr) {
-        $expr = \blaze\lang\String::asWrapper($expr);
-        return $expr->matches('/{.*}/');
+        //$expr = \blaze\lang\String::asWrapper($expr);
+        //return $expr->matches('/{.*}/');
+		return preg_match('/{.*}/', $expr) != 0;
     }
 
     public function isValid() {

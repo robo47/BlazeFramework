@@ -311,30 +311,45 @@ class ELResolver extends Object{
         return $obj;
     }
 
+    private function getValueFromContext($key){
+        $ctx = \blaze\web\application\BlazeContext::getCurrentInstance();
+        $key = \blaze\lang\String::asNative($key);
 
+        $val = $this->context->getContext(ELContext::SCOPE_REQUEST)->get($ctx, $key);
+        if($val != null)
+            return $val;
+        $val = $this->context->getContext(ELContext::SCOPE_VIEW)->get($ctx, $key);
+        if($val != null)
+            return $val;
+        $val = $this->context->getContext(ELContext::SCOPE_SESSION)->get($ctx, $key);
+        if($val != null)
+            return $val;
+        $val = $this->context->getContext(ELContext::SCOPE_APPLICATION)->get($ctx, $key);
+        if($val != null)
+            return $val;
+        return null;
+    }
 
-    public function getValue(Expression $expr){
-        if(!$expr->isValid())
-            return $expr->getExpressionString();
-            
-        $parts = $expr->getExpressionParts();
-        $result = null;
+    public function getValue($expr){
+        $parts = \blaze\lang\String::asWrapper($expr)->split('.',null,true);
+        $partsCount = count($parts);
 
-        if(count($parts) == 1){
-            $result = $this->getValueByExpressionString($parts[0]);
-        }else{
-            $result = '';
+        if($partsCount < 1)
+            throw new ELException('No valid expression');
 
-            foreach($parts as $exprPart){
-                if(Expression::isExpression($exprPart)){
-                    $result .= $this->getValueByExpressionString($exprPart);
-                }else{
-                    $result .= $exprPart->toNative();
-                }
-            }
+        $obj = $this->getValueFromContext($parts[0]);
+
+        if($obj == null)
+            throw new ELException($parts[0].' is not a valid expression object');
+
+        for($i = 1; $i < $partsCount; $i++){
+            if($obj == null)
+                throw new NullPointerException($parts[$i-1].' is null');
+            $method = $obj->getClass()->getMethod('get'.$parts[$i]->toUpperCase(true));
+            $obj = $method->invoke($obj, null);
         }
 
-        return $result;
+        return $obj;
     }
 
     public function setValue(Expression $expr, $value){

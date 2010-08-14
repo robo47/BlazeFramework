@@ -34,6 +34,24 @@ class Integer extends Object implements NativeWrapper {
         return is_int($value);
     }
 
+    /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isWrapperType($value) {
+        return $value instanceof Integer;
+    }
+
+    /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isType($value) {
+        return $this->isNativeType($value) || $this->isWrapperType($value);
+    }
+
     public function toHexString($i){
         return dechex($i);
     }

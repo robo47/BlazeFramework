@@ -69,7 +69,7 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         
         if($value != null){
             foreach($value as $tableEntry){
-                $context->getELContext()->getVariableMapper()->set($component->getVar(), $tableEntry);
+                $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $component->getVar(), $tableEntry);
                 $this->renderTableRow($context, $component);
             }
         }

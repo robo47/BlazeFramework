@@ -58,18 +58,23 @@ class BlazeApplication extends Object implements Application {
         }
 
         // ManagedNuts
-        $variableMapper = new \blaze\util\HashMap();
+        $this->elContext = new \blaze\web\el\ELContext();
+        $scopes = array();
+
         foreach ($confMap['nuts'] as $nut) {
-            $variableMapper->set($nut['name'], \blaze\lang\ClassWrapper::forName($nut['class'])->newInstance());
+                $scopes[$nut['scope']][$nut['name']] = \blaze\lang\ClassWrapper::forName($nut['class']);
         }
+
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_REQUEST, new \blaze\web\el\scope\ELRequestScopeContext($scopes['request']));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_VIEW, new \blaze\web\el\scope\ELViewScopeContext($scopes['view']));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_SESSION, new \blaze\web\el\scope\ELSessionScopeContext($scopes['session']));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_APPLICATION, new \blaze\web\el\scope\ELApplicationScopeContext($scopes['application']));
 
         // NavigationRules
 //        foreach($confMap['navigation'] as $navLocation => $options){
 //
 //        }
         $this->navigationCases = $confMap['navigation'];
-
-        $this->elContext = new \blaze\web\el\ELContext($variableMapper);
         $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->navigationCases);
         $this->viewHandler = new \blaze\web\application\ViewHandler($confMap['views'], $this->navigationCases);
     }

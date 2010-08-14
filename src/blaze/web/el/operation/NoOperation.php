@@ -1,8 +1,9 @@
 <?php
-namespace blaze\web\el;
+namespace blaze\web\el\operation;
+use blaze\lang\Object;
 
 /**
- * Description of ValueExpression
+ * Description of ELContext
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,14 +13,8 @@ namespace blaze\web\el;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ValueExpression extends Expression{
-    public function getValue(ELContext $context){
-        return $context->getELResolver()->getValue($this);
-    }
-
-    public function setValue(ELContext $context){
-        $context->getELResolver()->setValue($this);
-    }
+class NoOperation extends SimpleOperation{
 }
+
 
 ?>

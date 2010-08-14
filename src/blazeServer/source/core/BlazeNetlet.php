@@ -61,13 +61,14 @@ class BlazeNetlet extends HttpNetlet{
      */
     public function service(NetletRequest $request, NetletResponse $response) {
         $appContext = new BlazeContext($this->application, $request, $response);
+        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($appContext);
 
-        $appContext->getELContext()->getVariableMapper()->set('myblub', \blazeServer\Test::create()->setName('count')->setLabel('label')->setValue('value'));
+        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($appContext, 'myblub', \blazeServer\Test::create()->setName('count')->setLabel('label')->setValue('value'));
         $list = new \blaze\util\ArrayList();
         $list->add(\blazeServer\Test::create()->setName('Christian')->setLabel('Beikov')->setValue('Nice'));
         $list->add(\blazeServer\Test::create()->setName('Bernd')->setLabel('Artmüller')->setValue('Lazy'));
         $list->add(\blazeServer\Test::create()->setName('Oliver')->setLabel('Kotzina')->setValue('In Love'));
-        $appContext->getELContext()->getVariableMapper()->set('testList', $list);
+        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($appContext, 'testList', $list);
         //$appContext->setExceptionHandler(new \blaze\web\application\ExceptionHandler());
 
         /**

@@ -17,7 +17,6 @@ use blaze\lang\Object,
  */
 class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNetletRequest {
 
-    private $httpHeaders = array();
     private $attributes = array();
     /**
      *
@@ -283,7 +282,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     public function getSession($create = false) {
         if($this->sessionHandler == null)
                 $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
-        return $this->sessionHandler->getCurrentSession($create);
+        return $this->sessionHandler->getCurrentSession($this->getCookies(), $create);
     }
     public function getUserAgent() {
         if($this->userAgent == null)

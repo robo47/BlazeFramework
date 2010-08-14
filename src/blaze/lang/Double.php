@@ -39,6 +39,24 @@ class Double extends Object {
 
     /**
      *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isWrapperType($value) {
+        return $value instanceof Double;
+    }
+
+    /**
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function isType($value) {
+        return $this->isNativeType($value) || $this->isWrapperType($value);
+    }
+
+    /**
+     *
      * @param blaze\lang\Double|double $value
      * @return double
      */

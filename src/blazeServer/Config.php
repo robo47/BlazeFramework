@@ -29,7 +29,9 @@ class Config extends Object implements WebConfig, Singleton {
                                         'views' => array('blazeServer\\view\\TestView' => 'blazeServer\\view\\TestView',
                                                          'blazeServer\\view\\IndexView' => 'blazeServer\\view\\IndexView',
                                                          'blazeServer\\view\\SuccessView' => 'blazeServer\\view\\SuccessView'),
-                                        'nuts' => array(array('name' => 'test', 'class' => 'blazeServer\\Test', 'scope' => 'application')),
+                                        'nuts' => array(array('name' => 'test', 'class' => 'blazeServer\\Test', 'scope' => 'application'),
+                                                        array('name' => 'test', 'class' => 'blazeServer\\TestSession', 'scope' => 'session'),
+                                                        array('name' => 'test', 'class' => 'blazeServer\\TestRequest', 'scope' => 'request')),
                                         /**
                                          * Navigation part contains the navigationstrings in an orderd from
                                          * very specific(/test/bla/blub) to simple(/test)

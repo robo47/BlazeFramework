@@ -15,20 +15,33 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class ELContext extends Object{
-    protected $variableMapper;
-    protected $resolver;
 
-    public function __construct(Map $variableMapper) {
-        $this->variableMapper = $variableMapper;
+    const SCOPE_REQUEST = 0;
+    const SCOPE_VIEW = 1;
+    const SCOPE_SESSION = 2;
+    const SCOPE_APPLICATION = 3;
+
+    private $resolver;
+    private $contexts = array();
+
+    public function __construct() {
         $this->resolver = new ELResolver($this);
+    }
+
+    public function setContext($key, scope\ELScopeContext $context){
+        $this->contexts[$key] = $context;
+        return $this;
     }
 
     /**
      *
-     * @return blaze\util\Map
+     * @param mixed $key
+     * @return blaze\web\el\ELScopeContext
      */
-    public function getVariableMapper() {
-        return $this->variableMapper;
+    public function getContext($key){
+        if(array_key_exists($key, $this->contexts))
+                return $this->contexts[$key];
+        return null;
     }
 
     /**
@@ -38,9 +51,6 @@ class ELContext extends Object{
     public function getELResolver() {
         return $this->resolver;
     }
-
-
-
 }
 
 ?>

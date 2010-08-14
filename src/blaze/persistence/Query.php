@@ -1,5 +1,5 @@
 <?php
-namespace blaze\..;
+namespace blaze\persistence;
 
 /**
  * Description of Query

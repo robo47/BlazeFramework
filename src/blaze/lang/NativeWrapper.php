@@ -25,6 +25,18 @@ interface NativeWrapper {
      */
     public static function isNativeType($value);
     /**
+     * This method returns wether the given value is the wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isWrapperType($value);
+    /**
+     * This method returns wether the given value is the native or wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isType($value);
+    /**
      * This method returns the native datatype of a wrapper class.
      *
      * @return int|float|string|boolean
