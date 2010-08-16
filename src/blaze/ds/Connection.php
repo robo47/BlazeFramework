@@ -57,6 +57,7 @@ interface Connection {
       */
      public function prepareStatement($sql);
      /**
+      * Please Note for MySQL Set on return value not works define this vars with @!
       * @return blaze\ds\CallableStatement
       */
      public function prepareCall($sql);
