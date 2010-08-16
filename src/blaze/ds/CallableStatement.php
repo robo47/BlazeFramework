@@ -15,12 +15,12 @@ namespace blaze\ds;
 interface CallableStatement extends PreparedStatement {
     //setOutParameter?
 
-
     /**
      *
      * @param blaze\lang\String|string|integer $identifier
      * @return blaze\util\ArrayObject
      */
+    
     public function getArray($identifier);
     /**
      *

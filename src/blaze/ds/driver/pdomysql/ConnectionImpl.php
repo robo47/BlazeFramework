@@ -5,6 +5,7 @@ namespace blaze\ds\driver\pdomysql;
 use blaze\lang\Object,
  blaze\ds\driver\pdobase\AbstractConnection,
  blaze\ds\driver\pdomysql\meta\DatabaseMetaDataImpl,
+ blaze\ds\Connection,
  PDO;
 
 /**

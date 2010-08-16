@@ -2,7 +2,9 @@
 
 namespace blaze\ds;
 
-use blaze\ds\meta\ColumnMetaData;
+use blaze\ds\meta\ColumnMetaData,
+ blaze\ds\CallableStatement
+        \PDO;
 
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
@@ -148,7 +150,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
             while ($rs->next()) {
                 $rs->getDate(0);
-                $rs->getInt(1);
+                $this->assertNotNull($rs->getInt(1));
                 $rs->getString(2);
                 $rs->getDouble(3);
             }
@@ -359,6 +361,51 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $max++;
             }
         }
+    }
+
+    public function testCallableStatement(){
+        $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+           $stm = $this->con[$i]->prepareCall('CALL counttest(@ret)');
+           $stm->execute();
+           $ret = $stm->getInt('ret');
+
+
+           $this->assertNotNull($ret);
+
+           $stm = $this->con[$i]->prepareCall('CALL getdatebyzahl(?,@ret)');
+           $stm->setInt(0,new \blaze\lang\Integer(1));
+           $stm->execute();
+           $ret = $stm->getDate('ret');
+           $this->assertNotNull($ret);
+
+           $stm = $this->con[$i]->prepareCall('SELECT functiontest(?) into @a');
+           $stm->setInt(0,new \blaze\lang\Integer(1));
+           $stm->execute();
+           $ret = $stm->getInt('a');
+
+        }
+
+    }
+
+    public function testView(){
+         $this->setupConnection();
+
+        for ($i = 0; $i < (count($this->con)); $i++) {
+            $this->assertFalse($this->con[$i]->isClosed());
+            $stm = $this->con[$i]->prepareStatement('Select zahl,datum from v1');
+            $this->assertNotNull($stm);
+
+
+            $rs = $stm->executeQuery();
+
+            while ($rs->next()) {
+                $rs->getDate(1);
+                $this->assertNotNull($rs->getInt(0));
+            }
+        }
+
     }
 
 }

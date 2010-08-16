@@ -23,7 +23,7 @@ abstract class AbstractConnection extends Object implements Connection {
      *
      * @var PDO
      */
-    protected $pdo;
+    public $pdo;
     /**
      *
      * @var string
