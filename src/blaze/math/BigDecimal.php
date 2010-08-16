@@ -25,10 +25,14 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
 
     /**
      * Generate a new BigDecimal Object.
-     * @param <type> $value Is a native String, with scale and algebric sign
+     * @param <integer|string|float|blaze\lang\Number> $value Is a native String, with scale and algebric sign
      * @param <type> $scale If value has no scale you can define the scale
      */
     public function __construct($value, $scale = null){
+        if($value instanceof  Number){
+            $value = $value.doubleValue;
+        }
+
         $this->value = trim($value,'0');
         if($scale!=null){
             $this->scale = $scale;
@@ -49,48 +53,53 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
 
      }
 
-    public static function asNative($value) {
+     private function getIntVal(){
+         $ar = split('[\.]', $this->value);
+         return $ar[0];
+     }
 
+    public static function asNative($value) {
+        return $this->value;
     }
 
     public static function asWrapper($value) {
-
+        return new BigDecimal($value);
     }
 
     public static function isNativeType($value) {
-
+        return is_string($var);
     }
 
     public static function isType($value) {
-
+        return self::isNativeType($value) || self::isWrapperType($value);
     }
 
     public static function isWrapperType($value) {
-
+             return $value instanceof BigDecimal;
     }
 
     public function toNative() {
-
+        return $this->value;
     }
 
     public function byteValue() {
-
+        \blaze\lang\Byte::asWrapper($this->getIntVal());
     }
 
     public function doubleValue() {
-
+        \blaze\lang\Double::asNative($this->value);
     }
 
     public function floatValue() {
-
+        \blaze\lang\Float::asWrapper($this->value);
     }
 
     public function intValue() {
-
+        Integer::asWrapper($this->getIntVal());
     }
 
     public function longValue() {
-
+        \blaze\lang\Long::asWrapper($this->getIntVal());
     }
 
     public static function parse($value) {
@@ -98,16 +107,29 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
     }
 
     public function shortValue() {
+        \blaze\lang\Short::asWrapper($this->getIntVal());
+    }
 
+    public function getScale(){
+        return $this->scale;
+    }
+
+    public function setScale($scale){
+        $this->scale = $scale;
+    }
+
+    public function negate(){
+
+        return $this->multiply(new BigDecimal(-1));
     }
 
 
     /**
      *Add to BigDecimal.
-     * @param BigDecimal $summand The Object wich should be add to the this
+     * @param blaze\math\BigDecimal $summand The Object wich should be add to the this
      * Object.
      * @param Integer $scale You can define the scale of the new BigDecimal.
-     * @return BigDecimal The Output of the Operation
+     * @return blaze\math\BigDecimal The Output of the Operation
      */
      public function add(BigDecimal $summand, Integer $scale = null){
          if($scale == null){
@@ -119,11 +141,11 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
      }
 /**
  *
- * @param BigDecimal $subtrahend
+ * @param blaze\math\BigDecimal $subtrahend
  * @param Integer $scale You can define the scale of the new BigDecimal.
- * @return BigDecimal The Output of the Operation
+ * @return blaze\math\BigDecimal The Output of the Operation
  */
-     public function sub(BigDecimal $subtrahend , Integer $scale = null){
+     public function subtract(BigDecimal $subtrahend , Integer $scale = null){
         if($scale == null){
             return new BigDecimal(bcsub($this, $summand,$this->scale));
          }
@@ -134,11 +156,11 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
      
 /**
  *
- * @param BigDecimal $divisor
+ * @param blaze\math\BigDecimal $divisor
  * @param Integer $scale You can define the scale of the new BigDecimal.
- * @return BigDecimal The Output of the Operation
+ * @return blaze\math\BigDecimal The Output of the Operation
  */
-     public function div(BigDecimal $divisor , Integer $scale = null){
+     public function divide(BigDecimal $divisor , Integer $scale = null){
 
         if($scale == null){
          return new BigDecimal(bcdiv($this, $divisor,$this->scale));
@@ -149,11 +171,11 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
      }
 /**
  *
- * @param BigDecimal $multiplicator
+ * @param blaze\math\BigDecimal $multiplicator
  * @param Integer $scale You can define the scale of the new BigDecimal.
- * @return BigDecimal The Output of the Operation
+ * @return blaze\math\BigDecimal The Output of the Operation
  */
-      public function mul(BigDecimal $multiplicator , Integer $scale = null){
+      public function multiply(BigDecimal $multiplicator , Integer $scale = null){
 
         if($scale == null){
          return new BigDecimal(bcmul($this, $multiplicator,$this->scale+$multiplicator->scale));
@@ -164,14 +186,11 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
      }
 
      /**
-      *
-      *  * Computes the factoral (this!).
- * @author Thomas Oldbury.
- * @license Public domain.
-      * @param <type> $scale
-      * @return BigDecimal
+      * Factoral the this Object.
+      * @param <integer> $scale
+      * @return blaze\math\BigDecimal
       */
-function fact($scale = 100)
+public function factoral($scale = 100)
 {
     if($this->value == 1) return 1;
     return new BigDecimal(bcmul($this->value, bcfact(bcsub($this->value, '1'), $scale), $scale));
@@ -179,14 +198,12 @@ function fact($scale = 100)
 
 
 /**
- * Computes e^this, where e is Euler's constant, or approximately 2.71828.
- * @author Thomas Oldbury.
- * @license Public domain.
- * @param <type> $iters
- * @param <type> $scale
- * @return BigDecimal
+ * Computes e^this, where e is Euler's constant.
+ * @param <integer> $iters
+ * @param <integer> $scale
+ * @return blaze\math\BigDecimal
  */
-function bcexp ($iters = 7, $scale = 100)
+public function exponentialteWithE ($iters = 7, $scale = 100)
 {
     /* Compute e^x. */
     $res = bcadd('1.0', $this->value, $scale);
@@ -199,14 +216,12 @@ function bcexp ($iters = 7, $scale = 100)
 
 
 /**
- *Computes ln(this).
- * @author Thomas Oldbury.
- * @license Public domain.
- * @param <type> $iters
- * @param <type> $scale
- * @return BigDecimal
+ * ln(this).
+ * @param <integer> $iters
+ * @param <integer> $scale
+ * @return blaze\math\BigDecimal
  */
-function bcln( $iters = 10, $scale = 100)
+public function logarithmize( $iters = 10, $scale = 100)
 {
     $result = "0.0";
 
@@ -225,29 +240,28 @@ function bcln( $iters = 10, $scale = 100)
 
 
 /**
- *Computes this^b, where a and b can have decimal digits, be negative and/or very large.
- * Also works for 0^0. Only able to calculate up to 10 digits. Quite slow.
- * @author Thomas Oldbury.
- * @license Public domain.
+ * Computes this^b
  *
- * @param <type> $b
- * @param <type> $iters
- * @param <type> $scale
- * @return BigDecimal
+ * @param <blaze\math\BigDecimal> $b
+ * @param <integer> $iters
+ * @param <integer> $scale
+ * @return blaze\math\BigDecimal
  */
-function bcpowx($b, $iters = 25, $scale = 100)
+public function exponentialte($b, $iters = 25, $scale = 100)
 {
     $ln = bcln($this->value, $iters, $scale);
-    return new BigDecimal(bcexp(bcmul($ln, $b, $scale), $iters, $scale));
+    return new BigDecimal(bcexp(bcmul($ln,$b.asNative(), $scale), $iters, $scale));
 }
 /**
  * Gives you a random BigDecimal Object
  * @param int $min
- * @param <type> $max
- * @return BigDecimal
+ * @param <blaze\math\BigDecimal> $max
+ * @return blaze\math\BigDecimal
  */
-public static function bcrand($min, $max=false)
+public static function getrandom($min, $max=false)
 {
+    $min = $min.asNative();
+    $max = $max.asNative();
     if(!$max)
     {
         $max = $min;

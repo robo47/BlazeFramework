@@ -384,6 +384,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
            $stm->setInt(0,new \blaze\lang\Integer(1));
            $stm->execute();
            $ret = $stm->getInt('a');
+           
 
         }
 
