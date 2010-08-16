@@ -13,9 +13,8 @@ use blaze\lang\Object;
  * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @version $Revision$
- * @todo think about offering the current depth
  */
-interface XMLReader {
+interface XMLReader extends \blaze\io\Closeable{
     const START_ELEMENT = 1;
     const END_ELEMENT = 2;
     const CDATA = 3;

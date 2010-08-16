@@ -12,11 +12,17 @@ namespace blaze\io;
  */
 interface Closeable {
     /**
-     * Closes the stream and releases the ressources which are used by the stream.
+     * Closes the object and releases the ressources which are used by it.
      *
-     * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the stream is already closed
+     * @throws	blaze\io\IOException Is thrown when an IO error occurs
      */
      public function close();
+
+     /**
+      * Returns wether the object is closed or not.
+      * @return boolean
+      */
+     public function isClosed();
 }
 
 ?>

@@ -137,7 +137,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      * @return boolean
      */
     public static function isType($value) {
-        return $this->isNativeType($value) || $this->isWrapperType($value);
+        return self::isNativeType($value) || self::isWrapperType($value);
     }
 
     /**

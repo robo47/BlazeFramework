@@ -14,16 +14,13 @@ use blaze\io\InputStream,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class PipedInputStream extends InputStream {
+class PipedInputStream extends ByteArrayInputStream {
 
     /**
      *
      * @var PipedOutputStream
      */
     private $pos = null;
-    private $buffer = '';
-    private $cursor = 0;
-    private $count = 0;
 
     public function __construct(PipedOutputStream $pos = null) {
         if($pos !== null)
@@ -32,6 +29,10 @@ class PipedInputStream extends InputStream {
     public function connect(PipedOutputStream $pos) {
         $this->pos = $pos;
         $this->pos->connect($pis);
+    }
+
+    public function isClosed() {
+        return $this->pos === null;
     }
 
     public function close() {
@@ -43,19 +44,9 @@ class PipedInputStream extends InputStream {
     }
 
     public function receive($data){
-        $this->buffer .= $data;
+        $this->checkClosed();
+        $this->bytes .= $data;
         $this->count += strlen($data);
-    }
-
-    public function available(){
-        return $this->count - $this->cursor;
-    }
-
-    public function read(StringBuffer $buffer = null, $off = 0, $len = -1) {
-        if($this->cursor != $this->count){
-            $buffer->append(substr($this->buffer,$this->cursor, $this->count - $this->cursor));
-            $this->cursor = $this->count;
-        }
     }
 
 }

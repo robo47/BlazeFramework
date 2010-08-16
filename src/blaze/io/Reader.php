@@ -13,53 +13,27 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class Reader extends Object implements Readable, Closeable{
+abstract class Reader extends Object implements Readable, Closeable, Markable{
 
     /**
-     *
-     * @var blaze\io\InputStream
+     * Reset the current position to the beginning or to the last mark (if supported).
+     * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    protected $is;
-    
-    protected function __construct(InputStream $is){
-        $this->is = $is;
+    public function reset() {}
+
+    /**
+     * Returns wether the stream is ready for reading or not
+     * @return boolean
+     */
+    public function ready() {
+        return true;
     }
 
-    /**
-     * Reads contents of a ressource into the buffer or if no buffer is given,
-     * returns one char as integer.
-     *
-     * @param 	blaze\lang\StringBuffer $buffer The buffer in which the chars shall be read into
-     * @param 	integer $off The startpoint of the buffer to start storing
-     * @param 	integer $len The maximum number of chars to be read
-     * @return 	integer If no buffer is given, it returns a char represented as integer, or -1 if nothing could be read.
-     *                  If a buffer is given, if returns the number of chars which were read into it, or -1 if nothing could be read.
-     * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
-     */
-     public function read(StringBuffer $buffer = null, $off = 0, $len = -1){
-         return $this->is->read($buffer, $off, $len);
-     }
-     
-    /**
-     * Closes the output stream and releases the ressources which are used by it.
-     *
-     * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the stream is already closed
-     */
-     public function close(){
-         $this->is->close();
-     }
-     
-    /**
-     * Tries to skip over $n chars and returns the number of chars which were skipped over.
-     *
-     * @param   long $n The number of chars which shall be skipped
-     * @return 	long The number of chars which were skipped
-     * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
-     */
-     public function skip($n){
-         return $this->is->skip($n);
-     }
+    public function mark() {}
 
+    public function markSupported() {
+        return false;
+    }
 }
 
 ?>

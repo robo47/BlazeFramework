@@ -59,8 +59,7 @@ class NetletOutputStream extends OutputStream {
 //         $this->output = ob_get_contents();
 //         ob_end_clean();
 
-        if($this->closed)
-                throw new \blaze\io\IOException();
+        $this->checkClosed();
          fwrite($this->output, $buf);
     }
 
@@ -70,8 +69,7 @@ class NetletOutputStream extends OutputStream {
      * @throws	blaze\io\IOException Is thrown when the stream is already closed
      */
      public function flush(){
-         if($this->closed)
-                throw new \blaze\io\IOException();
+         $this->checkClosed();
          $contentLength = ftell($this->output);
          rewind($this->output);
          $this->response->setContentLength($contentLength);
@@ -86,14 +84,15 @@ class NetletOutputStream extends OutputStream {
       * @throws blaze\io\IOException Is thrown when the stream is already closed
       */
      public function close(){
-         if($this->closed)
-                throw new \blaze\io\IOException();
-         
          $this->flush();
          if(!fclose($this->output))
                  throw new \blaze\io\IOException();
          $this->closed = true;
     }
+    public function isClosed() {
+        return $this->closed;
+    }
+
 }
 
 ?>

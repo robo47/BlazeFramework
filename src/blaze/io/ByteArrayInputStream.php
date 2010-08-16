@@ -16,38 +16,35 @@ use blaze\lang\Object,
  */
 class ByteArrayInputStream extends InputStream {
 
-    private $bytes;
+    protected $bytes;
+    protected $count = 0;
     private $closed = false;
     private $position = 0;
-    private $count = 0;
+    private $mark = 0;
 
-    public function __construct($bytes){
+    public function __construct($bytes, $off = 0, $len = -1){
         $this->bytes = $bytes;
         $this->count = strlen($bytes);
     }
 
     public function close(){
-        if($this->closed)
-            throw new IOException('Stream is already closed.');
         $this->closed = true;
     }
 
-    public function read(StringBuffer $buffer = null, $off = 0, $len = -1) {
-        if($this->closed)
-            throw new IOException('Stream is already closed.');
-        if($buffer === null)
-            throw new \blaze\lang\NullPointerException();
-        if($off < 0)
-            throw new \blaze\lang\IllegalArgumentException('Offset must be equals or greater than zero.');
-        $this->position += $off;
-        if($len > 0)
+    public function isClosed() {
+        return $this->closed;
+    }
+
+    public function read($len = -1) {
+        $this->checkClosed();
+        if($len > 0 && $len + $this->position <= $this->count)
             $result = substr($this->bytes, $this->position, $len);
-        $result = substr($this->bytes, $this->position);
+        else
+            $result = substr($this->bytes, $this->position);
 
         $read = strlen($result);
         $this->position += $read;
-        $buffer->append($result);
-        return $read;
+        return $result;
     }
 
     /**
@@ -57,8 +54,7 @@ class ByteArrayInputStream extends InputStream {
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
      public function available(){
-        if($this->closed)
-            throw new IOException('Stream is already closed.');
+        $this->checkClosed();
          return $this->count - $this->position;
      }
 
@@ -70,10 +66,22 @@ class ByteArrayInputStream extends InputStream {
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
      public function skip($n){
-        if($this->closed)
-            throw new IOException('Stream is already closed.');
+        $this->checkClosed();
          $this->position += $n;
      }
+
+     public function mark() {
+         $this->mark = $this->position;
+     }
+
+     public function markSupported() {
+         return true;
+     }
+
+     public function reset() {
+         $this->position = $this->mark;
+     }
+
 }
 
 ?>

@@ -108,7 +108,7 @@ class ExpressionOperation extends Object {
                 // Remove the function name
                 if ($pos != 0)
                     $string = substr($operations[$j]['leftExpression'], 0, $pos);
-                $string .= substr($operations[$j]['leftExpression'], $pos + strlen($functionName), strlen($operations[$j]['leftExpression']));
+                $string .= substr($operations[$j]['leftExpression'], $pos + strlen($functionName));
                 // Make a new function object
                 $this->operations[$i][$j] = $this->getFunctionObject($functionName, $string);
                 // Break because there can only be one function

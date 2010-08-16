@@ -15,6 +15,11 @@ use blaze\lang\Object;
  */
 abstract class OutputStream extends Object implements Closeable, Flushable, Writable {
 
+
+    protected function checkClosed(){
+        if($this->isClosed())
+                throw new IOException($this->__toString().' is already closed.');
+    }
 }
 
 ?>

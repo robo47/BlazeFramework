@@ -37,8 +37,17 @@ class NetletInputStream extends InputStream {
      }
     public function close() {
     }
-    public function read(StringBuffer $buffer = null, integer $off = 0, integer $len) {
-    }
+
+    public function isClosed(){
+}
+public function available(){
+}
+public function skip($n){
+}
+public function read($len = -1) {
+
+}
+
 }
 
 ?>

@@ -57,7 +57,7 @@ class IndexView extends Object implements WebView{
                                                                                                                                      ->addChild(OutputText::create()->setValue('huhu {tblVar.label}')))
                                                                                                  ->addChild(DataTableColumn::create()->addChild(DataTableHeader::create()->addChild(OutputText::create()->setValue('Attribute')))
                                                                                                                                      ->addChild(OutputText::create()->setValue('{tblVar.value} :P'))))
-                                                                   ->addChild(Image::create()->setSrc('http://www.queensu.ca/iigr/apps/database/sale/no_image.gif')
+                                                                   ->addChild(Image::create()->setSrc('http://www.justaddfood.co.uk/images/no_image.gif')
                                                                                              ->setId('firstImage')
                                                                                              ->addChild(Area::create()->setAlt('Yeah an area!')
                                                                                                                       ->setShape('rect')
