@@ -102,7 +102,7 @@ class Boolean extends Object implements NativeWrapper,Comparable {
      *
      * @return  a string representation of this object.
      */
-    public function __toString(){
+    public function toString(){
         return $this->value ? 'true' : 'false';
     }
 
@@ -143,8 +143,8 @@ class Boolean extends Object implements NativeWrapper,Comparable {
     /**
      * Returns a hash code for this <tt>Boolean</tt> object.
      *
-     * @return  the integer <tt>1231</tt> if this object represents
-     * <tt>true</tt>; returns the integer <tt>1237</tt> if this
+     * @return  the int <tt>1231</tt> if this object represents
+     * <tt>true</tt>; returns the int <tt>1237</tt> if this
      * object represents <tt>false</tt>.
      */
     public function hashCode(){

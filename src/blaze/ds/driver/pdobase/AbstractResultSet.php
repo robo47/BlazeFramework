@@ -41,7 +41,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
     private $actRowIndex;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $rowNumber;
     /**
@@ -111,7 +111,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
 
     /**
      *
-     * @return integer The actual row number
+     * @return int The actual row number
      */
     public function getRow() {
         $this->checkedClosed();
@@ -158,7 +158,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      *
      */
     protected function get($identifier) {

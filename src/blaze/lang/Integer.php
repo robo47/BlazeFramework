@@ -108,32 +108,14 @@ class Integer extends Number {
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return integer
+     * @param blaze\lang\Integer|int $value
+     * @return int
      */
     public static function asNative($value){
-        if($value instanceof Integer)
-            return $value->value;
-        else if(is_int($value))
-            return $value;
-        else{
-            return (int)String::asNative($value);
-        }
+        return (int)parent::asNative($value);
     }
 
-    /**
-     *
-     * @param blaze\lang\Integer|integer $value
-     * @return blaze\lang\Integer
-     */
-    public static function asWrapper($value){
-        if($value instanceof Integer)
-            return $value;
-        else
-            return new self($value);
-    }
-
-    public function __toString(){
+    public function toString(){
         return (string)$this->value;
     }
 }

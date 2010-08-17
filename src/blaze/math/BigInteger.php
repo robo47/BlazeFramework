@@ -116,7 +116,7 @@ class BigInteger extends Number implements StaticInitialization, Comparable {
      }
      
 
-    public function __toString(){
+    public function toString(){
         return String::asNative($this->value);
     }
     public function compareTo(Object $obj) {

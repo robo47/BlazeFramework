@@ -30,11 +30,11 @@ interface ColumnMetaData {
      */
     public function getColumnClassName();
     /**
-     * @return integer
+     * @return int
      */
     public function getColumnLength();
     /**
-     * @return integer
+     * @return int
      */
     public function getColumnPrecision();
     /**

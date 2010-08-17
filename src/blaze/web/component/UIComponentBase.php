@@ -13,7 +13,7 @@ namespace blaze\web\component;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIComponentBase implements UIComponent {
+abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent {
 
     private $id;
     private $parent;

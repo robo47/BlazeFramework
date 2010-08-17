@@ -42,8 +42,7 @@ class BigDecimalTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAdd() {
         // Remove the following lines when you implement this test.
-        echo '';
-        );
+        
     }
 
     /**
@@ -127,9 +126,9 @@ class BigDecimalTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement test__toString().
+     * @todo Implement testToString().
      */
-    public function test__toString() {
+    public function testToString() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'

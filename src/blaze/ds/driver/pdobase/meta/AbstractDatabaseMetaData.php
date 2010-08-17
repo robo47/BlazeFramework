@@ -38,7 +38,7 @@ abstract class AbstractDatabaseMetaData extends Object implements DatabaseMetaDa
     protected $host;
     /**
      *
-     * @var integer
+     * @var int
      */
     protected $port;
     /**

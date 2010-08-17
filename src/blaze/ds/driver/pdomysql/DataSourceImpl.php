@@ -31,7 +31,7 @@ class DataSourceImpl extends Object implements DataSource {
     private $host;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $port;
     /**

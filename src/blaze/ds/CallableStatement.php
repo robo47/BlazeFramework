@@ -17,99 +17,99 @@ interface CallableStatement extends PreparedStatement {
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\ArrayObject
      */
     
     public function getArray($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\math\BigDecimal
      */
     public function getDecimal($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\Blob
      */
     public function getBlob($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return boolean
      */
     public function getBoolean($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getByte($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\Clob
      */
     public function getClob($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getDate($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return double
      */
     public function getDouble($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return float
      */
     public function getFloat($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getInt($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return long
      */
     public function getLong($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\NClob
      */
     public function getNClob($identifier);
     /**
      * Varchar2
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getNString($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getString($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTime($identifier);
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTimestamp($identifier);

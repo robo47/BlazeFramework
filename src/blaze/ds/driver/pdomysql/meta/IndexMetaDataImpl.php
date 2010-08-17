@@ -47,7 +47,7 @@ class IndexMetaDataImpl extends AbstractIndexMetaData{
             $stmt = $this->table->getSchema()
                          ->getDatabaseMetaData()
                          ->getConnection()
-                         ->prepareStatement('SHOW INDEX FROM '.$this->table->getSchema()->getSchemaName().'.'.$this->table->getTableName().' WHERE Key_name = \''.$this->indexName->__toString().'\'');
+                         ->prepareStatement('SHOW INDEX FROM '.$this->table->getSchema()->getSchemaName().'.'.$this->table->getTableName().' WHERE Key_name = \''.$this->indexName->toString().'\'');
             $stmt->execute();
             $rs = $stmt->getResultSet();
 

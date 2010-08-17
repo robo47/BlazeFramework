@@ -37,7 +37,7 @@ class URI extends Object {
     private $host;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $port;
     /**
@@ -61,7 +61,7 @@ class URI extends Object {
      * @param blaze\lang\String|string $scheme
      * @param blaze\lang\String|string $userInfo
      * @param blaze\lang\String|string $host
-     * @param integer $port
+     * @param int $port
      * @param blaze\lang\String|string $path
      * @param blaze\lang\String|string $query
      * @param blaze\lang\String|string $fragment

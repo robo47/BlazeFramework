@@ -32,12 +32,12 @@ abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
     protected $columnClassName;
     /**
      *
-     * @var integer
+     * @var int
      */
     protected $columnLength;
     /**
      *
-     * @var integer
+     * @var int
      */
     protected $columnPrecision;
     /**

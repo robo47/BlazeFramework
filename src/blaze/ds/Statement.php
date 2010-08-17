@@ -29,7 +29,7 @@ interface Statement extends Statement1{
      /**
       *
       * @param <type> $sql
-      * @return integer The count of the updated rows or 0 if there was no return.
+      * @return int The count of the updated rows or 0 if there was no return.
       */
      public function executeUpdate($sql);
 }

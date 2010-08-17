@@ -28,12 +28,12 @@ class FilterChainImpl extends Object implements FilterChain {
     private $filters;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $index = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $count = 0;
 

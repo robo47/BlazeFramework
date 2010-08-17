@@ -27,7 +27,7 @@ class BufferedInputStream extends InputStream {
     /**
      *
      * @param blaze\io\InputStream $reader The reader
-     * @param integer $buffsize The size of the buffer which should be used for reading.
+     * @param int $buffsize The size of the buffer which should be used for reading.
      */
     public function __construct(InputStream $stream, $buffsize = 65536) {
         $this->in = $stream;

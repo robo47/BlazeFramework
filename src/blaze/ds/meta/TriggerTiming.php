@@ -17,10 +17,6 @@ final class TriggerTiming extends Enum {
 
     const BEFORE = 1,
           AFTER = 2;
-
-    public static function getClassName() {
-        return __CLASS__;
-    }
 }
 
 ?>

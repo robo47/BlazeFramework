@@ -16,7 +16,7 @@ class Exception extends \Exception implements Reflectable {
     /**
      *
      * @param blaze\lang\String|string $message
-     * @param blaze\lang\Integer|integer $code
+     * @param blaze\lang\Integer|int $code
      * @param blaze\lang\Exception $previous
      */
     public function __construct ($message = null, $code = null, $previous = null) {
@@ -29,34 +29,78 @@ class Exception extends \Exception implements Reflectable {
     }
 
     /**
-     *
-     * @return blaze\lang\Object
+     * @access protected
      */
     public function cloneObject(){
+        if(!$this instanceof Cloneable)
+                throw new CloneNotSupportedException();
         return clone $this;
     }
+
     /**
-     * @param blaze\lang\Object $obj The reference object with which to compare.
-     * @return boolean
+     * @access protected
      */
-    public function equals(Reflectable $obj){
-        return $this === $obj;
+    public function finalize(){}
+
+    /**
+     * Magic method of PHP, look at the finalize Method for details.
+     * @access private
+     */
+    public final function __destruct() {
+        $this->finalize();
     }
 
-    public function  __destruct() {}
     /**
      *
-     * @return blaze\lang\ClassWrapper
+     * @access private
+     */
+    public static final function __callStatic($name, $args) {
+        if($name === 'classWrapper')
+            return ClassWrapper::forName(get_called_class());
+        return null;
+    }
+
+    /**
+     * Identifies if the given object is equal to this one.
+     *
+     * @param 	blaze\lang\Reflectable $obj The reference object with which to compare.
+     * @return 	boolean True if the object is the same as the parameter, otherwise false.
+     */
+    public function equals(Reflectable $obj){
+        return $this == $obj;
+    }
+
+    /**
+     * Returns the runtime class of the object.
+     *
+     * @return 	blaze\lang\ClassWrapper Returns a ClassWrapper which represents the class of the object.
      */
     public function getClass(){
-        return ClassWrapper::forName(new String((get_class($this))));
+        return ClassWrapper::forName(get_class($this));
     }
     /**
+     * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
      *
-     * @return blaze\lang\String
+     * @return 	int A hash code value for this object.
      */
     public function hashCode(){
         return spl_object_hash($this);
     }
+     /**
+     * Returns a string representation of the Object which includes the hash code of the object.
+      *
+     * @return 	blaze\lang\String A string representation of the object.
+     */
+    public function toString() {
+        return $this->getClass()->getName().': '.$this->getMessage();
+    }
+
+    /**
+     * @access private
+     * @return string
+     */
+//    public final function  __toString() {
+//        return String::asNative($this->toString());
+//    }
 }
 ?>

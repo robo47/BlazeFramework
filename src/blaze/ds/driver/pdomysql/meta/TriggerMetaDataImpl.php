@@ -39,7 +39,7 @@ class TriggerMetaDataImpl extends AbstractTriggerMetaData{
         return $this->triggerEvent;
     }
     /**
-     * @return integer
+     * @return int
      */
     public function getTriggerOrder(){
         return $this->triggerOrder;

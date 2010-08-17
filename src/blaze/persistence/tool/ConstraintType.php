@@ -18,10 +18,6 @@ class ConstraintType extends Enum {
     const PRIMARY = 0,
           FOREIGN = 1,
           UNIQUE  = 2;
-    
-     public function getClassName(){
-        return __CLASS__;
-     }
 }
 
 ?>

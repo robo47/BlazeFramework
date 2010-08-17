@@ -10,22 +10,28 @@ namespace blaze\lang;
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
+ * @method  blaze\lang\ClassWrapper classWrapper Returns the ClassWrapper object for the class
  * @todo    Something which has to be done, implementation or so
  */
 interface Reflectable {
     /**
      * Creates and returns a copy of this object.
-     *
+     * @access protected
      * @throws 	blaze\lang\CloneNotSupportedException If the class does not implement the Cloneable interface.
      *                                                Subclasses can override the clone method and throw this exception.
-     * @return 	blaze\lang\Object Returns the cloned object.
+     * @return 	blaze\lang\Reflectable Returns the cloned object.
      */
     public function cloneObject();
     /**
+     * Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.
+     * @access protected
+     */
+    public function finalize();
+    /**
      * Identifies if the given object is equal to this one.
      *
-     * @param 	blaze\lang\Object $obj The reference object with which to compare.
-     * @return 	blaze\lang\Boolean True if the object is the same as the parameter, otherwise false.
+     * @param 	blaze\lang\Reflectable $obj The reference object with which to compare.
+     * @return 	boolean True if the object is the same as the parameter, otherwise false.
      */
     public function equals(Reflectable $obj);
 
@@ -38,15 +44,15 @@ interface Reflectable {
     /**
      * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
      *
-     * @return 	blaze\lang\String A hash code value for this object.
+     * @return 	int A hash code value for this object.
      */
     public function hashCode();
      /**
      * Returns a string representation of the Object which includes the hash code of the object.
       *
-     * @return 	string A string representation of the object.
+     * @return 	blaze\lang\String A string representation of the object.
      */
-    public function  __toString();
+    public function toString();
 }
 
 ?>

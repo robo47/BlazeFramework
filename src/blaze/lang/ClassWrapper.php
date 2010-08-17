@@ -1,10 +1,12 @@
 <?php
+
 namespace blaze\lang;
+
 use \ReflectionClass,
-	blaze\util\ArrayObject,
-	blaze\lang\reflect\Method,
-	blaze\lang\reflect\Field,
-	blaze\io\Serializable;
+ blaze\util\ArrayObject,
+ blaze\lang\reflect\Method,
+ blaze\lang\reflect\Field,
+ blaze\io\Serializable;
 
 /**
  * Instances of the class ClassWrapper represent classes, interfaces and enumerations which are classes too.
@@ -17,16 +19,23 @@ use \ReflectionClass,
  * @author  Christian Beikov
  * @todo    Documentations is missing
  */
-final class ClassWrapper extends Object implements Serializable{
+final class ClassWrapper extends Object implements Serializable {
+
     /**
      *
      * @var \ReflectionClass
      */
     private $reflectionClass;
+    /**
+     *
+     * @var blaze\lang\ClassLoader
+     */
+    private $classLoader;
 
-    private function __construct($class){
+    private function __construct($class, ClassLoader $classLoader) {
         //parent::__construct();
         $this->reflectionClass = $class;
+        $this->classLoader = $classLoader;
     }
 
     /**
@@ -40,8 +49,8 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @return string a string representation of this class object.
      */
-    public function __toString(){
-        return ($this->isInterface() ? "interface " : ($this->isPrimitive() ? "" : "class ")). $this->getName();
+    public function toString() {
+        return ($this->isInterface() ? "interface " : ($this->isPrimitive() ? "" : "class ")) . $this->getName();
     }
 
     /**
@@ -75,13 +84,20 @@ final class ClassWrapper extends Object implements Serializable{
      *            by this method fails
      * @exception ClassNotFoundException if the class cannot be located
      */
-    public static function forName($className){
-        $className = String::asNative($className);
-        $reflection = new ReflectionClass($className);
+    public static function forName($className, $initialize = false, ClassLoader $classLoader = null) {
+        $className = (string) $className;
+        if ($classLoader == null)
+            $classLoader = ClassLoader::getSystemClassLoader();
 
-        if(!$reflection->isSubclassOf('blaze\lang\Reflectable') && $reflection->getName() != 'blaze\lang\Reflectable')
-            throw new IllegalArgumentException('Reflection only works for classes which implement blaze\lang\Reflectable');
-        return new self($reflection, false);
+        if ($initialize && !$classLoader->isInitializedClass($className)) {
+            $reflection = new ReflectionClass($className);
+
+            if (!$reflection->isSubclassOf('blaze\lang\Reflectable') && $reflection->getName() != 'blaze\lang\Reflectable')
+                throw new IllegalArgumentException('Reflection only works for classes which implement blaze\lang\Reflectable');
+            return new ClassWrapper($reflection, $classLoader);
+        } else {
+            return $classLoader->findClass($className);
+        }
     }
 
     /**
@@ -131,8 +147,8 @@ final class ClassWrapper extends Object implements Serializable{
      *             </ul>
      *
      */
-    public function newInstance($args = null){
-        if(is_array($args))
+    public function newInstance($args = null) {
+        if (is_array($args))
             return $this->reflectionClass->newInstance($args);
         else
             return $this->reflectionClass->newInstance(null);
@@ -168,7 +184,7 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function isInstance(Reflectable $obj){
+    public function isInstance(Reflectable $obj) {
         return $this->reflectionClass->isInstance($obj);
     }
 
@@ -179,7 +195,7 @@ final class ClassWrapper extends Object implements Serializable{
      * @return  <code>true</code> if this object represents an interface;
      *          <code>false</code> otherwise.
      */
-    public function isInterface(){
+    public function isInterface() {
         return $this->reflectionClass->isInterface();
     }
 
@@ -190,7 +206,7 @@ final class ClassWrapper extends Object implements Serializable{
      *          <code>false</code> otherwise.
      * @since   JDK1.1
      */
-    public function isArray(){
+    public function isArray() {
         return $this->reflectionClass->getName() instanceof \ArrayObject;
     }
 
@@ -222,7 +238,7 @@ final class ClassWrapper extends Object implements Serializable{
      * @see     java.lang.Void#TYPE
      * @since JDK1.1
      */
-    public function isPrimitive(){
+    public function isPrimitive() {
         return false;
     }
 
@@ -233,7 +249,7 @@ final class ClassWrapper extends Object implements Serializable{
      *         defined by the Java Language Specification.
      * @since 1.5
      */
-    public function isSynthetic(){
+    public function isSynthetic() {
         return $this->reflectionClass->isUserDefined();
     }
 
@@ -287,8 +303,8 @@ final class ClassWrapper extends Object implements Serializable{
      * @return  the name of the class or interface
      *          represented by this object.
      */
-    public function getName(){
-        return $this->reflectionClass->getName();
+    public function getName() {
+        return new String($this->reflectionClass->getName());
     }
 
     /**
@@ -317,8 +333,8 @@ final class ClassWrapper extends Object implements Serializable{
      * @see SecurityManager#checkPermission
      * @see java.lang.RuntimePermission
      */
-    public function getClassLoader(){
-        return ClassLoader::getInstance();
+    public function getClassLoader() {
+        return $this->classLoader;
     }
 
     /**
@@ -332,7 +348,7 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @return the superclass of the class represented by this object.
      */
-    public function getSuperclass(){
+    public function getSuperclass() {
         return new self($this->reflectionClass->getParentClass());
     }
 
@@ -395,13 +411,13 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @return an array of interfaces implemented by this class.
      */
-    public function getInterfaces(){
+    public function getInterfaces() {
         return $this->reflectionClass->getInterfaces();
     }
 
     /**
      * Returns the Java language modifiers for this class or interface, encoded
-     * in an integer. The modifiers consist of the Java Virtual Machine's
+     * in an int. The modifiers consist of the Java Virtual Machine's
      * constants for <code>public</code>, <code>protected</code>,
      * <code>private</code>, <code>final</code>, <code>static</code>,
      * <code>abstract</code> and <code>interface</code>; they should be decoded
@@ -426,7 +442,7 @@ final class ClassWrapper extends Object implements Serializable{
      * @see     java.lang.reflect.Modifier
      * @since JDK1.1
      */
-    public function getModifiers(){
+    public function getModifiers() {
         return $this->reflectionClass->getModifiers();
     }
 
@@ -442,7 +458,7 @@ final class ClassWrapper extends Object implements Serializable{
      * @return blaze\lang\String the simple name of the underlying class
      * @since 1.5
      */
-    public function getSimpleName(){
+    public function getSimpleName() {
         return new String($this->reflectionClass->getShortName());
     }
 
@@ -456,7 +472,7 @@ final class ClassWrapper extends Object implements Serializable{
      * <tt>null</tt> otherwise.
      * @since 1.5
      */
-    public function getFileName(){
+    public function getFileName() {
         return new String($this->reflectionClass->getFileName());
     }
 
@@ -503,10 +519,10 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function getFields(){
+    public function getFields() {
         $props = $this->reflectionClass->getProperties();
         $arr = array();
-        foreach($props as $prop){
+        foreach ($props as $prop) {
             $arr[] = new Field($prop);
         }
         return $arr;
@@ -554,24 +570,23 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function getMethods(){
+    public function getMethods() {
         $methods = $this->reflectionClass->getMethods();
         $arr = array();
-        foreach($methods as $prop){
+        foreach ($methods as $prop) {
             $arr[] = new Method($prop);
         }
         return $arr;
     }
 
-    public function getConstants(){
+    public function getConstants() {
         $constants = $this->reflectionClass->getConstants();
         $arr = array();
-        foreach($constants as $prop){
+        foreach ($constants as $prop) {
             $arr[] = new Method($prop);
         }
         return $arr;
     }
-
 
     /**
      * Returns a <code>Field</code> object that reflects the specified public
@@ -622,10 +637,10 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function getField($name){
-        try{
+    public function getField($name) {
+        try {
             return new Field($this->reflectionClass->getProperty(String::asNative($name)));
-        }catch(\ReflectionException $e){
+        } catch (\ReflectionException $e) {
             throw new NoSuchFieldException($e->getMessage(), $e->getCode());
         }
     }
@@ -702,17 +717,17 @@ final class ClassWrapper extends Object implements Serializable{
      * @since JDK1.1
      */
     public function getMethod($name) {
-        try{
+        try {
             return new Method($this->reflectionClass->getMethod(String::asNative($name)));
-        }catch(\ReflectionException $e){
+        } catch (\ReflectionException $e) {
             throw new NoSuchMethodException($e->getMessage(), $e->getCode());
         }
     }
 
     public function getConstant($name) {
-        try{
+        try {
             return new Method($this->reflectionClass->getConstant(String::asNative($name)));
-        }catch(\ReflectionException $e){
+        } catch (\ReflectionException $e) {
             throw new NoSuchFieldException($e->getMessage(), $e->getCode());
         }
     }
@@ -757,53 +772,53 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since JDK1.1
      */
-    public function getConstructor(){
+    public function getConstructor() {
         return new Method($this->reflectionClass->getConstructor());
     }
 
     /**
- * Finds a resource with a given name.  The rules for searching resources
- * associated with a given class are implemented by the defining
- * {@linkplain ClassLoader class loader} of the class.  This method
- * delegates to this object's class loader.  If this object was loaded by
- * the bootstrap class loader, the method delegates to {@link
- * ClassLoader#getSystemResourceAsStream}.
- *
- * <p> Before delegation, an absolute resource name is constructed from the
- * given resource name using this algorithm:
- *
- * <ul>
- *
- * <li> If the <tt>name</tt> begins with a <tt>'/'</tt>
- * (<tt>'&#92;u002f'</tt>), then the absolute name of the resource is the
- * portion of the <tt>name</tt> following the <tt>'/'</tt>.
- *
- * <li> Otherwise, the absolute name is of the following form:
- *
- * <blockquote><pre>
- *   <tt>modified_package_name</tt>/<tt>name</tt>
- * </pre></blockquote>
- *
- * <p> Where the <tt>modified_package_name</tt> is the package name of this
- * object with <tt>'/'</tt> substituted for <tt>'.'</tt>
- * (<tt>'&#92;u002e'</tt>).
- *
- * </ul>
- *
- * @param blaze\lang\String|string $name name of the desired resource
- * @return      A {@link java.io.InputStream} object or <tt>null</tt> if
- *              no resource with this name is found
- * @throws  NullPointerException If <tt>name</tt> is <tt>null</tt>
- * @since  JDK1.1
- */
-    public function getResourceAsStream($name){
-        if($name instanceof String)
-            return ClassLoader::getInstance()->getRessourceAsStream($name);
+     * Finds a resource with a given name.  The rules for searching resources
+     * associated with a given class are implemented by the defining
+     * {@linkplain ClassLoader class loader} of the class.  This method
+     * delegates to this object's class loader.  If this object was loaded by
+     * the bootstrap class loader, the method delegates to {@link
+     * ClassLoader#getSystemResourceAsStream}.
+     *
+     * <p> Before delegation, an absolute resource name is constructed from the
+     * given resource name using this algorithm:
+     *
+     * <ul>
+     *
+     * <li> If the <tt>name</tt> begins with a <tt>'/'</tt>
+     * (<tt>'&#92;u002f'</tt>), then the absolute name of the resource is the
+     * portion of the <tt>name</tt> following the <tt>'/'</tt>.
+     *
+     * <li> Otherwise, the absolute name is of the following form:
+     *
+     * <blockquote><pre>
+     *   <tt>modified_package_name</tt>/<tt>name</tt>
+     * </pre></blockquote>
+     *
+     * <p> Where the <tt>modified_package_name</tt> is the package name of this
+     * object with <tt>'/'</tt> substituted for <tt>'.'</tt>
+     * (<tt>'&#92;u002e'</tt>).
+     *
+     * </ul>
+     *
+     * @param blaze\lang\String|string $name name of the desired resource
+     * @return      A {@link java.io.InputStream} object or <tt>null</tt> if
+     *              no resource with this name is found
+     * @throws  NullPointerException If <tt>name</tt> is <tt>null</tt>
+     * @since  JDK1.1
+     */
+    public function getResourceAsStream($name) {
+        if ($name instanceof String)
+            return ClassLoader::getSystemClassLoader()->getRessourceAsStream($name);
         else
-            return ClassLoader::getInstance()->getRessourceAsStream(new String($name));
+            return ClassLoader::getSystemClassLoader()->getRessourceAsStream(new String($name));
     }
 
-     /**
+    /**
      * Finds a resource with a given name.  The rules for searching resources
      * associated with a given class are implemented by the defining
      * {@linkplain ClassLoader class loader} of the class.  This method
@@ -837,11 +852,11 @@ final class ClassWrapper extends Object implements Serializable{
      *              resource with this name is found
      * @since  JDK1.1
      */
-    public function getResource($name){
-        if($name instanceof String)
-            return ClassLoader::getInstance()->getResource($name);
+    public function getResource($name) {
+        if ($name instanceof String)
+            return ClassLoader::getSystemClassLoader()->getResource($name);
         else
-            return ClassLoader::getInstance()->getResource(new String($name));
+            return ClassLoader::getSystemClassLoader()->getResource(new String($name));
     }
 
     /**
@@ -852,7 +867,7 @@ final class ClassWrapper extends Object implements Serializable{
      *     source code
      * @since 1.5
      */
-    public function isEnum(){
+    public function isEnum() {
         return $this->reflectionClass->isSubclassOf('blaze\lang\Enum');
     }
 
@@ -866,8 +881,8 @@ final class ClassWrapper extends Object implements Serializable{
      *     represent an enum type
      * @since 1.5
      */
-    public function getEnumConstants(){
-        if(!$this->isEnum())
+    public function getEnumConstants() {
+        if (!$this->isEnum())
             return null;
         return $this->reflectionClass->getConstants();
     }
@@ -884,8 +899,8 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @since 1.5
      */
-    public function cast(Reflectable $obj){
-        if(!$this->reflectionClass->isInstance($obj))
+    public function cast(Reflectable $obj) {
+        if (!$this->reflectionClass->isInstance($obj))
             throw new ClassCastException();
         return $obj;
     }
@@ -894,7 +909,7 @@ final class ClassWrapper extends Object implements Serializable{
      *
      * @return array
      */
-    public function getAnnotations(){
+    public function getAnnotations() {
         $annotations = array();
 
         if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $this->reflectionClass->getDocComment(), $matches)) {
@@ -915,5 +930,7 @@ final class ClassWrapper extends Object implements Serializable{
     public function hasAnnotations() {
         return count($this->getAnnotations()) != 0;
     }
+
 }
+
 ?>

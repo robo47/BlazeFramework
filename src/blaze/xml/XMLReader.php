@@ -24,36 +24,36 @@ interface XMLReader extends \blaze\io\Closeable{
     
     /**
      * Returns the count of attributes of the current element
-     * @return integer
+     * @return int
      */
     public function getAttributeCount();
     /**
      * Returns the name of wether the current attribute or the attribute defined by the index without the prefix by the attribute index
-     * @param integer $index
+     * @param int $index
      * @return string
      */
     public function getAttributeLocalName($index = null);
     /**
      * Returns the full qualified name of wether the current attribute or the attribute defined by the index if a prefix is available.
-     * @param integer $index
+     * @param int $index
      * @return string
      */
     public function getAttributeName($index = null);
     /**
      * Returns the namespace of wether the current attribute if $index is -1 or the attribute defined by the index.
-     * @param string|blaze\lang\String|integer $index
+     * @param string|blaze\lang\String|int $index
      * @return blaze\net\URI
      */
     public function getAttributeNamespaceURI($index = null);
     /**
      * Returns the prefix which is defined for wether the current attribute in its namespace or the attribute defined by the index.
-     * @param string|blaze\lang\String|integer $index
+     * @param string|blaze\lang\String|int $index
      * @return string
      */
     public function getAttributePrefix($index = null);
     /**
      * Returns the XML type of wether the current attribute or the attribute defined by the index.
-     * @param string|blaze\lang\String|integer $index
+     * @param string|blaze\lang\String|int $index
      * @return string
      */
     public function getAttributeType($index = null);
@@ -62,7 +62,7 @@ interface XMLReader extends \blaze\io\Closeable{
 
     /**
      * Returns the value of wether the current attribute or the attribute defined by the index as string.
-     * @param string|blaze\lang\String|integer $index
+     * @param string|blaze\lang\String|int $index
      * @return string
      */
     public function getAttributeValue($index = null);
@@ -108,18 +108,18 @@ interface XMLReader extends \blaze\io\Closeable{
     public function getElementTextLength();
     /**
      * Returns the count of defined namespaces in the document
-     * @return integer
+     * @return int
      */
     public function getNamespaceCount();
     /**
      * Returns the prefix of a defined namespace in the document by the index
-     * @param integer
+     * @param int
      * @return string
      */
     public function getNamespacePrefix($index);
     /**
-     * Returns the URI to the document definition by the integer index or the prefix
-     * @param integer|string|blaze\lang\String $index
+     * Returns the URI to the document definition by the int index or the prefix
+     * @param int|string|blaze\lang\String $index
      * @return blaze\net\URI
      */
     public function getNamespaceURI($indexOrPrefix);
@@ -161,7 +161,7 @@ interface XMLReader extends \blaze\io\Closeable{
 
     /**
      * Sets the current attribute to the one defined by the index.
-     * @param integer|string|blaze\lang\String $index
+     * @param int|string|blaze\lang\String $index
      * @return boolean wether true on succes or false
      */
     public function moveToAttribute($index = null);

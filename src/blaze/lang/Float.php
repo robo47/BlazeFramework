@@ -88,24 +88,7 @@ class Float extends Number {
      * @return float
      */
     public static function asNative($value){
-        if($value instanceof Float)
-            return $value->value;
-        else if(is_float($value))
-            return $value;
-        else
-            return (float)String::asNative($value);
-    }
-
-    /**
-     *
-     * @param blaze\lang\Float|float $value
-     * @return blaze\lang\Float
-     */
-    public static function asWrapper($value){
-        if($value instanceof Float)
-            return $value;
-        else
-            return new self($value);
+        return (float)parent::asNative($value);
     }
 }
 

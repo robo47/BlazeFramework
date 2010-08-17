@@ -51,7 +51,7 @@ interface Statement1 {
     /**
      * Returns the count of updated rows by the last query
      *
-     * @return integer The count of the updated rows
+     * @return int The count of the updated rows
      */
     public function getUpdateCount();
 

@@ -22,7 +22,7 @@ interface TriggerMetaData {
      */
     public function getTriggerEvent();
     /**
-     * @return integer
+     * @return int
      */
     public function getTriggerOrder();
     /**

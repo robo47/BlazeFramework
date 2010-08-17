@@ -18,10 +18,6 @@ final class TriggerEvent extends Enum {
     const INSERT = 1,
           UPDATE = 2,
           DELETE = 3;
-
-    public static function getClassName() {
-        return __CLASS__;
-    }
 }
 
 ?>

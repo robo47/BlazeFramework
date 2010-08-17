@@ -101,7 +101,7 @@ class String extends Object implements NativeWrapper {
             return new self((string)$value);
     }
 
-    public function __toString(){
+    public function toString(){
         return $this->string;
     }
 
@@ -110,7 +110,7 @@ class String extends Object implements NativeWrapper {
      * The length is equal to the number of <a href="Character.html#unicode">Unicode
      * code units</a> in the string.
      *
-     * @return integer the length of the sequence of characters represented by this
+     * @return int the length of the sequence of characters represented by this
      *          object.
      */
     public function length() {
@@ -398,9 +398,9 @@ class String extends Object implements NativeWrapper {
      * the strings. The character sequence represented by this
      * <code>String</code> object is compared lexicographically to the
      * character sequence represented by the argument string. The result is
-     * a negative integer if this <code>String</code> object
+     * a negative int if this <code>String</code> object
      * lexicographically precedes the argument string. The result is a
-     * positive integer if this <code>String</code> object lexicographically
+     * positive int if this <code>String</code> object lexicographically
      * follows the argument string. The result is zero if the strings
      * are equal; <code>compareTo</code> returns <code>0</code> exactly when
      * the {@link #equals(Object)} method would return <code>true</code>.
@@ -427,7 +427,7 @@ class String extends Object implements NativeWrapper {
      * </pre></blockquote>
      *
      * @param blaze\lang\String|string  anotherString   the <code>String</code> to be compared.
-     * @return integer the value <code>0</code> if the argument string is equal to
+     * @return int the value <code>0</code> if the argument string is equal to
      *          this string; a value less than <code>0</code> if this string
      *          is lexicographically less than the string argument; and a
      *          value greater than <code>0</code> if this string is
@@ -479,7 +479,7 @@ class String extends Object implements NativeWrapper {
 
     /**
      * Compares two strings lexicographically, ignoring case
-     * differences. This method returns an integer whose sign is that of
+     * differences. This method returns an int whose sign is that of
      * calling <code>compareTo</code> with normalized versions of the strings
      * where case differences have been eliminated by calling
      * <code>Character.toLowerCase(Character.toUpperCase(character))</code> on
@@ -491,7 +491,7 @@ class String extends Object implements NativeWrapper {
      * locale-sensitive ordering.
      *
      * @param   str   the <code>String</code> to be compared.
-     * @return integer a negative integer, zero, or a positive integer as the
+     * @return int a negative int, zero, or a positive int as the
      *		specified String is greater than, equal to, or less
      *		than this String, ignoring case considerations.
      * @see     java.text.Collator#compare(String, String)
@@ -520,12 +520,12 @@ class String extends Object implements NativeWrapper {
      * <li><tt>ooffset+len</tt> is greater than the length of the other
      * argument.
      * <li><tt>ignoreCase</tt> is <tt>false</tt> and there is some nonnegative
-     * integer <i>k</i> less than <tt>len</tt> such that:
+     * int <i>k</i> less than <tt>len</tt> such that:
      * <blockquote><pre>
      * this.charAt(toffset+k) != other.charAt(ooffset+k)
      * </pre></blockquote>
      * <li><tt>ignoreCase</tt> is <tt>true</tt> and there is some nonnegative
-     * integer <i>k</i> less than <tt>len</tt> such that:
+     * int <i>k</i> less than <tt>len</tt> such that:
      * <blockquote><pre>
      * Character.toLowerCase(this.charAt(toffset+k)) !=
                Character.toLowerCase(other.charAt(ooffset+k))
@@ -539,12 +539,12 @@ class String extends Object implements NativeWrapper {
      *
      * @param boolean  ignoreCase   if <code>true</code>, ignore case when comparing
      *                       characters.
-     * @param integer  toffset      the starting offset of the subregion in this
+     * @param int  toffset      the starting offset of the subregion in this
      *                       string.
      * @param blaze\lang\String  other        the string argument.
-     * @param integer  ooffset      the starting offset of the subregion in the string
+     * @param int  ooffset      the starting offset of the subregion in the string
      *                       argument.
-     * @param integer   len          the number of characters to compare.
+     * @param int   len          the number of characters to compare.
      * @return boolean <code>true</code> if the specified subregion of this string
      *          matches the specified subregion of the string argument;
      *          <code>false</code> otherwise. Whether the matching is exact
@@ -657,7 +657,7 @@ class String extends Object implements NativeWrapper {
      * the string, and <code>^</code> indicates exponentiation.
      * (The hash value of the empty string is zero.)
      *
-     * @return integer a hash code value for this object.
+     * @return int a hash code value for this object.
      */
     public function hashCode() {
 	$h = $this->hash;
@@ -694,7 +694,7 @@ class String extends Object implements NativeWrapper {
      * string, then <code>-1</code> is returned.
      *
      * @param blaze\lang\String|string  ch   a character (Unicode code point).
-     * @return integer the index of the first occurrence of the character in the
+     * @return int the index of the first occurrence of the character in the
      *          character sequence represented by this object, or
      *          <code>-1</code> if the character does not occur.
      */
@@ -722,7 +722,7 @@ class String extends Object implements NativeWrapper {
      * character.
      *
      * @param blaze\lang\String|string  ch   a character (Unicode code point).
-     * @return integer the index of the last occurrence of the character in the
+     * @return int the index of the last occurrence of the character in the
      *          character sequence represented by this object, or
      *          <code>-1</code> if the character does not occur.
      */
@@ -1528,7 +1528,7 @@ class String extends Object implements NativeWrapper {
         if($value === null){
             return 'null';
         }else if(is_object($value) && $value instanceof Object){
-            return $value->__toString();
+            return $value->toString();
         }else if(is_bool($value)){
             return $value ? 'true' : 'false';
         }else if(is_float($value)){

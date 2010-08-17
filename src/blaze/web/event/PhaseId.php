@@ -21,11 +21,6 @@ class PhaseId extends \blaze\lang\Enum{
      const UPDATE_MODEL = 4;
      const INVOKE_APPLICATION = 5;
      const RENDER_RESPONSE = 6;
-
-     public static function getClassName() {
-         return __CLASS__;
-     }
-
 }
 
 ?>

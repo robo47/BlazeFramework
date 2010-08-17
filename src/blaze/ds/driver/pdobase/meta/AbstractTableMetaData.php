@@ -36,31 +36,6 @@ abstract class AbstractTableMetaData extends Object implements TableMetaData{
      */
     protected $schema;
 
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\ColumnMetaData]
-//     */
-//    protected $columns;
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\TriggerMetaData]
-//     */
-//    protected $triggers;
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\IndexMetaData]
-//     */
-//    protected $indizes;
-//
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\ColumnMetaData]
-//     */
-//    protected $primaryKeys;
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\ColumnMetaData]
-//     */
-//    protected $foreignKeys;
-//    /**
-//     * @return blaze\util\ArrayObject[blaze\ds\meta\ColumnMetaData]
-//     */
-//    protected $uniqueKeys;
 }
 
 ?>

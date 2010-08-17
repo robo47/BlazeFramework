@@ -80,26 +80,11 @@ class Byte extends Number {
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
-     * @return integer
+     * @param blaze\lang\Integer|int $value
+     * @return int
      */
     public static function asNative($value){
-        if($value instanceof Byte)
-            return $value->value;
-        else
-            return Integer::asNative($value) & 0xFF;
-    }
-
-    /**
-     *
-     * @param blaze\lang\Integer|integer $value
-     * @return blaze\lang\Integer
-     */
-    public static function asWrapper($value){
-        if($value instanceof Byte)
-            return $value;
-        else
-            return new self($value);
+        return (int)parent::asNative($value) & 0xFF;
     }
 }
 

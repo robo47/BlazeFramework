@@ -83,7 +83,7 @@ class NetletApplication extends Object implements StaticInitialization{
 
         if(self::$blazeServer == null){
             // Used by staticInit()
-            $this->package = new String('\\blazeServer');
+            $this->package = new String('blazeServer');
             $this->urlPrefix = new String(self::SERVER_HOME.'blazeServer');
         }
 

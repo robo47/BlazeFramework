@@ -36,7 +36,7 @@ abstract class AbstractConnection extends Object implements Connection {
     protected $host;
     /**
      *
-     * @var integer
+     * @var int
      */
     protected $port;
     /**

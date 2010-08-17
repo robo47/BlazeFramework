@@ -72,7 +72,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
     /**
      *
-     * @return integer The count of the updated rows or 0 if there was no return.
+     * @return int The count of the updated rows or 0 if there was no return.
      */
     public function executeUpdate() {
         $this->checkclosed();
@@ -93,7 +93,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param mixed $value
      * @return blaze\lang\PreparedStatement
      */

@@ -141,7 +141,7 @@ class StringBuffer extends Object {
      * If $off is negative an IndexOutOfBoundsException is thrown.
      *
      * @param blaze\lang\String|string $str
-     * @param integer $off
+     * @param int $off
      * @return blaze\lang\StringBuffer
      * @throws blaze\lang\IndexOutOfBoundsException Is thrown when $len is negative
      * @todo Test what happens when $newStart == $this->count, maybe need ($newStart >= $this->count)
@@ -181,9 +181,9 @@ class StringBuffer extends Object {
      * Inserts the given $val to the buffer
      *
      * @param 	mixed $val The value which shall be inserted into the buffer
-     * @param 	integer $off The index of the buffer where $val shall be inserted into.
-     * @param 	integer $start The startpoint of $val which shall be inserted into the buffer
-     * @param 	integer $end The endpoint of $val which shall be insterted into the buffer
+     * @param 	int $off The index of the buffer where $val shall be inserted into.
+     * @param 	int $start The startpoint of $val which shall be inserted into the buffer
+     * @param 	int $end The endpoint of $val which shall be insterted into the buffer
      * @return  blaze\lang\StringBuffer
      */
     public function insert($val, $off, $start, $end){
@@ -196,7 +196,7 @@ class StringBuffer extends Object {
         return $this;
     }
 
-    public function __toString(){
+    public function toString(){
         return $this->string;
     }
 }

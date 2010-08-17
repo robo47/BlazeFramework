@@ -87,7 +87,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\math\BigDecimal
      */
     public function getDecimal($identifier) {
@@ -106,7 +106,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\Blob
      */
     public function getBlob($identifier) {
@@ -121,7 +121,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return boolean
      */
     public function getBoolean($identifier) {
@@ -136,8 +136,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getByte($identifier) {
         $this->checkedClosed();
@@ -151,7 +151,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\Clob
      */
     public function getClob($identifier) {
@@ -170,7 +170,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getDate($identifier) {
@@ -185,7 +185,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getDateTime($identifier) {
@@ -201,7 +201,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return double
      */
     public function getDouble($identifier) {
@@ -216,7 +216,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return float
      */
     public function getFloat($identifier) {
@@ -231,8 +231,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getInt($identifier) {
         //$this->checkedClosed();
@@ -246,7 +246,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return long
      */
     public function getLong($identifier) {
@@ -261,7 +261,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\NClob
      */
     public function getNClob($identifier) {
@@ -281,7 +281,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     /**
      * Varchar2
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getNString($identifier) {
@@ -296,7 +296,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getString($identifier) {
@@ -311,7 +311,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTime($identifier) {
@@ -326,7 +326,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTimestamp($identifier) {
@@ -342,7 +342,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\util\ArrayObject $value
      * @return blaze\lang\PreparedStatement
      */
@@ -353,31 +353,31 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\math\BigDecimal $value
      * @return blaze\lang\PreparedStatement
      */
     public function setDecimal($identifier, \blaze\math\BigDecimal $value) {
-        $this->set($identifier, $value->__toString(), \PDO::PARAM_STR);
+        $this->set($identifier, $value->toString(), \PDO::PARAM_STR);
         return $this;
     }
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\ds\type\Blob $value
      * @return blaze\lang\PreparedStatement
      */
     public function setBlob($identifier, \blaze\ds\type\Blob $value) {
         $buffer = new \blaze\lang\StringBuffer();
         $value->getInputStream()->read($buffer);
-        $this->set($identifier, $buffer->__toString(), \PDO::PARAM_LOB);
+        $this->set($identifier, $buffer->toString(), \PDO::PARAM_LOB);
         return $this;
     }
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param boolean $value
      * @return blaze\lang\PreparedStatement
      */
@@ -388,8 +388,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @param integer $value
+     * @param blaze\lang\String|string|int $identifier
+     * @param int $value
      * @return blaze\lang\PreparedStatement
      */
     public function setByte($identifier, $value) {
@@ -399,7 +399,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\ds\Clob $value
      * @return blaze\lang\PreparedStatement
      */
@@ -411,7 +411,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
@@ -423,7 +423,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
@@ -435,7 +435,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param double $value
      * @return blaze\lang\PreparedStatement
      */
@@ -446,7 +446,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param float $value
      * @return blaze\lang\PreparedStatement
      */
@@ -457,8 +457,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @param integer $value
+     * @param blaze\lang\String|string|int $identifier
+     * @param int $value
      * @return blaze\lang\PreparedStatement
      */
     public function setInt($identifier, $value) {
@@ -468,7 +468,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param long $value
      * @return blaze\lang\PreparedStatement
      */
@@ -479,20 +479,20 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\ds\type\NClob $value
      * @return blaze\lang\PreparedStatement
      */
     public function setNClob($identifier, \blaze\ds\type\NClob $value) {
         throw new \blaze\lang\NotYetImplementedException();
-        $this->set($identifier, $value->__toString(), \PDO::PARAM_STR);
+        $this->set($identifier, $value->toString(), \PDO::PARAM_STR);
         return $this;
     }
 
     /**
      * Varchar2
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param string|blaze\lang\String $value
      * @return blaze\lang\PreparedStatement
      */
@@ -503,7 +503,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\lang\Object $value
      * @return blaze\lang\PreparedStatement
      */
@@ -516,7 +516,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param string|blaze\lang\String $value
      * @return blaze\lang\PreparedStatement
      */
@@ -527,7 +527,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */
@@ -539,7 +539,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @param blaze\util\Date $value
      * @return blaze\lang\PreparedStatement
      */

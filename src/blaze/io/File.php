@@ -31,7 +31,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     private $path;
     /**
      * The length of this abstract pathname's prefix, or zero if it has no prefix.
-     * @var integer
+     * @var int
      */
     private $prefixLength = 0;
     /**
@@ -59,7 +59,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     /**
      * Description of the constructor of File
      * @param blaze\io\File|string|blaze\lang\String $parent The parent File-object or a string which represents a path
-     * @param integer|string|blaze\lang\String $childOrPrefixLength The child pathname or the prefix length
+     * @param int|string|blaze\lang\String $childOrPrefixLength The child pathname or the prefix length
      */
     public function __construct($parent = null, $childOrPrefixLength = null) {
         /* simulate signature identified constructors */
@@ -519,7 +519,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * Returns the time that the file denoted by this abstract pathname was
      * last modified.
      *
-     * @return  A integer value representing the time the file was
+     * @return  A int value representing the time the file was
      *          last modified, measured in milliseconds since the epoch
      *          (00:00:00 GMT, January 1, 1970), or 0 if the
      *          file does not exist or if an I/O error occurs
@@ -1089,7 +1089,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @param   pathname  The abstract pathname to be compared to this abstract
      *                    pathname
      *
-     * @return integer Zero if the argument is equal to this abstract pathname, a
+     * @return int Zero if the argument is equal to this abstract pathname, a
      * 		value less than zero if this abstract pathname is
      * 		lexicographically less than the argument, or a value greater
      * 		than zero if this abstract pathname is lexicographically
@@ -1148,7 +1148,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *
      * @return string The string form of this abstract pathname
      */
-    public function __toString() {
+    public function toString() {
         return $this->path->toNative();
     }
 

@@ -19,7 +19,7 @@ interface ResultSetMetaData {
      public function getColumns();
      /**
       * @return blaze\ds\meta\ColumnMetaData
-      * @param blaze\lang\String|string|integer $identifier 
+      * @param blaze\lang\String|string|int $identifier 
       */
      public function getColumn($identifier);
      /**

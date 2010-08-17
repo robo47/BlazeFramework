@@ -16,18 +16,15 @@ There are 2 types of Arrays:
 Enums:
 
 Entries of an enum are realised with const-values.
-An Enum should extend blaze\lang\Enum to get important static methods and must implement the method getClassName() which shall look like this:
-
-public static function getClassName(){
-	return __CLASS__;
-}
-
-Reflection needs the inheritance to determine wether a class is a Enum or not.
+An Enum should extend blaze\lang\Enum to get important static methods and be able to be determined as an Enum by the Reflection:
 To get good intellisense write the Enum-class as return type or as parameter type in the docblock.
 But in fact you only pass integers or whatever value you give your enum entry, so be careful.
 
 
 Reflection:
+
+the first character of the argument for ClassWrapper::forName() must not be a backslash(\),
+otherwise the classloader gets confused and the application breaks.
 
 Reflection is defined for classes which implements blaze\lang\Reflectable. The data type of a field in a class can be native too.
 In some cases annotations are used to determine the data type.

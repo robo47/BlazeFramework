@@ -24,7 +24,7 @@ abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData
      */
     protected $triggerEvent;
     /**
-     * @return integer
+     * @return int
      */
     protected $triggerOrder;
     /**

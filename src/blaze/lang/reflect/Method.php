@@ -46,8 +46,8 @@ class Method extends Object{
      * <tt>abstract</tt>, <tt>static</tt>, <tt>final</tt>,
      * <tt>synchronized</tt>, <tt>native</tt>.
      */
-	public function __toString () {
-        return $this->reflectionMethod->__toString();
+	public function toString () {
+        return $this->reflectionMethod->toString();
 //        try {
 //	    StringBuffer sb = new StringBuffer();
 //	    int mod = getModifiers() & LANGUAGE_MODIFIERS;
@@ -172,7 +172,7 @@ class Method extends Object{
 
     /**
      * Returns the Java language modifiers for the method represented
-     * by this <code>Method</code> object, as an integer. The <code>Modifier</code> class should
+     * by this <code>Method</code> object, as an int. The <code>Modifier</code> class should
      * be used to decode the modifiers.
      *
      * @see Modifier

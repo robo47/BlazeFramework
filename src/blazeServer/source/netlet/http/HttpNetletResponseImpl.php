@@ -74,7 +74,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * Adds a header with the given name and value. This method allows response headers to have multiple values.
      *
      * @param 	blaze\lang\String|string $name The name of the header which shall be sent
-     * @param 	integer $value The value of the header which shall be sent
+     * @param 	int $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setIntHeader
      */
     public function addIntHeader($name, $value) {
@@ -123,7 +123,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * If the response has already been committed, this method throws an IllegalStateException.
      * After using this method, the response should be considered to be committed and should not be written to.
      *
-     * @param 	integer $sc The statuscode of the error
+     * @param 	int $sc The statuscode of the error
      * @param 	blaze\lang\String|string $msg The error message which shall be displayed
      * @throws	blaze\io\IOException If an input or output exception occurs
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
@@ -187,7 +187,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * If there was already a header set with the given name, the new value will overwrite the old one.
      *
      * @param 	blaze\lang\String|string $name The name of the header which shall be sent
-     * @param 	integer $value The value of the header which shall be sent
+     * @param 	int $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addIntHeader
      */
     public function setIntHeader($name, $value) {
@@ -199,7 +199,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * This method is used to set the return status code when there is no error (for example, for the status codes SC_OK or SC_MOVED_TEMPORARILY).
      * If there is an error, the sendError method should be used instead.
      *
-     * @param 	integer $sc The status code
+     * @param 	int $sc The status code
      * @see 	blaze\netlet\http\HttpNetletResponse:sendError
      */
     public function setStatus($sc) {

@@ -33,7 +33,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         switch (\blaze\lang\String::asNative($nativeName->toLowerCase())) {
             case 'decimal': $className = '\\blaze\\math\\BigDecimal';
                 break;
-            case 'int': $className = 'integer';
+            case 'int': $className = 'int';
                 break;
             case 'date': $className = '\\blaze\\util\\Date';
                 break;
@@ -131,14 +131,14 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getColumnLength() {
         return $this->columnLength;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getColumnPrecision() {
         return $this->columnPrecision;
@@ -224,7 +224,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             $rs = $stmt->getResultSet();
 
             while ($rs->next())
-                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()] = $rs->getString('CONSTRAINT_TYPE');
+                $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()] = $rs->getString('CONSTRAINT_TYPE');
 
             if ($stmt != null)
                 $stmt->close();
@@ -239,7 +239,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             $rs = $stmt->getResultSet();
 
             while ($rs->next()) {
-                switch ($tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]) {
+                switch ($tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]) {
                     case 'PRIMARY KEY':
                         $constraints[] = new ConstraintMetaDataImpl($this, $rs->getString('CONSTRAINT_NAME'), 'PRIMARY KEY');
                         break;
@@ -296,8 +296,8 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             $rsmd = $stmt->getMetaData();
 
             while ($rs->next()) {
-                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]['type'] = $rs->getString('CONSTRAINT_TYPE');
-                $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]['columns'][] = array('column' => $this->table->getColumn($rs->getString('COLUMN_NAME')),
+                $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]['type'] = $rs->getString('CONSTRAINT_TYPE');
+                $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]['columns'][] = array('column' => $this->table->getColumn($rs->getString('COLUMN_NAME')),
                                                                                                 'REFERENCED_TABLE_SCHEMA' => $rs->getString('REFERENCED_TABLE_SCHEMA'),
                                                                                                 'REFERENCED_TABLE_NAME' => $rs->getString('REFERENCED_TABLE_NAME'),
                                                                                                 'REFERENCED_COLUMN_NAME' => $rs->getString('REFERENCED_COLUMN_NAME'));

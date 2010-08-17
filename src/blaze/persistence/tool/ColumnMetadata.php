@@ -26,12 +26,12 @@ class ColumnMetadata extends Object {
     private $type;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $length;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $decimals;
     /**

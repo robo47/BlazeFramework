@@ -25,7 +25,7 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
 
     /**
      * Generate a new BigDecimal Object.
-     * @param <integer|string|float|blaze\lang\Number> $value Is a native String, with scale and algebric sign
+     * @param <int|string|float|blaze\lang\Number> $value Is a native String, with scale and algebric sign
      * @param <type> $scale If value has no scale you can define the scale
      */
     public function __construct($value, $scale = null){
@@ -187,7 +187,7 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
 
      /**
       * Factoral the this Object.
-      * @param <integer> $scale
+      * @param <int> $scale
       * @return blaze\math\BigDecimal
       */
 public function factoral($scale = 100)
@@ -199,8 +199,8 @@ public function factoral($scale = 100)
 
 /**
  * Computes e^this, where e is Euler's constant.
- * @param <integer> $iters
- * @param <integer> $scale
+ * @param <int> $iters
+ * @param <int> $scale
  * @return blaze\math\BigDecimal
  */
 public function exponentialteWithE ($iters = 7, $scale = 100)
@@ -217,8 +217,8 @@ public function exponentialteWithE ($iters = 7, $scale = 100)
 
 /**
  * ln(this).
- * @param <integer> $iters
- * @param <integer> $scale
+ * @param <int> $iters
+ * @param <int> $scale
  * @return blaze\math\BigDecimal
  */
 public function logarithmize( $iters = 10, $scale = 100)
@@ -243,8 +243,8 @@ public function logarithmize( $iters = 10, $scale = 100)
  * Computes this^b
  *
  * @param <blaze\math\BigDecimal> $b
- * @param <integer> $iters
- * @param <integer> $scale
+ * @param <int> $iters
+ * @param <int> $scale
  * @return blaze\math\BigDecimal
  */
 public function exponentialte($b, $iters = 25, $scale = 100)
@@ -287,7 +287,7 @@ public static function getrandom($min, $max=false)
             ));
 }
 
-    public function __toString(){
+    public function toString(){
         return $this->value;
     }
 

@@ -14,18 +14,11 @@ namespace blaze\lang;
 abstract class Enum extends Object{
 
     /**
-     * Just return __CLASS__
-     *
-     * @return string
-     */
-    public static abstract function getClassName();
-
-    /**
      *
      * @return array
      */
     public static function getNames() {
-        return array_keys(ClassWrapper::forName(static::getClassName())->getEnumConstants());
+        return array_keys(static::classWrapper()->getEnumConstants());
     }
 
     /**
@@ -33,7 +26,7 @@ abstract class Enum extends Object{
      * @return array
      */
     public static function getValues() {
-        return array_values(ClassWrapper::forName(static::getClassName())->getEnumConstants());
+        return array_values(static::classWrapper()->getEnumConstants());
     }
 
     /**
@@ -41,7 +34,7 @@ abstract class Enum extends Object{
      * @return array
      */
     public static function getEntries() {
-        return ClassWrapper::forName(static::getClassName())->getEnumConstants();
+        return static::classWrapper()->getEnumConstants();
     }
     
     /**

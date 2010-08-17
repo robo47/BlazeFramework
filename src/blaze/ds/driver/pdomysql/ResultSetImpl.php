@@ -48,7 +48,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\ArrayObject
      */
     public function getArray($identifier) {
@@ -61,7 +61,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\math\BigDecimal
      */
     public function getDecimal($identifier) {
@@ -80,7 +80,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\Blob
      */
     public function getBlob($identifier) {
@@ -95,7 +95,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return boolean
      */
     public function getBoolean($identifier) {
@@ -110,8 +110,8 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getByte($identifier) {
         $this->checkedClosed();
@@ -125,7 +125,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\Clob
      */
     public function getClob($identifier) {
@@ -144,7 +144,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getDate($identifier) {
@@ -160,7 +160,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getDateTime($identifier) {
@@ -176,7 +176,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return double
      */
     public function getDouble($identifier) {
@@ -191,7 +191,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return float
      */
     public function getFloat($identifier) {
@@ -206,8 +206,8 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
-     * @return integer
+     * @param blaze\lang\String|string|int $identifier
+     * @return int
      */
     public function getInt($identifier) {
         $this->checkedClosed();
@@ -221,7 +221,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return long
      */
     public function getLong($identifier) {
@@ -236,7 +236,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\ds\type\NClob
      */
     public function getNClob($identifier) {
@@ -256,7 +256,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
     /**
      * Varchar2
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getNString($identifier) {
@@ -271,7 +271,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\lang\String
      */
     public function getString($identifier) {
@@ -286,7 +286,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTime($identifier) {
@@ -301,7 +301,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     /**
      *
-     * @param blaze\lang\String|string|integer $identifier
+     * @param blaze\lang\String|string|int $identifier
      * @return blaze\util\Date
      */
     public function getTimestamp($identifier) {

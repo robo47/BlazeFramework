@@ -50,7 +50,7 @@ class ByteArrayInputStream extends InputStream {
     /**
      * Returns the number of chars which can be read from the stream.
      *
-     * @return 	integer The number of chars which are available for read.
+     * @return 	int The number of chars which are available for read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
      public function available(){

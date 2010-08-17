@@ -27,7 +27,7 @@ class BufferedReader extends Reader {
     /**
      *
      * @param blaze\io\Reader $reader The reader
-     * @param integer $buffsize The size of the buffer which should be used for reading.
+     * @param int $buffsize The size of the buffer which should be used for reading.
      */
     public function __construct(Reader $reader, $buffsize = 65536) {
         $this->in = $reader;

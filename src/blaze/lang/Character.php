@@ -28,7 +28,7 @@ class Character extends Object implements NativeWrapper, Comparable {
             throw new IllegalArgumentException('Parameter must be a blaze\lang\String or string and may only have a length of 1');
     }
 
-    public function __toString(){
+    public function toString(){
         return $this->value;
     }
 

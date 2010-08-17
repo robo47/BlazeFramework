@@ -18,42 +18,42 @@ class Date extends Object {
     
     /**
      *
-     * @var integer
+     * @var int
      */
     private $year = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $month = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $day = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $hour = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $minute = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $second = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $millisecond = 0;
     /**
      *
-     * @var integer
+     * @var int
      */
     private $timestamp = 0;
     /**
@@ -139,7 +139,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getYear() {
         return $this->year;
@@ -147,7 +147,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $year
+     * @param int $year
      * @return blaze\util\Date
      */
     public function setYear($year) {
@@ -160,7 +160,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getMonth() {
         return $this->month;
@@ -168,7 +168,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $month
+     * @param int $month
      * @return blaze\util\Date
      */
     public function setMonth($month) {
@@ -181,7 +181,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getDay() {
         return $this->day;
@@ -189,7 +189,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $day
+     * @param int $day
      * @return blaze\util\Date
      */
     public function setDay($day) {
@@ -202,7 +202,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getHour() {
         return $this->hour;
@@ -210,7 +210,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $hour
+     * @param int $hour
      * @return blaze\util\Date
      */
     public function setHour($hour) {
@@ -223,7 +223,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getMinute() {
         return $this->minute;
@@ -231,7 +231,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $minute
+     * @param int $minute
      * @return blaze\util\Date
      */
     public function setMinute($minute) {
@@ -244,7 +244,7 @@ class Date extends Object {
 
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getSecond() {
         return $this->second;
@@ -252,7 +252,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $second
+     * @param int $second
      * @return blaze\util\Date
      */
     public function setSecond($second) {
@@ -265,7 +265,7 @@ class Date extends Object {
     
     /**
      *
-     * @return integer
+     * @return int
      */
     public function getMillisecond() {
         return $this->millisecond;
@@ -273,7 +273,7 @@ class Date extends Object {
 
     /**
      *
-     * @param integer $millisecond
+     * @param int $millisecond
      * @return blaze\util\Date
      */
     public function setMillisecond($millisecond) {
@@ -341,7 +341,7 @@ class Date extends Object {
         return $this;
     }
 
-    public function __toString(){
+    public function toString(){
         return $this->day.'.'.$this->month.'.'.$this->year.' '.$this->hour.':'.$this->minute.':'.$this->second.','.$this->millisecond;
     }
 }

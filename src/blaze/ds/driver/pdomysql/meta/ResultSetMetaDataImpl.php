@@ -38,7 +38,7 @@ class ResultSetMetaDataImpl extends AbstractResultSetMetaData {
 
     /**
      * @return blaze\ds\meta\ColumnMetaData
-     * @param integer $identifier
+     * @param int $identifier
      */
     public function getColumn($identifier) {
         $meta = $this->pdoStmt->getColumnMeta(\blaze\lang\Integer::asNative($identifier));

@@ -32,7 +32,7 @@ abstract class Number extends Object implements NativeWrapper{
 
     /**
      *
-     * @param blaze\lang\Integer|integer $value
+     * @param blaze\lang\Integer|int $value
      * @return blaze\lang\ClassWrapper
      */
     public static function getNumberClass($value){
@@ -65,7 +65,24 @@ abstract class Number extends Object implements NativeWrapper{
         return null;
     }
 
-    /**
+    public static function asNative($value) {
+        if(static::isWrapperType($value))
+            return $value->toNative();
+        else if(static::isNativeType($value))
+            return $value;
+        else{
+            return String::asNative($value);
+        }
+    }
+
+    public static function asWrapper($value) {
+        if(static::isWrapperType($value))
+            return $value;
+        else
+            return new static($value);
+    }
+
+        /**
      * Parses a string to the native representation of the Class
      * @param string|blaze\lang\String $value
      * @throws blaze\lang\NumberFormatException

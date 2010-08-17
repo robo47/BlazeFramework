@@ -46,11 +46,11 @@ class Field extends Object{
 
     /**
      * Returns the Java language modifiers for the field represented
-     * by this <code>Field</code> object, as an integer. The <code>Modifier</code> class should
+     * by this <code>Field</code> object, as an int. The <code>Modifier</code> class should
      * be used to decode the modifiers.
      *
      * @see Modifier
-     * @return integer
+     * @return int
      */
     public function getModifiers() {
 	return $this->property->getModifiers();
@@ -96,7 +96,7 @@ class Field extends Object{
         }else if(is_double($value)){
             return 'double';
         }else if(is_int($value)){
-            return 'integer';
+            return 'int';
         }else if(is_resource($value)){
             return 'ressource';
         }else if(is_string($value)){
@@ -129,7 +129,7 @@ class Field extends Object{
      * exclusive-or of the hashcodes for the underlying field's
      * declaring class name and its name.
      *
-     * @return integer
+     * @return int
      */
     public function hashCode() {
 	//return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
@@ -155,7 +155,7 @@ class Field extends Object{
      *
      * @return string
      */
-    public function __toString() {
+    public function toString() {
 	$mod = $this->getModifiers();
 	return ((($mod == 0) ? "" : (Modifier::toString(mod) + " "))
 	    + $this->getTypeName($this->getType()) + " "
@@ -298,7 +298,7 @@ class Field extends Object{
      *
      * @param obj the object to extract the <code>byte</code> value
      * from
-     * @return integer the value of the <code>byte</code> field
+     * @return int the value of the <code>byte</code> field
      *
      * @exception IllegalAccessException    if the underlying field
      *              is inaccessible.
@@ -356,7 +356,7 @@ class Field extends Object{
      *
      * @param obj the object to extract the <code>short</code> value
      * from
-     * @return integer the value of the field converted to type <code>short</code>
+     * @return int the value of the field converted to type <code>short</code>
      *
      * @exception IllegalAccessException    if the underlying field
      *              is inaccessible.
@@ -385,7 +385,7 @@ class Field extends Object{
      *
      * @param obj the object to extract the <code>int</code> value
      * from
-     * @return integer the value of the field converted to type <code>int</code>
+     * @return int the value of the field converted to type <code>int</code>
      *
      * @exception IllegalAccessException    if the underlying field
      *              is inaccessible.

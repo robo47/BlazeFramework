@@ -17,8 +17,8 @@ interface Writable {
      * write.
      *
      * @param 	blaze\lang\String|string $str The value you want to write
-     * @param 	integer $off The start offset in the data
-     * @param 	integer $len The number of chars to write, if this value is -1 then $str is written from $off to the end of $str
+     * @param 	int $off The start offset in the data
+     * @param 	int $len The number of chars to write, if this value is -1 then $str is written from $off to the end of $str
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
      public function write($str, $off = 0, $len = -1);

@@ -88,25 +88,9 @@ class Double extends Number {
      * @return double
      */
     public static function asNative($value){
-        if($value instanceof Double)
-            return $value->value;
-        else if(is_double($value))
-            return $value;
-        else
-            return (double)String::asNative($value);
+        return (double)parent::asNative($value);
     }
 
-    /**
-     *
-     * @param blaze\lang\Double|double $value
-     * @return blaze\lang\Double
-     */
-    public static function asWrapper($value){
-        if($value instanceof Double)
-            return $value;
-        else
-            return new self($value);
-    }
 }
 
 ?>

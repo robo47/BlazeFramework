@@ -88,25 +88,9 @@ class Long extends Number{
      * @return long
      */
     public static function asNative($value){
-        if($value instanceof Long)
-            return $value->value;
-        else if(is_long($value))
-            return $value;
-        else
-            return (int)String::asNative($value);
+        return (int)parent::asNative($value);
     }
 
-    /**
-     *
-     * @param blaze\lang\Long|long $value
-     * @return blaze\lang\Long
-     */
-    public static function asWrapper($value){
-        if($value instanceof Long)
-            return $value;
-        else
-            return new self($value);
-    }
 }
 
 ?>

@@ -30,7 +30,7 @@ interface DatabaseMetaData {
      */
     public function getUser();
     /**
-     * @return integer
+     * @return int
      */
     public function getPort();
     /**

@@ -46,7 +46,7 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
 //            $rsmd = $stmt->getMetaData();
 //
 //            while($rs->next())
-//                    $tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()] = $rs->getString('CONSTRAINT_TYPE');
+//                    $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()] = $rs->getString('CONSTRAINT_TYPE');
 //
 //            if($stmt != null)
 //                $stmt->close();
@@ -61,7 +61,7 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
 //            $rs = $stmt->getResultSet();
 //
 //            while($rs->next()){
-//                switch($tblConst[$rs->getString('CONSTRAINT_NAME')->__toString()]){
+//                switch($tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]){
 //                    case 'PRIMARY KEY':
 //                        $constraint = new ConstraintMetaDataImpl($this, $rs->getString('CONSTRAINT_NAME'), 'PRIMARY KEY');
 //                        break;

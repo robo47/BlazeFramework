@@ -1,5 +1,5 @@
 <?php
-namespace blaze\collection;
+namespace blaze\collection\map;
 use blaze\lang\Object;
 
 /**
@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Properties extends Object {
+class Properties extends HashMap {
     /**
      *
      * @var array
@@ -173,21 +173,7 @@ class Properties extends Object {
     function getProperties() {
         return $this->properties;
     }
-    
-    /**
-     * Get value for specified property.
-     * This is the same as get() method.
-     *
-     * @param string $prop The property name (key).
-     * @return mixed
-     * @see get()
-     */
-    function getProperty($prop) {
-        if (!isset($this->properties[$prop])) {
-            return null;
-        }
-        return $this->properties[$prop];
-    }
+
 
     /**
      * Get value for specified property.
@@ -203,22 +189,6 @@ class Properties extends Object {
             return null;
         }
         return $this->properties[$prop];
-    }
-    
-    /**
-     * Set the value for a property.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return mixed Old property value or NULL if none was set.
-     */
-    function setProperty($key, $value) {
-        $oldValue = null;
-        if (isset($this->properties[$key])) {
-            $oldValue = $this->properties[$key];
-        }
-        $this->properties[$key] = $value;
-        return $oldValue;
     }
     
     /**

@@ -64,7 +64,7 @@ abstract class FileSystem extends Object implements Singleton{
                     self::$instance = new WinNTFileSystem();
                 break;
                 default:
-                    throw new Exception("Host uses unsupported filesystem, unable to proceed");
+                    throw new \blaze\lang\Exception('Host uses unsupported filesystem, unable to proceed');
             }
         }
         return self::$instance;
@@ -192,13 +192,13 @@ abstract class FileSystem extends Object implements Singleton{
 
         switch($access){
             case self::ACCESS_READ:
-                $access = is_readable($strPath);
+                $access = @is_readable($strPath);
                 break;
             case self::ACCESS_WRITE:
-                $access = is_writable($strPath);
+                $access = @is_writable($strPath);
                 break;
             case self::ACCESS_EXECUTE:
-                $access = is_executable($strPath);
+                $access = @is_executable($strPath);
                 break;
             default:
                 break;
@@ -211,13 +211,18 @@ abstract class FileSystem extends Object implements Singleton{
      * or directory denoted by the given abstract pathname, based on the parameters
      * enable, access and oweronly.
      *
-     * @param integer $access
+     * @param int $access
      * @param boolean $enable
      * @param boolean $owneronly
      * @return boolean
      */
     public function setPermission(File $f, $access, $enable, $owneronly){
-        return;
+        $mode  = $owneronly ? 'u' : 'a';
+        $mode .= $enable ? '+' : '-';
+        $mode .= $access && self::ACCESS_READ ? 'r' : '';
+        $mode .= $access && self::ACCESS_WRITE ? 'w' : '';
+        $mode .= $access && self::ACCESS_EXECUTE ? 'x' : '';
+        $this->chmod($f->getAbsolutePath(), $mode);
     }
 
     /**

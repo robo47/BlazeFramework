@@ -42,7 +42,7 @@ interface NetletRequest {
      */
     public function getCharacterEncoding();
     /**
-     * @return integer
+     * @return int
      */
     public function getCharacterSet();
     /**
@@ -50,7 +50,7 @@ interface NetletRequest {
      */
     public function getContentType();
     /**
-     * @return integer
+     * @return int
      */
     public function getContentLength();
     /**
@@ -62,7 +62,7 @@ interface NetletRequest {
      */
     public function getLocalName();
     /**
-     * @return integer
+     * @return int
      */
     public function getLocalPort();
     /**
@@ -74,7 +74,7 @@ interface NetletRequest {
      */
     public function getRemoteHost();
     /**
-     * @return integer
+     * @return int
      */
     public function getRemotePort();
     /**
@@ -102,7 +102,7 @@ interface NetletRequest {
     /**
      * Returns the port number to which the request was sent.
      *
-     * @return integer
+     * @return int
      */
     public function getServerPort();
     /**

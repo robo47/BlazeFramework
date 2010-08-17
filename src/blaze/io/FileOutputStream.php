@@ -42,7 +42,7 @@ class FileOutputStream extends NativeOutputStream {
      * Returns a string representation of the attached file.
      * @return string
      */
-    public function __toString() {
+    public function toString() {
         return $this->file->getPath();
     }
 

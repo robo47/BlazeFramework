@@ -18,7 +18,7 @@ abstract class InputStream extends Object implements Readable, Closeable, Markab
     /**
      * Returns the number of chars which can be read from the stream.
      *
-     * @return 	integer The number of chars which are available for read and -1 for unknown.
+     * @return 	int The number of chars which are available for read and -1 for unknown.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
      public abstract function available();
@@ -58,7 +58,7 @@ abstract class InputStream extends Object implements Readable, Closeable, Markab
 
     protected function checkClosed(){
         if($this->isClosed())
-                throw new IOException($this->__toString().' is already closed.');
+                throw new IOException($this->toString().' is already closed.');
     }
 }
 
