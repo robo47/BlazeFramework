@@ -78,7 +78,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     
     public function addAllAt($index, Collection $c) {
-        $this->RangeCheck();
+        $this->rangeCheck();
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
             $this->addAt(($index)+$i, $ar[$i]);
@@ -86,14 +86,14 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function addAt($index, $obj) {
-        $this->RangeCheck();
+        $this->rangeCheck();
             array_splice($this->elementData, $index, count($this->elementData), array_merge(array($obj), array_slice($this->elementData, $index)));
             $this->size++;
             return true;
     }
 
     public function get($index) {
-        $this->RangeCheck();
+        $this->rangeCheck();
             return $this->elementData[$index];
     }
 
@@ -122,12 +122,8 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         
     }
 
-    public function serialize() {
-        
-    }
-
     public function set($index, $obj){
-         $this->RangeCheck();
+         $this->rangeCheck();
          $old = $this->elementData[$index];
          $this->elementData[$index] = $obj;
          return $old;
@@ -137,11 +133,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     }
 
-    public function unserialize($serialized) {
-
-    }
-
-    private function RangeCheck(){
+    private function rangeCheck(){
          if($index<0||$this->size<$index){
             throw new \blaze\lang\IndexOutOfBoundsException('Index: '.$index.' Size: '.$this->size);
         }
