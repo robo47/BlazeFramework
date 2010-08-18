@@ -229,9 +229,8 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRemoveAt() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->removeAt(5);
+        $this->assertTrue($this->object->indexOf(5)==false);
     }
 
     /**
