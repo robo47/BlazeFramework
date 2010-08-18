@@ -106,6 +106,21 @@ class Arrays extends \blaze\lang\Object{
      * @return blaze\lang\String
      */
     public static function flatToString(ArrayI $a){}
+    /**
+     * Returns a immutable ArrayI
+     * @return blaze\collections\ArrayI
+     */
+    public static function immutableArray(ArrayI $a){
+        return new arrays\ImmutableArray($a);
+    }
+    /**
+     * Returns a typed ArrayI
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collections\ArrayI
+     */
+    public static function typedArray(ArrayI $a, $type){
+        return new arrays\TypedArray($a, TypeChecker::getInstance($type));
+    }
 }
 
 ?>
