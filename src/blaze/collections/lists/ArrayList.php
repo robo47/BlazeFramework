@@ -40,45 +40,16 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(Collection $obj){}
-    /**
-     * Removes all elements from this collections
-     */
-    public function clear(){}
+    public function addAll(Collection $obj){
+        $this->rangeCheck($index);
+        $ar = $c->toArray();
+        for($i = 0;i<count($ar);$i++){
+            $this->add($ar[$i]);
+        }
+    }
 
-    public function isEmpty(){}
-
-    public function getIterator(){}
-
-    public function count(){}
-    /**
-     * @return boolean True if the element obj is in this collections
-     */
-    public function contains($obj){}
-    /**
-     * @return boolean True if every element of c is in this collections
-     */
-    public function containsAll(Collection $c){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function remove($obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function removeAll(Collection $obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function retainAll(Collection $obj){}
-    /**
-     * @return blaze\collections\ArrayObject
-     */
-    public function toArray($type = null){}
-
-    
     public function addAllAt($index, Collection $c) {
-        $this->rangeCheck();
+        $this->rangeCheck($index);
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
             $this->addAt(($index)+$i, $ar[$i]);
@@ -86,14 +57,99 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function addAt($index, $obj) {
-        $this->rangeCheck();
+        $this->rangeCheck($index);
             array_splice($this->elementData, $index, count($this->elementData), array_merge(array($obj), array_slice($this->elementData, $index)));
             $this->size++;
             return true;
     }
+    /**
+     * Removes all elements from this collections
+     */
+    public function clear(){
+        $this->elementData = array();
+        $this->size = 0;
+    }
+
+    public function isEmpty(){
+        return $this->size==0;
+    }
+
+
+    public function getIterator(){}
+
+    public function count(){
+        return $this->size;
+    }
+    /**
+     * @return boolean True if the element obj is in this collections
+     */
+    public function contains($obj){
+        if($this->indexOf($obj)==-1)
+                return false;
+        else
+            return true;
+    }
+    /**
+     * @return boolean True if every element of c is in this collections
+     */
+    public function containsAll(Collection $c){
+        $ar = $c->toArray();
+        for($i = 0;i<count($ar);$i++){
+            if(!$this->indexOf($ar[$i])){
+                return false;
+            }
+        }
+        return true;
+
+    }
+    /**
+     * @return boolean Wether the action was successfull or not
+     */
+    public function remove($obj){
+        $index = $this->indexOf($obj);
+        if($index == -1){
+            return false;
+        }
+        else{
+            for($index;$index<$this->size;$index++){
+                $this->elementData[$index] = $this->elementData[($index+1)];
+            }
+            usnet($this->elementData[$index]);
+            $this->size--;
+            return true;
+            
+        }
+    }
+    /**
+     * @return boolean Wether the action was successfull or not
+     */
+    public function removeAll(Collection $obj){
+        $ar = $c->toArray();
+        for($i = 0;i<count($ar);$i++){
+            if(!$this->remove($ar[$i])){
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * @return boolean Wether the action was successfull or not
+     */
+    public function retainAll(Collection $obj){
+
+    }
+    /**
+     * @return blaze\collections\ArrayObject
+     */
+    public function toArray($type = null){
+        return $this->elementData;
+    }
+
+    
+    
 
     public function get($index) {
-        $this->rangeCheck();
+        $this->rangeCheck($index);
             return $this->elementData[$index];
     }
 
@@ -119,11 +175,20 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function removeAt($index) {
+        $this->rangeCheck($index);
+        for($i = $index; $i<$this->size;$i++){
+            $this->elementData[$i] = $this->elementData[($i+1)];
+        }
+        unset($this->elementData[$i]);
+        $this->size--;
+    }
+
+    public function serialize() {
         
     }
 
     public function set($index, $obj){
-         $this->rangeCheck();
+         $this->rangeCheck($index);
          $old = $this->elementData[$index];
          $this->elementData[$index] = $obj;
          return $old;
@@ -133,7 +198,11 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     }
 
-    private function rangeCheck(){
+    public function unserialize($serialized) {
+
+    }
+
+    private function rangeCheck($index){
          if($index<0||$this->size<$index){
             throw new \blaze\lang\IndexOutOfBoundsException('Index: '.$index.' Size: '.$this->size);
         }
