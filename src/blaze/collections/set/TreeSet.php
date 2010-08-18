@@ -18,7 +18,7 @@ class TreeSet extends AbstractSet implements SortedSet, \blaze\lang\Cloneable, \
 public function add($obj) {
 
     }
-public function addAll(Collection $obj) {
+public function addAll(\blaze\collections\Collection $obj) {
         
     }
 public function ceiling($element) {
@@ -33,7 +33,7 @@ public function comparator() {
 public function contains($obj) {
         
     }
-public function containsAll(Collection $c) {
+public function containsAll(\blaze\collections\Collection $c) {
 
     }
 public function count() {
@@ -81,10 +81,10 @@ public function pollLast() {
 public function remove($obj) {
         
     }
-public function removeAll(Collection $obj) {
+public function removeAll(\blaze\collections\Collection $obj) {
 
     }
-public function retainAll(Collection $obj) {
+public function retainAll(\blaze\collections\Collection $obj) {
         
     }
 public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {

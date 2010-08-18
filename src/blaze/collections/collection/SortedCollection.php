@@ -1,6 +1,6 @@
 <?php
 
-namespace blaze\collections;
+namespace blaze\collections\collection;
 
 /**
  * Description of List
@@ -13,7 +13,7 @@ namespace blaze\collections;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface SortedCollection extends \blaze\collections\Collection, Sorted {
+interface SortedCollection extends \blaze\collections\Collection, \blaze\collections\Sorted {
 
     /**
      * Returns a reverse order view of the elements contained in this set.

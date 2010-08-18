@@ -1,8 +1,6 @@
 <?php
 namespace blaze\collections\map;
-use blaze\lang\Object,
-    blaze\lang\String,
-    blaze\lang\Integer;
+use blaze\lang\Object;
 
 /**
  * Description of Arrays

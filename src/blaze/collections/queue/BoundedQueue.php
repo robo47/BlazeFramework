@@ -13,88 +13,43 @@ namespace blaze\collections\queue;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedQueue implements \blaze\collections\Queue, \blaze\collections\Bounded {
+final class BoundedQueue extends AbstractQueueDecorator implements \blaze\collections\Bounded {
 
-    private $queue;
     private $maxCount;
 
     public function __construct(\blaze\collections\Queue $queue, $maxCount) {
-        $this->queue = $queue;
+        parent::__construct($queue);
         $this->maxCount = $maxCount;
     }
 
-    public function add($obj) {
-
-    }
-
-    public function addAll(Collection $obj) {
-
-    }
-
-    public function clear() {
-
-    }
-
-    public function contains($obj) {
-
-    }
-
-    public function containsAll(Collection $c) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function element() {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
+        return $this->maxCount;
+    }
 
+    public function add($obj) {
+        if (!$this->isFull())
+            return $this->queue->add($obj);
+        else
+            return false;
+    }
+
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->queue->addAll($obj);
+        else
+            return false;
     }
 
     public function offer($element) {
-
+        if (!$this->isFull())
+            return $this->queue->offer($element);
+        else
+            return false;
     }
-
-    public function peek() {
-
-    }
-
-    public function poll() {
-
-    }
-
-    public function remove($obj) {
-
-    }
-
-    public function removeAll(Collection $obj) {
-
-    }
-
-    public function removeElement() {
-
-    }
-
-    public function retainAll(Collection $obj) {
-
-    }
-
-    public function toArray($type = null) {
-
-    }
-
     
 }
 

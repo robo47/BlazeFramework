@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\bidimap;
+
 use blaze\lang\Object;
 
 /**
@@ -13,53 +15,68 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class HashBidiMap extends AbstractBidiMap{
+class HashBidiMap extends AbstractBidiMap {
 
-public function clear() {
-
-    }
-public function containsKey($key) {
+    public function clear() {
         
     }
-public function containsValue($value) {
 
-    }
-public function count() {
+    public function containsKey($key) {
         
     }
-public function entrySet() {
 
-    }
-public function get($key) {
+    public function containsValue($value) {
         
     }
-public function getKey($value) {
 
-    }
-public function isEmpty() {
+    public function count() {
         
     }
-public function keySet() {
 
-    }
-public function put($key, $value) {
+    public function entrySet() {
         
     }
-public function putAll(Map $m) {
 
-    }
-public function remove($key) {
+    public function get($key) {
         
     }
-public function removeValue($value) {
 
-    }
-public function valueSet() {
+    public function getKey($value) {
         
     }
-public function values() {
 
+    public function isEmpty() {
+        
     }
+
+    public function keySet() {
+        
+    }
+
+    public function put($key, $value) {
+        
+    }
+
+    public function putAll(\blaze\collections\Map $m) {
+        
+    }
+
+    public function remove($key) {
+        
+    }
+
+    public function removeValue($value) {
+        
+    }
+
+    public function valueSet() {
+        
+    }
+
+    public function values() {
+        
+    }
+
 }
 
 ?>

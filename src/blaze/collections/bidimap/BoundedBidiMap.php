@@ -13,96 +13,32 @@ namespace blaze\collections\bidimap;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedBidiMap implements \blaze\collections\BidiMap, \blaze\collections\Bounded {
+final class BoundedBidiMap extends AbstractBidiMapDecorator implements \blaze\collections\Bounded {
 
-    private $bidiMap;
     private $maxCount;
 
     public function __construct(\blaze\collections\BidiMap $bidiMap, $maxCount) {
-        $this->bidiMap = $bidiMap;
+        parent::__construct($bidiMap);
         $this->maxCount = $maxCount;
     }
 
-    public function clear() {
-
-    }
-
-    public function containsAll(Map $c) {
-
-    }
-
-    public function containsKey($key) {
-
-    }
-
-    public function containsValue($value) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function entrySet() {
-
-    }
-
-    public function get($key) {
-
-    }
-
-    public function getKey($value) {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
-    }
-
-    public function keySet() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
+        return $this->maxCount;
     }
 
     public function put($key, $value) {
-
+        if (!$this->isFull())
+            return $this->bidiMap->put($key, $value);
     }
 
-    public function putAll(Map $m) {
-
+    public function putAll(\blaze\collections\Map $m) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->bidiMap->putAll($m);
     }
-
-    public function remove($key) {
-
-    }
-
-    public function removeAll(Map $obj) {
-
-    }
-
-    public function removeValue($value) {
-
-    }
-
-    public function retainAll(Map $obj) {
-
-    }
-
-    public function valueSet() {
-
-    }
-
-    public function values() {
-
-    }
-
     
 }
 

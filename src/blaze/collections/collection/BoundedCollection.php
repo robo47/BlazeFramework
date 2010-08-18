@@ -13,65 +13,35 @@ namespace blaze\collections\collection;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedCollection implements \blaze\collections\Collection, \blaze\collections\Bounded {
-    private $collection;
+final class BoundedCollection extends AbstractCollectionDecorator implements \blaze\collections\Bounded {
+
     private $maxCount;
 
     public function __construct(\blaze\collections\Collection $collection, $maxCount) {
-        $this->collection = $collection;
+        parent::__construct($collection);
         $this->maxCount = $maxCount;
     }
 
-    public function add($obj) {
-
-    }
-
-    public function addAll(Collection $obj) {
-
-    }
-
-    public function clear() {
-
-    }
-
-    public function contains($obj) {
-
-    }
-
-    public function containsAll(Collection $c) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
+        return $this->maxCount;
     }
 
-    public function remove($obj) {
-
+    public function add($obj) {
+        if (!$this->isFull())
+            return $this->collection->add($obj);
+        else
+            return false;
     }
 
-    public function removeAll(Collection $obj) {
-
-    }
-
-    public function retainAll(Collection $obj) {
-
-    }
-
-    public function toArray($type = null) {
-
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->collection->addAll($obj);
+        else
+            return false;
     }
 
 }

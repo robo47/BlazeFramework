@@ -13,138 +13,35 @@ namespace blaze\collections\set;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedSortedSet implements \blaze\collections\set\SortedSet, \blaze\collections\Bounded {
+final class BoundedSortedSet extends AbstractSortedSetDecorator implements \blaze\collections\Bounded {
 
-    private $set;
     private $maxCount;
 
     public function __construct(\blaze\collections\set\SortedSet $set, $maxCount) {
-        $this->set = $set;
+        parent::__construct($set);
         $this->maxCount = $maxCount;
     }
 
-    public function add($obj) {
-
-    }
-
-    public function addAll(Collection $obj) {
-
-    }
-
-    public function ceiling($element) {
-
-    }
-
-    public function clear() {
-
-    }
-
-    public function comparator() {
-
-    }
-
-    public function contains($obj) {
-
-    }
-
-    public function containsAll(Collection $c) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function descendingCollection() {
-
-    }
-
-    public function descendingIterator() {
-
-    }
-
-    public function descendingSet() {
-
-    }
-
-    public function first() {
-
-    }
-
-    public function floor($element) {
-
-    }
-
-    public function headCollection($toElement, $inclusive = true) {
-
-    }
-
-    public function headSet($toElement, $inclusive = true) {
-
-    }
-
-    public function higher($element) {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
-    }
-
-    public function last() {
-
-    }
-
-    public function lower($element) {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
+        return $this->maxCount;
     }
 
-    public function pollFirst() {
-
+    public function add($obj) {
+        if (!$this->isFull())
+            return $this->set->add($obj);
+        else
+            return false;
     }
 
-    public function pollLast() {
-
-    }
-
-    public function remove($obj) {
-
-    }
-
-    public function removeAll(Collection $obj) {
-
-    }
-
-    public function retainAll(Collection $obj) {
-
-    }
-
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
-
-    }
-
-    public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
-
-    }
-
-    public function tailCollection($fromElement, $inclusive = true) {
-
-    }
-
-    public function tailSet($fromElement, $inclusive = true) {
-
-    }
-
-    public function toArray($type = null) {
-
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->set->addAll($obj);
+        else
+            return false;
     }
 
 }

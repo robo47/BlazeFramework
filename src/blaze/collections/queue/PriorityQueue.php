@@ -21,7 +21,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(Collection $obj){}
+    public function addAll(\blaze\collections\Collection $obj){}
     /**
      * Removes all elements from this collections
      */
@@ -39,7 +39,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable{
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(Collection $c){}
+    public function containsAll(\blaze\collections\Collection $c){}
     /**
      * @return boolean Wether the action was successfull or not
      */
@@ -47,13 +47,13 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAll(Collection $obj){}
+    public function removeAll(\blaze\collections\Collection $obj){}
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(Collection $obj){}
+    public function retainAll(\blaze\collections\Collection $obj){}
     /**
-     * @return blaze\collections\ArrayObject
+     * @return blaze\collections\ArrayI
      */
     public function toArray($type = null){}
     /**

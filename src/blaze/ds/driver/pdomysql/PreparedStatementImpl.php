@@ -57,10 +57,10 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\ArrayObject $value
+     * @param blaze\collections\ArrayI $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setArray($identifier, \blaze\util\ArrayObject $value) {
+    public function setArray($identifier, \blaze\collections\ArrayI $value) {
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
         //return $this;
     }

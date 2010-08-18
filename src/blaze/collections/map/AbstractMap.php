@@ -32,15 +32,15 @@ abstract class AbstractMap extends Object implements \blaze\collections\Map{
      */
     public function getIterator(){}
 
-    public function containsAll(Map $c) {
+    public function containsAll(\blaze\collections\Map $c) {
 
     }
 
-    public function removeAll(Map $obj) {
+    public function removeAll(\blaze\collections\Map $obj) {
 
     }
 
-    public function retainAll(Map $obj) {
+    public function retainAll(\blaze\collections\Map $obj) {
 
     }
 }

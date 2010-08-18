@@ -15,120 +15,165 @@ namespace blaze\collections\bag;
  */
 class TreeBag extends AbstractBag implements SortedBag {
 
-/**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function add($obj){}
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(Collection $obj){}
+    public function add($obj) {
+        
+    }
+
+    /**
+     * @return boolean Wether the action was successfull or not
+     */
+    public function addAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * Removes all elements from this collections
      */
-    public function clear(){}
+    public function clear() {
 
-    public function isEmpty(){}
+    }
 
-    public function getIterator(){}
+    public function isEmpty() {
 
-    public function count(){}
+    }
+
+    public function getIterator() {
+
+    }
+
+    public function count() {
+        
+    }
+
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj){}
+    public function contains($obj) {
+        
+    }
+
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(Collection $c){}
+    public function containsAll(\blaze\collections\Collection $c) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj){}
+    public function remove($obj) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAll(Collection $obj){}
+    public function removeAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(Collection $obj){}
+    public function retainAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
-     * @return blaze\collections\ArrayObject
+     * @return blaze\collections\ArrayI
      */
-    public function toArray($type = null){}
-
-public function addCount($obj, $count) {
-
-    }
-public function ceiling($element) {
+    public function toArray($type = null) {
         
     }
 
-public function comparator() {
-        
-    }
-public function contains($obj) {
-
-    }
-
-
-public function descendingBag() {
-        
-    }
-public function descendingCollection() {
-
-    }
-public function descendingIterator() {
-        
-    }
-public function first() {
-
-    }
-public function floor($element) {
-        
-    }
-public function getCount($obj) {
-
-    }
-public function headBag($toElement, $inclusive = true) {
-        
-    }
-public function headCollection($toElement, $inclusive = true) {
-
-    }
-public function higher($element) {
+    public function addCount($obj, $count) {
         
     }
 
-public function last() {
-        
-    }
-public function lower($element) {
-
-    }
-
-
-public function removeCount($obj, $count) {
+    public function ceiling($element) {
         
     }
 
-public function subBag($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function comparator() {
         
     }
-public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
 
-    }
-public function tailBag($fromElement, $inclusive = true) {
+    public function contains($obj) {
         
     }
-public function tailCollection($fromElement, $inclusive = true) {
 
+    public function descendingBag() {
+        
     }
 
-public function uniqueSet() {
-
+    public function descendingCollection() {
+        
     }
+
+    public function descendingIterator() {
+        
+    }
+
+    public function first() {
+        
+    }
+
+    public function floor($element) {
+        
+    }
+
+    public function getCount($obj) {
+        
+    }
+
+    public function headBag($toElement, $inclusive = true) {
+        
+    }
+
+    public function headCollection($toElement, $inclusive = true) {
+        
+    }
+
+    public function higher($element) {
+        
+    }
+
+    public function last() {
+        
+    }
+
+    public function lower($element) {
+        
+    }
+
+    public function removeCount($obj, $count) {
+        
+    }
+
+    public function subBag($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+        
+    }
+
+    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+        
+    }
+
+    public function tailBag($fromElement, $inclusive = true) {
+        
+    }
+
+    public function tailCollection($fromElement, $inclusive = true) {
+        
+    }
+
+    public function uniqueSet() {
+        
+    }
+
 }
 
 ?>

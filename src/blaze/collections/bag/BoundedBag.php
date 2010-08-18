@@ -13,82 +13,42 @@ namespace blaze\collections\bag;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedBag implements \blaze\collections\Bag, \blaze\collections\Bounded {
+final class BoundedBag extends AbstractBagDecorator implements \blaze\collections\Bounded {
 
-    private $bag;
     private $maxCount;
 
     public function __construct(\blaze\collections\Bag $bag, $maxCount) {
-        $this->bag = $bag;
+        parent::__construct($bag);
         $this->maxCount = $maxCount;
     }
 
     public function add($obj) {
-
+        if (!$this->isFull())
+            return $this->bag->add($obj);
     }
 
-    public function addAll(Collection $obj) {
-
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->bag->addAll($obj);
     }
 
     public function addCount($obj, $count) {
-
-    }
-
-    public function clear() {
-
-    }
-
-    public function contains($obj) {
-
-    }
-
-    public function containsAll(Collection $c) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function getCount($obj) {
-
-    }
-
-    public function isEmpty() {
-
+        if (!$this->contains($obj)) {
+            if (!$this->isFull())
+                return $this->bag->addCount($obj, $count);
+            else
+                return false;
+        }else {
+            return $this->bag->addCount($obj, $count);
+        }
     }
 
     public function isFull() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
-    }
-
-    public function remove($obj) {
-
-    }
-
-    public function removeAll(Collection $obj) {
-
-    }
-
-    public function removeCount($obj, $count) {
-
-    }
-
-    public function retainAll(Collection $obj) {
-
-    }
-
-    public function toArray($type = null) {
-
-    }
-
-    public function uniqueSet() {
-
+        return $this->maxCount;
     }
 
 }

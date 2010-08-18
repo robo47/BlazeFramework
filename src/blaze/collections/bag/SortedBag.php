@@ -13,7 +13,7 @@ namespace blaze\collections\bag;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface SortedBag extends \blaze\collections\Bag, \blaze\collections\SortedCollection {
+interface SortedBag extends \blaze\collections\Bag, \blaze\collections\collection\SortedCollection {
 
     /**
      * Returns a reverse order view of the elements contained in this set.

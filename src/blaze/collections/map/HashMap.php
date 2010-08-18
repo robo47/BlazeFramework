@@ -1,8 +1,6 @@
 <?php
 namespace blaze\collections\map;
-use blaze\lang\Object,
-    blaze\lang\String,
-    blaze\lang\Integer;
+use blaze\lang\Object;
 
 /**
  * Description of Arrays
@@ -35,15 +33,15 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
      */
     public function getIterator(){}
 
-    public function containsAll(Map $c) {
+    public function containsAll(\blaze\collections\Map $c) {
 
     }
 
-    public function removeAll(Map $obj) {
+    public function removeAll(\blaze\collections\Map $obj) {
 
     }
 
-    public function retainAll(Map $obj) {
+    public function retainAll(\blaze\collections\Map $obj) {
 
     }
 }

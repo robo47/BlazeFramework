@@ -1,7 +1,6 @@
 <?php
 namespace blaze\collections\lists;
-use blaze\lang\Object,
- blaze\collections\Collection;
+use blaze\lang\Object;
 
 /**
  * Description of ArrayList
@@ -20,7 +19,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     private $size;
     
-    public function __construct(Collection $collection = null){
+    public function __construct(\blaze\collections\Collection $collection = null){
         if($collection!=null){
             $this->elementData = $collection->toArray();
             $this->size = count($this->elementData);
@@ -40,7 +39,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(Collection $obj){
+    public function addAll(\blaze\collections\Collection $obj){
         $this->rangeCheck($index);
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
@@ -48,7 +47,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         }
     }
 
-    public function addAllAt($index, Collection $c) {
+    public function addAllAt($index, \blaze\collections\Collection $c) {
         $this->rangeCheck($index);
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
@@ -92,7 +91,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(Collection $c){
+    public function containsAll(\blaze\collections\Collection $c){
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
             if(!$this->indexOf($ar[$i])){
@@ -123,7 +122,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAll(Collection $obj){
+    public function removeAll(\blaze\collections\Collection $obj){
         $ar = $c->toArray();
         for($i = 0;i<count($ar);$i++){
             if(!$this->remove($ar[$i])){
@@ -135,7 +134,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(Collection $obj){
+    public function retainAll(\blaze\collections\Collection $obj){
 
     }
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace blaze\collections\map;
+namespace blaze\collections\set;
 
 /**
  * Description of List

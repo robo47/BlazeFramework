@@ -59,7 +59,7 @@ interface ResultSet {
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\ArrayObject
+     * @return blaze\collections\ArrayI
      */
     public function getArray($identifier);
     /**

@@ -13,154 +13,77 @@ namespace blaze\collections\queue;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedDeque implements \blaze\collections\queue\Deque, \blaze\collections\Bounded {
+final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collections\Bounded {
 
-    private $deque;
     private $maxCount;
 
     public function __construct(\blaze\collections\queue\Deque $deque, $maxCount) {
-        $this->deque = $deque;
+        parent::__construct($deque);
         $this->maxCount = $maxCount;
     }
 
-    public function add($obj) {
-
-    }
-
-    public function addAll(Collection $obj) {
-
-    }
-
-    public function addFirst($element) {
-
-    }
-
-    public function addLast($element) {
-
-    }
-
-    public function clear() {
-
-    }
-
-    public function contains($obj) {
-
-    }
-
-    public function containsAll(Collection $c) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function descendingIterator() {
-
-    }
-
-    public function element() {
-
-    }
-
-    public function getFirst() {
-
-    }
-
-    public function getLast() {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
+        return $this->maxCount;
+    }
 
+    public function add($obj) {
+        if (!$this->isFull())
+            return $this->queue->add($obj);
+        else
+            return false;
+    }
+
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->queue->addAll($obj);
+        else
+            return false;
     }
 
     public function offer($element) {
+        if (!$this->isFull())
+            return $this->queue->offer($element);
+        else
+            return false;
+    }
 
+    public function addFirst($element) {
+        if (!$this->isFull())
+            return $this->queue->addFirst($element);
+        else
+            return false;
+    }
+
+    public function addLast($element) {
+        if (!$this->isFull())
+            return $this->queue->addLast($element);
+        else
+            return false;
     }
 
     public function offerFirst($element) {
-
+        if (!$this->isFull())
+            return $this->queue->offerFirst($element);
+        else
+            return false;
     }
 
     public function offerLast($element) {
-
-    }
-
-    public function peek() {
-
-    }
-
-    public function peekFirst() {
-
-    }
-
-    public function peekLast() {
-
-    }
-
-    public function poll() {
-
-    }
-
-    public function pollFirst() {
-
-    }
-
-    public function pollLast() {
-
-    }
-
-    public function pop() {
-
+        if (!$this->isFull())
+            return $this->queue->offerLast($element);
+        else
+            return false;
     }
 
     public function push($element) {
-
-    }
-
-    public function remove($obj) {
-
-    }
-
-    public function removeAll(Collection $obj) {
-
-    }
-
-    public function removeElement() {
-
-    }
-
-    public function removeFirst() {
-
-    }
-
-    public function removeFirstOccurrence($element) {
-
-    }
-
-    public function removeLast() {
-
-    }
-
-    public function removeLastOccurrence($element) {
-
-    }
-
-    public function retainAll(Collection $obj) {
-
-    }
-
-    public function toArray($type = null) {
-
+        if (!$this->isFull())
+            return $this->queue->push($element);
+        else
+            return false;
     }
 
 }

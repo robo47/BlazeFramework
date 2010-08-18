@@ -57,61 +57,328 @@ class Collections extends \blaze\lang\Object{
      */
     public static function binaryRangeSearch(ListI $a, $key, $fromIndex, $toIndex, \blaze\lang\Comparator $c = null){}
     /**
-     * Copies the array into a new one with newLength and adds/turncate values.
-     * @return blaze\collections\ArrayObject
+     * Copies the src into dest
+     * @param blaze\collections\ListI $src
+     * @param blaze\collections\ListI $dest
      */
-    public static function copyOf(ArrayObject $a, $newLength){}
+    public static function copyOf(ListI $src, ListI $dest){}
     /**
-     * Copies a subpart of the array into a new one
-     * @return blaze\collections\ArrayObject
+     * Copies a subpart of the list src into dest
+     * @param blaze\collections\ListI $src
+     * @param blaze\collections\ListI $dest
      */
-    public static function copyOfRange(ArrayObject $a, $from, $to){}
+    public static function copyOfRange(ListI $src, $from, $to, ListI $dest){}
     /**
      * Assigns value to every element of the array
      */
-    public static function fill(ArrayObject $a, $value){}
+    public static function fill(ListI $a, $value){}
     /**
      * Assigns value to every element of the subpart of the array
      */
-    public static function fillRange(ArrayObject $a, $from, $to, $value){}
+    public static function fillRange(ListI $a, $from, $to, $value){}
     /**
-     * Sorts the array.
-     * The comparator can only be used for arrays which manage objects.
+     *  Returns the starting position of the first occurrence of the specified target list within the specified source list, or -1 if there is no such occurrence.
      */
-    public static function sort(ArrayObject $a, \blaze\lang\Comparator $c = null){}
+    public static function indexOfSubList(ListI $src, ListI $target){}
+    /**
+     * Returns the starting position of the last occurrence of the specified target list within the specified source list, or -1 if there is no such occurrence.
+     */
+    public static function lastIndexOfSubList(ListI $src, ListI $target){}
+    /**
+     *  Returns the maximum element of the given collection, according to the order induced by the specified comparator
+     */
+    public static function max(Collection $src, \blaze\lang\Comparator $comp = null){}
+    /**
+     * Returns the minimum element of the given collection, according to the natural ordering of its elements.
+     */
+    public static function min(Collection $src, \blaze\lang\Comparator $comp = null){}
+    /**
+     *  Replaces all occurrences of one specified value in a list with another.
+     */
+    public static function replaceAll(ListI $src, $oldVal, $newVal){}
+    /**
+     *  Reverses the order of the elements in the specified list.
+     */
+    public static function reverse(ListI $src){}
+    /**
+     *  Returns a comparator that imposes the reverse ordering of the specified comparator.
+     *  If no Comparator is given, it returns a comparator that imposes the reverse of the natural ordering on a collection of objects that implement the Comparable interface.
+     */
+    public static function reverse(\blaze\lang\Comparator $comp = null){}
+    /**
+     * Sorts the list.
+     * The comparator can only be used for lists which manage objects.
+     */
+    public static function sort(ListI $list, \blaze\lang\Comparator $c = null){}
     /**
      * Same as sort but for a specific range.
      */
-    public static function sortRange(ArrayObject $a, $from, $to, \blaze\lang\Comparator $c = null){}
+    public static function sortRange(ListI $list, $from, $to, \blaze\lang\Comparator $c = null){}
+    /**
+     * Swaps the element from posA with posB
+     */
+    public static function swap(ListI $list, $posA, $posB){}
     /**
      * Returns true if the two arrays are deeply equal
      * @return boolean
      */
     public static function deepEquals(ArrayObject $a1, ArrayObject $a2){}
+    
     /**
-     * Returns a hash code based on the deep contents
-     * @return int
+     * Returns a bounded Collection and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the Collection
+     * @return blaze\collection\Collection
      */
-    public static function deepHashCode(ArrayObject $a1){}
+    public static function boundedCollection(Collection $obj, $maxSize){
+        return new collection\BoundedCollection($obj, $maxSize);
+    }
     /**
-     * Returns the string representation of the deep contents
-     * @return blaze\lang\String
+     * Returns a bounded SortedCollection and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the SortedCollection
+     * @return blaze\collection\collection\SortedCollection
      */
-    public static function deepToString(ArrayObject $a1){}
+    public static function boundedSortedCollection(blaze\collection\collection\SortedCollection $obj, $maxSize){
+        return new collectio\BoundedSortedCollection($obj, $maxSize);
+    }
     /**
-     * @return boolean
+     * Returns a bounded Bag and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the Bag
+     * @return blaze\collection\Bag
      */
-    public static function flatEquals(ArrayObject $a1, ArrayObject $a2){}
+    public static function boundedBag(Bag $obj, $maxSize){
+        return new bag\BoundedBag($obj, $maxSize);
+    }
     /**
-     * Returns the hashcodes based on the contents
-     * @return int
+     * Returns a bounded SortedBag and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the SortedBag
+     * @return blaze\collection\bag\SortedBag
      */
-    public static function flatHashCode(ArrayObject $a){}
+    public static function boundedSortedBag(blaze\collection\bag\SortedBag $obj, $maxSize){
+        return new bag\BoundedSortedBag($obj, $maxSize);
+    }
     /**
-     * Returns a string representation based on the contents
-     * @return blaze\lang\String
+     * Returns a bounded Set and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the Set
+     * @return blaze\collection\Set
      */
-    public static function flatToString(ArrayObject $a){}
+    public static function boundedSet(Set $obj, $maxSize){
+        return new set\BoundedSet($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded SortedSet and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the SortedSet
+     * @return blaze\collection\set\SortedSet
+     */
+    public static function boundedSortedSet(blaze\collection\set\SortedSet $obj, $maxSize){
+        return new set\BoundedSortedSet($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded ListI and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the ListI
+     * @return blaze\collection\ListI
+     */
+    public static function boundedList(blaze\collection\ListI $obj, $maxSize){
+        return new lists\BoundedList($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded Map and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the Map
+     * @return blaze\collection\Map
+     */
+    public static function boundedMap(Map $obj, $maxSize){
+        return new map\BoundedMap($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded SortedMap and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the SortedMap
+     * @return blaze\collection\map\SortedMap
+     */
+    public static function boundedSortedMap(blaze\collection\map\SortedMap $obj, $maxSize){
+        return new map\BoundedSortedMap($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded BidiMap and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the BidiMap
+     * @return blaze\collection\BidiMap
+     */
+    public static function boundedBidiMap(BidiMap $obj, $maxSize){
+        return new bidimap\BoundedBidiMap($obj, $maxSize);
+    }
+    /**
+     * Returns a bounded SortedBidiMap and cuts of the elements which are to much
+     * @param int $maxSize the maximum size of the SortedBidiMap
+     * @return blaze\collection\bidimap\SortedBidiMap
+     */
+    public static function boundedSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj, $maxSize){
+        return new bidimap\BoundedSortedBidiMap($obj, $maxSize);
+    }
+
+    /**
+     * Returns an immutable Collection and cuts of the elements which are to much
+     * @return blaze\collection\Collection
+     */
+    public static function immutableCollection(Collection $obj){
+        return new collection\ImmutableCollection($obj);
+    }
+    /**
+     * Returns an immutable SortedCollection and cuts of the elements which are to much
+     * @return blaze\collection\collection\SortedCollection
+     */
+    public static function immutableSortedCollection(blaze\collection\collection\SortedCollection $obj){
+        return new collection\ImmutableSortedCollection($obj);
+    }
+    /**
+     * Returns an immutable Bag and cuts of the elements which are to much
+     * @return blaze\collection\Bag
+     */
+    public static function immutableBag(Bag $obj){
+        return new bag\ImmutableBag($obj);
+    }
+    /**
+     * Returns an immutable SortedBag and cuts of the elements which are to much
+     * @return blaze\collection\bag\SortedBag
+     */
+    public static function immutableSortedBag(blaze\collection\bag\SortedBag $obj){
+        return new bag\ImmutableSortedBag($obj);
+    }
+    /**
+     * Returns an immutable Set and cuts of the elements which are to much
+     * @return blaze\collection\Set
+     */
+    public static function immutableSet(Set $obj){
+        return new set\ImmutableSet($obj);
+    }
+    /**
+     * Returns an immutable SortedSet and cuts of the elements which are to much
+     * @return blaze\collection\set\SortedSet
+     */
+    public static function immutableSortedSet(blaze\collection\set\SortedSet $obj){
+        return new set\ImmutableSortedSet($obj);
+    }
+    /**
+     * Returns an immutable SortedBidiMap and cuts of the elements which are to much
+     * @return blaze\collection\ListI
+     */
+    public static function immutableList(blaze\collection\ListI $obj){
+        return new lists\ImmutableList($obj);
+    }
+    /**
+     * Returns an immutable Map and cuts of the elements which are to much
+     * @return blaze\collection\Map
+     */
+    public static function immutableMap(Map $obj){
+        return new map\ImmutableMap($obj);
+    }
+    /**
+     * Returns an immutable SortedMap and cuts of the elements which are to much
+     * @return blaze\collection\map\SortedMap
+     */
+    public static function immutableSortedMap(blaze\collection\map\SortedMap $obj){
+        return new map\ImmutableSortedMap($obj);
+    }
+    /**
+     * Returns an immutable BidiMap and cuts of the elements which are to much
+     * @return blaze\collection\BidiMap
+     */
+    public static function immutableBidiMap(BidiMap $obj){
+        return new bidimap\ImmutableBidiMap($obj);
+    }
+    /**
+     * Returns an immutable SortedBidiMap and cuts of the elements which are to much
+     * @return blaze\collection\bidimap\SortedBidiMap
+     */
+    public static function immutableSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj){
+        return new bidimap\ImmutableSortedBidiMap($obj);
+    }
+
+    /**
+     * Returns a typed Collection and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\Collection
+     */
+    public static function typedCollection(Collection $obj, $type){
+        return new collection\TypedCollection($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed SortedCollection and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\collection\SortedCollection
+     */
+    public static function typedSortedCollection(blaze\collection\collection\SortedCollection $obj, $type){
+        return new collection\TypedSortedCollection($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed Bag and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\Bag
+     */
+    public static function typedBag(Bag $obj, $type){
+        return new bag\TypedBag($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed SortedBag and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\bag\SortedBag
+     */
+    public static function typedSortedBag(blaze\collection\bag\SortedBag $obj, $type){
+        return new bag\TypedSortedBag($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed Set and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\Set
+     */
+    public static function typedSet(Set $obj, $type){
+        return new set\TypedSet($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed SortedSet and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\set\SortedSet
+     */
+    public static function typedSortedSet(blaze\collection\set\SortedSet $obj, $type){
+        return new set\TypedSortedSet($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed SortedBidiMap and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\ListI
+     */
+    public static function typedList(blaze\collection\ListI $obj, $type){
+        return new lists\TypedList($obj, TypeChecker::getInstance($type));
+    }
+    /**
+     * Returns a typed Map and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\Map
+     */
+    public static function typedMap(Map $obj, $keyType, $valueType){
+        return new map\TypedMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
+    }
+    /**
+     * Returns a typed SortedMap and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\map\SortedMap
+     */
+    public static function typedSortedMap(blaze\collection\map\SortedMap $obj, $keyType, $valueType){
+        return new map\TypedSortedMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
+    }
+    /**
+     * Returns a typed BidiMap and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\BidiMap
+     */
+    public static function typedBidiMap(BidiMap $obj, $keyType, $valueType){
+        return new bidimap\TypedBidiMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
+    }
+    /**
+     * Returns a typed SortedBidiMap and cuts of the elements which are to much
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
+     * @return blaze\collection\bidimap\SortedBidiMap
+     */
+    public static function typedSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj, $keyType, $valueType){
+        return new bidimap\TypedSortedBidiMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
+    }
 }
 
 ?>

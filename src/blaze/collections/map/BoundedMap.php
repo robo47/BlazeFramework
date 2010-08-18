@@ -13,82 +13,31 @@ namespace blaze\collections\map;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedMap implements \blaze\collections\Map, \blaze\collections\Bounded {
+final class BoundedMap extends AbstractMapDecorator implements \blaze\collections\Bounded {
 
-    private $map;
     private $maxCount;
 
     public function __construct(\blaze\collections\Map $map, $maxCount) {
-        $this->map = $map;
+        parent::__construct($map);
         $this->maxCount = $maxCount;
     }
 
-    public function clear() {
-
-    }
-
-    public function containsAll(Map $c) {
-
-    }
-
-    public function containsKey($key) {
-
-    }
-
-    public function containsValue($value) {
-
-    }
-
-    public function count() {
-
-    }
-
-    public function entrySet() {
-
-    }
-
-    public function get($key) {
-
-    }
-
-    public function isEmpty() {
-
-    }
-
     public function isFull() {
-
-    }
-
-    public function keySet() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
+        return $this->maxCount;
     }
 
     public function put($key, $value) {
-
+        if (!$this->isFull())
+            return $this->map->put($key, $value);
     }
 
-    public function putAll(Map $m) {
-
-    }
-
-    public function remove($key) {
-
-    }
-
-    public function removeAll(Map $obj) {
-
-    }
-
-    public function retainAll(Map $obj) {
-
-    }
-
-    public function values() {
-
+    public function putAll(\blaze\collections\Map $m) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->map->putAll($m);
     }
 
 }

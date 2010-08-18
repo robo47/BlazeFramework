@@ -3,7 +3,7 @@
 namespace blaze\lang;
 
 use \ReflectionClass,
- blaze\util\ArrayObject,
+ blaze\collections\ArrayI,
  blaze\lang\reflect\Method,
  blaze\lang\reflect\Field,
  blaze\io\Serializable;
@@ -207,7 +207,7 @@ final class ClassWrapper extends Object implements Serializable {
      * @since   JDK1.1
      */
     public function isArray() {
-        return $this->reflectionClass->getName() instanceof \ArrayObject;
+        return $this->reflectionClass->getName() instanceof ArrayI;
     }
 
     /**
@@ -547,7 +547,7 @@ final class ClassWrapper extends Object implements Serializable {
      *
      * <p> See <em>The Java Language Specification</em>, sections 8.2 and 8.4.
      *
-     * @return blaze\util\ArrayObject the array of <code>Method</code> objects representing the
+     * @return blaze\util\ArrayI the array of <code>Method</code> objects representing the
      * public methods of this class
      * @exception  SecurityException
      *             If a security manager, <i>s</i>, is present and any of the

@@ -13,65 +13,36 @@ namespace blaze\collections\set;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-final class BoundedSet implements \blaze\collections\Set, \blaze\collections\Bounded {
+final class BoundedSet extends AbstractSetDecorator implements \blaze\collections\Bounded {
 
-    private $set;
     private $maxCount;
 
     public function __construct(\blaze\collections\Set $set, $maxCount) {
-        $this->set = $set;
+        parent::__construct($set);
         $this->maxCount = $maxCount;
     }
 
     public function isFull() {
-
+        return $this->count() == $this->maxCount;
     }
 
     public function maxCount() {
-
+        return $this->maxCount;
     }
-/**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function add($obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function addAll(Collection $obj){}
-    /**
-     * Removes all elements from this collections
-     */
-    public function clear(){}
 
-    public function isEmpty(){}
+    public function add($obj) {
+        if (!$this->isFull())
+            return $this->set->add($obj);
+        else
+            return false;
+    }
 
-    public function getIterator(){}
-
-    public function count(){}
-    /**
-     * @return boolean True if the element obj is in this collections
-     */
-    public function contains($obj){}
-    /**
-     * @return boolean True if every element of c is in this collections
-     */
-    public function containsAll(Collection $c){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function remove($obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function removeAll(Collection $obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function retainAll(Collection $obj){}
-    /**
-     * @return blaze\collections\ArrayObject
-     */
-    public function toArray($type = null){}
+    public function addAll(\blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->set->addAll($obj);
+        else
+            return false;
+    }
     
 }
 

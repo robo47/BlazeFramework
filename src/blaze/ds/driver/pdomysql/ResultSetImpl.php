@@ -10,7 +10,6 @@ use blaze\lang\Object,
  blaze\lang\Byte,
  blaze\lang\Integer,
  blaze\lang\Double,
- blaze\util\ArrayObject,
  blaze\math\BigDecimal,
  blaze\ds\Statement1,
  blaze\ds\SQLException,
@@ -49,7 +48,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\ArrayObject
+     * @return blaze\collections\ArrayI
      */
     public function getArray($identifier) {
         $this->checkedClosed();

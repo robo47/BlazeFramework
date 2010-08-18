@@ -42,11 +42,11 @@ class Properties extends HashMap {
      * @return void
      * @throws IOException - if unable to read file.
      */
-    function load(File $file) {
+    public function load(\blaze\io\File $file) {
         if ($file->canRead()) {
             $this->parse($file->getPath(), false);                    
         } else {
-            throw new IOException("Can not read file ".$file->getPath());
+            throw new IOException('Can not read file '.$file->getPath());
         }
         
     }
@@ -67,17 +67,17 @@ class Properties extends HashMap {
         // an array
         
         if (($lines = @file($filePath)) === false) {
-            throw new IOException("Unable to parse contents of $filePath");
+            throw new \blaze\io\IOException('Unable to parse contents of '.$filePath);
         }
         
         $this->properties = array();
-        $sec_name = "";
+        $sec_name = '';
         
         foreach($lines as $line) {
             
             $line = trim($line);
     
-            if($line == "")
+            if($line == '')
                 continue;
                     
             if ($line{0} == '#' or $line{0} == ';') {
@@ -100,9 +100,9 @@ class Properties extends HashMap {
      * @return mixed The new property value (may be boolean, etc.)
      */
     protected function inVal($val) {
-        if ($val === "true") { 
+        if ($val === 'true') {
             $val = true;
-        } elseif ($val === "false") { 
+        } elseif ($val === 'false') {
             $val = false; 
         }
         return $val;
@@ -116,9 +116,9 @@ class Properties extends HashMap {
      */
     protected function outVal($val) {
         if ($val === true) {
-            $val = "true";
+            $val = 'true';
         } elseif ($val === false) {
-            $val = "false";
+            $val = 'false';
         }
         return $val;
     }
@@ -132,9 +132,9 @@ class Properties extends HashMap {
      * @return string
      */
     public function toString() {
-        $buf = "";        
+        $buf = '';
         foreach($this->properties as $key => $item) {
-            $buf .= $key . "=" . $this->outVal($item) . PHP_EOL;
+            $buf .= $key . '=' . $this->outVal($item) . PHP_EOL;
         }
         return $buf;    
     }
@@ -147,19 +147,19 @@ class Properties extends HashMap {
      * @return void
      * @throws IOException - on error writing properties file.
      */
-    function store(File $file, $header = null) {
+    public function store(\blaze\io\File $file, $header = null) {
         // stores the properties in this object in the file denoted
         // if file is not given and the properties were loaded from a
         // file prior, this method stores them in the file used by load()        
         try {
-            $fw = new FileWriter($file);
+            $fw = new \blaze\io\FileWriter($file);
             if ($header !== null) {
-                $fw->write( "# " . $header . PHP_EOL );
+                $fw->write( '# ' . $header . PHP_EOL );
             }
             $fw->write($this->toString());
             $fw->close();
-        } catch (IOException $e) {
-            throw new IOException("Error writing property file: " . $e->getMessage());
+        } catch (\blaze\io\IOException $e) {
+            throw new \blaze\io\IOException('Error writing property file: ' . $e->getMessage());
         }                
     }
     
@@ -170,7 +170,7 @@ class Properties extends HashMap {
      *
      * @return array
      */
-    function getProperties() {
+    public function getProperties() {
         return $this->properties;
     }
 
@@ -184,7 +184,7 @@ class Properties extends HashMap {
      * @return mixed
      * @see getProperty()
      */    
-    function get($prop) {
+    public function get($prop) {
          if (!isset($this->properties[$prop])) {
             return null;
         }
@@ -199,7 +199,7 @@ class Properties extends HashMap {
      * @param string $key
      * @param mixed $value
      */
-    function put($key, $value) {
+    public function put($key, $value) {
         return $this->setProperty($key, $value);
     }
     
@@ -212,7 +212,7 @@ class Properties extends HashMap {
      * @param mixed $value
      * @param string $delimiter
      */
-    function append($key, $value, $delimiter = ',') {
+    public function append($key, $value, $delimiter = ',') {
         $newValue = $value;
         if (isset($this->properties[$key]) && !empty($this->properties[$key]) ) {
             $newValue = $this->properties[$key] . $delimiter . $value;
@@ -224,7 +224,7 @@ class Properties extends HashMap {
      * Same as keys() function, returns an array of property names.
      * @return array
      */
-    function propertyNames() {
+    public function propertyNames() {
         return $this->keys();
     }
     
@@ -232,7 +232,7 @@ class Properties extends HashMap {
      * Whether loaded properties array contains specified property name.
      * @return boolean
      */
-    function containsKey($key) {
+    public function containsKey($key) {
         return isset($this->properties[$key]);
     }
 
@@ -242,7 +242,7 @@ class Properties extends HashMap {
      * faster than looping through property values.
      * @return array
      */
-    function keys() {
+    public function keys() {
         return array_keys($this->properties);
     }
     
@@ -250,7 +250,7 @@ class Properties extends HashMap {
      * Whether properties list is empty.
      * @return boolean
      */
-    function isEmpty() {
+    public function isEmpty() {
         return empty($this->properties);
     }
     

@@ -32,10 +32,10 @@ interface PreparedStatement extends Statement1{
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\ArrayObject $value
+     * @param blaze\collections\ArrayI $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setArray($identifier, \blaze\util\ArrayObject $value);
+    public function setArray($identifier, \blaze\collections\ArrayI $value);
     /**
      *
      * @param blaze\lang\String|string|int $identifier

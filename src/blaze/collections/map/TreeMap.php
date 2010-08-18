@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\map;
+
 use blaze\lang\Object;
 
 /**
@@ -13,25 +15,66 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \blaze\io\Serializable{
-public function clear(){}
-    public function containsKey($key){}
-    public function containsValue($value){}
-    public function entrySet(){}
-    public function keySet(){}
-    public function valueSet(){}
-    public function get($key){}
-    public function put($key, $value){}
-    public function putAll(\blaze\collections\Map $m){}
-    public function remove($key){}
-    public function values(){}
-    public function isEmpty(){}
-    public function count(){}
+class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \blaze\io\Serializable {
+
+    public function clear() {
+
+    }
+
+    public function containsKey($key) {
+
+    }
+
+    public function containsValue($value) {
+
+    }
+
+    public function entrySet() {
+
+    }
+
+    public function keySet() {
+
+    }
+
+    public function valueSet() {
+
+    }
+
+    public function get($key) {
+
+    }
+
+    public function put($key, $value) {
+
+    }
+
+    public function putAll(\blaze\collections\Map $m) {
+
+    }
+
+    public function remove($key) {
+
+    }
+
+    public function values() {
+
+    }
+
+    public function isEmpty() {
+
+    }
+
+    public function count() {
+        
+    }
+
     /**
      * @return blaze\collections\MapIterator
      */
-    public function getIterator(){}
+    public function getIterator() {
 
+    }
 
     public function ceiling($element) {
 
@@ -48,7 +91,6 @@ public function clear(){}
     public function comparator() {
 
     }
-
 
     public function descendingIterator() {
 
@@ -141,14 +183,16 @@ public function clear(){}
     public function pollLastEntry() {
 
     }
-    public function containsAll(Map $c) {
+
+    public function containsAll(\blaze\collections\Map $c) {
 
     }
-    public function removeAll(Map $obj) {
+
+    public function removeAll(\blaze\collections\Map $obj) {
 
     }
 
-    public function retainAll(Map $obj) {
+    public function retainAll(\blaze\collections\Map $obj) {
 
     }
 
@@ -159,7 +203,6 @@ public function clear(){}
     public function tailMap($fromElement, $inclusive = true) {
 
     }
-
 
 }
 

@@ -8,7 +8,6 @@ use  blaze\lang\Object,
  blaze\lang\Byte,
  blaze\lang\Integer,
  blaze\lang\Double,
- blaze\util\ArrayObject,
  blaze\math\BigDecimal,
  blaze\ds\Statement1,
  blaze\ds\SQLException,
@@ -343,10 +342,10 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\ArrayObject $value
+     * @param blaze\collections\ArrayI $value
      * @return blaze\lang\PreparedStatement
      */
-    public function setArray($identifier, \blaze\util\ArrayObject $value) {
+    public function setArray($identifier, \blaze\util\ArrayI $value) {
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
         //return $this;
     }

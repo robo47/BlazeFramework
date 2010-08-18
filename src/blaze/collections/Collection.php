@@ -46,7 +46,7 @@ interface Collection extends Iterable, Countable{//, ArrayAccess{
      */
     public function retainAll(Collection $obj);
     /**
-     * @return blaze\collections\ArrayObject
+     * @return blaze\collections\ArrayI
      */
     public function toArray($type = null);
 }
