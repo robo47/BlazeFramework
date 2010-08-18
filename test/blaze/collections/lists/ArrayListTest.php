@@ -26,7 +26,11 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new ArrayList;
+        $this->object = new ArrayList();
+        $this->object = new ArrayList();
+        for($i = 0;$i<10;$i++){
+           $this->object->add($i);
+        }
     }
 
     /**
@@ -42,9 +46,8 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAdd() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+                   $this->object->add(10);
+           $this->assertTrue($this->object->get(10)==10);
     }
 
     /**
@@ -52,9 +55,9 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAddAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->addAt(3, 11);
+        $this->assertTrue($this->object->get(3)==11);
+        $this->assertTrue($this->object->get(4)==3);
     }
 
     /**
@@ -162,9 +165,13 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAddAllAt() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $list = new ArrayList();
+        $list->add(111);
+        $list->add(222);
+        $list->add(333);
+
+        $this->object->addAllAt(4,$list);
+        var_dump($this->object);
     }
 
     /**
@@ -172,9 +179,9 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAddAt() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->addAt(3, 11);
+        $this->assertTrue($this->object->get(3)==11);
+        $this->assertTrue($this->object->get(4)==3);
     }
 
     /**
@@ -182,9 +189,9 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGet() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+         $this->assertTrue($this->object->get(0)==0);
+        $this->assertTrue($this->object->get(5)==5);
+        $this->assertTrue($this->object->get(8)==8);
     }
 
     /**
@@ -192,9 +199,8 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testIndexOf() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $this->assertTrue($this->object->indexOf(3)==3);
+        $this->assertTrue($this->object->indexOf(45)==-1);
     }
 
     /**
@@ -202,9 +208,10 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testLastIndexOf() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->add(5);
+        $this->object->add(5);
+        $this->assertTrue($this->object->indexOf(5)==5);
+        $this->assertTrue($this->object->lastIndexOf(5)==11);
     }
 
     /**
