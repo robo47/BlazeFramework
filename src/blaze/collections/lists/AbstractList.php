@@ -1,6 +1,7 @@
 <?php
 namespace blaze\collections\lists;
-use blaze\lang\Object;
+use blaze\lang\Object,
+ blaze\collections\Collection;
 
 /**
  * Description of Queue
@@ -13,7 +14,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class AbstractList extends \blaze\collections\AbstractCollection implements \blaze\collections\ListI{
+abstract class AbstractList extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\ListI{
    /**
      * @return boolean Wether the action was successfull or not
      */

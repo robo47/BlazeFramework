@@ -1,6 +1,7 @@
 <?php
 namespace blaze\collections\lists;
-use blaze\lang\Object;
+use blaze\lang\Object,
+ blaze\collections\Collection;
 
 /**
  * Description of ArrayList
@@ -14,10 +15,28 @@ use blaze\lang\Object;
  * @todo    Something which has to be done, implementation or so
  */
 class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io\Serializable{
-/**
+
+    private $elementData;
+
+    private $size;
+    
+    public function __construct(Collection $collection = null){
+        if($collection!=null){
+            $this->elementData = $collection->toArray();
+            $this->size = count($this->elementData);
+        }
+        else{
+                $this->size = 0;
+                $this->elementData = array();
+        }
+    }
+    /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj){}
+    public function add($obj){
+        $this->elementData[$this->size++] = $obj;
+        return true;
+    }
     /**
      * @return boolean Wether the action was successfull or not
      */
@@ -56,6 +75,77 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      * @return blaze\collections\ArrayObject
      */
     public function toArray($type = null){}
+
+    
+    public function addAllAt($index, Collection $c) {
+        $this->RangeCheck();
+        $ar = $c->toArray();
+        for($i = 0;i<count($ar);$i++){
+            $this->addAt(($index)+$i, $ar[$i]);
+        }
+    }
+
+    public function addAt($index, $obj) {
+        $this->RangeCheck();
+            array_splice($this->elementData, $index, count($this->elementData), array_merge(array($obj), array_slice($this->elementData, $index)));
+            $this->size++;
+            return true;
+    }
+
+    public function get($index) {
+        $this->RangeCheck();
+            return $this->elementData[$index];
+    }
+
+    public function indexOf($obj){
+         $index = array_search($obj, $this->elementData,true);
+         if(\is_int($index)){
+             return $index;
+         }
+         else{
+             return -1;
+         }
+     }
+
+     public function lastIndexOf($obj){
+         for ($i = $this->size-1; $i >= 0; $i--)
+		if ($obj===$this->elementData[$i])
+		    return $i;
+     }
+
+
+    public function listIterator($index = 0) {
+        
+    }
+
+    public function removeAt($index) {
+        
+    }
+
+    public function serialize() {
+        
+    }
+
+    public function set($index, $obj){
+         $this->RangeCheck();
+         $old = $this->elementData[$index];
+         $this->elementData[$index] = $obj;
+         return $old;
+     }
+
+    public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
+
+    }
+
+    public function unserialize($serialized) {
+
+    }
+
+    private function RangeCheck(){
+         if($index<0||$this->size<$index){
+            throw new \blaze\lang\IndexOutOfBoundsException('Index: '.$index.' Size: '.$this->size);
+        }
+    }
 
 }
 

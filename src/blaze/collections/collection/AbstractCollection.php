@@ -1,6 +1,7 @@
 <?php
-namespace blaze\collections;
-use blaze\lang\Object;
+namespace blaze\collections\collection;
+use blaze\lang\Object,
+blaze\collections\Collection;
 
 /**
  * Description of Queue
