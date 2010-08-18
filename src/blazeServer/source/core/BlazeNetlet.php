@@ -64,7 +64,7 @@ class BlazeNetlet extends HttpNetlet{
         $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($appContext);
 
 //        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($appContext, 'myblub', \blazeServer\Test::create()->setName('count')->setLabel('label')->setValue('value'));
-//        $list = new \blaze\collection\lists\ArrayList();
+//        $list = new \blaze\collections\lists\ArrayList();
 //        $list->add(\blazeServer\Test::create()->setName('Christian')->setLabel('Beikov')->setValue('Nice'));
 //        $list->add(\blazeServer\Test::create()->setName('Bernd')->setLabel('Artmüller')->setValue('Lazy'));
 //        $list->add(\blazeServer\Test::create()->setName('Oliver')->setLabel('Kotzina')->setValue('In Love'));

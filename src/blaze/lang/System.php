@@ -19,7 +19,7 @@ final class System extends Object implements StaticInitialization {
     public static $out;
     /**
      *
-     * @var blaze\collection\Property
+     * @var blaze\collections\Property
      */
     private static $props;
     /**
@@ -66,7 +66,7 @@ final class System extends Object implements StaticInitialization {
         }
     }
 
-    public static function setProperties(\blaze\collection\Properties $props) {
+    public static function setProperties(\blaze\collections\Properties $props) {
         self::$props = $props;
     }
 
@@ -103,7 +103,7 @@ final class System extends Object implements StaticInitialization {
     }
 
     private static function initProperties() {
-        self::$props = new \blaze\collection\map\Properties();
+        self::$props = new \blaze\collections\map\Properties();
         /*
          * PHP_OS returns on
          *   WindowsNT4.0sp6  => WINNT

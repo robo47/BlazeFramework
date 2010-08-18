@@ -23,7 +23,7 @@ interface Reflectable {
      */
     public function cloneObject();
     /**
-     * Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.
+     * Called by the garbage collector on an object when garbage collections determines that there are no more references to the object.
      * @access protected
      */
     public function finalize();

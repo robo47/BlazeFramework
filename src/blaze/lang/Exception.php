@@ -92,15 +92,15 @@ class Exception extends \Exception implements Reflectable {
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function toString() {
-        return $this->getClass()->getName().': '.$this->getMessage();
+        return $this->getTraceAsString();
     }
 
     /**
      * @access private
      * @return string
      */
-//    public final function  __toString() {
-//        return String::asNative($this->toString());
-//    }
+    public final function  __toString() {
+        return String::asNative($this->toString());
+    }
 }
 ?>
