@@ -65,9 +65,8 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testClear() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->clear();
+        $this->assertTrue($this->object->count()==0);
     }
 
     /**
@@ -75,9 +74,9 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testIsEmpty() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertFalse($this->object->isEmpty());
+        $this->object->clear();
+        $this->assertTrue($this->object->isEmpty());
     }
 
     /**
@@ -95,9 +94,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testCount() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->object->count() == 10);
+        $this->object->add(99);
+        $this->assertTrue($this->object->count() == 11);
+        $this->object->clear();
+        $this->assertTrue($this->object->count() == 0);
+
     }
 
     /**
@@ -105,9 +107,8 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testContains() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->object->contains(5));
+        $this->assertFalse($this->object->contains(9999));
     }
 
     /**
@@ -115,9 +116,11 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testContainsAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $list = $this->object->subList(2, 4);
+       $this->assertTrue($this->object->containsAll($list));
+       $list->add(89);
+       $this->assertFalse($this->object->containsAll($list));
+
     }
 
     /**
@@ -125,9 +128,10 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRemove() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+
+         $this->object->remove(4);
+        $this->assertTrue($this->object->count() == 9);
+        $this->assertTrue($this->object->indexOf(4)==-1);
     }
 
     /**
@@ -135,9 +139,20 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRemoveAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $list = new ArrayList();
+        $list->add(1);
+        $list->add(2);
+        
+        $this->assertTrue($this->object->removeAll($list));
+        $this->assertTrue($this->object->count()==8);
+        
+        $list = new ArrayList();
+        $list->add(1);
+        $list->add(7852);
+        
+        $this->assertFalse($this->object->removeAll($list));
+        $this->assertTrue($this->object->count()==8);
+ 
     }
 
     /**
@@ -145,9 +160,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->retainAll($list = $this->object->subList(2, 4));
     }
 
     /**
@@ -155,9 +168,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testToArray() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue(\is_array($this->object->toArray()));
     }
 
     /**
@@ -171,7 +182,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $list->add(333);
 
         $this->object->addAllAt(4,$list);
-        var_dump($this->object);
     }
 
     /**
@@ -230,7 +240,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testRemoveAt() {
         // Remove the following lines when you implement this test.
         $this->object->removeAt(5);
-        $this->assertTrue($this->object->indexOf(5)==false);
+        $this->assertTrue($this->object->indexOf(5)!=5);
     }
 
     /**
@@ -248,9 +258,9 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSet() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->object->set(2, 69)==2);
+        $this->assertTrue($this->object->get(2)==69);
+        $this->assertTrue($this->object->indexOf(69)==2);
     }
 
     /**
@@ -258,9 +268,21 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSubList() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $list = $this->object->subList(2, 5);
+        $this->assertTrue($list->get(0)==2);
+        $this->assertTrue($list->get(1)==3);
+        $this->assertTrue($list->get(2)==4);
+
+        $list = $this->object->subList(2, 5,false);
+        $this->assertTrue($list->get(0)==3);
+        $this->assertTrue($list->get(1)==4);
+
+        $list = $this->object->subList(2, 5,false,true);
+        $this->assertTrue($list->get(0)==3);
+        $this->assertTrue($list->get(1)==4);
+        $this->assertTrue($list->get(2)==5);
+
+
     }
 
     /**

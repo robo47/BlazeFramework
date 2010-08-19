@@ -5,7 +5,7 @@ use blaze\lang\Object;
 /**
  * Description of ArrayList
  *
- * @author  Christian Beikov
+ * @author  Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
@@ -42,7 +42,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     public function addAll(\blaze\collections\Collection $obj){
         $this->rangeCheck($index);
         $ar = $c->toArray();
-        for($i = 0;i<count($ar);$i++){
+        for($i = 0;$i<count($ar);$i++){
             $this->add($ar[$i]);
         }
     }
@@ -50,7 +50,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     public function addAllAt($index, \blaze\collections\Collection $c) {
         $this->rangeCheck($index);
         $ar = $c->toArray();
-        for($i = 0;i<count($ar);$i++){
+        for($i = 0;$i<count($ar);$i++){
             $this->addAt(($index)+$i, $ar[$i]);
         }
     }
@@ -93,8 +93,8 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      */
     public function containsAll(\blaze\collections\Collection $c){
         $ar = $c->toArray();
-        for($i = 0;i<count($ar);$i++){
-            if(!$this->indexOf($ar[$i])){
+        for($i = 0;$i<count($ar);$i++){
+            if($this->indexOf($ar[$i])==-1){
                 return false;
             }
         }
@@ -113,7 +113,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
             for($index;$index<$this->size;$index++){
                 $this->elementData[$index] = $this->elementData[($index+1)];
             }
-            usnet($this->elementData[$index]);
+            unset($this->elementData[$index-1]);
             $this->size--;
             return true;
             
@@ -123,19 +123,33 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      * @return boolean Wether the action was successfull or not
      */
     public function removeAll(\blaze\collections\Collection $obj){
-        $ar = $c->toArray();
-        for($i = 0;i<count($ar);$i++){
+        $save = $this->elementData;
+        $ar = $obj->toArray();
+        for($i = 0;$i<count($ar);$i++){
             if(!$this->remove($ar[$i])){
+                $this->elementData = $save;
                 return false;
             }
         }
+
         return true;
     }
     /**
      * @return boolean Wether the action was successfull or not
      */
     public function retainAll(\blaze\collections\Collection $obj){
+        $diff = array_diff($this->elementData, $obj->toArray());
+        $old = $this->elementData;
+        $oldsize = $this->size;
+        do{
+            if(!$this->remove(\current($diff))){
+                $this->elementData = $old;
+                $this->size = $oldsize;
+                return false;
+            }
+        }while(next($diff));
 
+        return true;
     }
     /**
      * @return blaze\collections\ArrayObject
@@ -194,7 +208,19 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      }
 
     public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
-
+            if(!$fromInclusive){
+                $fromIndex++;
+            }
+            if($toInclusive){
+                $toIndex++;
+            }
+            $this->rangeCheck($fromIndex);
+            $this->rangeCheck($toIndex);
+            $ret = new ArrayList();
+            for($i = $fromIndex;$i<$toIndex;$i++){
+                $ret->add($this->elementData[$i]);
+            }
+            return $ret;
     }
 
     public function unserialize($serialized) {
