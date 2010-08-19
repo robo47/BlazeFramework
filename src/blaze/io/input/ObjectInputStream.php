@@ -142,7 +142,7 @@ class ObjectInputStream extends \blaze\io\InputStream implements \blaze\io\DataI
 
     public function readObject() {
         $result = unserialize($this->getNext());
-        if (!$result instanceof \blaze\io\Serializable)
+        if (!$result instanceof \blaze\io\Serializable || !$result instanceof \blaze\lang\Reflectable)
             throw new \blaze\io\NotSerializableException();
         return $result;
     }

@@ -85,7 +85,7 @@ final class System extends Object implements StaticInitialization {
         $this->sm = $sm;
     }
 
-    public static function identityHashCode(Object $o) {
+    public static function identityHashCode(Reflectable $o) {
         return spl_object_hash($o);
     }
 

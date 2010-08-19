@@ -76,7 +76,7 @@ class Field extends Object{
      * @return string a <code>Class</code> object identifying the declared
      * type of the field represented by this object
      */
-    public function getType(Object $obj) {
+    public function getType(\blaze\lang\Reflectable $obj) {
         $value = $this->property->getValue($obj);
         if($value === null){
             $annot = $this->getAnnotations();
@@ -261,7 +261,7 @@ class Field extends Object{
      * @exception ExceptionInInitializerError if the initialization provoked
      *              by this method fails.
      */
-    public function get(Object $obj)
+    public function get(\blaze\lang\Reflectable $obj)
         //throws IllegalArgumentException, IllegalAccessException
     {
         $this->property->setAccessible(true);
@@ -290,7 +290,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getBoolean(Object $obj)
+    public function getBoolean(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getBoolean(obj);
@@ -317,7 +317,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getByte(Object $obj)
+    public function getByte(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getByte(obj);
@@ -346,7 +346,7 @@ class Field extends Object{
      *              by this method fails.
      * @see Field#get
      */
-    public function getChar(Object $obj)
+    public function getChar(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getChar(obj);
@@ -375,7 +375,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getShort(Object $obj)
+    public function getShort(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getShort(obj);
@@ -404,7 +404,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getInt(Object $obj)
+    public function getInt(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getInt(obj);
@@ -433,7 +433,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getLong(Object $obj)
+    public function getLong(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getLong(obj);
@@ -462,7 +462,7 @@ class Field extends Object{
      *              by this method fails.
      * @see Field#get
      */
-    public function getFloat(Object $obj)
+    public function getFloat(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getFloat(obj);
@@ -491,7 +491,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getDouble(Object $obj)
+    public function getDouble(\blaze\lang\Reflectable $obj)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //return getFieldAccessor(obj).getDouble(obj);
@@ -562,7 +562,7 @@ class Field extends Object{
      * @exception ExceptionInInitializerError if the initialization provoked
      *              by this method fails.
      */
-    public function set(Object $obj, Object $value)
+    public function set(\blaze\lang\Reflectable $obj, \blaze\lang\Reflectable $value)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).set(obj, value);
@@ -591,7 +591,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setBoolean(Object $obj, $z)
+    public function setBoolean(\blaze\lang\Reflectable $obj, $z)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setBoolean(obj, z);
@@ -620,7 +620,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setByte(Object $obj, $b)
+    public function setByte(\blaze\lang\Reflectable $obj, $b)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setByte(obj, b);
@@ -649,7 +649,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setChar(Object $obj, $c)
+    public function setChar(\blaze\lang\Reflectable $obj, $c)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setChar(obj, c);
@@ -678,7 +678,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setShort(Object $obj, $s)
+    public function setShort(\blaze\lang\Reflectable $obj, $s)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setShort(obj, s);
@@ -707,7 +707,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setInt(Object $obj, $i)
+    public function setInt(\blaze\lang\Reflectable $obj, $i)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setInt(obj, i);
@@ -736,7 +736,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setLong(Object $obj, $l)
+    public function setLong(\blaze\lang\Reflectable $obj, $l)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setLong(obj, l);
@@ -765,7 +765,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setFloat(Object $obj, $f)
+    public function setFloat(\blaze\lang\Reflectable $obj, $f)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setFloat(obj, f);
@@ -794,7 +794,7 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setDouble(Object $obj, $d)
+    public function setDouble(\blaze\lang\Reflectable $obj, $d)
 	//throws IllegalArgumentException, IllegalAccessException
     {
         //getFieldAccessor(obj).setDouble(obj, d);

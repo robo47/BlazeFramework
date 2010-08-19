@@ -92,7 +92,7 @@ abstract class AbstractArrayDecorator extends Object implements \blaze\collectio
         return $this->array->hashCode();
     }
 
-    public function equals(Object $o) {
+    public function equals(\blaze\lang\Reflectable $o) {
         return $this->array->equals($o);
     }
 

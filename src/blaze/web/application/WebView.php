@@ -16,7 +16,6 @@ interface WebView {
     /**
      * Description
      *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
      * @return 	blaze\web\tag\Tag Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception

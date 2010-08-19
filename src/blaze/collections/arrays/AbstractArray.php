@@ -127,7 +127,7 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
         return \blaze\collections\Arrays::flatHashCode($this);
     }
 
-    public function equals(Object $o) {
+    public function equals(\blaze\lang\Reflectable $o) {
         return \blaze\collections\Arrays::flatEquals($this, $o);
     }
 

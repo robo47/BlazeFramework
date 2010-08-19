@@ -73,7 +73,7 @@ class ObjectOutputStream extends \blaze\io\OutputStream implements \blaze\io\Dat
         return $this->out->write(serialize($byte));
     }
 
-    public function writeObject(Object $object) {
+    public function writeObject(\blaze\lang\Reflectable $object) {
         if (!$object instanceof \blaze\io\Serializable)
             throw new \blaze\io\NotSerializableException();
         return $this->out->write(serialize($object));
@@ -81,10 +81,10 @@ class ObjectOutputStream extends \blaze\io\OutputStream implements \blaze\io\Dat
 
     /**
      *
-     * @param Object $object
+     * @param \blaze\lang\Reflectable $object
      * @todo implement a working version(recursive writeObjectOverride!)
      */
-    public function writeObjectOverride(Object $object) {
+    public function writeObjectOverride(\blaze\lang\Reflectable $object) {
         if (!$object instanceof \blaze\io\Serializable)
             throw new \blaze\io\NotSerializableException();
         $class = $object->getClass();

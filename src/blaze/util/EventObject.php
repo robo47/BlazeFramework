@@ -16,7 +16,7 @@ class EventObject extends Object{
 
     protected $source;
 
-    public function __construct(Object $source){
+    public function __construct(\blaze\lang\Reflectable $source){
         $this->source = $source;
     }
 
