@@ -29,8 +29,12 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
     
     public function clear(){}
-    public function containsKey($key){}
-    public function containsValue($value){}
+    public function containsKey($key){
+        return array_key_exists($key->hashCode(), $this->data);
+    }
+    public function containsValue($value){
+        return
+    }
     public function entrySet(){}
     public function keySet(){}
     public function valueSet(){}
@@ -83,7 +87,9 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
 
 }
-
+/**
+ * @access private
+ */
 class Entry{
         private $key;
         private $value;
@@ -110,7 +116,7 @@ class Entry{
             return $old;
         }
 
-        }
+}
    
 
 
