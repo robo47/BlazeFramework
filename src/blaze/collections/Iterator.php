@@ -18,10 +18,6 @@ interface Iterator extends \Iterator{
      */
     public function hasNext();
     /**
-     * @return mixed
-     */
-    public function next();
-    /**
      * 
      */
     public function remove();
