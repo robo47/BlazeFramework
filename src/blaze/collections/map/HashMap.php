@@ -11,23 +11,59 @@ use blaze\lang\Object;
  * @since   1.0
  * @version $Revision$
  * @property-read int $length
- * @author  Christian Beikov
+ * @author  Oliver Kotzina
  * @todo    Implementing and documenting.
  */
 class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Serializable {
+
+    private $size;
+
+    private $data;
+
+    public function __construct(\blaze\collections\Collection $collection = null){
+        if($collection == null){
+            $this->size = 0;
+            $this->data = array();
+        }
+
+    }
+    
     public function clear(){}
     public function containsKey($key){}
     public function containsValue($value){}
     public function entrySet(){}
     public function keySet(){}
     public function valueSet(){}
-    public function get($key){}
-    public function put($key, $value){}
+    public function get($key){
+        if(array_key_exists($key->hashCode(), $this->data)){
+            return $this->data[$key->hashCode()]->getValue();
+        }
+        return null;
+    }
+    public function put($key, $value){
+        if($key instanceof Object){
+
+            if(array_key_exists($key->hashCode(), $this->data)){
+                $old =  $this->data[$key->hashCode()];
+                $this->data[$key->hashCode()]->setValue($value);
+                return $old->getValue();
+            }
+            $this->data[$key->hashCode()] = $value;
+            return null;
+            
+        }
+    }
     public function putAll(\blaze\collections\Map $m){}
     public function remove($key){}
     public function values(){}
-    public function isEmpty(){}
-    public function count(){}
+    public function isEmpty(){
+        return $this->size ==0;
+    }
+
+
+    public function count(){
+        return $this->size;
+    }
     /**
      * @return blaze\collections\MapIterator
      */
@@ -44,5 +80,41 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     public function retainAll(\blaze\collections\Map $obj) {
 
     }
+
+
 }
+
+class Entry{
+        private $key;
+        private $value;
+
+        public function  __construct($key, $value){
+            if($key!=null){
+                $this->key = $key;
+                $this->value = $value;
+            }
+            else{
+                throw new \blaze\lang\NullPointerException('Key must have a value!');
+            }
+        }
+
+        public function getKey(){
+            return $this->key;
+        }
+        public function getValue(){
+            return $this->value;
+        }
+        public function setValue($value){
+            $old = $this->value;
+            $this->value = $value;
+            return $old;
+        }
+
+        }
+   
+
+
+
+
+
 ?>

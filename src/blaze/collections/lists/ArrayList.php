@@ -199,9 +199,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         $this->size--;
     }
 
-    public function serialize() {
-        
-    }
+    
 
     public function set($index, $obj){
          $this->rangeCheck($index);
@@ -226,9 +224,6 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
             return $ret;
     }
 
-    public function unserialize($serialized) {
-
-    }
 
     private function rangeCheck($index){
          if($index<0||$this->size<$index){
