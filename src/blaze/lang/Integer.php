@@ -115,6 +115,14 @@ class Integer extends Number {
         return (int)parent::asNative($value);
     }
 
+    public function hashCode(){
+        return $this->value;
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Integer && $o->value == $this->value;
+    }
+
     public function toString(){
         return (string)$this->value;
     }

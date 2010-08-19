@@ -86,6 +86,14 @@ class Byte extends Number {
     public static function asNative($value){
         return (int)parent::asNative($value) & 0xFF;
     }
+
+    public function hashCode(){
+        return $this->value;
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Byte && $o->value == $this->value;
+    }
 }
 
 ?>

@@ -91,6 +91,15 @@ class Long extends Number{
         return (int)parent::asNative($value);
     }
 
+    public function hashCode(){
+        return (int)($this->value ^ ($this->value >> 32));
+    }
+
+
+    public function equals(Reflectable $o){
+        return $o instanceof Long && $o->value == $this->value;
+    }
+
 }
 
 ?>

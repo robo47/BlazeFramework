@@ -90,6 +90,22 @@ class Float extends Number {
     public static function asNative($value){
         return (float)parent::asNative($value);
     }
+
+    public static function floatToRawIntBits($float){
+        return unpack('I',pack('f',$float));
+    }
+    public static function floatToIntBits($value) {
+	return self::floatToRawIntBits($value);
+    }
+
+    public function hashCode(){
+        $bits = self::floatToIntBits($this->value);
+	return (int)($bits ^ ($bits >> 32));
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Float && self::floatToIntBits($o->value) == self::floatToIntBits($this->value);
+    }
 }
 
 ?>

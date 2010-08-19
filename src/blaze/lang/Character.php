@@ -104,5 +104,13 @@ class Character extends Object implements NativeWrapper, Comparable {
             return new self($value);
     }
 
+    public function hashCode(){
+        return ord($this->value);
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Character && $o->value == $this->value;
+    }
+
 }
 ?>

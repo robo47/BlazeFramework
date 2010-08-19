@@ -90,6 +90,22 @@ class Double extends Number {
     public static function asNative($value){
         return (double)parent::asNative($value);
     }
+    
+    public static function doubleToRawLongBits($double){
+        return unpack('L',pack('d',$double));
+    }
+    public static function doubleToLongBits($value) {
+	return self::doubleToRawLongBits($value);
+    }
+
+    public function hashCode(){
+        $bits = self::doubleToLongBits($this->value);
+	return (int)($bits ^ ($bits >> 32));
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Double && self::doubleToLongBits($o->value) == self::doubleToLongBits($this->value);
+    }
 
 }
 

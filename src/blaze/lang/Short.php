@@ -86,6 +86,14 @@ class Short extends Number {
     public static function asNative($value){
         return (int)parent::asNative($value) & 0xFFFF;
     }
+
+    public function hashCode(){
+        return $this->value;
+    }
+
+    public function equals(Reflectable $o){
+        return $o instanceof Short && $o->value == $this->value;
+    }
 }
 
 ?>
