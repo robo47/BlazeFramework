@@ -79,8 +79,12 @@ class Integer extends Number {
         return self::isNativeType($value) || self::isWrapperType($value);
     }
 
-    public function toHexString($i){
+    public static function toHexString($i){
         return dechex($i);
+    }
+
+    public static function hexStringToInt($str){
+        return hexdec($str);
     }
 
     public function subNumber($beginIndex, $endIndex = null){
