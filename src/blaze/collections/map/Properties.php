@@ -152,7 +152,7 @@ class Properties extends HashMap {
         // if file is not given and the properties were loaded from a
         // file prior, this method stores them in the file used by load()        
         try {
-            $fw = new \blaze\io\FileWriter($file);
+            $fw = new \blaze\io\output\FileWriter($file);
             if ($header !== null) {
                 $fw->write( '# ' . $header . PHP_EOL );
             }

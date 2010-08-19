@@ -1,9 +1,9 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\input;
 use blaze\lang\Object;
 
 /**
- * Description of OutputStreamWriter
+ * Description of FileReader
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -11,18 +11,18 @@ use blaze\lang\Object;
  * @since   1.0
  * @version $Revision$
  */
-class FileWriter extends OutputStreamWriter {
+class FileReader extends \blaze\io\InputStreamReader {
 
     /**
      *
-     * @param string|blaze\lang\String|blaze\io\File|blaze\io\FileOutputStream $fileOrStream
+     * @param string|blaze\lang\String|blaze\io\File|blaze\io\input\FileInputStream $fileOrStream
      */
     public function __construct($fileOrStream, $append = false){
         $stream = null;
-        if($fileOrStream instanceof FileOutputStream)
+        if($fileOrStream instanceof FileInputStream)
             $stream = $fileOrStream;
-        else if($fileOrStream instanceof File || \blaze\lang\String::isType($fileOrStream))
-            $stream = new FileOutputStream($fileOrStream, $append, false);
+        else if($fileOrStream instanceof \blaze\io\File || \blaze\lang\String::isType($fileOrStream))
+            $stream = new FileInputStream($fileOrStream, false);
         else
             throw new \blaze\lang\IllegalArgumentException('Invalid argument type for $fileOrStream.');
         parent::__construct($stream);

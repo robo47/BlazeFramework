@@ -1,5 +1,5 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\output;
 use blaze\io\OutputStream;
 
 /**
@@ -13,7 +13,7 @@ use blaze\io\OutputStream;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class NativeOutputStream extends OutputStream {
+class NativeOutputStream extends \blaze\io\OutputStream {
 
     protected $stream = null;
 
@@ -21,7 +21,7 @@ class NativeOutputStream extends OutputStream {
         $this->stream = fopen($streamUrl, $append ? 'a' : 'w' . $binary ? 'b' : '');
         if ($this->stream === false) {
             $this->stream = null;
-            throw new IOException('Could not open ' . $streamUrl . ':' . $php_errormsg);
+            throw new \blaze\io\IOException('Could not open ' . $streamUrl . ':' . $php_errormsg);
         }
     }
 
@@ -30,7 +30,7 @@ class NativeOutputStream extends OutputStream {
                 return;
         $this->flush();
         if (fclose($this->stream) === false)
-            throw new IOException('Closing failed');
+            throw new \blaze\io\IOException('Closing failed');
         $this->stream = null;
     }
 
@@ -40,7 +40,7 @@ class NativeOutputStream extends OutputStream {
 
     public function flush() {
         if (fflush($this->stream) === false) {
-            throw new IOException('Could not flush stream');
+            throw new \blaze\io\IOException('Could not flush stream');
         }
     }
     public function write($str, $off = 0, $len = -1) {
@@ -54,7 +54,7 @@ class NativeOutputStream extends OutputStream {
         }
 
         if ( fwrite($this->stream, $str) === false ) {
-            throw new IOException('Error writing to stream.');
+            throw new \blaze\io\IOException('Error writing to stream.');
         }
     }
 }

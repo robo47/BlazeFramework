@@ -53,7 +53,7 @@ class FileRequestHandler extends Object  implements RequestHandler {
                         $f = new File($basedir, $context->getParameter('module.params'));
 
                         if($f->isChildOf($context->getParameter('work.dir')) && $f->exists()){
-                            //$fis = new \blaze\io\FileInputStream($f);
+                            //$fis = new \blaze\io\input\FileInputStream($f);
                             $file = file_get_contents($f->getAbsolutePath());//$fis->read($fis->available());
                             $contentType = $this->guessMimeType($f);
                         }

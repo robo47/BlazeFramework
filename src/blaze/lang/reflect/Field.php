@@ -77,7 +77,6 @@ class Field extends Object{
      * type of the field represented by this object
      */
     public function getType(Object $obj) {
-        $this->property->setAccessible(true);
         $value = $this->property->getValue($obj);
         if($value === null){
             $annot = $this->getAnnotations();
@@ -104,6 +103,10 @@ class Field extends Object{
         }else{
             return 'undefined';
         }
+    }
+
+    public function setAccessible($accessible){
+        $this->property->setAccessible($accessible);
     }
 
 

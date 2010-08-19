@@ -3,8 +3,8 @@ namespace blaze\ds\driver\pdomysql\type;
 use blaze\lang\Object,
     blaze\ds\type\Blob,
     blaze\io\InputStream,
-    blaze\io\PipedInputStream,
-    blaze\io\PipedOutputStream,
+    blaze\io\input\PipedInputStream,
+    blaze\io\output\PipedOutputStream,
     blaze\ds\Statement;
 
 /**

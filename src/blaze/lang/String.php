@@ -12,7 +12,7 @@ namespace blaze\lang;
  * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
-class String extends Object implements NativeWrapper {
+final class String extends Object implements NativeWrapper, \blaze\io\Serializable {
     private $string;
     private $count;
     private $hash;

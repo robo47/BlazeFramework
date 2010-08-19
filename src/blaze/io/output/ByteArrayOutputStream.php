@@ -1,6 +1,6 @@
 <?php
 
-namespace blaze\io;
+namespace blaze\io\output;
 
 use blaze\lang\Object,
  blaze\lang\StringBuffer;
@@ -16,7 +16,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ByteArrayOutputStream extends OutputStream {
+class ByteArrayOutputStream extends \blaze\io\OutputStream {
 
     protected $bytes = '';
     protected $size = 0;
@@ -71,7 +71,7 @@ class ByteArrayOutputStream extends OutputStream {
 
     }
 
-    public function writeTo(OutputStream $stream) {
+    public function writeTo(\blaze\io\OutputStream $stream) {
         $stream->write($this->bytes);
     }
 

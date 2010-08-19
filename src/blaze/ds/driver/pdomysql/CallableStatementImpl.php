@@ -115,7 +115,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         if ($val == null)
             return null;
 
-        return new BlobImpl(new \blaze\io\ByteArrayInputStream($val, $this->stmt));
+        return new BlobImpl(new \blaze\io\input\ByteArrayInputStream($val, $this->stmt));
     }
 
     /**

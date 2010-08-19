@@ -1,5 +1,5 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\output;
 use blaze\io\OutputStream;
 
 /**
@@ -13,7 +13,7 @@ use blaze\io\OutputStream;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class PipedOutputStream extends OutputStream {
+class PipedOutputStream extends \blaze\io\OutputStream {
 
     /**
      *
@@ -21,14 +21,16 @@ class PipedOutputStream extends OutputStream {
      */
     private $pis = null;
 
-    public function __construct(PipedInputStream $pis){
+    public function __construct(\blaze\io\input\PipedInputStream $pis = null){
         if($pis !== null)
                 $this->connect($pis);
     }
 
-    public function connect(PipedIputStream $pis){
-        $this->pis = $pis;
-        $this->pis->connect($this);
+    public function connect(\blaze\io\input\PipedInputStream $pis){
+        if($this->pis == null){
+            $this->pis = $pis;
+            $this->pis->connect($this);
+        }
     }
 
     public function close() {
@@ -41,6 +43,10 @@ class PipedOutputStream extends OutputStream {
     public function flush() { }
     public function write($str, $off = 0, $len = -1) {
         $this->pis->receive($str);
+    }
+
+    public function isClosed() {
+        return $this->pis == null || $this->pis->isClosed();
     }
 }
 

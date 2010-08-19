@@ -238,12 +238,15 @@ class Method extends Object{
      * @exception ExceptionInInitializerError if the initialization
      * provoked by this method fails.
      */
-    public function invoke ($obj, $args) {
+    public function invoke($obj, $args) {
         $args = func_get_args();
         array_shift($args);
         return $this->reflectionMethod->invokeArgs($obj, $args);
     }
 
+    public function setAccessible($accessible){
+        $this->reflectionMethod->setAccessible($accessible);
+    }
     /**
 	 * @param object
 	 * @param args
@@ -442,7 +445,9 @@ class Method extends Object{
         return $this->reflectionMethod->getNumberOfRequiredParameters();
     }
 
-    public function getParameters () {}
+    public function getParameters () {
+        return $this->reflectionMethod->getParameters();
+    }
 
     public function getShortName () {}
 

@@ -33,9 +33,9 @@ final class System extends Object implements StaticInitialization {
     }
 
     public static function staticInit() {
-        self::$in = new \blaze\io\NativeInputStream('php://stdin');
-        self::$out = new \blaze\io\NativeOutputStream('php://stdout');
-        self::$err = new \blaze\io\NativeOutputStream('php://stderr');
+        self::$in = new \blaze\io\input\NativeInputStream('php://stdin');
+        self::$out = new \blaze\io\output\NativeOutputStream('php://stdout');
+        self::$err = new \blaze\io\output\NativeOutputStream('php://stderr');
     }
 
         /**

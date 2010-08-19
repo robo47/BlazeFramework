@@ -1,5 +1,5 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\input;
 use blaze\io\InputStream,
     blaze\lang\StringBuffer;
 
@@ -22,13 +22,15 @@ class PipedInputStream extends ByteArrayInputStream {
      */
     private $pos = null;
 
-    public function __construct(PipedOutputStream $pos = null) {
+    public function __construct(\blaze\io\output\PipedOutputStream $pos = null) {
         if($pos !== null)
                 $this->connect($pos);
     }
-    public function connect(PipedOutputStream $pos) {
-        $this->pos = $pos;
-        $this->pos->connect($pis);
+    public function connect(\blaze\io\output\PipedOutputStream $pos) {
+        if($this->pos == null){
+            $this->pos = $pos;
+            $this->pos->connect($this);
+        }
     }
 
     public function isClosed() {

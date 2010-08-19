@@ -1,5 +1,5 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\input;
 use blaze\lang\Object,
     blaze\lang\StringBuffer;
 
@@ -14,7 +14,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ByteArrayInputStream extends InputStream {
+class ByteArrayInputStream extends \blaze\io\InputStream {
 
     protected $bytes;
     protected $count = 0;

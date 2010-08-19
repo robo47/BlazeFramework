@@ -42,6 +42,7 @@ class IndexView extends Object implements WebView{
     private $root;
 
     public function __construct(){
+
         $this->root = UIViewRoot::create()->setViewId('blazeServer\\view\\IndexView')
                                           ->addChild(Head::create()->addChild(Title::create()->setValue('Index page'))
                                                                    ->addChild(ContentType::create()->setValue('text/html')->setCharset('utf8'))

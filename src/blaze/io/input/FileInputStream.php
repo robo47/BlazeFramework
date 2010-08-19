@@ -1,5 +1,5 @@
 <?php
-namespace blaze\io;
+namespace blaze\io\input;
 use blaze\lang\Object,
     blaze\lang\StringBuffer;
 
@@ -14,9 +14,9 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class FileOutputStream extends NativeOutputStream {
-    /**
-     * @var File The associated file.
+class FileInputStream extends NativeInputStream {
+     /**
+     * @var \blaze\io\File The associated file.
      */
     protected $file;
 
@@ -26,16 +26,16 @@ class FileOutputStream extends NativeOutputStream {
      * @throws blaze\lang\IllegalArgumentException If invalid argument specified.
      * @throws blaze\io\IOException If any IO error occurs
      */
-    public function __construct($file, $append = false, $binary = true) {
-        if ($file instanceof File) {
+    public function __construct($file, $binary = true) {
+        if ($file instanceof \blaze\io\File) {
             $this->file = $file;
         } elseif (\blaze\lang\String::isType($file)) {
-            $this->file = new File($file);
+            $this->file = new \blaze\io\File($file);
         } else {
             throw new \blaze\lang\IllegalArgumentException('Invalid argument type for $file.');
         }
 
-        parent::__construct($this->file->getAbsolutePath()->toNative(), $append, $binary);
+        parent::__construct($this->file->getAbsolutePath()->toNative(), $binary);
     }
 
     /**
@@ -46,7 +46,13 @@ class FileOutputStream extends NativeOutputStream {
         return $this->file->getPath();
     }
 
-
+    /**
+     * Mark is supported by FileInputStream.
+     * @return boolean true
+     */
+    public function markSupported() {
+        return true;
+    }
 }
 
 ?>

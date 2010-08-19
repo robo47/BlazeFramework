@@ -1,6 +1,6 @@
 <?php
 
-namespace blaze\io;
+namespace blaze\io\input;
 
 use blaze\lang\Object,
  blaze\lang\StringBuffer;
@@ -16,7 +16,7 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class NativeInputStream extends InputStream {
+class NativeInputStream extends \blaze\io\InputStream {
 
     protected $stream;
     protected $mark = 0;
@@ -26,7 +26,7 @@ class NativeInputStream extends InputStream {
         $this->stream = fopen($streamUrl, 'r' . $binary ? 'b' : '');
         if ($this->stream === false) {
             $this->stream = null;
-            throw new IOException('Could not open ' . $streamUrl . ':' . $php_errormsg);
+            throw new \blaze\io\IOException('Could not open ' . $streamUrl . ':' . $php_errormsg);
         }
     }
 
@@ -34,7 +34,7 @@ class NativeInputStream extends InputStream {
         if($this->stream == null)
                 return;
         if (fclose($this->stream) === false)
-            throw new IOException('Closing failed');
+            throw new \blaze\io\IOException('Closing failed');
         $this->stream = null;
     }
 
@@ -99,7 +99,7 @@ class NativeInputStream extends InputStream {
 
     public function mark() {
         if (!$this->markSupported()) {
-            throw new IOException($this->getClass()->getName() . " does not support mark() and reset() methods.");
+            throw new \blaze\io\IOException($this->getClass()->getName() . " does not support mark() and reset() methods.");
         }
         $this->mark = $this->position;
     }
@@ -110,7 +110,7 @@ class NativeInputStream extends InputStream {
 
     public function reset() {
         if (!$this->markSupported()) {
-            throw new IOException($this->getClass()->getName() . " does not support mark() and reset() methods.");
+            throw new \blaze\io\IOException($this->getClass()->getName() . " does not support mark() and reset() methods.");
         }
         fseek($this->stream, SEEK_SET, $this->mark);
         $this->position = $this->mark;

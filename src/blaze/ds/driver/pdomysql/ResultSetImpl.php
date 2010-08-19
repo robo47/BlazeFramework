@@ -89,7 +89,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         if ($val == null)
             return null;
 
-        return new BlobImpl(new \blaze\io\ByteArrayInputStream($val, $this->stmt));
+        return new BlobImpl(new \blaze\io\input\ByteArrayInputStream($val, $this->stmt));
     }
 
     /**
