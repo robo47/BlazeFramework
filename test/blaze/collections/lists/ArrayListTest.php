@@ -160,7 +160,16 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
-        $this->object->retainAll($list = $this->object->subList(2, 4));
+        $this->assertTrue($this->object->retainAll($list = $this->object->subList(2, 8)));
+        
+        $this->assertTrue($this->object->count()==6);
+        $this->assertTrue($this->object->get(0)==2);
+
+        $list = $this->object->subList(2, 4);
+        $list->add(5468);
+
+        $this->assertFalse($this->object->retainAll($list));
+
     }
 
     /**
@@ -210,7 +219,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testIndexOf() {
         // Remove the following lines when you implement this test.
        $this->assertTrue($this->object->indexOf(3)==3);
-        $this->assertTrue($this->object->indexOf(45)==-1);
+       $this->assertTrue($this->object->indexOf(45)==-1);
     }
 
     /**

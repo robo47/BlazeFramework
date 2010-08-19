@@ -138,11 +138,14 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      * @return boolean Wether the action was successfull or not
      */
     public function retainAll(\blaze\collections\Collection $obj){
+        if(!$this->containsAll($obj)){
+            return false;
+        }
         $diff = array_diff($this->elementData, $obj->toArray());
         $old = $this->elementData;
         $oldsize = $this->size;
         do{
-            if(!$this->remove(\current($diff))){
+            if(false==$this->remove(current($diff))){
                 $this->elementData = $old;
                 $this->size = $oldsize;
                 return false;
