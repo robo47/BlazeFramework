@@ -69,7 +69,11 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
             return null; 
         }  
     
-    public function putAll(\blaze\collections\Map $m){}
+    public function putAll(\blaze\collections\Map $m){
+        foreach($m as &$value){
+            $this->put($value->getKey(), $value->getValue);
+        }
+    }
 
 
     public function remove($key){
@@ -105,11 +109,13 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function removeAll(\blaze\collections\Map $obj) {
-        
+        foreach($m as &$value){
+            $this->remove($value->getKey());
+        }
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
-
+        
     }
 
     private function hash($key){
