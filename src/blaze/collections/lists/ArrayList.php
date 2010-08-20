@@ -150,7 +150,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
                 $this->size = $oldsize;
                 return false;
             }
-        }while(next($diff));
+        }while(next(&$diff));
 
         return true;
     }

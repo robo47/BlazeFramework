@@ -1,6 +1,8 @@
 <?php
 namespace blaze\collections\map;
-use blaze\lang\Object;
+use blaze\lang\Object,
+blaze\lang\Integer,
+        blaze\lang\String;
 
 /**
  * Description of Arrays
@@ -43,7 +45,12 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function containsValue($value){
-        return in_array($value);
+        foreach($this->data as &$val){
+            if($val->getValue()==$value){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function entrySet(){}
@@ -58,29 +65,31 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         return null;
     }
     public function put($key, $value){
-            $hash= $this->hash($key);
+            $hash=$this->hash($key);
+
             if(array_key_exists($hash, $this->data)){
                 $old =  $this->data[$hash];
                 $this->data[$hash]->setValue($value);
                 return $old->getValue();
             }
-            $this->data[$key] = new Entry($key, $value);
+            $this->data[$hash] = new Entry($key, $value);
             $this->size++;
             return null; 
         }  
     
     public function putAll(\blaze\collections\Map $m){
-        foreach($m as &$value){
-            $this->put($value->getKey(), $value->getValue);
+        foreach($m as $value){
+            $this->put($value->getKey(), $value->getValue());
         }
     }
 
 
     public function remove($key){
         $hash =  $this->hash($key);
-         if(array_key_exists($hash, $this->data)){
-        unset($this->data[$hash]);
-        return true;
+        
+         if($this->containsKey($key)){
+            unset($this->data[$hash]);
+            return true;
          }
          else{
              return false;
@@ -105,29 +114,48 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function containsAll(\blaze\collections\Map $c) {
+        foreach($c as $val){
+            \var_dump($val);
+            if(!$this->containsKey($val->getKey())){
+                var_dump($val);
+                return false;
+            }
+            
+        }
+        return true;
 
     }
 
     public function removeAll(\blaze\collections\Map $obj) {
-        foreach($m as &$value){
-            $this->remove($value->getKey());
+        foreach($obj as $value){
+            if(!$this->remove($value->getKey())){
+                return false;
+            }
         }
+        return true;
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
-        
-    }
+        throw new \blaze\lang\NotYetImplenetedException('HAHA');
+        }
 
     private function hash($key){
         if($key instanceof Object){
-            return $key->hashCode();
+            return String::asNative ($key->hashCode());
         }
         else{
-            Integer::hexStringToInt(md5($key));
+            return String::asNative (Integer::hexStringToInt(md5($key)));
         }
 
     }
 
+    public function toString(){
+        $str = new \blaze\lang\StringBuffer('HashMap:{');
+        foreach($this->data as $val){
+            $str->append(' ['.$val->getKey().','.$val->getValue().']');
+        }
+        $str->append('}');
+    }
 
 }
 /**
@@ -138,16 +166,15 @@ class Entry implements \blaze\collections\MapEntry{
         private $value;
 
         public function  __construct($key, $value){
-            if($key!=null){
+           
                 $this->key = $key;
                 $this->value = $value;
-            }
-            else{
-                throw new \blaze\lang\NullPointerException('Key must have a value!');
-            }
+       
+         
         }
 
         public function getKey(){
+            return $this->key;
         }
 
         public function getValue(){

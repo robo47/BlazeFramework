@@ -51,13 +51,13 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
 
     public function getCurrentSession($cookies, $create = false) {
         if($this->session == null){
-            $sessionExist = false;
+            $sessionExist = true;
 
-            foreach ($cookies as $cookie)
-                if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
+            //foreach ($cookies as $cookie)
+            //    if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
                     $sessionExist = true;
-                    break;
-                }
+             //       break;
+             //   }
 
             if ($sessionExist || $create) {
                 //session_set_save_handler(array($this,"open"), array($this,"close"), array($this,"read"), array($this,"write"), array($this,"destroy"), array($this,"gc"));
