@@ -115,9 +115,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
     public function containsAll(\blaze\collections\Map $c) {
         foreach($c as $val){
-            \var_dump($val);
             if(!$this->containsKey($val->getKey())){
-                var_dump($val);
                 return false;
             }
             
@@ -127,12 +125,13 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function removeAll(\blaze\collections\Map $obj) {
+        $ret = false;
         foreach($obj as $value){
-            if(!$this->remove($value->getKey())){
-                return false;
+            if($this->remove($value->getKey())){
+                $ret = true;
             }
         }
-        return true;
+        return $ret;
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
@@ -161,16 +160,13 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 /**
  * @access private
  */
-class Entry implements \blaze\collections\MapEntry{
+class Entry extends Object implements \blaze\collections\MapEntry{
         private $key;
         private $value;
 
         public function  __construct($key, $value){
-           
                 $this->key = $key;
                 $this->value = $value;
-       
-         
         }
 
         public function getKey(){
@@ -185,6 +181,19 @@ class Entry implements \blaze\collections\MapEntry{
             $this->value = $value;
             return $old;
         }
+        public function hashCode() {
+
+        if($this->key instanceof Object){
+            return String::asNative ($this->key->hashCode());
+        }
+        else{
+            return String::asNative (Integer::hexStringToInt(md5($this->key)));
+        }
+
+
+        }
+
+
 
 }
 /**

@@ -12,7 +12,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface MapEntry{
+interface MapEntry {
     public function getKey();
     public function getValue();
     public function setValue($value);

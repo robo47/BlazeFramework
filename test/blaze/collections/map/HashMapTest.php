@@ -209,7 +209,11 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map->put(6,6);
         $this->assertTrue($this->object->removeAll($map));
         $this->assertFalse($this->object->containsKey(5));
-
+        echo 'false';
+        $map = new HashMap();
+        $map->put(8,5);
+        $map->put(78,6);
+        $this->assertTrue($this->object->removeAll($map));
     }
 
     /**

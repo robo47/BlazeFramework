@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class AbstractSet extends \blaze\collections\AbstractCollection implements \blaze\collections\Set{
+abstract class AbstractSet implements \blaze\collections\Set{
     /**
      * @return boolean Wether the action was successfull or not
      */
