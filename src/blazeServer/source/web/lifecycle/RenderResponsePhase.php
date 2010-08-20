@@ -52,11 +52,9 @@ class RenderResponsePhase extends Phase {
             }
         }
 
-        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', null);
         $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot()->getViewId());
         if (!$context->getResponseComplete())
             $context->getViewRoot()->processRender($context);
-        var_dump('Saved:'.$context->getRequest()->getSession()->getAttribute('blaze.view_restore'));
         
     }
 

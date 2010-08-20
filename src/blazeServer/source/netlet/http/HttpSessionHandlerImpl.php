@@ -29,21 +29,14 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
 
     }
 
-    public function open($savePath, $sessName){
-        return true;
+    public function readSession($id){
+        $this->session = unserialize(\blazeCMS\source\dao\Dao::getInstance()->getSession($id));
     }
-    public function close(){
-        return true;
+    public function saveSession(){
+        \blazeCMS\source\dao\Dao::getInstance()->setSession($this->session->getId(), serialize($this->session));
     }
-    public function read($id){
-        return \blazeCMS\source\dao\Dao::getInstance()->getSession($id);
-    }
-    public function write($id, $data){
-        \blazeCMS\source\dao\Dao::getInstance()->setSession($id, $data);
-        return true;
-    }
-    public function destroy($id){
-        return true;
+    public function removeSession(){
+        \blazeCMS\source\dao\Dao::getInstance()->removeSession($this->session->getId());
     }
     public function gc($maxLifetime){
         return true;
@@ -51,20 +44,24 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
 
     public function getCurrentSession($cookies, $create = false) {
         if($this->session == null){
-            $sessionExist = true;
+            $sessionId = null;
 
-            //foreach ($cookies as $cookie)
-            //    if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
-                    $sessionExist = true;
-             //       break;
-             //   }
+            foreach ($cookies as $cookie){
+                if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
+                    $sessionId = $cookie->getValue();
+                    break;
+                }
+            }
 
-            if ($sessionExist || $create) {
-                //session_set_save_handler(array($this,"open"), array($this,"close"), array($this,"read"), array($this,"write"), array($this,"destroy"), array($this,"gc"));
-                //session_name(self::SESSION_NAME);
-               // session_set_cookie_params('3600', '/', '', true, true);
-                session_start();
-                $this->session = new HttpSessionImpl($this);
+            if($sessionId != null)
+                $this->readSession($sessionId);
+
+            if($this->session == null && $create){
+//                session_start();
+                $this->session = new HttpSessionImpl($this, hash('sha512',md5(uniqid()).sha1(uniqid())));
+//                $params = session_get_cookie_params();
+//                setcookie(session_name(), '', 0, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+//                session_destroy();
             }
         }
         return $this->session;

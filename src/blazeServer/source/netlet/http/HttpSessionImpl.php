@@ -22,13 +22,14 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      private $creationTime;
      private $maxInactiveInterval;
      private $maxLifetime;
+     private $valid = true;
     /**
      * Description
      */
-    public function __construct(HttpSessionHandler $handler){
+    public function __construct(HttpSessionHandler $handler, $sessId){
         $this->sessionHandler = $handler;
-        //$this->id = session_id();
-        //$this->sessionMap = $_SESSION;
+        $this->id = $sessId;
+        $this->sessionMap = array();
         $this->creationTime = new \blaze\util\Date();
         $this->maxInactiveInterval = 3600;
         $this->maxLifetime = 3600;
@@ -44,29 +45,35 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      * @todo	Something which has to be done, implementation or so
      */
      public function invalidate(){
-         session_destroy();
+         $this->sessionMap = array();
+         $this->valid = false;
+//         session_destroy();
+     }
+
+     public function isValid(){
+         return $this->valid;
      }
 
      public function getAttribute($name){
-         //return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
-         return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
+         return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
+//         return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
      }
      public function setAttribute($name, $value){
-        //$this->sessionMap[$name] = $value;
-        $_SESSION[$name] = $value;
+        $this->sessionMap[$name] = $value;
+//        $_SESSION[$name] = $value;
      }
      public function removeAttribute($name){
-        //unset($this->sessionMap[$name]);
-        $_SESSION[$name] = null;
+        unset($this->sessionMap[$name]);
+//        $_SESSION[$name] = null;
      }
 
      public function getId() {
-         return session_id();//$this->id;
+         return $this->id;
      }
 
      public function getSessionMap() {
-         //return $this->sessionMap;
-         return $_SESSION;
+         return $this->sessionMap;
+//         return $_SESSION;
      }
 
      public function getCreationTime() {

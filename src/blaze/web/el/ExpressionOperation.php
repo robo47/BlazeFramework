@@ -44,7 +44,7 @@ class ExpressionOperation extends Object {
             $this->parseFirstLevel(0, 0, $operations);
 
             // If no function was found, make a NoOperation object
-            if ($this->operations[0][0] == null) {
+            if (!isset($this->operations[0]) || $this->operations[0][0] == null) {
                 if ($operations[0]['leftNegation'])
                     $this->rootOperation = new operation\NotOperation($operations[0]['leftExpression']);
                 else

@@ -19,14 +19,14 @@ class PlainTextRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        $writer = $context->getResponse()->getWriter();
+        $value = $component->getValue();
+
+        if($value != null)
+            $writer->write($value);
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        $writer = $context->getResponse()->getWriter();
-
-        $value = $component->getValue();
-        if($value == null)
-            $value = $component->getValue();
     }
 
         public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {

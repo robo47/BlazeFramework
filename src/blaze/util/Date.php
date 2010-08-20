@@ -85,7 +85,7 @@ class Date extends Object {
     public static function fromTime($timestamp, TimeZone $timeZone = null){
         $d = new self();
         $d->setTimeZone($timeZone);
-        $d->setTime(Long::asNative($timestamp));
+        $d->setTime(\blaze\lang\Long::asNative($timestamp));
         return $d;
     }
 
@@ -299,7 +299,7 @@ class Date extends Object {
      * @return blaze\util\Date
      */
     public function setTime($timestamp) {
-        $this->timestamp = Long::asNative($timestamp);
+        $this->timestamp = \blaze\lang\Long::asNative($timestamp);
         $this->calculateDate();
         return $this;
     }
@@ -317,7 +317,7 @@ class Date extends Object {
      * @return blaze\util\Date
      */
     public function setUnixTime($timestamp) {
-        return $this->setTime(Long::asNative($timestamp) * 1000);
+        return $this->setTime(\blaze\lang\Long::asNative($timestamp) * 1000);
     }
 
     /**

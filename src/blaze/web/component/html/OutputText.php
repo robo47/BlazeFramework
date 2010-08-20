@@ -27,6 +27,7 @@ class OutputText extends \blaze\web\component\UIOutput{
      * - var
      * - cite
      * - none
+     * - h1-h7
      */
     private $type;
 

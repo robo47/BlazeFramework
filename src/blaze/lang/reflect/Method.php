@@ -251,7 +251,7 @@ class Method extends Object{
 	 * @param object
 	 * @param args
 	 */
-    public function invokeArgs ($objectarray , $args) {
+    public function invokeArgs ($obj , $args) {
         return $this->reflectionMethod->invokeArgs($obj, $args);
     }
 

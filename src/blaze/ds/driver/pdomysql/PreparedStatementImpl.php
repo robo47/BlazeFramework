@@ -258,7 +258,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @return blaze\lang\PreparedStatement
      */
     public function setTimestamp($identifier, \blaze\util\Date $value) {
-        return $this->setDateTime($identifier, $value);
+        return $this->set($identifier, $value->getUnixTime());
     }
 
 }

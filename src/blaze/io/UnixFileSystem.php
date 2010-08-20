@@ -191,7 +191,7 @@ class UnixFileSystem extends FileSystem {
     /**
      * compares file paths lexicographically
      */
-    public function compare($f1, $f2) {
+    public function compare(File $f1, File $f2) {
         if ( ($f1 instanceof File) && ($f2 instanceof File) ) {
             $f1Path = $f1->getPath()->toNative();
             $f2Path = $f2->getPath()->toNative();

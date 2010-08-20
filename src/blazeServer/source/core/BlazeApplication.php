@@ -35,6 +35,7 @@ class BlazeApplication extends Object implements Application {
     private $converter = array();
     private $validator = array();
     private $renderKitFactories = array();
+    private $applicationPath;
 
     /**
      *
@@ -44,6 +45,7 @@ class BlazeApplication extends Object implements Application {
     public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\web\lifecycle\Lifecycle $lifeCycle) {
         $this->netletApplication = $netletApplication;
         $this->lifeCycle = $lifeCycle;
+        $this->applicationPath = new File($netletApplication->getApplicationPath(),'view');
         $this->init();
     }
 
@@ -150,6 +152,10 @@ class BlazeApplication extends Object implements Application {
 
     public function setNavigationHandler(\blaze\web\application\NavigationHandler $handler) {
         $this->navigationHandler = $handler;
+    }
+
+    public function getApplicationPath(){
+        return $this->applicationPath;
     }
 
     /**

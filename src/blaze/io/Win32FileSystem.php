@@ -166,6 +166,7 @@ class Win32FileSystem extends FileSystem {
      * @return string
      */
     public function normalize($strPath) {
+        $strPath = (string)$strPath;
         $n = strlen($strPath);
         $slash    = $this->slash;
         $altSlash = $this->altSlash;

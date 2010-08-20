@@ -41,7 +41,6 @@ class ViewHandler extends Object {
         $lastView = null;
 
         if($session != null){
-            var_dump($_SESSION);
             $lastViewId = $session->getAttribute('blaze.view_restore');
             
             if($lastViewId != null)
@@ -55,7 +54,6 @@ class ViewHandler extends Object {
             if($lastView == null)
                 throw new \blaze\lang\Exception('No view found.');
         }
-        //var_dump('Restore: '.$lastView->getViewId());
         $context->setViewRoot($lastView);
     }
 
@@ -75,7 +73,6 @@ class ViewHandler extends Object {
         foreach ($this->mapping as $key => $value) {
             $regex = '/^'.str_replace(array('/','*'), array('\/','.*'), $key).'$/';
             if ($requestUri->matches($regex)) {
-                var_dump('Requested: '.$value['view']);
                 return $this->getView($context, $value['view']);
             }
         }

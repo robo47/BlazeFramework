@@ -38,6 +38,8 @@ class ImageRenderer extends \blaze\web\render\html4\CoreRenderer {
             $writer->write(' src="' . $src . '"');
         if ($alt != null)
             $writer->write(' alt="' . $alt . '"');
+        else
+            $writer->write(' alt=""');
         if ($height != null)
             $writer->write(' height="' . $height . '"');
         if ($width != null)

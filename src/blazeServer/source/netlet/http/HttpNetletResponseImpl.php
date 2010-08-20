@@ -41,7 +41,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @param 	blaze\netlet\http\Cookie $cookie
      */
     public function addCookie(\blaze\netlet\http\HttpCookie $cookie) {
-        setcookie($cookie->getName(), $cookie->getName(), $cookie->getValue(), $cookie->getPath(), $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttponly());
+        setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpire(), $cookie->getPath(), $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttponly());
     }
 
     /**

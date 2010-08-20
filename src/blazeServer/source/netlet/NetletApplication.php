@@ -87,6 +87,7 @@ class NetletApplication extends Object implements StaticInitialization{
             $this->urlPrefix = new String(self::SERVER_HOME.'blazeServer');
         }
 
+        $this->applicationPath = new File(ClassLoader::getSystemClassLoader()->getClassPath(),$package);
         $this->config = ClassWrapper::forName($this->package->toNative().'\\Config')->getMethod('getInstance')->invoke(null,null);
         $this->initApplication();
     }
@@ -201,7 +202,13 @@ class NetletApplication extends Object implements StaticInitialization{
     }
 
     //-------------- GETTER ---------------------------
-
+    /**
+     *
+     * @return blaze\io\File
+     */
+    public function getApplicationPath() {
+        return $this->applicationPath;
+    }
     /**
      *
      * @return blaze\lang\String

@@ -66,9 +66,9 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         if ($parent instanceof File && String::isType($childOrPrefixLength)) {
             $this->constructFileParentStringChild($parent, $childOrPrefixLength);
         } elseif (String::isType($parent) && ($childOrPrefixLength === null)) {
-            $this->constructPathname($parent);
+            $this->constructPathname(String::asNative($parent));
         } elseif (String::isType($parent) && String::isType($childOrPrefixLength)) {
-            $this->constructStringParentStringChild($parent, $childOrPrefixLength);
+            $this->constructStringParentStringChild(String::asNative($parent), String::asNative($childOrPrefixLength));
         } else {
             if ($parent === null) {
                 throw new NullPointerException("Parent may not be null");

@@ -87,7 +87,7 @@ abstract class Number extends Object implements NativeWrapper{
      * @param string|blaze\lang\String $value
      * @throws blaze\lang\NumberFormatException
      */
-    public static abstract function parse($value);
+    //public static abstract function parse($value);
     public abstract function byteValue();
     public abstract function doubleValue();
     public abstract function floatValue();

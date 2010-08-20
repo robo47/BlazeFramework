@@ -18,8 +18,6 @@ class FormRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-                                var_dump($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER'));
-                                var_dump($component->getId());
         if($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER') == $component->getId()){
                 $component->setSubmitted(true);
         }

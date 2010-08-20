@@ -19,10 +19,11 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class NetletContainer extends Object {
-
     const DEBUG = true;
-    
-    public function __construct() { }
+
+    public function __construct() {
+
+    }
 
     public static function main($args) {
 //        // Caching performance test
@@ -31,18 +32,18 @@ class NetletContainer extends Object {
         $container = new NetletContainer();
         $request = new HttpNetletRequestImpl();
         $response = new HttpNetletResponseImpl();
-        $response->setHeader('X-Powered-By','BlazeServer');
+        $response->setHeader('X-Powered-By', 'BlazeServer');
 
         ob_start();
 
         $container->process($request, $response);
 
-        if(self::DEBUG)
+        if (self::DEBUG)
             $response->getWriter()->write(ob_get_clean());
         else
             ob_end_clean();
 //        $response->getWriter()->write($t->stop());
-        $container->finish($response);
+        $container->finish($request, $response);
     }
 
     /**
@@ -51,31 +52,31 @@ class NetletContainer extends Object {
      * fit to any application.
      */
     public function process(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
-        
-        try{
+
+        try {
             $cacher = \blaze\cache\LocalCacher::getInstance();
             $cacheMgr = \blaze\cache\CacheManager::getInstance('blazeContainer', $cacher);
 
             $appName = NetletApplication::getApplicationName($request);
             $app = null;
 
-            if($appName == null){
+            if ($appName == null) {
                 $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no application for the request found.');
                 return;
             }
 
-            if($cacheMgr->isCached($appName)){
+            if ($cacheMgr->isCached($appName)) {
                 $app = $cacheMgr->getCache($appName);
-            }else{
+            } else {
                 $app = NetletApplication::getApplicationByName($appName);
                 //$cacheMgr->doCache($appName, $app);
             }
 
-            if($app == null){
+            if ($app == null) {
                 $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no application for the request found.');
                 return;
             }
-            
+
             $context = $app->getNetletContext();
 
             $chain = new FilterChainImpl($this->getRequestedFilters($request, $context));
@@ -83,31 +84,45 @@ class NetletContainer extends Object {
 
             $netlet = $this->getRequestedNetlet($request, $context);
 
-            if($netlet == null){
+            if ($netlet == null) {
                 $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
                 return;
             }
             $netlet->service($request, $response);
-            $sess = $request->getSession();
-            //if($sess != null)
-                //session_write_close();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             // Error in the netlet which was not caught
             $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);
         }
     }
 
-    private function finish(\blaze\netlet\http\HttpNetletResponse $response){
-        try{
+    private function finish(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+        try {
+            $sess = $request->getSession();
+            if ($sess != null) {
+                $cookie = null;
+                $sessHand = $request->getSessionHandler();
+
+                if (!$sess->isValid()) {
+                    $cookie = new http\HttpCookieImpl('BLAZESESSION', '');
+                    $cookie->setExpire(0);
+                    $sessHand->removeSession();
+                } else {
+                    $cookie = new http\HttpCookieImpl('BLAZESESSION', $sess->getId());
+                    $cookie->setHttponly(true);
+                    $sessHand->saveSession();
+                }
+
+                $response->addCookie($cookie);
+            }
             $responseWriter = $response->getWriter();
             $responseWriter->close();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             // Error of the NetletOutputStream
-            var_dump('UNEXPECTED ERROR: '.$e->getMessage());
+            var_dump('UNEXPECTED ERROR: ' . $e->getMessage());
         }
     }
 
-    private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context){
+    private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
         // Making sure that the Url ends with a '/'
         $uri = $request->getRequestURI()->getPath();
         if (!$uri->endsWith('/'))
@@ -127,7 +142,7 @@ class NetletContainer extends Object {
         return null;
     }
 
-    private function getRequestedFilters(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context){
+    private function getRequestedFilters(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
         $uri = $request->getRequestURI()->getPath();
         if (!$uri->endsWith('/'))
             $uri = $uri->concat('/');
@@ -147,5 +162,7 @@ class NetletContainer extends Object {
 
         return $filters;
     }
+
 }
+
 ?>

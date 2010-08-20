@@ -88,7 +88,7 @@ class Long extends Number{
      * @return long
      */
     public static function asNative($value){
-        return (int)parent::asNative($value);
+        return parent::asNative($value);
     }
 
     public function hashCode(){

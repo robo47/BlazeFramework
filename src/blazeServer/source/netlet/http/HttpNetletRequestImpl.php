@@ -270,7 +270,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     }
     public function getScheme() {
         if($this->scheme == null)
-                $this->scheme = new String($_SERVER['HTTPS'] ? 'https' : 'http');
+                $this->scheme = new String(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] ? 'https' : 'http');
         return $this->scheme;
     }
 
@@ -283,6 +283,12 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         if($this->sessionHandler == null)
                 $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
         return $this->sessionHandler->getCurrentSession($this->getCookies(), $create);
+    }
+
+    public function getSessionHandler() {
+        if($this->sessionHandler == null)
+                $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
+        return $this->sessionHandler;
     }
     public function getUserAgent() {
         if($this->userAgent == null)

@@ -440,7 +440,7 @@ abstract class FileSystem extends Object implements Singleton{
     /**
      * Compare two abstract pathnames lexicographically.
      */
-    public function compare($f1, $f2) {
+    public function compare(File $f1, File $f2) {
         throw new Exception("SYSTEM ERROR [compare() not implemented by local fs driver]");
     }
 

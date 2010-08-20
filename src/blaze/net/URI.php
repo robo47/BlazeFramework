@@ -96,13 +96,13 @@ class URI extends Object {
         $uri = $schemes[0].$uri->substring($idx);
         $parts = parse_url($uri);
 
-        $host = $parts['host'];
-        $port = $parts['port'];
-        $user = $parts['user'];
-        $password = $parts['pass'];
-        $path = $parts['path'];
-        $query = $parts['query'];
-        $fragment = $parts['fragment'];
+        $host = isset($parts['host']) ? $parts['host'] : null;
+        $port = isset($parts['port']) ? $parts['port'] : null;
+        $user = isset($parts['user']) ? $parts['user'] : null;
+        $password = isset($parts['pass']) ? $parts['pass'] : null;
+        $path = isset($parts['path']) ? $parts['path'] : null;
+        $query = isset($parts['query']) ? $parts['query'] : null;
+        $fragment = isset($parts['fragment']) ? $parts['fragment'] : null;
 
 //        $matches = array();
 //
