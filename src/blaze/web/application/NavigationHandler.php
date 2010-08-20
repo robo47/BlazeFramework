@@ -34,13 +34,25 @@ class NavigationHandler extends Object {
         $actionString = String::asWrapper($action);
         $requestUri = $context->getRequest()->getRequestUri()->getPath();
 
+        // remove the prefix of the url e.g. BlazeFrameworkServer/
+        if (!$requestUri->endsWith('/'))
+            $requestUri = $requestUri->concat('/');
+
+        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+
+        // Requesturl has always to start with a '/'
+        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
+            $requestUri = new String('/' . $requestUri->toNative());
+
         foreach ($this->mapping as $key => $value) {
-            if ($requestUri->startsWith($key)) {
+            $regex = '/^'.str_replace(array('/','*'), array('\/','.*'), $key).'$/';
+            if ($requestUri->matches($regex)) {
                 if ($actionString != null) {
                     // Look for the action in the navigationMap
                     foreach ($value['action'] as $action) {
                         if ($actionString->compareTo($action['action']) == 0) {
                             $context->setViewRoot($context->getViewHandler()->getView($context, $action['view']));
+                            $context->setNavigated();
                             return;
                         }
                     }

@@ -27,7 +27,7 @@ class ELRequestScopeContext extends ELScopeContext{
 		if(array_key_exists($key, $this->variables)){
 			$val = $this->variables[$key];
 			if($val instanceof \blaze\lang\ClassWrapper)
-				$this->set($key, $val = $val->newInstance());
+				$this->set($context, $key, $val = $val->newInstance());
 
 			return $val;
 		}

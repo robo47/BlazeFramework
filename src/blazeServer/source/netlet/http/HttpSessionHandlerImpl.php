@@ -29,22 +29,44 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
 
     }
 
+    public function open($savePath, $sessName){
+        return true;
+    }
+    public function close(){
+        return true;
+    }
+    public function read($id){
+        return \blazeCMS\source\dao\Dao::getInstance()->getSession($id);
+    }
+    public function write($id, $data){
+        \blazeCMS\source\dao\Dao::getInstance()->setSession($id, $data);
+        return true;
+    }
+    public function destroy($id){
+        return true;
+    }
+    public function gc($maxLifetime){
+        return true;
+    }
+
     public function getCurrentSession($cookies, $create = false) {
-        $sessionExist = false;
+        if($this->session == null){
+            $sessionExist = false;
 
-        foreach ($cookies as $cookie)
-            if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
-                $sessionExist = true;
-                break;
+            foreach ($cookies as $cookie)
+                if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
+                    $sessionExist = true;
+                    break;
+                }
+
+            if ($sessionExist || $create) {
+                //session_set_save_handler(array($this,"open"), array($this,"close"), array($this,"read"), array($this,"write"), array($this,"destroy"), array($this,"gc"));
+                //session_name(self::SESSION_NAME);
+               // session_set_cookie_params('3600', '/', '', true, true);
+                session_start();
+                $this->session = new HttpSessionImpl($this);
             }
-
-        if ($sessionExist || $create) {
-            session_name(self::SESSION_NAME);
-            session_set_cookie_params('3600', '/', '', true, true);
-            session_start();
-            $this->session = new HttpSessionImpl($this);
         }
-
         return $this->session;
     }
 

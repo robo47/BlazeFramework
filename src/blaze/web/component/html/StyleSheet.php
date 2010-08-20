@@ -3,7 +3,7 @@ namespace blaze\web\component\html;
 use blaze\lang\Object;
 
 /**
- * Description of CommandLink
+ * Description of Base
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,15 +13,16 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Form extends \blaze\web\component\UIForm{
+class StyleSheet extends \blaze\web\component\UIComponentBase{
 
-    private $destination;
+    private $href;
+    private $charset;
 
     public function __construct(){
     }
 
     public static function create(){
-        return new Form();
+        return new StyleSheet();
     }
 
     public function getComponentFamily() {
@@ -29,15 +30,24 @@ class Form extends \blaze\web\component\UIForm{
     }
 
     public function getRendererId() {
-        return 'FormRenderer';
+        return 'StyleSheetRenderer';
     }
 
-    public function getDestination() {
-        return $this->getResolvedExpression($this->destination);
+    public function getHref() {
+        return $this->getResolvedExpression($this->href);
     }
 
-    public function setDestination($destination) {
-        $this->destination = new \blaze\web\el\Expression($destination);
+    public function setHref($href) {
+        $this->href = new \blaze\web\el\Expression($href);
+        return $this;
+    }
+
+    public function getCharset() {
+        return $this->getResolvedExpression($this->charset);
+    }
+
+    public function setCharset($charset) {
+        $this->charset = new \blaze\web\el\Expression($charset);
         return $this;
     }
 

@@ -28,11 +28,11 @@ class ELSessionScopeContext extends ELScopeContext{
 		if(!array_key_exists($key, $this->nutDefinitions))
 			return null;
 
-		$val = $this->getSession()->getAttribute($key);
+		$val = $this->getSession($context)->getAttribute($key);
 
 		if($val == null){
 			$val = $this->nutDefinitions[$key]->newInstance();
-			$this->getSession()->setAttribute($key, $val);
+			$this->getSession($context)->setAttribute($key, $val);
 		}
 
 		return $val;

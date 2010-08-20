@@ -98,7 +98,10 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
      * @return blaze\lang\PreparedStatement
      */
     protected function set($identifier, $value, $type = \PDO::PARAM_STR) {
-        $this->stmt->bindValue($identifier + 1, $value, $type|\PDO::PARAM_INPUT_OUTPUT);
+        if(\blaze\lang\String::isType($identifier))
+            $this->stmt->bindValue($identifier, $value, $type|\PDO::PARAM_INPUT_OUTPUT);
+        else
+            $this->stmt->bindValue($identifier + 1, $value, $type|\PDO::PARAM_INPUT_OUTPUT);
     }
 
 }

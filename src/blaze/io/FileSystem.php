@@ -53,7 +53,7 @@ abstract class FileSystem extends Object implements Singleton{
      */
     public static function getInstance() {
         if(self::$instance === null){
-            switch(\blaze\lang\System::getProperty('host.fs')) {
+            switch(String::asNative(\blaze\lang\System::getProperty('host.fs'))) {
                 case 'UNIX':
                     self::$instance = new UnixFileSystem();
                 break;

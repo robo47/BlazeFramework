@@ -42,8 +42,8 @@ abstract class Phase extends Object {
 //        }
 
         try {
-            if($event != null)
-            $this->handleBeforePhase($context, $listeners, $event);
+            if ($event != null)
+                $this->handleBeforePhase($context, $listeners, $event);
             if (!$this->shouldSkip($context)) {
                 $this->execute($context);
             }
@@ -51,8 +51,8 @@ abstract class Phase extends Object {
             $this->queueException($context, $e);
         }
         try {
-            if($event != null)
-            $this->handleAfterPhase($context, $listeners, $event);
+            if ($event != null)
+                $this->handleAfterPhase($context, $listeners, $event);
         } catch (Exception $e) {
             $this->queueException($context, $e);
         }
@@ -63,7 +63,6 @@ abstract class Phase extends Object {
 //                      "Execution time for phase (including any PhaseListeners) -> "
 //                      + this.getId().toString());
 //            }
-
         //$context->getExceptionHandler()->handle();
     }
 
@@ -87,8 +86,6 @@ abstract class Phase extends Object {
     public abstract function getId();
 
 // ------------------------------------------------------- Protected Methods
-
-
 
     /**
      *
@@ -186,7 +183,7 @@ abstract class Phase extends Object {
         if ($context->getResponseComplete()) {
             return true;
         } else if ($context->getDoRenderResponse() &&
-                !\blaze\web\event\PhaseId::RENDER_RESPONSE == $this->getId()) {
+                \blaze\web\event\PhaseId::RENDER_RESPONSE != $this->getId()) {
             return true;
         } else {
             return false;
@@ -194,4 +191,5 @@ abstract class Phase extends Object {
     }
 
 }
+
 ?>

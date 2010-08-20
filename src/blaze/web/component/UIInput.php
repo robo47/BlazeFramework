@@ -22,7 +22,7 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
      *
      * @var blaze\web\el\Expression
      */
-    private $immediate = false;
+    private $immediate;
     /**
      *
      * @var blaze\web\el\Expression
@@ -37,6 +37,8 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
     }
 
     public function getImmediate() {
+        if($this->immediate == null)
+                return false;
         return $this->getResolvedExpression($this->immediate);
     }
 
@@ -108,7 +110,7 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
         try{
             if(!$this->getValid())
                     return;
-            $valExpr = $this->getValue();
+            $valExpr = $this->getValueExpression();
 
             if($valExpr == null)
                 return;

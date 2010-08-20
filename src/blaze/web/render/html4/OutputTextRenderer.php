@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,16 +13,16 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
+class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
-    private function getTypeTag(\blaze\web\component\UIComponent $component){
+    private function getTypeTag(\blaze\web\component\UIComponent $component) {
         $type = $component->getType();
 
-        switch($type){
+        switch ($type) {
             case 'em':
                 return'em';
             case 'strong':
@@ -40,6 +41,8 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
                 return'cite';
             case 'b':
                 return'b';
+            case 'none':
+                return null;
             case 'p':
             default:
                 return'p';
@@ -48,31 +51,36 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<'.$this->getTypeTag($component));
+        $tag = $this->getTypeTag($component);
+        if ($tag != null)
+            $writer->write('<' . $tag);
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
 
-        parent::renderAttributes( $context, $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $converter = $component->getConverter();
+        $tag = $this->getTypeTag($component);
+        if ($tag != null)
+            $writer->write('>');
 
-        $writer->write('>');
         $value = $component->getValue();
-        if($value == null)
+        if ($value == null)
             $value = $component->getLocalValue();
 
-        if($converter != null)
+        if ($converter != null)
             $writer->write($converter->asString($context, $value));
         else
             $writer->write($value);
     }
 
-        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</'.$this->getTypeTag($component).'>');
+        $tag = $this->getTypeTag($component);
+        if ($tag != null)
+            $writer->write('</' . $tag . '>');
     }
-
 
 }
 

@@ -28,6 +28,7 @@ class BlazeContext extends Object {
     private $attributes = array();
     private $messages = array();
     private $validationFailed = false;
+    private $navigated = false;
     private $doRenderResponse = false;
     private $responseComplete = false;
     private $currentPhaseId = null;
@@ -203,6 +204,14 @@ class BlazeContext extends Object {
      */
     public function setViewRoot(\blaze\web\component\UIViewRoot $viewRoot) {
         $this->viewRoot = $viewRoot;
+    }
+
+    public function setNavigated() {
+        $this->navigated = true;
+    }
+
+    public function getNavigated() {
+        return $this->navigated;
     }
 
     /**

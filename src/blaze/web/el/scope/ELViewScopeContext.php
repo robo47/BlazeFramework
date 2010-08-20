@@ -53,7 +53,7 @@ class ELViewScopeContext extends ELScopeContext{
 
 	public function resetValues(\blaze\web\application\BlazeContext $context){
 		$sess = $context->getRequest()->getSession(true);
-		$sess->removeAttribute('blaze.web.el.scope.view');
+		$sess->setAttribute('blaze.web.el.scope.view',null);
 	}
 }
 

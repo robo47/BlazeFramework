@@ -33,7 +33,7 @@ interface HttpNetletRequest extends NetletRequest{
      */
     public function getCookies();
     /**
-     * @return blaze\netlet\http\Session
+     * @return blaze\netlet\http\HttpSession
      */
     public function getSession($create = false);
     /**

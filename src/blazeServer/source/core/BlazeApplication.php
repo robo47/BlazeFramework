@@ -26,6 +26,7 @@ use blaze\lang\Object,
 class BlazeApplication extends Object implements Application {
 
     private $netletApplication;
+    private $lifeCycle;
     private $elContext;
     private $viewHandler;
     private $navigationHandler;
@@ -40,8 +41,9 @@ class BlazeApplication extends Object implements Application {
      * @param blaze\io\File $dir
      * @param boolean $running
      */
-    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication) {
+    public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\web\lifecycle\Lifecycle $lifeCycle) {
         $this->netletApplication = $netletApplication;
+        $this->lifeCycle = $lifeCycle;
         $this->init();
     }
 
@@ -70,6 +72,16 @@ class BlazeApplication extends Object implements Application {
         $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_SESSION, new \blaze\web\el\scope\ELSessionScopeContext($scopes['session']));
         $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_APPLICATION, new \blaze\web\el\scope\ELApplicationScopeContext($scopes['application']));
 
+        // PhaseListener
+        foreach($confMap['listeners'] as $name => $className){
+            $this->lifeCycle->addPhaseListener(ClassWrapper::forName($className)->newInstance());
+        }
+
+        // TagDecorator
+        foreach($confMap['tagDecorators'] as $name => $className){
+            $this->decorators[$name] = ClassWrapper::forName($className)->newInstance();
+        }
+
         // NavigationRules
 //        foreach($confMap['navigation'] as $navLocation => $options){
 //
@@ -89,6 +101,12 @@ class BlazeApplication extends Object implements Application {
 
     public function addNavigationCase($uri, $defaultViewId, $binds, $actions){
 
+    }
+
+    public function getDecorator($decoratorName) {
+        if(array_key_exists($decoratorName, $this->decorators))
+            return $this->decorators[$decoratorName];       
+        return null;
     }
 
     public function getRenderKitFactory($componentFamily) {

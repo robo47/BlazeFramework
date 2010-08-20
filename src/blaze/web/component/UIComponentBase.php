@@ -48,11 +48,13 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function getRendered() {
-        return $this->rendered;
+        if($this->rendered == null)
+                return true;
+        return $this->getResolvedExpression($this->rendered);
     }
 
     public function setRendered($rendered) {
-        $this->rendered = $rendered;
+        $this->rendered = new \blaze\web\el\Expression($rendered);
         return $this;
     }
 
@@ -108,7 +110,7 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function processRender(\blaze\web\application\BlazeContext $context) {
-        if ($this->rendered)
+        if (!$this->getRendered())
             return;
         $renderer = $this->getRenderer($context);
 

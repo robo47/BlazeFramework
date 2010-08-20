@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of FormRenderer
+ * Description of InputRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,33 +12,44 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class FormRenderer extends \blaze\web\render\html4\CoreRenderer{
+class InputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function __construct(){
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-                                var_dump($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER'));
-                                var_dump($component->getId());
-        if($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER') == $component->getId()){
-                $component->setSubmitted(true);
+        $val = $context->getRequest()->getParameter($component->getId());
+        if($val != null){
+                $component->setSubmittedValue($val);
         }
     }
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<form');
+        $label = $component->getLabel();
+        if($label != null){
+            $writer->write('<label for="'.$component->getId().'">');
+            $writer->write($label);
+            $writer->write('</label>');
+        }
+        $writer->write('<input');
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes( $context, $component);
         $writer = $context->getResponse()->getWriter();
-        $writer->write(' method="post" action=""><div style="display: none;"><input type="hidden" name="BLAZE_FORM_IDENTIFIER" value="'.$component->getId().'"/></div>');
+        $disabled = $component->getDisabled();
+        
+        $writer->write(' type="'.$component->getType().'" name="'.$component->getId().'"');
+        $writer->write(' value="'.$component->getLocalValue().'"');
+        
+        if($disabled != null)
+            $writer->write(' disabled="'.$disabled.'"');
     }
 
         public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        $writer = $context->getResponse()->getWriter();
-        $writer->write('</form>');
+         $writer = $context->getResponse()->getWriter();
+        $writer->write('/>');
     }
 
 

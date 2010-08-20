@@ -41,7 +41,6 @@ class NetletContainer extends Object {
             $response->getWriter()->write(ob_get_clean());
         else
             ob_end_clean();
-
 //        $response->getWriter()->write($t->stop());
         $container->finish($response);
     }
@@ -89,6 +88,9 @@ class NetletContainer extends Object {
                 return;
             }
             $netlet->service($request, $response);
+            $sess = $request->getSession();
+            //if($sess != null)
+                //session_write_close();
         }catch(Exception $e){
             // Error in the netlet which was not caught
             $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);

@@ -18,6 +18,7 @@ abstract class UIComponentCore extends \blaze\web\component\UIComponentBase{
     private $style;
     private $styleClass;
     private $title;
+    private $decorator;
 
 
     public function getStyle() {
@@ -46,6 +47,31 @@ abstract class UIComponentCore extends \blaze\web\component\UIComponentBase{
         $this->title = new \blaze\web\el\Expression($title);
         return $this;
     }
+
+    public function getDecorator() {
+        return $this->getResolvedExpression($this->decorator);
+    }
+
+    public function setDecorator($decorator) {
+        $this->decorator = new \blaze\web\el\Expression($decorator);
+        return $this;
+    }
+
+    public function processRender(\blaze\web\application\BlazeContext $context) {
+        if (!$this->getRendered())
+            return;
+        $decoratorName = $this->getDecorator();
+        
+        if($decoratorName == null){
+            parent::processRender($context);
+        }else{
+            $decorator = $context->getApplication()->getDecorator($decoratorName);
+            $decorator->renderBegin($context, $this);
+            parent::processRender($context);
+            $decorator->renderEnd($context, $this);
+        }
+    }
+
 
 }
 

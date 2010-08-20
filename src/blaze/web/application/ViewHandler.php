@@ -41,8 +41,9 @@ class ViewHandler extends Object {
         $lastView = null;
 
         if($session != null){
+            var_dump($_SESSION);
             $lastViewId = $session->getAttribute('blaze.view_restore');
-
+            
             if($lastViewId != null)
                 $lastView = $this->getView($context, $lastViewId);
             if($lastView == null)
@@ -54,26 +55,28 @@ class ViewHandler extends Object {
             if($lastView == null)
                 throw new \blaze\lang\Exception('No view found.');
         }
-        
+        //var_dump('Restore: '.$lastView->getViewId());
         $context->setViewRoot($lastView);
     }
 
-    public function getRequestView(BlazeContext $ctx){
-        $requestUri = $ctx->getRequest()->getRequestUri()->getPath();
+    public function getRequestView(BlazeContext $context){
+        $requestUri = $context->getRequest()->getRequestUri()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
         if (!$requestUri->endsWith('/'))
             $requestUri = $requestUri->concat('/');
 
-        $requestUri = $requestUri->substring($ctx->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
             $requestUri = new String('/' . $requestUri->toNative());
 
         foreach ($this->mapping as $key => $value) {
-            if ($requestUri->startsWith($key)) {
-                return $this->getView($ctx, $value['view']);
+            $regex = '/^'.str_replace(array('/','*'), array('\/','.*'), $key).'$/';
+            if ($requestUri->matches($regex)) {
+                var_dump('Requested: '.$value['view']);
+                return $this->getView($context, $value['view']);
             }
         }
         

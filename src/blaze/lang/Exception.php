@@ -99,8 +99,8 @@ class Exception extends \Exception implements Reflectable {
      * @access private
      * @return string
      */
-    public final function  __toString() {
-        return String::asNative($this->toString());
-    }
+//    public final function  __toString() {
+//        return String::asNative($this->toString());
+//    }
 }
 ?>

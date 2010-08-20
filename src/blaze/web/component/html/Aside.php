@@ -27,7 +27,11 @@ class Aside extends \blaze\web\component\UIComponentCore{
     }
 
     public function getRendererId() {
-        return 'DivRenderer';
+        return 'PanelRenderer';
+    }
+
+    public function getType(){
+        return 'div';
     }
 
 }

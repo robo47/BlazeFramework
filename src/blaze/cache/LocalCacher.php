@@ -32,7 +32,7 @@ class LocalCacher implements Cacher, \blaze\lang\Singleton {
      */
     public static function getInstance() {
         if(self::$instance == null){
-            self::$instance = new self(new \blaze\io\File(\blaze\lang\ClassLoader::getSystemClassLoader()->getClassPath().'/../cache'));
+            self::$instance = new self(new \blaze\io\File(\blaze\lang\ClassLoader::getSystemClassLoader()->getClassPath()->toNative().'/../cache'));
         }
 
         return self::$instance;

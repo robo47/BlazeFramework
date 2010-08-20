@@ -50,8 +50,8 @@ class BlazeNetlet extends HttpNetlet{
             throw new \blaze\lang\Exception('No NetletApplication found!');
         }
 
-        $this->application = new BlazeApplication($netletApp);
         $this->lifecycle = new \blazeServer\source\web\lifecycle\LifecycleImpl();
+        $this->application = new BlazeApplication($netletApp, $this->lifecycle);
     }
 
     /**
@@ -63,12 +63,6 @@ class BlazeNetlet extends HttpNetlet{
         $appContext = new BlazeContext($this->application, $request, $response);
         $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($appContext);
 
-//        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($appContext, 'myblub', \blazeServer\Test::create()->setName('count')->setLabel('label')->setValue('value'));
-//        $list = new \blaze\collections\lists\ArrayList();
-//        $list->add(\blazeServer\Test::create()->setName('Christian')->setLabel('Beikov')->setValue('Nice'));
-//        $list->add(\blazeServer\Test::create()->setName('Bernd')->setLabel('Artmüller')->setValue('Lazy'));
-//        $list->add(\blazeServer\Test::create()->setName('Oliver')->setLabel('Kotzina')->setValue('In Love'));
-//        $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($appContext, 'testList', $list);
         //$appContext->setExceptionHandler(new \blaze\web\application\ExceptionHandler());
 
         /**

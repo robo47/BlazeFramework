@@ -142,5 +142,10 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         
     }
 
+    public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
+    }
+
+
 }
 ?>

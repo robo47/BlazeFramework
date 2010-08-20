@@ -13,6 +13,7 @@ namespace blaze\lang;
  * @author 	Christian Beikov
  */
 class Object implements Reflectable{
+    
     /**
      * @access protected
      */

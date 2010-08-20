@@ -2,7 +2,7 @@
 namespace blaze\web\render\html4;
 
 /**
- * Description of DivRenderer
+ * Description of BaseRenderer
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,7 +12,7 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class DivRenderer extends \blaze\web\render\html4\CoreRenderer{
+class ScriptRenderer extends \blaze\web\render\Renderer{
 
     public function __construct(){
 
@@ -20,18 +20,18 @@ class DivRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<div');
-    }
+        $writer->write('<script');
+        $src = $component->getSrc();
 
-    public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes($context, $component);
-        $writer = $context->getResponse()->getWriter();
+        $writer->write(' type="text/javascript"');
+        if($src != null)
+            $writer->write(' src="'.$src.'"');
         $writer->write('>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</div>');
+        $writer->write('</script>');
     }
 
 

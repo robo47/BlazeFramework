@@ -15,6 +15,7 @@ namespace blaze\web\component;
 interface ValueHolder {
      public function getLocalValue();
      public function setLocalValue($localValue);
+     public function getValueExpression();
      public function getValue();
      public function setValue($value);
      public function setConverter(\blaze\web\converter\Converter $converter);

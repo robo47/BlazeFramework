@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIOutput extends \blaze\web\component\UIComponentCore implements ValueHolder{
+abstract class UIOutput extends \blaze\web\component\UIComponentCore implements ValueHolder {
 
     /**
      *
@@ -21,6 +23,7 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
      */
     private $value;
     private $localValue;
+
     /**
      *
      * @var blaze\web\converter\Converter
@@ -35,8 +38,21 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
         return $this->localValue;
     }
 
-    public function getValue(){
+    public function setLocalValue($localValue) {
+        return $this->localValue = $localValue;
+    }
+
+    public function getValue() {
         return $this->getResolvedExpression($this->value);
+    }
+
+    public function setValue($value) {
+        $this->value = new \blaze\web\el\Expression($value);
+        return $this;
+    }
+
+    public function  getValueExpression() {
+        return $this->value;
     }
 
     public function removeConverter() {
@@ -46,19 +62,6 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
 
     public function setConverter(\blaze\web\converter\Converter $converter) {
         $this->converter = $converter;
-        return $this;
-    }
-
-    public function setLocalValue($localValue) {
-        $this->localValue = $localValue;
-        return $this;
-    }
-
-    public function setValue($value) {
-        if(\blaze\web\el\Expression::isExpression($value))
-            $this->value = new \blaze\web\el\Expression($value);
-        else
-            $this->localValue = $value;
         return $this;
     }
 

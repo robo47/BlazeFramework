@@ -28,6 +28,10 @@ interface Application {
      * @return blaze\web\application\ViewHandler
      */
     public function getViewHandler();
+    /**
+     * @return blaze\web\render\RendererDecorator
+     */
+    public function getDecorator($decoratorName);
     
     /**
      * @return blaze\util\Locale

@@ -28,7 +28,7 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
     public function __construct(HttpSessionHandler $handler){
         $this->sessionHandler = $handler;
         //$this->id = session_id();
-        $this->sessionMap = $_SESSION;
+        //$this->sessionMap = $_SESSION;
         $this->creationTime = new \blaze\util\Date();
         $this->maxInactiveInterval = 3600;
         $this->maxLifetime = 3600;
@@ -57,7 +57,7 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      }
      public function removeAttribute($name){
         //unset($this->sessionMap[$name]);
-        unset($_SESSION[$name]);
+        $_SESSION[$name] = null;
      }
 
      public function getId() {
