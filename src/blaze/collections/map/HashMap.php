@@ -1,7 +1,7 @@
 <?php
 namespace blaze\collections\map;
 use blaze\lang\Object,
-blaze\lang\Integer,
+        blaze\lang\Integer,
         blaze\lang\String;
 
 /**
@@ -53,9 +53,27 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         return false;
     }
 
-    public function entrySet(){}
-    public function keySet(){}
-    public function valueSet(){}
+    public function entrySet(){
+        $ret = new \blaze\collections\set\HashSet();
+        foreach($this->data as $val){
+            $ret->add($val);
+        }
+        return $ret;
+    }
+    public function keySet(){
+        $ret = new \blaze\collections\set\HashSet();
+        foreach($this->data as $val){
+            $ret->add($val->getKey());
+        }
+        return $ret;
+    }
+    public function valueSet(){
+        $ret = new \blaze\collections\set\HashSet();
+        foreach($this->data as $val){
+            $ret->add($val->getValue());
+        }
+        return $ret;
+    }
 
     public function get($key){
         $hash = $this->hash($key);

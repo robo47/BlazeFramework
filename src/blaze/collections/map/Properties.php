@@ -18,10 +18,19 @@ class Properties extends HashMap {
      *
      * @var array
      */
-    private $props = array();
+    private $map;
 
+
+    public function __construct(){
+
+    }
     public function setProperty($key, $value){
-        $this->props[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
+        if(array_key_exists($key, $this->props)){
+            return false;
+        }
+        else{
+            $this->props[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
+        }
     }
 
     /**
@@ -253,6 +262,127 @@ class Properties extends HashMap {
     public function isEmpty() {
         return empty($this->properties);
     }
+
+    public function clear(){
+        $this->size = 0;
+        $this->props = array();
+    }
+
+   
+
+    public function containsValue($value){
+        foreach($this->props as &$val){
+            if($val==$value){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function entrySet(){}
+    public function keySet(){}
+    public function valueSet(){}
+
+    public function get($key){
+        if(array_key_exists($key, $this->props)){
+            return $this->data[$key]->getValue();
+        }
+        return null;
+    }
+   
+
+    public function putAll(\blaze\collections\Map $m){
+        foreach($m as $value){
+            $this->put($value->getKey(), $value->getValue());
+        }
+    }
+
+
+    public function remove($key){
+   
+
+         if($this->containsKey($key)){
+            unset($this->data[$key]);
+            return true;
+         }
+         else{
+             return false;
+         }
+    }
+
+    public function values(){}
+
+
+
+
+    public function count(){
+        return $this->size;
+    }
+    /**
+     * @return blaze\collections\MapIterator
+     */
+    public function getIterator(){
+        throw new \blaze\lang\NotYetImplenetedException('ITerator must be programm', $code, $previous);
+    }
+/**
+ *
+ * @param \blaze\collections\Map $c
+ * @return <type>
+ * @todo Implement
+ */
+    public function containsAll(\blaze\collections\Map $c) {
+        foreach($c as $val){
+            if(!$this->containsKey($val->getKey())){
+                return false;
+            }
+
+        }
+        return true;
+
+    }
+}
+    class Entry extends Object implements \blaze\collections\MapEntry{
+        private $key;
+        private $value;
+
+        public function  __construct($key, $value){
+                $this->key = $key;
+                $this->value = $value;
+        }
+
+        public function getKey(){
+            return $this->key;
+        }
+
+        public function getValue(){
+            return $this->value;
+        }
+        public function setValue($value){
+            $old = $this->value;
+            $this->value = $value;
+            return $old;
+        }
+        public function hashCode() {
+
+        if($this->key instanceof Object){
+            return String::asNative ($this->key->hashCode());
+        }
+        else{
+            return String::asNative (Integer::hexStringToInt(md5($this->key)));
+        }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
     
 }
 

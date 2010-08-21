@@ -73,9 +73,8 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testEntrySet() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $set = $this->object->entrySet();
+
     }
 
     /**
@@ -83,9 +82,8 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testKeySet() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $set = $this->object->keySet();
+       $this->assertTrue($set->contains(0));
     }
 
     /**
@@ -93,9 +91,8 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testValueSet() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $set = $this->object->valueSet();
+        $this->assertTrue($set->contains(0));
     }
 
     /**
