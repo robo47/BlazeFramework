@@ -99,7 +99,16 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(\blaze\collections\Collection $obj){}
+    public function retainAll(\blaze\collections\Collection $obj){
+        $reomve = \array_diff($this->data, $obj->toArray());
+        $ret = false;
+        foreach($reomve as $val){
+            if($this->removeElement($val)){
+                $ret = true;
+            }
+        }
+        return $ret;
+    }
     /**
      * @return blaze\collections\ArrayI
      */
@@ -108,10 +117,11 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     }
 
     public function element() {
-
+        return $this->data[0];
     }
 
     public function offer($element) {
+        return $this->add($element);
 
     }
 
@@ -124,6 +134,9 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     }
 
     public function poll() {
+        $ret = $this->data[0];
+        $this->remove(0);
+        return $ret;
 
     }
 
@@ -158,6 +171,60 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         if ($index < 0 || $this->size < $index) {
             throw new \blaze\lang\IndexOutOfBoundsException('Index: ' . $index . ' Size: ' . $this->size);
         }
+    }
+
+}
+class StackIterator implements \blaze\collections\Iterator{
+
+     private $data;
+
+    public function __construct($data) {
+        if (is_array($data)) {
+            $this->data = $data;
+        } else {
+            throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
+        }
+    }
+
+    public function current() {
+        return current($this->data);
+    }
+
+
+    public function hasNext() {
+        if (next($this->data)) {
+            prev($this->data);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function key() {
+        return \key($this->data);
+    }
+
+    public function next() {
+        return next($this->data);
+    }
+
+    public function remove() {
+        $index = $this->key();
+        for ($i = $index; $i < \count($this->data); $i++) {
+            $this->data[$i] = $this->data[($i + 1)];
+        }
+        unset($this->data[$i]);
+
+    }
+
+    public function rewind() {
+        reset($this->data);
+    }
+
+
+
+    public function valid() {
+        return (current($this->data) !== false);
     }
 
 }
