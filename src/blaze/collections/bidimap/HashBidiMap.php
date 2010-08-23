@@ -2,7 +2,8 @@
 
 namespace blaze\collections\bidimap;
 
-use blaze\lang\Object;
+use blaze\lang\Object,
+ \blaze\collections\map\HashMap;
 
 /**
  * Description of Queue
@@ -16,7 +17,26 @@ use blaze\lang\Object;
  * @todo    Something which has to be done, implementation or so
  */
 class HashBidiMap extends AbstractBidiMap {
+/**
+ *
+ * @var \blaze\collections\map\HashMap
+ */
+    private $firstMap;
+    /**
+ *
+ * @var \blaze\collections\map\HashMap
+ */
+    private $secondMap;
 
+    public function __construct(\blaze\collections\Map $map=null){
+        if($map===null){
+            $this->firstMap = new \blaze\collections\map\HashMap(null);
+            $this->secondMap = new \blaze\collections\map\HashMap(null);
+        }
+        else{
+            $this->firstMap = new HashMap($map);   
+        }
+    }
     public function clear() {
         
     }
