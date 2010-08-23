@@ -15,8 +15,16 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class LinkedList implements \blaze\collections\Iterable{
+    /**
+     *
+     * @var Entry
+     */
     private $head;
     private $size;
+    /**
+     *
+     * @var Entry
+     */
     private $tail;
     
     public function __construct(\blaze\collections\Collection $c=null){
@@ -111,7 +119,7 @@ class LinkedList implements \blaze\collections\Iterable{
     }
 
     public function addLast($element) {
-
+        $this->add($element);
     }
 
     public function descendingIterator() {
@@ -123,11 +131,11 @@ class LinkedList implements \blaze\collections\Iterable{
     }
 
     public function getFirst() {
-
+        return $this->head->element;
     }
 
     public function getLast() {
-
+        return $this->tail->element;
     }
 
     public function offer($element) {
