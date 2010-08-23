@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Address extends \blaze\web\component\UIComponentCore{
+class Address extends \blaze\web\component\UIPanel{
 
     public function __construct(){
     }

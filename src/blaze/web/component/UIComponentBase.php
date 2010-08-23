@@ -16,9 +16,11 @@ namespace blaze\web\component;
 abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent {
 
     private $id;
+    private $clientId;
     private $parent;
     private $children = array();
     private $rendered;
+    private $listeners = array();
 
     public function getChildren() {
         return $this->children;
@@ -34,7 +36,9 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function setId($id) {
+        $this->checkId($id);
         $this->id = $id;
+        $this->clientId = null;
         return $this;
     }
 
@@ -56,6 +60,59 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     public function setRendered($rendered) {
         $this->rendered = new \blaze\web\el\Expression($rendered);
         return $this;
+    }
+
+    public function queueEvent(\blaze\web\event\BlazeEvent $event) {
+        $parent = $this->getParent();
+
+        if($parent == null)
+            throw new \blaze\lang\IllegalArgumentException('Component has no ViewRoot');
+        $parent->queueEvent($event);
+    }
+
+    public function getClientId(\blaze\web\application\BlazeContext $context){
+        if($this->clientId != null) return $this->clientId;
+        if($this->getId() == null)
+            $this->id = $context->getViewRoot()->createUniqueId();
+
+        $container = $this;
+
+        while($container != null && !$container instanceof NamingContainer){
+            $container = $container->getParent();
+        }
+
+        if($container == null || $container == $this){
+            $this->clientId = $this->id;
+        }else{
+            $this->clientId = $container->getClientId($context).NamingContainer::CONTAINER_SEPARATOR.$this->id;
+        }
+
+        return $this->clientId;
+    }
+
+    protected function getRoot(){
+        $parent = $this;
+
+        while(true){
+            $comp = $parent->getParent();
+
+            if($comp == null)
+                return $parent;
+            $parent = $comp;
+        }
+    }
+
+    protected function addBlazeListener(\blaze\web\event\BlazeListener $listener){
+        $this->listeners[] = $listeners;
+    }
+
+    protected function getBlazeListeners(){
+        return $this->listeners;
+    }
+
+    protected function removeBlazeListener(\blaze\web\event\BlazeListener $listener){
+        $key = array_search($listener, $this->listeners);
+        if($key !== false) unset($this->listeners[$key]);
     }
 
     protected function getResolvedExpression(\blaze\web\el\Expression $expr = null){
@@ -84,6 +141,12 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
                 ->getRenderKitFactory($this->getComponentFamily())
                 ->getRenderKit($context, $this->getComponentFamily())
                 ->getRenderer($this->getRendererId());
+    }
+
+    public function processEvent(\blaze\web\event\BlazeEvent $event) {
+        foreach($this->listeners as $listener){
+
+        }
     }
 
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
@@ -120,5 +183,19 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         $renderer->renderEnd($context, $this);
     }
 
+    private function checkId($id){
+        if($id == null)
+            return;
+        $str = \blaze\lang\String::asNative($id);
+        if(strlen($str) == 0)
+            throw new \blaze\lang\IllegalArgumentException('Component id must have a length of at least one character');
+
+        $firstChar = $str[0];
+        if($firstChar != '_' && !\blaze\lang\Character::isLetter($firstChar))
+            throw new \blaze\lang\IllegalArgumentException('Component id\'s first character must be a letter or underscore (_) and not '.$firstChar);
+
+        if(!preg_match('/^..[a-zA-Z0-9\\-\\_]*$/', $str))
+            throw new \blaze\lang\IllegalArgumentException('Component id\'s may only contain digits, letters, underscores(_) and dashes(-)');
+    }
 }
 ?>

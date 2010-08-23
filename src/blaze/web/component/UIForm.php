@@ -15,16 +15,25 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class UIForm extends \blaze\web\component\UIComponentCore {
+abstract class UIForm extends \blaze\web\component\UIComponentCore implements NamingContainer{
 
     private $submitted = false;
-
+    private $idCount = 0;
+    
     public function getSubmitted() {
         return $this->submitted;
     }
 
     public function setSubmitted($submitted) {
         $this->submitted = $submitted;
+    }
+
+    public function getContainerPrefix(){
+        return 'form';
+    }
+
+    public function createUniqueId(){
+        return $this->getId().self::ID_SEPARATOR.($this->idCount++);
     }
 
     public function processDecodes(\blaze\web\application\BlazeContext $context) {

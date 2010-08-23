@@ -18,18 +18,18 @@ class Properties extends HashMap {
      *
      * @var array
      */
-    private $map;
+    private $properties = array();
 
 
     public function __construct(){
 
     }
     public function setProperty($key, $value){
-        if(array_key_exists($key, $this->props)){
+        if(array_key_exists($key, $this->properties)){
             return false;
         }
         else{
-            $this->props[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
+            $this->properties[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
         }
     }
 
@@ -39,9 +39,9 @@ class Properties extends HashMap {
      */
     public function getProperty($key, $default = null){
         $key = \blaze\lang\String::asNative($key);
-        if(!array_key_exists($key, $this->props))
+        if(!array_key_exists($key, $this->properties))
                 return $default;
-        return $this->props[$key];
+        return $this->properties[$key];
     }
 	
 	/**
@@ -182,23 +182,6 @@ class Properties extends HashMap {
     public function getProperties() {
         return $this->properties;
     }
-
-
-    /**
-     * Get value for specified property.
-     * This function exists to provide a hashtable-like interface for
-     * properties.
-     *
-     * @param string $prop The property name (key).
-     * @return mixed
-     * @see getProperty()
-     */    
-    public function get($prop) {
-         if (!isset($this->properties[$prop])) {
-            return null;
-        }
-        return $this->properties[$prop];
-    }
     
     /**
      * Set the value for a property.
@@ -265,13 +248,13 @@ class Properties extends HashMap {
 
     public function clear(){
         $this->size = 0;
-        $this->props = array();
+        $this->properties = array();
     }
 
    
 
     public function containsValue($value){
-        foreach($this->props as &$val){
+        foreach($this->properties as &$val){
             if($val==$value){
                 return true;
             }
@@ -284,7 +267,7 @@ class Properties extends HashMap {
     public function valueSet(){}
 
     public function get($key){
-        if(array_key_exists($key, $this->props)){
+        if(array_key_exists($key, $this->properties)){
             return $this->data[$key]->getValue();
         }
         return null;
@@ -340,50 +323,7 @@ class Properties extends HashMap {
         return true;
 
     }
-}
-    class Entry extends Object implements \blaze\collections\MapEntry{
-        private $key;
-        private $value;
 
-        public function  __construct($key, $value){
-                $this->key = $key;
-                $this->value = $value;
-        }
-
-        public function getKey(){
-            return $this->key;
-        }
-
-        public function getValue(){
-            return $this->value;
-        }
-        public function setValue($value){
-            $old = $this->value;
-            $this->value = $value;
-            return $old;
-        }
-        public function hashCode() {
-
-        if($this->key instanceof Object){
-            return String::asNative ($this->key->hashCode());
-        }
-        else{
-            return String::asNative (Integer::hexStringToInt(md5($this->key)));
-        }
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-    
 }
 
 ?>

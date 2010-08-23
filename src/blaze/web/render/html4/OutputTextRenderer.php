@@ -71,11 +71,12 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer {
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        $tag = $this->getTypeTag($component);
+        if ($tag != null)
+            parent::renderAttributes($context, $component);
 
-        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $converter = $component->getConverter();
-        $tag = $this->getTypeTag($component);
         if ($tag != null)
             $writer->write('>');
 

@@ -18,7 +18,7 @@ class InputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        $val = $context->getRequest()->getParameter($component->getId());
+        $val = $context->getRequest()->getParameter($component->getClientId($context));
         if($val != null){
                 $component->setSubmittedValue($val);
         }
@@ -28,7 +28,7 @@ class InputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $label = $component->getLabel();
         if($label != null){
-            $writer->write('<label for="'.$component->getId().'">');
+            $writer->write('<label for="'.$component->getClientId($context).'">');
             $writer->write($label);
             $writer->write('</label>');
         }
@@ -40,7 +40,7 @@ class InputTextRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $disabled = $component->getDisabled();
         
-        $writer->write(' type="'.$component->getType().'" name="'.$component->getId().'"');
+        $writer->write(' type="'.$component->getType().'" name="'.$component->getClientId($context).'"');
         $writer->write(' value="'.$component->getLocalValue().'"');
         
         if($disabled != null)

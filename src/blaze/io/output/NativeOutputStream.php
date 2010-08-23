@@ -18,7 +18,8 @@ class NativeOutputStream extends \blaze\io\OutputStream {
     protected $stream = null;
 
     public function __construct($streamUrl, $append = false, $binary = true) {
-        $this->stream = fopen($streamUrl, $append ? 'a' : 'w' . $binary ? 'b' : '');
+        global $php_errormsg;
+        $this->stream = @fopen($streamUrl, ($append ? 'a' : 'w') . ($binary ? 'b' : ''));
         if ($this->stream === false) {
             $this->stream = null;
             throw new \blaze\io\IOException('Could not open ' . $streamUrl . ':' . $php_errormsg);

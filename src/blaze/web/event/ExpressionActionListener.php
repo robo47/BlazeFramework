@@ -12,8 +12,16 @@ namespace blaze\web\event;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface ActionListener extends \blaze\util\EventListener{
-     public function processAction(ActionEvent $obj);
+class ExpressionActionListener extends \blaze\lang\Object implements ActionListener{
+    private $expression;
+    
+    public function __construct(\blaze\web\el\Expression $expression){
+        $this->expression = $expression;
+    }
+
+    public function processAction(ActionEvent $obj) {
+        $this->expression->invoke(\blaze\web\application\BlazeContext::getCurrentInstance(),array($event));
+    }
 }
 
 ?>

@@ -15,8 +15,9 @@ namespace blaze\web\component;
 interface ActionSource {
      public function getAction();
      public function setAction($action);
-     public function getActionListener();
+     public function getActionListeners();
      public function setActionListener($actionListener);
+     public function addActionListener(\blaze\web\el\Expression $actionListener);
 
      // Immediate and more actionListeners?
 }

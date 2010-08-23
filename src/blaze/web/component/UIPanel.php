@@ -1,9 +1,9 @@
 <?php
-namespace blaze\web\component\html;
+namespace blaze\web\component;
 use blaze\lang\Object;
 
 /**
- * Description of Aside
+ * Description of Address
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,25 +13,23 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Aside extends \blaze\web\component\UIPanel{
+abstract class UIPanel extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
 
+    private $idCount = 0;
+    
     public function __construct(){
     }
-
+    
     public static function create(){
-        return new Aside();
+        return new Panel();
     }
 
-    public function getComponentFamily() {
-        return 'blaze.web';
+    public function getContainerPrefix(){
+        return 'panel';
     }
 
-    public function getRendererId() {
-        return 'PanelRenderer';
-    }
-
-    public function getType(){
-        return 'div';
+    public function createUniqueId(){
+        return $this->getId().self::ID_SEPARATOR.($this->idCount++);
     }
 
 }

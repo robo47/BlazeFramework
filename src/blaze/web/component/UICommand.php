@@ -31,8 +31,8 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
      *
      * @var blaze\web\el\Expression
      */
-    private $actionListener;
-
+    private $actionListeners = array();
+    private $cachedActionEvent;
 
 //    public function getImmediate() {
 //        return $this->getResolvedExpression($this->immediate);
@@ -51,33 +51,37 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
         $this->action = new \blaze\web\el\Expression($action);
         return $this;
     }
-    public function getActionListener() {
-        return $this->actionListener;
+
+    public function addActionListener(\blaze\web\el\Expression $expression) {
+        if ($this->cachedActionEvent == null)
+            $this->cachedActionEvent = new \blaze\web\event\ActionEvent($this);
+        $this->actionListeners[] = new \blaze\web\event\ExpressionActionListener($expression);
+    }
+
+    public function getActionListeners() {
+        return $this->actionListeners;
     }
 
     public function setActionListener($actionListener) {
-        $this->actionListener = new \blaze\web\el\Expression($actionListener);
+        $this->addActionListener(new \blaze\web\el\Expression($actionListener));
         return $this;
     }
 
     public function processApplication(\blaze\web\application\BlazeContext $context) {
         parent::processApplication($context);
-        $actionListener = $this->getActionListener();
+        $actionListeners = $this->getActionListeners();
         $action = $this->getAction();
         $navigationString = null;
 
-        if($actionListener != null)
-            $this->invokeResolvedExpression($actionListener);
-        if($action != null){
-            if($action instanceof \blaze\web\el\Expression)
-                $navigationString = $this->invokeResolvedExpression($action);
-            else
-                $navigationString = $action;
-        }
-        if($navigationString != null)
+        foreach ($actionListeners as $listener)
+            $listener->processAction($this->cachedActionEvent);
+        if ($action != null)
+            $navigationString = $this->invokeResolvedExpression($action);
+
+        if ($navigationString != null)
             $context->getApplication()->getNavigationHandler()->navigate($context, $navigationString);
     }
 
-
 }
+
 ?>

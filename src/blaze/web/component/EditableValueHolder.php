@@ -21,6 +21,7 @@ interface EditableValueHolder extends ValueHolder {
      public function setImmediate($immediate);
      
      public function addValidator(\blaze\web\validator\Validator $validator);
+     public function setValidator($validator);
      /**
       * @return blaze\web\validator\Validator
       */
@@ -30,12 +31,13 @@ interface EditableValueHolder extends ValueHolder {
      public function getValid();
      public function setValid($valid);
 
-//     public function addValueChangeListener(\blaze\web\event\ValueChangeListener $validator);
-//     /**
-//      * @return blaze\web\event\ValueChangeListener
-//      */
-//     public function getValueChangeListeners();
-//     public function removeValueChangeListener(\blaze\web\event\ValueChangeListener $validator);
+     public function addValueChangeListener(\blaze\web\el\Expression $validator);
+     public function setValueChangeListener($validator);
+     /**
+      * @return blaze\web\event\ValueChangeListener
+      */
+     public function getValueChangeListeners();
+     //public function removeValueChangeListener(\blaze\web\event\ValueChangeListener $validator);
 }
 
 ?>

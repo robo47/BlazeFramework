@@ -21,7 +21,7 @@ abstract class CoreRenderer extends \blaze\web\render\Renderer{
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
 
-        $id = $component->getId();
+        $id = $component->getClientId($context);
         $styleClass = $component->getStyleClass();
         $style = $component->getStyle();
         $title = $component->getTitle();

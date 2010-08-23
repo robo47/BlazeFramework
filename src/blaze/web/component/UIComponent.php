@@ -13,24 +13,36 @@ namespace blaze\web\component;
  * @todo    Something which has to be done, implementation or so
  */
 interface UIComponent {
+    /**
+     * @return string
+     */
      public function getId();
      /**
       * @param string|blaze\lang\String $id
       * @return blaze\web\component\UIComponent
       */
      public function setId($id);
+     /**
+      * @return blaze\web\component\UIComponent
+      */
      public function getParent();
      /**
       * @param blaze\web\component\UIComponent $parent
       * @return blaze\web\component\UIComponent
       */
      public function setParent(\blaze\web\component\UIComponent $parent);
+     /**
+      * @return array
+      */
      public function getChildren();
      /**
       * @param blaze\web\component\UIComponent $child
       * @return blaze\web\component\UIComponent
       */
      public function addChild(\blaze\web\component\UIComponent $child);
+     /**
+      * @return boolean
+      */
      public function getRendered();
      /**
       * @param boolean $rendered
@@ -40,6 +52,8 @@ interface UIComponent {
 
      public static function create();
 
+     public function queueEvent(\blaze\web\event\BlazeEvent $event);
+
      /**
       * @return blaze\web\render\Renderer
       */
@@ -47,6 +61,7 @@ interface UIComponent {
      public function getRendererId();
      public function getComponentFamily();
 
+     public function processEvent(\blaze\web\event\BlazeEvent $event);
      public function processDecodes(\blaze\web\application\BlazeContext $context);
      public function processValidations(\blaze\web\application\BlazeContext $context);
      public function processUpdates(\blaze\web\application\BlazeContext $context);

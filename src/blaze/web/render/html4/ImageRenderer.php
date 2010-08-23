@@ -45,14 +45,14 @@ class ImageRenderer extends \blaze\web\render\html4\CoreRenderer {
         if ($width != null)
             $writer->write(' width="' . $width . '"');
         if ($useMap == true)
-            $writer->write(' usemap="#' . $component->getId() . 'Map"');
+            $writer->write(' usemap="#' . $component->getClientId($context) . 'Map"');
         $writer->write('/>');
     }
 
     public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         if ($component->getUseMap() == true) {
             $writer = $context->getResponse()->getWriter();
-            $writer->write('<map name="' . $component->getId() . 'Map">');
+            $writer->write('<map name="' . $component->getClientId($context) . 'Map">');
             parent::renderChildren($context, $component);
             $writer->write('</map>');
         } else {

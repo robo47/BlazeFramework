@@ -11,7 +11,7 @@ use blaze\lang\Object;
  * @since   1.0
  * @version $Revision$
  */
-class FileWriter extends OutputStreamWriter {
+class FileWriter extends \blaze\io\OutputStreamWriter {
 
     /**
      *

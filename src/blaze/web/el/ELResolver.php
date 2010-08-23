@@ -74,6 +74,7 @@ class ELResolver extends Object{
         if($partsCount < 1)
             throw new ELException('No valid expression');
 
+            \blaze\util\Logger::get()->log('Entering SetValue '.$value);
         $obj = $this->getValueFromContext($parts[0]);
 
         if($obj == null)
@@ -110,7 +111,7 @@ class ELResolver extends Object{
         }
 
         $method = $obj->getClass()->getMethod($parts[$partsCount - 1]->toUpperCase(true));
-        return $method->invoke($obj, $values);
+        return $method->invokeArgs($obj, $values);
     }
 }
 

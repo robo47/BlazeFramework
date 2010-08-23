@@ -18,7 +18,7 @@ class CommandLinkRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        if($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER') == $component->getId()){
+        if($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER') == $component->getClientId($context)){
                 $component->setClicked(true);
         }
     }

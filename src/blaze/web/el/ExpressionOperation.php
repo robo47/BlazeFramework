@@ -165,10 +165,10 @@ class ExpressionOperation extends Object {
         $this->rootOperation->setValue($context, $subExpressions, $subBrackets, $value);
     }
 
-    public function invoke(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets, $value) {
+    public function invoke(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets, $values) {
         if ($this->hasOperations || !$this->rootOperation instanceof operation\NoOperation)
             throw new Exception('Invalid Expression for method bindings');
-        return $this->rootOperation->invoke($context, $subExpressions, $subBrackets, $value);
+        return $this->rootOperation->invoke($context, $subExpressions, $subBrackets, $values);
     }
 
 }

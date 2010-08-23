@@ -46,7 +46,7 @@ abstract class Enum extends Object{
         if($name instanceof String)
             $constName = $name->toNative();
         else if(!is_string($name))
-            throw new IllegalArgumentException('Name hast to be a blaze\lang\String or string!');
+            throw new IllegalArgumentException('Name has to be a blaze\lang\String or string!');
         else
             $constName = $name;
 
@@ -55,6 +55,19 @@ abstract class Enum extends Object{
         if(!array_key_exists($name,$entries))
             throw new IllegalArgumentException('The enum constant ' . $name . ' does not exist!');
         return $entries[$name];
+    }
+
+    /**
+     *
+     * @param mixed $name
+     * @return string
+     */
+    public static function nameOf($value) {
+        $entries = self::getEntries();
+        $key = array_search($value,$entries);
+        if($key === false)
+            throw new IllegalArgumentException('There is no  enum constant for the value' . $value);
+        return $key;
     }
 
 }

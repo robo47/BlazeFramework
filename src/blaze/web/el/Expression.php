@@ -78,12 +78,12 @@ class Expression extends Object {
 		$this->expressionParts[0]->setValue($context, $value);
 	}
 
-	public function invoke(\blaze\web\application\BlazeContext $context, $value){
+	public function invoke(\blaze\web\application\BlazeContext $context, $values){
 		if(count($this->expressionParts) != 1 ||
 		   !($this->expressionParts[0] instanceof ExpressionContent))
 		   throw new Exception('Invalid Expression for method bindings');
 
-		return $this->expressionParts[0]->invoke($context, $value);
+		return $this->expressionParts[0]->invoke($context, $values);
 	}
 
     /**

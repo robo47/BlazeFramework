@@ -66,14 +66,12 @@ class Character extends Object implements NativeWrapper, Comparable {
         return self::isNativeType($value) || self::isWrapperType($value);
     }
 
-    public function equals(Reflectable $obj){
-        if($obj instanceof Character){
-            return $this->value === $obj->toNative();
-        }
-        return false;
+    public function compareTo(Object $obj) {
     }
 
-    public function compareTo(Object $obj) {
+    public function isLetter($char) {
+        $char = self::asNative($char);
+        return ctype_alpha($char);
     }
 
     /**

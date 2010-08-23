@@ -1,8 +1,8 @@
 <?php
-namespace blaze\web\event;
+namespace blaze\web\component;
 
 /**
- * Description of ActionListener
+ * Description of ActionSource
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -12,8 +12,11 @@ namespace blaze\web\event;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface ActionListener extends \blaze\util\EventListener{
-     public function processAction(ActionEvent $obj);
+interface NamingContainer {
+     const CONTAINER_SEPARATOR = ':';
+     const ID_SEPARATOR = '_';
+     public function getContainerPrefix();
+     public function createUniqueId();
 }
 
 ?>

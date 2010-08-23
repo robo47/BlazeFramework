@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\web\el\scope;
+
 use blaze\lang\Object,
-    blaze\util\Map;
+ blaze\util\Map;
 
 /**
  * Description of ELScopeContext
@@ -14,39 +16,40 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ELSessionScopeContext extends ELScopeContext{
+class ELSessionScopeContext extends ELScopeContext {
 
-	public function __construct($nutDefinitions){
-		$this->nutDefinitions = $nutDefinitions;
-	}
+    public function __construct($nutDefinitions) {
+        $this->nutDefinitions = $nutDefinitions;
+    }
 
-	private function getSession(\blaze\web\application\BlazeContext $context){
-		return $context->getRequest()->getSession(true);
-	}
+    private function getSession(\blaze\web\application\BlazeContext $context) {
+        return $context->getRequest()->getSession(true);
+    }
 
-	public function get(\blaze\web\application\BlazeContext $context, $key){
-		if(!array_key_exists($key, $this->nutDefinitions))
-			return null;
+    public function get(\blaze\web\application\BlazeContext $context, $key) {
+        if (!array_key_exists($key, $this->nutDefinitions))
+            return null;
 
-		$val = $this->getSession($context)->getAttribute($key);
+        $sess = $this->getSession($context);
+        $sess->getAttribute($key);
+        $val = $this->getSession($context)->getAttribute($key);
 
-		if($val == null){
-			$val = $this->nutDefinitions[$key]->newInstance();
-			$this->getSession($context)->setAttribute($key, $val);
-		}
+        if ($val == null) {
+            $val = $this->nutDefinitions[$key]->newInstance();
+            $this->getSession($context)->setAttribute($key, $val);
+        }
 
-		return $val;
-	}
+        return $val;
+    }
 
-	public function set(\blaze\web\application\BlazeContext $context, $key, $val){
-		$this->getSession($context)->setAttribute($key, $val);
-	}
+    public function set(\blaze\web\application\BlazeContext $context, $key, $val) {
+        $this->getSession($context)->setAttribute($key, $val);
+    }
 
-	public function resetValues(\blaze\web\application\BlazeContext $context){
+    public function resetValues(\blaze\web\application\BlazeContext $context) {
+        
+    }
 
-	}
 }
-
-
 
 ?>

@@ -55,7 +55,10 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      }
 
      public function getAttribute($name){
-         return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
+         if(array_key_exists($name, $this->sessionMap))
+                 return $this->sessionMap[$name];
+         return null;
+//         return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
 //         return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
      }
      public function setAttribute($name, $value){

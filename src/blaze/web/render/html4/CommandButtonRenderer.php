@@ -18,8 +18,10 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     }
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        if($context->getRequest()->getParameter($component->getId()) != null){
+        if($context->getRequest()->getParameter($component->getClientId($context)) != null){
                 $component->setClicked(true);
+//                if($component->getImmediate())
+//                        ;
         }
     }
 
@@ -33,7 +35,7 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $disabled = $component->getDisabled();
 
-        $writer->write(' type="submit" name="'.$component->getId().'"');
+        $writer->write(' type="submit" name="'.$component->getClientId($context).'"');
         $writer->write(' value="'.$component->getValue().'"');
         
         if($disabled != null)

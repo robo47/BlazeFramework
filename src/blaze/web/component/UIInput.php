@@ -18,6 +18,7 @@ use blaze\lang\Object;
 abstract class UIInput extends \blaze\web\component\UIOutput implements EditableValueHolder {
 
     private $validators = array();
+    private $valueChangeListeners = array();
     /**
      *
      * @var blaze\web\el\Expression
@@ -27,23 +28,37 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
      *
      * @var blaze\web\el\Expression
      */
-    private $required = false;
+    private $required;
     private $valid = true;
     private $submittedValue;
 
+    public function addChild(\blaze\web\component\UIComponent $child) {
+        if ($child)
+            parent::addChild($child);
+    }
+
     public function addValidator(\blaze\web\validator\Validator $validator) {
         $this->validators[] = $validator;
-        return $this;
+    }
+
+    public function addValueChangeListener(\blaze\web\el\Expression $valueChangeListener) {
+        $this->valueChangeListeners[] = new \blaze\web\event\ExpressionValueChangeListener($valueChangeListener);
     }
 
     public function getImmediate() {
-        if($this->immediate == null)
-                return false;
+        if ($this->immediate == null)
+            return false;
         return $this->getResolvedExpression($this->immediate);
     }
 
     public function getRequired() {
+        if ($this->required == null)
+            return false;
         return $this->getResolvedExpression($this->required);
+    }
+
+    public function getValueChangeListeners() {
+        return $this->valueChangeListeners;
     }
 
     public function getSubmittedValue() {
@@ -91,6 +106,16 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
         $this->valid = $valid;
     }
 
+    public function setValidator($validator) {
+        $this->addValidator(new \blaze\web\el\Expression($validator));
+        return $this;
+    }
+
+    public function setValueChangeListener($valueChangeListener) {
+        $this->addValueChangeListener(new \blaze\web\el\Expression($valueChangeListener));
+        return $this;
+    }
+
     /**
      *
      * @todo think about what to do with immediate
@@ -107,16 +132,29 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
             return;
         parent::processUpdates($context);
 
-        try{
-            if(!$this->getValid())
-                    return;
+        try {
+            if (!$this->getValid())
+                return;
             $valExpr = $this->getValueExpression();
 
-            if($valExpr == null)
+            if ($valExpr == null)
                 return;
+            $listeners = $this->getValueChangeListeners();
+            $newVal = $this->getLocalValue();
 
-            $valExpr->setValue($context, $this->getLocalValue());
-        }catch(\blaze\lang\Exception $e){
+//            if (count($listeners) > 0) {
+//                $oldVal = $valExpr->getValue($context);
+//
+//                if ($this->compareEqual($localVal, $newVal)) {
+//                    $event = new \blaze\web\event\ValueChangeEvent($this, $oldValue, $newValue);
+//
+//                    foreach ($listeners as $listener) {
+//                        $listener->process($event);
+//                    }
+//                }
+//            }
+            $valExpr->setValue($context, $newVal);
+        } catch (\blaze\lang\Exception $e) {
             $context->renderResponse();
             throw $e;
         }
@@ -138,10 +176,8 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
                 foreach ($this->validators as $validator)
                     $validator->validate($context, $convertedValue);
 
-                // Maybe for valueChangeListener
-                //$previousVal = $this->getValue();
-
                 $this->setLocalValue($convertedValue);
+                return;
             } catch (blaze\web\converter\ConverterException $ce) {
                 $this->setValid(false);
                 $context->addMessage($this->getId(), new \blaze\web\application\BlazeMessage($ce->getMessage()));
@@ -150,11 +186,12 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
                 $context->addMessage($this->getId(), new \blaze\web\application\BlazeMessage($ce->getMessage()));
             } catch (\blaze\lang\Exception $e) {
                 $this->setValid(false);
-                $context->renderResponse();
                 throw $e;
             }
+            $context->renderResponse();
         }
     }
 
 }
+
 ?>

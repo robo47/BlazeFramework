@@ -13,12 +13,15 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class DataList extends \blaze\web\component\UIComponentCore{
+class DataList extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
 
     private $value;
     private $var;
     private $rows = array();
     private $rowClasses;
+    
+    private $rowId = -1;
+    private $idCount = 0;
 
     public function addChild(\blaze\web\component\UIComponent $child) {
         return parent::addChild($child);
@@ -76,6 +79,14 @@ class DataList extends \blaze\web\component\UIComponentCore{
     public function setRowClasses($rowClasses) {
         $this->rowClasses = new \blaze\web\el\Expression($rowClasses);
         return $this;
+    }
+
+    public function getContainerPrefix() {
+        return 'list';
+    }
+
+    public function createUniqueId(){
+        return $this->getId().self::CONTAINER_SEPARATOR.$this->rowId.self::ID_SEPARATOR.($this->idCount++);
     }
 
 }

@@ -30,7 +30,6 @@ class DataTableColumn extends \blaze\web\component\UIComponentCore {
             return parent::addChild($child);
         }
     }
-
     public function getHeader() {
         return $this->header;
     }
@@ -63,8 +62,14 @@ class DataTableColumn extends \blaze\web\component\UIComponentCore {
         return '';
     }
 
+    public function processDecodes(\blaze\web\application\BlazeContext $context) {
+        foreach ($this->getChildren() as $child) {
+            $child->processDecodes($context);
+        }
+    }
+
     public function processRender(\blaze\web\application\BlazeContext $context) {
-        foreach($this->getChildren() as $child){
+        foreach ($this->getChildren() as $child) {
             $renderer = $child->getRenderer($context);
             $renderer->renderBegin($context, $child);
             $renderer->renderAttributes($context, $child);
@@ -73,6 +78,6 @@ class DataTableColumn extends \blaze\web\component\UIComponentCore {
         }
     }
 
-
 }
+
 ?>

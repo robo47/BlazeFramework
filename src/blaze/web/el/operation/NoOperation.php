@@ -36,9 +36,9 @@ class NoOperation extends SimpleOperation {
         $context->getELContext()->getELResolver()->setValue($resolved, $value);
     }
 
-    public function invoke(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets, $value) {
+    public function invoke(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets, $values) {
         $resolved = $this->resolveSubParts($context, $subExpressions, $subBrackets, $this->expression);
-        return $context->getELContext()->getELResolver()->invoke($resolved, $value);
+        return $context->getELContext()->getELResolver()->invoke($resolved, $values);
     }
 
 }

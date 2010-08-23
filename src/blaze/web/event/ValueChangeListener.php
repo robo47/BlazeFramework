@@ -12,8 +12,8 @@ namespace blaze\web\event;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface ActionListener extends \blaze\util\EventListener{
-     public function processAction(ActionEvent $obj);
+interface ValueChangeListener extends BlazeListener{
+    public function processValueChange(ValueChangeEvent $event);
 }
 
 ?>

@@ -28,11 +28,11 @@ class BufferedWriter extends \blaze\io\Writer {
     }
 
     public function write($str, $off = 0, $len = -1) {
-        return $this->out->write($buf, $off, $len);
+        return $this->out->write($str, $off, $len);
     }
 
-    public function writeLine() {
-        $result = $this->out->write($buf, $off, $len);
+    public function writeLine($str, $off = 0, $len = -1) {
+        $result = $this->out->write($str, $off, $len);
         $this->write(PHP_EOL);
         return $result;
     }

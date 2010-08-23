@@ -13,9 +13,10 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Panel extends \blaze\web\component\UIComponentCore{
+class Panel extends \blaze\web\component\UIPanel{
 
     private $type;
+    private $idCount = 0;
     
     public function __construct(){
     }
