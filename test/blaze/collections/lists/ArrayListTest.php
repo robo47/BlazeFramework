@@ -84,9 +84,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetIterator() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $it = $this->object->getIterator();
+        $this->assertTrue($it instanceof \Iterator);
+        $it->next();
+
+        $it->remove();
+        var_dump($it);
     }
 
     /**
@@ -252,15 +255,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->indexOf(5)!=5);
     }
 
-    /**
-     * @todo Implement testSerialize().
-     */
-    public function testSerialize() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+   
 
     /**
      * @todo Implement testSet().
@@ -294,15 +289,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testUnserialize().
-     */
-    public function testUnserialize() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+
 
 }
 

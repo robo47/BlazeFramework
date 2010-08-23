@@ -34,6 +34,7 @@ interface Queue extends Collection{
       * The base remove($obj) calls this method too.
       */
      public function removeElement();
-}
+
+    }
 
 ?>

@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-abstract class AbstractQueue extends \blaze\collections\AbstractCollection implements \blaze\collections\Queue{
+abstract class AbstractQueue extends Object implements \blaze\collections\Queue{
     /**
      * @return boolean Wether the action was successfull or not
      */
@@ -73,7 +73,7 @@ abstract class AbstractQueue extends \blaze\collections\AbstractCollection imple
 
     }
 
-    public function removeElement() {
+    public function removeElement()  {
 
     }
 }

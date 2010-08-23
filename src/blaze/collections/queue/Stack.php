@@ -3,7 +3,7 @@ namespace blaze\collections\queue;
 use blaze\lang\Object;
 
 /**
- * Description of ArrayList
+ * Description of Stack
  *
  * @author  Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -26,16 +26,19 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
      * @return boolean Wether the action was successfull or not
      */
     public function add($obj){
-        $this->data[$size] = $obj;
+        $this->data[$this->size] = $obj;
         $this->size++;
+        return true;
     }
     /**
      * @return boolean Wether the action was successfull or not
      */
     public function addAll(\blaze\collections\Collection $obj){
-        foreach($obj as $val){
+        $ar = $obj->toArray();
+        foreach($ar as $val){
             $this->add($val);
         }
+        return true;
     }
     /**
      * Removes all elements from this collections
@@ -49,7 +52,9 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         return $this->size == 0;
     }
 
-    public function getIterator(){}
+    public function getIterator(){
+        return new StackIterator($this->data);
+    }
 
     public function count(){
         return $this->size;
@@ -64,7 +69,8 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
      * @return boolean True if every element of c is in this collections
      */
     public function containsAll(\blaze\collections\Collection $c){
-        foreach($c as $val){
+        $ar = $c->toArray();
+        foreach($ar as $val){
             if(!$this->contains($val)){
                 return false;
             }
@@ -74,8 +80,8 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($index){
-         $this->rangeCheck($index);
+    public function removeAt($index){
+        $this->rangeCheck($index);
         for ($i = $index; $i < $this->size; $i++) {
             $this->data[$i] = $this->data[($i + 1)];
         }
@@ -87,10 +93,26 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     /**
      * @return boolean Wether the action was successfull or not
      */
+
+    public function remove($obj) {
+        $index = $this->indexOf($obj);
+        if ($index == -1) {
+            return false;
+        } else {
+            for ($index; $index < $this->size; $index++) {
+                $this->data[$index] = $this->data[($index + 1)];
+            }
+            unset($this->data[$index - 1]);
+            $this->size--;
+            return true;
+        }
+    }
+
     public function removeAll(\blaze\collections\Collection $obj){
         $ret = false;
-        foreach($obj as $val){
-            if($this->removeElement($val)&&$ret == false){
+        $ar = $obj->toArray();
+        foreach($ar as $val){
+            if($this->remove($val)){
                 $ret = true;
             }
         }
@@ -103,7 +125,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         $reomve = \array_diff($this->data, $obj->toArray());
         $ret = false;
         foreach($reomve as $val){
-            if($this->removeElement($val)){
+            if($this->remove($val)){
                 $ret = true;
             }
         }
@@ -115,7 +137,10 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     public function toArray($type = null){
         return $this->data;
     }
-
+    /**
+     *
+     * @todo Beikov fragen!
+     */
     public function element() {
         return $this->data[0];
     }
@@ -127,28 +152,33 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
 
     public function peek() {
         if($this->size == 0){
-            throw new \blaze\lang\NullPointerException('Stack is empty!');
+            return null;
         }
         return $this->data[($this->size-1)];
 
     }
 
     public function poll() {
-        $ret = $this->data[0];
-        $this->remove(0);
+        $ret =$this->peek();
+        if($ret!=null){
+            $this->removeAt($this->size-1);
+        }
         return $ret;
 
     }
-
-    public function removeElement($obj) {
-        if(\in_array($obj,$this->data)){
-            $index = $this->search($obj);
-            if(\is_int($index)){
-                $index++;
-                return $this->remove($index);
-            }
+     public function indexOf($obj) {
+        $index = array_search($obj, $this->data, true);
+        if (\is_int($index)) {
+            return $index;
+        } else {
+            return -1;
         }
-        return false;
+    }
+
+  
+
+    public function removeElement() {
+       return  $this->poll();
     }
 
     public function pop(){
@@ -165,7 +195,11 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
      * @return int Returns the 1-based position where an object is on this stack.
      */
     public function search($element){
-        return (\array_search($element,$this->data)+1);
+        $ret = \array_search($element,$this->data);
+        if($ret ===false){
+            return false;
+        }
+        return $ret+1;
     }
     private function rangeCheck($index) {
         if ($index < 0 || $this->size < $index) {
@@ -173,7 +207,19 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         }
     }
 
+    public function toString(){
+        $ret = 'Stack: ';
+        foreach ($this->data as $val){
+            $ret = $ret.$val.'|';
+        }
+        return $ret;
+    }
+
 }
+
+/**
+ * @access private
+ */
 class StackIterator implements \blaze\collections\Iterator{
 
      private $data;
