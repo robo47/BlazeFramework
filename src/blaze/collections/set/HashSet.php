@@ -22,9 +22,14 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     private $size;
 
     public function __construct(\blaze\collections\Collection $collection =null){
-        if($collection==null){
+    
             $this->data = array();
-            $this->size = 0;
+            $this->size =0;
+
+        if($collection !=null){
+            foreach($collection as $val){
+                $this->add($val);
+            }
         }
 
     }
@@ -125,7 +130,14 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
      * @return boolean Wether the action was successfull or not
      */
     public function retainAll(\blaze\collections\Collection $obj){
-        throw new \blaze\lang\NotYetImplenetedException('retainALL');
+        $ret = false;
+        foreach($this as $val){
+            if(!$obj->contains($val)){
+                $this->remove($val);
+                $ret = true;
+            }
+        }
+        return $ret;
     }
     /**
      * @return blaze\collections\ArrayI
@@ -153,59 +165,57 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
 
 class HashSetIterator implements \blaze\collections\Iterator{
      private $data;
- public function  __construct($data) {
-        if(is_array($data)){
+
+    public function __construct($data) {
+        if (is_array($data)) {
             $this->data = $data;
-        }
-        else{
+        } else {
             throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
         }
     }
-public function current() {
+
+    public function current() {
         return current($this->data);
     }
 
-public function hasNext() {
-      if(next($this->data)){
-          prev($this->data);
-          return true;
-      }
-      else{
-          return false;
-      }
-    }
 
-public function next() {
-    return next($this->data);
-    }
-public function remove() {
-      unset($this->data[$this->hash(curren($this->data))]);
-    }
-public function rewind() {
-   reset($this->data);
-    }
-public function setValue($value) {
-    $old = current($this->data);
-    $this->data[$this->hash($old)] = $value;
-    return $old;
-    }
-public function valid() {
-       return (!(current($this->data)==false));
-    }
-
-    private function hash($key){
-        if($key instanceof Object){
-            return $key->hashCode();
+    public function hasNext() {
+        if (next($this->data)) {
+            prev($this->data);
+            return true;
+        } else {
+            return false;
         }
-        else{
+    }
+
+    public function key() {
+        return $this->getKey();
+    }
+
+    public function next() {
+        return next($this->data);
+    }
+
+    public function remove() {
+       unset($this->data[$this->hash($this->current())]);
+    }
+
+    public function rewind() {
+        reset($this->data);
+    }
+
+
+
+    public function valid() {
+        return (current($this->data) !== false);
+    }
+
+    private function hash($key) {
+        if ($key instanceof Object) {
+            return $key->hashCode();
+        } else {
             Integer::hexStringToInt(md5($key));
         }
-
-    }
-
-
-public function key() {
-        return current($this->hash($this->data));
     }
 
 

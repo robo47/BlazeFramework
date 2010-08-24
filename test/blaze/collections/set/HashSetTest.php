@@ -93,6 +93,11 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $it =$this->object->getIterator();
         $this->assertTrue($it instanceof \blaze\collections\Iterator);
+        $test = false;
+        foreach($this->object as $val){
+            $test = true;
+        }
+        $this->assertTrue($test);
     }
 
     /**
@@ -161,9 +166,13 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $col = new \blaze\collections\lists\ArrayList();
+        $col->add(5);
+        $col->add(2);
+        $col->add(1);
+        $this->object->retainAll($col);
+        var_dump($this->object);
+
     }
 
     /**
