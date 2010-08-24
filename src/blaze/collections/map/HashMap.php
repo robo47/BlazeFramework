@@ -174,6 +174,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         $str->append('}');
     }
 
+
 }
 
 /**
