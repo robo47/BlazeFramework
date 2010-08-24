@@ -92,6 +92,20 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $it = $this->object->getIterator();
         $this->assertTrue($it instanceof \Iterator);
+        echo 'Before Iterator';
+        $i = 9;
+        foreach($this->object as $val){
+            $this->assertTrue($val == $i);
+            $i--;
+        }
+        $it->next();
+        $this->assertTrue($it->current() === 8);
+        $it->next();
+        $it->next();
+        $it->next();
+        $it->remove();
+
+
     }
 
     /**
@@ -196,17 +210,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testElement().
-     */
-    public function testElement() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-   
 
     /**
      * @todo Implement testPeek().

@@ -86,10 +86,19 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $it = $this->object->getIterator();
         $this->assertTrue($it instanceof \Iterator);
+        $i = 0;
+        foreach($this->object as $val){
+            $this->assertTrue($val == $i);
+            $i++;
+        }
         $it->next();
-
+        $this->assertTrue($it->current() === 1);
+        $it->next();
+        $it->next();
+        $it->next();
         $it->remove();
-        var_dump($it);
+
+
     }
 
     /**
@@ -164,7 +173,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->retainAll($list = $this->object->subList(2, 8)));
-        
         $this->assertTrue($this->object->count()==6);
         $this->assertTrue($this->object->get(0)==2);
 
@@ -241,9 +249,21 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testListIterator() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $it = $this->object->listIterator();
+
+        $this->assertTrue($it instanceof \Iterator);
+        $i = 0;
+        foreach($this->object as $val){
+            $this->assertTrue($val == $i);
+            $i++;
+        }
+        $it->next();
+        $this->assertTrue($it->current() === 1);
+        $it->next();
+        $it->next();
+        $it->next();
+        $it->remove();
+
     }
 
     /**

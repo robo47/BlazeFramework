@@ -53,7 +53,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     }
 
     public function getIterator(){
-        return new StackIterator($this->data);
+        return new StackIterator($this->data, $this);
     }
 
     public function count(){
@@ -85,7 +85,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         for ($i = $index; $i < $this->size; $i++) {
             $this->data[$i] = $this->data[($i + 1)];
         }
-        unset($this->data[$i]);
+        unset($this->data[$i-1]);
         $this->size--;
 
         return true;
@@ -142,7 +142,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
      * @todo Beikov fragen!
      */
     public function element() {
-        return $this->data[0];
+        return $this->peek();
     }
 
     public function offer($element) {
@@ -182,8 +182,10 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     }
 
     public function pop(){
-        $ret = $this->data[(--$this->size)];
-        unset ($this->data[($this->size+1)]);
+         $ret =$this->peek();
+        if($ret!=null){
+            $this->removeAt($this->size-1);
+        }
         return $ret;
     }
     public function push($element){
@@ -222,56 +224,57 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
  */
 class StackIterator implements \blaze\collections\Iterator{
 
-     private $data;
 
-    public function __construct($data) {
-        if (is_array($data)) {
-            $this->data = $data;
-        } else {
-            throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
-        }
+    private $data;
+    private $index;
+    /**
+     *
+     * @var Stack
+     */
+    private $stack;
+
+    public function __construct(&$data,  Stack $stack) {
+        $this->data =  $data;
+        $this->index = (count($this->data)-1);
+        $this->stack = $stack;
     }
 
     public function current() {
-        return current($this->data);
+        if (!$this->check($this->index))
+            throw new \blaze\lang\IndexOutOfBoundsException($this->index);
+        return $this->data[$this->index];
     }
 
-
     public function hasNext() {
-        if (next($this->data)) {
-            prev($this->data);
-            return true;
-        } else {
-            return false;
-        }
+        return $this->check($this->index -1);
     }
 
     public function key() {
-        return \key($this->data);
+        return $this->index;
     }
 
     public function next() {
-        return next($this->data);
+        $this->index--;
+        //return $this->current();
     }
 
     public function remove() {
-        $index = $this->key();
-        for ($i = $index; $i < \count($this->data); $i++) {
-            $this->data[$i] = $this->data[($i + 1)];
-        }
-        unset($this->data[$i]);
+        $this->stack->removeAt($this->index);
 
+    }
+
+    public function valid() {
+        return $this->check($this->index);
     }
 
     public function rewind() {
-        reset($this->data);
+        $this->index = (count($this->data)-1);
     }
 
-
-
-    public function valid() {
-        return (current($this->data) !== false);
+    private function check($index) {
+        return array_key_exists($index, $this->data);
     }
+
 
 }
 
