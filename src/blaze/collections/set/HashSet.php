@@ -189,7 +189,7 @@ class HashSetIterator implements \blaze\collections\Iterator{
     }
 
     public function key() {
-        return $this->getKey();
+        return \key($this->data);
     }
 
     public function next() {

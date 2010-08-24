@@ -326,4 +326,66 @@ class Properties extends HashMap {
 
 }
 
+class PrpertiesIterator implements \blaze\collections\MapIterator{
+
+ private $data;
+
+    public function __construct($data) {
+        if (is_array($data)) {
+            $this->data = $data;
+        } else {
+            throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
+        }
+    }
+
+    public function current() {
+        return current($this->data);
+    }
+
+    public function getKey() {
+        return $this->key();
+    }
+
+    public function getValue() {
+        return current($this->data);
+    }
+
+    public function hasNext() {
+        if (next($this->data)) {
+            prev($this->data);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function key() {
+        return key($this->data);
+    }
+
+    public function next() {
+        return next($this->data);
+    }
+
+    public function remove() {
+        unset($this->data[$this->key()]);
+    }
+
+    public function rewind() {
+        reset($this->data);
+    }
+
+    public function setValue($value) {
+        $old = current($this->data);
+        $this->data[key($this->data)] = $value;
+        return $old;
+    }
+
+    public function valid() {
+        return (current($this->data) !== false);
+    }
+
+
+}
+
 ?>

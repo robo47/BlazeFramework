@@ -72,7 +72,11 @@ class Arrays extends \blaze\lang\Object{
      * Sorts the array.
      * The comparator can only be used for arrays which manage objects.
      */
-    public static function sort(ArrayI $a, \blaze\lang\Comparator $c = null){}
+    public static function sort(ArrayI $a, \blaze\lang\Comparator $c = null){
+        if($c==null){
+            
+        }
+    }
     /**
      * Same as sort but for a specific range.
      */

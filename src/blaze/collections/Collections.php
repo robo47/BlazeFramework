@@ -61,21 +61,47 @@ class Collections extends \blaze\lang\Object{
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOf(ListI $src, ListI $dest){}
+    public static function copyOf(ListI $src, ListI $dest){
+        $dest->clear();
+        foreach($src as $value){
+            $dest->add($value);
+        }
+    }
     /**
      * Copies a subpart of the list src into dest
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOfRange(ListI $src, $from, $to, ListI $dest){}
+    public static function copyOfRange(ListI $src, $from, $to, ListI $dest){
+        $dest->clear();
+        $iterator = $src->listIterator($from);
+        for ($iterator->rewind();$iterator->valid();$iterator->next()) {
+            $key   = $iterator->key();
+            if($key>=$to){
+                break;
+            }
+           $dest->add($iterator->current());
+    }
+    }
     /**
      * Assigns value to every element of the array
      */
-    public static function fill(ListI $a, $value){}
+    public static function fill(ListI $a, $value){
+       $size =  $a->count();
+       $a->clear();
+       for($i = 0;$i<$size;$i++){
+           $a->add($value);
+       }
+    }
     /**
      * Assigns value to every element of the subpart of the array
      */
-    public static function fillRange(ListI $a, $from, $to, $value){}
+    public static function fillRange(ListI $a, $from, $to, $value){
+        $a->clear();
+        for($i = $from; $i<$to;$i++){
+            $a->add($value);
+        }
+    }
     /**
      *  Returns the starting position of the first occurrence of the specified target list within the specified source list, or -1 if there is no such occurrence.
      */
@@ -99,7 +125,9 @@ class Collections extends \blaze\lang\Object{
     /**
      *  Reverses the order of the elements in the specified list.
      */
-    public static function reverse(ListI $src){}
+    public static function reverse(ListI $src){
+
+    }
     /**
      *  Returns a comparator that imposes the reverse ordering of the specified comparator.
      *  If no Comparator is given, it returns a comparator that imposes the reverse of the natural ordering on a collection of objects that implement the Comparable interface.
