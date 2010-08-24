@@ -132,7 +132,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         $ret = false;
         for ($i = 0; $i < count($ar); $i++) {
             if ($this->remove($ar[$i])) {
-               $ret = true;
+                $ret = true;
             }
         }
 
@@ -241,15 +241,13 @@ class ArrayListIterator implements \blaze\collections\Iterator {
     }
 
     public function current() {
-        if($this->rangeCheck($this->index)){
-            return $this->data[$this->index];
-        }
-        else
-            return false;
+        if (!$this->check($this->index))
+            throw new \blaze\lang\IndexOutOfBoundsException($this->index);
+        return $this->data[$this->index];
     }
 
     public function hasNext() {
-        return $this->rangeCheck(($index+1));
+        return $this->check($this->index + 1);
     }
 
     public function key() {
@@ -258,18 +256,11 @@ class ArrayListIterator implements \blaze\collections\Iterator {
 
     public function next() {
         $this->index++;
-        if($this->rangeCheck($this->index)){
-            return $this->data[$this->index];
-        }
-        return false;
     }
 
     public function remove() {
-
-        for($i = $this->index; $i<count($this->data);$i++){
-            $this->data[$i] = $this->data[($i+1)];
-        }
-        unset($this->data[count($this->data)-1]);
+        if ($this->valid())
+            unset($this->data[$this->index]);
     }
 
     public function rewind() {
@@ -277,60 +268,55 @@ class ArrayListIterator implements \blaze\collections\Iterator {
     }
 
     public function valid() {
-        return $this->current!=false;
+        return $this->check($this->index);
     }
 
-    private function rangeCheck($index) {
-        if ($index < 0 || count($this->data) < $index) {
-            return false;
-        }
-        return true;
+    private function check($index) {
+        return array_key_exists($index, $this->data);
     }
-
 
 }
 
-/**class ArrayListIterator implements \blaze\collections\Iterator {
+/* * class ArrayListIterator implements \blaze\collections\Iterator {
 
-    private $data;
+  private $data;
 
-    public function __construct(&$data) {
-        $this->data = $data;
-    }
+  public function __construct(&$data) {
+  $this->data = $data;
+  }
 
-    public function current() {
-        return current($this->data);
-    }
+  public function current() {
+  return current($this->data);
+  }
 
-    public function hasNext() {
-        if (next($this->data)) {
-            prev($this->data);
-            return true;
-        } else {
-            return false;
-        }
-    }
+  public function hasNext() {
+  if (next($this->data)) {
+  prev($this->data);
+  return true;
+  } else {
+  return false;
+  }
+  }
 
-    public function key() {
-        return key($this->data);
-    }
+  public function key() {
+  return key($this->data);
+  }
 
-    public function next() {
-        return next($this->data);
-    }
+  public function next() {
+  return next($this->data);
+  }
 
-    public function remove() {
-        unset($this->data[$this->key()]);
-    }
+  public function remove() {
+  unset($this->data[$this->key()]);
+  }
 
-    public function rewind() {
-        reset($this->data);
-    }
+  public function rewind() {
+  reset($this->data);
+  }
 
-    public function valid() {
-        return (current($this->data) !== false);
-    }
+  public function valid() {
+  return (current($this->data) !== false);
+  }
 
-}**/
-
+  }* */
 ?>
