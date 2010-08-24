@@ -104,7 +104,7 @@ class Collections extends \blaze\lang\Object{
      *  Returns a comparator that imposes the reverse ordering of the specified comparator.
      *  If no Comparator is given, it returns a comparator that imposes the reverse of the natural ordering on a collection of objects that implement the Comparable interface.
      */
-    public static function reverse(\blaze\lang\Comparator $comp = null){}
+    public static function reverseComperator(\blaze\lang\Comparator $comp = null){}
     /**
      * Sorts the list.
      * The comparator can only be used for lists which manage objects.

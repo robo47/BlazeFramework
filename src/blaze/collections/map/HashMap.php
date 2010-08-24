@@ -27,13 +27,16 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
      */
     private $data;
 
-    public function __construct(\blaze\collections\Map $collection = null) {
-        if ($collection == null) {
+    public function __construct(\blaze\collections\Map $map = null) {
             $this->size = 0;
             $this->data = array();
-        } else {
-            
+        if ($map != null) {
+           foreach($map as $val){
+
+                $this->put($val->getKey(), $val->getValue());
         }
+        }
+            
     }
 
     public function clear() {
@@ -110,6 +113,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
         if ($this->containsKey($key)) {
             unset($this->data[$hash]);
+            $this->size--;
             return true;
         } else {
             return false;
@@ -117,7 +121,11 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function values() {
-
+        $list = new \blaze\collections\lists\ArrayList();
+        foreach($this as $val){
+            $list->add($val->getValue());
+        }
+        return $list;
     }
 
     public function isEmpty() {
@@ -155,7 +163,11 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
-        throw new \blaze\lang\NotYetImplenetedException('HAHA');
+        foreach($this as $val){
+            if(!$obj->containsKey($val->getKey())){
+                $this->remove($val->getKey());
+            }
+        }
     }
 
     private function hash($key) {

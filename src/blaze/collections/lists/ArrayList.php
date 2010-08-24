@@ -199,7 +199,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         $this->rangeCheck($index);
         $ret = $this->elementData[$index];
         unset($this->elementData[$index]);
-        $this->elementData = \array_keys($this->elementData);
+        $this->elementData = \array_values($this->elementData);
         $this->size--;
         return $ret;
     }

@@ -152,9 +152,9 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testValues() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $col = $this->object->values();
+   
+        
     }
 
     /**
@@ -182,6 +182,18 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
       $it = $this->object->getIterator();
       $this->assertTrue($it instanceof \blaze\collections\MapIterator);
+
+       $test = false;
+        foreach($this->object as $val){
+
+            $test = true;
+        }
+        $this->assertTrue($test);
+        $it->next();
+        $it->next();
+        $it->next();
+        $it->next();
+        $it->remove();
     }
 
     /**
@@ -206,7 +218,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map->put(6,6);
         $this->assertTrue($this->object->removeAll($map));
         $this->assertFalse($this->object->containsKey(5));
-        echo 'false';
         $map = new HashMap();
         $map->put(8,5);
         $map->put(78,6);
@@ -218,9 +229,12 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $map = new HashMap();
+        $map->put(1, 1);
+        $map->put(2, 5);
+        $map->put(3, 3);
+        $this->object->retainAll($map);
+
     }
 
 }

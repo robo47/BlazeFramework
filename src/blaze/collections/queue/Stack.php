@@ -82,13 +82,11 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
      */
     public function removeAt($index){
         $this->rangeCheck($index);
-        for ($i = $index; $i < $this->size; $i++) {
-            $this->data[$i] = $this->data[($i + 1)];
-        }
-        unset($this->data[$i-1]);
+        $ret = $this->data[$index];
+        unset($this->data[$index]);
+        $this->data = \array_values($this->data);
         $this->size--;
-
-        return true;
+        return $ret;
     }
     /**
      * @return boolean Wether the action was successfull or not
@@ -96,14 +94,10 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
 
     public function remove($obj) {
         $index = $this->indexOf($obj);
-        if ($index == -1) {
+        if($index ===-1){
             return false;
-        } else {
-            for ($index; $index < $this->size; $index++) {
-                $this->data[$index] = $this->data[($index + 1)];
-            }
-            unset($this->data[$index - 1]);
-            $this->size--;
+        }else{
+            $this->removeAt($index);
             return true;
         }
     }
@@ -137,10 +131,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
     public function toArray($type = null){
         return $this->data;
     }
-    /**
-     *
-     * @todo Beikov fragen!
-     */
+   
     public function element() {
         return $this->peek();
     }
@@ -167,7 +158,8 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
 
     }
      public function indexOf($obj) {
-        $index = array_search($obj, $this->data, true);
+         $help = \array_reverse($this->data,true);
+        $index = array_search($obj, $help, true);
         if (\is_int($index)) {
             return $index;
         } else {

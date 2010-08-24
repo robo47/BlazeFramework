@@ -87,10 +87,13 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $it = $this->object->getIterator();
         $this->assertTrue($it instanceof \Iterator);
         $i = 0;
+        $assert = false;
         foreach($this->object as $val){
+            $assert = true;
             $this->assertTrue($val == $i);
             $i++;
         }
+        $this->assertTrue($assert);
         $it->next();
         $this->assertTrue($it->current() === 1);
         $it->next();
@@ -141,7 +144,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testRemove() {
         // Remove the following lines when you implement this test.
 
-         $this->object->remove(4);
+        $this->object->remove(4);
         $this->assertTrue($this->object->count() == 9);
         $this->assertTrue($this->object->indexOf(4)==-1);
     }
@@ -219,7 +222,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGet() {
         // Remove the following lines when you implement this test.
-         $this->assertTrue($this->object->get(0)==0);
+        $this->assertTrue($this->object->get(0)==0);
         $this->assertTrue($this->object->get(5)==5);
         $this->assertTrue($this->object->get(8)==8);
     }
@@ -253,10 +256,13 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($it instanceof \Iterator);
         $i = 0;
+        $assert = false;
         foreach($this->object as $val){
+            $assert = true;
             $this->assertTrue($val == $i);
             $i++;
         }
+        $this->assertTrue($assert);
         $it->next();
         $this->assertTrue($it->current() === 1);
         $it->next();

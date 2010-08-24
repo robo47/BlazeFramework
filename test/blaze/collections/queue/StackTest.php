@@ -92,19 +92,21 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $it = $this->object->getIterator();
         $this->assertTrue($it instanceof \Iterator);
-        echo 'Before Iterator';
         $i = 9;
+        $test = false;
         foreach($this->object as $val){
             $this->assertTrue($val == $i);
             $i--;
+            $test = true;
         }
+        $this->assertTrue($test);
         $it->next();
         $this->assertTrue($it->current() === 8);
         $it->next();
         $it->next();
         $it->next();
         $it->remove();
-
+        $this->assertTrue($this->object->search(5)==false);
 
     }
 
@@ -241,7 +243,9 @@ class StackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testPop() {
         // Remove the following lines when you implement this test.
-
+         $this->assertTrue($this->object->pop()==9);
+         $this->assertTrue($this->object->pop()==8);
+         $this->assertTrue($this->object->pop()==7);
     }
 
     /**
@@ -249,9 +253,9 @@ class StackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testPush() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->push(99);
+        $this->assertTrue($this->object->pop()==99);
+        $this->assertTrue($this->object->pop()!=99);
     }
 
     /**
@@ -261,6 +265,16 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->search(5)==6);
         $this->assertTrue(!$this->object->search(555));
+    }
+
+    public function testALL(){
+        $this->assertTrue($this->object->count() == 10);
+        $this->assertTrue($this->object->pop() == 9);
+        $this->assertTrue($this->object->count() == 9);
+        $this->object->push(1);
+        $this->assertTrue($this->object->remove(1));
+        $this->object->push(78);
+        
     }
 
 }

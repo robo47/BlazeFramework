@@ -52,6 +52,8 @@ interface ListI extends Collection{
       * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
       */
      public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false);
+
+
 }
 
 ?>
