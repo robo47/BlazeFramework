@@ -1,6 +1,7 @@
 <?php
 
 namespace blaze\collections;
+        use blaze\lang\Comparator;
 
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
@@ -192,14 +193,15 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $ar->add(new \blaze\lang\Integer(2));
         $ar->add(new \blaze\lang\Integer(5));
         $ar->add(new \blaze\lang\Integer(67));
-        var_dump($ar);
+       /* var_dump($ar);
         Collections::sortRange($ar, 2, 7);
-        var_dump($ar);
+        var_dump($ar);*/
 
-      /* $int =  new \blaze\lang\Integer(2);
-       $int2 =  new \blaze\lang\Integer(8);
+        Collections::sort($ar);
 
-      echo PHP_EOL.' '.$int->compareTo($int2, $int).''.PHP_EOL;*/
+        $this->assertTrue(Collections::binarySearch($ar, new \blaze\lang\Integer(98), null)==7);
+
+     
     }
 
     /**
@@ -562,6 +564,43 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+   /* public function testPerformance(){
+        $timer = new \blaze\util\Timer();
+        $list = new lists\ArrayList();
+        for($i=0;$i<50000;$i++){
+            $list->add(new \blaze\lang\Integer($i));
+        }
+        $timer->start();
+        $ar = $list->toArray();
+        $ret = \array_search(new \blaze\lang\Integer(40000), $ar);
+       $time = $timer->stop();
+       echo $time.'   '.$ret.PHP_EOL;
+
+       $timer->start();
+       Collections::binarySearch($list, new \blaze\lang\Integer(4000));
+       $time = $timer->stop();
+       echo $time.'   '.$ret.PHP_EOL;
+
+
+    }*/
+
 }
+/*class IntComperator implements Comparator{
+
+public function compare(Object $o1, Object $o2) {
+        if($o1 instanceof  Integer && $o2 instanceof  Integer){
+            $ret =  $o2->toNative() - $o1->toNative();
+            if($ret === 0){
+                return 0;
+            }
+            if($ret>0){
+                return 1;
+            }
+            if($ret<0){
+                return -1;
+            }
+        }
+    }
+}*/
 
 ?>
