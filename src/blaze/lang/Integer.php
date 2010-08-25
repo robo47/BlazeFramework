@@ -12,7 +12,7 @@ namespace blaze\lang;
  * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
-class Integer extends Number {
+class Integer extends Number implements Comparable {
     private $value;
     private $digitCount;
 
@@ -130,5 +130,22 @@ class Integer extends Number {
     public function toString(){
         return (string)$this->value;
     }
+
+    public function compareTo(Object $obj) {
+        if($obj instanceof  Integer){
+            $ret =  $this->value - $obj->toNative();
+            if($ret === 0){
+                return 0;
+            }
+            if($ret>0){
+                return 1;
+            }
+            if($ret<0){
+                return -1;
+            }
+        }
+
+    }
+
 }
 ?>

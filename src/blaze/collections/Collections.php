@@ -1,5 +1,6 @@
 <?php
 namespace blaze\collections;
+use blaze\collections\Collection;
 
 /**
  * Description of List
@@ -137,11 +138,45 @@ class Collections extends \blaze\lang\Object{
      * Sorts the list.
      * The comparator can only be used for lists which manage objects.
      */
-    public static function sort(ListI $list, \blaze\lang\Comparator $c = null){}
+    public static function sort(ListI &$list, \blaze\lang\Comparator $c = null){
+        Collections::sortRange($list, 0, $list->count()-1);
+    }
     /**
      * Same as sort but for a specific range.
      */
-    public static function sortRange(ListI $list, $from, $to, \blaze\lang\Comparator $c = null){}
+    public static function sortRange(ListI &$list, $from, $to, \blaze\lang\Comparator $c = null){
+        $size = $list->count();
+
+        if($size<=0){
+            throw new \blaze\lang\IndexOutOfBoundsException('List has not any Values');
+        }
+        if($size<=$to||$to<0){
+            throw new \blaze\lang\IndexOutOfBoundsException('Index : size: '.$size.' to: '.$to);
+        }
+        if($size<=$from||$from<0){
+            throw new \blaze\lang\IndexOutOfBoundsException('Index : size: '.$size.' to: '.$from);
+        }
+        $ar = $list->subList($from, $to);
+        $ar = $ar->toArray();
+        if($c===null){
+            usort($ar, array('\blaze\collections\Collections','cmpObjects'));
+        }
+        else{
+           usort($ar, array($c,'compare'));
+        }
+        $newlist = new lists\ArrayList();
+        $newlist->addAll($list->subList(0, $from));
+        foreach($ar as $val){
+            $newlist->add($val);
+        }
+        $newlist->addAll($list->subList($to, $size-1,true,true));
+        $list = $newlist;
+
+    }
+
+    private static function cmpObjects( $a,  $b){
+        return $a->compareTo($b);
+    }
     /**
      * Swaps the element from posA with posB
      */

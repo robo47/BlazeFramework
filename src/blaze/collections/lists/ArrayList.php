@@ -43,7 +43,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      */
     public function addAll(\blaze\collections\Collection $obj) {
         $this->rangeCheck($index);
-        $ar = $c->toArray();
+        $ar = $obj->toArray();
         for ($i = 0; $i < count($ar); $i++) {
             $this->add($ar[$i]);
         }
