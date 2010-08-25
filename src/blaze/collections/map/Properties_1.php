@@ -13,23 +13,26 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Properties extends HashMap {
+class Properties implements \blaze\collections\Map {
     /**
      *
-     * @var array
+     * @var blaze\collections\map\HashMap
      */
-    private $properties = array();
+    private $map;
 
 
     public function __construct(){
-
+        $this->map = new HashMap();
     }
+
     public function setProperty($key, $value){
-        if(array_key_exists($key, $this->properties)){
+        $key =\blaze\lang\String::asNative($key);
+        $value = \blaze\lang\String::asWrapper($value);
+        if($this->map->containsKey($key)){
             return false;
         }
         else{
-            $this->properties[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
+            $this->map->put($key, $value);
         }
     }
 
@@ -38,10 +41,12 @@ class Properties extends HashMap {
      * @return blaze\lang\String
      */
     public function getProperty($key, $default = null){
+
         $key = \blaze\lang\String::asNative($key);
-        if(!array_key_exists($key, $this->properties))
+
+        if($this->map->containsKey($key))
                 return $default;
-        return $this->properties[$key];
+        return $this->map->get($key);
     }
 	
 	/**
@@ -79,7 +84,7 @@ class Properties extends HashMap {
             throw new \blaze\io\IOException('Unable to parse contents of '.$filePath);
         }
         
-        $this->properties = array();
+        $this->map->clear();
         $sec_name = '';
         
         foreach($lines as $line) {
@@ -96,7 +101,7 @@ class Properties extends HashMap {
                 $pos = strpos($line, '=');
                 $property = trim(substr($line, 0, $pos));
                 $value = trim(substr($line, $pos + 1));                
-                $this->properties[$property] = $this->inVal($value);
+                $this->map->put($property,$value);
             }
             
         } // for each line        
@@ -142,8 +147,9 @@ class Properties extends HashMap {
      */
     public function toString() {
         $buf = '';
-        foreach($this->properties as $key => $item) {
-            $buf .= $key . '=' . $this->outVal($item) . PHP_EOL;
+
+        foreach($this->map as $entry) {
+            $buf .= $entry->getKey() . '=' . $this->outVal($entry->getValue()) . PHP_EOL;
         }
         return $buf;    
     }
@@ -180,7 +186,7 @@ class Properties extends HashMap {
      * @return array
      */
     public function getProperties() {
-        return $this->properties;
+        return $this->map->keySet()->toArray();
     }
     
     /**
@@ -205,11 +211,12 @@ class Properties extends HashMap {
      * @param string $delimiter
      */
     public function append($key, $value, $delimiter = ',') {
+        $key = \blaze\lang\String::asNative($key);
         $newValue = $value;
-        if (isset($this->properties[$key]) && !empty($this->properties[$key]) ) {
-            $newValue = $this->properties[$key] . $delimiter . $value;
+        if($this->map->containsKey($key)){
+            $newValue=$this->map->get($key).$delimiter.$value;
         }
-        $this->properties[$key] = $newValue;
+       $this->map->put($key, $newvalue);
     }
 
     /**
@@ -217,7 +224,7 @@ class Properties extends HashMap {
      * @return array
      */
     public function propertyNames() {
-        return $this->keys();
+        return $this->map->keySet()->toArray();
     }
     
     /**
@@ -225,7 +232,8 @@ class Properties extends HashMap {
      * @return boolean
      */
     public function containsKey($key) {
-        return isset($this->properties[$key]);
+        $key = \blaze\lang\String::asNative($key);
+        return $this->map->containsKey($key);
     }
 
     /**
@@ -235,7 +243,7 @@ class Properties extends HashMap {
      * @return array
      */
     public function keys() {
-        return array_keys($this->properties);
+        return $this->propertyNames();
     }
     
     /**
@@ -243,69 +251,61 @@ class Properties extends HashMap {
      * @return boolean
      */
     public function isEmpty() {
-        return empty($this->properties);
+        return $this->map->isEmpty();
     }
 
     public function clear(){
-        $this->size = 0;
-        $this->properties = array();
+        $this->map->clear();
     }
 
    
 
     public function containsValue($value){
-        foreach($this->properties as &$val){
-            if($val==$value){
-                return true;
-            }
-        }
-        return false;
+        $value = \blaze\lang\String::asWrapper($value);
+       return $this->map->containsValue($value);
     }
 
-    public function entrySet(){}
-    public function keySet(){}
-    public function valueSet(){}
+    public function entrySet(){
+        return $this->map->entrySet();
+    }
+    public function keySet(){
+        return $this->map->keySet();
+    }
+    public function valueSet(){
+        return $this->map->valueSet();
+    }
 
     public function get($key){
-        if(array_key_exists($key, $this->properties)){
-            return $this->data[$key]->getValue();
-        }
-        return null;
-    }
+        $key = \blaze\lang\String::asNative($key);
+        return $this->map->get($key);
+  }
    
 
     public function putAll(\blaze\collections\Map $m){
-        foreach($m as $value){
-            $this->put($value->getKey(), $value->getValue());
-        }
+       return $this->map->putAll($m);
     }
 
 
     public function remove($key){
-   
-
-         if($this->containsKey($key)){
-            unset($this->data[$key]);
-            return true;
-         }
-         else{
-             return false;
-         }
+   $key = \blaze\lang\String::asNative($key);
+    return $this->map->remove($key);
     }
 
-    public function values(){}
+    public function values(){
+        return $this->map->values();
+    }
 
 
 
 
     public function count(){
-        return $this->size;
+        return $this->map->count();
     }
     /**
      * @return blaze\collections\MapIterator
      */
     public function getIterator(){
-        throw new \blaze\lang\NotYetImplenetedException('ITerator must be programm', $code, $previous);
+        return $this->map->getIterator();
     }
 /**
  *
@@ -314,75 +314,16 @@ class Properties extends HashMap {
  * @todo Implement
  */
     public function containsAll(\blaze\collections\Map $c) {
-        foreach($c as $val){
-            if(!$this->containsKey($val->getKey())){
-                return false;
-            }
-
-        }
-        return true;
+        return $this->map->containsAll($c);
 
     }
 
-}
-
-class PrpertiesIterator implements \blaze\collections\MapIterator{
-
- private $data;
-
-    public function __construct($data) {
-        if (is_array($data)) {
-            $this->data = $data;
-        } else {
-            throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
-        }
+    public function removeAll(Map $obj) {
+        return $this->map->removeAll($obj);
     }
 
-    public function current() {
-        return current($this->data);
-    }
-
-    public function getKey() {
-        return $this->key();
-    }
-
-    public function getValue() {
-        return current($this->data);
-    }
-
-    public function hasNext() {
-        if (next($this->data)) {
-            prev($this->data);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function key() {
-        return key($this->data);
-    }
-
-    public function next() {
-        return next($this->data);
-    }
-
-    public function remove() {
-        unset($this->data[$this->key()]);
-    }
-
-    public function rewind() {
-        reset($this->data);
-    }
-
-    public function setValue($value) {
-        $old = current($this->data);
-        $this->data[key($this->data)] = $value;
-        return $old;
-    }
-
-    public function valid() {
-        return (current($this->data) !== false);
+    public function retainAll(Map $obj) {
+        return $this->map->retainAll($obj);
     }
 
 
