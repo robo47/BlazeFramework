@@ -118,7 +118,7 @@ class Collections extends \blaze\lang\Object {
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOf(ListI $src, ListI $dest) {
+    public static function copyOf(ListI $src, ListI &$dest) {
         $dest->clear();
         foreach ($src as $value) {
             $dest->add($value);
@@ -130,7 +130,7 @@ class Collections extends \blaze\lang\Object {
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOfRange(ListI $src, $from, $to, ListI $dest) {
+    public static function copyOfRange(ListI $src, $from, $to, ListI &$dest) {
         $dest->clear();
         $iterator = $src->listIterator($from);
         for ($iterator->rewind(); $iterator->valid(); $iterator->next()) {
@@ -145,7 +145,7 @@ class Collections extends \blaze\lang\Object {
     /**
      * Assigns value to every element of the array
      */
-    public static function fill(ListI $a, $value) {
+    public static function fill(ListI &$a, $value) {
         $size = $a->count();
         $a->clear();
         for ($i = 0; $i < $size; $i++) {
@@ -156,7 +156,7 @@ class Collections extends \blaze\lang\Object {
     /**
      * Assigns value to every element of the subpart of the array
      */
-    public static function fillRange(ListI $a, $from, $to, $value) {
+    public static function fillRange(ListI &$a, $from, $to, $value) {
         $a->clear();
         for ($i = $from; $i < $to; $i++) {
             $a->add($value);
@@ -181,28 +181,39 @@ class Collections extends \blaze\lang\Object {
      *  Returns the maximum element of the given collection, according to the order induced by the specified comparator
      */
     public static function max(Collection $src, \blaze\lang\Comparator $comp = null) {
-        
+        $list = new lists\ArrayList($src);
+        Collections::sort($list,$comp);
+        return $list->get($list->count()-1);
     }
 
     /**
      * Returns the minimum element of the given collection, according to the natural ordering of its elements.
      */
     public static function min(Collection $src, \blaze\lang\Comparator $comp = null) {
-        
+        $list = new lists\ArrayList($src);
+        Collections::sort($list,$comp);
+        return $list->get(0);
     }
 
     /**
      *  Replaces all occurrences of one specified value in a list with another.
      */
-    public static function replaceAll(ListI $src, $oldVal, $newVal) {
-        
+    public static function replaceAll(ListI &$src, $oldVal, $newVal) {
+       while(($index=$src->indexOf($old))!=-1){
+           $src->set($index, $newVal);
+       }
     }
 
     /**
      *  Reverses the order of the elements in the specified list.
      */
-    public static function reverse(ListI $src) {
-        
+    public static function reverse(ListI &$src) {
+        $ar = \array_reverse($src->toArray());
+        $ret = new lists\ArrayList();
+        foreach($ar as $val){
+            $ret->add($val);
+        }
+        $src = $ret;
     }
 
     /**
@@ -259,8 +270,13 @@ class Collections extends \blaze\lang\Object {
     /**
      * Swaps the element from posA with posB
      */
-    public static function swap(ListI $list, $posA, $posB) {
-        
+    public static function swap(ListI &$list, $posA, $posB) {
+        if($posA>=0&&$posA<$list->count()&&$posB>=0&&$posB<$list->count()){
+            $h = $list->set($posA, $list->get($posB));
+            $list->set($posB, $h);
+        }
+        else
+            throw new \blaze\lang\IndexOutOfBoundsException ('posA: '.$posA.'posB:'.$posB.'size:'.$list->count());
     }
 
     /**
@@ -268,7 +284,7 @@ class Collections extends \blaze\lang\Object {
      * @return boolean
      */
     public static function deepEquals(ArrayObject $a1, ArrayObject $a2) {
-        
+       
     }
 
     /**

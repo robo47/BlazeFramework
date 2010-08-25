@@ -27,7 +27,16 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        
+        $ar = new lists\ArrayList();
+        $ar->add(new \blaze\lang\Integer(5));
+        $ar->add(new \blaze\lang\Integer(98));
+        $ar->add(new \blaze\lang\Integer(1));
+        $ar->add(new \blaze\lang\Integer(5));
+        $ar->add(new \blaze\lang\Integer(68));
+        $ar->add(new \blaze\lang\Integer(2));
+        $ar->add(new \blaze\lang\Integer(5));
+        $ar->add(new \blaze\lang\Integer(67));
+        $this->object = $ar;
     }
 
     /**
@@ -134,9 +143,9 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testMax() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+  
+        $this->assertTrue(Collections::max($this->object)==new \blaze\lang\Integer(98));
+
     }
 
     /**
@@ -144,9 +153,7 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testMin() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue(Collections::min($this->object)==new \blaze\lang\Integer(1));
     }
 
     /**
