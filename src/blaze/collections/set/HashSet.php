@@ -20,11 +20,13 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
 
     private $data;
     private $size;
+    private $hashs;
 
     public function __construct(\blaze\collections\Collection $collection =null){
     
             $this->data = array();
             $this->size =0;
+            $this->hashs = array();
 
         if($collection !=null){
             foreach($collection as $val){
@@ -44,6 +46,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
         else{
             $hash = $this->hash($obj);
             $this->data[$hash]= $obj;
+            $this->hashs[$this->size] = $hash;
             $this->size++;
             return true;
         }
@@ -74,7 +77,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function getIterator(){
-        return new HashSetIterator($this->data);
+        return new HashSetIterator($this->data,$this->hashs,$this);
     }
 
     public function count(){
@@ -106,6 +109,8 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     public function remove($obj){
         if($this->contains($obj)){
             unset($this->data[$this->hash($obj)]);
+            unset($this->hashs[$this->indexOf($hash)]);
+             $this->hashs = \array_values($this->hashs);
             $this->size--;
             return true;
         }
@@ -161,61 +166,83 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
         }
 
     }
+
+     private function indexOf($hash) {
+        $index = array_search($hash, $this->hashs, true);
+        if (\is_int($index)) {
+            return $index;
+        } else {
+            return -1;
+        }
+    }
 }
 
 class HashSetIterator implements \blaze\collections\Iterator{
-     private $data;
 
-    public function __construct($data) {
+     /**
+     *
+     * @var array[blaze\collections\MapEntry]
+     */
+    private $data;
+    private $hashs;
+    private $index = 0;
+    /**
+     *
+     * @var HashMap
+     */
+    private $set;
+
+    public function __construct(&$data,&$hashs,&$set) {
         if (is_array($data)) {
             $this->data = $data;
+            $this->hashs = $hashs;
+            $this->set = $set;
+
         } else {
             throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
         }
     }
 
     public function current() {
-        return current($this->data);
+        return $this->data[$this->hashs[$this->index]];
     }
 
 
+
     public function hasNext() {
-        if (next($this->data)) {
-            prev($this->data);
-            return true;
-        } else {
+        return $this->check($this->index + 1);
+    }
+
+    public function key() {
+        return $this->hashs[$this->index];
+    }
+
+    public function next() {
+        $this->index++;
+        if($this->check($this->index)){
+            return $this->current();
+        }
+        else{
             return false;
         }
     }
 
-    public function key() {
-        return \key($this->data);
-    }
-
-    public function next() {
-        return next($this->data);
-    }
-
     public function remove() {
-       unset($this->data[$this->hash($this->current())]);
-    }
+        $this->set->remove($this->current());
+        }
 
     public function rewind() {
-        reset($this->data);
+        $this->index = 0;
     }
 
 
 
     public function valid() {
-        return (current($this->data) !== false);
+        return $this->check($this->index);
     }
 
-    private function hash($key) {
-        if ($key instanceof Object) {
-            return $key->hashCode();
-        } else {
-            Integer::hexStringToInt(md5($key));
-        }
+    private function check($index) {
+        return array_key_exists($index, $this->hashs);
     }
 
 

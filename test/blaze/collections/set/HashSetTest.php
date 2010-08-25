@@ -171,7 +171,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $col->add(2);
         $col->add(1);
         $this->object->retainAll($col);
-        var_dump($this->object);
 
     }
 

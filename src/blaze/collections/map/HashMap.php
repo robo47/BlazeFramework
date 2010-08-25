@@ -101,7 +101,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
             $this->data[$hash]->setValue($value);
             return $old->getValue();
         }
-        $this->data[$hash] = new Entry($key, $value);
+        $this->data[$hash] = new HashMapEntry($key, $value);
         $this->hashs[$this->size] = $hash;
         $this->size++;
         return null;
@@ -208,7 +208,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 /**
  * @access private
  */
-class Entry extends Object implements \blaze\collections\MapEntry {
+class HashMapEntry extends Object implements \blaze\collections\MapEntry {
 
     private $key;
     private $value;
