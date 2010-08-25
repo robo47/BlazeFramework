@@ -27,9 +27,12 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
      */
     private $data;
 
+    private $hashs;
+
     public function __construct(\blaze\collections\Map $map = null) {
             $this->size = 0;
             $this->data = array();
+            $this->hashs = array();
         if ($map != null) {
            foreach($map as $val){
 
@@ -42,6 +45,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     public function clear() {
         $this->size = 0;
         $this->data = array();
+        $this->hashs = array();
     }
 
     public function containsKey($key) {
@@ -98,6 +102,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
             return $old->getValue();
         }
         $this->data[$hash] = new Entry($key, $value);
+        $this->hashs[$this->size] = $hash;
         $this->size++;
         return null;
     }
@@ -113,6 +118,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
         if ($this->containsKey($key)) {
             unset($this->data[$hash]);
+             unset($this->hashs[$this->indexOf($hash)]);
+             $this->hashs = \array_values($this->hashs);
             $this->size--;
             return true;
         } else {
@@ -140,7 +147,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
      * @return blaze\collections\MapIterator
      */
     public function getIterator() {
-        return new HashMapIterator($this->data);
+        return new HashMapIterator($this->data,$this->hashs,$this);
     }
 
     public function containsAll(\blaze\collections\Map $c) {
@@ -184,6 +191,15 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
             $str->append(' [' . $val->getKey() . ',' . $val->getValue() . ']');
         }
         $str->append('}');
+    }
+
+    private function indexOf($hash) {
+        $index = array_search($hash, $this->hashs, true);
+        if (\is_int($index)) {
+            return $index;
+        } else {
+            return -1;
+        }
     }
 
 
@@ -237,34 +253,39 @@ class HashMapIterator implements \blaze\collections\MapIterator {
      * @var array[blaze\collections\MapEntry]
      */
     private $data;
+    private $hashs;
+    private $index = 0;
+    /**
+     *
+     * @var HashMap
+     */
+    private $map;
 
-    public function __construct($data) {
+    public function __construct(&$data,&$hashs,&$map) {
         if (is_array($data)) {
             $this->data = $data;
+            $this->hashs = $hashs;
+            $this->map = $map;
+
         } else {
             throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
         }
     }
 
     public function current() {
-        return current($this->data);
+        return $this->data[$this->hashs[$this->index]];
     }
 
     public function getKey() {
-        return current($this->data)->getKey();
+        return $this->data[$this->hashs[$this->index]]->getKey();
     }
 
     public function getValue() {
-        return current($this->data)->getValue();
+        return $this->data[$this->hashs[$this->index]]->getValue();
     }
 
     public function hasNext() {
-        if (next($this->data)) {
-            prev($this->data);
-            return true;
-        } else {
-            return false;
-        }
+        return $this->check($this->index + 1);
     }
 
     public function key() {
@@ -272,34 +293,35 @@ class HashMapIterator implements \blaze\collections\MapIterator {
     }
 
     public function next() {
-        return next($this->data);
+        $this->index++;
+        if($this->check($this->index)){
+            return $this->current();
+        }
+        else{
+            return false;
+        }
     }
 
     public function remove() {
-        unset($this->data[$this->hash($this->getKey())]);
+        $this->map->remove($this->getKey());
     }
 
     public function rewind() {
-        reset($this->data);
+        $this->index = 0;
     }
 
     public function setValue($value) {
-        $entry = current($this->data);
-        $old = $entry->getValue();
-        $entry = $value;
+        $old = $this->getValue();
+        $this->data[$this->hashs[$this->index]]->setValue($value);
         return $old;
     }
 
     public function valid() {
-        return (current($this->data) !== false);
+        return $this->check($this->index);
     }
 
-    private function hash($key) {
-        if ($key instanceof Object) {
-            return $key->hashCode();
-        } else {
-            Integer::hexStringToInt(md5($key));
-        }
+    private function check($index) {
+        return array_key_exists($index, $this->hashs);
     }
 
 }

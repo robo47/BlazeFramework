@@ -299,7 +299,7 @@ class ListArrayListIterator implements \blaze\collections\iterator\ListIterator{
     private $index;
     private $arraylist;
 
-    public function __construct(&$data,$arraylist, $index) {
+    public function __construct(&$data,&$arraylist, $index) {
         $this->data = $data;
         $this->arraylist = $arraylist;
         $this->index = $index;
@@ -361,7 +361,12 @@ public function set($value) {
 
     public function next() {
         $this->index++;
-        //return $this->current();
+        if($this->check($this->index)){
+            return $this->current();
+        }
+        else{
+            return false;
+        }
     }
 
     public function remove() {

@@ -112,6 +112,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->object->put(78,'hallo');
         $this->assertTrue($this->object->get(78)=='hallo');
         $this->assertTrue($this->object->containsValue('hallo'));
+        
 
     }
 
@@ -143,8 +144,11 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRemove() {
         // Remove the following lines when you implement this test.
+        var_dump($this->object);
        $this->assertTrue($this->object->remove(5));
+       var_dump($this->object);
        $this->assertFalse($this->object->remove(99));
+       var_dump($this->object);
     }
 
     /**
