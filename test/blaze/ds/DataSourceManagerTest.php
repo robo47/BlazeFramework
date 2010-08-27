@@ -251,9 +251,10 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertTrue($meta->getHost() == $strar[2]);
             $this->assertTrue($meta->getPort() == $strar[3][0]);
 
-            $this->assertNotNull($meta->getSchemas());
+            $schemas = $meta->getSchemas();
+            $this->assertTrue(\is_array($schemas)&& $schemas[0] instanceof meta\SchemaMetaData);
             $schema = $meta->getSchema($strar[3][1][0]);
-            $this->assertNotNull($schema);
+            $this->assertTrue($schema instanceof meta\SchemaMetaData && $schema !=null);
             $this->assertTrue($schema->getDatabaseMetaData()==$meta);
 
             $this->schemaTest($schema);
@@ -264,25 +265,22 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
     public function schemaTest(meta\SchemaMetaData $schema){
 
-        $this->assertNotNull($schema->getSchemaCharset());
-        $this->assertNotNull($schema->getSchemaCollation());
-        $this->assertNotNull($schema->getSchemaName());
-        $this->assertNotNull($schema->getTables());
+       
+        $this->assertTrue(is_array($schema->getTables()));
 
         $table = $schema->getTable('test');
-        $this->assertNotNull($table);
+        $this->assertNotNull($table && $table instanceof \blaze\persistence\tool\TableMetadata);
 
         $this->tableTest($table);
     }
 
     public function tableTest(meta\TableMetaData $table){
-        $this->assertNotNull($table->getColumns());
-        $this->assertNotNull($table->getTableCharset());
-        $this->assertNotNull($table->getTableCollation());
-        $this->assertNotNull($table->getTableName());
-        $this->assertNotNull($table->getForeignKeys());
-        $this->assertNotNull($table->getPrimaryKeys());
-        $this->assertNotNull($table->getUniqueKeys());
+        $this->assertTrue((is_array($table->getColumns())));
+        
+        $this->assertTrue(\is_array(($table->getForeignKeys())));
+        $this->assertTrue(\is_array(($table->getPrimaryKeys())));
+        $this->assertTrue(\is_array($table->getUniqueKeys()));
+
 
         $col = $table->getColumn('zahl');
         $this->assertNotNull($col);

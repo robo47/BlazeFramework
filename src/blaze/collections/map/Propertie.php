@@ -13,27 +13,32 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Properties implements \blaze\collections\Map {
+class Properties extends HashMap {
     /**
      *
      * @var blaze\collections\map\HashMap
      */
-    private $map;
+
+
 
 
     public function __construct(){
-        $this->map = new HashMap();
+        $this->data = null;
+        $this->hashs = null;
+        $this->size = 0;
     }
 
     public function setProperty($key, $value){
         $key =\blaze\lang\String::asNative($key);
         $value = \blaze\lang\String::asWrapper($value);
-        if($this->map->containsKey($key)){
+        if($this->containsKey($key)){
             return false;
         }
         else{
-            $this->map->put($key, $value);
+            $this->put($key, $value);
         }
+
+
     }
 
     /**
@@ -44,7 +49,7 @@ class Properties implements \blaze\collections\Map {
 
         $key = \blaze\lang\String::asNative($key);
 
-        if($this->map->containsKey($key))
+        if($this->containsKey($key))
                 return $default;
         return $this->map->get($key);
     }
@@ -84,7 +89,7 @@ class Properties implements \blaze\collections\Map {
             throw new \blaze\io\IOException('Unable to parse contents of '.$filePath);
         }
         
-        $this->map->clear();
+        $this->clear();
         $sec_name = '';
         
         foreach($lines as $line) {
@@ -101,7 +106,7 @@ class Properties implements \blaze\collections\Map {
                 $pos = strpos($line, '=');
                 $property = trim(substr($line, 0, $pos));
                 $value = trim(substr($line, $pos + 1));                
-                $this->map->put($property,$value);
+                $this->put($property,$value);
             }
             
         } // for each line        
@@ -148,7 +153,7 @@ class Properties implements \blaze\collections\Map {
     public function toString() {
         $buf = '';
 
-        foreach($this->map as $entry) {
+        foreach($this->data as $entry) {
             $buf .= $entry->getKey() . '=' . $this->outVal($entry->getValue()) . PHP_EOL;
         }
         return $buf;    
@@ -186,7 +191,7 @@ class Properties implements \blaze\collections\Map {
      * @return array
      */
     public function getProperties() {
-        return $this->map->keySet()->toArray();
+        return parent::keySet();
     }
     
     /**
@@ -198,7 +203,18 @@ class Properties implements \blaze\collections\Map {
      * @param mixed $value
      */
     public function put($key, $value) {
-        return $this->setProperty($key, $value);
+       $key =\blaze\lang\String::asNative($key);
+        $value = \blaze\lang\String::asWrapper($value);
+
+        if (array_key_exists($key, $this->data)) {
+            $old = $this->data[$key];
+            $this->data[$key]->setValue($value);
+            return $old->getValue();
+        }
+        $this->data[$key] = new PropertiesEntry($key, $value);
+        $this->hashs[$this->size] = $key;
+        $this->size++;
+        return null;
     }
     
     /**
@@ -213,10 +229,10 @@ class Properties implements \blaze\collections\Map {
     public function append($key, $value, $delimiter = ',') {
         $key = \blaze\lang\String::asNative($key);
         $newValue = $value;
-        if($this->map->containsKey($key)){
-            $newValue=$this->map->get($key).$delimiter.$value;
+        if($this->containsKey($key)){
+            $newValue=$this->get($key).$delimiter.$value;
         }
-       $this->map->put($key, $newvalue);
+       $this->put($key, $newvalue);
     }
 
     /**
@@ -224,7 +240,7 @@ class Properties implements \blaze\collections\Map {
      * @return array
      */
     public function propertyNames() {
-        return $this->map->keySet()->toArray();
+        return parent::valueSet()->toArray();
     }
     
     /**
@@ -233,7 +249,7 @@ class Properties implements \blaze\collections\Map {
      */
     public function containsKey($key) {
         $key = \blaze\lang\String::asNative($key);
-        return $this->map->containsKey($key);
+        return array_key_exists($key, $this->data);
     }
 
     /**
@@ -243,7 +259,7 @@ class Properties implements \blaze\collections\Map {
      * @return array
      */
     public function keys() {
-        return $this->propertyNames();
+        return parent::keySet()->toArray();
     }
     
     /**
@@ -251,61 +267,74 @@ class Properties implements \blaze\collections\Map {
      * @return boolean
      */
     public function isEmpty() {
-        return $this->map->isEmpty();
+        return parent::isEmpty();
     }
 
     public function clear(){
-        $this->map->clear();
+        return parent::clear();
     }
 
    
 
     public function containsValue($value){
         $value = \blaze\lang\String::asWrapper($value);
-       return $this->map->containsValue($value);
+       return parent::containsValue($value);
     }
 
     public function entrySet(){
-        return $this->map->entrySet();
+        return parent::entrySet();
     }
     public function keySet(){
-        return $this->map->keySet();
+        return parent::keySet();
     }
     public function valueSet(){
-        return $this->map->valueSet();
+        return parent::valueSet();
     }
 
     public function get($key){
         $key = \blaze\lang\String::asNative($key);
-        return $this->map->get($key);
+        if (array_key_exists($key, $this->data)) {
+            return $this->data[$key]->getValue();
+        }
+        return null;
   }
    
 
     public function putAll(\blaze\collections\Map $m){
-       return $this->map->putAll($m);
+       foreach ($m as $value) {
+            $this->put($value->getKey(), $value->getValue());
+        }
     }
 
 
     public function remove($key){
    $key = \blaze\lang\String::asNative($key);
-    return $this->map->remove($key);
+    if ($this->containsKey($key)) {
+            unset($this->data[$key]);
+             unset($this->hashs[$this->indexOf($key)]);
+             $this->hashs = \array_values($this->hashs);
+            $this->size--;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function values(){
-        return $this->map->values();
+        return parent::values();
     }
 
 
 
 
     public function count(){
-        return $this->map->count();
+        return parent::count();
     }
     /**
      * @return blaze\collections\MapIterator
      */
     public function getIterator(){
-        return $this->map->getIterator();
+        return parent::getIterator();
     }
 /**
  *
@@ -314,19 +343,58 @@ class Properties implements \blaze\collections\Map {
  * @todo Implement
  */
     public function containsAll(\blaze\collections\Map $c) {
-        return $this->map->containsAll($c);
+        foreach ($c as $val) {
+            if (!$this->containsKey($val->getKey())) {
+                return false;
+            }
+        }
+        return true;
 
     }
 
     public function removeAll(Map $obj) {
-        return $this->map->removeAll($obj);
+        $ret = false;
+        foreach ($obj as $value) {
+            if ($this->remove($value->getKey())) {
+                $ret = true;
+            }
+        }
+        return $ret;
     }
 
     public function retainAll(Map $obj) {
-        return $this->map->retainAll($obj);
+        foreach($this as $val){
+            if(!$obj->containsKey($val->getKey())){
+                $this->remove($val->getKey());
+            }
+        }
     }
 
 
+}
+class PropertiesEntry implements \blaze\collections\MapEntry{
+
+private $key;
+    private $value;
+
+    public function __construct($key, $value) {
+        $this->key = $key;
+        $this->value = $value;
+    }
+
+    public function getKey() {
+        return $this->key;
+    }
+
+    public function getValue() {
+        return $this->value;
+    }
+
+    public function setValue($value) {
+        $old = $this->value;
+        $this->value = $value;
+        return $old;
+    }
 }
 
 ?>

@@ -20,14 +20,14 @@ use blaze\lang\Object,
  */
 class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 
-    private $size;
+    protected $size;
     /**
      *
      * @var array[blaze\collections\MapEntry]
      */
-    private $data;
+    protected  $data;
 
-    private $hashs;
+    protected $hashs;
 
     public function __construct(\blaze\collections\Map $map = null) {
             $this->size = 0;
@@ -194,7 +194,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     private function indexOf($hash) {
-        $index = array_search($hash, $this->hashs, true);
+        $index = array_search($hash, $this->hashs);
         if (\is_int($index)) {
             return $index;
         } else {

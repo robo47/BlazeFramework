@@ -176,7 +176,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function indexOf($obj) {
-        $index = array_search($obj, $this->elementData, true);
+        $index = array_search($obj, $this->elementData,false);
         if (\is_int($index)) {
             return $index;
         } else {

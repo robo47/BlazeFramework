@@ -7,7 +7,7 @@ use blaze\collections\Collection;
 /**
  * Description of List
  *
- * @author  Christian Beikov
+ * @author  Christian Beikov , Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     http://download.oracle.com/javase/6/docs/api/java/util/Collections.html
@@ -133,12 +133,9 @@ class Collections extends \blaze\lang\Object {
     public static function copyOfRange(ListI $src, $from, $to, ListI &$dest) {
         $dest->clear();
         $iterator = $src->listIterator($from);
-        for ($iterator->rewind(); $iterator->valid(); $iterator->next()) {
-            $key = $iterator->key();
-            if ($key >= $to) {
-                break;
-            }
-            $dest->add($iterator->current());
+        for($i = $from; $i<$to;$i++)
+        {
+            $dest->add($src->get($i));
         }
     }
 
@@ -157,9 +154,8 @@ class Collections extends \blaze\lang\Object {
      * Assigns value to every element of the subpart of the array
      */
     public static function fillRange(ListI &$a, $from, $to, $value) {
-        $a->clear();
         for ($i = $from; $i < $to; $i++) {
-            $a->add($value);
+            $a->set($i,$value);
         }
     }
 
@@ -199,7 +195,7 @@ class Collections extends \blaze\lang\Object {
      *  Replaces all occurrences of one specified value in a list with another.
      */
     public static function replaceAll(ListI &$src, $oldVal, $newVal) {
-       while(($index=$src->indexOf($old))!=-1){
+       while(($index=$src->indexOf($oldVal))!=-1){
            $src->set($index, $newVal);
        }
     }
@@ -264,7 +260,16 @@ class Collections extends \blaze\lang\Object {
     }
 
     private static function cmpObjects($a, $b) {
-        return $a->compareTo($b);
+        $ret = $a->compareTo($b);
+        if($ret === 0){
+                return 0;
+            }
+            if($ret>0){
+                return 1;
+            }
+            if($ret<0){
+                return -1;
+            }
     }
 
     /**

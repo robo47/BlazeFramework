@@ -83,9 +83,13 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testCopyOf() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $list = new lists\ArrayList();
+        Collections::copyOf($this->object, $list);
+        $this->assertTrue($this->object->get(0) == $list->get(0));
+        $this->assertTrue($this->object->get(2) == $list->get(2));
+        $this->assertTrue($this->object->get(5) == $list->get(5));
+        $this->assertTrue($this->object->get(6) == $list->get(6));
+        $this->assertTrue($this->object->get(7) == $list->get(7));
     }
 
     /**
@@ -93,9 +97,13 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testCopyOfRange() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $dest = new lists\ArrayList();
+        Collections::copyOfRange($this->object,2, 6, $dest);
+        $this->assertTrue($this->object->get(2) == $dest->get(0));
+        $this->assertTrue($this->object->get(3) == $dest->get(1));
+        $this->assertTrue($this->object->get(4) == $dest->get(2));
+        $this->assertTrue($this->object->get(5) == $dest->get(3));
+
     }
 
     /**
@@ -103,9 +111,12 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testFill() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        Collections::fill($this->object, new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(2) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(5) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(6) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(99));
     }
 
     /**
@@ -113,9 +124,14 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testFillRange() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       Collections::fillRange($this->object, 2, 6, new \blaze\lang\Integer(99));
+
+        $this->assertTrue($this->object->get(2) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(3) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(4) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(5) ==  new \blaze\lang\Integer(99));
+        $this->assertTrue($this->object->get(6) !=  new \blaze\lang\Integer(99));
+
     }
 
     /**
@@ -161,9 +177,13 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testReplaceAll() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        echo $this->object->indexOf(new \blaze\lang\Integer(5));
+        Collections::replaceAll($this->object, new \blaze\lang\Integer(5), 'replaced');
+        $this->assertTrue($this->object->get(0) ==  'replaced');
+        $this->assertTrue($this->object->get(3) ==  'replaced');
+        
+       
+
     }
 
     /**
@@ -171,9 +191,9 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testReverse() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        Collections::reverse($this->object);
+        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(67));
+        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(5));
     }
 
     /**
@@ -226,9 +246,10 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSwap() {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        Collections::swap($this->object, 0, 7);
+        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(67));
+        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(5));
+
     }
 
     /**
