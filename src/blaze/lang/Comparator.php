@@ -13,6 +13,6 @@ namespace blaze\lang;
  */
 
 interface Comparator{
-    public function compare(Object $o1, Object $o2);
+    public function compare(Reflectable $o1, Reflectable $o2);
 }
 ?>

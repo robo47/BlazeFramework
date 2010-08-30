@@ -66,12 +66,16 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 //            throw new \blaze\lang\IllegalArgumentException('List must be given as value.');
 
         $writer->write('<tbody>');
-        
+
+        $rowId = 0;
+
         if($value != null){
             foreach($value as $tableEntry){
+                $component->setRowId($rowId++);
                 $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $component->getRowVar(), $tableEntry);
                 $this->renderTableRow($context, $component);
             }
+            $component->setRowId(-1);
         }
         
         $writer->write('</tbody>');
@@ -109,6 +113,7 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 
                 $writer->write('>');
                 $writer->write($element->processRender($context));
+                $this->recursiveUnsetClientId($element);
 
                 if ($head)
                     $writer->write('</th>');
@@ -130,12 +135,18 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 
         foreach ($component->getColumns() as $column) {
             $writer->write('<td>');
-            $writer->write($column->processRender($context));
-
+            $column->processRender($context);
+            $this->recursiveUnsetClientId($column);
             $writer->write('</td>');
         }
 
         $writer->write('</tr>');
+    }
+
+    private function recursiveUnsetClientId(\blaze\web\component\UIComponent $component){
+        $component->unsetClientId();
+        foreach($component->getChildren() as $child)
+                $this->recursiveUnsetClientId($child);
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {

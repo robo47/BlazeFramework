@@ -69,7 +69,7 @@ class Character extends Object implements NativeWrapper, Comparable {
     public function compareTo(Object $obj) {
     }
 
-    public function isLetter($char) {
+    public static function isLetter($char) {
         $char = self::asNative($char);
         return ctype_alpha($char);
     }

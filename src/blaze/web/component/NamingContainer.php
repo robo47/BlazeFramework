@@ -15,8 +15,6 @@ namespace blaze\web\component;
 interface NamingContainer {
      const CONTAINER_SEPARATOR = ':';
      const ID_SEPARATOR = '_';
-     public function getContainerPrefix();
-     public function createUniqueId();
 }
 
 ?>

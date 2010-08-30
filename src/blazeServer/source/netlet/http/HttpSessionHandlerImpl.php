@@ -18,26 +18,30 @@ use blaze\lang\Object;
 class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSessionHandler {
     const SESSION_NAME = 'BLAZESESSION';
     
-    /**
-     *
-     * @var blaze\netlet\http\HttpSessionHandlerImpl
-     */
-    private static $instance = null;
     private $session = null;
 
-    private function __construct() {
-
-    }
+    public function __construct(){}
 
     public function readSession($id){
-        $this->session = unserialize(\blazeCMS\source\dao\Dao::getInstance()->getSession($id));
+        session_name(self::SESSION_NAME);
+        session_id($id);
+        ini_set('session.use_cookies', '0');
+        session_start();
+        $this->session = new HttpSessionImpl($this, session_id(), $_SESSION);
     }
+
     public function saveSession(){
-        \blazeCMS\source\dao\Dao::getInstance()->setSession($this->session->getId(), serialize($this->session));
+        foreach($this->session->getSessionMap() as $key => $val)
+                $_SESSION[$key] = $val;
+
+        setcookie(self::SESSION_NAME, '');
+        session_write_close();
     }
+
     public function removeSession(){
-        \blazeCMS\source\dao\Dao::getInstance()->removeSession($this->session->getId());
+        session_destroy();
     }
+
     public function gc($maxLifetime){
         return true;
     }
@@ -53,24 +57,18 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
                 }
             }
 
-            if($sessionId != null)
+            if($sessionId != null){
                 $this->readSession($sessionId);
-
+            }
             if($this->session == null && $create){
-//                session_start();
-                $this->session = new HttpSessionImpl($this, hash('sha512',md5(uniqid()).sha1(uniqid())));
-//                $params = session_get_cookie_params();
-//                setcookie(session_name(), '', 0, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-//                session_destroy();
+                session_name(self::SESSION_NAME);
+                session_id(hash('sha512',md5(uniqid()).sha1(uniqid())));
+                ini_set('session.use_cookies', '0');
+                session_start();
+                $this->session = new HttpSessionImpl($this, session_id(), $_SESSION);
             }
         }
         return $this->session;
-    }
-
-    public static function getInstance() {
-        if (self::$instance == null)
-            self::$instance = new HttpSessionHandlerImpl();
-        return self::$instance;
     }
 
 }

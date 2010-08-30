@@ -24,9 +24,7 @@ class DataTable extends \blaze\web\component\UIData {
     private $captionStyle;
     private $captionClass;
     private $columnClasses;
-
     private $rowId = -1;
-    private $idCount = 0;
 
     public function addChild(\blaze\web\component\UIComponent $child) {
         if ($child instanceof DataTableColumn) {
@@ -57,10 +55,6 @@ class DataTable extends \blaze\web\component\UIData {
 
     public function getRendererId() {
         return 'DataTableRenderer';
-    }
-
-    public function getContainerPrefix() {
-        return 'table';
     }
 
     public function getSummary() {
@@ -108,22 +102,34 @@ class DataTable extends \blaze\web\component\UIData {
         return $this;
     }
 
-    public function createUniqueId(){
-        return $this->getId().self::CONTAINER_SEPARATOR.$this->rowId.self::ID_SEPARATOR.($this->idCount++);
+    public function getClientId(\blaze\web\application\BlazeContext $context) {
+        $clientId = parent::getClientId($context);
+        if ($this->rowId == -1)
+            return $clientId;
+        else
+            return $clientId . self::CONTAINER_SEPARATOR . $this->rowId;
+    }
+
+    public function getRowId() {
+        return $this->rowId;
+    }
+
+    public function setRowId($rowId) {
+        $this->rowId = $rowId;
     }
 
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
-        if(!$this->getRendered())
-                return;
+        if (!$this->getRendered())
+            return;
         $values = $this->getValue();
-        if($values == null)
+        if ($values == null)
             return null;
 
         $this->rowId = 0;
 
-        foreach($values as $value){
+        foreach ($values as $value) {
             $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getRowVar(), $value);
-            foreach($this->columns as $column){
+            foreach ($this->columns as $column) {
                 $column->processDecodes($context);
             }
             $this->rowId++;
@@ -132,26 +138,25 @@ class DataTable extends \blaze\web\component\UIData {
         $this->rowId = -1;
     }
 
-    public function processRender(\blaze\web\application\BlazeContext $context) {
-        if(!$this->getRendered())
-                return;
-        $values = $this->getValue();
-        if($values == null)
-            return null;
-
-        $this->rowId = 0;
-
-        foreach($values as $value){
-            $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getRowVar(), $value);
-            foreach($this->columns as $column){
-                $column->processRender($context);
-            }
-            $this->rowId++;
-        }
-
-        $this->rowId = -1;
-    }
-
+//    public function processRender(\blaze\web\application\BlazeContext $context) {
+//        if(!$this->getRendered())
+//                return;
+//        $values = $this->getValue();
+//        if($values == null)
+//            return null;
+//
+//        $this->rowId = 0;
+//
+//        foreach($values as $value){
+//            $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getRowVar(), $value);
+//            foreach($this->columns as $column){
+//                $column->processRender($context);
+//            }
+//            $this->rowId++;
+//        }
+//
+//        $this->rowId = -1;
+//    }
 }
 
 ?>

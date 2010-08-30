@@ -15,21 +15,11 @@ use blaze\lang\Object;
  */
 abstract class UIPanel extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
 
-    private $idCount = 0;
-    
     public function __construct(){
     }
     
     public static function create(){
         return new Panel();
-    }
-
-    public function getContainerPrefix(){
-        return 'panel';
-    }
-
-    public function createUniqueId(){
-        return $this->getId().self::ID_SEPARATOR.($this->idCount++);
     }
 
 }

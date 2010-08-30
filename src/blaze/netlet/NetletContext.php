@@ -29,6 +29,9 @@ interface NetletContext {
      public function addListener($name, $listenerClass);
      public function getListeners();
 
+     /**
+      * @return \blazeServer\source\netlet\NetletApplication
+      */
      public function getNetletApplication();
 
     /**

@@ -36,6 +36,7 @@ class BlazeNetlet extends HttpNetlet{
     private $context;
     private $application;
     private $lifecycle;
+    private $sessionHandlerClass;
 
     public function __construct(){ }
 
@@ -52,6 +53,11 @@ class BlazeNetlet extends HttpNetlet{
 
         $this->lifecycle = new \blazeServer\source\web\lifecycle\LifecycleImpl();
         $this->application = new BlazeApplication($netletApp, $this->lifecycle);
+        $confMap = $this->application->getConfig()->getConfigurationMap();
+        
+        if(array_key_exists('sessionHandler',$confMap)){
+            $this->sessionHandlerClass = ClassWrapper::forName($confMap['sessionHandler']);
+        }
     }
 
     /**
@@ -60,6 +66,8 @@ class BlazeNetlet extends HttpNetlet{
      * @param HttpNetletResponse $response
      */
     public function service(NetletRequest $request, NetletResponse $response) {
+        if($this->sessionHandlerClass != null)
+                $request->setSessionHandler($this->sessionHandlerClass->newInstance());
         $appContext = new BlazeContext($this->application, $request, $response);
         $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($appContext);
 

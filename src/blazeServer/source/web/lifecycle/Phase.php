@@ -102,7 +102,7 @@ abstract class Phase extends Object {
 //        }
 //        ctx.getApplication().publishEvent(ctx, ExceptionQueuedEvent.class, extx);
 
-        var_dump($e);
+        throw $e;
     }
 
     /**

@@ -37,7 +37,6 @@ class NetletContainer extends Object {
         ob_start();
 
         $container->process($request, $response);
-
         if (self::DEBUG)
             $response->getWriter()->write(ob_get_clean());
         else
@@ -89,14 +88,7 @@ class NetletContainer extends Object {
                 return;
             }
             $netlet->service($request, $response);
-        } catch (Exception $e) {
-            // Error in the netlet which was not caught
-            $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);
-        }
-    }
 
-    private function finish(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
-        try {
             $sess = $request->getSession();
             if ($sess != null) {
                 $cookie = null;
@@ -107,13 +99,23 @@ class NetletContainer extends Object {
                     $cookie->setExpire(0);
                     $sessHand->removeSession();
                 } else {
+                    $sessHand->saveSession();
                     $cookie = new http\HttpCookieImpl('BLAZESESSION', $sess->getId());
                     $cookie->setHttponly(true);
-                    $sessHand->saveSession();
+                    $cookie->setPath($app->getUrlPrefix());
+                    //$cookie->setDomain($request->getServerName());
                 }
 
                 $response->addCookie($cookie);
             }
+        } catch (Exception $e) {
+            // Error in the netlet which was not caught
+            $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND);
+        }
+    }
+
+    private function finish(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
+        try {
             $responseWriter = $response->getWriter();
             $responseWriter->close();
         } catch (Exception $e) {

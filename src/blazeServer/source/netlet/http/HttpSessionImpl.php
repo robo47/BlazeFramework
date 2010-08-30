@@ -1,5 +1,7 @@
 <?php
+
 namespace blazeServer\source\netlet\http;
+
 use blaze\lang\Object,
  blaze\netlet\http\HttpSessionHandler;
 
@@ -14,22 +16,26 @@ use blaze\lang\Object,
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
+class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession {
 
     private $sessionHandler;
-     private $id;
-     private $sessionMap;
-     private $creationTime;
-     private $maxInactiveInterval;
-     private $maxLifetime;
-     private $valid = true;
+    private $id;
+    private $sessionMap;
+    private $creationTime;
+    private $maxInactiveInterval;
+    private $maxLifetime;
+    private $valid = true;
+
     /**
      * Description
      */
-    public function __construct(HttpSessionHandler $handler, $sessId){
+    public function __construct(HttpSessionHandler $handler, $sessId, $sessionMap = null) {
         $this->sessionHandler = $handler;
         $this->id = $sessId;
-        $this->sessionMap = array();
+        if ($sessionMap == null)
+            $this->sessionMap = array();
+        else
+            $this->sessionMap = $sessionMap;
         $this->creationTime = new \blaze\util\Date();
         $this->maxInactiveInterval = 3600;
         $this->maxLifetime = 3600;
@@ -44,60 +50,57 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession{
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function invalidate(){
-         $this->sessionMap = array();
-         $this->valid = false;
-//         session_destroy();
-     }
+    public function invalidate() {
+        $this->sessionMap = array();
+        $this->valid = false;
+    }
 
-     public function isValid(){
-         return $this->valid;
-     }
+    public function isValid() {
+        return $this->valid;
+    }
 
-     public function getAttribute($name){
-         if(array_key_exists($name, $this->sessionMap))
-                 return $this->sessionMap[$name];
-         return null;
-//         return array_key_exists($name, $this->sessionMap) ? $this->sessionMap[$name] : null;
-//         return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
-     }
-     public function setAttribute($name, $value){
+    public function getAttribute($name) {
+        if (array_key_exists($name, $this->sessionMap))
+            return $this->sessionMap[$name];
+        return null;
+    }
+
+    public function setAttribute($name, $value) {
         $this->sessionMap[$name] = $value;
-//        $_SESSION[$name] = $value;
-     }
-     public function removeAttribute($name){
+    }
+
+    public function removeAttribute($name) {
         unset($this->sessionMap[$name]);
-//        $_SESSION[$name] = null;
-     }
+    }
 
-     public function getId() {
-         return $this->id;
-     }
+    public function getId() {
+        return $this->id;
+    }
 
-     public function getSessionMap() {
-         return $this->sessionMap;
-//         return $_SESSION;
-     }
+    public function getSessionMap() {
+        return $this->sessionMap;
+    }
 
-     public function getCreationTime() {
-         return $this->creationTime;
-     }
+    public function getCreationTime() {
+        return $this->creationTime;
+    }
 
-     public function getMaxInactiveInterval() {
-         return $this->maxInactiveInterval;
-     }
+    public function getMaxInactiveInterval() {
+        return $this->maxInactiveInterval;
+    }
 
-     public function setMaxInactiveInterval($maxInactiveInterval) {
-         $this->maxInactiveInterval = $maxInactiveInterval;
-     }
+    public function setMaxInactiveInterval($maxInactiveInterval) {
+        $this->maxInactiveInterval = $maxInactiveInterval;
+    }
 
-     public function getMaxLifetime() {
-         return $this->maxLifetime;
-     }
+    public function getMaxLifetime() {
+        return $this->maxLifetime;
+    }
 
-     public function setMaxLifetime($maxLifetime) {
-         $this->maxLifetime = $maxLifetime;
-     }
+    public function setMaxLifetime($maxLifetime) {
+        $this->maxLifetime = $maxLifetime;
+    }
+
 }
 
 ?>

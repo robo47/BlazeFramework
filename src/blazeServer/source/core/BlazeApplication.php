@@ -90,7 +90,7 @@ class BlazeApplication extends Object implements Application {
 //        }
         $this->navigationCases = $confMap['navigation'];
         $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->navigationCases);
-        $this->viewHandler = new \blaze\web\application\ViewHandler($confMap['views'], $this->navigationCases);
+        $this->viewHandler = new \blaze\web\application\ViewHandler($this->applicationPath, $this->navigationCases);
     }
 
     public function addConverter($name, $class) {

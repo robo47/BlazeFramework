@@ -51,6 +51,7 @@ class NavigationHandler extends Object {
                     // Look for the action in the navigationMap
                     foreach ($value['action'] as $action) {
                         if ($actionString->compareTo($action['action']) == 0) {
+//                            \blaze\util\Logger::get()->log('Navigated from '.$context->getViewRoot()->getViewId().' to '. $context->getViewHandler()->getView($context, $action['view'])->getViewId());
                             $context->setViewRoot($context->getViewHandler()->getView($context, $action['view']));
                             $context->setNavigated();
                             return;

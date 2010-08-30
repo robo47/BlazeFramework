@@ -1,5 +1,5 @@
 <?php
-namespace blazeServer;
+namespace sampleApp;
 use blaze\lang\Object,
     blaze\web\application\WebConfig,
     blaze\lang\Singleton;
@@ -33,26 +33,14 @@ class Config extends Object implements WebConfig, Singleton {
                                          * Navigation part contains the navigationstrings in an orderd from
                                          * very specific(/test/bla/blub) to simple(/test)
                                          */
-                                        'navigation' => array( '/test' => array('view' => 'test.xhtml',
-                                                                                'bind' => array(  array('name'      => 'id',
-                                                                                                        'default'   => '0',
-                                                                                                        'object'    => 'myNut.id'),
-                                                                                                  array('name'      => 'name',
-                                                                                                        'default'   => 'test',
-                                                                                                        'object'    => 'myNut2.name')),
-
+                                        'navigation' => array( '/*' =>     array('view' => 'index.xhtml',
                                                                                 'action' => array(array('action'    => 'navigate',
-                                                                                                        'view'      => 'test.xhtml'),
+                                                                                                        'view'      => 'nav.xhtml'),
+                                                                                                  array('action'    => 'back',
+                                                                                                        'view'      => 'index.xhtml'),
                                                                                                   array('action'    => 'success',
-                                                                                                        'view'      => 'test.xhtml'),
-                                                                                                  array('action'    => 'return',
-                                                                                                        'view'      => 'index.xhtml'))),
-
-                                                               '/' =>     array('view' => 'index.xhtml',
-                                                                                'action' => array(array('action'    => 'navigate',
-                                                                                                        'view'      => 'test.xhtml'),
-                                                                                                  array('action'    => 'success',
-                                                                                                        'view'      => 'success.xhtml')))));
+                                                                                                        'view'      => 'success.xhtml')))
+                                            ));
         $this->netletConfigMap = array( 'netlets' => array(array('name' => 'BlazeNetlet', 'class' => 'blazeServer\\source\\core\\BlazeNetlet', 'initParams' => array())),
                                         'netletMapping' => array('/*' => 'BlazeNetlet'),
                                         'filters' => array(),//array('name' => 'HttpsFilter', 'class' => 'blazeCMS\\filter\\HttpsFilter', 'initParams' => array())),

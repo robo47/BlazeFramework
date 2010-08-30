@@ -20,15 +20,23 @@ class Logger extends Object {
 
     private static $instance;
     private $out;
+    private $err;
 
     public function __construct() {
         $this->out = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter('D:\\xampp\\tmp\\blaze.log', true));
+        $this->err = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter('D:\\xampp\\tmp\\blazeError.log', true));
     }
 
     public function finalize() {
         try {
             if ($this->out != null)
                 $this->out->close();
+        } catch (\blaze\lang\Exception $e) {
+
+        }
+        try {
+            if ($this->err != null)
+                $this->err->close();
         } catch (\blaze\lang\Exception $e) {
 
         }
@@ -48,6 +56,11 @@ class Logger extends Object {
     public function log($str) {
         $this->out->writeLine($str);
         $this->out->flush();
+    }
+
+    public function logError($errno, $errstr, $errfile , $errline, $errcontext ) {
+        $this->err->writeLine($errno.' - '.$errstr.' in file '.$errfile.' on line '.$errline.' with context '.var_export($errcontext));
+        $this->err->flush();
     }
 
 }

@@ -53,12 +53,8 @@ class UIViewRoot extends \blaze\web\component\UIComponentBase implements NamingC
         return null;
     }
 
-    public function getContainerPrefix(){
-        return '_id';
-    }
-
     public function createUniqueId(){
-        return $this->getContainerPrefix().($this->idCount++);
+        return 'id'.($this->idCount++);
     }
 
     /**

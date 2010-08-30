@@ -26,7 +26,7 @@ class ELViewScopeContext extends ELScopeContext{
 		$viewMap = $sess->getAttribute($viewScope);
 
 		if($viewMap == null)
-			$sess->setAttribute($viewScope, $viewMap = new \blaze\util\HashMap());
+			$sess->setAttribute($viewScope, $viewMap = new \blaze\collections\map\HashMap());
 
 		return $viewMap;
 	}

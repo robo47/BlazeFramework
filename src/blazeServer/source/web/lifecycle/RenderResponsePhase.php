@@ -32,6 +32,8 @@ class RenderResponsePhase extends Phase {
      */
     public function execute(BlazeContext $context) {
         $oldViewId = $context->getRequest()->getSession(true)->getAttribute('blaze.view_restore');
+        if($oldViewId != null)
+            $oldViewId = $oldViewId->getViewId();
         $actViewId = $context->getViewRoot()->getViewId();
         $requestedView = $context->getViewHandler()->getRequestView($context);
 
@@ -52,7 +54,7 @@ class RenderResponsePhase extends Phase {
             }
         }
 
-        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot()->getViewId());
+        $context->getRequest()->getSession()->setAttribute('blaze.view_restore', $context->getViewRoot());
         if (!$context->getResponseComplete())
             $context->getViewRoot()->processRender($context);
         

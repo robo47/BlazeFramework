@@ -81,14 +81,6 @@ class DataList extends \blaze\web\component\UIComponentCore implements \blaze\we
         return $this;
     }
 
-    public function getContainerPrefix() {
-        return 'list';
-    }
-
-    public function createUniqueId(){
-        return $this->getId().self::CONTAINER_SEPARATOR.$this->rowId.self::ID_SEPARATOR.($this->idCount++);
-    }
-
 }
 
 ?>

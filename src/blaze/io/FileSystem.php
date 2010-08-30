@@ -166,7 +166,7 @@ abstract class FileSystem extends Object implements Singleton{
      * access is made.  Return false if access is denied or an I/O error
      * occurs.
      */
-    public function checkAccess(File $f, $access) {
+    public function checkAccess(File $f, $accessCheck) {
         // we clear stat cache, its expensive to look up from scratch,
         // but we need to be sure
         @clearstatcache();
@@ -175,22 +175,22 @@ abstract class FileSystem extends Object implements Singleton{
         // Shouldn't this be $f->GetAbsolutePath() ?
         // And why doesn't GetAbsolutePath() work?
 
-        $strPath = $f->getPath()->toNative();
+        $strPath = $f->getAbsolutePath()->toNative();
 
         // FIXME
         // if file object does denote a file that yet not existst
         // path rights are checked
-        if (!@file_exists($strPath) && !is_dir($strPath)) {
-            $strPath = $f->getParent()->toNative();
-            if ($strPath === null || !is_dir($strPath)) {
-                $strPath = System::getProperty("user.dir");
-            }
-            //$strPath = dirname($strPath);
-        }
+//        if (!@file_exists($strPath) && !is_dir($strPath)) {
+//            $strPath = $f->getParent()->toNative();
+//            if ($strPath === null || !is_dir($strPath)) {
+//                $strPath = System::getProperty("user.dir");
+//            }
+//            //$strPath = dirname($strPath);
+//        }
 
         $access = false;
 
-        switch($access){
+        switch($accessCheck){
             case self::ACCESS_READ:
                 $access = @is_readable($strPath);
                 break;
@@ -203,6 +203,7 @@ abstract class FileSystem extends Object implements Singleton{
             default:
                 break;
         }
+        
         return $access;
     }
 

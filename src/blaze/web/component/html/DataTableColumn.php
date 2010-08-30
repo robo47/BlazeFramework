@@ -22,10 +22,10 @@ class DataTableColumn extends \blaze\web\component\UIComponentCore {
 
     public function addChild(\blaze\web\component\UIComponent $child) {
         if ($this->header == null && $child instanceof DataTableHeader) {
-            $this->header = $child;
+            $this->header = $child->setParent($this);
             return $this;
         } else if ($this->footer == null && $child instanceof DataTableFooter) {
-            return $this->footer = $child;
+            return $this->footer = $child->setParent($this);
         } else {
             return parent::addChild($child);
         }

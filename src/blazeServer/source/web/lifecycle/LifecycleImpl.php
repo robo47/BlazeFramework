@@ -87,17 +87,19 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
             if ($context->getDoRenderResponse() || $context->getResponseComplete()) {
                 break;
             }
-            \blaze\util\Logger::get()->log('Entering Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
+//            \blaze\util\Logger::get()->log('Entering Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
             // PhaseListener are executed in the doPhase()
             $this->phases[$i]->doPhase($context, $this, $this->phaseListener);
-            \blaze\util\Logger::get()->log('Exiting Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
+//            \blaze\util\Logger::get()->log('Exiting Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
         }
     }
 
     public function render(BlazeContext $context) {
+//        \blaze\util\Logger::get()->log('Entering Phase Render Response');
         if (!$context->getResponseComplete()) {
             $this->response->doPhase($context, $this, $this->phaseListener);
         }
+//        \blaze\util\Logger::get()->log('Exiting Phase Render Response');
     }
 
 }

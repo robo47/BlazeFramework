@@ -18,7 +18,7 @@ interface Iterator extends \Iterator{
      */
     public function hasNext();
     /**
-     * 
+     * Removes the current object
      */
     public function remove();
 }

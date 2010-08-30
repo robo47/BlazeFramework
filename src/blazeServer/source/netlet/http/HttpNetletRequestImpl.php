@@ -57,7 +57,6 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     //private $secure;
 
     public function __construct() {
-        
     }
 
     public function getAuthType() {
@@ -314,14 +313,18 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
      */
     public function getSession($create = false) {
         if ($this->sessionHandler == null)
-            $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
+            $this->sessionHandler = new HttpSessionHandlerImpl();
         return $this->sessionHandler->getCurrentSession($this->getCookies(), $create);
     }
 
     public function getSessionHandler() {
         if ($this->sessionHandler == null)
-            $this->sessionHandler = HttpSessionHandlerImpl::getInstance();
+            $this->sessionHandler = new HttpSessionHandlerImpl();
         return $this->sessionHandler;
+    }
+    
+    public function setSessionHandler(\blaze\netlet\http\HttpSessionHandler $sessionHandler) {
+            $this->sessionHandler = $sessionHandler;
     }
 
     public function getUserAgent() {

@@ -889,11 +889,11 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`session` ;
 
 CREATE  TABLE IF NOT EXISTS `mydb`.`session` (
-  `sess_id` CHAR(32) NOT NULL COMMENT 'Session id' ,
+  `sess_id` CHAR(128) NOT NULL COMMENT 'Session id' ,
   `sess_session_lock` CHAR(128) NULL COMMENT 'Lock value for secure session\nHash value with SHA512' ,
   `sess_last_update` INT NULL COMMENT 'Specifies the last time a user requested for something\nTimestamp' ,
   `sess_start` INT NULL COMMENT 'Specifies the time when a session started\nTimestamp' ,
-  `sess_value` TEXT NULL COMMENT 'The value of the session which is encrypted' ,
+  `sess_value` LONGTEXT NULL COMMENT 'The value of the session which is encrypted' ,
   `sess_ip` CHAR(15) NULL COMMENT 'IP address of the user of the session' ,
   `sess_cookie_id` CHAR(128) NULL COMMENT 'Identifier for the cookie\nHash value with SHA512' ,
   `sess_user_user_id` INT NULL COMMENT 'User\nIf user is null, then it is a guest session' ,
@@ -1109,6 +1109,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`property` (
   `prop_name` VARCHAR(60) NULL ,
   `prop_label` VARCHAR(60) NULL ,
   `prop_value` TEXT NULL ,
+  `prop_helptext` VARCHAR(60) NULL ,
   `prop_property_type_prty_id` INT NOT NULL ,
   PRIMARY KEY (`prop_id`) ,
   INDEX `fk_property_component_group1` (`prop_component_group_cogr_id` ASC) ,
@@ -1120,6 +1121,64 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`property` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_property_property_type1`
     FOREIGN KEY (`prop_property_type_prty_id` )
+    REFERENCES `mydb`.`property_type` (`prty_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`view_type`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`view_type` ;
+
+CREATE  TABLE IF NOT EXISTS `mydb`.`view_type` (
+  `vity_id` INT NOT NULL ,
+  `vity_name` VARCHAR(60) NULL ,
+  PRIMARY KEY (`vity_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`view` ;
+
+CREATE  TABLE IF NOT EXISTS `mydb`.`view` (
+  `view_id` INT NOT NULL ,
+  `view_type_vity_id` INT NOT NULL ,
+  PRIMARY KEY (`view_id`) ,
+  INDEX `fk_view_view_type1` (`view_type_vity_id` ASC) ,
+  CONSTRAINT `fk_view_view_type1`
+    FOREIGN KEY (`view_type_vity_id` )
+    REFERENCES `mydb`.`view_type` (`vity_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`view_field`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`view_field` ;
+
+CREATE  TABLE IF NOT EXISTS `mydb`.`view_field` (
+  `vifi_id` INT NOT NULL ,
+  `vifi_name` VARCHAR(60) NULL ,
+  `vifi_label` VARCHAR(60) NULL ,
+  `vifi_helptext` VARCHAR(60) NULL ,
+  `vifi_view_view_id` INT NOT NULL ,
+  `vifi_property_type_prty_id` INT NOT NULL ,
+  PRIMARY KEY (`vifi_id`) ,
+  INDEX `fk_view_field_view1` (`vifi_view_view_id` ASC) ,
+  INDEX `fk_view_field_property_type1` (`vifi_property_type_prty_id` ASC) ,
+  CONSTRAINT `fk_view_field_view1`
+    FOREIGN KEY (`vifi_view_view_id` )
+    REFERENCES `mydb`.`view` (`view_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_view_field_property_type1`
+    FOREIGN KEY (`vifi_property_type_prty_id` )
     REFERENCES `mydb`.`property_type` (`prty_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -1140,6 +1199,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`permission` (
   `perm_component_group_cogr_id` INT NULL ,
   `perm_module_group_mogr_id` INT NULL ,
   `perm_module_modu_id` INT NULL ,
+  `perm_view_field_vifi_id` INT NULL ,
   PRIMARY KEY (`perm_id`) ,
   INDEX `fk_permission_user1` (`perm_user_user_id` ASC) ,
   INDEX `fk_permission_user_group1` (`perm_user_group_usgr_id` ASC) ,
@@ -1147,6 +1207,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`permission` (
   INDEX `fk_permission_component_group1` (`perm_component_group_cogr_id` ASC) ,
   INDEX `fk_permission_module_group1` (`perm_module_group_mogr_id` ASC) ,
   INDEX `fk_permission_module1` (`perm_module_modu_id` ASC) ,
+  INDEX `fk_permission_view_field1` (`perm_view_field_vifi_id` ASC) ,
   CONSTRAINT `fk_permission_user1`
     FOREIGN KEY (`perm_user_user_id` )
     REFERENCES `mydb`.`user` (`user_id` )
@@ -1175,6 +1236,11 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`permission` (
   CONSTRAINT `fk_permission_module1`
     FOREIGN KEY (`perm_module_modu_id` )
     REFERENCES `mydb`.`module` (`modu_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_permission_view_field1`
+    FOREIGN KEY (`perm_view_field_vifi_id` )
+    REFERENCES `mydb`.`view_field` (`vifi_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -1813,10 +1879,22 @@ INSERT INTO `user_group_has_user` (`user_group_usgr_id`, `user_user_id`) VALUES 
 COMMIT;
 
 -- -----------------------------------------------------
+-- Data for table `mydb`.`view_type`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (1, 'Index');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (2, 'Detail');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (3, 'Edit');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (4, 'Delete');
+
+COMMIT;
+
+-- -----------------------------------------------------
 -- Data for table `mydb`.`permission`
 -- -----------------------------------------------------
 SET AUTOCOMMIT=0;
 USE `mydb`;
-INSERT INTO `permission` (`perm_id`, `perm_permission`, `perm_user_user_id`, `perm_user_group_usgr_id`, `perm_property_prop_id`, `perm_component_group_cogr_id`, `perm_module_group_mogr_id`, `perm_module_modu_id`) VALUES (1, 8, null, 1, null, null, null, null);
+INSERT INTO `permission` (`perm_id`, `perm_permission`, `perm_user_user_id`, `perm_user_group_usgr_id`, `perm_property_prop_id`, `perm_component_group_cogr_id`, `perm_module_group_mogr_id`, `perm_module_modu_id`, `perm_view_field_vifi_id`) VALUES (1, 8, null, 1, null, null, null, null, null);
 
 COMMIT;

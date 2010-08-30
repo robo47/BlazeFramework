@@ -448,7 +448,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     public function isDirectory() {
         clearstatcache();
 
-        if (self::$fs->checkAccess($this) !== true) {
+        if (self::$fs->checkAccess($this, FileSystem::ACCESS_READ) !== true) {
             throw new IOException("No read access to " . $this->path->toNative());
         }
         return @is_dir($this->path->toNative()) && !@is_link($this->path->toNative());

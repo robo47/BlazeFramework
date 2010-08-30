@@ -53,8 +53,6 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer {
                 return'h5';
             case 'h6':
                 return'h6';
-            case 'h7':
-                return'h7';
             case 'none':
                 return null;
             case 'p':

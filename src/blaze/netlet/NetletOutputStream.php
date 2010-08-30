@@ -16,7 +16,7 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 class NetletOutputStream extends OutputStream {
-    private static $MAX_SIZE = 5242880; // 5 MB
+    private static $MAX_SIZE = 52428800; // 5 MB
     private $output;
     private $closed;
     private $response;
@@ -30,7 +30,7 @@ class NetletOutputStream extends OutputStream {
      * @throws blaze\io\IOException Is thrown when the stream creation failed.
      */
     public function __construct(NetletResponse $response){
-        $this->output = fopen('php://temp/maxmemory'.self::$MAX_SIZE, 'r+');
+        $this->output = fopen('php://temp/maxmemory:'.self::$MAX_SIZE, 'r+');
         if(!$this->output)
                 throw new \blaze\io\IOException();
         $this->closed = false;

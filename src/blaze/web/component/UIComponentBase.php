@@ -42,6 +42,12 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         return $this;
     }
 
+    public function unsetClientId(){
+//        \blaze\util\Logger::get()->log('Unsetting Client id of '.$this->clientId);
+        $this->clientId = null;
+        return $this;
+    }
+
     public function getParent() {
         return $this->parent;
     }
@@ -75,17 +81,18 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         if($this->getId() == null)
             $this->id = $context->getViewRoot()->createUniqueId();
 
-        $container = $this;
+        $container = $this->getParent();
 
         while($container != null && !$container instanceof NamingContainer){
             $container = $container->getParent();
         }
 
-        if($container == null || $container == $this){
+        if($container == null){
             $this->clientId = $this->id;
         }else{
-            $this->clientId = $container->getClientId($context).NamingContainer::CONTAINER_SEPARATOR.$this->id;
+            $this->clientId = $container->getClientId($context).NamingContainer::ID_SEPARATOR.$this->id;
         }
+//        \blaze\util\Logger::get()->log('Setting Client id to '.$this->clientId);
 
         return $this->clientId;
     }

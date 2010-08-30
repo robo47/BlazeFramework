@@ -23,8 +23,8 @@ class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\Htt
      private $expire = null;
      private $path = null;
      private $domain = null;
-     private $secure = false;
-     private $httponly = false;
+     private $secure = null;
+     private $httponly = null;
 
     /**
      *
