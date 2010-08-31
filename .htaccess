@@ -1,4 +1,5 @@
 Options +Indexes 
 RewriteEngine On
+RewriteRule ^/generateModel.php$ $0 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^.*$ index.php [L]
