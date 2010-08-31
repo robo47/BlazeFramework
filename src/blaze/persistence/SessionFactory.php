@@ -14,15 +14,14 @@ namespace blaze\persistence;
  */
 interface SessionFactory {
     /**
-     * Description
+     * Returns a new Session
      *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\persistence\Session Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
+     * @return 	blaze\persistence\Session
      */
      public function openSession();
+     /**
+      * Closes the session factory and all connected sessions
+      */
      public function close();
 }
 

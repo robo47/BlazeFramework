@@ -313,7 +313,7 @@ class Win32FileSystem extends FileSystem {
 
     private function _getUserPath() {
         //For both compatibility and security, we must look this up every time
-        return (string) $this->normalize(System::getProperty("user.dir"));
+        return (string) $this->normalize(\blaze\lang\System::getProperty("user.dir"));
     }
 
     private function _getDrive($path) {

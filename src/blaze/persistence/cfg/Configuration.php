@@ -15,11 +15,12 @@ use blaze\lang\Object;
  */
 class Configuration extends Object {
 
-    /**
-     * Description
-     */
-    public function __construct(){
+    private $properties;
+    private $ressources;
 
+    public function __construct(){
+        $this->properties = new \blaze\collections\map\Properties();
+        $this->ressources = new \blaze\collections\lists\ArrayList();
     }
 
     /**
@@ -32,7 +33,7 @@ class Configuration extends Object {
      * @todo	Something which has to be done, implementation or so
      */
      public function buildSessionFactory(){
-
+        return new \blaze\persistence\impl\SessionFactoryImpl($this->properties, $this->ressources);
      }
 
      /**
@@ -40,8 +41,9 @@ class Configuration extends Object {
       * @param string|blaze\lang\String|blaze\io\File $config
       * @return blaze\persistence\cfg\Configuration
       */
-     public function configure($config){
+     public function configureFile($config){
         $file = null;
+
         if($config instanceof \blaze\io\File)
             $file = $config;
         else
@@ -49,9 +51,30 @@ class Configuration extends Object {
 
         $doc = new \DOMDocument();
         $doc->load($file->getAbsolutePath());
-        if($doc->documentElement->localName != 'persistence-mapping')
-                throw new \blaze\lang\IllegalArgumentException('The first node has to be of the type "persistence-mapping"');
+
+        if($doc->documentElement->localName != 'persistence-configuration')
+                throw new \blaze\lang\IllegalArgumentException('The first node has to be of the type "persistence-configuration"');
+        if($doc->documentElement->firstChild->localName != 'session-factory')
+                throw new \blaze\lang\IllegalArgumentException('The first child node has to be of the type "session-factory"');
+
+        foreach($doc->documentElement->firstChild->childNodes as $child){
+            switch($child->localName){
+                case 'property':
+                    if($child->firstChild instanceof \DOMText)
+                        $this->setProperty($child->getAttribute('name'),$child->firstChild->wholeText);
+                    else
+                        $this->setProperty($child->getAttribute('name'),'');
+                    break;
+                case 'mapping':
+                    $this->addRessource(new \blaze\io\File($file->getParent(),$child->getAttribute('ressource')));
+                    break;
+            }
+        }
          return $this;
+     }
+
+     public function addRessource(\blaze\io\File $file){
+         $this->ressources->add($file);
      }
 
      /**
@@ -61,8 +84,17 @@ class Configuration extends Object {
       * @return blaze\persistence\cfg\Configuration
       */
      public function setProperty($name, $value){
-
+        $this->properties->setProperty($name, $value);
          return $this;
+     }
+
+     /**
+      *
+      * @param string|blaze\lang\String $name
+      * @return blaze\lang\String
+      */
+     public function getProperty($name){
+         return $this->properties->getProperty($name);
      }
 }
 

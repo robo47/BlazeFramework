@@ -161,7 +161,7 @@ class UnixFileSystem extends FileSystem {
         if ($this->isAbsolute($f)) {
             return $f->getPath()->toNative();
         } else {
-            return $this->resolve(System::getProperty("user.dir"), $f->getPath()->toNative());
+            return $this->resolve(\blaze\lang\System::getProperty("user.dir"), $f->getPath()->toNative());
         }       
     }
 
