@@ -267,6 +267,36 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                     $arr[] = $cols[$i];
         return $arr;
     }
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     */
+    public function getReferencingKeys(){
+        $stmt = null;
+        $rs = null;
+        $columns = array();
+
+        try{
+            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = ? AND REFERENCED_TABLE_NAME = ?');
+            $stmt->setString(0, $this->schema->getSchemaName());
+            $stmt->setString(1, $this->tableName);
+            $stmt->execute();
+            $rs = $stmt->getResultSet();
+
+            while($rs->next())
+                $columns[] = new ColumnMetaDataImpl($this->getSchema()
+                                                         ->getDatabaseMetaData()
+                                                         ->getSchema($rs->getString('TABLE_SCHEMA'))
+                                                         ->getTable($rs->getString('TABLE_NAME')), $rs->getString('COLUMN_NAME'));
+        }catch(\blaze\ds\SQLException $e){}
+
+        if($stmt != null)
+            $stmt->close();
+        if($rs != null)
+            $rs->close();
+
+        return $columns;
+    }
+
 }
 
 ?>

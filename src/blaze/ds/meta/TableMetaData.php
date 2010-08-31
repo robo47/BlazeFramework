@@ -71,6 +71,10 @@ interface TableMetaData {
      * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
      */
     public function getUniqueKeys();
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     */
+    public function getReferencingKeys();
 }
 
 ?>

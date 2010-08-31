@@ -82,6 +82,10 @@ interface ColumnMetaData {
      * @return blaze\ds\meta\ConstraintMetaData
      */
     public function getConstraint($constraintName);
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     */
+    public function getReferencingColumns();
 }
 
 ?>

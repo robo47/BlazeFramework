@@ -39,6 +39,14 @@ interface SchemaMetaData {
      * @return blaze\ds\meta\TableMetaData
      */
     public function getTable($tableName);
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ViewMetaData]
+     */
+    public function getViews();
+    /**
+     * @return blaze\ds\meta\ViewMetaData
+     */
+    public function getView($viewName);
 
 }
 

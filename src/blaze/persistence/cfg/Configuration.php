@@ -37,11 +37,20 @@ class Configuration extends Object {
 
      /**
       *
-      * @param string $config
+      * @param string|blaze\lang\String|blaze\io\File $config
       * @return blaze\persistence\cfg\Configuration
       */
      public function configure($config){
+        $file = null;
+        if($config instanceof \blaze\io\File)
+            $file = $config;
+        else
+            $file = new File(\blaze\lang\String::asNative($config));
 
+        $doc = new \DOMDocument();
+        $doc->load($file->getAbsolutePath());
+        if($doc->documentElement->localName != 'persistence-mapping')
+                throw new \blaze\lang\IllegalArgumentException('The first node has to be of the type "persistence-mapping"');
          return $this;
      }
 

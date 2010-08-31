@@ -15,22 +15,6 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 abstract class AbstractViewMetaData extends Object implements ViewMetaData {
-    /**
-     * @return blaze\ds\meta\SchemaMetaData
-     */
-    public function getSchema();
-    /**
-     * @return blaze\lang\String
-     */
-     public function getViewName();
-    /**
-     * @return blaze\lang\String
-     */
-     public function getViewDefinition();
-    /**
-     * @return boolean
-     */
-     public function isUpdateable();
 }
 
 ?>

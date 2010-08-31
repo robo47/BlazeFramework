@@ -163,21 +163,21 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      */
     protected function get($identifier) {
         if (!is_array($this->actRow))
-            throw new SQLException('No valid result.');
+            throw new \blaze\ds\SQLException('No valid result.');
         if (is_int($identifier)) {
             if (!array_key_exists($identifier, $this->actRowIndex))
-                throw new SQLException('Index ' . $identifier . ' was not found.');
+                throw new \blaze\ds\SQLException('Index ' . $identifier . ' was not found.');
             return $this->actRowIndex[$identifier];
         }else {
             if (!array_key_exists(String::asNative($identifier), $this->actRow))
-                throw new SQLException('Index ' . $identifier . ' was not found.');
+                throw new \blaze\ds\SQLException('Index ' . $identifier . ' was not found.');
             return $this->actRow[String::asNative($identifier)];
         }
     }
 
     protected function checkedClosed() {
         if ($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+            throw new \blaze\ds\SQLException('Statement is already closed.');
     }
 
 }

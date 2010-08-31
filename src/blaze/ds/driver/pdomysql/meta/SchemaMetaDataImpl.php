@@ -104,6 +104,62 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
         return $table;
     }
 
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ViewMetaData]
+     */
+    public function getViews(){
+        $stmt = null;
+        $rs = null;
+        $views = array();
+
+        try{
+            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ?');
+            $stmt->setString(0, $this->schemaName);
+            $stmt->execute();
+            $rs = $stmt->getResultSet();
+
+            while($rs->next())
+                $views[] = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
+                                                           $rs->getString('VIEW_DEFINITION'),
+                                                           $rs->getString('IS_UPDATEABLE'));
+        }catch(\blaze\ds\SQLException $e){}
+
+        if($stmt != null)
+            $stmt->close();
+        if($rs != null)
+            $rs->close();
+
+        return $views;
+    }
+    /**
+     * @return blaze\ds\meta\ViewMetaData
+     */
+    public function getView($viewName){
+        $stmt = null;
+        $rs = null;
+        $view = null;
+
+        try{
+            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
+            $stmt->setString(0, $this->schemaName);
+            $stmt->setString(1, $viewName);
+            $stmt->execute();
+            $rs = $stmt->getResultSet();
+
+            if($rs->next())
+                $view = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
+                                                           $rs->getString('VIEW_DEFINITION'),
+                                                           $rs->getString('IS_UPDATEABLE'));
+        }catch(\blaze\ds\SQLException $e){}
+
+        if($stmt != null)
+            $stmt->close();
+        if($rs != null)
+            $rs->close();
+
+        return $view;
+    }
+
 }
 
 ?>

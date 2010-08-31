@@ -32,7 +32,7 @@ class ForeignKeyMetaDataImpl extends AbstractForeignKeyMetaData {
      * @return blaze\ds\meta\ColumnMetaData
      */
     public function getReferencedColumn(){
-        return $this->referencedColumn;
+        return $this->referencedColumns;
     }
 }
 

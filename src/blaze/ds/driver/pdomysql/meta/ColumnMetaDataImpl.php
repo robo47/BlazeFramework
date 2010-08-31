@@ -63,7 +63,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $rs->next();
 
         $this->columnDefault = $rs->getString('COLUMN_DEFAULT');
-        $this->nullable = $rs->getBoolean('IS_NULLABLE');
+        $this->nullable = $rs->getString('IS_NULLABLE')->compareTo('YES') == 0;
         $this->columnTypeName = $rs->getString('DATA_TYPE');
         $this->columnClassName = $this->getClassName($this->columnTypeName);
         $this->columnLength = $rs->getInt('NUMERIC_SCALE');
@@ -99,8 +99,12 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $stmt->execute();
         $rs = $stmt->getResultSet();
 
-        if ($rs->next() && $rs->getString('REFERENCED_TABLE_SCHEMA') != null)
-            $this->foreignKey = true;
+        while($rs->next()){
+            if($rs->getString('REFERENCED_TABLE_SCHEMA') != null){
+                $this->foreignKey = true;
+                break;
+            }
+        }
         $rs->close();
         $stmt->close();
     }
@@ -298,9 +302,9 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             while ($rs->next()) {
                 $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]['type'] = $rs->getString('CONSTRAINT_TYPE');
                 $tblConst[$rs->getString('CONSTRAINT_NAME')->toString()]['columns'][] = array('column' => $this->table->getColumn($rs->getString('COLUMN_NAME')),
-                                                                                                'REFERENCED_TABLE_SCHEMA' => $rs->getString('REFERENCED_TABLE_SCHEMA'),
-                                                                                                'REFERENCED_TABLE_NAME' => $rs->getString('REFERENCED_TABLE_NAME'),
-                                                                                                'REFERENCED_COLUMN_NAME' => $rs->getString('REFERENCED_COLUMN_NAME'));
+                    'REFERENCED_TABLE_SCHEMA' => $rs->getString('REFERENCED_TABLE_SCHEMA'),
+                    'REFERENCED_TABLE_NAME' => $rs->getString('REFERENCED_TABLE_NAME'),
+                    'REFERENCED_COLUMN_NAME' => $rs->getString('REFERENCED_COLUMN_NAME'));
             }
 
             if (count($tblConst) != 0) {
@@ -363,5 +367,39 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         return $constraint;
     }
 
+    /**
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     */
+    public function getReferencingColumns() {
+        $stmt = null;
+        $rs = null;
+        $columns = array();
+
+        try {
+            $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = ? AND REFERENCED_TABLE_NAME = ? AND REFERENCED_COLUMN_NAME = ?');
+            $stmt->setString(0, $this->table->getSchema->getSchemaName());
+            $stmt->setString(1, $this->table->getTableName());
+            $stmt->setString(2, $this->columnName);
+            $stmt->execute();
+            $rs = $stmt->getResultSet();
+
+            while ($rs->next())
+                $columns[] = new ColumnMetaDataImpl($this->table->getSchema()
+                                        ->getDatabaseMetaData()
+                                        ->getSchema($rs->getString('TABLE_SCHEMA'))
+                                        ->getTable($rs->getString('TABLE_NAME')), $rs->getString('COLUMN_NAME'));
+        } catch (\blaze\ds\SQLException $e) {
+
+        }
+
+        if ($stmt != null)
+            $stmt->close();
+        if ($rs != null)
+            $rs->close();
+
+        return $columns;
+    }
+
 }
+
 ?>

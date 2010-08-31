@@ -14,22 +14,42 @@ use blaze\ds\driver\pdobase\meta\AbstractViewMetaData;
  * @todo    Something which has to be done, implementation or so
  */
 class ViewMetaDataImpl extends AbstractViewMetaData {
+
+    private $schema;
+    private $viewName;
+    private $viewDefinition;
+    private $updateable;
+
+    public function __construct(\blaze\ds\meta\SchemaMetaData $schemaMetaData, $viewName, $viewDefinition, $updateable){
+        $this->schema = $schemaMetaData;
+        $this->viewName = $viewName;
+        $this->viewDefinition = $viewDefinition;
+        $this->updateable = $updateable;
+    }
     /**
      * @return blaze\ds\meta\SchemaMetaData
      */
-    public function getSchema();
+    public function getSchema(){
+        return $this->schema;
+    }
     /**
      * @return blaze\lang\String
      */
-     public function getViewName();
+     public function getViewName(){
+         return $this->viewName;
+     }
     /**
      * @return blaze\lang\String
      */
-     public function getViewDefinition();
+     public function getViewDefinition(){
+         return $this->viewDefinition;
+     }
     /**
      * @return boolean
      */
-     public function isUpdateable();
+     public function isUpdateable(){
+         return $this->updateable;
+     }
 }
 
 ?>
