@@ -545,6 +545,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`module_group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`module_group` ;
+
+CREATE  TABLE IF NOT EXISTS `mydb`.`module_group` (
+  `mogr_id` INT NOT NULL ,
+  `mogr_name` VARCHAR(60) NULL ,
+  PRIMARY KEY (`mogr_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`module`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`module` ;
@@ -553,11 +565,19 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`module` (
   `modu_id` INT NOT NULL AUTO_INCREMENT ,
   `modu_name` VARCHAR(60) NULL ,
   `modu_description` VARCHAR(60) NULL ,
+  `modu_main_object` VARCHAR(60) NULL ,
   `modu_added` DATE NULL ,
   `modu_uid` INT NULL ,
   `modu_system` TINYINT(1) NULL ,
-  `modue_active` TINYINT(1) NULL ,
-  PRIMARY KEY (`modu_id`) )
+  `modu_active` TINYINT(1) NULL ,
+  `modu_group_mogr_id` INT NULL ,
+  PRIMARY KEY (`modu_id`) ,
+  INDEX `fk_module_module_group1` (`modu_group_mogr_id` ASC) ,
+  CONSTRAINT `fk_module_module_group1`
+    FOREIGN KEY (`modu_group_mogr_id` )
+    REFERENCES `mydb`.`module_group` (`mogr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -1022,25 +1042,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`module_group`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`module_group` ;
-
-CREATE  TABLE IF NOT EXISTS `mydb`.`module_group` (
-  `mogr_id` INT NOT NULL ,
-  `mogr_module_modu_id` INT NOT NULL ,
-  `mogr_name` VARCHAR(60) NULL ,
-  PRIMARY KEY (`mogr_id`) ,
-  INDEX `fk_config_group_module1` (`mogr_module_modu_id` ASC) ,
-  CONSTRAINT `fk_config_group_module1`
-    FOREIGN KEY (`mogr_module_modu_id` )
-    REFERENCES `mydb`.`module` (`modu_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`component_group`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`component_group` ;
@@ -1081,7 +1082,7 @@ DROP TABLE IF EXISTS `mydb`.`property_type` ;
 CREATE  TABLE IF NOT EXISTS `mydb`.`property_type` (
   `prty_id` INT NOT NULL ,
   `prty_type_class_prcl_id` INT NOT NULL ,
-  `prty_validator_class_prcl_id` INT NOT NULL ,
+  `prty_validator_class_prcl_id` INT NULL ,
   PRIMARY KEY (`prty_id`) ,
   INDEX `fk_property_type_property_class1` (`prty_type_class_prcl_id` ASC) ,
   INDEX `fk_property_type_property_class2` (`prty_validator_class_prcl_id` ASC) ,
@@ -1147,11 +1148,18 @@ DROP TABLE IF EXISTS `mydb`.`view` ;
 CREATE  TABLE IF NOT EXISTS `mydb`.`view` (
   `view_id` INT NOT NULL ,
   `view_type_vity_id` INT NOT NULL ,
+  `module_modu_id` INT NOT NULL ,
   PRIMARY KEY (`view_id`) ,
   INDEX `fk_view_view_type1` (`view_type_vity_id` ASC) ,
+  INDEX `fk_view_module1` (`module_modu_id` ASC) ,
   CONSTRAINT `fk_view_view_type1`
     FOREIGN KEY (`view_type_vity_id` )
     REFERENCES `mydb`.`view_type` (`vity_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_view_module1`
+    FOREIGN KEY (`module_modu_id` )
+    REFERENCES `mydb`.`module` (`modu_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -1166,6 +1174,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`view_field` (
   `vifi_id` INT NOT NULL ,
   `vifi_name` VARCHAR(60) NULL ,
   `vifi_label` VARCHAR(60) NULL ,
+  `vifi_value` VARCHAR(255) NULL ,
   `vifi_helptext` VARCHAR(60) NULL ,
   `vifi_view_view_id` INT NOT NULL ,
   `vifi_property_type_prty_id` INT NOT NULL ,
@@ -1718,6 +1727,19 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`article` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Placeholder table for view `mydb`.`index_views`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`index_views` (`view_id` INT, `vifi_name` INT, `vifi_label` INT, `vifi_helptext` INT, `modu_name` INT, `prcl_name` INT, `prcl_description` INT, `prcl_class` INT, `module_modu_id` INT, `vifi_value` INT, `modu_main_object` INT);
+
+-- -----------------------------------------------------
+-- View `mydb`.`index_views`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `mydb`.`index_views` ;
+DROP TABLE IF EXISTS `mydb`.`index_views`;
+CREATE  OR REPLACE VIEW `mydb`.`index_views` AS
+select `view`.`view_id` AS `view_id`,`view_field`.`vifi_name` AS `vifi_name`,`view_field`.`vifi_label` AS `vifi_label`,`view_field`.`vifi_helptext` AS `vifi_helptext`,`module`.`modu_name` AS `modu_name`,`property_class`.`prcl_name` AS `prcl_name`,`property_class`.`prcl_description` AS `prcl_description`,`property_class`.`prcl_class` AS `prcl_class`,`view`.`module_modu_id` AS `module_modu_id`,`view_field`.`vifi_value` AS `vifi_value`,`module`.`modu_main_object` AS `modu_main_object` from (((((`view` join `view_field` on((`view_field`.`vifi_view_view_id` = `view`.`view_id`))) join `view_type` on((`view_type`.`vity_id` = `view`.`view_type_vity_id`))) join `property_type` on((`property_type`.`prty_id` = `view_field`.`vifi_property_type_prty_id`))) join `module` on((`module`.`modu_id` = `view`.`module_modu_id`))) join `property_class` on((`property_class`.`prcl_id` = `property_type`.`prty_type_class_prcl_id`))) where ((`module`.`modu_active` = '1') and (`view_type`.`vity_name` = 'index'));
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -1852,6 +1874,15 @@ INSERT INTO `person` (`pers_id`, `pers_firstname`, `pers_lastname`, `pers_gender
 COMMIT;
 
 -- -----------------------------------------------------
+-- Data for table `mydb`.`module`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `module` (`modu_id`, `modu_name`, `modu_description`, `modu_main_object`, `modu_added`, `modu_uid`, `modu_system`, `modu_active`, `modu_group_mogr_id`) VALUES (1, 'user', 'User module', 'user', null, 1, 1, 1, NULL);
+
+COMMIT;
+
+-- -----------------------------------------------------
 -- Data for table `mydb`.`user`
 -- -----------------------------------------------------
 SET AUTOCOMMIT=0;
@@ -1879,14 +1910,53 @@ INSERT INTO `user_group_has_user` (`user_group_usgr_id`, `user_user_id`) VALUES 
 COMMIT;
 
 -- -----------------------------------------------------
+-- Data for table `mydb`.`property_class`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `property_class` (`prcl_id`, `prcl_name`, `prcl_description`, `prcl_class`) VALUES (1, 'Integer', '', 'int');
+INSERT INTO `property_class` (`prcl_id`, `prcl_name`, `prcl_description`, `prcl_class`) VALUES (2, 'String', '', 'string');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`property_type`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `property_type` (`prty_id`, `prty_type_class_prcl_id`, `prty_validator_class_prcl_id`) VALUES (1, 1, NULL);
+INSERT INTO `property_type` (`prty_id`, `prty_type_class_prcl_id`, `prty_validator_class_prcl_id`) VALUES (2, 2, NULL);
+
+COMMIT;
+
+-- -----------------------------------------------------
 -- Data for table `mydb`.`view_type`
 -- -----------------------------------------------------
 SET AUTOCOMMIT=0;
 USE `mydb`;
-INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (1, 'Index');
-INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (2, 'Detail');
-INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (3, 'Edit');
-INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (4, 'Delete');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (1, 'index');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (2, 'detail');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (3, 'edit');
+INSERT INTO `view_type` (`vity_id`, `vity_name`) VALUES (4, 'delete');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`view`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `view` (`view_id`, `view_type_vity_id`, `module_modu_id`) VALUES (1, 1, 1);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`view_field`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+USE `mydb`;
+INSERT INTO `view_field` (`vifi_id`, `vifi_name`, `vifi_label`, `vifi_value`, `vifi_helptext`, `vifi_view_view_id`, `vifi_property_type_prty_id`) VALUES (1, 'Id', 'Id', 'userId', '', 1, 1);
+INSERT INTO `view_field` (`vifi_id`, `vifi_name`, `vifi_label`, `vifi_value`, `vifi_helptext`, `vifi_view_view_id`, `vifi_property_type_prty_id`) VALUES (2, 'Name', 'Name', 'userName', '', 1, 2);
 
 COMMIT;
 

@@ -43,21 +43,25 @@ class ViewHandler extends Object {
         }
     }
 
-    private function parseAndCreateView(\blaze\io\File $file) {
+    private function parseAndCreateView(\blaze\io\File $file, $compositionChildren = null) {
         $path = $file->getAbsolutePath();
-        $viewId = $path->substring($this->viewDir->getAbsolutePath()->length())->replace(\blaze\io\File::$directorySeparator,'/')->trim('/');
-
-        $root = new \blaze\web\component\UIViewRoot();
-        $root->setViewId($viewId->toNative());
 
         $dom = new \DOMDocument();
         $dom->load($file->getAbsolutePath()->toNative());
 
-        $this->handleChildren($root, $dom->documentElement->childNodes);
-        $this->views[$root->getViewId()] = $root;
+        $viewId = $path->substring($this->viewDir->getAbsolutePath()->length())->replace(\blaze\io\File::$directorySeparator,'/')->trim('/');
+        $root = new \blaze\web\component\UIViewRoot();
+        if($compositionChildren == null){
+            $root->setViewId($viewId->toNative());
+            $this->views[$root->getViewId()] = $root;
+        }
+
+        $this->handleChildren($root, $dom->documentElement->childNodes, $compositionChildren);
+        if($compositionChildren != null)
+            return $root;
     }
 
-    private function handleChildren($parent, $children) {
+    private function handleChildren(\blaze\web\component\UIComponent $parent, $children, $compositionChildren) {
         foreach ($children as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 if ($node->prefix == 'b') {
@@ -71,7 +75,31 @@ class ViewHandler extends Object {
 
                     $parent->addChild($component);
                     if ($node->hasChildNodes())
-                        $this->handleChildren($component, $node->childNodes);
+                        $this->handleChildren($component, $node->childNodes, $compositionChildren);
+                }else if($node->prefix == 'ui'){
+                    if($node->localName == 'insert'){
+                        if($compositionChildren != null){
+                            $foundElem = $this->findCompositionDefinition($compositionChildren, $node->getAttribute('name'));
+                            if($foundElem == null)
+                                $this->handleChildren($parent, $node->childNodes, $compositionChildren);
+                            else
+                                $this->handleChildren($parent, $foundElem->childNodes, $compositionChildren);
+                        }else
+                            $this->handleChildren($parent, $node->childNodes, $compositionChildren);
+                    }else if($node->localName == 'composite'){
+                        $template = $node->getAttribute('template');
+
+                        if($template == '')
+                            throw new Exception('No template view given');
+                        $f = new \blaze\io\File($this->viewDir, $template);
+
+                        if(!$f->exists())
+                                throw new \blaze\io\IOException('Template was not found');
+                        $root = $this->getRoot($parent);
+                        $newRoot = $this->parseAndCreateView($f, $node->childNodes);
+                        $newRoot->setViewId($root->getViewId());
+                        $this->views[$newRoot->getViewId()] = $newRoot;
+                    }
                 }else {
                     $tag = '<'.$node->nodeName;
                     
@@ -83,7 +111,7 @@ class ViewHandler extends Object {
                     $parent->addChild(\blaze\web\component\html\PlainText::create()->setValue($tag .'>'));
 
                     if ($node->hasChildNodes()) 
-                        $this->handleChildren($parent, $node->childNodes);
+                        $this->handleChildren($parent, $node->childNodes, $compositionChildren);
                     $parent->addChild(\blaze\web\component\html\PlainText::create()->setValue('</' . $node->nodeName . '>'));
                 }
             } else if ($node->nodeType == XML_TEXT_NODE) {
@@ -92,6 +120,29 @@ class ViewHandler extends Object {
                     $parent->addChild(\blaze\web\component\html\PlainText::create()->setValue($content));
             }
         }
+    }
+    
+    private function findCompositionDefinition($children, $name){
+        foreach ($children as $node) {
+            if ($node->nodeType == XML_ELEMENT_NODE) {
+                if ($node->prefix == 'ui' && $node->localName == 'define' && $node->getAttribute('name') == $name) {
+                    return $node;
+                }else if($node->hasChildNodes()){
+                    $elem = $this->findCompositionDefinition($node->childNodes, $name);
+                    if($elem != null)
+                        return $elem;
+                }
+            }
+        }
+        return null;
+    }
+
+    private function getRoot(\blaze\web\component\UIComponent $component){
+        $parent = $component->getParent();
+        if($parent == null)
+            return $component;
+        else
+            return $this->getRoot($parent);
     }
 
     public function restoreOrCreateView(BlazeContext $context) {

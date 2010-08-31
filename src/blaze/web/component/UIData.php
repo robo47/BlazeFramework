@@ -26,8 +26,6 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
     private $rowClasses;
     private $rows;
 
-    private $localRows;
-    private $localRowId;
     private $idCount = 0;
 
     public function createUniqueId(){

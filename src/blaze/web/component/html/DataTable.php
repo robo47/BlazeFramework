@@ -27,10 +27,10 @@ class DataTable extends \blaze\web\component\UIData {
     private $rowId = -1;
 
     public function addChild(\blaze\web\component\UIComponent $child) {
-        if ($child instanceof DataTableColumn) {
+        if ($child instanceof DataTableColumn || $child instanceof DataTableColumns) {
             $this->columns[] = $child->setParent($this);
             return $this;
-        } else {
+        }else{
             // Not possible because of XSD
             //return parent::addChild($child);
             throw new \blaze\lang\IllegalArgumentException();

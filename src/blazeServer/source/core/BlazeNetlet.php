@@ -70,6 +70,7 @@ class BlazeNetlet extends HttpNetlet{
                 $request->setSessionHandler($this->sessionHandlerClass->newInstance());
         $appContext = new BlazeContext($this->application, $request, $response);
         $appContext->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($appContext);
+        $this->application->getNavigationHandler()->pushBindings($appContext, $request);
 
         //$appContext->setExceptionHandler(new \blaze\web\application\ExceptionHandler());
 
