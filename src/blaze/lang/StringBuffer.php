@@ -173,8 +173,9 @@ class StringBuffer extends Object {
     public function replace(){
         return $this;
     }
+
     public function lastIndexOf(){
-        return $this;
+        return $this->count;
     }
 
     /**
@@ -187,13 +188,30 @@ class StringBuffer extends Object {
      * @return  blaze\lang\StringBuffer
      */
     public function insert($val, $off, $start, $end){
-        return $this;
+
+        $index = $off;
+        for($i=$start;$i<$end;$i++){
+            $h = $this->string[$index];
+            $this->string[$index] = $val[$index];
+            $this->string[$index+1] = $h;
+            $index++;
+        }
+
     }
-    public function indexOf(){
-        return $this;
-    }
+
     public function delete($start, $end = -1){
         return $this;
+    }
+
+    public function length(){
+        return $this->count;
+    }
+
+    public function setLength($len){
+        $this->count = $len;
+    }
+    public function setCharAt($index, $char){
+        $this->string[$index] = $char;
     }
 
     public function toString(){

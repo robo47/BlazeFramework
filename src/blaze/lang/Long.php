@@ -24,28 +24,28 @@ class Long extends Number{
 
     }
 
-    public function doubleValue() {
-
+     public function doubleValue() {
+        return new Double((double)$this->value);
     }
 
     public function floatValue() {
-
-    }
+        return new Float((float)$this->value);
+     }
 
     public function intValue() {
-
+        return new Integer((int)$this->value);
     }
 
     public function longValue() {
-
+        return new Long($this->value);
     }
 
     public static function parse($value) {
-
+        $this->value = self::asNative($value);
     }
 
     public function shortValue() {
-
+        return new Short($this->value);
     }
 
     /**
@@ -98,6 +98,40 @@ class Long extends Number{
 
     public function equals(Reflectable $o){
         return $o instanceof Long && $o->value == $this->value;
+    }
+
+    public function compareTo(Object $obj) {
+        if($obj instanceof  Long){
+            return $this->toNative()-$obj->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Integer is only compareable with Integer');
+        }
+    }
+
+    public static function compare(Long $obj, Long $obj2){
+         if($obj instanceof Long&& $obj2 instanceof Long){
+             return $obj->toNative()-$obj2->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Long is only compareable with Long');
+        }
+    }
+
+    public static function valueOf($string){
+
+    }
+
+     public static function toHexString($i){
+        return dechex($i);
+    }
+    public static function toBinaryString($i){
+        return \decbin($i);
+    }
+    public static  function toOctal($i){
+        return \decoct($i);
     }
 
 }

@@ -21,31 +21,31 @@ class Integer extends Number implements Comparable {
         $this->digitCount = 1 + floor(log10(abs($this->value)));
     }
     public function byteValue() {
-
+        return \decbin($this->value);
     }
 
-    public function doubleValue() {
-
+public function doubleValue() {
+        return Double::asNative($this->value);
     }
 
     public function floatValue() {
-
-    }
+        return Float::asNative($this->value);
+     }
 
     public function intValue() {
-
+        return Integer::asNative($this->value);
     }
 
     public function longValue() {
-
+        return Long::asNative($this->value);
     }
 
     public static function parse($value) {
-
+        $this->value = self::asNative($value);
     }
 
     public function shortValue() {
-
+        return Short::asNative($this->value);
     }
 
     public function toNative() {
@@ -81,6 +81,12 @@ class Integer extends Number implements Comparable {
 
     public static function toHexString($i){
         return dechex($i);
+    }
+    public static function toBinaryString($i){
+        return \decbin($i);
+    }
+    public static  function toOctal($i){
+        return \decoct($i);
     }
 
     public static function hexStringToInt($str){
@@ -133,18 +139,26 @@ class Integer extends Number implements Comparable {
 
     public function compareTo(Object $obj) {
         if($obj instanceof  Integer){
-            $ret =  $this->value - $obj->toNative();
-            if($ret === 0){
-                return 0;
-            }
-            if($ret>0){
-                return 1;
-            }
-            if($ret<0){
-                return -1;
-            }
+            return $this->toNative()-$obj->toNative();
         }
+        else
+        {
+            throw  new ClassCastException('Integer is only compareable with Integer');
+        }
+    }
 
+    public static function compare(Integer $obj, Integer $obj2){
+         if($obj instanceof Integer&& $obj2 instanceof Integer){
+             return $obj->toNative()-$obj2->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Integer is only compareable with Integer');
+        }
+    }
+
+    public static function valueOf($string){
+        
     }
 
 }

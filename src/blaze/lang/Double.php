@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Double extends Number {
+class Double extends Number implements Comparable {
 
     private $value;
 
@@ -21,31 +21,31 @@ class Double extends Number {
         $this->value = self::asNative($value);
     }
     public function byteValue() {
-
+       
     }
 
     public function doubleValue() {
-
+        return new Double((double)$this->value);
     }
 
     public function floatValue() {
-
-    }
+        return new Float((float)$this->value);
+     }
 
     public function intValue() {
-
+        return new Integer((int)$this->value);
     }
 
     public function longValue() {
-
+        return new Long($this->value);
     }
 
     public static function parse($value) {
-
+        $this->value = self::asNative($value);
     }
 
     public function shortValue() {
-
+        return new Short($this->value);
     }
 
     /**
@@ -107,6 +107,35 @@ class Double extends Number {
         return $o instanceof Double && self::doubleToLongBits($o->value) == self::doubleToLongBits($this->value);
     }
 
+    public function compareTo(Object $obj) {
+        if($obj instanceof  Double){
+             return $this->toNative()-$obj->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Double is only compareable with Double');
+        }
+    }
+
+    public static function compare(Double $obj, Double $obj2){
+         if($obj instanceof  Double&& $obj2 instanceof  Double){
+             return $obj->toNative()-$obj2->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Double is only compareable with Double');
+        }
+    }
+
+    public static function valueOf($string){
+        
+    }
+    public static function  longBitsToDouble($bits){
+
+    }
 }
+
+    
+
 
 ?>

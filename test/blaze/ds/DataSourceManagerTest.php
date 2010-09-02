@@ -241,6 +241,16 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 
             $meta = $this->con[$i]->getMetaData();
 
+            echo $this->con[$i]->getTransactionIsolation();
+            $this->con[$i]->setTransactionIsolation(\blaze\ds\driver\pdomysql\IsolationLevel::$READ_COMMITTED).\PHP_EOL;
+            echo $this->con[$i]->getTransactionIsolation();
+            $this->con[$i]->setTransactionIsolation(\blaze\ds\driver\pdomysql\IsolationLevel::$SERIALIZABLE).\PHP_EOL;
+            echo $this->con[$i]->getTransactionIsolation();
+            $this->con[$i]->setTransactionIsolation(\blaze\ds\driver\pdomysql\IsolationLevel::$READ_UNCOMMITTED).\PHP_EOL;
+            echo $this->con[$i]->getTransactionIsolation();
+            $this->con[$i]->setTransactionIsolation(\blaze\ds\driver\pdomysql\IsolationLevel::$REPEATABLE).\PHP_EOL;
+            echo $this->con[$i]->getTransactionIsolation();
+
             $strar = split(':', $this->bdsc[$i]);
             $strar[2] = \trim($strar[2], '//');
             $strar[3] = split('/', $strar[3]);

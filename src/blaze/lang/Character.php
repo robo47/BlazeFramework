@@ -32,6 +32,10 @@ class Character extends Object implements NativeWrapper, Comparable {
         return $this->value;
     }
 
+    public function charValue(){
+        return $this->value;
+    }
+
     /**
      *
      * @return string
@@ -67,6 +71,19 @@ class Character extends Object implements NativeWrapper, Comparable {
     }
 
     public function compareTo(Object $obj) {
+        if($obj instanceof Character){
+        if($o->toNative()<$this->toNative()){
+            return 1;
+        }
+        if($o->toNative()>$this->toNative()){
+            return 1;
+        }
+        return 0;
+        }
+        else{
+           throw new ClassCastException('Character is only compareable with Character');
+        }
+
     }
 
     public static function isLetter($char) {

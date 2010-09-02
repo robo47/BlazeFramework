@@ -226,6 +226,7 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $map->put(8,5);
         $map->put(78,6);
         $this->assertTrue($this->object->removeAll($map));
+
     }
 
     /**

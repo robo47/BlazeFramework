@@ -19,32 +19,28 @@ class Short extends Number {
     public function __construct($value){
         $this->value = self::asNative($value);
     }
-    public function byteValue() {
-
-    }
-
     public function doubleValue() {
-
+        return new Double((double)$this->value);
     }
 
     public function floatValue() {
-
-    }
+        return new Float((float)$this->value);
+     }
 
     public function intValue() {
-
+        return new Integer((int)$this->value);
     }
 
     public function longValue() {
-
+        return new Long($this->value);
     }
 
     public static function parse($value) {
-
+        $this->value = self::asNative($value);
     }
 
     public function shortValue() {
-
+        return new Short($this->value);
     }
 
     public function toNative() {
@@ -93,6 +89,32 @@ class Short extends Number {
 
     public function equals(Reflectable $o){
         return $o instanceof Short && $o->value == $this->value;
+    }
+
+
+ public function compareTo(Object $obj) {
+        if($obj instanceof  Short){
+            return $this->toNative()-$obj->toNative();
+        }
+        else
+        {
+            throw  new ClassCastException('Integer is only compareable with Integer');
+        }
+    }
+
+    public static function compare(Short $obj, Short $obj2){
+         if($obj instanceof short&& $obj2 instanceof short){
+             return $obj->toNative()-$obj2->toNative();
+        }
+        else
+        {
+
+
+        }
+    }
+
+     public static function valueOf($string){
+
     }
 }
 

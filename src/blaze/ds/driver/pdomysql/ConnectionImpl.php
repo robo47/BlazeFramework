@@ -40,8 +40,12 @@ class ConnectionImpl extends AbstractConnection {
      * @todo Implement
      */
     public function getTransactionIsolation() {
-        $this->checkClosed();
-        return null;
+        $stm = $this->createStatement();
+        $rs = $stm->executeQuery('SELECT @@tx_isolation');
+        while($rs->next()){
+            return $rs->getString(0);
+        }
+        throw new \blaze\lang\Exception('Failed to get Isolationlevel!');
     }
 
     public function prepareCall($sql) {
@@ -59,7 +63,8 @@ class ConnectionImpl extends AbstractConnection {
      * @Implement
      */
     public function setTransactionIsolation($level) {
-        $this->checkClosed();
+        $stm = $this->pdo->query('SET SESSION TRANSACTION ISOLATION LEVEL '.$level);
+        $stm->execute();
     }
 
 }

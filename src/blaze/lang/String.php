@@ -226,6 +226,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
 //	return StringCoding.encode(charsetName, value, offset, count);
     }
 
+
     /**
      * Encodes this {@code String} into a sequence of bytes using the given
      * {@linkplain java.nio.charset.Charset charset}, storing the result into a
@@ -391,6 +392,8 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
                 ($anotherString != null) && (strlen($anotherString) == $this->count) &&
                 strcasecmp($this->string, $anotherString) == 0;
     }
+
+
 
     /**
      * Compares two strings lexicographically.
