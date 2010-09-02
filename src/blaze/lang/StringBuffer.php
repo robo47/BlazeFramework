@@ -170,7 +170,12 @@ class StringBuffer extends Object {
         return $this;
     }
 
-    public function replace(){
+    public function replace($start, $end, $str){
+        $index = 0;
+        for($i = $start; $i<$end;$i++){
+            $this->string[$i] = $str[$index];
+            $index++;
+        }
         return $this;
     }
 
@@ -200,6 +205,7 @@ class StringBuffer extends Object {
     }
 
     public function delete($start, $end = -1){
+        $this->string = \substr($this->string,0,  $start ).\substr($this->string,$end, \count($this->string) );
         return $this;
     }
 

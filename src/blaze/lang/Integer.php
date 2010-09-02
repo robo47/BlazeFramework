@@ -21,7 +21,7 @@ class Integer extends Number implements Comparable {
         $this->digitCount = 1 + floor(log10(abs($this->value)));
     }
     public function byteValue() {
-        return \decbin($this->value);
+        return Byte::asNative($this->value);
     }
 
 public function doubleValue() {

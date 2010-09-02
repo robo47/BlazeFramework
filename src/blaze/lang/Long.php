@@ -21,23 +21,23 @@ class Long extends Number{
         $this->value = self::asNative($value);
     }
     public function byteValue() {
-
+        return Byte::asNative($this->value);
     }
 
-     public function doubleValue() {
-        return new Double((double)$this->value);
+public function doubleValue() {
+        return Double::asNative($this->value);
     }
 
     public function floatValue() {
-        return new Float((float)$this->value);
+        return Float::asNative($this->value);
      }
 
     public function intValue() {
-        return new Integer((int)$this->value);
+        return Integer::asNative($this->value);
     }
 
     public function longValue() {
-        return new Long($this->value);
+        return Long::asNative($this->value);
     }
 
     public static function parse($value) {
@@ -45,7 +45,7 @@ class Long extends Number{
     }
 
     public function shortValue() {
-        return new Short($this->value);
+        return Short::asNative($this->value);
     }
 
     /**

@@ -21,7 +21,7 @@ class Float extends Number implements Comparable {
         $this->value = self::asNative($value);
     }
     public function byteValue() {
-
+        return Byte::asNative($this->value);
     }
 
    public function doubleValue() {
@@ -45,7 +45,7 @@ class Float extends Number implements Comparable {
     }
 
     public function shortValue() {
-        return Double::asNative($this->value);
+        return Short::asNative($this->value);
     }
     
 

@@ -19,32 +19,31 @@ class Byte extends Number {
     public function __construct($value){
         $this->value = self::asNative($value);
     }
-    public function byteValue() {
-
+       public function byteValue() {
+        return Byte::asNative($this->value);
     }
-
-    public function doubleValue() {
-
+public function doubleValue() {
+        return Double::asNative($this->value);
     }
 
     public function floatValue() {
-
-    }
+        return Float::asNative($this->value);
+     }
 
     public function intValue() {
-
+        return Integer::asNative($this->value);
     }
 
     public function longValue() {
-
+        return Long::asNative($this->value);
     }
 
     public static function parse($value) {
-
+        $this->value = self::asNative($value);
     }
 
     public function shortValue() {
-
+        return Short::asNative($this->value);
     }
 
     public function toNative() {
