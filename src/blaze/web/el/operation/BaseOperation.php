@@ -26,12 +26,15 @@ abstract class BaseOperation extends Object{
 
             if(($class = \blaze\lang\Number::getNumberClass($val)) != null){
                 return $class->getMethod('asNative')->invoke(null,$val);
-            }else if(preg_match('/^(true|false)$/', $val))
+            }else if(preg_match('/^(true|false)$/', $val)){
                 return \blaze\lang\Boolean::parseBoolean($val);
-            else //if(strpos($val, '.') !== false)
+            }else if(preg_match('/^(null)$/', $val)){
+                return null;
+            }else {//if(strpos($val, '.') !== false)
                 return $context->getELContext()->getELResolver()->getValue($val);
 //            else
 //                return $val;
+            }
         }
         protected function resolveSubParts(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets, $expressionString){
             if(\blaze\lang\String::isNativeType($expressionString)){

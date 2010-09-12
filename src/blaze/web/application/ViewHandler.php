@@ -62,10 +62,11 @@ class ViewHandler extends Object {
     }
 
     private function handleChildren(\blaze\web\component\UIComponent $parent, $children, $compositionChildren) {
+        $prefixComponents = array('b' => 'blaze\\web\\component\\html\\', 'e' => 'blaze\\web\\component\\event\\');
         foreach ($children as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
-                if ($node->prefix == 'b') {
-                    $class = ClassWrapper::forName('blaze\\web\\component\\html\\' . ucfirst($node->localName));
+                if ($node->prefix == 'b' || $node->prefix == 'e') {
+                    $class = ClassWrapper::forName($prefixComponents[$node->prefix] . ucfirst($node->localName));
                     $component = $class->newInstance();
 
                     if ($node->hasAttributes())

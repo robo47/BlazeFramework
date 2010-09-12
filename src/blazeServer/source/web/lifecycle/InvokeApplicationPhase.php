@@ -31,7 +31,7 @@ class InvokeApplicationPhase extends Phase {
      *                        executing this phase
      */
     public function execute(BlazeContext $context) {
-        $context->getViewRoot()->processApplication($context);        
+        $context->getViewRoot()->processEvents($context);
     }
 
     /**

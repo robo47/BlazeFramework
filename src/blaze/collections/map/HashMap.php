@@ -292,6 +292,10 @@ class HashMapIterator implements \blaze\collections\MapIterator {
         return $this->getKey();
     }
 
+    /**
+     *
+     * @return \blaze\collections\MapEntry
+     */
     public function next() {
         $this->index++;
         if($this->check($this->index)){

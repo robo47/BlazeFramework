@@ -37,8 +37,9 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
         try {
             //$this->reset();
-            if ($this->stmt->execute() === false)
-                throw new SQLException('Could not execute query.');
+            if ($this->stmt->execute() === false){
+                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+            }
 
             if ($this->stmt->columnCount() === 0)
                 return false;
@@ -58,8 +59,9 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
         try {
             //$this->reset();
-            if (!$this->stmt->execute())
-                throw new SQLException('Could not execute query.');
+            if ($this->stmt->execute() === false){
+                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+            }
 
             if ($this->stmt->columnCount() === 0)
                 throw new SQLException('Statement has no resultset.');
@@ -79,8 +81,9 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
         try {
             //$this->reset();
-            if (!$this->stmt->execute())
-                throw new SQLException('Could not execute query.');
+            if ($this->stmt->execute() === false){
+                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+            }
 
             if ($this->stmt->columnCount() !== 0)
                 throw new SQLException('Statement has a resultset.');

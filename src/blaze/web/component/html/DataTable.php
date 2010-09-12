@@ -117,46 +117,6 @@ class DataTable extends \blaze\web\component\UIData {
     public function setRowId($rowId) {
         $this->rowId = $rowId;
     }
-
-    public function processDecodes(\blaze\web\application\BlazeContext $context) {
-        if (!$this->getRendered())
-            return;
-        $values = $this->getValue();
-        if ($values == null)
-            return null;
-
-        $this->rowId = 0;
-
-        foreach ($values as $value) {
-            $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getRowVar(), $value);
-            foreach ($this->columns as $column) {
-                $column->processDecodes($context);
-            }
-            $this->rowId++;
-        }
-
-        $this->rowId = -1;
-    }
-
-//    public function processRender(\blaze\web\application\BlazeContext $context) {
-//        if(!$this->getRendered())
-//                return;
-//        $values = $this->getValue();
-//        if($values == null)
-//            return null;
-//
-//        $this->rowId = 0;
-//
-//        foreach($values as $value){
-//            $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getRowVar(), $value);
-//            foreach($this->columns as $column){
-//                $column->processRender($context);
-//            }
-//            $this->rowId++;
-//        }
-//
-//        $this->rowId = -1;
-//    }
 }
 
 ?>

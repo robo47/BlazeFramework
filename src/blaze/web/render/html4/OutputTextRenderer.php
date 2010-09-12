@@ -79,7 +79,7 @@ class OutputTextRenderer extends \blaze\web\render\html4\CoreRenderer {
             $writer->write('>');
 
         $value = $component->getValue();
-        if ($value == null)
+        if ($value === null)
             $value = $component->getLocalValue();
 
         if ($converter != null)

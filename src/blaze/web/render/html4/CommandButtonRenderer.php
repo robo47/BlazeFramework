@@ -20,8 +20,7 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         if($context->getRequest()->getParameter($component->getClientId($context)) != null){
                 $component->setClicked(true);
-//                if($component->getImmediate())
-//                        ;
+                $component->queueEvent(new \blaze\web\event\ActionEvent($component));
         }
     }
 
@@ -40,11 +39,10 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
         
         if($disabled != null)
             $writer->write(' disabled="'.$disabled.'"');
+        $writer->write('/>');
     }
 
         public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-         $writer = $context->getResponse()->getWriter();
-        $writer->write('/>');
     }
 
 

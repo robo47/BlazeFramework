@@ -13,6 +13,17 @@ use blaze\lang\Exception;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class ValidatorException extends Exception {}
+class ValidatorException extends \blaze\web\application\BlazeException {
+    private $blazeMessage;
+    
+    public function __construct(\blaze\web\application\BlazeMessage $blazeMessage, \Exception $previous = null){
+        parent::__construct($blazeMessage->getSummary(), 0, $previous);
+        $this->blazeMessage = $blazeMessage;
+    }
+    
+    public function getBlazeMessage(){
+        return $this->blazeMessage;
+    }
+}
 
 ?>

@@ -81,6 +81,13 @@ interface PreparedStatement extends Statement1{
     /**
      *
      * @param blaze\lang\String|string|int $identifier
+     * @param blaze\util\Date $value
+     * @return blaze\lang\PreparedStatement
+     */
+    public function setDateTime($identifier, \blaze\util\Date $value);
+    /**
+     *
+     * @param blaze\lang\String|string|int $identifier
      * @param double $value
      * @return blaze\lang\PreparedStatement
      */
@@ -124,7 +131,6 @@ interface PreparedStatement extends Statement1{
     /**
      *
      * @param blaze\lang\String|string|int $identifier
-     * @param blaze\lang\Object $value
      * @return blaze\lang\PreparedStatement
      */
     public function setNull($identifier);//, $value);

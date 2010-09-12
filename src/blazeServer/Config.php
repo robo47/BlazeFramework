@@ -25,7 +25,9 @@ class Config extends Object implements WebConfig, Singleton {
     private function __construct(){
         $this->configMap       = array( 'taglibs' => array('blaze.web' => array('renderKitFactory' => 'blaze\\web\\render\\RenderKitFactoryImpl',
                                                                                 'renderKits' => array('html4' => 'blaze\\web\\render\\html4\\RenderKitImpl',
-                                                                                                      'html5' => 'blaze\\web\\render\\html5\\RenderKitImpl'))),
+                                                                                                      'html5' => 'blaze\\web\\render\\html5\\RenderKitImpl')),
+                                                           'blaze.event' => array('renderKitFactory' => 'blaze\\web\\render\\RenderKitFactoryEventImpl',
+                                                                                'renderKits' => array('js' => 'blaze\\web\\render\\event\\RenderKitImpl'))),
                                         'nuts' => array(),
                                         'listeners' => array(),
                                         'tagDecorators' => array(),

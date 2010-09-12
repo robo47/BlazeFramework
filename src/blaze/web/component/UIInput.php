@@ -29,6 +29,13 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
      * @var blaze\web\el\Expression
      */
     private $required;
+    /**
+     *
+     * @var blaze\web\el\Expression
+     */
+    private $requiredMessage;
+    private $label;
+    private $disabled;
     private $valid = true;
     private $submittedValue;
 
@@ -46,15 +53,21 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
     }
 
     public function getImmediate() {
-        if ($this->immediate == null)
+        if ($this->immediate === null)
             return false;
-        return $this->getResolvedExpression($this->immediate);
+        $imm = $this->getResolvedExpression($this->immediate);
+        return \blaze\lang\Boolean::isType($imm) ? $imm : \blaze\lang\String::asWrapper($imm)->trim()->compareToIgnoreCase('true') == 0;
     }
 
     public function getRequired() {
-        if ($this->required == null)
+        if ($this->required === null)
             return false;
-        return $this->getResolvedExpression($this->required);
+        $requ = $this->getResolvedExpression($this->required);
+        return \blaze\lang\Boolean::isType($requ) ? $requ : \blaze\lang\String::asWrapper($requ)->trim()->compareToIgnoreCase('true') == 0;
+    }
+
+    public function getRequiredMessage() {
+        return $this->getResolvedExpression($this->requiredMessage);
     }
 
     public function getValueChangeListeners() {
@@ -93,8 +106,34 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
         return $this;
     }
 
+    public function setRequiredMessage($requiredMessage) {
+        $this->requiredMessage = new \blaze\web\el\Expression($requiredMessage);
+        return $this;
+    }
+
     public function setSubmittedValue($submittedValue) {
         $this->submittedValue = $submittedValue;
+        return $this;
+    }
+
+    public function getLabel() {
+        return $this->getResolvedExpression($this->label);
+    }
+
+    public function setLabel($label) {
+        $this->label = new \blaze\web\el\Expression($label);
+        return $this;
+    }
+
+    public function getDisabled() {
+        if ($this->disabled === null)
+            return false;
+        $disabled = $this->getResolvedExpression($this->disabled);
+        return \blaze\lang\Boolean::isType($disabled) ? $disabled : \blaze\lang\String::asWrapper($disabled)->trim()->compareToIgnoreCase('true') == 0;
+    }
+
+    public function setDisabled($disabled) {
+        $this->disabled = new \blaze\web\el\Expression($disabled);
         return $this;
     }
 
@@ -123,14 +162,17 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
         if (!$this->getRendered())
             return;
+        if($this->getImmediate()){
+            $this->validate($context);
+        }
         parent::processDecodes($context);
-        // Immediate?
     }
 
     public function processUpdates(\blaze\web\application\BlazeContext $context) {
         if (!$this->getRendered())
             return;
-        parent::processUpdates($context);
+
+        $ex = null;
 
         try {
             if (!$this->getValid())
@@ -142,53 +184,81 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
             $listeners = $this->getValueChangeListeners();
             $newVal = $this->getLocalValue();
 
-//            if (count($listeners) > 0) {
-//                $oldVal = $valExpr->getValue($context);
-//
-//                if ($this->compareEqual($localVal, $newVal)) {
-//                    $event = new \blaze\web\event\ValueChangeEvent($this, $oldValue, $newValue);
-//
-//                    foreach ($listeners as $listener) {
-//                        $listener->process($event);
-//                    }
-//                }
-//            }
+            if (count($listeners) > 0) {
+                $oldVal = $valExpr->getValue($context);
+
+                if ($this->compare($oldVal, $newVal)) {
+                    $event = new \blaze\web\event\ValueChangeEvent($this, $oldValue, $newValue);
+                    $this->queueEvent($event);
+                }
+            }
             $valExpr->setValue($context, $newVal);
         } catch (\blaze\lang\Exception $e) {
             $context->renderResponse();
-            throw $e;
+            $ex = $e;
         }
+
+        parent::processUpdates($context);
+        if($ex != null)
+            throw $ex;
+    }
+
+    private function compare($old, $new){
+        if($old instanceof Object && $new instanceof Object)
+            return $old->equals($new);
+        else
+            return $old == $new;
     }
 
     public function processValidations(\blaze\web\application\BlazeContext $context) {
         if (!$this->getRendered())
             return;
-        parent::processValidations($context);
 
+        $ex = null;
         if (!$this->getImmediate()) {
-            try {
-                $convertedValue = $this->submittedValue;
-                $converter = $this->getConverter();
-
-                if ($converter != null)
-                    $convertedValue = $converter->asObject($context, $this->submittedValue);
-
-                foreach ($this->validators as $validator)
-                    $validator->validate($context, $convertedValue);
-
-                $this->setLocalValue($convertedValue);
-                return;
-            } catch (blaze\web\converter\ConverterException $ce) {
-                $this->setValid(false);
-                $context->addMessage($this->getId(), new \blaze\web\application\BlazeMessage($ce->getMessage()));
-            } catch (blaze\web\converter\ValidatorException $ve) {
-                $this->setValid(false);
-                $context->addMessage($this->getId(), new \blaze\web\application\BlazeMessage($ce->getMessage()));
-            } catch (\blaze\lang\Exception $e) {
-                $this->setValid(false);
-                throw $e;
+            try{
+                $this->validate($context);
+            }catch(blaze\lang\Exception $e){
+                $context->renderResponse();
+            $ex = $e;
             }
-            $context->renderResponse();
+            if(!$this->getValid()){
+                  $context->renderResponse();
+            }
+        }
+
+        parent::processValidations($context);
+        if($ex != null)
+            throw $ex;
+    }
+
+    protected function validate(\blaze\web\application\BlazeContext $context){
+        try {
+            $requMsg = $this->getRequiredMessage();
+            if($this->getRequired() === true && ($this->submittedValue === null || strlen($this->submittedValue) == 0))
+                    throw new \blaze\web\validator\ValidatorException(new \blaze\web\application\BlazeMessage( $requMsg !== null ? $requMsg : $this->getClientId($context).' is required!'));
+
+            $convertedValue = $this->submittedValue;
+            $converter = $this->getConverter();
+
+            if ($converter != null)
+                $convertedValue = $converter->asObject($context, $this->submittedValue);
+
+            foreach ($this->validators as $validator)
+                $validator->validate($context, $convertedValue);
+
+            $this->setLocalValue($convertedValue);
+            $this->setValid(true);
+            return;
+        } catch (\blaze\web\converter\ConverterException $ce) {
+            $this->setValid(false);
+            $context->addMessage($this->getId(), $ce->getBlazeMessage());
+        } catch (\blaze\web\validator\ValidatorException $ve) {
+            $this->setValid(false);
+            $context->addMessage($this->getId(), $ve->getBlazeMessage());
+        } catch (\blaze\lang\Exception $e) {
+            $this->setValid(false);
+            throw $e;
         }
     }
 

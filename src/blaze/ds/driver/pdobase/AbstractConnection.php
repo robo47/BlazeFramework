@@ -72,6 +72,18 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->pdo = new PDO($dsn, $user, $password, $options);
     }
 
+    public function  __sleep() {
+        $arr = array_keys(get_class_vars($this->getClass()->getName()->toNative()));
+        $key = array_search('pdo', $arr);
+        if($key !== false)
+            unset($arr[$key]);
+        return $arr;
+    }
+
+    public function  __wakeup() {
+        $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
+    }
+
     public function beginTransaction() {
         $this->checkClosed();
         $this->pdo->beginTransaction();

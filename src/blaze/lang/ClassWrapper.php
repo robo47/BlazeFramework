@@ -151,7 +151,7 @@ final class ClassWrapper extends Object implements Serializable {
         if (is_array($args))
             return $this->reflectionClass->newInstance($args);
         else
-            return $this->reflectionClass->newInstance(null);
+            return $this->reflectionClass->newInstance();
     }
 
     /**

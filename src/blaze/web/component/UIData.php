@@ -54,13 +54,24 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
         return $this->getResolvedExpression($this->selectedRow);
     }
 
+    public function getSelectedRowLocal() {
+        return $this->selectedRow;
+    }
+
     public function setSelectedRow($selectedRow) {
         $this->selectedRow = new \blaze\web\el\Expression($selectedRow);
         return $this;
     }
 
     public function getSelectedRowIndex() {
-        return $this->getResolvedExpression($this->selectedRowIndex);
+        if($this->selectedRowIndex === null)
+                return -1;
+        $idx = $this->getResolvedExpression($this->selectedRowIndex);
+        return $idx !== null ? $idx : -1;
+    }
+
+    public function getSelectedRowIndexLocal() {
+        return $this->selectedRowIndex;
     }
 
     public function setSelectedRowIndex($selectedRowIndex) {
@@ -121,16 +132,6 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
         $this->rows = new \blaze\web\el\Expression($rows);
         return $this;
     }
-
-//    public function processDecodes(\blaze\web\application\BlazeContext $context) {
-//        if(!$this->getRendered())
-//                return;
-//        $prefix = $this->getId().self::CONTAINER_SEPARATOR;
-//        $map = $context->getRequest()->getParameterMap();
-//        foreach($map as $key => $value){
-//            $map->getKey()
-//        }
-//    }
 
     protected function getRowChildren(\blaze\web\application\BlazeContext $context){
         $values = $this->getValue();

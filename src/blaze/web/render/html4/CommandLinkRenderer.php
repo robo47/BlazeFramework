@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,16 +13,16 @@ namespace blaze\web\render\html4;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class CommandLinkRenderer extends \blaze\web\render\html4\CoreRenderer{
+class CommandLinkRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
-
+    public function __construct() {
+        
     }
+
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-//        \blaze\util\Logger::get()->log($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER'));
-//        \blaze\util\Logger::get()->log($component->getClientId($context));
-        if($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER') == $component->getClientId($context)){
-                $component->setClicked(true);
+        if ($context->getRequest()->getParameter('BLAZE_COMMAND_IDENTIFIER') == $component->getClientId($context)) {
+            $component->setClicked(true);
+            $component->queueEvent(new \blaze\web\event\ActionEvent($component));
         }
     }
 
@@ -32,18 +33,17 @@ class CommandLinkRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $writer->write(' onclick="return commandLinkClick(this)" href="#"');
         $writer->write('>');
         $writer->write($component->getValue());
-    }
-
-        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        $writer = $context->getResponse()->getWriter();
         $writer->write('</a>');
     }
 
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
+    }
 
 }
 

@@ -51,7 +51,7 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
         return $this;
     }
 
-    public function  getValueExpression() {
+    public function getValueExpression() {
         return $this->value;
     }
 

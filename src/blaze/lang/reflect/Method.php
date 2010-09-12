@@ -238,10 +238,13 @@ class Method extends Object{
      * @exception ExceptionInInitializerError if the initialization
      * provoked by this method fails.
      */
-    public function invoke($obj, $args) {
-        $args = func_get_args();
-        array_shift($args);
-        return $this->reflectionMethod->invokeArgs($obj, $args);
+    public function invoke($obj, $args = null) {
+        if($args !== null){
+            $args = func_get_args();
+            array_shift($args);
+            return $this->reflectionMethod->invokeArgs($obj, $args);
+        }
+        return $this->reflectionMethod->invoke($obj, null);
     }
 
     public function setAccessible($accessible){

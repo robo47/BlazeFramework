@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\impl;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFactory{
+class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFactory {
 
     private $properties;
     private $ressources;
@@ -21,11 +23,13 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
     private $ds;
     private $dialect;
     private $mapping = array();
+    private $freeConnections;
+    private $usedConnections;
 
-    public function __construct(\blaze\collections\map\Properties $properties, \blaze\collections\lists\ArrayList $ressources){
+    public function __construct(\blaze\collections\map\Properties $properties, \blaze\collections\lists\ArrayList $ressources) {
         $driverName = $properties->getProperty('persistence.connection.datasource.class');
 
-        if($driverName != null){
+        if ($driverName != null) {
             $dsClass = \blaze\lang\ClassWrapper::forName($driverName);
             $dsHost = $properties->getProperty('persistence.connection.datasource.host');
             $dsPort = $properties->getProperty('persistence.connection.datasource.port');
@@ -34,7 +38,7 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
             $dsPassword = $properties->getProperty('persistence.connection.datasource.password');
             $dsOptions = $properties->getProperty('persistence.connection.datasource.options');
             $this->ds = $dsClass->getMethod('getDataSource')->invokeArgs(null, array($dsHost, $dsPort, $dsDatabase, $dsUsername, $dsPassword, $dsOptions));
-        }else{
+        } else {
             $dsn = $properties->getProperty('persistence.connection.datasource.url');
             $dsUsername = $properties->getProperty('persistence.connection.datasource.username');
             $dsPassword = $properties->getProperty('persistence.connection.datasource.password');
@@ -45,38 +49,94 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
 //        $dialectClass = \blaze\lang\ClassWrapper::forName($properties->getProperty('persistence.dialect'));
 //        $this->dialect = $dialectClass->getMethod('getDialect')->invokeArgs(null, array());
 
-        foreach($ressources as $ressource){
+        foreach ($ressources as $ressource) {
             $this->loadMapping($ressource);
         }
 
         $this->properties = $properties;
         $this->ressources = $ressources;
-        $this->sessions = new \blaze\collections\lists\ArrayList();
+        $this->freeConnections = new \blaze\collections\queue\Stack();
+        $this->usedConnections = new \blaze\collections\map\HashMap();
     }
 
     public function close() {
-        foreach($this->sessions as $session){
-            $session->close();
+        $iter = $this->usedConnections->getIterator();
+
+        while ($iter->hasNext()) {
+            $entry = $iter->next();
+            $session = $entry->getKey();
+
+            if ($session != null && !$session->isClosed()) {
+                $con = $entry->getValue();
+                $session->close();
+                $this->freeConnections->push($con);
+                $iter->remove();
+            }
         }
     }
 
     public function openSession() {
-        $sess = new SessionImpl();
-        $this->sessions->add($sess);
+        $con = null;
+
+        if ($this->freeConnections->count() == 0) {
+            $this->freeClosedSessions();
+
+            if ($this->freeConnections->count() == 0)
+                $con = $this->ds->getConnection();
+            else
+                $con = $this->freeConnections->pop();
+        }else {
+            $con = $this->freeConnections->pop();
+        }
+
+        $sess = new SessionImpl($con, $this, $this->mapping);
+        $this->usedConnections->put($sess, $con);
         return $sess;
     }
 
-    private function loadMapping(\blaze\io\File $file){
+    private function freeClosedSessions() {
+        $iter = $this->usedConnections->getIterator();
+
+        while ($iter->hasNext()) {
+            $entry = $iter->next();
+            $session = $entry->getKey();
+
+            if ($session != null && $session->isClosed()) {
+                $con = $entry->getValue();
+                $this->freeConnections->push($con);
+                $iter->remove();
+            }
+        }
+    }
+
+    private function loadMapping(\blaze\io\File $file) {
         $doc = new \DOMDocument();
         $doc->load($file->getAbsolutePath());
 
-        if($doc->documentElement->localName != 'persistence-mapping')
+        if ($doc->documentElement->localName != 'persistence-mapping')
             throw new \Exception('The first element must be of the type persistence-mapping');
         $class = new \blaze\persistence\tool\metainfo\ClassMetaInfo();
         $class->fromXml($doc->documentElement->firstChild);
-        $this->mapping[] = $class;
+        $fullClassName = $class->getPackage().'\\'.$class->getName();
+        $this->mapping[$fullClassName] = $class;
     }
-    
+
+    /**
+     *
+     * @param \blaze\lang\Object $o
+     * @return blaze\persistence\tool\metainfo\ClassMetaInfo
+     */
+    public function getClassMeta(\blaze\lang\Object $o) {
+        if($o === null)
+            throw new \blaze\lang\NullPointerException();
+
+        $name = $o->getClass()->getName()->toNative();
+        if(array_key_exists($name, $this->mapping))
+                return $this->mapping[$name];
+        else
+            return null;
+    }
+
 }
 
 ?>

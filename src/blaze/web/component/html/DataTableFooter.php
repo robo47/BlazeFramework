@@ -43,11 +43,7 @@ class DataTableFooter extends \blaze\web\component\UIComponentCore{
 
     public function processRender(\blaze\web\application\BlazeContext $context) {
         foreach($this->getChildren() as $child){
-            $renderer = $child->getRenderer($context);
-            $renderer->renderBegin($context, $child);
-            $renderer->renderAttributes($context, $child);
-            $renderer->renderChildren($context, $child);
-            $renderer->renderEnd($context, $child);
+            $child->processRender($context);
         }
     }
 }

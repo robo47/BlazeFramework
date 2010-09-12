@@ -17,7 +17,10 @@ class PlusOperation extends ComplexOperation{
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
         $left = $this->getLeftOperation()->getValue($context, $subExpressions, $subBrackets);
         $right = $this->getRightOperation()->getValue($context, $subExpressions, $subBrackets);
-        return $left + $right;
+        if(\blaze\lang\String::isType($left) || \blaze\lang\String::isType($right))
+            return $left.$right;
+        else
+            return $left + $right;
     }
 }
 

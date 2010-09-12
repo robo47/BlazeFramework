@@ -19,6 +19,29 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 
     }
 
+    public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        $value = $component->getValue();
+
+        if ($value != null) {
+            if ($component->getRowIdentifier() === null)
+                $rowId = 0;
+
+            $found = false;
+
+            foreach ($value as $tableEntry) {
+                if ($component->getRowIdentifier() !== null)
+                    $component->setRowId($tableEntry->getClass()->getMethod('get' . ucfirst($component->getRowIdentifier()))->invoke($tableEntry));
+
+                $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $component->getRowVar(), $tableEntry);
+                $found = $this->decodeTableRow($context, $component, $found);
+
+                if ($component->getRowIdentifier() === null)
+                    $component->setRowId($rowId++);
+            }
+            $component->setRowId(-1);
+        }
+    }
+
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
         $writer->write('<table');
@@ -55,7 +78,7 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
                 $header = true;
             if (!$footer && $column->hasFooter())
                 $footer = true;
-            if($header && $footer)
+            if ($header && $footer)
                 break;
         }
 
@@ -63,23 +86,29 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
             $this->renderOuterRow($context, $component, true);
 
         $value = $component->getValue();
-        
+
 //        if(!$value instanceof \blaze\util\ListI)
 //            throw new \blaze\lang\IllegalArgumentException('List must be given as value.');
 
         $writer->write('<tbody>');
 
-        if($value != null){
-            $rowId = 0;
-            
-            foreach($value as $tableEntry){
-                $component->setRowId($rowId++);
+        if ($value != null) {
+            if ($component->getRowIdentifier() === null)
+                $rowId = 0;
+
+            foreach ($value as $tableEntry) {
+                if ($component->getRowIdentifier() !== null)
+                    $component->setRowId($tableEntry->getClass()->getMethod('get' . ucfirst($component->getRowIdentifier()))->invoke($tableEntry));
+
                 $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $component->getRowVar(), $tableEntry);
                 $this->renderTableRow($context, $component);
+
+                if ($component->getRowIdentifier() === null)
+                    $component->setRowId($rowId++);
             }
             $component->setRowId(-1);
         }
-        
+
         $writer->write('</tbody>');
 
         if ($footer)
@@ -97,24 +126,27 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         $writer->write('<tr>');
 
         foreach ($component->getColumns() as $column) {
-            if($column instanceof \blaze\web\component\html\DataTableColumns){
+            if ($column instanceof \blaze\web\component\html\DataTableColumns) {
                 $value = $column->getValue();
 
-                if($value != null){
+                if ($value != null) {
                     $columnId = 0;
 
-                    foreach($value as $tableColumn){
+                    foreach ($value as $tableColumn) {
                         $column->setColumnId($columnId++);
                         $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $column->getColumnVar(), $tableColumn);
-                        if($head)
-                            $this->renderTableCell($context, $component, $column->getHeader(), true);
+                        if ($head)
+                            $this->renderTableCell($context, $component, $column->getHeader(), $head);
                         else
-                            $this->renderTableCell($context, $component, $column->getFooter(), false);
+                            $this->renderTableCell($context, $component, $column->getFooter(), $head);
                     }
                     $column->setColumnId(-1);
                 }
-            }else{
-                $this->renderTableCell($context, $component, $column, $head);
+            }else {
+                if ($head)
+                    $this->renderTableCell($context, $component, $column->getHeader(), $head);
+                else
+                    $this->renderTableCell($context, $component, $column->getFooter(), $head);
             }
         }
 
@@ -130,20 +162,20 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         $writer->write('<tr>');
 
         foreach ($component->getColumns() as $column) {
-            if($column instanceof \blaze\web\component\html\DataTableColumns){
+            if ($column instanceof \blaze\web\component\html\DataTableColumns) {
                 $value = $column->getValue();
 
-                if($value != null){
+                if ($value != null) {
                     $columnId = 0;
 
-                    foreach($value as $tableColumn){
+                    foreach ($value as $tableColumn) {
                         $column->setColumnId($columnId++);
                         $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $column->getColumnVar(), $tableColumn);
                         $this->renderTableCell($context, $component, $column, false);
                     }
                     $column->setColumnId(-1);
                 }
-            }else{
+            } else {
                 $this->renderTableCell($context, $component, $column, false);
             }
         }
@@ -151,11 +183,46 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         $writer->write('</tr>');
     }
 
-    private function renderTableCell(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component, $parent, $head){
+    private function decodeTableRow(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component, $found) {
+        foreach ($component->getColumns() as $column) {
+            if ($column instanceof \blaze\web\component\html\DataTableColumns) {
+                $value = $column->getValue();
+
+                if ($value != null) {
+                    $columnId = 0;
+
+                    foreach ($value as $tableColumn) {
+                        $column->setColumnId($columnId++);
+                        $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $column->getColumnVar(), $tableColumn);
+                        $column->processDecodes($context);
+                        $this->recursiveUnsetClientId($column);
+                        if (!$found && $this->recursiveCheckSelected($column)) {
+                            $component->getSelectedRowIndexLocal()->setValue($context, $component->getRowId());
+                            $found = true;
+                        }
+                    }
+                    $column->setColumnId(-1);
+                }
+            } else {
+                $column->processDecodes($context);
+                $this->recursiveUnsetClientId($column);
+                if (!$found && $this->recursiveCheckSelected($column)) {
+                    $component->getSelectedRowIndexLocal()->setValue($context, $component->getRowId());
+                    $found = true;
+                }
+            }
+        }
+
+        return $found;
+    }
+
+    private function renderTableCell(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component, $parent, $head) {
         $writer = $context->getResponse()->getWriter();
 
         if ($parent != null) {
 //            $colspan = $parent->getSpan();
+            $styleClass = $parent->getStyleClass();
+            $style = $parent->getStyle();
 
             if ($head)
                 $writer->write('<th');
@@ -164,6 +231,10 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 
 //            if ($colspan != null)
 //                $writer->write(' colspan="' . $colspan . '"');
+            if ($styleClass != null)
+                $writer->write(' class="'.$styleClass.'"');
+            if ($style != null)
+                $writer->write(' style="'.$style.'"');
 
             $writer->write('>');
             $parent->processRender($context);
@@ -176,10 +247,27 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         }
     }
 
-    private function recursiveUnsetClientId(\blaze\web\component\UIComponent $component){
+    private function recursiveUnsetClientId(\blaze\web\component\UIComponent $component) {
         $component->unsetClientId();
-        foreach($component->getChildren() as $child)
-                $this->recursiveUnsetClientId($child);
+        foreach ($component->getChildren() as $child)
+            $this->recursiveUnsetClientId($child);
+    }
+
+    private function recursiveCheckSelected(\blaze\web\component\UIComponent $component) {
+        if ($component instanceof \blaze\web\component\UICommand){
+            return $component->getClicked();
+        }
+
+        $found = false;
+
+        foreach ($component->getChildren() as $child){
+            if($found)
+                break;
+            if($this->recursiveCheckSelected($child) === true)
+                    $found = true;
+        }
+        
+        return $found;
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
@@ -190,6 +278,6 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
         
     }
 
-
 }
+
 ?>

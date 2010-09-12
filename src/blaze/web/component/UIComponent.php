@@ -18,6 +18,10 @@ interface UIComponent {
      */
      public function getId();
      /**
+      * @return string
+      */
+     public function getClientId(\blaze\web\application\BlazeContext $context);
+     /**
       * @param string|blaze\lang\String $id
       * @return blaze\web\component\UIComponent
       */
@@ -61,11 +65,11 @@ interface UIComponent {
      public function getRendererId();
      public function getComponentFamily();
 
-     public function processEvent(\blaze\web\event\BlazeEvent $event);
+     public function processEvent(\blaze\web\application\BlazeContext $context, \blaze\web\event\BlazeEvent $event);
      public function processDecodes(\blaze\web\application\BlazeContext $context);
      public function processValidations(\blaze\web\application\BlazeContext $context);
      public function processUpdates(\blaze\web\application\BlazeContext $context);
-     public function processApplication(\blaze\web\application\BlazeContext $context);
+     public function processApplication(\blaze\web\application\BlazeContext $context, \blaze\web\event\ActionEvent $event);
      public function processRender(\blaze\web\application\BlazeContext $context);
 }
 

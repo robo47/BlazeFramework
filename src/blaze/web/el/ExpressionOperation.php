@@ -61,7 +61,7 @@ class ExpressionOperation extends Object {
                         $this->parseFirstLevel($i, $j, $operations);
                         
                         // If no function was found, make a NoOperation object
-                        if ($this->operations[$i][$j] == null)
+                        if (!isset($this->operations[$i][$j]) || $this->operations[$i][$j] == null)
                             $this->operations[$i][$j] = new operation\NoOperation($operations[$j]['leftExpression']);
                     }else if ($i == 1) { // Negation level
                         // If the negation is set, make a NotOperation object with the object from the parent level
@@ -85,7 +85,7 @@ class ExpressionOperation extends Object {
                                     $this->operations[$i][$idx] = $this->operations[$i][$j];
                         }else {
                             // Only do the pass from the parent level to the actual one, if no object was set in the current level
-                            if ($this->operations[$i][$j] == null)
+                            if (!isset($this->operations[$i][$j]) || $this->operations[$i][$j] == null)
                             // Get the objects from the parent level to the actual
                                 $this->operations[$i][$j] = $this->operations[$i - 1][$j];
                         }

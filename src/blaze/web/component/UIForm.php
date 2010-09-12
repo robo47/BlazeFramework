@@ -30,7 +30,7 @@ abstract class UIForm extends \blaze\web\component\UIComponentCore implements Na
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
         $renderer = $this->getRenderer($context);
         $renderer->decode($context, $this);
-
+        
         if(!$this->submitted) return;
 
         foreach($this->getChildren() as $child)
@@ -47,6 +47,9 @@ abstract class UIForm extends \blaze\web\component\UIComponentCore implements Na
         parent::processValidations($context);
     }
 
-
+    public function processRender(\blaze\web\application\BlazeContext $context) {
+        parent::processRender($context);
+        $this->submitted = false;
+    }
 }
 ?>

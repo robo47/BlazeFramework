@@ -20,7 +20,7 @@ abstract class Renderer extends \blaze\lang\Object{
      }
      public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
          foreach($component->getChildren() as $child){
-            $renderer = $child->processRender($context);
+            $child->processRender($context);
         }
      }
      

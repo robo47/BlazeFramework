@@ -101,6 +101,12 @@ interface ResultSet {
     /**
      *
      * @param blaze\lang\String|string|int $identifier
+     * @return blaze\util\Date
+     */
+    public function getDateTime($identifier);
+    /**
+     *
+     * @param blaze\lang\String|string|int $identifier
      * @return double
      */
     public function getDouble($identifier);

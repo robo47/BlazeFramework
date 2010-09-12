@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -20,7 +22,6 @@ class StringBuffer extends Object {
      * @var string
      */
     private $string;
-
     /**
      *
      * @var long
@@ -30,8 +31,8 @@ class StringBuffer extends Object {
     /**
      * Description
      */
-    public function __construct($str = null){
-        if($str != null)
+    public function __construct($str = null) {
+        if ($str != null)
             $this->string = String::asNative($str);
         else
             $this->string = "";
@@ -44,12 +45,11 @@ class StringBuffer extends Object {
      * @param 	mixed $val The value which shall be added to the buffer
      * @return  blaze\lang\StringBuffer
      */
-     public function append($val){
+    public function append($val) {
         $this->string .= $val;
         $this->count = strlen($this->string);
         return $this;
-     }
-
+    }
 
     /**
      * Returns the <code>char</code> value at the
@@ -77,7 +77,6 @@ class StringBuffer extends Object {
         return $this->string[$index];
     }
 
-
     /**
      * Returns a new string that is a substring of this string. The
      * substring begins at the specified <code>beginIndex</code> and
@@ -101,20 +100,20 @@ class StringBuffer extends Object {
      *             <code>endIndex</code>.
      */
     public function substring($beginIndex, $endIndex = -1) {
-        if($endIndex == -1) {
+        if ($endIndex == -1) {
             $endIndex = $this->count;
         }
-	if ($beginIndex < 0) {
-	    throw new StringIndexOutOfBoundsException(beginIndex);
-	}
-	if ($endIndex > $this->count) {
-	    throw new StringIndexOutOfBoundsException(endIndex);
-	}
-	if ($beginIndex > $endIndex) {
-	    throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
-	}
-	return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
-	    new String($this->string, $beginIndex, $endIndex);
+        if ($beginIndex < 0) {
+            throw new StringIndexOutOfBoundsException(beginIndex);
+        }
+        if ($endIndex > $this->count) {
+            throw new StringIndexOutOfBoundsException(endIndex);
+        }
+        if ($beginIndex > $endIndex) {
+            throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
+        }
+        return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
+                new String($this->string, $beginIndex, $endIndex);
     }
 
     /**
@@ -125,14 +124,19 @@ class StringBuffer extends Object {
      * @return blaze\lang\StringBuffer
      * @throws blaze\lang\IndexOutOfBoundsException Is thrown when $len is negative
      */
-    public function setLength($len){
-        if($len < 0)
+    public function setLength($len) {
+        if ($len < 0)
             throw new IndexOutOfBoundsException($len);
-        $this->string = substr($this->string,0,$len);
+
+        if ($this->count < $len)
+            $this->string .= str_repeat(' ', $len - $this->count);
+        else {
+            $this->string = substr($this->string, 0, $len);
+        }
+
         $this->count = strlen($this->string);
         return $this;
     }
-
 
     /**
      * Sets the value of the buffer at the position $off to the given value.
@@ -146,16 +150,16 @@ class StringBuffer extends Object {
      * @throws blaze\lang\IndexOutOfBoundsException Is thrown when $len is negative
      * @todo Test what happens when $newStart == $this->count, maybe need ($newStart >= $this->count)
      */
-    public function setStringAt($str, $off){
+    public function setStringAt($str, $off) {
         $str = String::asNative($str);
-        if($off < 0)
+        if ($off < 0)
             throw new IndexOutOfBoundsException($off);
 
         $newStart = $off + strlen($str);
-        if($newStart > $this->count)
-            $this->string = substr($this->string,0,$off).$str;
+        if ($newStart > $this->count)
+            $this->string = substr($this->string, 0, $off) . $str;
         else
-            $this->string = substr($this->string,0,$off).$str.substr($this->string,$newStart);
+            $this->string = substr($this->string, 0, $off) . $str . substr($this->string, $newStart);
 
         $this->count = strlen($this->string);
         return $this;
@@ -165,21 +169,21 @@ class StringBuffer extends Object {
      *
      * @return blaze\lang\StringBuffer
      */
-    public function reverse(){
+    public function reverse() {
         $this->string = strrev($this->string);
         return $this;
     }
 
-    public function replace($start, $end, $str){
+    public function replace($start, $end, $str) {
         $index = 0;
-        for($i = $start; $i<$end;$i++){
+        for ($i = $start; $i < $end; $i++) {
             $this->string[$i] = $str[$index];
             $index++;
         }
         return $this;
     }
 
-    public function lastIndexOf(){
+    public function lastIndexOf() {
         return $this->count;
     }
 
@@ -192,37 +196,34 @@ class StringBuffer extends Object {
      * @param 	int $end The endpoint of $val which shall be insterted into the buffer
      * @return  blaze\lang\StringBuffer
      */
-    public function insert($val, $off, $start, $end){
+    public function insert($val, $off, $start, $end) {
 
         $index = $off;
-        for($i=$start;$i<$end;$i++){
+        for ($i = $start; $i < $end; $i++) {
             $h = $this->string[$index];
             $this->string[$index] = $val[$index];
-            $this->string[$index+1] = $h;
+            $this->string[$index + 1] = $h;
             $index++;
         }
-
     }
 
-    public function delete($start, $end = -1){
-        $this->string = \substr($this->string,0,  $start ).\substr($this->string,$end, \count($this->string) );
+    public function delete($start, $end = -1) {
+        $this->string = \substr($this->string, 0, $start) . \substr($this->string, $end, \count($this->string));
         return $this;
     }
 
-    public function length(){
+    public function length() {
         return $this->count;
     }
 
-    public function setLength($len){
-        $this->count = $len;
-    }
-    public function setCharAt($index, $char){
+    public function setCharAt($index, $char) {
         $this->string[$index] = $char;
     }
 
-    public function toString(){
+    public function toString() {
         return $this->string;
     }
+
 }
 
 ?>

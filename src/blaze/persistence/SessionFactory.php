@@ -14,6 +14,12 @@ namespace blaze\persistence;
  */
 interface SessionFactory {
     /**
+     *
+     * @param \blaze\lang\Object $o
+     * @return blaze\persistence\tool\metainfo\ClassMetaInfo
+     */
+    public function getClassMeta(\blaze\lang\Object $o);
+    /**
      * Returns a new Session
      *
      * @return 	blaze\persistence\Session

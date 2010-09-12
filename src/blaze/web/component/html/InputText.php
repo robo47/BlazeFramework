@@ -15,8 +15,6 @@ use blaze\lang\Object;
  */
 class InputText extends \blaze\web\component\UIInput{
 
-    private $disabled;
-    private $label;
 
     public function __construct(){
     }
@@ -31,24 +29,6 @@ class InputText extends \blaze\web\component\UIInput{
 
     public function getRendererId() {
         return 'InputTextRenderer';
-    }
-
-    public function getDisabled() {
-        return $this->getResolvedExpression($this->disabled);
-    }
-
-    public function setDisabled($disabled) {
-        $this->disabled = new \blaze\web\el\Expression($disabled);
-        return $this;
-    }
-
-    public function getLabel() {
-        return $this->getResolvedExpression($this->label);
-    }
-
-    public function setLabel($label) {
-        $this->label = new \blaze\web\el\Expression($label);
-        return $this;
     }
 
     public function getType(){

@@ -79,6 +79,13 @@ class Date extends Object {
     }
 
     /**
+     * @return blaze\util\Date
+     */
+    public static function now(){
+        return self::fromUnixTime(time());
+    }
+
+    /**
      * Generates a Date object with a timestamp and a timezone.
      * @param long $timestamp 
      */
@@ -342,7 +349,7 @@ class Date extends Object {
     }
 
     public function toString(){
-        return $this->day.'.'.$this->month.'.'.$this->year.' '.$this->hour.':'.$this->minute.':'.$this->second.','.$this->millisecond;
+        return $this->day.'.'.$this->month.'.'.$this->year.' '.($this->hour < 10 ? '0'.$this->hour : $this->hour).':'.($this->minute < 10 ? '0'.$this->minute : $this->minute).':'.($this->second < 10 ? '0'.$this->second : $this->second);
     }
 }
 

@@ -15,7 +15,6 @@ use blaze\lang\Object;
  */
 class CommandLink extends \blaze\web\component\UICommand{
 
-    private $clicked;
     private $value;
 
     public function __construct(){
@@ -40,20 +39,6 @@ class CommandLink extends \blaze\web\component\UICommand{
     public function setValue($value) {
         $this->value = new \blaze\web\el\Expression($value);
         return $this;
-    }
-
-    public function getClicked() {
-        return $this->clicked;
-    }
-
-    public function setClicked($clicked) {
-        $this->clicked = $clicked;
-        return $this;
-    }
-
-    public function processApplication(\blaze\web\application\BlazeContext $context) {
-        if(!$this->getClicked()) return;
-        parent::processApplication($context);
     }
 
 

@@ -31,8 +31,7 @@ class ELSessionScopeContext extends ELScopeContext {
             return null;
 
         $sess = $this->getSession($context);
-        $sess->getAttribute($key);
-        $val = $this->getSession($context)->getAttribute($key);
+        $val = $sess->getAttribute($key);
 
         if ($val == null) {
             $val = $this->nutDefinitions[$key]->newInstance();

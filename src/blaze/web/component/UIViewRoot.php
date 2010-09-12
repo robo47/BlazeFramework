@@ -79,39 +79,39 @@ class UIViewRoot extends \blaze\web\component\UIComponentBase implements NamingC
      *
      * @param \blaze\web\event\PhaseId $phaseId
      */
-    private function broadcastEvents($phaseId){
+    private function broadcastEvents(\blaze\web\application\BlazeContext $context, $phaseId){
         foreach($this->events as $event){
             if($event->getPhaseId() == $phaseId ||
                $event->getPhaseId() == \blaze\web\event\PhaseId::ANY_PHASE){
-
+               $component = $event->getSource();
+               $component->processEvent($context, $event);
             }
         }
     }
 
-    public function processApplication(\blaze\web\application\BlazeContext $context) {
-        parent::processApplication($context);
-        $this->broadcastEvents(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
+    public function processEvents(\blaze\web\application\BlazeContext $context) {
+        $this->broadcastEvents($context, \blaze\web\event\PhaseId::INVOKE_APPLICATION);
         if($context->getResponseComplete() || $context->getDoRenderResponse())
                 $this->clearEvents();
     }
 
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
         parent::processDecodes($context);
-        $this->broadcastEvents(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
+        $this->broadcastEvents($context, \blaze\web\event\PhaseId::APPLY_REQUEST);
         if($context->getResponseComplete() || $context->getDoRenderResponse())
                 $this->clearEvents();
     }
 
     public function processUpdates(\blaze\web\application\BlazeContext $context) {
         parent::processUpdates($context);
-        $this->broadcastEvents(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
+        $this->broadcastEvents($context, \blaze\web\event\PhaseId::UPDATE_MODEL);
         if($context->getResponseComplete() || $context->getDoRenderResponse())
                 $this->clearEvents();
     }
 
     public function processValidations(\blaze\web\application\BlazeContext $context) {
         parent::processValidations($context);
-        $this->broadcastEvents(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
+        $this->broadcastEvents($context, \blaze\web\event\PhaseId::PROCESS_VALIDATION);
         if($context->getResponseComplete() || $context->getDoRenderResponse())
                 $this->clearEvents();
     }

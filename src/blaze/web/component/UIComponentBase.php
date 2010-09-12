@@ -58,7 +58,7 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function getRendered() {
-        if($this->rendered == null)
+        if($this->rendered === null)
                 return true;
         return $this->getResolvedExpression($this->rendered);
     }
@@ -123,7 +123,7 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     protected function getResolvedExpression(\blaze\web\el\Expression $expr = null){
-        if($expr == null)
+        if($expr === null)
             return null;
         if(!$expr->isValid())
                 return $expr->getExpressionString();
@@ -131,13 +131,15 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         return $expr->getValue($context);
     }
 
-    protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null){
+    protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null, $args = null){
         if($expr == null)
             return null;
         if(!$expr->isValid())
                 return $expr->getExpressionString();
         $context = \blaze\web\application\BlazeContext::getCurrentInstance();
-        return $expr->invoke($context, array());
+        $args = func_get_args();
+        array_shift($args);
+        return $expr->invoke($context, $args);
     }
 
     /**
@@ -150,9 +152,10 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
                 ->getRenderer($this->getRendererId());
     }
 
-    public function processEvent(\blaze\web\event\BlazeEvent $event) {
+    public function processEvent(\blaze\web\application\BlazeContext $context, \blaze\web\event\BlazeEvent $event) {
         foreach($this->listeners as $listener){
-
+            if($event->isAppropriateListener($listener))
+                    $event->processListener($listener);
         }
     }
 
@@ -174,13 +177,12 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
             $child->processUpdates($context);
     }
 
-    public function processApplication(\blaze\web\application\BlazeContext $context) {
-        foreach ($this->children as $child)
-            $child->processApplication($context);
+    public function processApplication(\blaze\web\application\BlazeContext $context, \blaze\web\event\ActionEvent $event) {
+        return;
     }
 
     public function processRender(\blaze\web\application\BlazeContext $context) {
-        if (!$this->getRendered())
+        if ($this->getRendered() === false)
             return;
         $renderer = $this->getRenderer($context);
 

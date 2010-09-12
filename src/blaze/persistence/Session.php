@@ -13,16 +13,17 @@ namespace blaze\persistence;
  * @todo    Something which has to be done, implementation or so
  */
 interface Session {
+    
     /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\persistence\Transaction Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
+     * @return blaze\ds\Connection
      */
+    public function getConnection();
+    /**
+     * @return blaze\persistence\SessionFactory
+     */
+    public function getSessionFactory();
      public function beginTransaction();
+     public function commit();
      public function close();
 
      /**
@@ -54,17 +55,28 @@ interface Session {
       *
       * @param blaze\lang\Object $object
       */
-     public function save($object);
+     public function save(\blaze\lang\Object $object);
      /**
       *
       * @param blaze\lang\Object $object
       */
-     public function saveOrUpdate($object);
+     public function saveOrUpdate(\blaze\lang\Object $object);
      /**
       *
       * @param blaze\lang\Object $object
       */
-     public function update($object);
+     public function update(\blaze\lang\Object $object);
+     /**
+      *
+      * @param blaze\lang\Object $object
+      */
+     public function remove(\blaze\lang\Object $object);
+     /**
+      *
+      * @param blaze\lang\String|string|blaze\lang\ClassWrapper $class
+      * @param blaze\collections\ListI $ids
+      */
+     public function removeByIds($class, blaze\collections\ListI $ids);
 }
 
 ?>

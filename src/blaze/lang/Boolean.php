@@ -81,20 +81,6 @@ class Boolean extends Object implements NativeWrapper,Comparable {
     }
 
     /**
-     * Returns a <tt>String</tt> object representing the specified
-     * boolean.  If the specified boolean is <code>true</code>, then
-     * the string {@code "true"} will be returned, otherwise the
-     * string {@code "false"} will be returned.
-     *
-     * @param b	the boolean to be converted
-     * @return the string representation of the specified <code>boolean</code>
-     * @since 1.4
-     */
-    public function toString($b){
-        return $b ? 'true' : 'false';
-    }
-
-    /**
      * Returns a <tt>String</tt> object representing this Boolean's
      * value.  If this object represents the value <code>true</code>,
      * a string equal to {@code "true"} is returned. Otherwise, a

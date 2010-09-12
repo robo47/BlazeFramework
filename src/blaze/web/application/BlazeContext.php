@@ -51,7 +51,7 @@ class BlazeContext extends Object {
      * @param blaze\web\application\BlazeMessage $message
      */
     public function addMessage($messageId, BlazeMessage $message) {
-        $this->attributes[\blaze\lang\String::asNative($messageId)][] = $message;
+        $this->messages[\blaze\lang\String::asNative($messageId)][] = $message;
     }
 
     /**

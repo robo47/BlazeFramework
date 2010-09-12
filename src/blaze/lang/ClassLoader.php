@@ -64,12 +64,12 @@ class ClassLoader extends Object {
     }
 
     public final function isInitializedClass($className){
-        $className = (string)$className;
+        $className = trim((string)$className, '\\');
         return $this->isLoadedClass($className) && $this->classes[$className] != null;
     }
 
     public function findLoadedClass($className){
-        $className = (string)$className;
+        $className = trim((string)$className, '\\');
         if (!$this->isLoadedClass($className)) {
             return null;
         }else if(!$this->isInitializedClass($className)){
@@ -80,7 +80,7 @@ class ClassLoader extends Object {
     }
 
     public function findClass($className){
-        $className = (string)$className;
+        $className = trim((string)$className, '\\');
         $this->loadClass($className);
         return $this->findLoadedClass($className);
     }
@@ -90,7 +90,7 @@ class ClassLoader extends Object {
      * @param blaze\lang\String|string $name The full name of the class which shall be loaded.
      */
     public function loadClass($className) {
-        $className = (string)$className;
+        $className = trim((string)$className, '\\');
         
         // Check if class was already loaded
         if ($this->isLoadedClass($className))

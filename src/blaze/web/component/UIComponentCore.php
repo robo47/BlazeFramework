@@ -58,7 +58,7 @@ abstract class UIComponentCore extends \blaze\web\component\UIComponentBase{
     }
 
     public function processRender(\blaze\web\application\BlazeContext $context) {
-        if (!$this->getRendered())
+        if ($this->getRendered() === false)
             return;
         $decoratorName = $this->getDecorator();
         
