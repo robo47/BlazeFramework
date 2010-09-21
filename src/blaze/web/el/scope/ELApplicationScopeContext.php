@@ -29,8 +29,8 @@ class ELApplicationScopeContext extends ELScopeContext{
             if($val === null){
                 $def = $this->nutDefinitions->get($key);
                 if($def !== null){
-                    $val = \blaze\lang\ClassWrapper::forName()->newInstance();
-                    $this->variables->put($val);
+                    $val = \blaze\lang\ClassWrapper::forName($def)->newInstance();
+                    $this->variables->put($key, $val);
                 }
             }
 
