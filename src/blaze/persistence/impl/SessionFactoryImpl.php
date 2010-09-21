@@ -26,7 +26,7 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
     private $freeConnections;
     private $usedConnections;
 
-    public function __construct(\blaze\collections\map\Properties $properties, \blaze\collections\lists\ArrayList $ressources) {
+    public function __construct(\blaze\collections\map\Properties $properties, \blaze\collections\ListI $ressources) {
         $driverName = $properties->getProperty('persistence.connection.datasource.class');
 
         if ($driverName != null) {

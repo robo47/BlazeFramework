@@ -64,7 +64,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     public function __construct($parent = null, $childOrPrefixLength = null) {
         /* simulate signature identified constructors */
         if ($parent instanceof File && String::isType($childOrPrefixLength)) {
-            $this->constructFileParentStringChild($parent, $childOrPrefixLength);
+            $this->constructFileParentStringChild($parent, String::asNative($childOrPrefixLength));
         } elseif (String::isType($parent) && ($childOrPrefixLength === null)) {
             $this->constructPathname(String::asNative($parent));
         } elseif (String::isType($parent) && String::isType($childOrPrefixLength)) {

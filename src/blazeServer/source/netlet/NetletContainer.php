@@ -81,32 +81,34 @@ class NetletContainer extends Object {
             $chain = new FilterChainImpl($this->getRequestedFilters($request, $context));
             $chain->doFilter($request, $response);
 
-            $netlet = $this->getRequestedNetlet($request, $context);
+            if(!$response->isCommited()){
+                $netlet = $this->getRequestedNetlet($request, $context);
 
-            if ($netlet == null) {
-                $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
-                return;
-            }
-            $netlet->service($request, $response);
-
-            $sess = $request->getSession();
-            if ($sess != null) {
-                $cookie = null;
-                $sessHand = $request->getSessionHandler();
-
-                if (!$sess->isValid()) {
-                    $cookie = new http\HttpCookieImpl('BLAZESESSION', '');
-                    $cookie->setExpire(0);
-                    $sessHand->removeSession();
-                } else {
-                    $sessHand->saveSession();
-                    $cookie = new http\HttpCookieImpl('BLAZESESSION', $sess->getId());
-                    $cookie->setHttponly(true);
-                    $cookie->setPath($app->getUrlPrefix());
-                    //$cookie->setDomain($request->getServerName());
+                if ($netlet == null) {
+                    $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
+                    return;
                 }
+                $netlet->service($request, $response);
 
-                $response->addCookie($cookie);
+                $sess = $request->getSession();
+                if ($sess != null) {
+                    $cookie = null;
+                    $sessHand = $request->getSessionHandler();
+
+                    if (!$sess->isValid()) {
+                        $cookie = new http\HttpCookieImpl('BLAZESESSION', '');
+                        $cookie->setExpire(0);
+                        $sessHand->removeSession();
+                    } else {
+                        $sessHand->saveSession();
+                        $cookie = new http\HttpCookieImpl('BLAZESESSION', $sess->getId());
+                        $cookie->setHttponly(true);
+                        $cookie->setPath($app->getUrlPrefix());
+                        //$cookie->setDomain($request->getServerName());
+                    }
+
+                    $response->addCookie($cookie);
+                }
             }
         } catch (Exception $e) {
             // Error in the netlet which was not caught
@@ -117,7 +119,9 @@ class NetletContainer extends Object {
     private function finish(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
         try {
             $responseWriter = $response->getWriter();
-            $responseWriter->close();
+
+            if(!$responseWriter->isClosed())
+                $responseWriter->close();
         } catch (Exception $e) {
             // Error of the NetletOutputStream
             var_dump('UNEXPECTED ERROR: ' . $e->getMessage());
@@ -130,14 +134,14 @@ class NetletContainer extends Object {
         if (!$uri->endsWith('/'))
             $uri = $uri->concat('/');
 
-        foreach ($context->getNetletMapping() as $key => $value) {
+        foreach ($context->getNetletMapping() as $key => $name) {
             // Make a regex placeholders of the wildcards
             $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
 
             // Check if the requested url fits a netlet mapping
             if ($uri->matches($regex)) {
                 $netlets = $context->getNetlets();
-                return $netlets[$value];
+                return $netlets->get($name);
             }
         }
 
@@ -148,21 +152,21 @@ class NetletContainer extends Object {
         $uri = $request->getRequestURI()->getPath();
         if (!$uri->endsWith('/'))
             $uri = $uri->concat('/');
-        $filters = array();
+        $filterArr = new \blaze\collections\lists\ArrayList();
 
         // Looking in the filter mapping for a filter that fits the url
-        foreach ($context->getFilterMapping() as $key => $value) {
+        foreach ($context->getFilterMapping() as $key => $name) {
             // Make a regex placeholders of the wildcards
             $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
 
             // Check if the requested url fits a netlet mapping
             if ($uri->matches($regex)) {
                 $filters = $context->getFilters();
-                $filters[] = $filters[$value];
+                $filterArr->add($filters->get($name));
             }
         }
 
-        return $filters;
+        return $filterArr;
     }
 
 }

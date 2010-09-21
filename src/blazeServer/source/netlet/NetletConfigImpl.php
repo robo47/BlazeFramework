@@ -20,20 +20,18 @@ class NetletConfigImpl extends Object implements NetletConfig {
     private $netletContext;
     private $initParameters;
 
-    public function __construct($netletName, $netletContext, $initParameters) {
+    public function __construct($netletName, \blaze\netlet\NetletContext $netletContext, \blaze\collections\Map $initParameters) {
         $this->netletName = $netletName;
         $this->netletContext = $netletContext;
         $this->initParameters = $initParameters;
     }
 
     public function getInitParameter($name) {
-        if(!array_key_exists($name, $this->initParameters))
-                return null;
-        return $this->initParameters[$name];
+        return $this->initParameters->get($name);
     }
 
     public function getInitParameterMap() {
-        return new \blaze\util\HashMap($this->initParameters);
+        return $this->initParameters;
     }
 
     public function getNetletContext() {

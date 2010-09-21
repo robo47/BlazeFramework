@@ -23,13 +23,14 @@ class ViewHandler extends Object {
      *
      * @var array[blaze\web\component\UIViewRoot]
      */
-    private $views = array();
+    private $views;
     private $viewDir;
     private $mapping;
 
     public function __construct(\blaze\io\File $viewDir, $mapping) {
         $this->mapping = $mapping;
         $this->viewDir = $viewDir;
+        $this->views = new \blaze\collections\map\HashMap();
 
         $this->recursiveDirIteration($viewDir);
     }
@@ -53,7 +54,7 @@ class ViewHandler extends Object {
         $root = new \blaze\web\component\UIViewRoot();
         if($compositionChildren == null){
             $root->setViewId($viewId->toNative());
-            $this->views[$root->getViewId()] = $root;
+            $this->views->put($root->getViewId(), $root);
         }
 
         $this->handleChildren($root, $dom->documentElement->childNodes, $compositionChildren);
@@ -99,7 +100,7 @@ class ViewHandler extends Object {
                         $root = $this->getRoot($parent);
                         $newRoot = $this->parseAndCreateView($f, $node->childNodes);
                         $newRoot->setViewId($root->getViewId());
-                        $this->views[$newRoot->getViewId()] = $newRoot;
+                        $this->views->put($newRoot->getViewId(), $newRoot);
                     }
                 }else {
                     $tag = '<'.$node->nodeName;
@@ -178,10 +179,10 @@ class ViewHandler extends Object {
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
             $requestUri = new String('/' . $requestUri->toNative());
 
-        foreach ($this->mapping as $key => $value) {
-            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $key) . '$/';
+        foreach ($this->mapping as $navigationRule) {
+            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
             if ($requestUri->matches($regex)) {
-                return $this->getView($context, $value['view']);
+                return $this->getView($context, $navigationRule->getIndexView());
             }
         }
 
@@ -195,7 +196,7 @@ class ViewHandler extends Object {
      * @return blaze\web\component\UIViewRoot
      */
     public function getView(BlazeContext $context, $viewId) {
-        return $this->views[$viewId];
+        return $this->views->get($viewId);
     }
 
 }

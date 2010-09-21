@@ -23,17 +23,23 @@ class NetletContextImpl extends Object implements NetletContext {
      * @var blazeServer\source\core\NetletApplication
      */
     private $netletApplication;
-    private $netlets = array();
-    private $netletMapping = array();
-    private $filters = array();
-    private $filterMapping = array();
-    private $listeners = array();
-    private $attributes = array();
     private $initParams;
+    private $netlets;
+    private $netletMapping;
+    private $filters;
+    private $filterMapping;
+    private $listeners;
+    private $attributes;
 
     public function __construct($initParams, \blazeServer\source\netlet\NetletApplication $netletApplication) {
         $this->initParams = $initParams;
         $this->netletApplication = $netletApplication;
+        $this->netlets = new \blaze\collections\map\HashMap();
+        $this->netletMapping = new \blaze\collections\map\HashMap();
+        $this->filters = new \blaze\collections\map\HashMap();
+        $this->filterMapping = new \blaze\collections\map\HashMap();
+        $this->listeners = new \blaze\collections\lists\ArrayList();
+        $this->attributes = new \blaze\collections\map\HashMap();
     }
 
     public function  getNetletApplication() {
@@ -41,19 +47,19 @@ class NetletContextImpl extends Object implements NetletContext {
     }
 
     public function addNetlet($name, \blaze\netlet\Netlet $netlet){
-        $this->netlets[$name] = $netlet;
+        $this->netlets->put($name, $netlet);
     }
 
     public function addNetletMapping($uriMapping, $name){
-        $this->netletMapping[$uriMapping] = $name;
+        $this->netletMapping->put($uriMapping, $name);
     }
 
     public function addFilter($name, \blaze\netlet\Filter $filter){
-        $this->filters[$name] = $filter;
+        $this->filters->put($name, $filter);
     }
 
     public function addFilterMapping($uriMapping, $name){
-        $this->filterMapping[$uriMapping] = $name;
+        $this->filterMapping->put($uriMapping, $name);
     }
     
     public function getNetletMapping() {
@@ -79,14 +85,12 @@ class NetletContextImpl extends Object implements NetletContext {
     /**
      * @todo Persist for the server
      */
-    public function addListener($name, $listener) {
-        $this->listeners[$name] = $listener;
+    public function addListener($listener) {
+        $this->listeners->add($listener);
     }
 
-    public function getInitParameter($name, $postType = null) {
-        if(!array_key_exists($name, $this->initParams))
-                return null;
-        return $this->initParams[$name];
+    public function getInitParameter($name) {
+        return $this->initParams->get($name);
     }
 
     public function getInitParameterMap() {
@@ -94,17 +98,15 @@ class NetletContextImpl extends Object implements NetletContext {
     }
 
     public function getAttribute($name) {
-        if(!array_key_exists($name, $this->attributes))
-                return null;
-        return $this->attributes[$name];
+        return $this->attributes->get($name);
     }
 
     public function removeAttribute($name) {
-        unset($this->attributes[$name]);
+        $this->attributes->remove($name);
     }
 
     public function setAttribute($name, $o) {
-        $this->attributes[$name] = $o;
+        $this->attributes->put($name, $o);
     }
 
 }

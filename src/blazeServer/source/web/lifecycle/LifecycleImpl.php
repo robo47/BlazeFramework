@@ -25,12 +25,12 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
      *
      * @var array[blaze\web\event\PhaseListener]
      */
-    private $phaseListener = array();
+    private $phaseListener;
     /**
      *
      * @var array[blazeServer\source\web\lifecycle\Phase]
      */
-    private $phases = array();
+    private $phases;
     /**
      *
      * @var blazeServer\source\web\lifecycle\Phase
@@ -39,24 +39,36 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
 
 
     public function __construct() {
-        $this->phases[] = new RestoreViewPhase();
-        $this->phases[] = new ApplyRequestPhase();
-        $this->phases[] = new ProcessValidationsPhase();
-        $this->phases[] = new UpdateModelPhase();
-        $this->phases[] = new InvokeApplicationPhase();
-        $this->phases[] = $this->response = new RenderResponsePhase();
+        $this->phaseListener = new \blaze\collections\map\HashMap();
+        $this->phases = new \blaze\collections\lists\ArrayList();
+        $this->phases->add(new RestoreViewPhase());
+        $this->phases->add(new ApplyRequestPhase());
+        $this->phases->add(new ProcessValidationsPhase());
+        $this->phases->add(new UpdateModelPhase());
+        $this->phases->add(new InvokeApplicationPhase());
+        $this->phases->add($this->response = new RenderResponsePhase());
     }
 
-    public function addPhaseListener(\blaze\web\event\PhaseListener $listener) {
-        $this->phaseListener[] = $listener;
+    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
+        if($uri === null)
+            $uri = '/*';
+        $this->phaseListener->put($uri, $listener);
     }
 
-    public function removePhaseListener(\blaze\web\event\PhaseListener $listener) {
-        for ($i = 0; $i < count($this->phaseListener); $i++) {
-            if ($this->phaseListener[$i] == $listener) {
-                unset($this->phaseListener[$i]);
-                return;
+    public function removePhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
+        if($uri !== null){
+            $this->phaseListener->remove($uri);
+    }else{
+        $iter = $this->phaseListener->getIterator();
+
+        while($iter->hasNext()){
+            $entry = $iter->next();
+
+            if($entry->getValue() == $listener){
+                    $iter->remove();
+                    return;
             }
+        }
         }
     }
 
@@ -83,23 +95,19 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
     }
 
     public function execute(BlazeContext $context) {
-        for ($i = 0; $i < count($this->phases) - 1; $i++) {
+        for($i = 0; $i < $this->phases->count() - 1; $i++) {
             if ($context->getDoRenderResponse() || $context->getResponseComplete()) {
                 break;
             }
-//            \blaze\util\Logger::get()->log('Entering Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
             // PhaseListener are executed in the doPhase()
-            $this->phases[$i]->doPhase($context, $this, $this->phaseListener);
-//            \blaze\util\Logger::get()->log('Exiting Phase '.\blaze\web\event\PhaseId::nameOf($this->phases[$i]->getId()));
+            $this->phases->get($i)->doPhase($context, $this, $this->phaseListener);
         }
     }
 
     public function render(BlazeContext $context) {
-//        \blaze\util\Logger::get()->log('Entering Phase Render Response');
         if (!$context->getResponseComplete()) {
             $this->response->doPhase($context, $this, $this->phaseListener);
         }
-//        \blaze\util\Logger::get()->log('Exiting Phase Render Response');
     }
 
 }

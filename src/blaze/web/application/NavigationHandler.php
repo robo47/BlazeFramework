@@ -21,25 +21,12 @@ class NavigationHandler extends Object {
 
     /**
      *
-     * @var array
+     * @var \blaze\collections\ListI
      */
     private $mapping;
-    private $bindings;
 
     public function __construct($mapping) {
         $this->mapping = $mapping;
-        $this->bindings = array();
-
-        // Bindings
-        foreach ($mapping as $pattern => $arr) {
-            if (isset($arr['binding'])) {
-                foreach ($arr['binding'] as $binding) {
-                    $this->bindings[$pattern][] = array('name' => $binding['name'],
-                                                        'reference' => new \blaze\web\el\Expression('{' . $binding['reference'] . '}'),
-                                                        'default' => array_key_exists('default', $binding) ? $binding['default'] : null);
-                }
-            }
-        }
     }
 
     public function navigate(BlazeContext $context, $action) {
@@ -56,15 +43,15 @@ class NavigationHandler extends Object {
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
             $requestUri = new String('/' . $requestUri->toNative());
 
-        foreach ($this->mapping as $key => $value) {
-            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $key) . '$/';
+        foreach ($this->mapping as $navigationRule) {
+            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
             if ($requestUri->matches($regex)) {
                 if ($actionString != null) {
                     // Look for the action in the navigationMap
-                    foreach ($value['action'] as $action) {
-                        if ($actionString->compareTo($action['action']) == 0) {
+                    foreach ($navigationRule->getActions() as $action => $view) {
+                        if ($actionString->compare($action) == 0) {
 //                            \blaze\util\Logger::get()->log('Navigated from '.$context->getViewRoot()->getViewId().' to '. $context->getViewHandler()->getView($context, $action['view'])->getViewId());
-                            $context->setViewRoot($context->getViewHandler()->getView($context, $action['view']));
+                            $context->setViewRoot($context->getViewHandler()->getView($context, $view));
                             $context->setNavigated();
                             return;
                         }
@@ -72,9 +59,16 @@ class NavigationHandler extends Object {
                 }
             }
         }
+
+        $view = $context->getViewHandler()->getView($context, $actionString);
+        
+        if($view != null){
+            $context->setViewRoot($view);
+            $context->setNavigated();
+        }
     }
 
-    public function pushBindings(BlazeContext $context, \blaze\netlet\http\HttpNetletRequest $request) {
+    public function pushBindings(BlazeContext $context) {
         $requestUri = $context->getRequest()->getRequestUri()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
@@ -87,22 +81,23 @@ class NavigationHandler extends Object {
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
             $requestUri = new String('/' . $requestUri->toNative());
 
-        foreach ($this->bindings as $pattern => $binds) {
-            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $pattern) . '$/';
+        foreach ($this->mapping as $navigationRule) {
+            $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
             if ($requestUri->matches($regex)) {
-                $bindingParts = $requestUri->substring(strlen($pattern)-1)->split('/');
+                $bindingParts = $requestUri->substring(strlen($navigationRule->getMapping())-1)->split('/');
                 $count = count($bindingParts);
                 $newValue = null;
 
                 // Look for the bindings
-                for($i = 0; $i < count($binds); $i++) {
+                $binds = $navigationRule->getBindings();
+                for($i = 0; $i < $binds->count(); $i++) {
                     if($i < $count && $bindingParts[$i] != '')
                         $newValue = $bindingParts[$i];
                     else
-                        $newValue = $binds[$i]['default'];
+                        $newValue = $binds->get($i)->getDefault();
 
-                    if($newValue != null){
-                        $binds[$i]['reference']->setValue($context, $newValue);
+                    if($newValue !== null){
+                        $binds->get($i)->getReference()->setValue($context, $newValue);
                         $newValue = null;
                     }
                 }

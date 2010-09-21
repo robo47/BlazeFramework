@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<serverConfig>
+	<serverHome url="BlazeFrameworkServer/"/>
+	<defaultNetletConfig>
+		<netlets>
+			<netlet name="BlazeNetlet" class="blazeServer\source\core\BlazeNetlet">
+				<mapping pattern="*"/>
+			</netlet>
+		</netlets>
+	</defaultNetletConfig>
+	<applications>
+		<application package="sampleApp" name="Sample Application" running="true">
+			<mapping pattern="/sample/*"/>
+		</application>
+		<application package="blazeCMS" name="Blazebit Content Management System" running="true">
+			<mapping pattern="/cms/*"/>
+		</application>
+		<application package="schichtverwaltung" name="Schichtverwaltung" running="true">
+			<mapping pattern="/schicht/*"/>
+		</application>
+	</applications>
+</serverConfig>

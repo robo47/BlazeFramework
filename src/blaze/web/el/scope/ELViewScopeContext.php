@@ -16,7 +16,7 @@ use blaze\lang\Object,
  */
 class ELViewScopeContext extends ELScopeContext{
 
-	public function __construct($nutDefinitions){
+	public function __construct(\blaze\collections\Map $nutDefinitions){
 		$this->nutDefinitions = $nutDefinitions;
 	}
 
@@ -32,14 +32,15 @@ class ELViewScopeContext extends ELScopeContext{
 	}
 
 	public function get(\blaze\web\application\BlazeContext $context, $key){
-		if(!array_key_exists($key, $this->nutDefinitions))
-			return null;
+		$defVal = $this->nutDefinitions->get($key);
+                if($defVal === null)
+                    return null;
 
 		$viewMap = $this->getViewMap($context);
 		$val = $viewMap->get($key);
 
 		if($val == null){
-			$val = $this->nutDefinitions[$key]->newInstance();
+			$val = \blaze\lang\ClassWrapper::forName($defVal)->newInstance();
 			$viewMap->set($key, $val);
 		}
 

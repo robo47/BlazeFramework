@@ -73,7 +73,7 @@ class Expression extends Object {
 	public function setValue(\blaze\web\application\BlazeContext $context, $value){
 		if(count($this->expressionParts) != 1 ||
 		   !($this->expressionParts[0] instanceof ExpressionContent))
-		   throw new Exception('Invalid Expression for value bindings');
+		   throw new \blaze\lang\Exception('Invalid Expression for value bindings');
 
 		$this->expressionParts[0]->setValue($context, $value);
 	}
@@ -81,7 +81,7 @@ class Expression extends Object {
 	public function invoke(\blaze\web\application\BlazeContext $context, $values){
 		if(count($this->expressionParts) != 1 ||
 		   !($this->expressionParts[0] instanceof ExpressionContent))
-		   throw new Exception('Invalid Expression for method bindings');
+		   throw new \blaze\lang\Exception('Invalid Expression for method bindings');
 
 		return $this->expressionParts[0]->invoke($context, $values);
 	}

@@ -143,34 +143,66 @@ class URI extends Object {
          return new URI($scheme, $user, $password, $host, $port, $path, $query, $fragment);
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getScheme() {
          return $this->scheme;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getUser() {
          return $this->user;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getPassword() {
          return $this->password;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getHost() {
          return $this->host;
      }
 
+     /**
+      *
+      * @return int
+      */
      public function getPort() {
          return $this->port;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getPath() {
          return $this->path;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getQuery() {
          return $this->query;
      }
 
+     /**
+      *
+      * @return blaze\lang\String
+      */
      public function getFragment() {
          return $this->fragment;
      }

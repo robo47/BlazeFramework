@@ -29,12 +29,14 @@ class BlazeApplication extends Object implements Application {
     private $lifeCycle;
     private $elContext;
     private $viewHandler;
+    private $sessionHandler;
     private $navigationHandler;
     private $defaultLocale;
-    private $navigationCases = array();
-    private $converter = array();
-    private $validator = array();
-    private $renderKitFactories = array();
+    private $navigationRules;
+    private $decorators;
+    private $converter;
+    private $validator;
+    private $renderKitFactories;
     private $applicationPath;
 
     /**
@@ -45,74 +47,229 @@ class BlazeApplication extends Object implements Application {
     public function __construct(\blazeServer\source\netlet\NetletApplication $netletApplication, \blaze\web\lifecycle\Lifecycle $lifeCycle) {
         $this->netletApplication = $netletApplication;
         $this->lifeCycle = $lifeCycle;
-        $this->applicationPath = new File($netletApplication->getApplicationPath(),'view');
+        $this->applicationPath = new File($netletApplication->getApplicationPath(), 'view');
+
+        $this->navigationRules = new \blaze\collections\lists\ArrayList();
+        $this->converter = new \blaze\collections\map\HashMap();
+        $this->validator = new \blaze\collections\map\HashMap();
+        $this->renderKitFactories = new \blaze\collections\map\HashMap();
+        $this->decorators = new \blaze\collections\map\HashMap();
+        $this->elContext = new \blaze\web\el\ELContext();
+
+        $requestScope = new \blaze\collections\map\HashMap();
+        $viewScope = new \blaze\collections\map\HashMap();
+        $sessionScope = new \blaze\collections\map\HashMap();
+        $applicationScope = new \blaze\collections\map\HashMap();
+        $this->setELScopes($requestScope, $viewScope, $sessionScope, $applicationScope);
+
         $this->init();
     }
 
-    private function init(){
-        $confMap = $this->getConfig()->getConfigurationMap();
+    private function init() {
+        $doc = $this->getConfig();
 
-        // Taglibraries
-        foreach($confMap['taglibs'] as $componentFamily => $options){
-            $this->renderKitFactories[$componentFamily] = ClassWrapper::forName($options['renderKitFactory'])->getMethod('getInstance')->invoke(null, null);
-
-            foreach ($options['renderKits'] as $renderKitId => $renderKit) {
-                $this->renderKitFactories[$componentFamily]->addRenderKit($componentFamily, $renderKitId, ClassWrapper::forName($renderKit)->newInstance());
+        foreach ($doc->documentElement->childNodes as $node) {
+            if ($node->nodeType == XML_ELEMENT_NODE && $node->localName == 'blazeApplication') {
+                foreach ($node->childNodes as $child) {
+                    switch ($child->localName) {
+                        case 'taglibs':
+                            self::handleTaglibs($child);
+                            break;
+                        case 'nuts':
+                            self::handleNuts($child);
+                            break;
+                        case 'phaseListeners':
+                            self::handlePhaseListeners($child);
+                            break;
+                        case 'tagDecorators':
+                            self::handleTagDecorators($child);
+                            break;
+                        case 'sessionHandler':
+                            $this->sessionHandler = ClassWrapper::forName($child->getAttribute('class'));
+                            break;
+                        case 'navigation':
+                            self::handleNavigation($child);
+                            break;
+                    }
+                }
             }
         }
 
-        // ManagedNuts
-        $this->elContext = new \blaze\web\el\ELContext();
-        $scopes = array('application' => array(), 'session' => array(), 'view' => array(), 'request' => array());
+        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->navigationRules);
+        $this->viewHandler = new \blaze\web\application\ViewHandler($this->applicationPath, $this->navigationRules);
+    }
 
-        foreach ($confMap['nuts'] as $nut) {
-                $scopes[$nut['scope']][$nut['name']] = \blaze\lang\ClassWrapper::forName($nut['class']);
+    private function getMappings($node) {
+        $mappings = new \blaze\collections\lists\ArrayList();
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE && $child->localName == 'mapping') {
+                $mappings->add($child->getAttribute('pattern'));
+            }
         }
 
-        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_REQUEST, new \blaze\web\el\scope\ELRequestScopeContext($scopes['request']));
-        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_VIEW, new \blaze\web\el\scope\ELViewScopeContext($scopes['view']));
-        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_SESSION, new \blaze\web\el\scope\ELSessionScopeContext($scopes['session']));
-        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_APPLICATION, new \blaze\web\el\scope\ELApplicationScopeContext($scopes['application']));
+        return $mappings;
+    }
 
-        // PhaseListener
-        foreach($confMap['listeners'] as $name => $className){
-            $this->lifeCycle->addPhaseListener(ClassWrapper::forName($className)->newInstance());
+    private function handleTaglibs($node) {
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $componentFamily = $child->getAttribute('componentFamily');
+                $renderKitFactory = $child->getAttribute('renderKitFactory');
+                $renderKitFactoryInst = ClassWrapper::forName($renderKitFactory)->getMethod('getInstance')->invoke(null, null);
+
+                $renderKits = $this->getRenderKits($child);
+                foreach ($renderKits as $renderKitId => $renderKit) {
+                    $renderKitFactoryInst->addRenderKit($componentFamily, $renderKitId, ClassWrapper::forName($renderKit)->newInstance());
+                }
+
+                $this->renderKitFactories->put($componentFamily, $renderKitFactoryInst);
+            }
+        }
+    }
+
+    private function getRenderKits($node) {
+        $renderKits = new \blaze\collections\map\HashMap();
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $renderKits->put($child->getAttribute('id'), $child->getAttribute('class'));
+            }
         }
 
-        // TagDecorator
-        foreach($confMap['tagDecorators'] as $name => $className){
-            $this->decorators[$name] = ClassWrapper::forName($className)->newInstance();
+        return $renderKits;
+    }
+
+    private function handleNuts($node) {
+        $requestScope = new \blaze\collections\map\HashMap();
+        $viewScope = new \blaze\collections\map\HashMap();
+        $sessionScope = new \blaze\collections\map\HashMap();
+        $applicationScope = new \blaze\collections\map\HashMap();
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $name = $child->getAttribute('name');
+                $class = $child->getAttribute('class');
+                $scope = $child->getAttribute('scope');
+
+                switch ($scope) {
+                    case 'request':
+                        $requestScope->put($name, $class);
+                    case 'view':
+                        $viewScope->put($name, $class);
+                    case 'session':
+                        $sessionScope->put($name, $class);
+                    case 'application':
+                        $applicationScope->put($name, $class);
+                }
+            }
         }
 
-        // NavigationRules
-//        foreach($confMap['navigation'] as $navLocation => $options){
-//
-//        }
-        $this->navigationCases = $confMap['navigation'];
-        $this->navigationHandler = new \blaze\web\application\NavigationHandler($this->navigationCases);
-        $this->viewHandler = new \blaze\web\application\ViewHandler($this->applicationPath, $this->navigationCases);
+        $this->setELScopes($requestScope, $viewScope, $sessionScope, $applicationScope);
+    }
+
+    private function setELScopes(\blaze\collections\Map $requestScope, \blaze\collections\Map $viewScope, \blaze\collections\Map $sessionScope, \blaze\collections\Map $applicationScope){
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_REQUEST, new \blaze\web\el\scope\ELRequestScopeContext($requestScope));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_VIEW, new \blaze\web\el\scope\ELViewScopeContext($viewScope));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_SESSION, new \blaze\web\el\scope\ELSessionScopeContext($sessionScope));
+        $this->elContext->setContext(\blaze\web\el\ELContext::SCOPE_APPLICATION, new \blaze\web\el\scope\ELApplicationScopeContext($applicationScope));
+    }
+
+    private function handlePhaseListeners($node) {
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $class = $child->getAttribute('class');
+                $inst = ClassWrapper::forName($class)->newInstance();
+                $mappings = $this->getMappings($child);
+
+                if ($mappings->count() != 0) {
+                    foreach ($mappings as $mapping) {
+                        $this->lifeCycle->addPhaseListener($inst, $mapping);
+                    }
+                } else {
+                    $this->lifeCycle->addPhaseListener($inst);
+                }
+            }
+        }
+    }
+
+    private function handleTagDecorators($node) {
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $name = $child->getAttribute('name');
+                $class = $child->getAttribute('class');
+                $this->decorators->put($name, ClassWrapper::forName($class)->newInstance());
+            }
+        }
+    }
+
+    private function handleNavigation($node) {
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE) {
+                $indexView = $child->getAttribute('indexView');
+                $mappings = $this->getMappings($child);
+                $bindings = $this->getBindings($child);
+                $actions = $this->getActions($child);
+                $this->navigationRules->add(new \blaze\web\application\NavigationRule($indexView, $mappings->get(0), $actions, $bindings));
+            }
+        }
+    }
+
+    private function getBindings($node) {
+        $bindings = new \blaze\collections\lists\ArrayList();
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE && $child->localName == 'bindings') {
+                foreach($child as $binding){
+                    $name = $binding->getAttribute('name');
+                    $reference = $binding->getAttribute('reference');
+                    $default = $binding->getAttribute('default');
+
+                    $bindings->add(new \blaze\web\application\Binding($name, $reference, $default));
+                }
+            }
+        }
+
+        return $bindings;
+    }
+
+    private function getActions($node) {
+        $actions = new \blaze\collections\map\HashMap();
+
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_ELEMENT_NODE && $child->localName == 'navigationAction') {
+                $action = $child->getAttribute('action');
+                $view = $child->getAttribute('view');
+
+                $actions->put($action, $view);
+            }
+        }
+
+        return $actions;
     }
 
     public function addConverter($name, $class) {
-        $this->converter[$name] = $class;
+        $this->converter->put($name, $class);
     }
 
     public function addValidator($name, $class) {
-        $this->validator[$name] = $class;
+        $this->validator->put($name, $class);
     }
 
-    public function addNavigationCase($uri, $defaultViewId, $binds, $actions){
-
+    public function addNavigationRule(\blaze\web\application\NavigationRule $rule) {
+        $this->navigationRules->add($rule);
     }
 
     public function getDecorator($decoratorName) {
-        if(array_key_exists($decoratorName, $this->decorators))
-            return $this->decorators[$decoratorName];       
-        return null;
+        return $this->decorators->get($decoratorName);
     }
 
     public function getRenderKitFactory($componentFamily) {
-        return $this->renderKitFactories[$componentFamily];
+        return $this->renderKitFactories->get($componentFamily);
+    }
+
+    public function getSessionHandler() {
+        return $this->sessionHandler;
     }
 
     /**
@@ -154,7 +311,7 @@ class BlazeApplication extends Object implements Application {
         $this->navigationHandler = $handler;
     }
 
-    public function getApplicationPath(){
+    public function getApplicationPath() {
         return $this->applicationPath;
     }
 
@@ -168,7 +325,7 @@ class BlazeApplication extends Object implements Application {
 
     /**
      *
-     * @return blaze\web\application\WebConfig
+     * @return \DOMDocument
      */
     public function getConfig() {
         return $this->netletApplication->getConfig();
@@ -191,4 +348,5 @@ class BlazeApplication extends Object implements Application {
     }
 
 }
+
 ?>

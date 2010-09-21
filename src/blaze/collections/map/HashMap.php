@@ -273,7 +273,7 @@ class HashMapIterator implements \blaze\collections\MapIterator {
     }
 
     public function current() {
-        return $this->data[$this->hashs[$this->index]];
+        return $this->data[$this->hashs[$this->index]]->getValue();
     }
 
     public function getKey() {
@@ -299,7 +299,7 @@ class HashMapIterator implements \blaze\collections\MapIterator {
     public function next() {
         $this->index++;
         if($this->check($this->index)){
-            return $this->current();
+            return $this->data[$this->hashs[$this->index]];
         }
         else{
             return false;

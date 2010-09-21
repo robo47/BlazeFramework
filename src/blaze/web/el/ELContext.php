@@ -36,7 +36,7 @@ class ELContext extends Object{
     /**
      *
      * @param mixed $key
-     * @return blaze\web\el\ELScopeContext
+     * @return blaze\web\el\scope\ELScopeContext
      */
     public function getContext($key){
         if(array_key_exists($key, $this->contexts))

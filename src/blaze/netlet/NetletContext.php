@@ -26,7 +26,7 @@ interface NetletContext {
      public function addFilterMapping($uriMapping, $name);
      public function getFilterMapping();
 
-     public function addListener($name, $listenerClass);
+     public function addListener($listenerClass);
      public function getListeners();
 
      /**
@@ -51,10 +51,9 @@ interface NetletContext {
 
     /**
      * @param blaze\lang\String|string $name
-     * @param boolean $postType
      * @return blaze\lang\String
      */
-    public function getInitParameter($name, $postType = null);
+    public function getInitParameter($name);
     /**
      * @return blaze\util\Map
      */

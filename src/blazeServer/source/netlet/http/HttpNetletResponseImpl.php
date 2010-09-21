@@ -29,6 +29,10 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @var blaze\io\Writer
      */
     private $writer;
+    /*
+     * @var boolean
+     */
+    private $commited = false;
 
     public function __construct() {
         $this->os = new NetletOutputStream($this);
@@ -207,11 +211,11 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
     }
 
     public function flush() {
-
+        $this->commited = true;
     }
 
     public function isCommited() {
-        return false;
+        return $this->commited;
     }
 
     public function reset() {

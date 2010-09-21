@@ -16,8 +16,7 @@ interface Application {
 
     public function addConverter($name, $class);
     public function addValidator($name, $class);
-    public function addNavigationCase($uri, $defaultViewId, $binds, $actions);
-    // EL scopes?
+    public function addNavigationRule(\blaze\web\application\NavigationRule $rule);
 
     /**
      * Returns the ELContext for the application scope

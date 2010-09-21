@@ -28,10 +28,10 @@ abstract class Phase extends Object {
      * @param blaze\web\lifecycle\Lifecycle $lifecycle the lifecycle for this request
      * @param array[blaze\web\event\PhaseListener] $listeners
      */
-    public function doPhase(BlazeContext $context, Lifecycle $lifecycle, $listeners) {
+    public function doPhase(BlazeContext $context, Lifecycle $lifecycle, \blaze\collections\Map $listeners) {
         $context->setCurrentPhaseId($this->getId());
         $event = null;
-        if (count($listeners) != 0) {
+        if ($listeners->count() != 0) {
             $event = new PhaseEvent($context, $this->getId(), $lifecycle);
         }
 
@@ -112,7 +112,7 @@ abstract class Phase extends Object {
      *  to be invoked
      * @param blaze\web\event\PhaseEvent $event the event to pass to each of the invoked listeners
      */
-    protected function handleAfterPhase(BlazeContext $context, $listeners, PhaseEvent $event) {
+    protected function handleAfterPhase(BlazeContext $context, \blaze\collections\Map $listeners, PhaseEvent $event) {
 
 //try {
 //Flash flash = context.getExternalContext().getFlash();
@@ -122,8 +122,20 @@ abstract class Phase extends Object {
 //LOGGER.fine("ExternalContext.getFlash() throw UnsupportedOperationException -> Flash unavailable");
 //}
 //}
-        foreach ($listeners as $listener) {
-            if ($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) {
+        $requestUri = $context->getRequest()->getRequestURI()->getPath();
+
+        // remove the prefix of the url e.g. BlazeFrameworkServer/
+        if (!$requestUri->endsWith('/'))
+            $requestUri = $requestUri->concat('/');
+
+        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+
+        // Requesturl has always to start with a '/'
+        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
+            $requestUri = new String('/' . $requestUri->toNative());
+
+        foreach ($listeners as $pattern => $listener) {
+            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {
                 try {
                     $listener->afterPhase($event);
                 } catch (Exception $e) {
@@ -141,7 +153,7 @@ abstract class Phase extends Object {
      *  to be invoked
      * @param blaze\web\event\PhaseEvent $event the event to pass to each of the invoked listeners
      */
-    protected function handleBeforePhase(BlazeContext $context, $listeners, PhaseEvent $event) {
+    protected function handleBeforePhase(BlazeContext $context, \blaze\collections\Map $listeners, PhaseEvent $event) {
 
         //try {
         //Flash flash = context.getExternalContext().getFlash();
@@ -153,8 +165,20 @@ abstract class Phase extends Object {
         //}
         //RequestStateManager.clearAttributesForPhase(context,
         // context.getCurrentPhaseId());
-        foreach ($listeners as $listener) {
-            if ($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) {
+        $requestUri = $context->getRequest()->getRequestURI()->getPath();
+
+        // remove the prefix of the url e.g. BlazeFrameworkServer/
+        if (!$requestUri->endsWith('/'))
+            $requestUri = $requestUri->concat('/');
+
+        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+
+        // Requesturl has always to start with a '/'
+        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
+            $requestUri = new String('/' . $requestUri->toNative());
+
+        foreach ($listeners as $pattern => $listener) {
+            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {
                 try {
                     $listener->beforePhase($event);
                 } catch (Exception $e) {
@@ -171,6 +195,9 @@ abstract class Phase extends Object {
 
 // --------------------------------------------------------- Private Methods
 
+    private function matchesPattern($uri, $pattern){
+        return preg_match('/^' . str_replace(array('/', '*'), array('\/', '.*'), $pattern) . '$/', $uri) === 1;
+    }
     /**
      * @param context the FacesContext for the current request
      * @return <code>true</code> if <code>FacesContext.responseComplete()</code>

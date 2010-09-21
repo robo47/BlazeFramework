@@ -18,7 +18,7 @@ use blaze\lang\Object,
  */
 class ELSessionScopeContext extends ELScopeContext {
 
-    public function __construct($nutDefinitions) {
+    public function __construct(\blaze\collections\Map $nutDefinitions) {
         $this->nutDefinitions = $nutDefinitions;
     }
 
@@ -27,14 +27,15 @@ class ELSessionScopeContext extends ELScopeContext {
     }
 
     public function get(\blaze\web\application\BlazeContext $context, $key) {
-        if (!array_key_exists($key, $this->nutDefinitions))
+        $defVal = $this->nutDefinitions->get($key);
+        if ($defVal === null)
             return null;
 
         $sess = $this->getSession($context);
         $val = $sess->getAttribute($key);
 
         if ($val == null) {
-            $val = $this->nutDefinitions[$key]->newInstance();
+            $val = \blaze\lang\ClassWrapper::forName($defVal)->newInstance();
             $this->getSession($context)->setAttribute($key, $val);
         }
 

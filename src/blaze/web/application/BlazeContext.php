@@ -41,7 +41,6 @@ class BlazeContext extends Object {
         $this->request = $request;
         $this->response = $response;
         
-        $confMap = $application->getConfig()->getConfigurationMap();
         $this->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($this);
     }
 

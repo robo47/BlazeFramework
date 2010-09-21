@@ -12,7 +12,7 @@ namespace blaze\lang;
  * @author  Christian Beikov
  * @todo    Implementing and documenting.
  */
-final class String extends Object implements NativeWrapper, \blaze\io\Serializable {
+final class String extends Object implements NativeWrapper, \blaze\io\Serializable, Comparable {
     private $string;
     private $count;
     private $hash;
@@ -436,11 +436,15 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          value greater than <code>0</code> if this string is
      *          lexicographically greater than the string argument.
      */
-    public function compareTo($anotherString) {
+    public function compare($anotherString) {
         return strcmp($this->string, String::asNative($anotherString));
     }
 
-    /**
+    public function compareTo(Object $obj) {
+        return $obj instanceof String && $this->string === $obj->string;
+    }
+
+        /**
      * A Comparator that orders <code>String</code> objects as by
      * <code>compareToIgnoreCase</code>. This comparator is serializable.
      * <p>

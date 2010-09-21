@@ -278,6 +278,7 @@
 	This tag is automatically used for the content in the dataTableFooter-tag and for body content.
 	
 <textarea> 	
+	This tag can be used with the inputTextArea-tag.
 
 <tfoot>
 	This tag can be used with the dataTableFooter-tag and can have the attribute span which defines the colspan.

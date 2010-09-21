@@ -15,10 +15,10 @@ use blaze\lang\Object,
  * @todo    Something which has to be done, implementation or so
  */
 abstract class ELScopeContext extends Object{
-    protected $nutDefinitions = array();
+    protected $nutDefinitions;
 
     /**
-     * @return array
+     * @return \blaze\collections\Map 
      */
     public function getDefinitions(){
             return $this->nutDefinitions;

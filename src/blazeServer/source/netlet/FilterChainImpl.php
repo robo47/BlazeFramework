@@ -41,18 +41,19 @@ class FilterChainImpl extends Object implements FilterChain {
      *
      * @param array[blaze\netlet\Filter] $filters 
      */
-    public function __construct($filters = null){
-        if($filters == null)
-            $this->filters = array();
-        else
+    public function __construct(\blaze\collections\ListI $filters = null){
+        if($filters == null){
+            $this->filters = null;
+        }else{
             $this->filters = $filters;
-        $this->count = count($this->filters);
+            $this->count = $this->filters->count();
+        }
     }
 
     public function doFilter(NetletRequest $request, NetletResponse $response) {
-        if($this->index == $this->count)
+        if($this->index == $this->count || $response->isCommited())
                 return;
-        $this->filters[$this->index++]->doFilter($request, $response, $this);
+        $this->filters->get($this->index++)->doFilter($request, $response, $this);
     }
 
 }

@@ -26,12 +26,16 @@ use blaze\lang\Object,
  */
 class NetletApplication extends Object implements StaticInitialization{
 
-    const SERVER_HOME = 'BlazeFrameworkServer/';
     /**
      *
-     * @var array
+     * @var \blaze\collections\map\HashMap
      */
     private static $serverConfig;
+    /**
+     *
+     * @var \DOMNode
+     */
+    private static $defaultNetletConfig;
     /**
      *
      * @var blazeServer\source\NetletApplication
@@ -55,7 +59,7 @@ class NetletApplication extends Object implements StaticInitialization{
     private $urlPrefix;
     /**
      *
-     * @var blaze\web\application\WebConfig
+     * @var \DOMDocument
      */
     private $config;
     /**
@@ -66,60 +70,194 @@ class NetletApplication extends Object implements StaticInitialization{
     private $netletContext;
 
     public static function staticInit() {
-        self::$serverConfig = \blazeServer\ServerConfig::getInstance()->getConfig();
-        self::$blazeServer = new self('blazeServer', self::$serverConfig['applications']['blazeServer']['name'],'/BlazeFrameworkServer/server/', true);
+        self::$serverConfig = new \blaze\collections\map\HashMap();
+        self::initConfig();
+        self::$blazeServer = new NetletApplication('blazeServer', 'BlazeFramework Application Manager','/server', true);
+        self::$serverConfig->get('applications')->add(self::$blazeServer);
+    }
+
+    private static function initConfig(){
+        $f = new File(ClassLoader::getSystemClassLoader()->getClassPath(), 'blazeServer'.File::$directorySeparator.'server.xml');
+        $doc = new \DOMDocument();
+        $doc->load($f->getAbsolutePath());
+
+        foreach($doc->documentElement->childNodes as $node){
+            if ($node->nodeType == XML_ELEMENT_NODE) {
+                switch($node->localName){
+                    case 'serverHome':
+                        self::$serverConfig->put('serverHome', $node->getAttribute('url'));
+                        break;
+                    case 'defaultNetletConfig':
+                        self::$defaultNetletConfig = $node;
+                        break;
+                    case 'applications':
+                        self::handleApplications($node);
+                        break;
+                }
+            }
+        }
+    }
+
+    private static function handleApplications($node){
+        $applications = new \blaze\collections\lists\ArrayList();
+
+        foreach($node->childNodes as $child){
+            if($child->localName == 'application'){
+                $package = $child->getAttribute('package');
+                $name = $child->getAttribute('name');
+                $running = $child->getAttribute('running') === 'true';
+                $mappings = self::getMappings($child);
+                $applications->add(new NetletApplication($package, $name, $mappings->get(0), $running));
+            }
+        }
+
+        self::$serverConfig->put('applications', $applications);
     }
 
     /**
      *
+     * @param string|blaze\lang\String $package
+     * @param string|blaze\lang\String $name
      * @param blaze\io\File $dir
      * @param boolean $running
      */
     private function __construct($package, $name, $urlPrefix, $running){
         $this->package = String::asWrapper($package);
         $this->name = String::asWrapper($name);
-        $this->urlPrefix = String::asWrapper($urlPrefix);
+        $this->urlPrefix = String::asWrapper(self::$serverConfig->get('serverHome').trim($urlPrefix, '/'));
         $this->running = $running;
 
-        if(self::$blazeServer == null){
-            // Used by staticInit()
-            $this->package = new String('blazeServer');
-            $this->urlPrefix = new String(self::SERVER_HOME.'blazeServer');
-        }
-
         $this->applicationPath = new File(ClassLoader::getSystemClassLoader()->getClassPath(),$package);
-        $this->config = ClassWrapper::forName($this->package->toNative().'\\Config')->getMethod('getInstance')->invoke(null,null);
-        $this->initApplication();
     }
 
-    public function initApplication(){
-        $conf = $this->config->getNetletConfigurationMap();
-        $this->netletContext = new NetletContextImpl($conf['initParams'], $this);
+    private function initApplication(){
+        $f = new File(ClassLoader::getSystemClassLoader()->getClassPath(), $this->package.File::$directorySeparator.'web.xml');
+        $doc = new \DOMDocument();
+        $doc->load($f->getAbsolutePath());
+        $this->config = $doc;
 
-        foreach($conf['netlets'] as $netlet){
-            $netletConfig = new NetletConfigImpl($netlet['name'], $this->netletContext, $netlet['initParams']);
-            $netletInst = ClassWrapper::forName($netlet['class'])->newInstance();
-            $netletInst->init($netletConfig);
-            $this->netletContext->addNetlet($netlet['name'], $netletInst);
+        $useDefault = true;
+
+        foreach($doc->documentElement->childNodes as $node){
+            if ($node->nodeType == XML_ELEMENT_NODE && $node->localName == 'netletConfig') {
+                $this->netletContext = new NetletContextImpl(self::getInitParams($node), $this);
+                $useDefault = false;
+
+                self::handleConfigChildren($node);
+            }
         }
 
-        foreach($conf['netletMapping'] as $uriMapping => $name){
-            $this->netletContext->addNetletMapping($uriMapping, $name);
+        if($useDefault){
+            $this->netletContext = new NetletContextImpl($this->getInitParams(self::$defaultNetletConfig), $this);
+            self::handleConfigChildren(self::$defaultNetletConfig);
         }
-
-        foreach($conf['filters'] as $filter){
-            $filterConfig = new FilterConfigImpl($filter['name'], $this->netletContext, $filter['initParams']);
-            $filterInst = ClassWrapper::forName($filter['class'])->newInstance();
-            $filterInst->init($filterConfig);
-            $this->netletContext->addFilter($filter['name'], $filterInst);
-        }
-
-        foreach($conf['filterMapping'] as $uriMapping => $name){
-            $this->netletContext->addFilterMapping($uriMapping, $name);
-        }
-
-        // Listeners
     }
+
+    private function handleConfigChildren($node){
+        foreach($node->childNodes as $child){
+            switch($child->localName){
+                case 'netlets':
+                    if($child->hasChildNodes())
+                        $this->initNetlets($child);
+                    break;
+                case 'filters':
+                    if($child->hasChildNodes())
+                        $this->initFilters($child);
+                    break;
+                case 'listeners':
+                    if($child->hasChildNodes())
+                        $this->initListeners($child);
+                    break;
+            }
+        }
+    }
+
+    private static function getInitParams($node){
+        $initParams = new \blaze\collections\map\HashMap();
+
+        foreach($node->childNodes as $child){
+            if($child->localName == 'initParams'){
+                foreach($child->childNodes as $param){
+                    $initParams->put($param->getAttribute('name'), $param->getAttribute('value'));
+                }
+            }
+        }
+
+        return $initParams;
+    }
+
+    private static function getMappings($node){
+        $mappings = new \blaze\collections\lists\ArrayList();
+
+        foreach($node->childNodes as $child){
+            if($child->localName == 'mapping'){
+                    $mappings->add($child->getAttribute('pattern'));
+            }
+        }
+
+        return $mappings;
+    }
+
+    private function initNetlets($node){
+        foreach($node->childNodes as $child){
+            if($child->localName == 'netlet'){
+                $name = $child->getAttribute('name');
+                $class = $child->getAttribute('class');
+                $initParams = $this->getInitParams($child);
+
+                $netletConfig = new NetletConfigImpl($name, $this->netletContext, $initParams);
+                $netlet = ClassWrapper::forName($class)->newInstance();
+                $netlet->init($netletConfig);
+                $this->netletContext->addNetlet($name, $netlet);
+
+                $mappings = self::getMappings($child);
+
+                foreach($mappings as $mapping)
+                    $this->netletContext->addNetletMapping($mapping, $name);
+            }
+        }
+    }
+
+    private function initFilters($node){
+        foreach($node->childNodes as $child){
+            if($child->localName == 'filter'){
+                $name = $child->getAttribute('name');
+                $class = $child->getAttribute('class');
+                $initParams = $this->getInitParams($child);
+
+                $filterConfig = new FilterConfigImpl($name, $this->netletContext, $initParams);
+                $filter = ClassWrapper::forName($class)->newInstance();
+                $filter->init($filterConfig);
+                $this->netletContext->addFilter($name, $filter);
+
+                $mappings = self::getMappings($child);
+
+                foreach($mappings as $mapping)
+                    $this->netletContext->addFilterMapping ($mapping, $name);
+            }
+        }
+    }
+
+    private function initListeners($node){
+//        foreach($node->childNodes as $child){
+//            if($child->localName == 'listener'){
+//                $name = $child->getAttribute('name');
+//                $class = $child->getAttribute('class');
+//                $initParams = $this->getInitParams($child);
+//
+//                $filterConfig = new FilterConfigImpl($name, $this->netletContext, $initParams);
+//                $filter = ClassWrapper::forName($class)->newInstance();
+//                $filter->init($filterConfig);
+//                $this->netletContext->addFilter($name, $filter);
+//
+//                $mappings = self::getMappings($child);
+//
+//                foreach($mappings as $mapping)
+//                    $this->netletContext->addFilterMapping ($mapping, $name);
+//            }
+//        }
+    }
+
 
     /**
      *
@@ -132,10 +270,10 @@ class NetletApplication extends Object implements StaticInitialization{
         if(!$uri->endsWith('/'))
             $uri = $uri->concat('/');
 
-        foreach(self::$serverConfig['mappings'] as $key => $value){
-            $regex = '/'.str_replace(array('/','*'), array('\/','.*'), $key).'/';
+        foreach(self::$serverConfig->get('applications') as $app){
+            $regex = '/'.str_replace(array('/','*'), array('\/','.*'), $app->getUrlPrefix()).'/';
             if($uri->matches($regex)){
-                return $value;
+                return $app->getPackage();
             }
         }
 
@@ -150,9 +288,12 @@ class NetletApplication extends Object implements StaticInitialization{
         if($pkgName == null)
             return null;
 
-        foreach(self::$serverConfig['applications'] as $appPackage => $options)
-            if($appPackage == $pkgName)
-                return new NetletApplication($appPackage, $options['name'], $options['uriPrefix'], $options['running']);
+        foreach(self::$serverConfig->get('applications') as $app){
+            if($app->getPackage()->compare($pkgName) == 0){
+                $app->initApplication();
+                return $app;
+            }
+        }
 
         return null;
     }
@@ -178,13 +319,11 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return array Returns a list of applications which are available on this server
      */
     public static function getAvailableApplications(){
-        $apps = array();
-
-        foreach(self::$serverConfig['applications'] as $appPackage => $options){
-            $apps[] = new NetletApplication($appPackage, $options['name'], null, $options['running']);
+        foreach(self::$serverConfig->get('applications') as $app){
+            $app->initApplication();
         }
 
-        return $apps;
+        return self::$serverConfig->get('applications');
     }
 
     /**
@@ -193,9 +332,11 @@ class NetletApplication extends Object implements StaticInitialization{
     public static function getRunningApplications(){
         $apps = array();
 
-        foreach(self::$serverConfig['applications'] as $appPackage => $options){
-            if($options['running'] == true)
-            $apps[] = new NetletApplication($appPackage, $options['name'], null, $options['running']);
+        foreach(self::$serverConfig->get('applications') as $app){
+            if($app->getRunning() === true){
+                $app->initApplication();
+                $apps[] = $app;
+            }
         }
 
         return $apps;
@@ -225,7 +366,7 @@ class NetletApplication extends Object implements StaticInitialization{
     }
     /**
      *
-     * @return blaze\web\application\WebConfig
+     * @return \DOMDocument
      */
     public function getConfig() {
         return $this->config;
