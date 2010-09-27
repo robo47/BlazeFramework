@@ -23,9 +23,25 @@ final class DataSourceManager extends Object implements Singleton {
      * @var blaze\ds\DataSourceManager
      */
     private static $instance;
+    private $timeout = 0;
 
     private function __construct() {
 
+    }
+
+    /**
+     * @param int $seconds
+     */
+    public function setLoginTimeout($seconds){
+        $this->timeout = $seconds;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public function getLoginTimeout(){
+        return $this->timeout;
     }
 
     /**
@@ -75,7 +91,7 @@ final class DataSourceManager extends Object implements Singleton {
         $database = $uri->getPath()->trim('/');
         $user = null;
         $password = null;
-        $options = array();
+        $options1 = array();
 
         if(strlen($uri->getQuery()) != 0) {
             $optParts = explode('&', $uri->getQuery());
@@ -90,20 +106,28 @@ final class DataSourceManager extends Object implements Singleton {
                         else if(strcasecmp($optPair[0], 'pwd') == 0)
                             $password = $optPair[1];
                         else
-                            $options[$optPair[0]] = $optPair[1];
+                            $options1[$optPair[0]] = $optPair[1];
                     }
                 }
             }
         }
-        
+
+        if($uid !== null)
+            $user = $uid;
+        if($pwd !== null)
+            $password = $pwd;
+        if($options !== null)
+            $options1 = $options;
+
         $className = '\\blaze\\ds\\driver\\'.$driver.'\\DataSourceImpl';
         
         $method = \blaze\lang\ClassWrapper::forName($className)->getMethod('getDataSource');
 
         if($method == null)
             throw new \blaze\lang\IllegalArgumentException('Driver '.$dirver.' does not exist.');
-        
-        return $method->invokeArgs(null, array($host, $port, $database, $user, $password, $options));
+        $ds = $method->invokeArgs(null, array($host, $port, $database, $user, $password, $options));
+        $ds->setLoginTimeout($this->timeout);
+        return $ds;
     }
 }
 

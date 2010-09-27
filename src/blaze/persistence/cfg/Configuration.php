@@ -47,7 +47,7 @@ class Configuration extends Object {
         if($config instanceof \blaze\io\File)
             $file = $config;
         else
-            $file = new File(\blaze\lang\String::asNative($config));
+            $file = new \blaze\io\File(\blaze\lang\String::asNative($config));
 
         $doc = new \DOMDocument();
         $doc->load($file->getAbsolutePath());

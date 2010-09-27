@@ -47,16 +47,12 @@ class SessionImpl extends Object implements \blaze\persistence\Session{
         $this->con->commit();
     }
 
-    public function createCriteria($class) {
+    public function createQuery($queryOrStatement) {
         $this->checkClose();
+        return new \blaze\persistence\query\QueryImpl($this, $queryOrStatement);
     }
 
-    public function createQuery($query) {
-        $this->checkClose();
-        return new \blaze\persistence\query\QueryImpl($this, $query);
-    }
-
-    public function createSqlQuery($query) {
+    public function createNativeQuery($query) {
         $this->checkClose();
     }
 
@@ -80,7 +76,7 @@ class SessionImpl extends Object implements \blaze\persistence\Session{
         $this->checkClose();
     }
 
-    public function removeByIds($class, blaze\collections\ListI $ids){
+    public function removeByIds($class, \blaze\collections\ListI $ids){
         $this->checkClose();
     }
 

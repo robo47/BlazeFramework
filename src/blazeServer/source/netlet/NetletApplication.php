@@ -85,7 +85,10 @@ class NetletApplication extends Object implements StaticInitialization{
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 switch($node->localName){
                     case 'serverHome':
-                        self::$serverConfig->put('serverHome', $node->getAttribute('url'));
+						$home = '/'.trim($node->getAttribute('url'),'/');
+						if($home !== '/')
+							$home .= '/';
+                        self::$serverConfig->put('serverHome', $home);
                         break;
                     case 'defaultNetletConfig':
                         self::$defaultNetletConfig = $node;
@@ -124,7 +127,10 @@ class NetletApplication extends Object implements StaticInitialization{
     private function __construct($package, $name, $urlPrefix, $running){
         $this->package = String::asWrapper($package);
         $this->name = String::asWrapper($name);
-        $this->urlPrefix = String::asWrapper(self::$serverConfig->get('serverHome').trim($urlPrefix, '/'));
+		$prefix = trim(str_replace('*', '', $urlPrefix), '/');
+		if(strlen($prefix) !== 0)
+			$prefix .= '/';
+        $this->urlPrefix = String::asWrapper(self::$serverConfig->get('serverHome').$prefix);
         $this->running = $running;
 
         $this->applicationPath = new File(ClassLoader::getSystemClassLoader()->getClassPath(),$package);

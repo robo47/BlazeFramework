@@ -13,7 +13,7 @@ namespace blaze\persistence;
  * @todo    Something which has to be done, implementation or so
  */
 interface Session {
-    
+
     /**
      * @return blaze\ds\Connection
      */
@@ -28,22 +28,16 @@ interface Session {
 
      /**
       *
-      * @param blaze\lang\String|string|blaze\lang\ClassWrapper $class
-      * @return blaze\persistence\Criteria
-      */
-     public function createCriteria($class);
-     /**
-      *
-      * @param blaze\lang\String\string $query
+      * @param blaze\lang\String|string|blaze\persistence\ooql\Statement $query
       * @return blaze\persistence\Query
       */
-     public function createQuery($query);
+     public function createQuery($queryOrStatement);
      /**
       *
       * @param blaze\lang\String\string $query
-      * @return blaze\persistence\SqlQuery
+      * @return blaze\persistence\NativeQuery
       */
-     public function createSqlQuery($query);
+     public function createNativeQuery($query);
      /**
       *
       * @param blaze\lang\String|string|blaze\lang\ClassWrapper $class
@@ -76,7 +70,7 @@ interface Session {
       * @param blaze\lang\String|string|blaze\lang\ClassWrapper $class
       * @param blaze\collections\ListI $ids
       */
-     public function removeByIds($class, blaze\collections\ListI $ids);
+     public function removeByIds($class, \blaze\collections\ListI $ids);
 }
 
 ?>

@@ -13,6 +13,17 @@ namespace blaze\ds;
  * @todo    Something which has to be done, implementation or so
  */
 interface DataSource {
+
+    /**
+     * @param int $seconds
+     */
+    public function setLoginTimeout($seconds);
+    
+    /**
+     * @return int
+     */
+    public function getLoginTimeout();
+
     /**
      *
      * @param <type> $user

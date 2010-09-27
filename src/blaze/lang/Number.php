@@ -41,6 +41,8 @@ abstract class Number extends Object implements NativeWrapper{
         
         if(is_string($value)){
             if(preg_match('/^[0-9]*$/', $value))
+                return self::$numberClasses[4];
+            else if(preg_match('/^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][-+]?\d+)?$/', $value))
                 return self::$numberClasses[3];
             else
                 return null;

@@ -55,6 +55,11 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
      * @var string
      */
     protected $batch = '';
+    /**
+     *
+     * @var int
+     */
+    protected $timeout = 0;
 
     public function __construct(Connection $con, PDO $pdo) {
         $this->con = $con;
@@ -127,6 +132,14 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
 
     public function isClosed() {
         return $this->pdo == null;
+    }
+
+    public function getQueryTimeout() {
+        return $this->timeout;
+    }
+
+    public function setQueryTimeout($seconds) {
+        $this->timeout = $seconds;
     }
 
     protected function reset() {

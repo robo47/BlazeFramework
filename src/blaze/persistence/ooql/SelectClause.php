@@ -30,6 +30,10 @@ class SelectClause extends Object{
         return $this->selectType;
     }
 
+    public function setSelectType($selectType) {
+        $this->selectType = $selectType;
+    }
+
     public function getSelectables() {
         return $this->selectables;
     }

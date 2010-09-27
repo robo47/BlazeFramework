@@ -107,7 +107,8 @@ class NetletContainer extends Object {
                         //$cookie->setDomain($request->getServerName());
                     }
 
-                    $response->addCookie($cookie);
+                    if($cookie != null)
+                        $response->addCookie($cookie);
                 }
             }
         } catch (Exception $e) {

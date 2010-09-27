@@ -20,6 +20,12 @@ interface SessionFactory {
      */
     public function getClassMeta(\blaze\lang\Object $o);
     /**
+     *
+     * @param string|\blaze\lang\String $className
+     * @return blaze\persistence\tool\metainfo\ClassMetaInfo
+     */
+    public function getClassMetaByString($className);
+    /**
      * Returns a new Session
      *
      * @return 	blaze\persistence\Session

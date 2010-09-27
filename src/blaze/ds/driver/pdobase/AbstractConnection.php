@@ -69,7 +69,11 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->password = $password;
         $this->options = $options;
         $dsn = $driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $database;
-        $this->pdo = new PDO($dsn, $user, $password, $options);
+        try{
+            $this->pdo = new PDO($dsn, $user, $password, $options);
+        } catch (\PDOException $e){
+            throw new \blaze\ds\SQLException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function  __sleep() {

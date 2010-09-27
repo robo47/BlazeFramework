@@ -27,7 +27,7 @@ class OrderByClause extends Object{
         return $this->orderBys;
     }
 
-    public function addOrderBy(Property $property, $order = self::ORD_ASC) {
+    public function addOrderBy(Property $property, $order = OrderByClause::ORD_ASC) {
         $this->gorderBys[] = array($property, $order);
     }
 

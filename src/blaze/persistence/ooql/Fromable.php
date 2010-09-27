@@ -13,6 +13,8 @@ namespace blaze\persistence\ooql;
  * @todo    Something which has to be done, implementation or so
  */
 interface Fromable {
+    public function getAlias();
+    public function setAlias($alias);
 }
 
 ?>

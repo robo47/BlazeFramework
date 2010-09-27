@@ -54,6 +54,11 @@ class DataSourceImpl extends Object implements DataSource {
      * @var array
      */
     private $options;
+    /**
+     *
+     * @var int
+     */
+    private $loginTimeout;
 
     private function __construct($driver, $host, $port, $database, $user, $password, $options) {
         $this->driver = $driver;
@@ -66,11 +71,11 @@ class DataSourceImpl extends Object implements DataSource {
     }
 
     public function getConnection($user = null, $password = null, $options = null) {
-        if ($user != null)
+        if ($user !== null)
             $this->user = $user;
-        if ($password != null)
+        if ($password !== null)
             $this->password = $password;
-        if ($options != null)
+        if ($options !== null)
             $this->options = array_merge($this->options, $options);
 
         return new ConnectionImpl($this->driver, $this->host, $this->port, $this->database, $this->user, $this->password, $this->options);
@@ -85,6 +90,14 @@ class DataSourceImpl extends Object implements DataSource {
             $port = 3306;
 
         return new DataSourceImpl($driver, $host, $port, $database, $user, $password, $options);
+    }
+
+    public function getLoginTimeout() {
+        return $this->loginTimeout;
+    }
+
+    public function setLoginTimeout($seconds) {
+        $this->loginTimeout = $seconds;
     }
 
 }

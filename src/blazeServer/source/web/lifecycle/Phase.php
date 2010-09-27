@@ -132,7 +132,7 @@ abstract class Phase extends Object {
 
         // Requesturl has always to start with a '/'
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new String('/' . $requestUri->toNative());
+            $requestUri = new \blaze\lang\String('/' . $requestUri->toNative());
 
         foreach ($listeners as $pattern => $listener) {
             if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {
@@ -175,7 +175,7 @@ abstract class Phase extends Object {
 
         // Requesturl has always to start with a '/'
         if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new String('/' . $requestUri->toNative());
+            $requestUri = new \blaze\lang\String('/' . $requestUri->toNative());
 
         foreach ($listeners as $pattern => $listener) {
             if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {

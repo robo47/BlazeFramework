@@ -25,7 +25,7 @@ class FromClause extends Object{
     }
 
     public function addFromable(Fromable $fromable) {
-        $this->fromable[] = $fromable;
+        $this->fromables[] = $fromable;
     }
 
 

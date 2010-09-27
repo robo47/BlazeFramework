@@ -19,7 +19,6 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
 
     private $properties;
     private $ressources;
-    private $sessions;
     private $ds;
     private $dialect;
     private $mapping = array();
@@ -119,6 +118,15 @@ class SessionFactoryImpl extends Object implements \blaze\persistence\SessionFac
         $class->fromXml($doc->documentElement->firstChild);
         $fullClassName = $class->getPackage().'\\'.$class->getName();
         $this->mapping[$fullClassName] = $class;
+    }
+
+    public function getClassMetaByString($className){
+        foreach($this->mapping as $cName => $classMeta){
+            if($cName === $className || \blaze\lang\String::asWrapper($cName)->endsWith($className))
+                    return $classMeta;
+        }
+
+        return null;
     }
 
     /**

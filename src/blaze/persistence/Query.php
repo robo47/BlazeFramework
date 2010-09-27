@@ -15,6 +15,61 @@ namespace blaze\persistence;
  */
 interface Query {
 
+    const TYPE_UNDEFINED = 0;
+    const TYPE_SELECT = 1;
+    const TYPE_INSERT = 2;
+    const TYPE_UPDATE = 3;
+    const TYPE_DELETE = 4;
+
+    /**
+     * The query type, types are defined in the interface blaze\persistence\Query
+     * @return int
+     */
+    public function getType();
+
+//     public function setResultSetTransformer(ResultSetTransformer $resultTransformer);
+//     public function setFlushMode(FlushMode $flushMode);
+//     public function setFetchMode(FetchMode $fetchMode);
+//     public function setCacheMode(CacheMode $cacheMode);
+//     public function setCacheable($cacheable);
+//     public function setLockMode(LockMode $lockMode);
+
+
+    /**
+     * Returns the query string
+     * @return blaze\lang\String
+     */
+    public function getQueryString();
+
+    /**
+     * Returns the query timeout in seconds
+     * @return int
+     */
+    public function getTimeout();
+    
+    /**
+     * Sets the query timeout in seconds
+     * @param int $seconds
+     */
+    public function setTimeout($seconds);
+
+    /**
+     * Executes a delete or update query
+     * @return int The number of entities updated or deleted
+     */
+    public function executeUpdate();
+
+//    /**
+//     * Returns a scrollable result set
+//     * @return blaze\persistence\ScrollableResult
+//     */
+//     public function scroll(ScrollMode $mode = null);
+//     /**
+//      * Returns an iterator for the result
+//      * @return blaze\collections\Iterator
+//      */
+//     public function iterate();
+
     /**
      *
      * @return 	blaze\collections\ListI
@@ -161,7 +216,7 @@ interface Query {
      * @param blaze\lang\Object $value
      * @return blaze\persistence\Query
      */
-    public function setEntity($identifier, blaze\lang\Object $value);
+    public function setEntity($identifier, \blaze\lang\Object $value);
 }
 
 ?>

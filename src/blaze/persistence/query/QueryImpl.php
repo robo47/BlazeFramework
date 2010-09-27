@@ -20,59 +20,18 @@ class QueryImpl extends Object implements \blaze\persistence\Query {
     private $session;
     private $query;
     private $stmt;
+    private $timeout = 0;
+    private $type;
 
     public function __construct(\blaze\persistence\Session $session, $query) {
         $this->session = $session;
         $this->query = $query;
         $con = $this->session->getConnection();
-        $this->stmt = $con->prepareStatement($this->rewriteQuery());
-    }
-
-    private function rewriteQuery(){
-        $sql = 'SELECT * FROM ';
-        $start = 0;
-
-        if(($start = strpos($this->query, 'SELECT')) !== false){
-
-        }else if(($start = strpos($this->query, 'FROM')) !== false){
-            $where = strpos($this->query,'WHERE', $start);
-            $end = $where !== false ? $where : strlen($this->query);
-            $fromClause = trim(substr($this->query, $start, $end - $start));
-            $entityDefs = explode(',', $fromClause);
-            $entities = array();
-
-            foreach($entityDefs as $def){
-                $ent = new \blaze\persistence\ooql\Entity();
-                $defParts = explode(' ', $def);
-                $ent->setEntityName($defParts[0]);
-
-                if(count($defParts) > 1)
-                    $ent->setEntityAlias($defParts[1]);
-                $entities[] = $ent;
-            }
-
-            foreach($entities as $entity){
-                $sql .= $this->createRecursiveJoinsForEntity($entity);
-            }
-
-            if($where !== false){
-                $sql .= $this->createWhereForEntities(substr($this->query, $end), $entities);
-            }
-        }
-    }
-
-    private function createRecursiveJoinsForEntity(\blaze\persistence\ooql\Entity $entity){
-        $sql = '';
-
-
-        return $sql;
-    }
-
-    private function createWhereForEntities($whereClause, $entity){
-        $sql = '';
-
-
-        return $sql;
+        
+        if($query instanceof \blaze\persistence\ooql\Statement)
+            $this->stmt = $con->prepareStatement();
+        else
+            $this->stmt = $con->prepareStatement();
     }
 
     public function getList() {
@@ -83,6 +42,25 @@ class QueryImpl extends Object implements \blaze\persistence\Query {
         
     }
 
+    public function executeUpdate() {
+
+    }
+
+    public function getQueryString() {
+        return $this->query;
+    }
+
+    public function getTimeout() {
+        return $this->timeout;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function setTimeout($seconds) {
+        $this->timeout = $seconds;
+    }
 
     public function setBlob($identifier, \blaze\ds\type\Blob $value) {
         $this->stmt->setBlob($identifier, $value);
@@ -112,7 +90,7 @@ class QueryImpl extends Object implements \blaze\persistence\Query {
         $this->stmt->setDouble($identifier, $value);
     }
 
-    public function setEntity($identifier, blaze\lang\Object $value) {
+    public function setEntity($identifier, \blaze\lang\Object $value) {
 //        $meta = $this->session->getSessionFactory()->getClassMeta($value);
 //
 //        if($meta === null)

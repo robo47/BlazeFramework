@@ -22,19 +22,19 @@ class Entity extends Object implements Joinable, Fromable{
         $this->entityName = $entityName;
         $this->entityAlias = $entityAlias;
     }
-    public function getEntityName() {
+    public function getName() {
         return $this->entityName;
     }
 
-    public function setEntityName($entityName) {
+    public function setName($entityName) {
         $this->entityName = $entityName;
     }
 
-    public function getEntityAlias() {
+    public function getAlias() {
         return $this->entityAlias;
     }
 
-    public function setEntityAlias($entityAlias) {
+    public function setAlias($entityAlias) {
         $this->entityAlias = $entityAlias;
     }
 

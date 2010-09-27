@@ -34,7 +34,7 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
         foreach($this->session->getSessionMap() as $key => $val)
                 $_SESSION[$key] = $val;
 
-        setcookie(self::SESSION_NAME, '');
+//        setcookie(self::SESSION_NAME, '');
         session_write_close();
     }
 

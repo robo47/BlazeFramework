@@ -17,9 +17,9 @@ interface Statement1 {
 
     /**
      *
-     * @param string|blaze\lang\String $sql
+     * @param string|blaze\lang\String $query
      */
-    public function addBatch($sql);
+    public function addBatch($query);
 
     /**
      * Clears the current batchjobs
@@ -75,5 +75,18 @@ interface Statement1 {
      * @return boolean
      */
     public function isClosed();
+
+    /**
+     * Returns the timeout for this statement
+     *
+     * @return int
+     */
+    public function getQueryTimeout();
+    /**
+     * Sets the timeout for this statement
+     *
+     * @param int $seconds
+     */
+    public function setQueryTimeout($seconds);
 }
 ?>

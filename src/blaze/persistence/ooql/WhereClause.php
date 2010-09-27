@@ -17,14 +17,28 @@ use blaze\lang\Object;
  */
 class WhereClause extends Object {
 
-    private $condition = array();
+    private $condition;
 
-    public function __construct(Condition $condition) {
+    public function __construct(Condition $condition = null) {
         $this->condition = $condition;
     }
 
+    /**
+     *
+     * @return Condition
+     */
     public function getCondition() {
         return $this->condition;
+    }
+
+    /**
+     *
+     * @param Condition $condition
+     * @return WhereClause 
+     */
+    public function setCondition(Condition $condition) {
+        $this->condition = $condition;
+        return $this;
     }
 
 }

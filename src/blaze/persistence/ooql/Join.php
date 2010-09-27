@@ -15,13 +15,13 @@ use blaze\lang\Object;
  */
 class Join extends Object implements Fromable, Joinable{
 
-    const TYPE_NORMAL = -1;
-    const TYPE_CROSS = 0;
-    const TYPE_INNER = 1;
-    const TYPE_LEFT = 2;
-    const TYPE_RIGHT = 3;
-    const TYPE_OUTER = 4;
-    const TYPE_NATURAL = 8;
+    const TYPE_NORMAL = 0;
+    const TYPE_CROSS = 1;
+    const TYPE_INNER = 2;
+    const TYPE_LEFT = 4;
+    const TYPE_RIGHT = 8;
+    const TYPE_OUTER = 16;
+    const TYPE_NATURAL = 32;
 
     private $left;
     private $right;

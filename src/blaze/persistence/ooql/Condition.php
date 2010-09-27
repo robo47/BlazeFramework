@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Condition extends Object implements Whereable, Argument, Conditionable{
+class Condition extends Object implements Argument, Conditionable{
 
     const COND_EQUALS = '=';
     const COND_EQUALS_NOT = '!=';

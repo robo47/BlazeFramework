@@ -13,7 +13,7 @@ namespace blaze\persistence;
  * @todo    Something which has to be done, implementation or so
  */
 interface Dialect {
-    
+    public function getNativeQuery(\blaze\persistence\ooql\Statement $stmt, \blaze\persistence\SessionFactory $fact);
 }
 
 ?>

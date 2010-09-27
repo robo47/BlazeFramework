@@ -38,12 +38,8 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testConfigure(){
-        $base = new \blaze\io\File('');
-        $base = new \blaze\io\File($base->getAbsoluteFile()->getParent());
-        $base = new \blaze\io\File($base->getAbsoluteFile()->getParent());
-        $base = new \blaze\io\File($base->getAbsoluteFile()->getParent());
-        $file = new \blaze\io\File($base, 'src/blazeCMS/source/persistence.cfg.xml');
-        $this->config->configureFile($file);
+        $this->config = new cfg\Configuration();
+        $this->config->configureFile('D:\\xampp\\htdocs\\BlazeFrameworkServer\\src\\blazeCMS\\source\\persistence.cfg.xml');
         $this->factory = $this->config->buildSessionFactory();
         $this->session = $this->factory->openSession();
     }

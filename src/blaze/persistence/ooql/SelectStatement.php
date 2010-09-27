@@ -13,23 +13,19 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class SelectStatement extends Object implements Statement, Fromable, Joinable, Conditionable{
+class SelectStatement extends FromStatement{
 
-    private $selectClause;
-    private $fromClause;
-    private $whereClause;
-    private $groupByClause;
-    private $orderByClause;
-    private $limitClause;
+    protected $selectClause;
 
-    public function __construct(SelectClause $selectClause, FromClause $fromClause, WhereClause $whereClause = null, GroupByClause $groupByClause = null, OrderByClause $orderByClause = null, LimitClause $limitClause = null) {
+    public function __construct(SelectClause $selectClause = null, FromClause $fromClause = null, WhereClause $whereClause = null, GroupByClause $groupByClause = null, OrderByClause $orderByClause = null, LimitClause $limitClause = null) {
         $this->selectClause = $selectClause;
-        $this->fromClause = $fromClause;
-        $this->whereClause = $whereClause;
-        $this->groupByClause = $groupByClause;
-        $this->orderByClause = $orderByClause;
+        parent::__construct($fromClause, $whereClause, $groupByClause, $orderByClause, $limitClause);
     }
-    
+
+    /**
+     *
+     * @return SelectClause
+     */
     public function getSelectClause() {
         return $this->selectClause;
     }
@@ -37,47 +33,6 @@ class SelectStatement extends Object implements Statement, Fromable, Joinable, C
     public function setSelectClause(SelectClause $selectClause) {
         $this->selectClause = $selectClause;
     }
-
-    public function getFromClause() {
-        return $this->fromClause;
-    }
-
-    public function setFromClause(FromClause $fromClause) {
-        $this->fromClause = $fromClause;
-    }
-
-    public function getWhereClause() {
-        return $this->whereClause;
-    }
-
-    public function setWhereClause(WhereClause $whereClause) {
-        $this->whereClause = $whereClause;
-    }
-
-    public function getGroupByClause() {
-        return $this->groupByClause;
-    }
-
-    public function setGroupByClause(GroupByClause $groupByClause) {
-        $this->groupByClause = $groupByClause;
-    }
-
-    public function getOrderByClause() {
-        return $this->orderByClause;
-    }
-
-    public function setOrderByClause(OrderByClause $orderByClause) {
-        $this->orderByClause = $orderByClause;
-    }
-
-    public function getLimitClause() {
-        return $this->limitClause;
-    }
-
-    public function setLimitClause(LimitClause $limitClause) {
-        $this->limitClause = $limitClause;
-    }
-
 }
 
 ?>
