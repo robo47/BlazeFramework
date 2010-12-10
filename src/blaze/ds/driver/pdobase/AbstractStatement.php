@@ -33,7 +33,7 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
             $this->stmt = null;
             return false;
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -46,7 +46,7 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
             $this->reset();
             $result = $this->pdo->exec($sql);
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
 
         return $result;

@@ -17,9 +17,9 @@ use blaze\ds\driver\pdobase\meta\AbstractColumnMetaData;
  */
 class ColumnMetaDataImpl extends AbstractColumnMetaData {
 
-    public function __construct(\blaze\ds\meta\TableMetaData $table, $columnName) {
+    public function __construct(\blaze\ds\meta\TableMetaData $table, $name) {
         $this->table = $table;
-        $this->columnName = \blaze\lang\String::asWrapper($columnName);
+        $this->name = \blaze\lang\String::asWrapper($name);
         $this->getColumnInfo();
     }
 
@@ -28,18 +28,32 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
      *
      * @return blaze\lang\String
      */
-    private function getClassName($nativeName) {
+    private function getClassName($nativeName, $length) {
         $className = null;
         switch (\blaze\lang\String::asNative($nativeName->toLowerCase())) {
-            case 'decimal': $className = '\\blaze\\math\\BigDecimal';
+            case 'bigint':  $className = 'blaze\\math\\BigInteger';
                 break;
+            case 'real':
+            case 'double': $className = 'double';
+                break;
+            case 'float': $className = 'float';
+                break;
+            case 'numeric':
+            case 'decimal': $className = 'blaze\\math\\BigDecimal';
+                break;
+            case 'tinyint':
+            case 'smallint':
+            case 'mediumint':
             case 'int': $className = 'int';
                 break;
-            case 'date': $className = '\\blaze\\util\\Date';
+            case 'date':
+            case 'datetime':
+            case 'time':
+            case 'timestamp': $className = 'blaze\\util\\Date';
                 break;
-            case 'blob': $className = '\\blaze\\ds\\type\\Blob';
+            case 'blob': $className = 'blaze\\ds\\type\\Blob';
                 break;
-            default: $className = '\\blaze\\lang\\String';
+            default: $className = 'blaze\\lang\\String';
                 break;
         }
         return new \blaze\lang\String($className);
@@ -57,25 +71,25 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
                         ->prepareStatement('SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
         $stmt->setString(0, $this->table->getSchema()->getSchemaName());
         $stmt->setString(1, $this->table->getTableName());
-        $stmt->setString(2, $this->columnName);
+        $stmt->setString(2, $this->name);
         $stmt->execute();
         $rs = $stmt->getResultSet();
         $rs->next();
 
-        $this->columnDefault = $rs->getString('COLUMN_DEFAULT');
-        $this->nullable = $rs->getString('IS_NULLABLE')->compareTo('YES') == 0;
-        $this->columnTypeName = $rs->getString('DATA_TYPE');
-        $this->columnClassName = $this->getClassName($this->columnTypeName);
-        $this->columnLength = $rs->getInt('NUMERIC_SCALE');
+        $this->default = $rs->getString('COLUMN_DEFAULT');
+        $this->nullable = $rs->getString('IS_NULLABLE')->compare('YES') == 0;
+        $this->nativeType = $rs->getString('DATA_TYPE');
+        $this->length = $rs->getInt('NUMERIC_SCALE');
+        $this->classType = $this->getClassName($this->nativeType, $this->length);
 
-        if ($this->columnLength == null)
-            $this->columnLength = $rs->getInt('CHARACTER_MAXIMUM_LENGTH');
+        if ($this->length == null)
+            $this->length = $rs->getInt('CHARACTER_MAXIMUM_LENGTH');
 
-        $this->columnPrecision = $rs->getInt('NUMERIC_PRECISION');
+        $this->precision = $rs->getInt('NUMERIC_PRECISION');
         $this->signed = !$rs->getString('COLUMN_TYPE')->contains('unsigned');
         $extra = $rs->getString('EXTRA');
         $this->autoIncrement = $extra != null ? $extra->contains('auto_increment') : false;
-        $this->columnComment = $rs->getString('COLUMN_COMMENT');
+        $this->comment = $rs->getString('COLUMN_COMMENT');
 
         $keyVal = $rs->getString('COLUMN_KEY');
         $this->primaryKey = $keyVal != null ? $keyVal->compareToIgnoreCase('PRI') == 0 : false;
@@ -95,7 +109,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
                         ->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
         $stmt->setString(0, $this->table->getSchema()->getSchemaName());
         $stmt->setString(1, $this->table->getTableName());
-        $stmt->setString(2, $this->columnName);
+        $stmt->setString(2, $this->name);
         $stmt->execute();
         $rs = $stmt->getResultSet();
 
@@ -109,106 +123,60 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $stmt->close();
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getColumnName() {
-        return $this->columnName;
+    public function setName($name) {
+        $this->name = $name;
     }
 
-    /**
-     * Native database types like varchar etc.
-     *
-     * @return blaze\lang\String
-     */
-    public function getColumnTypeName() {
-        return $this->columnTypeName;
+    public function setNativeType($nativeType) {
+        $this->nativeType = $nativeType;
     }
 
-    /**
-     * PHP datatypes of the columns
-     *
-     * @return blaze\lang\String
-     */
-    public function getColumnClassName() {
-        return $this->columnClassName;
+    public function setClassType($classType) {
+        $this->classType = $classType;
     }
 
-    /**
-     * @return int
-     */
-    public function getColumnLength() {
-        return $this->columnLength;
+    public function setLength($length) {
+        $this->length = $length;
     }
 
-    /**
-     * @return int
-     */
-    public function getColumnPrecision() {
-        return $this->columnPrecision;
+    public function setPrecision($precision) {
+        $this->precision = $precision;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getColumnDefault() {
-        return $this->columnDefault;
+    public function setDefault($default) {
+        $this->default = $default;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getColumnComment() {
-        return $this->columnComment;
+    public function setComment($comment) {
+        $this->comment = $comment;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isNullable() {
-        return $this->nullable;
+    public function setNullable($nullable) {
+        $this->nullable = $nullable;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isAutoIncrement() {
-        return $this->autoIncrement;
+    public function setAutoIncrement($autoIncrement) {
+        $this->autoIncrement = $autoIncrement;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isSigned() {
-        return $this->signed;
+    public function setSigned($signed) {
+        $this->signed = $signed;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isPrimaryKey() {
-        return $this->primaryKey;
+    public function setPrimaryKey($primaryKey, $name) {
+        $this->primaryKey = $primaryKey;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isForeignKey() {
-        return $this->foreignKey;
+    public function setForeignKey($foreignKey, $name, \blaze\ds\meta\ColumnMetaData $referencingColumn) {
+        $this->foreignKey = $foreignKey;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isUniqueKey() {
-        return $this->uniqueKey;
+    public function setUniqueKey($uniqueKey, $name) {
+        $this->uniqueKey = $uniqueKey;
     }
 
-    /**
-     * @return blaze\ds\meta\TableMetaData
-     */
-    public function getTable() {
-        return $this->table;
+    public function setTable(\blaze\ds\meta\TableMetaData $table) {
+        $this->table = $table;
     }
 
     /**
@@ -238,7 +206,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             $stmt = $this->table->getSchema()->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?');
             $stmt->setString(0, $this->table->getSchema()->getSchemaName());
             $stmt->setString(1, $this->table->getTableName());
-            $stmt->setString(2, $this->columnName);
+            $stmt->setString(2, $this->name);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
@@ -268,7 +236,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
                         break;
                 }
             }
-        } catch (\blaze\ds\SQLException $e) {
+        } catch (\blaze\ds\DataSourceException $e) {
             throw $e;
         }
 
@@ -355,7 +323,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
                     }
                 }
             }
-        } catch (\blaze\ds\SQLException $e) {
+        } catch (\blaze\ds\DataSourceException $e) {
             throw $e;
         }
 
@@ -377,9 +345,9 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
 
         try {
             $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = ? AND REFERENCED_TABLE_NAME = ? AND REFERENCED_COLUMN_NAME = ?');
-            $stmt->setString(0, $this->table->getSchema->getSchemaName());
+            $stmt->setString(0, $this->table->getSchema()->getSchemaName());
             $stmt->setString(1, $this->table->getTableName());
-            $stmt->setString(2, $this->columnName);
+            $stmt->setString(2, $this->name);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
@@ -388,7 +356,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
                                         ->getDatabaseMetaData()
                                         ->getSchema($rs->getString('TABLE_SCHEMA'))
                                         ->getTable($rs->getString('TABLE_NAME')), $rs->getString('COLUMN_NAME'));
-        } catch (\blaze\ds\SQLException $e) {
+        } catch (\blaze\ds\DataSourceException $e) {
 
         }
 
@@ -398,6 +366,10 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             $rs->close();
 
         return $columns;
+    }
+
+    public function drop() {
+        
     }
 
 }

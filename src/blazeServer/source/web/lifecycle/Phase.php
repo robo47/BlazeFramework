@@ -17,7 +17,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 abstract class Phase extends Object {
 
@@ -122,20 +121,20 @@ abstract class Phase extends Object {
 //LOGGER.fine("ExternalContext.getFlash() throw UnsupportedOperationException -> Flash unavailable");
 //}
 //}
-        $requestUri = $context->getRequest()->getRequestURI()->getPath();
+        $requestURL = $context->getRequest()->getRequestURL()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
-        if (!$requestUri->endsWith('/'))
-            $requestUri = $requestUri->concat('/');
+        if (!$requestURL->endsWith('/'))
+            $requestURL = $requestURL->concat('/');
 
-        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestURL = $requestURL->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
-        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new \blaze\lang\String('/' . $requestUri->toNative());
+        if ($requestURL->length() == 0 || $requestURL->charAt(0) != '/')
+            $requestURL = new \blaze\lang\String('/' . $requestURL->toNative());
 
         foreach ($listeners as $pattern => $listener) {
-            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {
+            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestURL, $pattern)) {
                 try {
                     $listener->afterPhase($event);
                 } catch (Exception $e) {
@@ -165,20 +164,20 @@ abstract class Phase extends Object {
         //}
         //RequestStateManager.clearAttributesForPhase(context,
         // context.getCurrentPhaseId());
-        $requestUri = $context->getRequest()->getRequestURI()->getPath();
+        $requestURL = $context->getRequest()->getRequestURL()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
-        if (!$requestUri->endsWith('/'))
-            $requestUri = $requestUri->concat('/');
+        if (!$requestURL->endsWith('/'))
+            $requestURL = $requestURL->concat('/');
 
-        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestURL = $requestURL->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
-        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new \blaze\lang\String('/' . $requestUri->toNative());
+        if ($requestURL->length() == 0 || $requestURL->charAt(0) != '/')
+            $requestURL = new \blaze\lang\String('/' . $requestURL->toNative());
 
         foreach ($listeners as $pattern => $listener) {
-            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestUri, $pattern)) {
+            if (($this->getId() == $listener->getPhaseId() || \blaze\web\event\PhaseId::ANY_PHASE == $listener->getPhaseId()) && $this->matchesPattern($requestURL, $pattern)) {
                 try {
                     $listener->beforePhase($event);
                 } catch (Exception $e) {
@@ -195,8 +194,8 @@ abstract class Phase extends Object {
 
 // --------------------------------------------------------- Private Methods
 
-    private function matchesPattern($uri, $pattern){
-        return preg_match('/^' . str_replace(array('/', '*'), array('\/', '.*'), $pattern) . '$/', $uri) === 1;
+    private function matchesPattern($URL, $pattern){
+        return preg_match('/^' . str_replace(array('/', '*'), array('\/', '.*'), $pattern) . '$/', $URL) === 1;
     }
     /**
      * @param context the FacesContext for the current request

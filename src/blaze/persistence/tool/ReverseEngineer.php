@@ -21,8 +21,6 @@ class ReverseEngineer extends Object {
 
     public function __construct(\blaze\io\File $dir, $package) {
         $this->dir = $dir;
-        if (!\blaze\lang\String::asWrapper($package)->endsWith('\\'))
-            $package .= '\\';
         $this->package = $package;
     }
 
@@ -44,19 +42,17 @@ class ReverseEngineer extends Object {
     public function reverseTable(\blaze\ds\meta\TableMetaData $tmd) {
         $file = new \blaze\io\File($this->dir, $this->getClassName($tmd->getTableName()) . '.xml');
         $doc = new \DOMDocument('1.0', 'utf-8');
-        $class = new metainfo\ClassMetaInfo();
-        $class->setName($this->package . $this->getClassName($tmd->getTableName()));
-        $class->setTable($tmd->getTableName());
+        $class = \blaze\persistence\meta\ClassDescriptor::getClassDescriptor($this->getClassName($tmd->getTableName()));
+        $class->setPackage($this->package);
+        $class->setTableDescriptor(\blaze\persistence\meta\TableDescriptor::getTableDescriptor($tmd->getTableName()));
 
         $this->reversePrimaryColumns($class, $tmd->getPrimaryKeys());
         $this->reverseNormalColumns($class, $tmd->getColumns());
         $this->reverseForeignColumns($class, $tmd->getForeignKeys());
         $this->reverseInverseColumns($class, $tmd->getReferencingKeys());
 
-        $root = $doc->createElement('persistence-mapping');
-        $doc->appendChild($root);
-        $class->toXml($root, $doc);
-        $doc->save($file->getAbsolutePath());
+        $t = new \blaze\persistence\meta\driver\XmlMetaDriver();
+        $t->save($class, $file);
     }
 
     public function reverseView(\blaze\ds\meta\ViewMetaData $dbmd) {
@@ -69,15 +65,19 @@ class ReverseEngineer extends Object {
      * @param \DOMElement $elem
      * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $primaryKeys
      */
-    private function reversePrimaryColumns(metainfo\ClassMetaInfo $elem, $primaryKeys) {
+    private function reversePrimaryColumns(\blaze\persistence\meta\ClassDescriptor $elem, $primaryKeys) {
         foreach ($primaryKeys as $primaryKey) {
-            $id = new metainfo\IdMetaInfo();
-            $id->setName($this->getMemberName($primaryKey->getColumnName()));
-            $id->setType($primaryKey->getColumnClassName());
-            $col = new metainfo\ColumnMetaInfo();
-            $col->setName($primaryKey->getColumnName());
-            $id->setColumn($col);
-            $elem->addMember($id);
+            $id = new \blaze\persistence\meta\IdDescriptor();
+            $field = new \blaze\persistence\meta\SingleFieldDescriptor();
+            $id->setSingleFieldDescriptor($field);
+            
+            $field->setName($this->getMemberName($primaryKey->getName()));
+            $field->setType($primaryKey->getClassType());
+
+            $col = new \blaze\persistence\meta\ColumnDescriptor();
+            $col->apply($primaryKey);
+            $field->setColumnDescriptor($col);
+            $elem->addIdentifier($id);
         }
     }
 
@@ -87,17 +87,18 @@ class ReverseEngineer extends Object {
      * @param \DOMElement $elem
      * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $primaryKeys
      */
-    private function reverseNormalColumns(metainfo\ClassMetaInfo $elem, $columns) {
+    private function reverseNormalColumns(\blaze\persistence\meta\ClassDescriptor $elem, $columns) {
         foreach ($columns as $column) {
             if (!$column->isPrimaryKey() && !$column->isForeignKey()) {
-                $property = new metainfo\PropertyMetaInfo();
-                $property->setName($this->getMemberName($column->getColumnName()));
-                $property->setType($column->getColumnClassName());
-                $col = new metainfo\ColumnMetaInfo();
-                $col->setName($column->getColumnName());
-                $col->setLength($column->getColumnLength());
-                $property->setColumn($col);
-                $elem->addMember($property);
+                $field = new \blaze\persistence\meta\SingleFieldDescriptor();
+
+                $field->setName($this->getMemberName($column->getName()));
+                $field->setType($column->getClassType());
+
+                $col = new \blaze\persistence\meta\ColumnDescriptor();
+                $col->apply($column);
+                $field->setColumnDescriptor($col);
+                $elem->addSingleField($field);
             }
         }
     }
@@ -106,9 +107,11 @@ class ReverseEngineer extends Object {
      *
      * @param \DOMDocument $doc
      * @param \DOMElement $elem
-     * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $primaryKeys
+     * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $columns
      */
-    private function reverseForeignColumns(metainfo\ClassMetaInfo $elem, $columns) {
+    private function reverseForeignColumns(\blaze\persistence\meta\ClassDescriptor $elem, $columns) {
+        $usedNames = array();
+
         foreach ($columns as $column) {
             $foreignConstraint = null;
 
@@ -119,14 +122,21 @@ class ReverseEngineer extends Object {
                 }
             }
 
-            $property = new metainfo\ManyToOneMetaInfo();
-            $property->setName($this->getMemberName($foreignConstraint->getReferencedColumn()->getTable()->getTableName()));
-            $property->setClassName($this->package . $this->getClassName($foreignConstraint->getReferencedColumn()->getTable()->getTableName()));
-            $col = new metainfo\ColumnMetaInfo();
-            $col->setName($column->getColumnName());
-            $col->setNotNull($column->isNullable() ? 'false' : 'true');
-            $property->setColumn($col);
-            $elem->addMember($property);
+            $field = new \blaze\persistence\meta\SingleFieldDescriptor();
+            $name = $this->getMemberName($foreignConstraint->getReferencedColumn()->getTable()->getTableName());
+
+            if(array_key_exists($name, $usedNames))
+                    $name .= $usedNames[$name]++;
+            else
+                $usedNames[$name] = 0;
+
+            $field->setName($name);
+            $field->setType($this->package . '\\'. $this->getClassName($foreignConstraint->getReferencedColumn()->getTable()->getTableName()));
+
+            $col = new \blaze\persistence\meta\ColumnDescriptor();
+            $col->apply($column);
+            $field->setColumnDescriptor($col);
+            $elem->addSingleField($field);
         }
     }
 
@@ -134,9 +144,11 @@ class ReverseEngineer extends Object {
      *
      * @param \DOMDocument $doc
      * @param \DOMElement $elem
-     * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $primaryKeys
+     * @param blaze\collections\ListI[blaze\ds\meta\ColumnMetaData] $columns
      */
-    private function reverseInverseColumns(metainfo\ClassMetaInfo $elem, $columns) {
+    private function reverseInverseColumns(\blaze\persistence\meta\ClassDescriptor $elem, $columns) {
+        $usedNames = array();
+
         foreach ($columns as $column) {
             $inverseColumns = $column->getTable()->getColumns();
             if (count($inverseColumns) == 2 &&
@@ -145,7 +157,7 @@ class ReverseEngineer extends Object {
                     $inverseColumns[0]->isForeignKey() &&
                     $inverseColumns[1]->isForeignKey()) {
 
-                $secondColumn = $inverseColumns[1]->getColumnName()->equals($column->getColumnName()) ? $inverseColumns[0] : $inverseColumns[1];
+                $secondColumn = $inverseColumns[1]->getName()->equals($column->getName()) ? $inverseColumns[0] : $inverseColumns[1];
                 $otherTable = null;
 
                 foreach ($secondColumn->getConstraints() as $constraint) {
@@ -155,47 +167,59 @@ class ReverseEngineer extends Object {
                     }
                 }
 
-                $this->makeManyToMany($elem, $column, $secondColumn, $otherTable);
+                $name = $this->getMemberName($otherTable->getTableName());
+
+                if(array_key_exists($name, $usedNames))
+                        $usedNames[$name]++;
+                else
+                    $usedNames[$name] = 0;
+                $this->makeManyToMany($elem, $column, $secondColumn, $otherTable, $usedNames[$name]);
             } else {
-                $this->makeOneToMany($elem, $column);
+                $name = $this->getMemberName($column->getTable()->getTableName());
+
+                if(array_key_exists($name, $usedNames))
+                        $usedNames[$name]++;
+                else
+                    $usedNames[$name] = 0;
+
+                $this->makeOneToMany($elem, $column, $usedNames[$name]);
             }
         }
     }
 
-    private function makeManyToMany(metainfo\ClassMetaInfo $elem, $column, $secondColumn, $otherTable) {
-        $property = new metainfo\SetMetaInfo();
-        $property->setName($this->getMemberName($otherTable->getTableName() . 's'));
-        $property->setSchema($column->getTable()->getSchema()->getSchemaName());
-        $property->setTable($column->getTable()->getTableName());
-        $property->setCascade('all');
-        $key = new metainfo\KeyMetaInfo();
-        $col = new metainfo\ColumnMetaInfo();
-        $col->setName($column->getColumnName());
-        $key->setColumn($col);
-        $property->setKey($key);
+    private function makeManyToMany(\blaze\persistence\meta\ClassDescriptor $elem, $column, $secondColumn, $otherTable, $ident) {
+        $property = new \blaze\persistence\meta\CollectionFieldDescriptor();
+        $field = new \blaze\persistence\meta\SingleFieldDescriptor();
+        $property->setFieldDescriptor($field);
+        $ident = $ident > 0 ? ''.$ident : '';
+        $field->setName($this->getMemberName($otherTable->getTableName() . 's' . $ident));
+        //$property->setSchema($column->getTable()->getSchema()->getSchemaName());
+        $property->setTableDescriptor(\blaze\persistence\meta\TableDescriptor::getTableDescriptor($column->getTable()->getTableName()));
+        //$property->setCascade('all');
+        $col = new \blaze\persistence\meta\ColumnDescriptor();
+        $col->apply($column);
+        $property->setColumnDescriptor($col);
 
-        $assoc = new metainfo\ManyToManyMetaInfo();
-        $assoc->setColumn($secondColumn->getColumnName());
-        $assoc->setClassName($this->package . $this->getClassName($otherTable->getTableName()));
-        $property->setAssociation($assoc);
-        $elem->addMember($property);
+        $junction = new \blaze\persistence\meta\ColumnDescriptor();
+        $junction->apply($secondColumn);
+        $property->setJunctionColumnDescriptor($junction);
+        $property->setClassDescriptor(\blaze\persistence\meta\ClassDescriptor::getClassDescriptor($this->getClassName($otherTable->getTableName())));
+        $elem->addCollectionField($property);
     }
 
-    private function makeOneToMany(metainfo\ClassMetaInfo $elem, $column) {
-        $property = new metainfo\SetMetaInfo();
-        $property->setName($this->getMemberName($column->getTable()->getTableName() . 's'));
-        $property->setInverse('true');
-        $key = new metainfo\KeyMetaInfo();
-        $col = new metainfo\ColumnMetaInfo();
-        $col->setName($column->getColumnName());
-        $col->setNotNull($column->isNullable() ? 'false' : 'true');
-        $key->setColumn($col);
-        $property->setKey($key);
+    private function makeOneToMany(\blaze\persistence\meta\ClassDescriptor $elem, $column, $ident) {
+        $property = new \blaze\persistence\meta\CollectionFieldDescriptor();
+        $field = new \blaze\persistence\meta\SingleFieldDescriptor();
+        $property->setFieldDescriptor($field);
+        $ident = $ident > 0 ? ''.$ident : '';
+        $field->setName($this->getMemberName($column->getTable()->getTableName() . 's' . $ident));
+        //$property->setInverse('true');
+        $col = new \blaze\persistence\meta\ColumnDescriptor();
+        $col->apply($column);
+        $property->setColumnDescriptor($col);
 
-        $assoc = new metainfo\OneToManyMetaInfo();
-        $assoc->setClassName($this->package . $this->getClassName($column->getTable()->getTableName()));
-        $property->setAssociation($assoc);
-        $elem->addMember($property);
+        $property->setClassDescriptor(\blaze\persistence\meta\ClassDescriptor::getClassDescriptor($this->getClassName($column->getTable()->getTableName())));
+        $elem->addCollectionField($property);
     }
 
     private function getClassName($tableName) {

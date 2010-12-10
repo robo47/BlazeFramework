@@ -20,26 +20,29 @@ use blaze\lang\Object,
  */
 class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 
+    /**
+     *
+     * @var int
+     */
     protected $size;
     /**
      *
      * @var array[blaze\collections\MapEntry]
      */
-    protected  $data;
-
+    protected $data;
+    /**
+     *
+     * @var array[int]
+     */
     protected $hashs;
 
     public function __construct(\blaze\collections\Map $map = null) {
-            $this->size = 0;
-            $this->data = array();
-            $this->hashs = array();
+        $this->clear();
         if ($map != null) {
-           foreach($map as $val){
-
+            foreach ($map as $val) {
                 $this->put($val->getKey(), $val->getValue());
+            }
         }
-        }
-            
     }
 
     public function clear() {
@@ -118,8 +121,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
         if ($this->containsKey($key)) {
             unset($this->data[$hash]);
-             unset($this->hashs[$this->indexOf($hash)]);
-             $this->hashs = \array_values($this->hashs);
+            unset($this->hashs[$this->indexOf($hash)]);
+            $this->hashs = \array_values($this->hashs);
             $this->size--;
             return true;
         } else {
@@ -129,7 +132,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
     public function values() {
         $list = new \blaze\collections\lists\ArrayList();
-        foreach($this as $val){
+        foreach ($this as $val) {
             $list->add($val->getValue());
         }
         return $list;
@@ -147,7 +150,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
      * @return blaze\collections\MapIterator
      */
     public function getIterator() {
-        return new HashMapIterator($this->data,$this->hashs,$this);
+        return new HashMapIterator($this->data, $this->hashs, $this);
     }
 
     public function containsAll(\blaze\collections\Map $c) {
@@ -170,8 +173,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
-        foreach($this as $val){
-            if(!$obj->containsKey($val->getKey())){
+        foreach ($this as $val) {
+            if (!$obj->containsKey($val->getKey())) {
                 $this->remove($val->getKey());
             }
         }
@@ -201,7 +204,6 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
             return -1;
         }
     }
-
 
 }
 
@@ -261,12 +263,11 @@ class HashMapIterator implements \blaze\collections\MapIterator {
      */
     private $map;
 
-    public function __construct(&$data,&$hashs,&$map) {
+    public function __construct(&$data, &$hashs, &$map) {
         if (is_array($data)) {
             $this->data = $data;
             $this->hashs = $hashs;
             $this->map = $map;
-
         } else {
             throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
         }
@@ -298,10 +299,9 @@ class HashMapIterator implements \blaze\collections\MapIterator {
      */
     public function next() {
         $this->index++;
-        if($this->check($this->index)){
+        if ($this->check($this->index)) {
             return $this->data[$this->hashs[$this->index]];
-        }
-        else{
+        } else {
             return false;
         }
     }

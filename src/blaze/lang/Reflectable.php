@@ -11,7 +11,6 @@ namespace blaze\lang;
  * @since   1.0
  * @version $Revision$
  * @method  blaze\lang\ClassWrapper classWrapper Returns the ClassWrapper object for the class
- * @todo    Something which has to be done, implementation or so
  */
 interface Reflectable {
     /**

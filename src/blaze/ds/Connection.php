@@ -12,27 +12,25 @@ namespace blaze\ds;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface Connection {
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
-     */
-     public function close();
-     /**
-      * @return boolean
-      */
-     public function isClosed();
+interface Connection extends \blaze\io\Closeable{
+    const TRANSACTION_NONE = 0;
+    const TRANSACTION_READ_UNCOMMITTED = 1;
+    const TRANSACTION_READ_COMMITTED = 2;
+    const TRANSACTION_REPEATABLE_READ = 3;
+    const TRANSACTION_SERIALIZABLE = 4;
+
      /**
       * @return blaze\ds\meta\DatabaseMetaData
       */
      public function getMetaData();
+     /**
+      * @return blaze\ds\meta\DatabaseMetaData
+      */
+     public function createDatabase($databaseName);
 
+     public function addDatabase(meta\DatabaseMetaData $database);
 
+     public function dropDatabase($databaseName);
      /**
       * @return boolean
       */
@@ -42,25 +40,23 @@ interface Connection {
       * @param boolean $autoCommit
       */
      public function setAutoCommit($autoCommit);
-     public function beginTransaction();
-     public function setTransactionIsolation($level);
-     public function getTransactionIsolation();
-     public function commit();
-     public function rollback();
+     public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null);
+     public function commit($name = null);
+     public function rollback($name = null);
 
      /**
       * @return blaze\ds\Statement
       */
-     public function createStatement();
+     public function createStatement($type = ResultSet::TYPE_FORWARD_ONLY);
      /**
       * @return blaze\ds\PreparedStatement
       */
-     public function prepareStatement($sql);
+     public function prepareStatement($sql, $type = ResultSet::TYPE_FORWARD_ONLY);
      /**
       * Please Note for MySQL Set on return value not works define this vars with @!
       * @return blaze\ds\CallableStatement
       */
-     public function prepareCall($sql);
+     public function prepareCall($sql, $type = ResultSet::TYPE_FORWARD_ONLY);
 }
 
 ?>

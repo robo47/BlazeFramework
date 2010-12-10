@@ -110,7 +110,7 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
                 $schemas[] = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
                                                            $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
                                                            $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -137,7 +137,7 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
                 $schema = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
                                                          $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
                                                          $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -146,6 +146,27 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
 
         return $schema;
     }
+
+    public function addSchema(\blaze\ds\meta\SchemaMetaData $schema) {
+
+    }
+
+    public function createSchema($name, $charset = null, $collation = null) {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function dropSchema($schemaName) {
+
+    }
+
+    public function setDatabaseName($name) {
+
+    }
+
 }
 
 ?>

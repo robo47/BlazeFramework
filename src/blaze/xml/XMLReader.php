@@ -42,9 +42,9 @@ interface XMLReader extends \blaze\io\Closeable{
     /**
      * Returns the namespace of wether the current attribute if $index is -1 or the attribute defined by the index.
      * @param string|blaze\lang\String|int $index
-     * @return blaze\net\URI
+     * @return blaze\net\URL
      */
-    public function getAttributeNamespaceURI($index = null);
+    public function getAttributeNamespaceURL($index = null);
     /**
      * Returns the prefix which is defined for wether the current attribute in its namespace or the attribute defined by the index.
      * @param string|blaze\lang\String|int $index
@@ -118,11 +118,11 @@ interface XMLReader extends \blaze\io\Closeable{
      */
     public function getNamespacePrefix($index);
     /**
-     * Returns the URI to the document definition by the int index or the prefix
+     * Returns the URL to the document definition by the int index or the prefix
      * @param int|string|blaze\lang\String $index
-     * @return blaze\net\URI
+     * @return blaze\net\URL
      */
-    public function getNamespaceURI($indexOrPrefix);
+    public function getNamespaceURL($indexOrPrefix);
     /**
      * Returns the text within the current element and throws no exception if it contains tags
      * @return string

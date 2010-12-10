@@ -12,7 +12,6 @@ use blaze\math\BigInteger,
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 abstract class Number extends Object implements NativeWrapper{
 

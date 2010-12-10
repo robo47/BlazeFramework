@@ -50,6 +50,11 @@ class ViewMetaDataImpl extends AbstractViewMetaData {
      public function isUpdateable(){
          return $this->updateable;
      }
+
+     public function drop() {
+
+     }
+
 }
 
 ?>

@@ -21,7 +21,6 @@ use blaze\lang\Object,
  * @since   1.0
  * @version $Revision$
  * @author Christian Beikov
- * @todo    Implementation and documentation.
  */
 class BlazeApplication extends Object implements Application {
 

@@ -125,12 +125,12 @@ abstract class FileSystem extends Object implements Singleton{
     public abstract function lister(File $f, $filter = null);
 
     /**
-     * Post-process the given URI path string if necessary.  This is used on
+     * Post-process the given URL path string if necessary.  This is used on
      * win32, e.g., to transform "/c:/foo" into "c:/foo".  The path string
      * still has slash separators; code in the File class will translate them
      * after this method returns.
      */
-    public abstract function fromURIPath($path);
+    public abstract function fromURLPath($path);
 
     /* -- Path operations -- */
 

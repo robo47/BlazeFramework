@@ -14,7 +14,6 @@ namespace blaze\lang;
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Write a test.
  */
 class ClassLoader extends Object {
 
@@ -148,16 +147,16 @@ class ClassLoader extends Object {
      * @return
      */
     public function getRessourceAsStream($className) {
-        $uri = $this->getResource($className);
+        $URL = $this->getResource($className);
         try {
-            return $uri != null ? $uri->openStream() : null;
+            return $URL != null ? $URL->openStream() : null;
         } catch (IOException $e) {
             return null;
         }
     }
 
     /**
-     * @return blaze\net\URI
+     * @return blaze\net\URL
      */
     public function getRessource($className) {
         throw new Exception('Not yet implemented');

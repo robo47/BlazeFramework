@@ -19,37 +19,37 @@ abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
      *
      * @var blaze\lang\String
      */
-    protected $columnName;
+    protected $name;
     /**
      *
      * @var blaze\lang\String
      */
-    protected $columnTypeName;
+    protected $nativeType;
     /**
      *
      * @var blaze\lang\String
      */
-    protected $columnClassName;
+    protected $classType;
     /**
      *
      * @var int
      */
-    protected $columnLength;
+    protected $length;
     /**
      *
      * @var int
      */
-    protected $columnPrecision;
+    protected $precision;
     /**
      *
      * @var blaze\lang\String
      */
-    protected $columnDefault;
+    protected $default;
     /**
      *
      * @var blaze\lang\String
      */
-    protected $columnComment;
+    protected $comment;
     /**
      *
      * @var boolean
@@ -85,6 +85,62 @@ abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
      * @var blaze\ds\meta\TableMetaData
      */
     protected $table;
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getNativeType() {
+        return $this->nativeType;
+    }
+
+    public function getClassType() {
+        return $this->classType;
+    }
+
+    public function getLength() {
+        return $this->length;
+    }
+
+    public function getPrecision() {
+        return $this->precision;
+    }
+
+    public function getDefault() {
+        return $this->default;
+    }
+
+    public function getComment() {
+        return $this->comment;
+    }
+
+    public function isNullable() {
+        return $this->nullable;
+    }
+
+    public function isAutoIncrement() {
+        return $this->autoIncrement;
+    }
+
+    public function isSigned() {
+        return $this->signed;
+    }
+
+    public function isPrimaryKey() {
+        return $this->primaryKey;
+    }
+
+    public function isForeignKey() {
+        return $this->foreignKey;
+    }
+
+    public function isUniqueKey() {
+        return $this->uniqueKey;
+    }
+
+    public function getTable() {
+        return $this->table;
+    }
 
 }
 

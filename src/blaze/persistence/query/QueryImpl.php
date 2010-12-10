@@ -17,29 +17,205 @@ use blaze\lang\Object;
  */
 class QueryImpl extends Object implements \blaze\persistence\Query {
 
-    private $session;
+    private $em;
     private $query;
     private $stmt;
+    private $rsd;
     private $timeout = 0;
     private $type;
+    private $dialect;
+    private $hydrator;
 
-    public function __construct(\blaze\persistence\Session $session, $query) {
-        $this->session = $session;
+    /**
+     *
+     * @param \blaze\persistence\EntityManager $em
+     * @param \blaze\persistence\Dialect $dialect
+     * @param string|\blaze\lang\String|\blaze\persistence\ooql\Statement $query
+     */
+    public function __construct(\blaze\persistence\EntityManager $em, \blaze\persistence\Dialect $dialect, $query) {
+        $this->em = $em;
+        $this->dialect = $dialect;
         $this->query = $query;
-        $con = $this->session->getConnection();
         
-        if($query instanceof \blaze\persistence\ooql\Statement)
-            $this->stmt = $con->prepareStatement();
-        else
-            $this->stmt = $con->prepareStatement();
+        $this->rsd = $this->buildResultSetDescriptor($query);
+    }
+
+    /**
+     *
+     * @return \blaze\ds\ResultSet
+     */
+    private function processQuery(){
+        $this->stmt = $this->em->getConnection()->prepareStatement($this->dialect->getNativeQuery($this->query, $this->em));
+        return $this->stmt->executeQuery();
+    }
+
+    /**
+     *
+     * @param string|\blaze\lang\String|\blaze\persistence\ooql\Statement $query
+     * @return \blaze\persistence\meta\ResultSetDescriptor
+     */
+    private function buildResultSetDescriptor($query){
+        $rsd = null;
+
+        //if($query instanceof \blaze\persistence\ooql\Statement)
+        if($query instanceof \blaze\persistence\ooql\FromStatement){
+            $fromables = $query->getFromClause()->getFromables();
+            $aliasMapping = array();
+            // Fields which will occur in the ResultSet
+            $fields = array();
+            $collectionFields = array();
+            // Just to check for name duplicates
+            $fieldsGlobal = array();
+
+            if(count($fromables) < 1)
+                throw new \Exception('Invalid Query, nothing set in the from-clause!');
+
+            // This loop is to check if there are any name duplicates
+            // and to set up a alias to field mapping
+            foreach($fromables as $fromable){
+                if($fromable instanceof \blaze\persistence\ooql\Entity){
+                    $classMeta = $this->em->getEntityManagerFactory()->getClassDescriptor($fromable->getName());
+
+                    if($classMeta === null)
+                        throw new \blaze\lang\Exception('Entity "'.$fromable->getName().'" does not exist!');
+
+                    if($fromable->getAlias() !== null){
+                        $alias = \blaze\lang\String::asNative($fromable->getAlias());
+                        if(array_search($alias, $aliasMapping) !== false)
+                                    throw new \blaze\lang\Exception('The alias '.$alias.' already exists!');
+                        $aliasMapping[$alias] = $classMeta;
+
+                        foreach($classMeta->getIdentifiers() as $field){
+                            $fields[$alias][] = $field->getFieldDescriptor();
+                        }
+                        foreach($classMeta->getSingleFields() as $field){
+                            $fields[$alias][] = $field;
+                        }
+                        foreach($classMeta->getCollectionFields() as $field){
+                            $collectionFields[$alias][] = $field;
+                        }
+                    }else{
+                        $alias = \blaze\lang\String::asNative($fromable->getName());
+                        if(array_search($alias, $aliasMapping) !== false)
+                                    throw new \blaze\lang\Exception('The alias '.$alias.' already exists!');
+                        $aliasMapping[$alias] = $classMeta;
+
+                        foreach($classMeta->getIdentifiers() as $field){
+                            $val = $field->getFieldDescriptor();
+                            if(array_search($val->getName(), $fieldsGlobal) !== false)
+                                    throw new \blaze\lang\Exception('The attribute '.$val->getName().' of '.$classMeta->getName().' is already in the global scope, you need to use a alias!');
+                            $fieldsGlobal[] = $val->getName();
+                            $fields[$alias][] = $val;
+                        }
+                        foreach($classMeta->getSingleFields() as $field){
+                            $val = $field;
+                            if(array_search($val->getName(), $fieldsGlobal) !== false)
+                                    throw new \blaze\lang\Exception('The attribute '.$val->getName().' of '.$classMeta->getName().' is already in the global scope, you need to use a alias!');
+                            $fieldsGlobal[] = $val->getName();
+                            $fields[$alias][] = $val;
+                        }
+                        foreach($classMeta->getCollectionFields() as $field){
+                            $val = $field->getFieldDescriptor();
+                            if(array_search($val->getName(), $fieldsGlobal) !== false)
+                                    throw new \blaze\lang\Exception('The attribute '.$val->getName().' of '.$classMeta->getName().' is already in the global scope, you need to use a alias!');
+                            $fieldsGlobal[] = $val->getName();
+                            $collectionFields[$alias][] = $field;
+                        }
+                    }
+                }else if($fromable instanceof \blaze\persistence\ooql\Join){
+                    // Not supported at the moment
+                }else if($fromable instanceof \blaze\persistence\ooql\Subselect){
+                    // Not supported at the moment
+                }
+            }
+
+            if($query instanceof \blaze\persistence\ooql\SelectStatement){
+                $clause = $query->getSelectClause();
+                $selectables = $clause->getSelectables();
+                $selectFields = array();
+
+                if(count($selectables) < 1)
+                    throw new \blaze\lang\Exception('Nothing to select given!');
+
+                foreach($selectables as $selectable){
+
+                }
+
+                if(count($selectables) == 1){
+                    // Check the selectable to be able to set the return class
+                    if($selectables[0] instanceof \blaze\persistence\ooql\Formula){
+                        $rsd = new \blaze\persistence\meta\ResultSetDescriptor($selectables[0]->getReturnType());
+                    }else{
+                        $propNameParts = \blaze\lang\String::asWrapper($selectables[0]->getPropertyName())->split('.');
+                        $alias = $propNameParts[count($propNameParts) - 1];
+
+                        if($selectables[0]->getPropertyAlias() !== null)
+                            $alias = $selectables[0]->getPropertyAlias();
+
+                        $propPath = new \blaze\persistence\meta\PropertyPath();
+
+                        // Check every field if the name is equal to the selectable
+                        foreach($fields as $fieldGroup){
+                            foreach($fieldGroup as $field){
+                                if($field instanceof \blaze\persistence\meta\SingleFieldDescriptor){
+                                    if($field->getName()->compare($propNameParts[0]) == 0){
+                                            $rsd = new \blaze\persistence\meta\ResultSetDescriptor($field->getType());
+                                            break;
+                                    }
+                                }else{
+                                    if($field->getFieldDescriptor()->getName()->compare($propNameParts[0]) == 0){
+                                        // Collection
+                                        //$rsd = new \blaze\persistence\meta\ResultSetDescriptor($field->getType());
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if($rsd !== null)
+                                break;
+                        }
+
+                    }
+                }else{
+                    // Return class is an Object[]
+                    $rsd = new \blaze\persistence\meta\ResultSetDescriptor('blaze\\lang\\Object', true);
+                }
+            }else if(count($fromables) > 1){
+               throw new \blaze\lang\Exception('You need to specify what to select!');
+            }else{
+                // Assume that the only object in fromables has to be selected
+                $classDesc = $aliasMapping[\blaze\lang\String::asNative($fromables[0]->getAlias())];
+                $rsd = new \blaze\persistence\meta\ResultSetDescriptor($classDesc->getFullName());
+
+                foreach($fields[\blaze\lang\String::asNative($fromables[0]->getAlias())] as $field){
+                    $rsd->addFieldMapping($field);
+                }
+                foreach($collectionFields[\blaze\lang\String::asNative($fromables[0]->getAlias())] as $field){
+                    $rsd->addCollectionMapping($field);
+                }
+            }
+        }
+
+        return $rsd;
     }
 
     public function getList() {
-        
+        $this->hydrator = new \blaze\persistence\hydration\ObjectHydrator($this->processQuery(), $this->rsd);
+        return \blaze\collections\Arrays::asList($this->hydrator->hydrateAll());
     }
 
     public function getUniqueResult() {
-        
+        $iter = new \blaze\persistence\hydration\ObjectHydratorIterator($this->processQuery(), $this->rsd);
+
+        if(!$iter->hasNext())
+                return null;
+
+        $result = $iter->next;
+
+        if($iter->hasNext())
+                throw new \blaze\lang\Exception('Non-unique Result');
+
+        return $result;
     }
 
     public function executeUpdate() {
@@ -91,10 +267,10 @@ class QueryImpl extends Object implements \blaze\persistence\Query {
     }
 
     public function setEntity($identifier, \blaze\lang\Object $value) {
-//        $meta = $this->session->getSessionFactory()->getClassMeta($value);
+//        $meta = $this->EntityManager->getEntityManagerFactory()->getClassMeta($value);
 //
 //        if($meta === null)
-//            throw new PersistenceException('Class of the given object is not registered in the session factory.');
+//            throw new PersistenceException('Class of the given object is not registered in the EntityManager factory.');
 //
 //        $joinMembers = array();
 //

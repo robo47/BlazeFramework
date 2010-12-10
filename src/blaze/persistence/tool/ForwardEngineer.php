@@ -24,26 +24,24 @@ class ForwardEngineer extends Object {
 
     public function forwardEngineerXmlFile(\blaze\io\File $file) {
         $buf = new \blaze\lang\StringBuffer();
-        $doc = new \DOMDocument();
-        $doc->load($file->getAbsolutePath());
+        $t = new \blaze\persistence\meta\driver\XmlMetaDriver();
+        $cd = $t->parseFile($file);
+        $cd->generate($buf);
 
-        if($doc->documentElement->localName != 'persistence-mapping')
-            throw new \Exception('The first element must be of the type persistence-mapping');
-        $class = new metainfo\ClassMetaInfo();
-        $class->fromXml($doc->documentElement->firstChild);
-        $fileName = \blaze\lang\String::asWrapper($class->getName());
+        $fileName = \blaze\lang\String::asWrapper($cd->getName());
         $fileName = $fileName->substring($fileName->lastIndexOf('\\') + 1);
         $writer = new \blaze\io\output\FileWriter(new \blaze\io\File($this->dir, $fileName.'.php'));
-        $class->toPhp($buf);
         $writer->write($buf->toString());
         $writer->close();
     }
 
     public function forwardEngineerXmlFiles(\blaze\io\File $dir){
         foreach($dir->listFiles() as $file){
-            if($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compareTo('xml') == 0)
+            if($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compare('xml') == 0)
                 $this->forwardEngineerXmlFile($file);
         }
+
+        // Lookup the classdescriptors and tabledescriptors
     }
 }
 

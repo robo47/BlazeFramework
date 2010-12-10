@@ -20,14 +20,14 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
     protected $config;
     /**
      *
-     * @var blaze\persistence\SessionFactory
+     * @var blaze\persistence\EntityManagerFactory
      */
     protected $factory;
     /**
      *
-     * @var blaze\persistence\Session
+     * @var blaze\persistence\EntityManager
      */
-    protected $session;
+    protected $EntityManager;
 
     protected function setUp() {
         $this->config = new \blaze\persistence\cfg\Configuration();
@@ -40,8 +40,8 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
     public function testConfigure(){
         $this->config = new cfg\Configuration();
         $this->config->configureFile('D:\\xampp\\htdocs\\BlazeFrameworkServer\\src\\blazeCMS\\source\\persistence.cfg.xml');
-        $this->factory = $this->config->buildSessionFactory();
-        $this->session = $this->factory->openSession();
+        $this->factory = $this->config->buildEntityManagerFactory();
+        $this->EntityManager = $this->factory->openEntityManager();
     }
 
 }

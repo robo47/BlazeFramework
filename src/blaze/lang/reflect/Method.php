@@ -12,7 +12,6 @@ use blaze\lang\Object,
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Methods are not implemented and nothing is documented.
  */
 class Method extends Object{
     private $reflectionMethod;

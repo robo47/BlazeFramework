@@ -25,7 +25,7 @@ class ConnectionImpl extends AbstractConnection {
         parent::__construct($driver, $host, $port, $database, $user, $password, $options);
     }
 
-    public function createStatement() {
+    public function createStatement($type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
         $this->checkClosed();
         return new StatementImpl($this, $this->pdo);
     }
@@ -42,18 +42,18 @@ class ConnectionImpl extends AbstractConnection {
     public function getTransactionIsolation() {
         $stm = $this->createStatement();
         $rs = $stm->executeQuery('SELECT @@tx_isolation');
-        while($rs->next()){
+        if($rs->next()){
             return $rs->getString(0);
         }
         throw new \blaze\lang\Exception('Failed to get Isolationlevel!');
     }
 
-    public function prepareCall($sql) {
+    public function prepareCall($sql, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
         $this->checkClosed();
         return new CallableStatementImpl($this, $this->pdo, $sql);
     }
 
-    public function prepareStatement($sql) {
+    public function prepareStatement($sql, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
         $this->checkClosed();
         return new PreparedStatementImpl($this, $this->pdo, $sql);
     }
@@ -66,6 +66,19 @@ class ConnectionImpl extends AbstractConnection {
         $stm = $this->pdo->query('SET SESSION TRANSACTION ISOLATION LEVEL '.$level);
         $stm->execute();
     }
+
+    public function addDatabase(\blaze\ds\meta\DatabaseMetaData $database) {
+
+    }
+
+    public function createDatabase($databaseName) {
+
+    }
+
+    public function dropDatabase($databaseName) {
+
+    }
+
 
 }
 ?>

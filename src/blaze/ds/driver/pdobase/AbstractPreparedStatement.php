@@ -5,7 +5,7 @@ namespace blaze\ds\driver\pdobase;
 use blaze\lang\Object,
  \blaze\ds\PreparedStatement,
  \blaze\ds\Connection,
- \blaze\ds\SQLException;
+ \blaze\ds\DataSourceException;
 
 /**
  * Description of AbstractPreparedStatement
@@ -38,7 +38,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
         try {
             //$this->reset();
             if ($this->stmt->execute() === false){
-                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() === 0)
@@ -46,7 +46,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
             return true;
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -60,15 +60,15 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
         try {
             //$this->reset();
             if ($this->stmt->execute() === false){
-                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() === 0)
-                throw new SQLException('Statement has no resultset.');
+                throw new DataSourceException('Statement has no resultset.');
 
             return $this->getResultSet();
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -82,15 +82,15 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
         try {
             //$this->reset();
             if ($this->stmt->execute() === false){
-                throw new SQLException('Could not execute query. '. $this->stmt->errorInfo());
+                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() !== 0)
-                throw new SQLException('Statement has a resultset.');
+                throw new DataSourceException('Statement has a resultset.');
 
             return $this->stmt->rowCount();
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
 

@@ -14,7 +14,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\HttpCookie{
 
@@ -49,7 +48,6 @@ class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\Htt
      * @return 	blaze\lang\Object Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
      */
 
      public function getName() {

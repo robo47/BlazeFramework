@@ -72,7 +72,7 @@ abstract class AbstractConnection extends Object implements Connection {
         try{
             $this->pdo = new PDO($dsn, $user, $password, $options);
         } catch (\PDOException $e){
-            throw new \blaze\ds\SQLException($e->getMessage(), $e->getCode(), $e);
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
     }
 
-    public function beginTransaction() {
+    public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null) {
         $this->checkClosed();
         $this->pdo->beginTransaction();
     }
@@ -102,7 +102,7 @@ abstract class AbstractConnection extends Object implements Connection {
         return $this->pdo == null;
     }
 
-    public function commit() {
+    public function commit($name = null) {
         $this->checkClosed();
         $this->pdo->commit();
     }
@@ -113,15 +113,15 @@ abstract class AbstractConnection extends Object implements Connection {
     }
 
     /**
-     *
-     * @todo Implement
+     * Returns the Transaction isolation
+     * @return int
      */
     public function getTransactionIsolation() {
         $this->checkClosed();
-        return null;
+        return Connection::TRANSACTION_NONE;
     }
 
-    public function rollback() {
+    public function rollback($name = null) {
         $this->checkClosed();
         $this->pdo->rollBack();
     }
@@ -131,17 +131,9 @@ abstract class AbstractConnection extends Object implements Connection {
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
     }
 
-    /**
-     *
-     * @todo Implement
-     */
-    public function setTransactionIsolation($level) {
-        $this->checkClosed();
-    }
-
     protected function checkClosed() {
         if ($this->isClosed())
-            throw new SQLException('Connection is already closed.');
+            throw new DataSourceException('Connection is already closed.');
     }
 
 }

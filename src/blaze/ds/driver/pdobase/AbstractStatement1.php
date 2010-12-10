@@ -47,7 +47,7 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
     protected $resultSet;
     /**
      *
-     * @var array[blaze\ds\SQLWarning]
+     * @var array[blaze\ds\DataSourceWarning]
      */
     protected $warnings = array();
     /**
@@ -106,7 +106,7 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         } catch (\PDOException $e) {
             $this->con->setAutoCommit($autoCom);
             $this->con->rollback();
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
 
         $this->batch = '';
@@ -153,7 +153,7 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
 
     protected function checkclosed() {
         if ($this->isClosed())
-            throw new SQLException('Statement is already closed.');
+            throw new DataSourceException('Statement is already closed.');
     }
 
 }

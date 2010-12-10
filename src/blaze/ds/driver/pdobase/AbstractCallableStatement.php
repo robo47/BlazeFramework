@@ -4,7 +4,7 @@ use blaze\lang\Object,
         \blaze\ds\CallableStatement,
        \blaze\ds\Connection,
        \PDO,
-       \blaze\ds\SQLException;
+       \blaze\ds\DataSourceException;
 
 /**
  * Description of AbstractCallableStatement
@@ -33,14 +33,14 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
 
    protected function get($identifier){
         if (!is_array($this->actRow))
-            throw new SQLException('No valid result.');
+            throw new DataSourceException('No valid result.');
         if (is_int($identifier)) {
             if (!array_key_exists($identifier, $this->actRowIndex))
-                throw new SQLException('Index ' . $identifier . ' was not found.');
+                throw new DataSourceException('Index ' . $identifier . ' was not found.');
             return $this->actRowIndex[$identifier];
         }else {
             if (!array_key_exists(String::asNative($identifier), $this->actRow))
-                throw new SQLException('Index ' . $identifier . ' was not found.');
+                throw new DataSourceException('Index ' . $identifier . ' was not found.');
             return $this->actRow[String::asNative($identifier)];
         }
     }
@@ -51,14 +51,14 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
         try {
             //$this->reset();
             if ($this->stmt->execute() === false)
-                throw new SQLException('Could not execute query.');
+                throw new DataSourceException('Could not execute query.');
 
             if ($this->stmt->columnCount() === 0)
                 return false;
 
             return true;
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
 

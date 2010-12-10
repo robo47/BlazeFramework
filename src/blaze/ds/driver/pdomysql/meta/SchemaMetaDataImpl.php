@@ -65,7 +65,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
                                                            $rs->getString('TABLE_COMMENT'),
                                                            $this->schemaCharset,
                                                            $rs->getString('TABLE_COLLATION'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -94,7 +94,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
                                                            $rs->getString('TABLE_COMMENT'),
                                                            $this->schemaCharset,
                                                            $rs->getString('TABLE_COLLATION'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -122,7 +122,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
                 $views[] = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
                                                            $rs->getString('VIEW_DEFINITION'),
                                                            $rs->getString('IS_UPDATEABLE'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -150,7 +150,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
                 $view = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
                                                            $rs->getString('VIEW_DEFINITION'),
                                                            $rs->getString('IS_UPDATEABLE'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -158,6 +158,42 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
             $rs->close();
 
         return $view;
+    }
+
+    public function addTable(\blaze\ds\meta\TableMetaData $table) {
+
+    }
+
+    public function createTable($tableName, $charset = null, $collation = null, $comment = null) {
+
+    }
+
+    public function createView($viewName, $viewDefinition) {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function dropTable($tableName) {
+
+    }
+
+    public function dropView($viewName) {
+
+    }
+
+    public function setSchemaCharset($schemaCharset) {
+
+    }
+
+    public function setSchemaCollation($schemaCollation) {
+
+    }
+
+    public function setSchemaName($schemaName) {
+
     }
 
 }

@@ -16,7 +16,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class NetletContainer extends Object {
     const DEBUG = true;
@@ -131,16 +130,16 @@ class NetletContainer extends Object {
 
     private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
         // Making sure that the Url ends with a '/'
-        $uri = $request->getRequestURI()->getPath();
-        if (!$uri->endsWith('/'))
-            $uri = $uri->concat('/');
+        $URL = $request->getRequestURL()->getPath();
+        if (!$URL->endsWith('/'))
+            $URL = $URL->concat('/');
 
         foreach ($context->getNetletMapping() as $key => $name) {
             // Make a regex placeholders of the wildcards
             $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
 
             // Check if the requested url fits a netlet mapping
-            if ($uri->matches($regex)) {
+            if ($URL->matches($regex)) {
                 $netlets = $context->getNetlets();
                 return $netlets->get($name);
             }
@@ -150,9 +149,9 @@ class NetletContainer extends Object {
     }
 
     private function getRequestedFilters(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
-        $uri = $request->getRequestURI()->getPath();
-        if (!$uri->endsWith('/'))
-            $uri = $uri->concat('/');
+        $URL = $request->getRequestURL()->getPath();
+        if (!$URL->endsWith('/'))
+            $URL = $URL->concat('/');
         $filterArr = new \blaze\collections\lists\ArrayList();
 
         // Looking in the filter mapping for a filter that fits the url
@@ -161,7 +160,7 @@ class NetletContainer extends Object {
             $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
 
             // Check if the requested url fits a netlet mapping
-            if ($uri->matches($regex)) {
+            if ($URL->matches($regex)) {
                 $filters = $context->getFilters();
                 $filterArr->add($filters->get($name));
             }

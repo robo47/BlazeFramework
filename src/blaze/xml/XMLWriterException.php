@@ -9,7 +9,6 @@ namespace blaze\xml;
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Documentation
  */
 class XMLWriterException extends Exception {}
 

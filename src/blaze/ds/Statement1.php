@@ -58,7 +58,7 @@ interface Statement1 {
     /**
      * Returns the warnings which from the database
      *
-     * @return blaze\ds\SQLWarning
+     * @return blaze\ds\DataSourceWarning
      */
     public function getWarnings();
 

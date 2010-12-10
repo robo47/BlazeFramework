@@ -22,7 +22,7 @@ use blaze\lang\Object,
  */
 interface Lifecycle {
 
-    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null);
+    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $URL = null);
     public function removePhaseListener(\blaze\web\event\PhaseListener $listener);
     public function execute(BlazeContext $context);
     /**

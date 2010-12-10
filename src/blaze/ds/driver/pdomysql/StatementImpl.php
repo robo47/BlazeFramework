@@ -6,7 +6,7 @@ use blaze\lang\Object,
  blaze\ds\Connection,
  blaze\ds\driver\pdobase\AbstractStatement,
  PDO,
- \blaze\ds\SQLException;
+ \blaze\ds\DataSourceException;
 
 /**
  * Description of StatementImpl
@@ -31,7 +31,7 @@ class StatementImpl extends AbstractStatement {
             $this->reset();
             $this->stmt = $this->pdo->query($sql);
         } catch (\PDOException $e) {
-            throw new SQLException($e->getMessage(), $e->getCode());
+            throw new DataSourceException($e->getMessage(), $e->getCode());
         }
 
         $this->resultSet = new ResultSetImpl($this, $this->stmt);

@@ -18,6 +18,11 @@ interface DatabaseMetaData {
      */
     public function getConnection();
     /**
+     * Drops the database.
+     * @return boolean
+     */
+    public function drop();
+    /**
      * @return blaze\lang\String
      */
     public function getHost();
@@ -25,6 +30,11 @@ interface DatabaseMetaData {
      * @return blaze\lang\String
      */
     public function getDatabaseName();
+    /**
+     * @param string|blaze\lang\String $name
+     * @return boolean
+     */
+    public function setDatabaseName($name);
     /**
      * @return blaze\lang\String
      */
@@ -38,9 +48,9 @@ interface DatabaseMetaData {
      */
     public function getOptions();
     /**
-     * @return blaze\net\URI
+     * @return blaze\net\URL
      */
-    //public function getURI();
+    //public function getURL();
 
     /**
      * @return blaze\lang\String
@@ -68,6 +78,12 @@ interface DatabaseMetaData {
      * @return blaze\ds\meta\SchemaMetaData
      */
     public function getSchema($schemaName);
+    public function dropSchema($schemaName);
+    /**
+     * @return blaze\ds\meta\SchemaMetaData
+     */
+    public function createSchema($name, $charset = null, $collation = null);
+    public function addSchema(SchemaMetaData $schema);
     
 }
 

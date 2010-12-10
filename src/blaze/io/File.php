@@ -322,8 +322,8 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * Usage note: This method does not automatically escape
      * characters that are illegal in URLs.  It is recommended that new code
      * convert an abstract pathname into a URL by first converting it into a
-     * URI, via the toURI() method, and then converting the URI
-     * into a URL via the URI::toURL()
+     * URL, via the toURL() method, and then converting the URL
+     * into a URL via the URL::toURL()
      *
      * @return  A URL object representing the equivalent file URL
      *
@@ -337,7 +337,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     }
 
     /**
-     * Constructs a file: URI that represents this abstract pathname.
+     * Constructs a file: URL that represents this abstract pathname.
      * Not implemented yet
      */
     public function toURI() {
@@ -346,7 +346,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
           $sp = (string) $this->slashify($f->getPath(), $f->isDirectory());
           if (StringHelper::startsWith('//', $sp))
           $sp = '//' + sp;
-          return new URI('file', null, $sp, null);
+          return new URL('file', null, $sp, null);
          */
     }
 

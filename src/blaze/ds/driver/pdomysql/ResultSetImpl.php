@@ -12,7 +12,7 @@ use blaze\lang\Object,
  blaze\lang\Double,
  blaze\math\BigDecimal,
  blaze\ds\Statement1,
- blaze\ds\SQLException,
+ blaze\ds\DataSourceException,
  blaze\ds\driver\pdobase\AbstractResultSet,
  blaze\ds\driver\pdomysql\type\BlobImpl,
  blaze\ds\driver\pdomysql\type\ClobImpl,
@@ -305,6 +305,22 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      */
     public function getTimestamp($identifier) {
         return $this->getDateTime($identifier);
+    }
+
+    public function first() {
+
+    }
+
+    public function getType() {
+
+    }
+
+    public function last() {
+
+    }
+
+    public function previous() {
+
     }
 
 }

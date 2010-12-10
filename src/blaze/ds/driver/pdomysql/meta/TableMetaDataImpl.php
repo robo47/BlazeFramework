@@ -71,7 +71,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
 
             while($rs->next())
                 $columns[] = new ColumnMetaDataImpl($this, $rs->getString('COLUMN_NAME'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -99,7 +99,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
 
             if($rs->next())
                 $column = new ColumnMetaDataImpl($this, $rs->getString('COLUMN_NAME'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -131,7 +131,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                                                             $rs->getString('ACTION_STATEMENT'),
                                                             $rs->getString('ACTION_REFERENCE_OLD_ROW'),
                                                             $rs->getString('ACTION_REFERENCE_NEW_ROW'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -164,7 +164,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                                                             $rs->getString('ACTION_STATEMENT'),
                                                             $rs->getString('ACTION_REFERENCE_OLD_ROW'),
                                                             $rs->getString('ACTION_REFERENCE_NEW_ROW'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -191,7 +191,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                                                           !$rs->getBoolean('Non_unique'),
                                                           $rs->getString('Null')->equalsIgnoreCase('YES'),
                                                           $rs->getString('Index_type'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -221,7 +221,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                                                       !$rs->getBoolean('Non_unique'),
                                                       $rs->getString('Null')->equalsIgnoreCase('YES'),
                                                       $rs->getString('Index_type'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -287,7 +287,7 @@ class TableMetaDataImpl extends AbstractTableMetaData{
                                                          ->getDatabaseMetaData()
                                                          ->getSchema($rs->getString('TABLE_SCHEMA'))
                                                          ->getTable($rs->getString('TABLE_NAME')), $rs->getString('COLUMN_NAME'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -295,6 +295,62 @@ class TableMetaDataImpl extends AbstractTableMetaData{
             $rs->close();
 
         return $columns;
+    }
+
+    public function addColumn(\blaze\ds\meta\ColumnMetaData $column) {
+
+    }
+
+    public function addIndex($index) {
+
+    }
+
+    public function addTrigger(\blaze\ds\meta\TriggerMetaData $trigger) {
+
+    }
+
+    public function createColumn($columnName, $columnClass, $columnLength = null, $columnPrecision = null, $columnDefault = null, $columnComment = null, $nullable = true, $primaryKey = false, $uniqueKey = false) {
+
+    }
+
+    public function createIndex($indexName, \blaze\collections\ListI $columns, $structure = IndexMetaData::STRUCTURE_UNKNOWN, $type = IndexMetaData::TYPE_NONE){
+
+    }
+
+    public function createTrigger($triggerName, $triggerDefinition, $triggerTiming, $triggerEvent, $triggerOrder = null, $triggerOldName = null, $triggerNewName = null) {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function dropColumn($columnName) {
+
+    }
+
+    public function dropIndex($indexName) {
+
+    }
+
+    public function dropTrigger($triggerName) {
+
+    }
+
+    public function setTableCharset($tableCharset) {
+
+    }
+
+    public function setTableCollation($tableCollation) {
+
+    }
+
+    public function setTableComment($tableComment) {
+
+    }
+
+    public function setTableName($tableName) {
+
     }
 
 }

@@ -10,7 +10,6 @@ namespace blaze\lang;
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 final class String extends Object implements NativeWrapper, \blaze\io\Serializable, Comparable {
     private $string;
@@ -1481,7 +1480,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * and arguments.
      *
      * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
+     *         The {@linkplain java.util.Locale locale} to apply dURLng
      *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
      *         is applied.
      *

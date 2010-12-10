@@ -14,7 +14,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 final class Locale extends Object implements Cloneable, Serializable, StaticInitialization {
 
@@ -168,7 +167,6 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * @return 	blaze\lang\Object Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
      */
      private static function getSingleton($key, $language, $country){
         if(!isset(self::$cache[$key]))
@@ -210,7 +208,7 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * Gets the current value of the default locale for this instance
      * of the Java Virtual Machine.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup
+     * The Java Virtual Machine sets the default locale dURLng startup
      * based on the host environment. It is used by many locale-sensitive
      * methods if no locale is explicitly specified.
      * It can be changed using the
@@ -252,11 +250,11 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * Sets the default locale for this instance of the Java Virtual Machine.
      * This does not affect the host locale.
      * <p>
-     * If there is a security manager, its <code>checkPermission</code>
+     * If there is a secURLty manager, its <code>checkPermission</code>
      * method is called with a <code>PropertyPermission("user.language", "write")</code>
      * permission before the default locale is changed.
      * <p>
-     * The Java Virtual Machine sets the default locale during startup
+     * The Java Virtual Machine sets the default locale dURLng startup
      * based on the host environment. It is used by many locale-sensitive
      * methods if no locale is explicitly specified.
      * <p>
@@ -265,19 +263,19 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * is prepared to reinitialize locale-sensitive code running
      * within the same Java Virtual Machine.
      *
-     * @throws SecurityException
-     *        if a security manager exists and its
+     * @throws SecURLtyException
+     *        if a secURLty manager exists and its
      *        <code>checkPermission</code> method doesn't allow the operation.
      * @throws NullPointerException if <code>newLocale</code> is null
      * @param newLocale the new default locale
-     * @see SecurityManager#checkPermission
+     * @see SecURLtyManager#checkPermission
      * @see java.util.PropertyPermission
      */
 //    public static synchronized void setDefault(Locale newLocale) {
 //        if (newLocale == null)
 //            throw new NullPointerException("Can't set default locale to NULL");
 //
-//        SecurityManager sm = System.getSecurityManager();
+//        SecURLtyManager sm = System.getSecURLtyManager();
 //        if (sm != null) sm.checkPermission(new PropertyPermission
 //                        ("user.language", "write"));
 //            defaultLocale = newLocale;

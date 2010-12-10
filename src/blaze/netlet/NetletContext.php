@@ -17,13 +17,13 @@ interface NetletContext {
      public function addNetlet($name, \blaze\netlet\Netlet $netlet);
      public function getNetlets();
      
-     public function addNetletMapping($uriMapping, $name);
+     public function addNetletMapping($URLMapping, $name);
      public function getNetletMapping();
 
      public function addFilter($name, \blaze\netlet\Filter $filter);
      public function getFilters();
 
-     public function addFilterMapping($uriMapping, $name);
+     public function addFilterMapping($URLMapping, $name);
      public function getFilterMapping();
 
      public function addListener($listenerClass);

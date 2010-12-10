@@ -15,27 +15,27 @@ use blaze\lang\Object;
  */
 class MySQLDialect extends Object implements \blaze\persistence\Dialect{
 
-    public function getNativeQuery(\blaze\persistence\ooql\Statement $stmt, \blaze\persistence\SessionFactory $fact) {
+    public function getNativeQuery(\blaze\persistence\ooql\Statement $stmt, \blaze\persistence\EntityManager $em) {
         if($stmt instanceof \blaze\persistence\ooql\FromStatement)
-            return $this->fromStatement($stmt, $fact);
+            return $this->fromStatement($stmt, $em);
         else if($stmt instanceof \blaze\persistence\ooql\InsertStatement)
-            return $this->insertStatement($stmt, $fact);
+            return $this->insertStatement($stmt, $em);
         else if($stmt instanceof \blaze\persistence\ooql\UpdateStatement)
-            return $this->updateStatement($stmt, $fact);
+            return $this->updateStatement($stmt, $em);
         else if($stmt instanceof \blaze\persistence\ooql\DeleteStatement)
-            return $this->deleteStatement($stmt, $fact);
+            return $this->deleteStatement($stmt, $em);
         else
             return null;
     }
 
-    private function getSelectClause(\blaze\persistence\ooql\SelectStatement $stmt, \blaze\persistence\SessionFactory $fact){
+    private function getSelectClause(\blaze\persistence\ooql\SelectStatement $stmt, \blaze\persistence\EntityManager $em){
 
     }
 
-    private function fromStatement(\blaze\persistence\ooql\FromStatement $stmt, \blaze\persistence\SessionFactory $fact){
+    private function fromStatement(\blaze\persistence\ooql\FromStatement $stmt, \blaze\persistence\EntityManager $em){
         $selectClauseOk = false;
         if($stmt instanceof \blaze\persistence\ooql\SelectStatement){
-            $selectClause = $this->getSelectClause($stmt, $fact);
+            $selectClause = $this->getSelectClause($stmt, $em);
             $selectClauseOk = true;
         }else{
             $selectClause = array();
@@ -47,8 +47,8 @@ class MySQLDialect extends Object implements \blaze\persistence\Dialect{
 
         foreach($fromables as $fromable){
             if($fromable instanceof \blaze\persistence\ooql\Entity){
-                $classMeta = $fact->getClassMetaByString($fromable->getName());
-                $table = $classMeta->getTable();
+                $classMeta = $em->getEntityManagerFactory()->getClassDescriptor($fromable->getName());
+                $table = $classMeta->getTableDescriptor();
                 $alias = $fromable->getAlias();
 
                 if($alias !== null)
@@ -64,25 +64,25 @@ class MySQLDialect extends Object implements \blaze\persistence\Dialect{
         $where = '';
         if($condition != null){
             $condCount = 1;
-
+            $where = ' WHERE ';
             if($condition->getRight() instanceof \blaze\persistence\ooql\Condition){
                 while($condition->getRight() instanceof \blaze\persistence\ooql\Condition){
-                    $where .= '('.$this->getWhereColumn($condition->getLeft()->getValue(),$classes,$fact).$condition->getCondOperation();
+                    $where .= '('.$this->getWhereColumn($condition->getLeft()->getValue(),$classes,$em).$condition->getCondOperation();
                     $condition = $condition->getRight();
                     $condCount++;
                 }
             }else{
-                $where .= '('.$this->getWhereColumn($condition->getLeft()->getValue(),$classes,$fact).$condition->getCondOperation();
+                $where .= '('.$this->getWhereColumn($condition->getLeft()->getValue(),$classes,$em).$condition->getCondOperation();
             }
 
-            $where .= $this->getWhereColumn($condition->getRight()->getValue(),$classes,$fact);
+            $where .= $this->getWhereColumn($condition->getRight()->getValue(),$classes,$em);
             $where .= str_repeat(')', $condCount);
         }
 
-        return 'SELECT '.implode(',', $selectClause).' FROM '.implode(' ', $tables).' WHERE '.$where;
+        return 'SELECT '.implode(',', $selectClause).' FROM '.implode(' ', $tables).$where;
     }
 
-    private function getTableColumns(\blaze\persistence\tool\metainfo\ClassMetaInfo $classMeta, $alias) {
+    private function getTableColumns(\blaze\persistence\meta\ClassDescriptor $classDesc, $alias) {
         $columns = array();
 
         if($alias !== null)
@@ -90,33 +90,41 @@ class MySQLDialect extends Object implements \blaze\persistence\Dialect{
         else
             $alias = '';
 
-        foreach($classMeta->getMembers() as $member){
-            if($member instanceof \blaze\persistence\tool\metainfo\SetMetaInfo)
-                ;//$columns[] = $alias.$member->getKey()->getColumn()->getName();
-            else if($member instanceof \blaze\persistence\tool\metainfo\PropertyMetaInfo)
-                $columns[] = $alias.$member->getColumn()->getName();
-            else if($member instanceof \blaze\persistence\tool\metainfo\ManyToOneMetaInfo)
-                $columns[] = $alias.$member->getColumn()->getName();
+        foreach($classDesc->getIdentifiers() as $member){
+            $columns[] = $member->getFieldDescriptor()->getColumnDescriptor();
         }
+        foreach($classDesc->getSingleFields() as $member){
+//            if($member->)
+            $columns[] = $member->getColumnDescriptor();
+        }
+//        foreach($classDesc->getCollectionFields() as $member){
+//            $columns[] = $member->getColumnDescriptor();
+//        }
 
         return $columns;
     }
 
-    private function recursiveColumnLookup(\blaze\persistence\tool\metainfo\ClassMetaInfo $classMeta, $parts){
+    private function recursiveColumnLookup(\blaze\persistence\meta\ClassDescriptor $classDesc, $parts){
         $part = array_shift($parts);
 
-        foreach($classMeta->getMembers() as $member){
-            if($member instanceof \blaze\persistence\tool\metainfo\SetMetaInfo && $member->getName() === $part){
-                return $member->getKey()->getColumn()->getName();
-            }else if($member instanceof \blaze\persistence\tool\metainfo\PropertyMetaInfo && $member->getName() === $part){
-                return $member->getColumn()->getName();
-            }else if($member instanceof \blaze\persistence\tool\metainfo\ManyToOneMetaInfo && $member->getName() === $part){
-                return $member->getColumn()->getName();
-            }
+
+        foreach($classDesc->getIdentifiers() as $member){
+            if($member->getFieldDescriptor()->getName()->toNative() === $part)
+                    return $member->getFieldDescriptor()->getColumnDescriptor();
         }
+        foreach($classDesc->getSingleFields() as $member){
+            if($member->getName()->toNative())
+                    return $member->getColumnDescriptor();
+        }
+        foreach($classDesc->getCollectionFields() as $member){
+            if($member->getFieldDescriptor()->getName()->toNative())
+                    return $member->getColumnDescriptor();
+        }
+
+        return null;
     }
 
-    private function getWhereColumn($string, $classMetas, \blaze\persistence\SessionFactory $fact){
+    private function getWhereColumn($string, $classMetas, \blaze\persistence\EntityManager $em){
         $str = \blaze\lang\String::asWrapper($string);
         if($str->startsWith(':') && !$str->contains(' '))
                 return $string;
@@ -129,8 +137,8 @@ class MySQLDialect extends Object implements \blaze\persistence\Dialect{
         $parts = explode('.',$string);
         $alias = null;
 
-        foreach($classMetas as $alias => $meta){
-            if($parts[0] === $alias){
+        foreach($classMetas as $classAlias => $meta){
+            if($parts[0] === $classAlias){
                 $alias = array_shift($parts);
                 break;
             }
@@ -152,15 +160,15 @@ class MySQLDialect extends Object implements \blaze\persistence\Dialect{
             return $column;
     }
 
-    private function insertStatement(\blaze\persistence\ooql\InsertStatement $stmt, \blaze\persistence\SessionFactory $fact){
+    private function insertStatement(\blaze\persistence\ooql\InsertStatement $stmt, \blaze\persistence\EntityManagerFactory $fact){
 
     }
 
-    private function updateStatement(\blaze\persistence\ooql\UpdateStatement $stmt, \blaze\persistence\SessionFactory $fact){
+    private function updateStatement(\blaze\persistence\ooql\UpdateStatement $stmt, \blaze\persistence\EntityManagerFactory $fact){
 
     }
 
-    private function deleteStatement(\blaze\persistence\ooql\DeleteStatement $stmt, \blaze\persistence\SessionFactory $fact){
+    private function deleteStatement(\blaze\persistence\ooql\DeleteStatement $stmt, \blaze\persistence\EntityManagerFactory $fact){
 
     }
 }

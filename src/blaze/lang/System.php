@@ -10,7 +10,6 @@ namespace blaze\lang;
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 final class System extends Object implements StaticInitialization {
 
@@ -24,7 +23,7 @@ final class System extends Object implements StaticInitialization {
     private static $props;
     /**
      *
-     * @var blaze\lang\SecurityManager
+     * @var blaze\lang\SecURLtyManager
      */
     private static $sm;
 
@@ -43,8 +42,7 @@ final class System extends Object implements StaticInitialization {
      * @return long
      */
     public static function currentTimeMillis() {
-        list($useg, $seg) = explode(' ', microtime());
-        return ((float) $useg + (float) $seg);
+        return microtime(true) * 1000000;
     }
 
     public static function gc() {
@@ -77,11 +75,11 @@ final class System extends Object implements StaticInitialization {
         return $oldValue;
     }
 
-    public static function getSecurityManager() {
+    public static function getSecURLtyManager() {
         return $sm;
     }
 
-    public static function setSecurityManager(SecurityManager $sm) {
+    public static function setSecURLtyManager(SecURLtyManager $sm) {
         $this->sm = $sm;
     }
 
@@ -96,7 +94,6 @@ final class System extends Object implements StaticInitialization {
      * @return 	blaze\lang\Object Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
      */
     public static function exitApp($code = 0) {
         exit($code);

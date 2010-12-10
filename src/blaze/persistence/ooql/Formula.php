@@ -13,19 +13,14 @@ use blaze\lang\Object;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-class Formula extends Object implements Selectable, Argument, Operationable, Conditionable{
+abstract class Formula extends Object implements Selectable, Argument, Operationable, Conditionable{
 
-    private $negation;
+    private $alias;
     private $formulaName;
     private $arguments = array();
 
-    public function __construct($formulaName, $negation = false) {
-        $this->formulaName = $formulaName;
-        $this->negation = $negation;
-    }
-
-    public function addArgument(Argument $arg){
-        $this->arguments[] = $arg;
+    public function __construct($alias = null) {
+        $this->alias = $alias;
     }
 
     public function getFormulaName() {
@@ -36,16 +31,22 @@ class Formula extends Object implements Selectable, Argument, Operationable, Con
         return $this->arguments;
     }
 
-    public function setFormulaName($formulaName) {
-        $this->formulaName = $formulaName;
+    public function getPrefix(){
+        return null;
     }
 
-    public function getNegation() {
-        return $this->negation;
+    public function getType(){
+        return self::FORMULA;
     }
 
-    public function setNegation($negation) {
-        $this->negation = $negation;
+    public abstract function getReturnType();
+
+    public function getAlias() {
+        return $this->alias;
+    }
+
+    public function setAlias($alias) {
+        $this->alias = $alias;
     }
 
 }

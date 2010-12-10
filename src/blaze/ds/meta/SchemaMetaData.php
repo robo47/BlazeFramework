@@ -19,17 +19,37 @@ interface SchemaMetaData {
      */
     public function getDatabaseMetaData();
     /**
+     * Drops the schema.
+     * @return boolean
+     */
+    public function drop();
+    /**
      * @return blaze\lang\String
      */
     public function getSchemaName();
+    /**
+     * @param string|blaze\lang\String $schemaName
+     * @return boolean
+     */
+    public function setSchemaName($schemaName);
     /**
      * @return blaze\lang\String
      */
     public function getSchemaCharset();
     /**
+     * @param string|blaze\lang\String $schemaCharset
+     * @return boolean
+     */
+    public function setSchemaCharset($schemaCharset);
+    /**
      * @return blaze\lang\String
      */
     public function getSchemaCollation();
+    /**
+     * @param string|blaze\lang\String $schemaCollation
+     * @return boolean
+     */
+    public function setSchemaCollation($schemaCollation);
     
     /**
      * @return blaze\util\ListI[blaze\ds\meta\TableMetaData]
@@ -39,6 +59,13 @@ interface SchemaMetaData {
      * @return blaze\ds\meta\TableMetaData
      */
     public function getTable($tableName);
+    public function dropTable($tableName);
+    /**
+     * @return blaze\ds\meta\TableMetaData
+     */
+    public function createTable($tableName, $charset = null, $collation = null, $comment = null);
+    
+    public function addTable(TableMetaData $table);
     /**
      * @return blaze\util\ListI[blaze\ds\meta\ViewMetaData]
      */
@@ -47,6 +74,11 @@ interface SchemaMetaData {
      * @return blaze\ds\meta\ViewMetaData
      */
     public function getView($viewName);
+    public function dropView($viewName);
+    /**
+     * @return blaze\ds\meta\ViewMetaData
+     */
+    public function createView($viewName, $viewDefinition);
 
 }
 

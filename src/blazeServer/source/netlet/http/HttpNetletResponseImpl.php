@@ -15,7 +15,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNetletResponse {
 
@@ -106,7 +105,6 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @return 	blaze\lang\Object Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
      */
     //public function encodeRedirectURL($url){}
 
@@ -117,7 +115,6 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
      * @return 	blaze\lang\Object Description of what the method returns
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
      */
     //public function encodeURL($url){}
 

@@ -14,7 +14,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Make a filter or listener of this
  */
 class LoginRequestHandler extends Object  implements RequestHandler {
 

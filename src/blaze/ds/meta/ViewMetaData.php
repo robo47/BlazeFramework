@@ -18,6 +18,11 @@ interface ViewMetaData {
      */
     public function getSchema();
     /**
+     * Drops the view.
+     * @return boolean
+     */
+    public function drop();
+    /**
      * @return blaze\lang\String
      */
      public function getViewName();

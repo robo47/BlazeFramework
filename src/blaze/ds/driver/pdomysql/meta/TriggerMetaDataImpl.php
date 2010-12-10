@@ -15,7 +15,7 @@ use blaze\ds\driver\pdobase\meta\AbstractTriggerMetaData;
  */
 class TriggerMetaDataImpl extends AbstractTriggerMetaData{
 
-    function __construct(\blaze\ds\meta\TableMetaData $table, $triggerTiming, $triggerEvent, $triggerOrder, $triggerName, $triggerDefinition, $triggerOldName, $triggerNewName) {
+    public function __construct(\blaze\ds\meta\TableMetaData $table, $triggerTiming, $triggerEvent, $triggerOrder, $triggerName, $triggerDefinition, $triggerOldName, $triggerNewName) {
         $this->table = $table;
         $this->triggerTiming = $triggerTiming;
         $this->triggerEvent = $triggerEvent;
@@ -74,6 +74,39 @@ class TriggerMetaDataImpl extends AbstractTriggerMetaData{
     public function getTable(){
         return $this->table;
     }
+
+    public function drop() {
+
+    }
+
+    public function setTriggerDefinition($triggerDefinition) {
+
+    }
+
+    public function setTriggerEvent($event) {
+
+    }
+
+    public function setTriggerName($name) {
+
+    }
+
+    public function setTriggerNewName($triggerNewName) {
+
+    }
+
+    public function setTriggerOldName($triggerOldName) {
+
+    }
+
+    public function setTriggerOrder($order) {
+
+    }
+
+    public function setTriggerTiming($timing) {
+
+    }
+
 }
 
 ?>

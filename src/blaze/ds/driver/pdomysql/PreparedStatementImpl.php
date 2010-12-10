@@ -5,7 +5,7 @@ namespace blaze\ds\driver\pdomysql;
 use blaze\lang\Object,
  \blaze\ds\driver\pdobase\AbstractPreparedStatement,
  \blaze\ds\Connection,
- \blaze\ds\SQLException;
+ \blaze\ds\DataSourceException;
 
 /**
  * Description of PreparedStatementImpl

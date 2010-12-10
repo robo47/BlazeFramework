@@ -34,6 +34,27 @@ class ForeignKeyMetaDataImpl extends AbstractForeignKeyMetaData {
     public function getReferencedColumn(){
         return $this->referencedColumns;
     }
+    
+    public function addColumn(\blaze\ds\meta\ColumnMetaData $column) {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function removeColumn(\blaze\ds\meta\ColumnMetaData $column) {
+
+    }
+
+    public function setConstraintName() {
+
+    }
+
+    public function setReferencedColumn(\blaze\ds\meta\ColumnMetaData $referencedColumn) {
+
+    }
+
 }
 
 ?>

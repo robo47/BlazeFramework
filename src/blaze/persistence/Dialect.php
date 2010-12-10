@@ -2,7 +2,7 @@
 namespace blaze\persistence;
 
 /**
- * Description of Session
+ * Description of EntityManager
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -13,7 +13,7 @@ namespace blaze\persistence;
  * @todo    Something which has to be done, implementation or so
  */
 interface Dialect {
-    public function getNativeQuery(\blaze\persistence\ooql\Statement $stmt, \blaze\persistence\SessionFactory $fact);
+    public function getNativeQuery(\blaze\persistence\ooql\Statement $stmt, \blaze\persistence\EntityManager $em);
 }
 
 ?>

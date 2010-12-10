@@ -12,7 +12,6 @@ use blaze\lang\String;
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Methods are not all implemented and documentation is not complete.
  */
 class Field extends Object{
 
@@ -522,7 +521,7 @@ class Field extends Object{
      * <code>IllegalAccessException</code> unless
      * <code>setAccessible(true)</code> has succeeded for this field
      * and this field is non-static. Setting a final field in this way
-     * is meaningful only during deserialization or reconstruction of
+     * is meaningful only dURLng deserialization or reconstruction of
      * instances of classes with blank final fields, before they are
      * made available for access by other parts of a program. Use in
      * any other context may have unpredictable effects, including cases

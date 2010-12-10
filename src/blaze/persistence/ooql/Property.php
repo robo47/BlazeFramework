@@ -49,7 +49,15 @@ class Property extends Object implements Argument, Selectable{
         $this->propertyAlias = $propertyAlias;
     }
 
-
+    public function getPrefix(){
+        return $this->getEntityAlias();
+    }
+    public function getType(){
+        return self::PROPERTY;
+    }
+    public function getAlias(){
+        return $this->getPropertyAlias();
+    }
 
 }
 

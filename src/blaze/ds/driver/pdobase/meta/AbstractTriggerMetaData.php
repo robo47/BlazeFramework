@@ -16,11 +16,11 @@ use blaze\lang\Object,
  */
 abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData{
     /**
-     * @return blaze\ds\meta\TriggerTiming
+     * @return int
      */
     protected $triggerTiming;
     /**
-     * @return blaze\ds\meta\TriggerEvent
+     * @return int
      */
     protected $triggerEvent;
     /**

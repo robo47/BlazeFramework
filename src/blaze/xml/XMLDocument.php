@@ -28,8 +28,8 @@ class XMLDocument extends XMLNode {
         return $this->doc->createAttribute($name);
     }
 
-    public function createAttributeNS($namespaceURI, $qualifiedName) {
-        return $this->doc->createAttributeNS($namespaceURI, $qualifiedName);
+    public function createAttributeNS($namespaceURL, $qualifiedName) {
+        return $this->doc->createAttributeNS($namespaceURL, $qualifiedName);
     }
 
     public function createCDATASection($data) {
@@ -48,8 +48,8 @@ class XMLDocument extends XMLNode {
         return $this->doc->createElement($name, $value);
     }
 
-    public function createElementNS($namespaceURI, $qualifiedName, $value = null) {
-            return $this->doc->createElementNS($namespaceURI, $qualifiedName, $value);
+    public function createElementNS($namespaceURL, $qualifiedName, $value = null) {
+            return $this->doc->createElementNS($namespaceURL, $qualifiedName, $value);
     }
 
     public function createEntityReference($name) {
@@ -72,8 +72,8 @@ class XMLDocument extends XMLNode {
         return $this->doc->getElementsByTagName($name);
     }
 
-    public function getElementsByTagNameNS($namespaceURI, $localName) {
-        return $this->doc->getElementsByTagNameNS($namespaceURI, $localName);
+    public function getElementsByTagNameNS($namespaceURL, $localName) {
+        return $this->doc->getElementsByTagNameNS($namespaceURL, $localName);
     }
 
     public function importNode(XMLNode $importedNode, $deep = null) {

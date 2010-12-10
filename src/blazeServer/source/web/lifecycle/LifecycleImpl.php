@@ -17,7 +17,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
 
@@ -49,15 +48,15 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
         $this->phases->add($this->response = new RenderResponsePhase());
     }
 
-    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
-        if($uri === null)
-            $uri = '/*';
-        $this->phaseListener->put($uri, $listener);
+    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $URL = null) {
+        if($URL === null)
+            $URL = '/*';
+        $this->phaseListener->put($URL, $listener);
     }
 
-    public function removePhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
-        if($uri !== null){
-            $this->phaseListener->remove($uri);
+    public function removePhaseListener(\blaze\web\event\PhaseListener $listener, $URL = null) {
+        if($URL !== null){
+            $this->phaseListener->remove($URL);
     }else{
         $iter = $this->phaseListener->getIterator();
 

@@ -14,7 +14,6 @@ use blaze\netlet\NetletContext;
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class NetletContextImpl extends Object implements NetletContext {
 
@@ -50,16 +49,16 @@ class NetletContextImpl extends Object implements NetletContext {
         $this->netlets->put($name, $netlet);
     }
 
-    public function addNetletMapping($uriMapping, $name){
-        $this->netletMapping->put($uriMapping, $name);
+    public function addNetletMapping($URLMapping, $name){
+        $this->netletMapping->put($URLMapping, $name);
     }
 
     public function addFilter($name, \blaze\netlet\Filter $filter){
         $this->filters->put($name, $filter);
     }
 
-    public function addFilterMapping($uriMapping, $name){
-        $this->filterMapping->put($uriMapping, $name);
+    public function addFilterMapping($URLMapping, $name){
+        $this->filterMapping->put($URLMapping, $name);
     }
     
     public function getNetletMapping() {
@@ -82,9 +81,6 @@ class NetletContextImpl extends Object implements NetletContext {
         return $this->listeners;
     }
 
-    /**
-     * @todo Persist for the server
-     */
     public function addListener($listener) {
         $this->listeners->add($listener);
     }

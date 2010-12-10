@@ -10,7 +10,6 @@ namespace blaze\lang;
  * @since   1.0
  * @version $Revision$
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 class Integer extends Number implements Comparable {
     private $value;

@@ -13,11 +13,17 @@ namespace blaze\ds;
  * @todo    Something which has to be done, implementation or so
  */
 interface ResultSet {
-
+    const TYPE_FORWARD_ONLY = 1;
+    const TYPE_SCROLL = 2;
+    
     /**
      * @return boolean
      */
     public function next();
+    /**
+     * @return boolean
+     */
+    public function previous();
     /**
      * Closes the ResultSet
      */
@@ -31,7 +37,7 @@ interface ResultSet {
     /**
      * Returns the warnings which from the database
      *
-     * @return blaze\ds\SQLWarning
+     * @return blaze\ds\DataSourceWarning
      */
     public function getWarnings();
     /**
@@ -39,12 +45,27 @@ interface ResultSet {
      * @return blaze\ds\Statement
      */
     public function getStatement();
-
+    /**
+     * Returns the type of the ResultSet, like TYPE_SCROLL or TYPE_FORWARD_ONLY
+     *
+     * @return int
+     */
+    public function getType();
     /**
      *
      * @return int The actual row number
      */
     public function getRow();
+    /**
+     *
+     * @return boolean Moves the cursor to the first row
+     */
+    public function first();
+    /**
+     *
+     * @return boolean Moves the cursor to the last row
+     */
+    public function last();
     /**
      *
      * @return boolean True if the cursor was moved to the new position and false if not

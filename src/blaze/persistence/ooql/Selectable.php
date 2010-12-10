@@ -13,6 +13,12 @@ namespace blaze\persistence\ooql;
  * @todo    Something which has to be done, implementation or so
  */
 interface Selectable {
+    const PROPERTY = 1;
+    const FORMULA = 2;
+    
+    public function getPrefix();
+    public function getType();
+    public function getAlias();
 }
 
 ?>

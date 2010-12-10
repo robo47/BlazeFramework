@@ -66,15 +66,15 @@ interface HttpNetletResponse extends NetletResponse{
      */
     const SC_LENGTH_REQUIRED = 411;
     /**
-     * Status code (405) indicating that the method specified in the Request-Line is not allowed for the resource identified by the Request-URI.
+     * Status code (405) indicating that the method specified in the Request-Line is not allowed for the resource identified by the Request-URL.
      */
     const SC_METHOD_NOT_ALLOWED = 405;
     /**
-     * Status code (301) indicating that the resource has permanently moved to a new location, and that future references should use a new URI with their requests.
+     * Status code (301) indicating that the resource has permanently moved to a new location, and that future references should use a new URL with their requests.
      */
     const SC_MOVED_PERMANENTLY = 301;
     /**
-     * Status code (302) indicating that the resource has temporarily moved to another location, but that future references should still use the original URI to access the resource.
+     * Status code (302) indicating that the resource has temporarily moved to another location, but that future references should still use the original URL to access the resource.
      */
     const SC_MOVED_TEMPORARILY = 302;
     /**
@@ -134,9 +134,9 @@ interface HttpNetletResponse extends NetletResponse{
      */
     const SC_REQUEST_TIMEOUT = 408;
     /**
-     * Status code (414) indicating that the server is refusing to service the request because the Request-URI is longer than the server is willing to interpret.
+     * Status code (414) indicating that the server is refusing to service the request because the Request-URL is longer than the server is willing to interpret.
      */
-    const SC_REQUEST_URI_TOO_LONG = 414;
+    const SC_REQUEST_URL_TOO_LONG = 414;
     /**
      * Status code (416) indicating that the server cannot serve the requested byte range.
      */
@@ -146,7 +146,7 @@ interface HttpNetletResponse extends NetletResponse{
      */
     const SC_RESET_CONTENT = 205;
     /**
-     * Status code (303) indicating that the response to the request can be found under a different URI.
+     * Status code (303) indicating that the response to the request can be found under a different URL.
      */
     const SC_SEE_OTHER = 303;
     /**

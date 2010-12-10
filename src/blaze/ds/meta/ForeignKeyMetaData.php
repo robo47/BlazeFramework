@@ -18,6 +18,7 @@ interface ForeignKeyMetaData extends ConstraintMetaData{
      * @return blaze\ds\meta\ColumnMetaData
      */
     public function getReferencedColumn();
+    public function setReferencedColumn(\blaze\ds\meta\ColumnMetaData $referencedColumn);
 }
 
 ?>

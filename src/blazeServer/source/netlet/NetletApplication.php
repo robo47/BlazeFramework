@@ -22,7 +22,6 @@ use blaze\lang\Object,
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class NetletApplication extends Object implements StaticInitialization{
 
@@ -271,14 +270,14 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return string
      */
     public static function getApplicationName(HttpNetletRequest $request) {
-        $uri = $request->getRequestURI()->getPath();
+        $URL = $request->getRequestURL()->getPath();
         
-        if(!$uri->endsWith('/'))
-            $uri = $uri->concat('/');
+        if(!$URL->endsWith('/'))
+            $URL = $URL->concat('/');
 
         foreach(self::$serverConfig->get('applications') as $app){
             $regex = '/'.str_replace(array('/','*'), array('\/','.*'), $app->getUrlPrefix()).'/';
-            if($uri->matches($regex)){
+            if($URL->matches($regex)){
                 return $app->getPackage();
             }
         }

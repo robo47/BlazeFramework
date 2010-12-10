@@ -13,34 +13,53 @@ namespace blaze\ds\meta;
  * @todo    Something which has to be done, implementation or so
  */
 interface TriggerMetaData {
+    const TIMING_BEFORE = 1,
+          TIMING_AFTER = 2;
+    const EVENT_INSERT = 1,
+          EVENT_UPDATE = 2,
+          EVENT_DELETE = 3;
     /**
-     * @return blaze\ds\meta\TriggerTiming
+     * Drops the trigger.
+     * @return boolean
+     */
+    public function drop();
+    /**
+     * One of the TIMING_* constants
+     * @return int
      */
     public function getTriggerTiming();
+    public function setTriggerTiming($timing);
     /**
-     * @return blaze\ds\meta\TriggerEvent
+     * One of the EVENT_* constants
+     * @return int
      */
     public function getTriggerEvent();
+    public function setTriggerEvent($event);
     /**
      * @return int
      */
     public function getTriggerOrder();
+    public function setTriggerOrder($order);
     /**
      * @return blaze\lang\String
      */
     public function getTriggerName();
+    public function setTriggerName($name);
     /**
      * @return blaze\lang\String
      */
     public function getTriggerDefinition();
+    public function setTriggerDefinition($triggerDefinition);
     /**
      * @return blaze\lang\String
      */
     public function getTriggerOldName();
+    public function setTriggerOldName($triggerOldName);
     /**
      * @return blaze\lang\String
      */
     public function getTriggerNewName();
+    public function setTriggerNewName($triggerNewName);
     /**
      * @return blaze\ds\meta\TableMetaData
      */

@@ -3,7 +3,7 @@ namespace blaze\ds;
 use blaze\lang\Object,
 blaze\lang\Singleton,
 blaze\lang\String,
-blaze\net\URI;
+blaze\net\URL;
 
 /**
  * Description of DataSourceManager
@@ -59,7 +59,7 @@ final class DataSourceManager extends Object implements Singleton {
     /**
      * Returns a DataSource to a ressource with the given configuration
      *
-     * @param blaze\lang\String|string $dsn The connection string to the datasource, begins with bdsc (blaze-data-source-connectivity) and is an URI<br/>
+     * @param blaze\lang\String|string $dsn The connection string to the datasource, begins with bdsc (blaze-data-source-connectivity) and is an URL<br/>
      *                                      Structure:<br/>
      *                                      bdsc:<gateway>:<driver-name>://<Host>[:Port][/DB][?UID=User][&PWD=Password][&Option=Value]...<br/>
      *                                      <br/>
@@ -76,25 +76,33 @@ final class DataSourceManager extends Object implements Singleton {
      * @param blaze\lang\String|string $pwd The password which is used to establish a connection
      * @param array $options Driver specific options.
      * @return blaze\ds\DataSource A Datasource to the given dsn.
-     * @throws blaze\ds\SQLException Is thrown if a database error occurs.
+     * @throws blaze\ds\DataSourceException Is thrown if a database error occurs.
      */
     public function getDataSource($dsn, $uid = null, $pwd = null, $options = null) {
         $matches = array();
-        $uri = URI::parseURI($dsn);
+        $uri = null;
+        $url = null;
 
-        if(preg_match('/bdsc:([a-zA-Z0-9_-]+)/', $uri->getScheme(), $matches) == 0)
-            throw new SQLException('Invalid DSN');
+        try{
+            $uri = \blaze\net\URI::parseURI($dsn);
+            $url = URL::parseURL($uri->getSchemeSpecificPart());
+        }catch(blaze\lang\Exception $e){
+            throw $e;
+        }
 
-        $driver = $matches[1];
-        $host = $uri->getHost();
-        $port = $uri->getPort();
-        $database = $uri->getPath()->trim('/');
+        if(!$uri->getScheme()->equalsIgnoreCase('bdsc'))
+            throw new DataSourceException('Invalid DSN');
+
+        $driver = $url->getScheme();
+        $host = $url->getHost();
+        $port = $url->getPort();
+        $database = $url->getPath()->trim('/');
         $user = null;
         $password = null;
         $options1 = array();
 
-        if(strlen($uri->getQuery()) != 0) {
-            $optParts = explode('&', $uri->getQuery());
+        if(strlen($url->getQuery()) != 0) {
+            $optParts = explode('&', $url->getQuery());
 
             if(count($optParts) != 0) {
                 foreach($optParts as $opt) {

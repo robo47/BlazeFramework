@@ -75,11 +75,11 @@ interface HttpNetletRequest extends NetletRequest{
      */
     public function getRemoteUser();
     /**
-     * Returns an URI for the http request.
+     * Returns an URL for the http request.
      *
-     * @return blaze\net\URI
+     * @return blaze\net\URL
      */
-    public function getRequestURI();
+    public function getRequestURL();
 
     // Maybe make method getIntHeader?
 

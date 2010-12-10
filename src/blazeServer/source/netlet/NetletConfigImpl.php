@@ -12,7 +12,6 @@ use blaze\netlet\NetletConfig;
  * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
  * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 class NetletConfigImpl extends Object implements NetletConfig {
 

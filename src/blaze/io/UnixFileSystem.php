@@ -257,7 +257,7 @@ class UnixFileSystem extends FileSystem {
         return $vv;
     }
 
-    public function fromURIPath($p) {
+    public function fromURLPath($p) {
         if (StringHelper::endsWith("/", $p) && (strlen($p) > 1)) {
 
             // "/foo/" --> "/foo", but "/" --> "/"            

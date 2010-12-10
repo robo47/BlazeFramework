@@ -53,7 +53,7 @@ class IndexMetaDataImpl extends AbstractIndexMetaData{
 
             while($rs->next())
                 $columns[] = $this->table->getColumn($rs->getString('Column_name'));
-        }catch(\blaze\ds\SQLException $e){}
+        }catch(\blaze\ds\DataSourceException $e){}
 
         if($stmt != null)
             $stmt->close();
@@ -82,6 +82,35 @@ class IndexMetaDataImpl extends AbstractIndexMetaData{
     public function getIndexType(){
         return $this->indexType;
     }
+
+    public function addColumn($columnName, $prefix = null, $sorting = 'ASC') {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function getIndexStructure() {
+
+    }
+
+    public function setIndexName($indexName) {
+
+    }
+
+    public function setIndexStructure($indexStructure) {
+
+    }
+
+    public function setIndexType($indexType) {
+
+    }
+
+    public function setTable(\blaze\ds\meta\TableMetaData $table) {
+
+    }
+
 }
 
 ?>

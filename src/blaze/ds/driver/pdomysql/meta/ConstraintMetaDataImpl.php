@@ -86,12 +86,28 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
 //                        break;
 //                }
 //            }
-        }catch(\blaze\ds\SQLException $e){throw $e;}
+        }catch(\blaze\ds\DataSourceException $e){throw $e;}
 
         if($stmt != null)
             $stmt->close();
         if($rs != null)
             $rs->close();
+    }
+
+    public function addColumn(\blaze\ds\meta\ColumnMetaData $column) {
+
+    }
+
+    public function drop() {
+
+    }
+
+    public function removeColumn(\blaze\ds\meta\ColumnMetaData $column) {
+
+    }
+
+    public function setConstraintName() {
+
     }
 
 }

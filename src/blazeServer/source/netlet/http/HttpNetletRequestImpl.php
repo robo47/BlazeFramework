@@ -50,7 +50,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     private $remotePort;
     private $remoteUser;
     private $requestPath;
-    private $requestUri;
+    private $requestURL;
     private $scheme;
     private $userAgent;
 
@@ -100,7 +100,6 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     /**
      *
      * @return array[blaze\netlet\http\HttpCookie]
-     * @todo    maybe use AbstractFactory for cookies
      */
     public function getCookies() {
         if ($this->cookies == null) {
@@ -294,10 +293,10 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         return $this->requestPath;
     }
 
-    public function getRequestURI() {
-        if ($this->requestUri == null)
-            $this->requestUri = \blaze\net\URI::parseURI($this->getRequestPath());
-        return $this->requestUri;
+    public function getRequestURL() {
+        if ($this->requestURL == null)
+            $this->requestURL = \blaze\net\URL::parseURL($this->getRequestPath());
+        return $this->requestURL;
     }
 
     public function getScheme() {
@@ -309,7 +308,6 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     /**
      *
      * @return  blaze\netlet\http\Session
-     * @todo    maybe use AbstractFactory for sessions
      */
     public function getSession($create = false) {
         if ($this->sessionHandler == null)

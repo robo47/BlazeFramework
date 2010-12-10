@@ -31,21 +31,21 @@ class NavigationHandler extends Object {
 
     public function navigate(BlazeContext $context, $action) {
         $actionString = String::asWrapper($action);
-        $requestUri = $context->getRequest()->getRequestUri()->getPath();
+        $requestURL = $context->getRequest()->getRequestURL()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
-        if (!$requestUri->endsWith('/'))
-            $requestUri = $requestUri->concat('/');
+        if (!$requestURL->endsWith('/'))
+            $requestURL = $requestURL->concat('/');
 
-        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestURL = $requestURL->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
-        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new String('/' . $requestUri->toNative());
+        if ($requestURL->length() == 0 || $requestURL->charAt(0) != '/')
+            $requestURL = new String('/' . $requestURL->toNative());
 
         foreach ($this->mapping as $navigationRule) {
             $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
-            if ($requestUri->matches($regex)) {
+            if ($requestURL->matches($regex)) {
                 if ($actionString != null) {
                     // Look for the action in the navigationMap
                     foreach ($navigationRule->getActions() as $action => $view) {
@@ -69,22 +69,22 @@ class NavigationHandler extends Object {
     }
 
     public function pushBindings(BlazeContext $context) {
-        $requestUri = $context->getRequest()->getRequestUri()->getPath();
+        $requestURL = $context->getRequest()->getRequestURL()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
-        if (!$requestUri->endsWith('/'))
-            $requestUri = $requestUri->concat('/');
+        if (!$requestURL->endsWith('/'))
+            $requestURL = $requestURL->concat('/');
 
-        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestURL = $requestURL->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
-        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
-            $requestUri = new String('/' . $requestUri->toNative());
+        if ($requestURL->length() == 0 || $requestURL->charAt(0) != '/')
+            $requestURL = new String('/' . $requestURL->toNative());
 
         foreach ($this->mapping as $navigationRule) {
             $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
-            if ($requestUri->matches($regex)) {
-                $bindingParts = $requestUri->substring(strlen($navigationRule->getMapping())-1)->split('/');
+            if ($requestURL->matches($regex)) {
+                $bindingParts = $requestURL->substring(strlen($navigationRule->getMapping())-1)->split('/');
                 $count = count($bindingParts);
                 $newValue = null;
 

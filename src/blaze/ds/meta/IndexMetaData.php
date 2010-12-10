@@ -13,32 +13,50 @@ namespace blaze\ds\meta;
  * @todo    Something which has to be done, implementation or so
  */
 interface IndexMetaData {
+    const STRUCTURE_UNKNOWN = 0;
+    const STRUCTURE_BTREE = 1;
+    const STRUCTURE_HASH = 2;
+    const STRUCTURE_BITMAP = 3;
+
+    const TYPE_NONE = 0;
+    const TYPE_UNIQUE = 1;
+    const TYPE_FULLTEXT = 2;
+    const TYPE_SPATIAL = 3;
+
+    /**
+     * Drops the index.
+     * @return boolean
+     */
+    public function drop();
     /**
      * @return blaze\lang\String
      */
     public function getIndexName();
+    public function setIndexName($indexName);
     /**
      * @return blaze\ds\meta\TableMetaData
      */
     public function getTable();
+    public function setTable(TableMetaData $table);
     /**
-     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnIndexEntry]
      */
     public function getColumns();
+    public function addColumn($columnName, $prefix = null, $sorting = 'ASC');
     /**
-     * @return boolean
-     */
-    public function isUnique();
-    /**
-     * @return boolean
-     */
-    public function isNullable();
-    /**
-     * Btree, Bitmap etc.
+     * The index structure
      * 
-     * @return blaze\lang\String
+     * @return int
+     */
+    public function getIndexStructure();
+    public function setIndexStructure($indexStructure);
+    /**
+     * The index type
+     *
+     * @return int
      */
     public function getIndexType();
+    public function setIndexType($indexType);
 }
 
 ?>
