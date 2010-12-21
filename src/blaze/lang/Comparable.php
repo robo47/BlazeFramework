@@ -13,5 +13,6 @@ namespace blaze\lang;
 
 interface Comparable{
     public function compareTo(Object $obj);
+    public static function compare($obj1, $obj2);
 }
 ?>

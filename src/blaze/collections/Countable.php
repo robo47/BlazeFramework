@@ -2,17 +2,22 @@
 namespace blaze\collections;
 
 /**
- * Description of List
+ * This is just to provide a framework specific interface in the case that
+ * php will use a different namespace for the SPL stuff in further versions.
+ * It also extends the interfaces and adds the isEmpty method which shall be used
+ * to reduce duplicate code.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 interface Countable extends \Countable{
+    /**
+     * Returns wether the object is empty or not.
+     * 
+     * @return boolean true if the count is 0, otherwise false
+     */
     public function isEmpty();
 }
 

@@ -93,26 +93,12 @@ public function doubleValue() {
         return $o instanceof Short && $o->value == $this->value;
     }
 
-
  public function compareTo(Object $obj) {
-        if($obj instanceof  Short){
-            return $this->toNative()-$obj->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Integer is only compareable with Integer');
-        }
-    }
-
-    public static function compare(Short $obj, Short $obj2){
-         if($obj instanceof short&& $obj2 instanceof short){
-             return $obj->toNative()-$obj2->toNative();
-        }
-        else
-        {
-
-
-        }
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Short)
+            return $this->value - $obj->value;
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Short.');
     }
 
      public static function valueOf($string){

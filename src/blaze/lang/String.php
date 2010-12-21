@@ -435,12 +435,16 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          value greater than <code>0</code> if this string is
      *          lexicographically greater than the string argument.
      */
-    public function compare($anotherString) {
-        return strcmp($this->string, String::asNative($anotherString));
+    public static function compare($str1, $str2) {
+        if($str1 === null || $str2 === null)
+            throw new NullPointerException();
+        return strcmp(String::asNative($str1), String::asNative($str2));
     }
 
     public function compareTo(Object $obj) {
-        return $obj instanceof String && $this->string === $obj->string;
+        if($obj instanceof String)
+            return strcmp($this->value, $obj->value);
+        throw new ClassCastException('Could not cast '.$obj1->getClass()->getName().' to String.');
     }
 
         /**

@@ -420,11 +420,11 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
 	return self::compare($this->fragment, $that->fragment);
     }
 
-    private static function compare(String $s, String $t) {
-	if ($s == t) return 0;
-	if ($s != null) {
-	    if (t != null)
-		return $s->compareTo($t);
+    public static function compare($obj1, $obj2) {
+	if ($obj1 === $obj2) return 0;
+	if ($obj1 !== null) {
+	    if ($obj2 !== null)
+		return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
 	    else
 		return +1;
 	} else {

@@ -5,16 +5,13 @@ namespace blaze\collections\arrays;
 use blaze\lang\Object;
 
 /**
- * Description of Arrays
+ * The implementation of an Array in an OOP way.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
  * @property-read int $length
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 final class ArrayObject extends AbstractArray {
 

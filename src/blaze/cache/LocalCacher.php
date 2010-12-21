@@ -2,15 +2,13 @@
 namespace blaze\cache;
 
 /**
- * Description of LocalCacher
+ * Caches values to files into the given directory and locks the files when
+ * read or write actions are processed. The cache directory is in a standard project dir.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
  * @author Christian Beikov
- * @todo    Implementation and documentation.
  */
 class LocalCacher implements Cacher, \blaze\lang\Singleton {
 
@@ -57,6 +55,14 @@ class LocalCacher implements Cacher, \blaze\lang\Singleton {
         if(!$f->exists())
             throw new CacheNotFoundException($key);
         return $this->cached[$key] = unserialize(file_get_contents($f->getAbsolutePath()));
+    }
+    public function getCacheEntries($keyPrefix){
+        $map = new \blaze\collections\map\HashMap();
+
+        foreach($this->cacheDir->listFiles() as $file)
+                if($file->getName()->startsWith($keyPrefix))
+                        $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
+        return $map;
     }
     public function invalidate($key){
         if(array_key_exists($key, $this->cached))

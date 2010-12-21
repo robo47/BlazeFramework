@@ -3,23 +3,28 @@ namespace blaze\collections\arrays;
 use blaze\lang\Object;
 
 /**
- * Description of Arrays
+ * Similar to a normal ArrayObject but uses a TypeChecker to ensure the right
+ * element type.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
  * @property-read int $length
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
-final class TypedArray extends AbstractArray {
+final class TypedArray extends AbstractArray implements \blaze\collections\Typed {
 
-    private $typeChecker;
     /**
-     *
+     * The object to check value types.
+     * @var \blaze\collections\TypeChecker
+     */
+    private $typeChecker;
+
+    /**
+     * The constructor is similar to the one of ArrayObject(AbstractArray) and
+     * expects additionally the type of the elements.
      * @param array|int|blaze\collections\ArrayI $arrayOrSize
+     * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      */
     public function __construct($arrayOrSize, $type){
         $this->typeChecker = \blaze\collections\TypeChecker::getInstance($type);

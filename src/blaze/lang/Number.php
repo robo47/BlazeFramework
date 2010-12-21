@@ -13,7 +13,7 @@ use blaze\math\BigInteger,
  * @version $Revision$
  * @author  Christian Beikov
  */
-abstract class Number extends Object implements NativeWrapper{
+abstract class Number extends Object implements NativeWrapper, Comparable{
 
     private static $numberClasses = null;
 
@@ -64,6 +64,13 @@ abstract class Number extends Object implements NativeWrapper{
         }
 
         return null;
+    }
+
+    public static function compare($obj1, $obj2){
+        if($obj1 === null || $obj2 === null)
+            return new NullPointerException();
+        $diff = static::asNative($obj1) - static::asNative($obj2);
+        return $diff < 0 ? -1 : ($diff > 0 ? 1 : 0);
     }
 
     public static function asNative($value) {

@@ -5,26 +5,47 @@ namespace blaze\collections;
 use blaze\collections\Collection;
 
 /**
- * Description of List
+ * This class offers static methods for operating with collections. For operations
+ * with arrays see below.
  *
  * @author  Christian Beikov , Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Collections.html
+ * @see     \blaze\collections\Arrays
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
-class Collections extends \blaze\lang\Object {
+class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitialization{
+
+    /**
+     * The empty immutable list
+     * @var \blaze\collections\ListI
+     */
+    public static $EMPTY_LIST;
+    /**
+     * The empty immutable map
+     * @var \blaze\collections\Map
+     */
+    public static $EMPTY_MAP;
+    /**
+     * The empty immutable set
+     * @var \blaze\collections\Set
+     */
+    public static $EMPTY_SET;
+
+    public static function staticInit() {
+        self::$EMPTY_LIST = self::immutableList(new lists\ArrayList());
+        self::$EMPTY_MAP = self::immutableMap(new map\HashMap());
+        self::$EMPTY_SET = self::immutableSet(new set\HashSet());
+    }
 
     private function __construct() {
         
     }
 
     /**
-     *
-     * @param Collection $c 
-     * @param mixed
+     * Adds all elements of the variable arguments to the collection $c.
+     * @param Collection $c The collection into which the elements shall be added to.
+     * @param mixed The elements(varargs) which shall be added.
      */
     public function addAll(Collection $c, $varArgs) {
         $args = func_get_args();
@@ -40,7 +61,6 @@ class Collections extends \blaze\lang\Object {
      * array has to be converted into one. The comparator can only be used for
      * arrays which manage objects.
      *
-     * @see http://download.oracle.com/javase/6/docs/api/java/util/Arrays.html#binarySearch%28java.lang.Object[],%20int,%20int,%20java.lang.Object%29
      * @param ListI $a
      * @param mixed $key
      * @param \blaze\lang\Comparator $c
@@ -118,7 +138,7 @@ class Collections extends \blaze\lang\Object {
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOf(ListI $src, ListI &$dest) {
+    public static function copyOf(ListI $src, ListI $dest) {
         $dest->clear();
         foreach ($src as $value) {
             $dest->add($value);
@@ -130,7 +150,7 @@ class Collections extends \blaze\lang\Object {
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOfRange(ListI $src, $from, $to, ListI &$dest) {
+    public static function copyOfRange(ListI $src, $from, $to, ListI $dest) {
         $dest->clear();
         $iterator = $src->listIterator($from);
         for($i = $from; $i<$to;$i++)
@@ -142,7 +162,7 @@ class Collections extends \blaze\lang\Object {
     /**
      * Assigns value to every element of the array
      */
-    public static function fill(ListI &$a, $value) {
+    public static function fill(ListI $a, $value) {
         $size = $a->count();
         $a->clear();
         for ($i = 0; $i < $size; $i++) {
@@ -153,7 +173,7 @@ class Collections extends \blaze\lang\Object {
     /**
      * Assigns value to every element of the subpart of the array
      */
-    public static function fillRange(ListI &$a, $from, $to, $value) {
+    public static function fillRange(ListI $a, $from, $to, $value) {
         for ($i = $from; $i < $to; $i++) {
             $a->set($i,$value);
         }
@@ -194,7 +214,7 @@ class Collections extends \blaze\lang\Object {
     /**
      *  Replaces all occurrences of one specified value in a list with another.
      */
-    public static function replaceAll(ListI &$src, $oldVal, $newVal) {
+    public static function replaceAll(ListI $src, $oldVal, $newVal) {
        while(($index=$src->indexOf($oldVal))!=-1){
            $src->set($index, $newVal);
        }
@@ -203,7 +223,7 @@ class Collections extends \blaze\lang\Object {
     /**
      *  Reverses the order of the elements in the specified list.
      */
-    public static function reverse(ListI &$src) {
+    public static function reverse(ListI $src) {
         $ar = \array_reverse($src->toArray());
         $ret = new lists\ArrayList();
         foreach($ar as $val){
@@ -224,14 +244,14 @@ class Collections extends \blaze\lang\Object {
      * Sorts the list.
      * The comparator can only be used for lists which manage objects.
      */
-    public static function sort(ListI &$list, \blaze\lang\Comparator $c = null) {
+    public static function sort(ListI $list, \blaze\lang\Comparator $c = null) {
         Collections::sortRange($list, 0, $list->count());
     }
 
     /**
      * Same as sort but for a specific range.
      */
-    public static function sortRange(ListI &$list, $from, $to, \blaze\lang\Comparator $c = null) {
+    public static function sortRange(ListI $list, $from, $to, \blaze\lang\Comparator $c = null) {
         $size = $list->count();
 
         if ($size <= 0) {
@@ -275,7 +295,7 @@ class Collections extends \blaze\lang\Object {
     /**
      * Swaps the element from posA with posB
      */
-    public static function swap(ListI &$list, $posA, $posB) {
+    public static function swap(ListI $list, $posA, $posB) {
         if($posA>=0&&$posA<$list->count()&&$posB>=0&&$posB<$list->count()){
             $h = $list->set($posA, $list->get($posB));
             $list->set($posB, $h);

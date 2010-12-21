@@ -1103,6 +1103,20 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         return self::$fs->compare($this, $file);
     }
 
+    public static function compare($obj1, $obj2){
+        if($obj1 === null || $obj1 === null)
+            throw new NullPointerException();
+        if($obj1 instanceof File)
+            $obj1 = $obj1->getAbsolutePath();
+        else
+            $obj1 = String::asNative($obj1);
+        if($obj2 instanceof File)
+            $obj2 = $obj1->getAbsolutePath();
+        else
+            $obj2 = String::asNative($obj2);
+        return strcmp($obj1, $obj2);
+    }
+
     /**
      * Tests this abstract pathname for equality with the given object.
      * Returns <code>true</code> if and only if the argument is not

@@ -2,15 +2,13 @@
 namespace blaze\collections;
 
 /**
- * Description of List
+ * This interface can be used to check wether a collection or any other object is
+ * immutable or not. The implementation of the immutability has to be given.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 interface Immutable{}
 

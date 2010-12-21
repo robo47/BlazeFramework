@@ -5,18 +5,16 @@ namespace blaze\collections;
 use blaze\lang\Object;
 
 /**
- * Description of Arrays
+ * TypeChecker is an implementation which is used by Typed collections to check
+ * wether the type of an object is the one which was specified to the typed collection
+ * or not.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
- * @property-read int $length
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
-class TypeChecker extends Object implements Typed {
+class TypeChecker extends Object {
 
     private static $typeCheckers = array();
     private static $basicTypes = array('string', 'array', 'resource',
@@ -34,6 +32,7 @@ class TypeChecker extends Object implements Typed {
     }
 
     /**
+     * Returns an instance of TypeChecker for the specified type.
      *
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collections\TypeChecker
@@ -67,21 +66,26 @@ class TypeChecker extends Object implements Typed {
     }
 
     /**
-     *
+     * The name of the type as string.
      * @return blaze\lang\String
      */
-    public function getType() {
+    public function getTypeName() {
         return $this->typeName;
     }
 
     /**
-     *
+     * Wether the given type is a native one or not.
      * @return boolean
      */
     public function isNative() {
         return $this->class == null;
     }
 
+    /**
+     * Checks wether the given value is of the specified type.
+     * @param mixed $value
+     * @return boolean
+     */
     public function isType($value) {
         if ($this->type != null) {
             switch (strtolower($type)) {

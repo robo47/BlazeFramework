@@ -195,7 +195,7 @@ class UnixFileSystem extends FileSystem {
         if ( ($f1 instanceof File) && ($f2 instanceof File) ) {
             $f1Path = $f1->getPath()->toNative();
             $f2Path = $f2->getPath()->toNative();
-            return (boolean) strcmp((string) $f1Path, (string) $f2Path);
+            return strcmp((string) $f1Path, (string) $f2Path);
         } else {
             throw new Exception("IllegalArgutmentType: Argument is not File");
         }

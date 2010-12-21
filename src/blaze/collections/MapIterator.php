@@ -2,27 +2,39 @@
 namespace blaze\collections;
 
 /**
- * Description of List
+ * Implementations of this interface iterate over MapEntrys. The iterator can
+ * be used like a simple iterator or in the foreach-loop like:
+ *
+ * foreach($map as $key => $value){
+ *  ...
+ * }
+ *
+ * The methods which are needed for using and Iterable object in a forech-loop
+ * have to be implemented right, but it is also necessary to support the way
+ * this iterator has to work. The best example of how to implement an iterator can
+ * be found in \blaze\collections\map\HashMap. In this class is another class
+ * named HashMapIterator which has private access and does not appear in documentation.
+ * It is hidden in there because PHP does not support inner classes.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 interface MapIterator extends Iterator{
     /**
+     * Returns the key of the entry.
      * @return mixed
      */
     public function getKey();
     /**
+     * Returns the value of the entry.
      * @return mixed
      */
     public function getValue();
     /**
-     * @return mixed
+     * Sets the value of the entry, by setting the value the map has to be affected.
+     * @param mixed $value
      */
     public function setValue($value);
 }

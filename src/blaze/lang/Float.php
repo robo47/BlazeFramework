@@ -108,24 +108,11 @@ class Float extends Number implements Comparable {
     }
 
     public function compareTo(Object $obj) {
-        if($obj instanceof  Float){
-            return $this->toNative()-$obj->toNative();
-           
-        }
-        else
-        {
-            throw  new ClassCastException('Float is only compareable with Float');
-        }
-    }
-
-    public static function compare(Integer $obj, Integer $obj2){
-         if($obj instanceof Float&& $obj2 instanceof Float){
-             return $obj->toNative()-$obj2->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Float is only compareable with Float');
-        }
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Float)
+            return $this->value - $obj->value < 0 ? -1 : ($this->value - $obj->value > 0 ? 1 : 0);
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Float.');
     }
     public static function  intBitsToFloat($bits){
 

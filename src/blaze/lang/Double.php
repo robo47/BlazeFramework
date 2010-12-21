@@ -107,23 +107,12 @@ class Double extends Number implements Comparable {
     }
 
     public function compareTo(Object $obj) {
-        if($obj instanceof  Double){
-             return $this->toNative()-$obj->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Double is only compareable with Double');
-        }
-    }
 
-    public static function compare(Double $obj, Double $obj2){
-         if($obj instanceof  Double&& $obj2 instanceof  Double){
-             return $obj->toNative()-$obj2->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Double is only compareable with Double');
-        }
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Double)
+            return $this->value - $obj->value < 0 ? -1 : ($this->value - $obj->value > 0 ? 1 : 0);
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Double.');
     }
 
     public static function valueOf($string){

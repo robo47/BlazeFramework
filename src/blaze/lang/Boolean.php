@@ -173,6 +173,14 @@ class Boolean extends Object implements NativeWrapper,Comparable {
         throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Boolean.');
     }
 
+    public static function compare(Object $obj1, Object $obj2) {
+        if($obj1 === null || $obj2 === null)
+            throw new NullPointerException();
+        if($obj1 instanceof Boolean && $obj2 instanceof Boolean)
+            return $obj1->value == $obj2->value ? 0 : ($obj1->value ? 1 : -1);
+        throw new ClassCastException('Could not cast '.$obj1->getClass()->getName().' to Boolean.');
+    }
+
     /**
      *
      * @param string|blaze\lang\String $value

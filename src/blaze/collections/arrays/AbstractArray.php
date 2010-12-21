@@ -5,16 +5,13 @@ namespace blaze\collections\arrays;
 use blaze\lang\Object;
 
 /**
- * Description of Arrays
+ * Basic implementation of an ArrayI.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
  * @property-read int $length
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 abstract class AbstractArray extends Object implements \blaze\collections\ArrayI {
 
@@ -30,7 +27,7 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     protected $size;
 
     /**
-     *
+     * Creates a new ArrayI which uses the parameter as array or size for the Array.
      * @param array|int|blaze\collections\ArrayI $arrayOrSize
      */
     public function __construct($arrayOrSize) {
@@ -51,7 +48,7 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     *
+     * This method is for offering the legth attribute.
      * @access private
      */
     public function __get($name) {
@@ -61,7 +58,6 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     *
      * @access private
      */
     public function count() {

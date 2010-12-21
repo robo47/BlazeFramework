@@ -2,15 +2,15 @@
 namespace blaze\collections;
 
 /**
- * Description of List
+ * A bag is something like a Map for a specific object as key and an integer as value.
+ * The key can be any object and the value is the count of how often such an object
+ * has been added to the bag.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
  * @see     http://commons.apache.org/collectionss/api-release/index.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 interface Bag extends Collection{
      /**

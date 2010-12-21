@@ -20,13 +20,26 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     private $elementData;
     private $size;
 
-    public function __construct(\blaze\collections\Collection $collection = null) {
-        if ($collection != null) {
-            $this->elementData = $collection->toArray();
-            $this->size = count($this->elementData);
-        } else {
-            $this->size = 0;
-            $this->elementData = array();
+    /**
+     * @param \blaze\collections\Collection|\blaze\collections\ArrayI|array $collectionOrArray
+     * @return boolean Wether the action was successfull or not
+     */
+    public function __construct( $collectionOrArray = null) {
+        if ($collectionOrArray !== null) {
+            if($collectionOrArray instanceof blaze\collections\Collection){
+                $this->elementData = $collectionOrArray->toArray();
+                $this->size = count($this->elementData);
+            } else if($collectionOrArray instanceof \blaze\collections\ArrayI || is_array($collectionOrArray)) {
+                $this->size = count($collectionOrArray);
+                $this->elementData = array();
+
+                foreach($collectionOrArray as $elem){
+                    $this->elementData[] = $elem;
+                }
+            }else{
+                $this->size = 0;
+                $this->elementData = array();
+            }
         }
     }
 

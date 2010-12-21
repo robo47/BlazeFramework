@@ -85,6 +85,14 @@ public function doubleValue() {
         return (int)parent::asNative($value) & 0xFF;
     }
 
+    public function compareTo(Object $obj) {
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Byte)
+            return $this->value - $obj->value;
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Byte.');
+    }
+
     public function hashCode(){
         return $this->value;
     }

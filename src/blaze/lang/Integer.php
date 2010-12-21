@@ -137,23 +137,11 @@ public function doubleValue() {
     }
 
     public function compareTo(Object $obj) {
-        if($obj instanceof  Integer){
-            return $this->toNative()-$obj->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Integer is only compareable with Integer');
-        }
-    }
-
-    public static function compare(Integer $obj, Integer $obj2){
-         if($obj instanceof Integer&& $obj2 instanceof Integer){
-             return $obj->toNative()-$obj2->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Integer is only compareable with Integer');
-        }
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Integer)
+            return $this->value - $obj->value;
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Integer.');
     }
 
     public static function valueOf($string){

@@ -427,7 +427,7 @@ class Win32FileSystem extends FileSystem {
     public function compare(File $f1, File $f2) {
         $f1Path = $f1->getPath()->toNative();
         $f2Path = $f2->getPath()->toNative();
-        return (boolean) strcasecmp((string) $f1Path, (string) $f2Path);        
+        return strcasecmp((string) $f1Path, (string) $f2Path);        
     }
 
 

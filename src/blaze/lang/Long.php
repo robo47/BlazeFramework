@@ -99,24 +99,18 @@ public function doubleValue() {
         return $o instanceof Long && $o->value == $this->value;
     }
 
-    public function compareTo(Object $obj) {
-        if($obj instanceof  Long){
-            return $this->toNative()-$obj->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Integer is only compareable with Integer');
-        }
+    public static function compare($obj1, $obj2){
+        if($obj1 === null || $obj2 === null)
+            return new NullPointerException();
+        return self::asNative($obj1) - self::asNative($obj2);
     }
-
-    public static function compare(Long $obj, Long $obj2){
-         if($obj instanceof Long&& $obj2 instanceof Long){
-             return $obj->toNative()-$obj2->toNative();
-        }
-        else
-        {
-            throw  new ClassCastException('Long is only compareable with Long');
-        }
+    
+    public function compareTo(Object $obj) {
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Long)
+            return $this->value - $obj->value;
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Long.');
     }
 
     public static function valueOf($string){

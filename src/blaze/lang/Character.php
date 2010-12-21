@@ -70,19 +70,19 @@ class Character extends Object implements NativeWrapper, Comparable {
     }
 
     public function compareTo(Object $obj) {
-        if($obj instanceof Character){
-        if($o->toNative()<$this->toNative()){
-            return 1;
-        }
-        if($o->toNative()>$this->toNative()){
-            return 1;
-        }
-        return 0;
-        }
-        else{
-           throw new ClassCastException('Character is only compareable with Character');
-        }
+        if($obj === null)
+            throw new NullPointerException();
+        if($obj instanceof Character)
+            return strcmp($this->value, $obj->value);
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Character.');
+    }
 
+    public static function compare(Object $obj1, Object $obj2) {
+        if($obj1 === null || $obj2 === null)
+            throw new NullPointerException();
+        if($obj1 instanceof Character)
+            return $obj1->compareTo($obj2);
+        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Character.');
     }
 
     public static function isLetter($char) {

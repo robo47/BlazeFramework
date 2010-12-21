@@ -5,16 +5,15 @@ namespace blaze\collections\arrays;
 use blaze\lang\Object;
 
 /**
- * Description of Arrays
+ * This class can be used as base class if only specific methods need a different
+ * behaviour and the main behaviour is given by an ArrayI object. Every method
+ * passes on the parameters to the methods of the object and return their values.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
  * @property-read int $length
  * @author  Christian Beikov
- * @todo    Implementing and documenting.
  */
 abstract class AbstractArrayDecorator extends Object implements \blaze\collections\ArrayI {
 
