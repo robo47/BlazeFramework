@@ -73,6 +73,10 @@ abstract class AbstractListDecorator extends \blaze\lang\Object implements \blaz
         return $this->list->listIterator($index);
     }
 
+    public function getIterator() {
+        return $this->list->getIterator();
+    }
+
     public function remove($obj) {
         return $this->list->remove($obj);
     }

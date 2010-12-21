@@ -83,6 +83,10 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
         return $this->map->retainAll($obj);
     }
 
+    public function getIterator() {
+        return $this->map->getIterator();
+    }
+
 }
 
 ?>

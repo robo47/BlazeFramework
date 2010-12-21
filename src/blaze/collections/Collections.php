@@ -308,7 +308,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns true if the two arrays are deeply equal
      * @return boolean
      */
-    public static function deepEquals(ArrayObject $a1, ArrayObject $a2) {
+    public static function deepEquals(arrays\ArrayObject $a1, arrays\ArrayObject $a2) {
        
     }
 
@@ -326,7 +326,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedCollection
      * @return blaze\collection\collection\SortedCollection
      */
-    public static function boundedSortedCollection(blaze\collection\collection\SortedCollection $obj, $maxSize) {
+    public static function boundedSortedCollection(\blaze\collections\collection\SortedCollection $obj, $maxSize) {
         return new collectio\BoundedSortedCollection($obj, $maxSize);
     }
 
@@ -344,7 +344,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedBag
      * @return blaze\collection\bag\SortedBag
      */
-    public static function boundedSortedBag(blaze\collection\bag\SortedBag $obj, $maxSize) {
+    public static function boundedSortedBag(\blaze\collections\bag\SortedBag $obj, $maxSize) {
         return new bag\BoundedSortedBag($obj, $maxSize);
     }
 
@@ -362,7 +362,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedSet
      * @return blaze\collection\set\SortedSet
      */
-    public static function boundedSortedSet(blaze\collection\set\SortedSet $obj, $maxSize) {
+    public static function boundedSortedSet(\blaze\collections\set\SortedSet $obj, $maxSize) {
         return new set\BoundedSortedSet($obj, $maxSize);
     }
 
@@ -371,7 +371,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the ListI
      * @return blaze\collection\ListI
      */
-    public static function boundedList(blaze\collection\ListI $obj, $maxSize) {
+    public static function boundedList(\blaze\collections\ListI $obj, $maxSize) {
         return new lists\BoundedList($obj, $maxSize);
     }
 
@@ -389,7 +389,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedMap
      * @return blaze\collection\map\SortedMap
      */
-    public static function boundedSortedMap(blaze\collection\map\SortedMap $obj, $maxSize) {
+    public static function boundedSortedMap(\blaze\collections\map\SortedMap $obj, $maxSize) {
         return new map\BoundedSortedMap($obj, $maxSize);
     }
 
@@ -407,7 +407,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedBidiMap
      * @return blaze\collection\bidimap\SortedBidiMap
      */
-    public static function boundedSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj, $maxSize) {
+    public static function boundedSortedBidiMap(\blaze\collections\bidimap\SortedBidiMap $obj, $maxSize) {
         return new bidimap\BoundedSortedBidiMap($obj, $maxSize);
     }
 
@@ -423,7 +423,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedCollection and cuts of the elements which are to much
      * @return blaze\collection\collection\SortedCollection
      */
-    public static function immutableSortedCollection(blaze\collection\collection\SortedCollection $obj) {
+    public static function immutableSortedCollection(\blaze\collections\collection\SortedCollection $obj) {
         return new collection\ImmutableSortedCollection($obj);
     }
 
@@ -439,7 +439,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedBag and cuts of the elements which are to much
      * @return blaze\collection\bag\SortedBag
      */
-    public static function immutableSortedBag(blaze\collection\bag\SortedBag $obj) {
+    public static function immutableSortedBag(\blaze\collections\bag\SortedBag $obj) {
         return new bag\ImmutableSortedBag($obj);
     }
 
@@ -455,7 +455,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedSet and cuts of the elements which are to much
      * @return blaze\collection\set\SortedSet
      */
-    public static function immutableSortedSet(blaze\collection\set\SortedSet $obj) {
+    public static function immutableSortedSet(\blaze\collections\set\SortedSet $obj) {
         return new set\ImmutableSortedSet($obj);
     }
 
@@ -463,7 +463,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedBidiMap and cuts of the elements which are to much
      * @return blaze\collection\ListI
      */
-    public static function immutableList(blaze\collection\ListI $obj) {
+    public static function immutableList(\blaze\collections\ListI $obj) {
         return new lists\ImmutableList($obj);
     }
 
@@ -479,7 +479,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedMap and cuts of the elements which are to much
      * @return blaze\collection\map\SortedMap
      */
-    public static function immutableSortedMap(blaze\collection\map\SortedMap $obj) {
+    public static function immutableSortedMap(\blaze\collections\map\SortedMap $obj) {
         return new map\ImmutableSortedMap($obj);
     }
 
@@ -495,7 +495,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * Returns an immutable SortedBidiMap and cuts of the elements which are to much
      * @return blaze\collection\bidimap\SortedBidiMap
      */
-    public static function immutableSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj) {
+    public static function immutableSortedBidiMap(\blaze\collections\bidimap\SortedBidiMap $obj) {
         return new bidimap\ImmutableSortedBidiMap($obj);
     }
 
@@ -513,7 +513,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\collection\SortedCollection
      */
-    public static function typedSortedCollection(blaze\collection\collection\SortedCollection $obj, $type) {
+    public static function typedSortedCollection(\blaze\collections\collection\SortedCollection $obj, $type) {
         return new collection\TypedSortedCollection($obj, TypeChecker::getInstance($type));
     }
 
@@ -531,7 +531,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\bag\SortedBag
      */
-    public static function typedSortedBag(blaze\collection\bag\SortedBag $obj, $type) {
+    public static function typedSortedBag(\blaze\collections\bag\SortedBag $obj, $type) {
         return new bag\TypedSortedBag($obj, TypeChecker::getInstance($type));
     }
 
@@ -549,7 +549,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\set\SortedSet
      */
-    public static function typedSortedSet(blaze\collection\set\SortedSet $obj, $type) {
+    public static function typedSortedSet(\blaze\collections\set\SortedSet $obj, $type) {
         return new set\TypedSortedSet($obj, TypeChecker::getInstance($type));
     }
 
@@ -558,7 +558,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\ListI
      */
-    public static function typedList(blaze\collection\ListI $obj, $type) {
+    public static function typedList(\blaze\collections\ListI $obj, $type) {
         return new lists\TypedList($obj, TypeChecker::getInstance($type));
     }
 
@@ -576,7 +576,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\map\SortedMap
      */
-    public static function typedSortedMap(blaze\collection\map\SortedMap $obj, $keyType, $valueType) {
+    public static function typedSortedMap(\blaze\collections\map\SortedMap $obj, $keyType, $valueType) {
         return new map\TypedSortedMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
     }
 
@@ -594,7 +594,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      * @return blaze\collection\bidimap\SortedBidiMap
      */
-    public static function typedSortedBidiMap(blaze\collection\bidimap\SortedBidiMap $obj, $keyType, $valueType) {
+    public static function typedSortedBidiMap(\blaze\collections\bidimap\SortedBidiMap $obj, $keyType, $valueType) {
         return new bidimap\TypedSortedBidiMap($obj, TypeChecker::getInstance($keyType), TypeChecker::getInstance($valueType));
     }
 

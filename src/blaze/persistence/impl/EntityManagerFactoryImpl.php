@@ -94,21 +94,6 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
         $fullClassName = $class->getPackage().'\\'.$class->getName();
         $this->mapping[$fullClassName] = $class;
     }
-    /**
-     *
-     * @param \blaze\lang\Object $o
-     * @return blaze\persistence\tool\metainfo\ClassMetaInfo
-     */
-    public function getClassMeta(\blaze\lang\Object $o) {
-        if($o === null)
-            throw new \blaze\lang\NullPointerException();
-
-        $name = $o->getClass()->getName()->toNative();
-        if(array_key_exists($name, $this->mapping))
-                return $this->mapping[$name];
-        else
-            return null;
-    }
 
     public function isClosed() {
         return $this->closed;

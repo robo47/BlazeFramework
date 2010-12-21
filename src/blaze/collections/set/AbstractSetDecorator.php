@@ -65,6 +65,10 @@ abstract class AbstractSetDecorator extends \blaze\lang\Object implements \blaze
         return $this->set->toArray($type);
     }
 
+    public function getIterator() {
+        return $this->set->getIterator();
+    }
+
 }
 
 ?>

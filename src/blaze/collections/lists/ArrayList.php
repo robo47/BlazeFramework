@@ -22,7 +22,6 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     /**
      * @param \blaze\collections\Collection|\blaze\collections\ArrayI|array $collectionOrArray
-     * @return boolean Wether the action was successfull or not
      */
     public function __construct( $collectionOrArray = null) {
         if ($collectionOrArray !== null) {
@@ -37,9 +36,11 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
                     $this->elementData[] = $elem;
                 }
             }else{
-                $this->size = 0;
-                $this->elementData = array();
+                throw new \blaze\lang\IllegalArgumentException('Invalid type for parameter');
             }
+        }else{
+            $this->size = 0;
+                $this->elementData = array();
         }
     }
 
@@ -284,7 +285,10 @@ class ArrayListIterator implements \blaze\collections\Iterator {
 
     public function next() {
         $this->index++;
-        //return $this->current();
+        if($this->valid())
+            return $this->current();
+        else
+            return null;
     }
 
     public function remove() {
