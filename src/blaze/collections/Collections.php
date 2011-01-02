@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * This package contains classes for generic data storage.
+ */
 namespace blaze\collections;
 
 use blaze\collections\Collection;
@@ -10,7 +12,7 @@ use blaze\collections\Collection;
  *
  * @author  Christian Beikov , Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     \blaze\collections\Arrays
  * @since   1.0
  */

@@ -6,24 +6,24 @@ namespace blaze\netlet;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+
+
  */
 interface NetletContext {
 
      public function addNetlet($name, \blaze\netlet\Netlet $netlet);
      public function getNetlets();
      
-     public function addNetletMapping($URLMapping, $name);
+     public function addNetletMapping($uriMapping, $name);
      public function getNetletMapping();
 
      public function addFilter($name, \blaze\netlet\Filter $filter);
      public function getFilters();
 
-     public function addFilterMapping($URLMapping, $name);
+     public function addFilterMapping($uriMapping, $name);
      public function getFilterMapping();
 
      public function addListener($listenerClass);

@@ -3,20 +3,26 @@
 namespace blaze\collections\lists;
 
 /**
- * Description of List
+ * A list decorator which specifies bounds for a list
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 final class BoundedList extends AbstractListDecorator implements \blaze\collections\Bounded {
 
+    /**
+     * The maximal size of the list
+     * @var int
+     */
     private $maxCount;
 
+    /**
+     * Creates a new decorator for a list which is bounded.
+     *
+     * @param \blaze\collections\ListI $list The decorated list
+     * @param int $maxCount The maximal size
+     */
     public function __construct(\blaze\collections\ListI $list, $maxCount) {
         parent::__construct($list);
         $this->maxCount = $maxCount;
@@ -30,6 +36,10 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
         return $this->maxCount;
     }
 
+    /**
+     * {@inheritDoc}
+     * When the list is full nothing is added and false is returned.
+     */
     public function add($obj) {
         if (!$this->isFull())
             return $this->list->add($obj);
@@ -37,6 +47,10 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
             return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * When the list is full nothing is added and false is returned.
+     */
     public function addAt($index, $obj) {
         if (!$this->isFull())
             return $this->list->addAt($index, $obj);
@@ -44,9 +58,24 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
             return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * When the list has not enough space for all object nothing is added and false is returned.
+     */
     public function addAll(\blaze\collections\Collection $obj) {
         if ($obj->count() + $this->count() <= $this->maxCount)
             return $this->list->addAll($obj);
+        else
+            return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * When the list has not enough space for all object nothing is added and false is returned.
+     */
+    public function addAllAt($index, \blaze\collections\Collection $obj) {
+        if ($obj->count() + $this->count() <= $this->maxCount)
+            return $this->list->addAllAt($index, $c);
         else
             return false;
     }

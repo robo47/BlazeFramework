@@ -5,15 +5,13 @@ namespace blaze\collections\lists;
 use blaze\lang\Object;
 
 /**
- * Description of ArrayList
+ * A dynamic growing array which implements the ListI interface and offers fast
+ * access.
  *
  * @author  Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Tuning and documentation.
  */
 class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 

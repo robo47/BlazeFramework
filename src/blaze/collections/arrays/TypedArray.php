@@ -7,7 +7,6 @@ use blaze\lang\Object;
  * element type.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @property-read int $length
  * @author  Christian Beikov
@@ -37,8 +36,11 @@ final class TypedArray extends AbstractArray implements \blaze\collections\Typed
     }
 
     /**
-     *
-     * @access private
+     * {@inheritDoc}
+     * In addition, the value gets type checked.
+     * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
+     * @throws \blaze\lang\IndexOutOfBoundsException If the offset is not within the range of the array.
+     * @throws \blaze\lang\ClassCastException When the type of the value does not fit.
      */
     public function offsetSet($offset, $value) {
         if(!\blaze\lang\Integer::isNativeType($offset))
@@ -46,7 +48,7 @@ final class TypedArray extends AbstractArray implements \blaze\collections\Typed
         if($offset < 0 || $offset > $this->size)
                 throw new \blaze\lang\IndexOutOfBoundsException($offset);
         if(!$this->typeChecker->isType($value))
-                    throw new \blaze\lang\IllegalArgumentException('This array may only contain objects of the given type '.$this->typeChecker->getType());
+                    throw new \blaze\lang\ClassCastException('This array may only contain objects of the given type '.$this->typeChecker->getType());
        $this->objects[$offset] = $value;
     }
     

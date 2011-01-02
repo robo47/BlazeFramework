@@ -3,15 +3,13 @@ namespace blaze\collections\queue;
 use blaze\lang\Object;
 
 /**
- * Description of ArrayList
+ * A priority based queue is like a sorted queue. The elements must implement
+ * either comparable or a comparator has to be given.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation and documentation.
  */
 class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable{
     /**

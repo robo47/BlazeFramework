@@ -3,15 +3,13 @@ namespace blaze\collections\queue;
 use blaze\lang\Object;
 
 /**
- * Description of Stack
- *
+ * A stack is an implementation of a queue which follows the last-in-first-out principle.
+ * 
  * @author  Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+ * @see     http://download.oracle.com/javase/1.4.2/docs/api/java/util/Stack.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Tuning, extending the class to be more java like and documentation.
  */
 class Stack extends \blaze\collections\queue\AbstractQueue{
 

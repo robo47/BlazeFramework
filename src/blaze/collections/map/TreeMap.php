@@ -5,15 +5,14 @@ namespace blaze\collections\map;
 use blaze\lang\Object;
 
 /**
- * Description of ArrayList
+ * This class is an implementation of a SortedMap and keeps the elements ordered
+ * in a sorted way. The sortorder is specified through the result of a comparation
+ * between two elements with the method Comparable#compareTo() or Comparator#compare()
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation and documentation.
  */
 class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \blaze\io\Serializable {
 

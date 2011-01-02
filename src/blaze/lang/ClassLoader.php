@@ -9,10 +9,10 @@ namespace blaze\lang;
  * so ClassLoader can extend it.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
+
  * @author  Christian Beikov
  */
 class ClassLoader extends Object {
@@ -147,16 +147,16 @@ class ClassLoader extends Object {
      * @return
      */
     public function getRessourceAsStream($className) {
-        $URL = $this->getResource($className);
+        $uri = $this->getResource($className);
         try {
-            return $URL != null ? $URL->openStream() : null;
+            return $uri != null ? $uri->openStream() : null;
         } catch (IOException $e) {
             return null;
         }
     }
 
     /**
-     * @return blaze\net\URL
+     * @return blaze\net\URI
      */
     public function getRessource($className) {
         throw new Exception('Not yet implemented');

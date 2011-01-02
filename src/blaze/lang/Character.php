@@ -5,10 +5,10 @@ namespace blaze\lang;
  * Description of Boolean
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     blaze\lang\Object
  * @since   1.0
- * @version $Revision$
+
  * @author  Christian Beikov
  */
 class Character extends Object implements NativeWrapper, Comparable {
@@ -77,12 +77,10 @@ class Character extends Object implements NativeWrapper, Comparable {
         throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Character.');
     }
 
-    public static function compare(Object $obj1, Object $obj2) {
+    public static function compare($obj1, $obj2) {
         if($obj1 === null || $obj2 === null)
             throw new NullPointerException();
-        if($obj1 instanceof Character)
-            return $obj1->compareTo($obj2);
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Character.');
+        return strcmp(self::asNative($obj1), self::asNative($obj2));
     }
 
     public static function isLetter($char) {

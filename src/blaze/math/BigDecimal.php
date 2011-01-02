@@ -12,11 +12,11 @@ use blaze\lang\String;
  *
  * @author  Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+
+
  */
 class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Comparable {
     private static $bcExists;

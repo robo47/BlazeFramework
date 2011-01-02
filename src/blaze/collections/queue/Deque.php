@@ -1,87 +1,72 @@
 <?php
+
 namespace blaze\collections\queue;
 
 /**
- * Description of Queue
+ * A collection with which operations can be done at two ends.
+ * At the beginning and ant the end. For capacity restrictions look at
+ * BoundedDeque.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
  * @see     http://download.oracle.com/javase/6/docs/api/java/util/Deque.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
-interface Deque extends \blaze\collections\Queue{
+interface Deque extends \blaze\collections\Queue {
+
     /**
-     * @return boolean
+     * Inserts element at the beginning of the deque.
+     * @return boolean True on success, otherwise false.
      */
-     public function addFirst($element);
+    public function addFirst($element);
+
     /**
-     * @return boolean
+     * Inserts element at the end of the deque.
+     * @return boolean True on success, otherwise false.
      */
-     public function addLast($element);
-     /**
-      * Retrieves, but does not remove, the first element of this deque.
-      */
-     public function getFirst();
-     /**
-      * Retrieves, but does not remove, the last element of this deque.
-      */
-     public function getLast();
-     /**
-      * Retrieves and removes the head of this queue.
-      * @return Iterator
-      */
-     public function descendingIterator();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function offerFirst($element);
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function offerLast($element);
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function peekFirst();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function peekLast();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function pollFirst();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function pollLast();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function pop();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function push($element);
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function removeFirst();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function removeFirstOccurrence($element);
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function removeLast();
-     /**
-      * Retrieves and removes the head of this queue.
-      */
-     public function removeLastOccurrence($element);
+    public function addLast($element);
+
+    /**
+     * Retrieves, but does not remove, the first element of this deque.
+     * @return mixed
+     */
+    public function getFirst();
+
+    /**
+     * Retrieves, but does not remove, the last element of this deque.
+     * @return mixed
+     */
+    public function getLast();
+
+    /**
+     * Retrieves and removes the first element of this deque.
+     * @return mixed
+     */
+    public function removeFirst();
+
+    /**
+     * Retrieves and removes the last element of this deque.
+     * @return mixed
+     */
+    public function removeLast();
+
+    /**
+     * Removes the first occurrence of element from this deque.
+     * @return boolean True if an element was removed, otherwise false.
+     */
+    public function removeFirstOccurrence($element);
+
+    /**
+     * Removes the last occurrence of element from this deque.
+     * @return boolean True if an element was removed, otherwise false.
+     */
+    public function removeLastOccurrence($element);
+
+    /**
+     * Returns an iterator for this deque in reverse order.
+     * @return \blaze\collections\Iterator
+     */
+    public function descendingIterator();
 }
 
 ?>

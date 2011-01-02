@@ -12,9 +12,9 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
- * @version $Revision$
+
  */
 class XMLNode extends Object {
 
@@ -42,7 +42,7 @@ class XMLNode extends Object {
 
     }
 
-    public function isDefaultNamespace( $namespaceURL) {
+    public function isDefaultNamespace( $namespaceURI) {
 
     }
 
@@ -54,11 +54,11 @@ class XMLNode extends Object {
 
     }
 
-    public function lookupNamespaceURL( $prefix) {
+    public function lookupNamespaceURI( $prefix) {
 
     }
 
-    public function lookupPrefix( $namespaceURL) {
+    public function lookupPrefix( $namespaceURI) {
 
     }
 

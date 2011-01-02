@@ -9,20 +9,16 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @since   1.0
- * @version $Revision$
- */
-class ObjectOutputStream extends \blaze\io\OutputStream implements \blaze\io\DataOutput {
 
-    /**
-     * @var blaze\io\OutputStream The OutputStream we are buffering output to.
-     */
-    private $out;
+ * @since   1.0
+
+ */
+class ObjectOutputStream extends \blaze\io\output\FilterOutputStream implements \blaze\io\DataOutput {
+
     private $current;
 
     public function __construct(\blaze\io\OutputStream $stream) {
-        $this->out = $stream;
+        parent::__construct($stream);
     }
 
     public function write($str, $off = 0, $len = -1) {
@@ -105,18 +101,6 @@ class ObjectOutputStream extends \blaze\io\OutputStream implements \blaze\io\Dat
         if ($this->current == null)
             throw new \blaze\io\NotActiveException ();
         $this->out->write(serialize($this->current));
-    }
-
-    public function flush() {
-        $this->out->flush();
-    }
-
-    public function close() {
-        return $this->out->close();
-    }
-
-    public function isClosed() {
-        return $this->out->isClosed();
     }
 
 }

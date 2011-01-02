@@ -8,8 +8,8 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://commons.apache.org/collectionss/api-release/index.html
+
+ * @see     http://commons.apache.org/collections/api-release/index.html
  * @since   1.0
  */
 interface Bag extends Collection{

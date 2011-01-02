@@ -3,37 +3,58 @@
 namespace blaze\collections\collection;
 
 /**
- * Description of List
+ * A collection decorator which makes collections immutable.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 final class ImmutableCollection extends AbstractCollectionDecorator implements \blaze\collections\Immutable {
-public function add($obj) {
+
+    /**
+     * {@inheritDoc}
+     * Adds nothing to the collection and returns false.
+     */
+    public function add($obj) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * Adds nothing to the collection and returns false.
+     */
     public function addAll(\blaze\collections\Collection $obj) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * Does not clear the collection.
+     */
     public function clear() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * Removes nothing from the collection and returns null.
+     */
     public function remove($obj) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     * Removes nothing from the collection and returns null.
+     */
     public function removeAll(\blaze\collections\Collection $obj) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     * Removes nothing from the collection and returns null.
+     */
     public function retainAll(\blaze\collections\Collection $obj) {
         return null;
     }

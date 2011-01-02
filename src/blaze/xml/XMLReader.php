@@ -10,9 +10,9 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
- * @version $Revision$
+
  */
 interface XMLReader extends \blaze\io\Closeable{
     const START_ELEMENT = 1;
@@ -42,9 +42,9 @@ interface XMLReader extends \blaze\io\Closeable{
     /**
      * Returns the namespace of wether the current attribute if $index is -1 or the attribute defined by the index.
      * @param string|blaze\lang\String|int $index
-     * @return blaze\net\URL
+     * @return blaze\net\URI
      */
-    public function getAttributeNamespaceURL($index = null);
+    public function getAttributeNamespaceURI($index = null);
     /**
      * Returns the prefix which is defined for wether the current attribute in its namespace or the attribute defined by the index.
      * @param string|blaze\lang\String|int $index
@@ -118,11 +118,11 @@ interface XMLReader extends \blaze\io\Closeable{
      */
     public function getNamespacePrefix($index);
     /**
-     * Returns the URL to the document definition by the int index or the prefix
+     * Returns the URI to the document definition by the int index or the prefix
      * @param int|string|blaze\lang\String $index
-     * @return blaze\net\URL
+     * @return blaze\net\URI
      */
-    public function getNamespaceURL($indexOrPrefix);
+    public function getNamespaceURI($indexOrPrefix);
     /**
      * Returns the text within the current element and throws no exception if it contains tags
      * @return string

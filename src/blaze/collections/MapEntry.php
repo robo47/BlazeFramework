@@ -6,7 +6,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     \blaze\collections\Map
  * @since   1.0
  */

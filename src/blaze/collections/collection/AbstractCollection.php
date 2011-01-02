@@ -1,61 +1,29 @@
 <?php
+/**
+ * This package contains implementations of the Collection interface.
+ */
 namespace blaze\collections\collection;
 use blaze\lang\Object;
 
 /**
- * Description of Queue
+ * Some basic implementations of a Collection. By extending from this class, it is guaranteed
+ * that implementations will work even if the interfaces get changed, because
+ * empty methods will be added here.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 abstract class AbstractCollection extends Object implements \blaze\collections\Collection{
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function add($obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function addAll(\blaze\collections\Collection $obj){}
-    /**
-     * Removes all elements from this collections
-     */
-    public function clear(){}
 
-    public function isEmpty(){}
+    public function isEmpty(){
+        return $this->count() == 0;
+    }
+
+    public function size(){
+        return $this->count();
+    }
     
-    public function getIterator(){}
-
-    public function count(){}
-    /**
-     * @return boolean True if the element obj is in this collections
-     */
-    public function contains($obj){}
-    /**
-     * @return boolean True if every element of c is in this collections
-     */
-    public function containsAll(\blaze\collections\Collection $c){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function remove($obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function removeAll(\blaze\collections\Collection $obj){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function retainAll(\blaze\collections\Collection $obj){}
-    /**
-     * @return blaze\collections\ArrayI
-     */
-    public function toArray($type = null){}
 }
 
 ?>

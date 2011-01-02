@@ -13,10 +13,10 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
+
  */
 class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
 
@@ -48,15 +48,15 @@ class LifecycleImpl extends Object implements \blaze\web\lifecycle\Lifecycle {
         $this->phases->add($this->response = new RenderResponsePhase());
     }
 
-    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $URL = null) {
-        if($URL === null)
-            $URL = '/*';
-        $this->phaseListener->put($URL, $listener);
+    public function addPhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
+        if($uri === null)
+            $uri = '/*';
+        $this->phaseListener->put($uri, $listener);
     }
 
-    public function removePhaseListener(\blaze\web\event\PhaseListener $listener, $URL = null) {
-        if($URL !== null){
-            $this->phaseListener->remove($URL);
+    public function removePhaseListener(\blaze\web\event\PhaseListener $listener, $uri = null) {
+        if($uri !== null){
+            $this->phaseListener->remove($uri);
     }else{
         $iter = $this->phaseListener->getIterator();
 

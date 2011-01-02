@@ -5,20 +5,26 @@ namespace blaze\collections\map;
 use blaze\lang\Object;
 
 /**
- * Description of Queue
+ * This is a basic implementation of a MapDecorator which can be used to
+ * give a Map a different behaviour via the same interface by decorating it.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 abstract class AbstractMapDecorator extends Object implements \blaze\collections\Map {
 
+    /**
+     * The decorated map.
+     * @var \blaze\collections\Map
+     */
     protected $map;
 
+    /**
+     * Implementations must call this constructor for initialization.
+     *
+     * @param \blaze\collections\Map $map The decorated map.
+     */
     public function __construct(\blaze\collections\Map $map) {
         $this->map = $map;
     }
@@ -38,6 +44,7 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
     public function count() {
         return $this->map->count();
     }
+    public function size(){return $this->count();}
 
     public function entrySet() {
         return $this->map->entrySet();

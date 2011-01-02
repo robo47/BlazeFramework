@@ -18,10 +18,10 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
+
  */
 class NetletApplication extends Object implements StaticInitialization{
 
@@ -270,14 +270,14 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return string
      */
     public static function getApplicationName(HttpNetletRequest $request) {
-        $URL = $request->getRequestURL()->getPath();
+        $uri = $request->getRequestURI()->getPath();
         
-        if(!$URL->endsWith('/'))
-            $URL = $URL->concat('/');
+        if(!$uri->endsWith('/'))
+            $uri = $uri->concat('/');
 
         foreach(self::$serverConfig->get('applications') as $app){
             $regex = '/'.str_replace(array('/','*'), array('\/','.*'), $app->getUrlPrefix()).'/';
-            if($URL->matches($regex)){
+            if($uri->matches($regex)){
                 return $app->getPackage();
             }
         }
@@ -294,7 +294,7 @@ class NetletApplication extends Object implements StaticInitialization{
             return null;
 
         foreach(self::$serverConfig->get('applications') as $app){
-            if($app->getPackage()->compare($pkgName) == 0){
+            if(String::compare($app->getPackage(), $pkgName) == 0){
                 $app->initApplication();
                 return $app;
             }

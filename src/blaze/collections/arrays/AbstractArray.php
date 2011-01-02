@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * This package contains implementations of the ArrayI interface.
+ */
 namespace blaze\collections\arrays;
 
 use blaze\lang\Object;
@@ -8,7 +10,6 @@ use blaze\lang\Object;
  * Basic implementation of an ArrayI.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @property-read int $length
  * @author  Christian Beikov
@@ -16,12 +17,12 @@ use blaze\lang\Object;
 abstract class AbstractArray extends Object implements \blaze\collections\ArrayI {
 
     /**
-     *
+     * The native array which is used by this wrapper.
      * @var array
      */
     protected $objects;
     /**
-     *
+     * The size of the array.
      * @var int
      */
     protected $size;
@@ -48,8 +49,9 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     * This method is for offering the legth attribute.
+     * This method is for offering the length attribute.
      * @access private
+     * @return int
      */
     public function __get($name) {
         if ($name == 'length')
@@ -58,15 +60,25 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     * @access private
+     * Returns the size of the array
+     * @return int
      */
     public function count() {
         return $this->size;
     }
 
     /**
-     *
-     * @access private
+     * Alias for count.
+     * @return int
+     */
+    public function size(){
+        return $this->count();
+    }
+
+    /**
+     * Checks wether the offset exists or not.
+     * @return boolean
+     * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
      */
     public function offsetExists($offset) {
         if (!\blaze\lang\Integer::isNativeType($offset))
@@ -76,8 +88,10 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     *
-     * @access private
+     * Returns the object which is stored at the offset in the array.
+     * @return mixed|\blaze\lang\Reflectable
+     * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
+     * @throws \blaze\lang\IndexOutOfBoundsException If the offset is not within the range of the array.
      */
     public function offsetGet($offset) {
         if (!\blaze\lang\Integer::isNativeType($offset))
@@ -88,22 +102,21 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     *
-     * @access private
+     * Sets value at the offset in the array.
+     * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
+     * @throws \blaze\lang\IndexOutOfBoundsException If the offset is not within the range of the array.
      */
     public function offsetSet($offset, $value) {
         if (!\blaze\lang\Integer::isNativeType($offset))
             throw new \blaze\lang\IllegalArgumentException('The index must be a number');
         if ($offset < 0 || $offset > $this->size)
             throw new \blaze\lang\IndexOutOfBoundsException($offset);
-        if ($this->isTyped())
-            $this->checkType($value);
         $this->objects[$offset] = $value;
     }
 
     /**
-     *
-     * @access private
+     * Unsets the object at the offset in the array.
+     * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
      */
     public function offsetUnset($offset) {
         if (!\blaze\lang\Integer::isNativeType($offset))
@@ -112,21 +125,35 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
-     *
+     * Returns a new iterator object to traverse through the array.
      * @access private
+     * @return \blaze\collections\Iterator
      */
     public function getIterator() {
         return; // new Iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     * @return int
+     */
     public function hashCode() {
         return \blaze\collections\Arrays::flatHashCode($this);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param \blaze\lang\Reflectable $o
+     * @return boolean
+     */
     public function equals(\blaze\lang\Reflectable $o) {
         return \blaze\collections\Arrays::flatEquals($this, $o);
     }
 
+    /**
+     * {@inheritDoc}
+     * @return \blaze\lang\String
+     */
     public function toString() {
         return \blaze\collections\Arrays::flatToString($this);
     }

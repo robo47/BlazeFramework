@@ -2,15 +2,13 @@
 namespace blaze\collections\queue;
 
 /**
- * Description of Queue
+ * This is a simple implementation of a deque with an array as internal
+ * data store.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation and documentation.
  */
 class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque, \blaze\lang\Cloneable, \blaze\io\Serializable{
     /**
@@ -84,43 +82,11 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
 
     }
 
-    public function offerFirst($element) {
-
-    }
-
-    public function offerLast($element) {
-
-    }
-
     public function peek() {
 
     }
 
-    public function peekFirst() {
-
-    }
-
-    public function peekLast() {
-
-    }
-
     public function poll() {
-
-    }
-
-    public function pollFirst() {
-
-    }
-
-    public function pollLast() {
-
-    }
-
-    public function pop() {
-
-    }
-
-    public function push($element) {
 
     }
 

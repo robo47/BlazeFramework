@@ -6,15 +6,13 @@ namespace blaze\lang;
  * which has to be the superclass of every other class.
  *
  * @license	http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link	http://blazeframework.sourceforge.net
  * @since	1.0
- * @version     $Revision$
- * @see 	blaze\lang\ClassWrapper
  * @author 	Christian Beikov
  */
 class Object implements Reflectable{
     
     /**
+     * {@inheritDoc}
      * @access protected
      */
     public function cloneObject(){
@@ -24,6 +22,7 @@ class Object implements Reflectable{
     }
 
     /**
+     * {@inheritDoc}
      * @access protected
      */
     public function finalize(){}
@@ -45,7 +44,9 @@ class Object implements Reflectable{
     }
 
     /**
+     * For easy getting a ClassWrapper object like:
      *
+     * $class = Object::classWrapper();
      * @access private
      */
     public static final function __callStatic($name, $args) {
@@ -73,7 +74,7 @@ class Object implements Reflectable{
         return ClassWrapper::forName(get_class($this));
     }
     /**
-     * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
+     * Returns a hash code for the object. This method is used by classes which try to raise the performance of hashcodes.
      *
      * @return 	int A hash code value for this object.
      */

@@ -8,35 +8,35 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
  * @see     http://www.javacommerce.com/displaypage.jsp?name=intro.sql&id=18238
- * @version $Revision$
+
  */
 interface XMLWriter extends \blaze\io\Closeable, \blaze\io\Flushable{
 
     /**
-     * Returns the prefix for the given URL
-     * @param string|blaze\lang\String $URL
+     * Returns the prefix for the given URI
+     * @param string|blaze\lang\String $URI
      * @return string
      */
-    public function getPrefix($URL);
+    public function getPrefix($URI);
     /**
-     * Sets the prefix for the given URL
+     * Sets the prefix for the given URI
      * @param string|blaze\lang\String $prefix
-     * @param string|blaze\lang\String $URL
+     * @param string|blaze\lang\String $URI
      */
-    public function setPrefix($prefix, $URL);
+    public function setPrefix($prefix, $URI);
     /**
-     * Sets the given URL as default namespace
-     * @param string|blaze\lang\String $URL
+     * Sets the given URI as default namespace
+     * @param string|blaze\lang\String $URI
      */
-    public function setDefaultNamespace($URL);
+    public function setDefaultNamespace($URI);
 
     /**
      * Writes a processing instruction
      * @param string|blaze\lang\String $prefix
-     * @param string|blaze\lang\String $URL
+     * @param string|blaze\lang\String $URI
      */
     public function writeProcessingInstruction($target, $data = null);
     
@@ -86,10 +86,10 @@ interface XMLWriter extends \blaze\io\Closeable, \blaze\io\Flushable{
      * Writes an attribute.
      * @param string|blaze\lang\String $name The name of the attribute
      * @param string|blaze\lang\String $value The value of the attribute
-     * @param string|blaze\lang\String $namespaceURL The URL to the namespace of the attribute
+     * @param string|blaze\lang\String $namespaceURI The URI to the namespace of the attribute
      * @param string|blaze\lang\String $prefix The namespace prefix.
      */
-    public function writeAttribute($name, $value, $namespaceURL = null, $prefix = null);
+    public function writeAttribute($name, $value, $namespaceURI = null, $prefix = null);
     /**
      * Writes a CDATA section.
      * @param string|blaze\lang\String $data The data.
@@ -121,10 +121,10 @@ interface XMLWriter extends \blaze\io\Closeable, \blaze\io\Flushable{
     /**
      * Writes the start of an element
      * @param string|blaze\lang\String $name The name of the element
-     * @param string|blaze\lang\String $namespaceURL The namespace of the element
+     * @param string|blaze\lang\String $namespaceURI The namespace of the element
      * @param string|blaze\lang\String $prefix The prefix of the namespace
      */
-    public function writeStartElement($name, $namespaceURL = null, $prefix = null);
+    public function writeStartElement($name, $namespaceURI = null, $prefix = null);
     /**
      * Ends an element
      */
@@ -132,10 +132,10 @@ interface XMLWriter extends \blaze\io\Closeable, \blaze\io\Flushable{
     /**
      * Writes an empty element
      * @param string|blaze\lang\String $name The name of the element
-     * @param string|blaze\lang\String $namespaceURL The namespace of the element
+     * @param string|blaze\lang\String $namespaceURI The namespace of the element
      * @param string|blaze\lang\String $prefix The prefix of the namespace
      */
-    public function writeEmptyElement($name, $namespaceURL = null, $prefix = null);
+    public function writeEmptyElement($name, $namespaceURI = null, $prefix = null);
 }
 
 ?>

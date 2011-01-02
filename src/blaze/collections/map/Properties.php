@@ -3,15 +3,13 @@ namespace blaze\collections\map;
 use blaze\lang\Object;
 
 /**
- * Description of Property
+ * An implementation of a map which manages only entries with the key type
+ * string and the value type string.
  *
  * @author  Christian Beikov, Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Clean up the implementation, no need to extend from HashMap because of associative arrays in PHP. Documentation!
  */
 class Properties extends HashMap {
     /**

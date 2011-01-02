@@ -9,9 +9,9 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
- * @version $Revision$
+
  */
 class ResultSetDescriptor extends Object{
     private $columnAliasToPropertyPathMapping;
@@ -35,18 +35,16 @@ class ResultSetDescriptor extends Object{
     }
 
     public function addFieldMapping(SingleFieldDescriptor $fieldDescriptor, $columnAlias = null){
-        $colAlias = $columnAlias;
-
-        if($colAlias === null)
-            $colAlias = $fieldDescriptor->getColumnDescriptor()->getName();
+        if($columnAlias === null)
+            $columnAlias = $fieldDescriptor->getColumnDescriptor()->getName();
         
-        if($colAlias === null)
+        if($columnAlias === null)
             throw new \blaze\lang\Exception('No column name available');
 
-        $colAlias = \blaze\lang\String::asNative($colAlias);
+        $columnAlias = \blaze\lang\String::asNative($columnAlias);
         $propPath = new PropertyPath();
         $propPath->addPathStep($fieldDescriptor->getType(), $fieldDescriptor->getName());
-        $this->columnAliasToPropertyPathMapping[$colAlias] = $propPath;
+        $this->columnAliasToPropertyPathMapping[$columnAlias] = $propPath;
     }
 
     public function addCustomMapping($columnAlias, PropertyPath $propPath, $index = null){

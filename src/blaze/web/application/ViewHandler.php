@@ -11,11 +11,11 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+
+
  */
 class ViewHandler extends Object {
 
@@ -167,21 +167,21 @@ class ViewHandler extends Object {
     }
 
     public function getRequestView(BlazeContext $context) {
-        $requestURL = $context->getRequest()->getRequestURL()->getPath();
+        $requestUri = $context->getRequest()->getRequestUri()->getPath();
 
         // remove the prefix of the url e.g. BlazeFrameworkServer/
-        if (!$requestURL->endsWith('/'))
-            $requestURL = $requestURL->concat('/');
+        if (!$requestUri->endsWith('/'))
+            $requestUri = $requestUri->concat('/');
 
-        $requestURL = $requestURL->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
+        $requestUri = $requestUri->substring($context->getApplication()->getUrlPrefix()->replace('*', '')->length());
 
         // Requesturl has always to start with a '/'
-        if ($requestURL->length() == 0 || $requestURL->charAt(0) != '/')
-            $requestURL = new String('/' . $requestURL->toNative());
+        if ($requestUri->length() == 0 || $requestUri->charAt(0) != '/')
+            $requestUri = new String('/' . $requestUri->toNative());
 
         foreach ($this->mapping as $navigationRule) {
             $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
-            if ($requestURL->matches($regex)) {
+            if ($requestUri->matches($regex)) {
                 return $this->getView($context, $navigationRule->getIndexView());
             }
         }

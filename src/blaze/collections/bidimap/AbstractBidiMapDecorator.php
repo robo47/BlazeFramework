@@ -5,70 +5,33 @@ namespace blaze\collections\bidimap;
 use blaze\lang\Object;
 
 /**
- * Description of Queue
+ * This is a basic implementation of a BidiMapDecorator which can be used to
+ * give a BidiMap a different behaviour via the same interface by decorating it.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
-abstract class AbstractBidiMapDecorator extends Object implements \blaze\collections\BidiMap {
+abstract class AbstractBidiMapDecorator extends \blaze\collections\map\AbstractMapDecorator implements \blaze\collections\BidiMap {
 
+    /**
+     * The decorated bidimap.
+     * @var \blaze\collections\BidiMap
+     */
     protected $bidiMap;
 
+    /**
+     * Implementations must call this constructor for initialization.
+     *
+     * @param \blaze\collections\BidiMap $bidiMap The decorated bidimap.
+     */
     public function __construct(\blaze\collections\BidiMap $bidiMap) {
+        parent::__construct($bidiMap);
         $this->bidiMap = $bidiMap;
-    }
-
-    public function clear() {
-        return $this->bidiMap->clear();
-    }
-
-    public function containsKey($key) {
-        return $this->bidiMap->containsKey($key);
-    }
-
-    public function containsValue($value) {
-        return $this->bidiMap->containsValue($value);
-    }
-
-    public function count() {
-        return $this->bidiMap->count();
-    }
-
-    public function entrySet() {
-        return $this->bidiMap->entrySet();
-    }
-
-    public function get($key) {
-        return $this->bidiMap->get($key);
     }
 
     public function getKey($value) {
         return $this->bidiMap->getKey($value);
-    }
-
-    public function isEmpty() {
-        return $this->bidiMap->isEmpty();
-    }
-
-    public function keySet() {
-        return $this->bidiMap->keySet();
-    }
-
-    public function put($key, $value) {
-        return $this->bidiMap->put($key, $value);
-    }
-
-    public function putAll(\blaze\collections\Map $m) {
-        return $this->bidiMap->putAll($m);
-    }
-
-    public function remove($key) {
-        return $this->bidiMap->remove($key);
     }
 
     public function removeValue($value) {
@@ -77,22 +40,6 @@ abstract class AbstractBidiMapDecorator extends Object implements \blaze\collect
 
     public function valueSet() {
         return $this->bidiMap->valueSet();
-    }
-
-    public function values() {
-        return $this->bidiMap->values();
-    }
-
-    public function containsAll(\blaze\collections\Map $obj) {
-        return $this->bidiMap->containsAll($obj);
-    }
-
-    public function removeAll(\blaze\collections\Map $obj) {
-        return $this->bidiMap->removeAll($obj);
-    }
-
-    public function retainAll(\blaze\collections\Map $obj) {
-        return $this->bidiMap->retainAll($obj);
     }
 
 }

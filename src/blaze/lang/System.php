@@ -6,10 +6,10 @@ namespace blaze\lang;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
+
  */
 final class System extends Object implements StaticInitialization {
 
@@ -23,7 +23,7 @@ final class System extends Object implements StaticInitialization {
     private static $props;
     /**
      *
-     * @var blaze\lang\SecURLtyManager
+     * @var blaze\lang\SecurityManager
      */
     private static $sm;
 
@@ -75,11 +75,11 @@ final class System extends Object implements StaticInitialization {
         return $oldValue;
     }
 
-    public static function getSecURLtyManager() {
+    public static function getSecurityManager() {
         return $sm;
     }
 
-    public static function setSecURLtyManager(SecURLtyManager $sm) {
+    public static function setSecurityManager(SecurityManager $sm) {
         $this->sm = $sm;
     }
 

@@ -312,7 +312,7 @@ class Win32FileSystem extends FileSystem {
     }
 
     private function _getUserPath() {
-        //For both compatibility and secURLty, we must look this up every time
+        //For both compatibility and security, we must look this up every time
         return (string) $this->normalize(\blaze\lang\System::getProperty("user.dir"));
     }
 
@@ -365,7 +365,7 @@ class Win32FileSystem extends FileSystem {
 
                 if (!$this->checkAccess($p, false)) {
                     // FIXME
-                    // throw secURLty error
+                    // throw security error
                     die("Can't resolve path $p");
                 }
                 return $p;

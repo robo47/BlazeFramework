@@ -2,19 +2,18 @@
 namespace blaze\ds;
 use blaze\lang\Object,
 blaze\lang\Singleton,
-blaze\lang\String,
-blaze\net\URL;
+blaze\lang\String;
 
 /**
  * Description of DataSourceManager
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+
+
  */
 final class DataSourceManager extends Object implements Singleton {
 
@@ -85,7 +84,7 @@ final class DataSourceManager extends Object implements Singleton {
 
         try{
             $uri = \blaze\net\URI::parseURI($dsn);
-            $url = URL::parseURL($uri->getSchemeSpecificPart());
+            $url = \blaze\net\URL::parseURL($uri->getSchemeSpecificPart());
         }catch(blaze\lang\Exception $e){
             throw $e;
         }

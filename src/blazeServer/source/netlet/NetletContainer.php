@@ -12,10 +12,10 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
+
  */
 class NetletContainer extends Object {
     const DEBUG = true;
@@ -52,8 +52,9 @@ class NetletContainer extends Object {
     public function process(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\http\HttpNetletResponse $response) {
 
         try {
-            $cacher = \blaze\cache\LocalCacher::getInstance();
-            $cacheMgr = \blaze\cache\CacheManager::getInstance('blazeContainer', $cacher);
+            $cacheProvider = new \blaze\cache\LocalCacheProvider();
+            $cache = $cacheProvider->buildCache(null);
+            $cacheMgr = \blaze\cache\CacheManager::getInstance('blazeContainer', $cache);
 
             $appName = NetletApplication::getApplicationName($request);
             $app = null;
@@ -63,11 +64,11 @@ class NetletContainer extends Object {
                 return;
             }
 
-            if ($cacheMgr->isCached($appName)) {
-                $app = $cacheMgr->getCache($appName);
-            } else {
+            $app = $cacheMgr->get($appName);
+
+            if ($app == null){
                 $app = NetletApplication::getApplicationByName($appName);
-                //$cacheMgr->doCache($appName, $app);
+                //$cacheMgr->put($appName, $app);
             }
 
             if ($app == null) {
@@ -77,19 +78,13 @@ class NetletContainer extends Object {
 
             $context = $app->getNetletContext();
 
-            $chain = new FilterChainImpl($this->getRequestedFilters($request, $context));
+            $chain = new FilterChainImpl($context, $this->getRequestedFilters($request, $context));
+            // The netlet gets called after the last filter passed the chain.
             $chain->doFilter($request, $response);
 
             if(!$response->isCommited()){
-                $netlet = $this->getRequestedNetlet($request, $context);
-
-                if ($netlet == null) {
-                    $response->sendError(\blaze\netlet\http\HttpNetletResponse::SC_NOT_FOUND, 'There was no netlet for the request found.');
-                    return;
-                }
-                $netlet->service($request, $response);
-
                 $sess = $request->getSession();
+                
                 if ($sess != null) {
                     $cookie = null;
                     $sessHand = $request->getSessionHandler();
@@ -128,30 +123,30 @@ class NetletContainer extends Object {
         }
     }
 
-    private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
-        // Making sure that the Url ends with a '/'
-        $URL = $request->getRequestURL()->getPath();
-        if (!$URL->endsWith('/'))
-            $URL = $URL->concat('/');
-
-        foreach ($context->getNetletMapping() as $key => $name) {
-            // Make a regex placeholders of the wildcards
-            $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
-
-            // Check if the requested url fits a netlet mapping
-            if ($URL->matches($regex)) {
-                $netlets = $context->getNetlets();
-                return $netlets->get($name);
-            }
-        }
-
-        return null;
-    }
+//    private function getRequestedNetlet(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
+//        // Making sure that the Url ends with a '/'
+//        $uri = $request->getRequestURI()->getPath();
+//        if (!$uri->endsWith('/'))
+//            $uri = $uri->concat('/');
+//
+//        foreach ($context->getNetletMapping() as $key => $name) {
+//            // Make a regex placeholders of the wildcards
+//            $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
+//
+//            // Check if the requested url fits a netlet mapping
+//            if ($uri->matches($regex)) {
+//                $netlets = $context->getNetlets();
+//                return $netlets->get($name);
+//            }
+//        }
+//
+//        return null;
+//    }
 
     private function getRequestedFilters(\blaze\netlet\http\HttpNetletRequest $request, \blaze\netlet\NetletContext $context) {
-        $URL = $request->getRequestURL()->getPath();
-        if (!$URL->endsWith('/'))
-            $URL = $URL->concat('/');
+        $uri = $request->getRequestURI()->getPath();
+        if (!$uri->endsWith('/'))
+            $uri = $uri->concat('/');
         $filterArr = new \blaze\collections\lists\ArrayList();
 
         // Looking in the filter mapping for a filter that fits the url
@@ -160,7 +155,7 @@ class NetletContainer extends Object {
             $regex = '/' . strtolower(str_replace(array('/', '*'), array('\/', '.*'), $key)) . '/';
 
             // Check if the requested url fits a netlet mapping
-            if ($URL->matches($regex)) {
+            if ($uri->matches($regex)) {
                 $filters = $context->getFilters();
                 $filterArr->add($filters->get($name));
             }

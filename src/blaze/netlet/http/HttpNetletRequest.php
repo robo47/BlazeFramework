@@ -6,10 +6,8 @@ use blaze\netlet\NetletRequest;
  * The class HttpNetletRequest encapsulates the Header data of the Http-Header.
  *
  * @license	http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link	http://blazeframework.sourceforge.net
+
  * @since	1.0
- * @version     $Revision$
- * @see 	blaze\lang\ClassWrapper
  * @author 	Christian Beikov
  * @todo        Documenting.
  */
@@ -75,11 +73,11 @@ interface HttpNetletRequest extends NetletRequest{
      */
     public function getRemoteUser();
     /**
-     * Returns an URL for the http request.
+     * Returns an URI for the http request.
      *
-     * @return blaze\net\URL
+     * @return blaze\net\URI
      */
-    public function getRequestURL();
+    public function getRequestURI();
 
     // Maybe make method getIntHeader?
 

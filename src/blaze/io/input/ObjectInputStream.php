@@ -9,16 +9,12 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @since   1.0
- * @version $Revision$
- */
-class ObjectInputStream extends \blaze\io\InputStream implements \blaze\io\DataInput {
 
-    /**
-     * @var blaze\io\InputStream
-     */
-    private $in;
+ * @since   1.0
+
+ */
+class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \blaze\io\DataInput {
+
     private $tokenizer;
     private $tokens = array();
     private $tokensSize = 0;
@@ -34,7 +30,7 @@ class ObjectInputStream extends \blaze\io\InputStream implements \blaze\io\DataI
      * @param int $buffsize The size of the buffer which should be used for reading.
      */
     public function __construct(\blaze\io\InputStream $stream) {
-        $this->in = $stream;
+        parent::__construct($stream);
         $this->tokenizer = new \blaze\io\SerializationTokenizer('{', '}');
     }
 
@@ -174,22 +170,6 @@ class ObjectInputStream extends \blaze\io\InputStream implements \blaze\io\DataI
         if ($this->current == null)
             throw new \blaze\io\NotActiveException();
         $this->out->read(serialize($this->current));
-    }
-
-    public function skip($n) {
-        return $this->in->skip($n);
-    }
-
-    public function reset() {
-        return $this->in->reset();
-    }
-
-    public function close() {
-        return $this->in->close();
-    }
-
-    public function isClosed() {
-        return $this->in->isClosed();
     }
 
     public function available() {

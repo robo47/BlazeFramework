@@ -7,16 +7,12 @@ use blaze\lang\Object,
  blaze\lang\String;
 
 /**
- * Description of Arrays
+ * A simple implementation of a map which uses the hashcodes of objects.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
- * @property-read int $length
  * @author  Oliver Kotzina
- * @todo    Implementing and documenting.
+ * @todo    Tuning and full documentation.
  */
 class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 

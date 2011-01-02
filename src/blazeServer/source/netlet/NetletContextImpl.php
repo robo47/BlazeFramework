@@ -10,10 +10,10 @@ use blaze\netlet\NetletContext;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
+
  */
 class NetletContextImpl extends Object implements NetletContext {
 
@@ -49,16 +49,16 @@ class NetletContextImpl extends Object implements NetletContext {
         $this->netlets->put($name, $netlet);
     }
 
-    public function addNetletMapping($URLMapping, $name){
-        $this->netletMapping->put($URLMapping, $name);
+    public function addNetletMapping($uriMapping, $name){
+        $this->netletMapping->put($uriMapping, $name);
     }
 
     public function addFilter($name, \blaze\netlet\Filter $filter){
         $this->filters->put($name, $filter);
     }
 
-    public function addFilterMapping($URLMapping, $name){
-        $this->filterMapping->put($URLMapping, $name);
+    public function addFilterMapping($uriMapping, $name){
+        $this->filterMapping->put($uriMapping, $name);
     }
     
     public function getNetletMapping() {

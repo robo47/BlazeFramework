@@ -8,7 +8,7 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     \blaze\collections\Collections
  * @since   1.0
  */
@@ -230,6 +230,7 @@ class Arrays extends \blaze\lang\Object {
     }
 
     /**
+     * Returns wether the contents of both arrays are equal or not.
      * @param array|\blaze\collections\ArrayI $a1 The array in which to look for the key
      * @param array|\blaze\collections\ArrayI $a2 The array in which to look for the key
      * @return boolean

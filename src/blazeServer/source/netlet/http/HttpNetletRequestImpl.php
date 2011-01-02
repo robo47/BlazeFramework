@@ -11,10 +11,9 @@ use blaze\lang\Object,
  * which encapsulates the Header data of the Http-Header.
  *
  * @license	http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link	http://blazeframework.sourceforge.net
+
  * @since	1.0
- * @version     $Revision$
- * @see 	blaze\lang\ClassWrapper
+
  * @author 	Christian Beikov
  */
 class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNetletRequest {
@@ -50,7 +49,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     private $remotePort;
     private $remoteUser;
     private $requestPath;
-    private $requestURL;
+    private $requestUri;
     private $scheme;
     private $userAgent;
 
@@ -293,10 +292,10 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
         return $this->requestPath;
     }
 
-    public function getRequestURL() {
-        if ($this->requestURL == null)
-            $this->requestURL = \blaze\net\URL::parseURL($this->getRequestPath());
-        return $this->requestURL;
+    public function getRequestURI() {
+        if ($this->requestUri == null)
+            $this->requestUri = \blaze\net\URI::parseURI($this->getRequestPath());
+        return $this->requestUri;
     }
 
     public function getScheme() {

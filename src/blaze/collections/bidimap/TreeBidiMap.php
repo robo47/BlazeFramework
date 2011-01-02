@@ -5,15 +5,14 @@ namespace blaze\collections\bidimap;
 use blaze\lang\Object;
 
 /**
- * Description of Queue
+ * This class is an implementation of a SortedBidiMap and keeps the elements ordered
+ * in a sorted way. The sortorder is specified through the result of a comparation
+ * between two elements with the method Comparable#compareTo() or Comparator#compare()
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation and documentation.
  */
 class TreeBidiMap extends AbstractBidiMap implements \blaze\collections\bidimap\SortedBidiMap {
 

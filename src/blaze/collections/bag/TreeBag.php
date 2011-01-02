@@ -3,35 +3,25 @@
 namespace blaze\collections\bag;
 
 /**
- * Description of List
+ * This class is an implementation of a SortedBag and keeps the elements ordered
+ * in a sorted way. The sort order is specified through the result of a comparation
+ * between two elements with the method Comparable#compareTo() or Comparator#compare()
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation maybe with TreeMap and documentation.
  */
 class TreeBag extends AbstractBag implements SortedBag {
 
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
     public function add($obj) {
         
     }
 
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
     public function addAll(\blaze\collections\Collection $obj) {
         
     }
 
-    /**
-     * Removes all elements from this collections
-     */
     public function clear() {
 
     }
@@ -48,44 +38,26 @@ class TreeBag extends AbstractBag implements SortedBag {
         
     }
 
-    /**
-     * @return boolean True if the element obj is in this collections
-     */
     public function contains($obj) {
         
     }
 
-    /**
-     * @return boolean True if every element of c is in this collections
-     */
     public function containsAll(\blaze\collections\Collection $c) {
         
     }
 
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
     public function remove($obj) {
         
     }
 
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
     public function removeAll(\blaze\collections\Collection $obj) {
         
     }
 
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
     public function retainAll(\blaze\collections\Collection $obj) {
         
     }
 
-    /**
-     * @return blaze\collections\ArrayI
-     */
     public function toArray($type = null) {
         
     }

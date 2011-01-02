@@ -13,9 +13,9 @@ use \ReflectionClass,
  * Native datatypes can only be 
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
- * @version $Revision$
+
  * @author  Christian Beikov
  */
 final class ClassWrapper extends Object implements Serializable {
@@ -126,20 +126,20 @@ final class ClassWrapper extends Object implements Serializable {
      *               or if the instantiation fails for some other reason.
      * @exception  ExceptionInInitializerError if the initialization
      *               provoked by this method fails.
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             creation of new instances of this class
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *
@@ -312,10 +312,10 @@ final class ClassWrapper extends Object implements Serializable {
      * null in such implementations if this class was loaded by the bootstrap
      * class loader.
      *
-     * <p> If a secURLty manager is present, and the caller's class loader is
+     * <p> If a security manager is present, and the caller's class loader is
      * not null and the caller's class loader is not the same as or an ancestor of
      * the class loader for the class whose class loader is requested, then
-     * this method calls the secURLty manager's <code>checkPermission</code>
+     * this method calls the security manager's <code>checkPermission</code>
      * method with a <code>RuntimePermission("getClassLoader")</code>
      * permission to ensure it's ok to access the class loader for the class.
      *
@@ -324,12 +324,12 @@ final class ClassWrapper extends Object implements Serializable {
      *
      * @return blaze\lang\ClassLoader the class loader that loaded the class or interface
      *          represented by this object.
-     * @throws SecURLtyException
-     *    if a secURLty manager exists and its
+     * @throws SecurityException
+     *    if a security manager exists and its
      *    <code>checkPermission</code> method denies
      *    access to the class loader for the class.
      * @see java.lang.ClassLoader
-     * @see SecURLtyManager#checkPermission
+     * @see SecurityManager#checkPermission
      * @see java.lang.RuntimePermission
      */
     public function getClassLoader() {
@@ -497,20 +497,20 @@ final class ClassWrapper extends Object implements Serializable {
      *
      * @return array[blaze\lang\reflect\Field] the array of <code>Field</code> objects representing the
      * public fields
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             access to the fields within this class
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *
@@ -548,20 +548,20 @@ final class ClassWrapper extends Object implements Serializable {
      *
      * @return blaze\util\ArrayI the array of <code>Method</code> objects representing the
      * public methods of this class
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             access to the methods within this class
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *
@@ -615,20 +615,20 @@ final class ClassWrapper extends Object implements Serializable {
      * @exception NoSuchFieldException if a field with the specified name is
      *              not found.
      * @exception NullPointerException if <code>name</code> is <code>null</code>
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             access to the field
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *
@@ -694,20 +694,20 @@ final class ClassWrapper extends Object implements Serializable {
      * @exception NoSuchMethodException if a matching method is not found
      *            or if the name is "&lt;init&gt;"or "&lt;clinit&gt;".
      * @exception NullPointerException if <code>name</code> is <code>null</code>
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             access to the method
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *
@@ -750,20 +750,20 @@ final class ClassWrapper extends Object implements Serializable {
      * @return blaze\lang\reflect\Method the <code>Constructor</code> object of the public constructor that
      * matches the specified <code>parameterTypes</code>
      * @exception NoSuchMethodException if a matching method is not found.
-     * @exception  SecURLtyException
-     *             If a secURLty manager, <i>s</i>, is present and any of the
+     * @exception  SecurityException
+     *             If a security manager, <i>s</i>, is present and any of the
      *             following conditions is met:
      *
      *             <ul>
      *
      *             <li> invocation of
-     *             <tt>{@link SecURLtyManager#checkMemberAccess
+     *             <tt>{@link SecurityManager#checkMemberAccess
      *             s.checkMemberAccess(this, Member.PUBLIC)}</tt> denies
      *             access to the constructor
      *
      *             <li> the caller's class loader is not the same as or an
      *             ancestor of the class loader for the current class and
-     *             invocation of <tt>{@link SecURLtyManager#checkPackageAccess
+     *             invocation of <tt>{@link SecurityManager#checkPackageAccess
      *             s.checkPackageAccess()}</tt> denies access to the package
      *             of this class
      *

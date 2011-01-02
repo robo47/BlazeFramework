@@ -5,10 +5,10 @@ namespace blaze\lang;
  * Description of String
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
+
  * @author  Christian Beikov
  */
 final class String extends Object implements NativeWrapper, \blaze\io\Serializable, Comparable {
@@ -1484,7 +1484,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * and arguments.
      *
      * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply dURLng
+     *         The {@linkplain java.util.Locale locale} to apply during
      *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
      *         is applied.
      *

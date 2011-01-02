@@ -9,7 +9,6 @@ use blaze\lang\Object;
  * provide immutability.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  * @property-read int $length
  * @author  Christian Beikov
@@ -17,20 +16,14 @@ use blaze\lang\Object;
 final class ImmutableArray extends AbstractArrayDecorator {
 
     /**
-     *
-     * @access private
+     * Nothing gets set, because it is immutable.
      */
-    public function offsetSet($offset, $value) {
-        return false;
-    }
+    public function offsetSet($offset, $value) {}
 
     /**
-     *
-     * @access private
+     * Nothing gets unset, because it is immutable.
      */
-    public function offsetUnset($offset) {
-        return false;
-    }
+    public function offsetUnset($offset) { }
 }
 
 ?>

@@ -7,10 +7,10 @@ use blaze\math\BigInteger,
  * Description of Integer
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
- * @version $Revision$
+
  * @author  Christian Beikov
  */
 abstract class Number extends Object implements NativeWrapper, Comparable{

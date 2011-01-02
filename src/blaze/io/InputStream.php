@@ -8,10 +8,10 @@ blaze\lang\StringBuffer;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @see     blaze\io\OutputStream
  * @since   1.0
- * @version $Revision$
+
  */
 abstract class InputStream extends Object implements Readable, Closeable, Markable {
 

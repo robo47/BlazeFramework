@@ -3,20 +3,26 @@
 namespace blaze\collections\collection;
 
 /**
- * Description of List
+ * This is a basic implementation of a CollectionDecorator which can be used to
+ * give a Collection a different behaviour via the same interface by decorating it.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
  */
 abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements \blaze\collections\Collection {
 
+    /**
+     * The decorated collection.
+     * @var \blaze\collections\Collection
+     */
     protected $collection;
 
+    /**
+     * Implementations must call this constructor for initialization.
+     *
+     * @param \blaze\collections\Collection $collection The decorated collection.
+     */
     public function __construct(\blaze\collections\Collection $collection) {
         $this->collection = $collection;
     }
@@ -44,6 +50,7 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
     public function count() {
         return $this->collection->count();
     }
+    public function size(){return $this->count();}
 
     public function isEmpty() {
         return $this->collection->isEmpty();
@@ -63,6 +70,10 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
 
     public function toArray($type = null) {
         return $this->collection->toArray($type);
+    }
+
+    public function getIterator(){
+        return $this->collection->getIterator();
     }
 
 }

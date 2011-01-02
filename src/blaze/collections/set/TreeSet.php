@@ -1,107 +1,135 @@
 <?php
+
 namespace blaze\collections\set;
-use blaze\lang\Object;
 
 /**
- * Description of ArrayList
+ * This class is an implementation of a SortedSet and keeps the elements ordered
+ * in a sorted way. The sortorder is specified through the result of a comparation
+ * between two elements with the method Comparable#compareTo() or Comparator#compare()
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+ * @todo    Implementation maybe with TreeMap and documentation.
  */
-class TreeSet extends AbstractSet implements SortedSet, \blaze\lang\Cloneable, \blaze\io\Serializable{
+class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 
-public function add($obj) {
-
-    }
-public function addAll(\blaze\collections\Collection $obj) {
+    public function add($obj) {
         
     }
-public function ceiling($element) {
 
-    }
-public function clear() {
+    public function addAll(\blaze\collections\Collection $obj) {
         
     }
-public function comparator() {
 
-    }
-public function contains($obj) {
+    public function ceiling($element) {
         
     }
-public function containsAll(\blaze\collections\Collection $c) {
 
-    }
-public function count() {
+    public function clear() {
         
     }
-public function descendingCollection() {
 
-    }
-public function descendingIterator() {
+    public function comparator() {
         
     }
-public function descendingSet() {
 
-    }
-public function first() {
+    public function contains($obj) {
         
     }
-public function floor($element) {
 
-    }
-public function headCollection($toElement, $inclusive = true) {
+    public function containsAll(\blaze\collections\Collection $c) {
         
     }
-public function headSet($toElement, $inclusive = true) {
 
-    }
-public function higher($element) {
+    public function count() {
         
     }
-public function isEmpty() {
 
-    }
-public function last() {
+    public function descendingCollection() {
         
     }
-public function lower($element) {
 
-    }
-public function pollFirst() {
+    public function descendingIterator() {
         
     }
-public function pollLast() {
 
-    }
-public function remove($obj) {
+    public function descendingSet() {
         
     }
-public function removeAll(\blaze\collections\Collection $obj) {
 
-    }
-public function retainAll(\blaze\collections\Collection $obj) {
+    public function first() {
         
     }
-public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
 
-    }
-public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function floor($element) {
         
     }
-public function tailCollection($fromElement, $inclusive = true) {
 
-    }
-public function tailSet($fromElement, $inclusive = true) {
+    public function headCollection($toElement, $inclusive = true) {
         
     }
-public function toArray($type = null) {
 
+    public function headSet($toElement, $inclusive = true) {
+        
     }
+
+    public function higher($element) {
+        
+    }
+
+    public function isEmpty() {
+        
+    }
+
+    public function last() {
+        
+    }
+
+    public function lower($element) {
+        
+    }
+
+    public function pollFirst() {
+        
+    }
+
+    public function pollLast() {
+        
+    }
+
+    public function remove($obj) {
+        
+    }
+
+    public function removeAll(\blaze\collections\Collection $obj) {
+        
+    }
+
+    public function retainAll(\blaze\collections\Collection $obj) {
+        
+    }
+
+    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+        
+    }
+
+    public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+        
+    }
+
+    public function tailCollection($fromElement, $inclusive = true) {
+        
+    }
+
+    public function tailSet($fromElement, $inclusive = true) {
+        
+    }
+
+    public function toArray($type = null) {
+        
+    }
+
 }
 
 ?>

@@ -1,30 +1,30 @@
 <?php
 namespace blaze\lang;
 /**
- * Description of Exception
+ * The main class for throwables. This is just to provide a framework specific base class in the case that
+ * php will use a different namespace for the SPL stuff in further versions.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
  * @since   1.0
- * @version $Revision$
  * @author  Christian Beikov
  */
 
 class Throwable extends \Exception implements Reflectable {
 
     /**
+     * Creates a new instance of a throwable object.
      *
-     * @param blaze\lang\String|string $message
-     * @param blaze\lang\Integer|int $code
-     * @param blaze\lang\Exception $previous
+     * @param blaze\lang\String|string $message The error message.
+     * @param blaze\lang\Integer|int $code The error code.
+     * @param blaze\lang\Throwable $previous The th
      */
-    public function __construct ($message = null, $code = null, $previous = null) {
+    public function __construct($message = null, $code = null, $previous = null) {
         parent::__construct(String::asNative($message),
                             Integer::asNative($code),
                             $previous);
 
-        if($previous != null && !$previous instanceof Exception)
-            new IllegalArgumentException('Previous Exception must be a subclass of Exception',0,$this);
+        if($previous != null && !$previous instanceof Throwable)
+            new IllegalArgumentException('Previous element must be a subtype of Throwable', 0, $this);
     }
 
     /**
@@ -50,7 +50,9 @@ class Throwable extends \Exception implements Reflectable {
     }
 
     /**
+     * For easy getting a ClassWrapper object like:
      *
+     * $class = Object::classWrapper();
      * @access private
      */
     public static final function __callStatic($name, $args) {

@@ -8,9 +8,9 @@ use blaze\netlet\NetletResponse;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
+
  * @since   1.0
- * @version $Revision$
+
  */
 interface HttpNetletResponse extends NetletResponse{
     /**
@@ -136,7 +136,7 @@ interface HttpNetletResponse extends NetletResponse{
     /**
      * Status code (414) indicating that the server is refusing to service the request because the Request-URL is longer than the server is willing to interpret.
      */
-    const SC_REQUEST_URL_TOO_LONG = 414;
+    const SC_REQUEST_URI_TOO_LONG = 414;
     /**
      * Status code (416) indicating that the server cannot serve the requested byte range.
      */

@@ -9,11 +9,11 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
- * @link    http://blazeframework.sourceforge.net
- * @see     Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
+
+
  * @since   1.0
- * @version $Revision$
- * @todo    Something which has to be done, implementation or so
+
+
  */
 class EntityManagerFactoryImpl extends Object implements \blaze\persistence\EntityManagerFactory {
 
@@ -28,21 +28,18 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
 
     public function __construct(\blaze\collections\map\Properties $properties, \blaze\collections\ListI $ressources) {
         $driverName = $properties->getProperty('persistence.connection.datasource.class');
+        $dsUsername = $properties->getProperty('persistence.connection.datasource.username');
+        $dsPassword = $properties->getProperty('persistence.connection.datasource.password');
+        $dsOptions = $properties->getProperty('persistence.connection.datasource.options');
 
         if ($driverName != null) {
             $dsClass = \blaze\lang\ClassWrapper::forName($driverName);
             $dsHost = $properties->getProperty('persistence.connection.datasource.host');
             $dsPort = $properties->getProperty('persistence.connection.datasource.port');
-            $dsDatabase = $properties->getProperty('persistence.connection.datasource.database');
-            $dsUsername = $properties->getProperty('persistence.connection.datasource.username');
-            $dsPassword = $properties->getProperty('persistence.connection.datasource.password');
-            $dsOptions = $properties->getProperty('persistence.connection.datasource.options');
+            $dsDatabase = $properties->getProperty('persistence.connection.datasource.database');;
             $this->ds = $dsClass->getMethod('getDataSource')->invokeArgs(null, array($dsHost, $dsPort, $dsDatabase, $dsUsername, $dsPassword, $dsOptions));
         } else {
             $dsn = $properties->getProperty('persistence.connection.datasource.url');
-            $dsUsername = $properties->getProperty('persistence.connection.datasource.username');
-            $dsPassword = $properties->getProperty('persistence.connection.datasource.password');
-            $dsOptions = $properties->getProperty('persistence.connection.datasource.options');
             $this->ds = \blaze\ds\DataSourceManager::getInstance()->getDataSource($dsn, $dsUsername, $dsPassword, $dsOptions);
         }
 
