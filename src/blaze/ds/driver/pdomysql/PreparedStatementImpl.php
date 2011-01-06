@@ -38,7 +38,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
      * @return blaze\ds\meta\ResultSetMetaData
      */
     public function getMetaData() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->rsmd == null)
             $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->stmt);
 
@@ -46,7 +46,7 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
     }
 
     public function getResultSet() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)

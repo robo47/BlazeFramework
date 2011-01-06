@@ -71,8 +71,49 @@ abstract class AbstractDatabaseMetaData extends Object implements DatabaseMetaDa
      * @var blaze\lang\String
      */
     protected $databaseProductVersion;
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    protected $databaseCharset;
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    protected $databaseCollation;
+    /**
+     *
+     * @var boolean
+     */
+    protected $initialized = false;
     
-    
+    public function dropIfExistsSchema($schemaName){
+        try{
+            $this->dropSchema($schemaName);
+        }catch(\PDOException $e){
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+    public function createOrGetSchema($name, $charset = null, $collation = null){
+        try{
+            return $this->createSchema($name, $charset, $collation);
+        }catch(\PDOException $e){
+            return $this->getSchema($name);
+        }
+    }
+    public function createOrReplaceSchema($name, $charset = null, $collation = null){
+        try{
+            $this->dropSchema($schemaName);
+            return $this->createSchema($name, $charset, $collation);
+        }catch(\PDOException $e){
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    protected function checkClosed() {
+        if ($this->con->isClosed())
+            throw new DataSourceException('Connection is already closed.');
+    }
 }
 
 ?>

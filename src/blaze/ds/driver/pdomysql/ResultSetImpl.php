@@ -51,7 +51,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\collections\ArrayI
      */
     public function getArray($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
 //        $a = new ArrayObject();
 //
@@ -64,7 +64,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\math\BigDecimal
      */
     public function getDecimal($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -83,7 +83,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\ds\type\Blob
      */
     public function getBlob($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -98,7 +98,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return boolean
      */
     public function getBoolean($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -113,7 +113,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return int
      */
     public function getByte($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -129,7 +129,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      */
     public function getClob($identifier) {
         throw new \blaze\lang\NotYetImplementedException();
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -147,7 +147,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\util\Date
      */
     public function getDate($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -163,7 +163,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\util\Date
      */
     public function getDateTime($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -179,7 +179,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return double
      */
     public function getDouble($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -194,7 +194,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return float
      */
     public function getFloat($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -209,7 +209,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return int
      */
     public function getInt($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -224,7 +224,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return long
      */
     public function getLong($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -240,7 +240,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      */
     public function getNClob($identifier) {
         throw new \blaze\lang\NotYetImplementedException();
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -259,7 +259,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\lang\String
      */
     public function getNString($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -274,7 +274,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\lang\String
      */
     public function getString($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -289,7 +289,7 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
      * @return blaze\util\Date
      */
     public function getTime($identifier) {
-        $this->checkedClosed();
+        $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)

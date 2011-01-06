@@ -7,9 +7,7 @@ require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.ph
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
 require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
 spl_autoload_register('blaze\lang\ClassLoader::autoLoad');
-require_once 'PHPUnit/Framework.php';
 
-require_once dirname(__FILE__) . '/../../../src/blaze/collections/Collections.php';
 
 /**
  * Test class for Collections.

@@ -3,7 +3,8 @@ namespace blaze\compress\output;
 use blaze\lang\Object;
 
 /**
- * Description of DeflaterOutputStream
+ * DeflaterOutputStream uses the zlib for writing contents encoded with the
+ * deflate method.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -11,10 +12,18 @@ use blaze\lang\Object;
  */
 class DeflaterOutputStream extends \blaze\io\output\FilterOutputStream {
 
+    /**
+     * Creates a wrapper around the given stream which encodes the contents
+     * @param blaze\io\InputStream $stream The wrapped stream
+     */
     public function __construct(\blaze\io\OutputStream $stream) {
         parent::__construct($stream);
     }
 
+    /**
+     * {@inheritDoc}
+     * Writes the encoded data to the underlying stream.
+     */
     public function write($str, $off = 0, $len = -1) {
         if($off !== 0){
             if($len === -1)

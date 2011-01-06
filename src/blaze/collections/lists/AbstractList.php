@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the ListI interface.
- */
 namespace blaze\collections\lists;
 use blaze\lang\Object,
  blaze\collections\Collection;

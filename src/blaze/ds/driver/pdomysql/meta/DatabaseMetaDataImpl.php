@@ -28,6 +28,9 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
         $this->driverVersion = new \blaze\lang\String('0.1');
         $this->databaseProductName = new \blaze\lang\String('MySQL');
         $this->databaseProductVersion = new \blaze\lang\String($this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION));
+        $schema = $this->getSchema($this->database);
+        $this->databaseCharset = $schema->getSchemaCharset();
+        $this->databaseCollation = $schema->getSchemaCollation();
     }
 
     /**
@@ -83,6 +86,50 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
     /**
      * @return blaze\lang\String
      */
+    public function getDatabaseCharset(){
+        return $this->databaseCharset;
+    }
+    /**
+     * @return blaze\lang\String
+     */
+    public function getDatabaseCollation(){
+        return $this->databaseCollation;
+    }
+
+    /**
+     * @return blaze\lang\String
+     */
+    public function setDatabaseCharset($databaseCharset){
+        $this->checkClosed();
+        $query = 'ALTER DATABASE '.$this->database.' CHARACTER SET '.$databaseCharset;
+
+        try{
+            $this->pdo->query($query);
+            $this->databaseCharset = $databaseCharset;
+            return true;
+        }catch(\PDOException $e){
+            return false;
+        }
+    }
+    /**
+     * @return blaze\lang\String
+     */
+    public function setDatabaseCollation($databaseCollation){
+        $this->checkClosed();
+        $query = 'ALTER DATABASE '.$this->database.' COLLATE '.$databaseCollation;
+
+        try{
+            $this->pdo->query($query);
+            $this->databaseCollation = $databaseCollation;
+            return true;
+        }catch(\PDOException $e){
+            return false;
+        }
+    }
+
+    /**
+     * @return blaze\lang\String
+     */
     public function getDriverName(){
         return $this->driverName;
     }
@@ -97,6 +144,7 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
      * @return blaze\util\ListI[blaze\ds\meta\SchemaMetaData]
      */
     public function getSchemas(){
+        $this->checkClosed();
         $stmt = null;
         $rs = null;
         $schemas = array();
@@ -110,7 +158,9 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
                 $schemas[] = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
                                                            $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
                                                            $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\blaze\ds\DataSourceException $e){}
+        }catch(\PDOException $e){
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if($stmt != null)
             $stmt->close();
@@ -123,6 +173,7 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
      * @return blaze\ds\meta\SchemaMetaData
      */
     public function getSchema($schemaName){
+        $this->checkClosed();
         $stmt = null;
         $rs = null;
         $schema = null;
@@ -137,7 +188,9 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
                 $schema = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
                                                          $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
                                                          $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\blaze\ds\DataSourceException $e){}
+        }catch(\PDOException $e){
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if($stmt != null)
             $stmt->close();
@@ -147,23 +200,32 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
         return $schema;
     }
 
-    public function addSchema(\blaze\ds\meta\SchemaMetaData $schema) {
+    public function addSchema(\blaze\ds\meta\SchemaMetaData $schema, $newName = null) {
+        $this->checkClosed();
+        $dbSchema = $this->getSchema($this->database);
 
+        foreach($schema->getTables() as $table)
+            $dbSchema->addTable($table);
+        foreach($schema->getViews() as $view)
+            $dbSchema->addView($view);
     }
 
     public function createSchema($name, $charset = null, $collation = null) {
-
+        return $this->getSchema($this->database);
     }
 
     public function drop() {
-
+        $this->checkClosed();
+        $this->con->dropDatabase($this->database);
     }
 
     public function dropSchema($schemaName) {
-
+        $this->checkClosed();
+        $this->con->dropDatabase($this->database);
     }
 
     public function setDatabaseName($name) {
+        throw new OperationNotSupportedException('This can cause data loss because of the MySQL implementation, you can use the addDatabase() method to copy a database.');
 
     }
 

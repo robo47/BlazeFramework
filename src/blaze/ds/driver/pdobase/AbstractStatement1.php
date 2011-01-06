@@ -60,6 +60,11 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
      * @var int
      */
     protected $timeout = 0;
+    /**
+     *
+     * @var int
+     */
+    protected $updateCount = -1;
 
     public function __construct(Connection $con, PDO $pdo) {
         $this->con = $con;
@@ -67,17 +72,17 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
     }
 
     public function addBatch($sql) {
-        $this->checkclosed();
+        $this->checkClosed();
         $this->batch .= $sql;
     }
 
     public function clearBatch() {
-        $this->checkclosed();
+        $this->checkClosed();
         $this->batch = '';
     }
 
     public function close() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->stmt != null)
             $this->stmt->closeCursor();
         $this->reset();
@@ -85,7 +90,8 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
     }
 
     public function executeBatch() {
-        $this->checkclosed();
+        $this->checkClosed();
+        $results = array();
         try {
             $this->reset();
             $autoCom = $this->con->getAutoCommit();
@@ -97,7 +103,12 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
 
             foreach ($queries as $query) {
                 if (strlen($query) > 0) {
-                    $results[] = $this->pdo->query($query);
+                    $res = $this->pdo->query($query);
+
+                    if ($res !== false && $res->columnCount() == 0)
+                        $results[] = $res->rowCount();
+                    else
+                        throw new \blaze\ds\BatchUpdateException('Query returned result: ' . $query);
                 }
             }
 
@@ -106,27 +117,25 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         } catch (\PDOException $e) {
             $this->con->setAutoCommit($autoCom);
             $this->con->rollback();
-            throw new DataSourceException($e->getMessage(), $e->getCode());
+            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
 
         $this->batch = '';
+        return $results;
     }
 
     public function getConnection() {
-        $this->checkclosed();
+        $this->checkClosed();
         return $this->con;
     }
 
     public function getUpdateCount() {
-        $this->checkclosed();
-
-        if ($this->updateCount == 0 && $this->stmt != null)
-            return $this->stmt->rowCount();
+        $this->checkClosed();
         return $this->updateCount;
     }
 
     public function getWarnings() {
-        $this->checkclosed();
+        $this->checkClosed();
         return $this->warnings;
     }
 
@@ -148,13 +157,14 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         $this->stmt = null;
         $this->rsmd = null;
         $this->resultSet = null;
-        $this->updateCount = 0;
+        $this->updateCount = -1;
     }
 
-    protected function checkclosed() {
+    protected function checkClosed() {
         if ($this->isClosed())
-            throw new DataSourceException('Statement is already closed.');
+            throw new \blaze\ds\DataSourceException('Statement is already closed.');
     }
 
 }
+
 ?>

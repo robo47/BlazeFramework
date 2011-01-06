@@ -46,7 +46,7 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
     }
 
      public function execute() {
-        $this->checkclosed();
+        $this->checkClosed();
 
         try {
             //$this->reset();

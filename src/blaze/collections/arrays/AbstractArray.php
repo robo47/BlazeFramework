@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the ArrayI interface.
- */
 namespace blaze\collections\arrays;
 
 use blaze\lang\Object;

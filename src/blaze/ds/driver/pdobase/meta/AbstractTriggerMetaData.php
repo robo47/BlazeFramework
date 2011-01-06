@@ -47,6 +47,11 @@ abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData
      * @return blaze\ds\meta\TableMetaData
      */
     protected $table;
+
+    protected function checkClosed() {
+        if ($this->table->getSchema()->getDatabaseMetaData()->getConnection()->isClosed())
+            throw new DataSourceException('Connection is already closed.');
+    }
 }
 
 ?>

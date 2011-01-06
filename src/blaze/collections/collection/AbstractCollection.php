@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the Collection interface.
- */
 namespace blaze\collections\collection;
 use blaze\lang\Object;
 

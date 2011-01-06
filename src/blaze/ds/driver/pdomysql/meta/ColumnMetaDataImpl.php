@@ -17,9 +17,26 @@ use blaze\ds\driver\pdobase\meta\AbstractColumnMetaData;
  */
 class ColumnMetaDataImpl extends AbstractColumnMetaData {
 
-    public function __construct(\blaze\ds\meta\TableMetaData $table, $name) {
+    public function __construct(\blaze\ds\meta\TableMetaData $table = null, $columnName = null, $columnType = null, $columnLength = null, $columnPrecision = null, $columnDefault = null, $columnComment = null, $nullable = true, $primaryKey = false, $uniqueKey = false, $initialized = true) {
         $this->table = $table;
-        $this->name = \blaze\lang\String::asWrapper($name);
+        $this->name = \blaze\lang\String::asWrapper($columnName);
+        if($initialized)
+            $this->getColumnInfo();
+        else{
+            $this->classType = $columnType;
+            $this->nativeType = $this->getNativeName($columnType);
+            $this->length = $columnLength;
+            $this->precision = $columnPrecision;
+            $this->default = $columnDefault;
+            $this->comment = $columnComment;
+            $this->nullable = $nullable;
+            $this->primaryKey = $primaryKey;
+            $this->uniqueKey = $uniqueKey;
+        }
+    }
+
+    public function initialize(\blaze\ds\meta\TableMetaData $table){
+        $this->table = $table;
         $this->getColumnInfo();
     }
 
@@ -58,6 +75,32 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         }
         return new \blaze\lang\String($className);
     }
+    
+    /**
+     * Map the class names to database specific type names.
+     *
+     * @return string
+     */
+    private function getNativeName($className) {
+        switch (\blaze\lang\String::asNative($className)) {
+            case 'blaze\\math\\BigInteger':
+                return 'bigint';
+            case 'double':
+                return 'double';
+            case 'float':
+                return 'float';
+            case 'blaze\\math\\BigDecimal':
+                return 'decimal';
+            case 'int':
+                return 'int';
+            case 'blaze\\util\\Date':
+                return 'date';
+            case 'blaze\\ds\\type\\Blob':
+                return 'blob';
+            case 'blaze\\lang\\String':
+                return 'varchar';
+        }
+    }
 
     /**
      * Map the database specific type names to class names.
@@ -77,7 +120,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $rs->next();
 
         $this->default = $rs->getString('COLUMN_DEFAULT');
-        $this->nullable = $rs->getString('IS_NULLABLE')->compare('YES') == 0;
+        $this->nullable = \blaze\lang\String::compare($rs->getString('IS_NULLABLE'), 'YES') == 0;
         $this->nativeType = $rs->getString('DATA_TYPE');
         $this->length = $rs->getInt('NUMERIC_SCALE');
         $this->classType = $this->getClassName($this->nativeType, $this->length);
@@ -121,6 +164,34 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         }
         $rs->close();
         $stmt->close();
+    }
+
+    public function getComposedNativeType(){
+        $type = $this->getNativeType();
+
+        switch (\blaze\lang\String::asNative($type)) {
+            case 'bigint':
+            case 'tinyint':
+            case 'smallint':
+            case 'mediumint':
+            case 'int':
+                $type .= '('.$this->getLength().')'.$this->isSigned() ? '' : 'UNSIGNED';
+                break;
+            case 'char':
+            case 'varchar':
+            case 'binary':
+                $type .= '('.$this->getLength().')';
+                break;
+            case 'real':
+            case 'double':
+            case 'float':
+            case 'numeric':
+            case 'decimal':
+                $type .= '('.$this->getLength().','.$this->getPrecision().')';
+                break;
+        }
+
+        return \blaze\lang\String::asWrapper($type);
     }
 
     public function setName($name) {

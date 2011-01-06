@@ -33,7 +33,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
      * @return boolean True when the SQL-Statement returned a ResultSet, false if the updateCount was returned or there are no results.
      */
     public function execute() {
-        $this->checkclosed();
+        $this->checkClosed();
 
         try {
             //$this->reset();
@@ -55,10 +55,9 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
      * @return blaze\ds\ResultSet
      */
     public function executeQuery() {
-        $this->checkclosed();
+        $this->checkClosed();
 
         try {
-            //$this->reset();
             if ($this->stmt->execute() === false){
                 throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
             }
@@ -66,7 +65,8 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
             if ($this->stmt->columnCount() === 0)
                 throw new DataSourceException('Statement has no resultset.');
 
-            return $this->getResultSet();
+            $this->resultSet = new \blaze\ds\driver\pdomysql\ResultSetImpl($this, $this->stmt);
+            return $this->resultSet;
         } catch (\PDOException $e) {
             throw new DataSourceException($e->getMessage(), $e->getCode());
         }
@@ -77,7 +77,7 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
      * @return int The count of the updated rows or 0 if there was no return.
      */
     public function executeUpdate() {
-        $this->checkclosed();
+        $this->checkClosed();
 
         try {
             //$this->reset();

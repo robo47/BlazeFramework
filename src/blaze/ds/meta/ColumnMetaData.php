@@ -30,6 +30,12 @@ interface ColumnMetaData {
      * @return blaze\lang\String
      */
     public function getNativeType();
+    /**
+     * Represents the composed type with length, precision and signed.
+     * 
+     * @return blaze\lang\String
+     */
+    public function getComposedNativeType();
     public function setNativeType($nativeType);
     /**
      * PHP datatypes of the columns

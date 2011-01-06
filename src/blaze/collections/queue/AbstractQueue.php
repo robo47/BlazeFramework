@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the Queue interface.
- */
 namespace blaze\collections\queue;
 use blaze\lang\Object;
 

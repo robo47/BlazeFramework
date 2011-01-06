@@ -26,7 +26,7 @@ class StatementImpl extends AbstractStatement {
     }
 
     public function executeQuery($sql) {
-        $this->checkclosed();
+        $this->checkClosed();
         try {
             $this->reset();
             $this->stmt = $this->pdo->query($sql);
@@ -42,14 +42,14 @@ class StatementImpl extends AbstractStatement {
      * @return blaze\ds\meta\ResultSetMetaData
      */
     public function getMetaData() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->rsmd == null)
             $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->stmt);
         return $this->rsmd;
     }
 
     public function getResultSet() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)

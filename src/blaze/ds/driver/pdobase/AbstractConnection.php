@@ -61,6 +61,9 @@ abstract class AbstractConnection extends Object implements Connection {
     protected $options;
 
     public function __construct($driver, $host, $port, $database, $user, $password, $options) {
+        if(!is_array($options))
+            $options = array();
+        $options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
         $this->driver = $driver;
         $this->host = $host;
         $this->port = $port;
@@ -129,6 +132,25 @@ abstract class AbstractConnection extends Object implements Connection {
     public function setAutoCommit($autoCommit) {
         $this->checkClosed();
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
+    }
+
+    public function createOrGetDatabase($databaseName, $defaultCharset = null, $defaultCollation = null){
+        try{
+            return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
+        }catch(\blaze\ds\DataSourceException $e){
+            return $this->getDatabase($databaseName);
+        }
+    }
+
+    public function dropDatabaseIfExists($databaseName){
+        try{
+            $this->dropDatabase($databaseName);
+        }catch(\blaze\ds\DataSourceException $e){}
+    }
+
+    public function createOrReplaceDatabase($databaseName, $defaultCharset = null, $defaultCollation = null){
+        $this->dropDatabaseIfExists($databaseName);
+        return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
     }
 
     protected function checkClosed() {

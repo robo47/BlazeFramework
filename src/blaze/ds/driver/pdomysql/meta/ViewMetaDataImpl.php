@@ -15,11 +15,6 @@ use blaze\ds\driver\pdobase\meta\AbstractViewMetaData;
  */
 class ViewMetaDataImpl extends AbstractViewMetaData {
 
-    private $schema;
-    private $viewName;
-    private $viewDefinition;
-    private $updateable;
-
     public function __construct(\blaze\ds\meta\SchemaMetaData $schemaMetaData, $viewName, $viewDefinition, $updateable){
         $this->schema = $schemaMetaData;
         $this->viewName = $viewName;
@@ -38,11 +33,23 @@ class ViewMetaDataImpl extends AbstractViewMetaData {
      public function getViewName(){
          return $this->viewName;
      }
+     public function setViewName($viewName){
+         $this->checkClosed();
+         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
+         $stmt->executeQuery('RENAME TABLE '.$this->viewName.' TO '.$viewName);
+         $this->viewName = $viewName;
+     }
     /**
      * @return blaze\lang\String
      */
      public function getViewDefinition(){
          return $this->viewDefinition;
+     }
+     public function  setViewDefinition($viewDefinition) {
+         $this->checkClosed();
+        $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
+         $stmt->executeQuery('ALTER VIEW '.$this->viewName.' AS '.$viewDefinition);
+         $this->viewDefinition = $viewDefinition;
      }
     /**
      * @return boolean
@@ -52,7 +59,8 @@ class ViewMetaDataImpl extends AbstractViewMetaData {
      }
 
      public function drop() {
-
+        $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
+         $stmt->executeQuery('DROP VIEW '.$this->viewName);
      }
 
 }

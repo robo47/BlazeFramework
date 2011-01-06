@@ -36,6 +36,10 @@ abstract class AbstractTableMetaData extends Object implements TableMetaData{
      */
     protected $schema;
 
+    protected function checkClosed() {
+        if ($this->schema->getDatabaseMetaData()->getConnection()->isClosed())
+            throw new DataSourceException('Connection is already closed.');
+    }
 }
 
 ?>

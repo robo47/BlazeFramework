@@ -31,7 +31,16 @@ abstract class AbstractSchemaMetaData extends Object implements SchemaMetaData {
      * @return blaze\lang\String
      */
     protected $schemaCollation;
+    /**
+     *
+     * @var boolean
+     */
+    protected $initialized = false;
 
+    protected function checkClosed() {
+        if ($this->databaseMetaData->getConnection()->isClosed())
+            throw new DataSourceException('Connection is already closed.');
+    }
 }
 
 ?>

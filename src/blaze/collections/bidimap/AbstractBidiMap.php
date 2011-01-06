@@ -1,8 +1,4 @@
 <?php
-
-/**
- * This package contains implementations of the BidiMap interface.
- */
 namespace blaze\collections\bidimap;
 
 /**

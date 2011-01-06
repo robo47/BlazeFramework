@@ -160,40 +160,59 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
         return $view;
     }
 
-    public function addTable(\blaze\ds\meta\TableMetaData $table) {
+    public function addTable(\blaze\ds\meta\TableMetaData $table, $newName = null) {
+        $this->checkClosed();
+        $table->initialize($this, $newName);
+        return $table;
+    }
 
+    public function addView(\blaze\ds\meta\ViewMetaData $view, $newName = null) {
+        $this->checkClosed();
+        if($newName === null)
+            $view = $this->createView($view->getViewName(), $view->getViewDefinition());
+        else
+            $view = $this->createView($newName, $view->getViewDefinition());
+
+        return $view;
     }
 
     public function createTable($tableName, $charset = null, $collation = null, $comment = null) {
-
+        $this->checkClosed();
+        return new TableMetaDataImpl(null, $tableName, $comment, $charset, $collation, false);
     }
 
     public function createView($viewName, $viewDefinition) {
+        $this->checkClosed();
+        $query = 'CREATE VIEW '.$viewName.' AS '.$viewDefinition;
 
+        $this->databaseMetaData->getConnection()->createStatement()->executeQuery($query);
+        return $this->getView($viewName);
     }
 
     public function drop() {
-
+        $this->databaseMetaData->drop();
     }
 
     public function dropTable($tableName) {
-
+        $this->checkClosed();
+        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE '.$tableName);
     }
 
     public function dropView($viewName) {
-
+        $this->checkClosed();
+        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE '.$viewName);
     }
 
     public function setSchemaCharset($schemaCharset) {
-
+        $this->databaseMetaData->setDatabaseCharset($schemaCharset);
     }
 
     public function setSchemaCollation($schemaCollation) {
-
+        $this->databaseMetaData->setDatabaseCollation($schemaCollation);
     }
 
     public function setSchemaName($schemaName) {
-
+        $this->databaseMetaData->setDatabaseName($schemaName);
     }
 
 }

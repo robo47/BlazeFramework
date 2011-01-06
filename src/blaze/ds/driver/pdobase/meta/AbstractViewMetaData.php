@@ -15,6 +15,31 @@ use blaze\lang\Object,
 
  */
 abstract class AbstractViewMetaData extends Object implements ViewMetaData {
+
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    protected $viewName;
+    /**
+     *
+     * @var blaze\lang\String
+     */
+    protected $viewDefinition;
+    /**
+     *
+     * @var boolean
+     */
+    protected $updateable;
+    /**
+     * @return blaze\ds\meta\SchemaMetaData
+     */
+    protected $schema;
+    
+    protected function checkClosed() {
+        if ($this->schema->getDatabaseMetaData()->getConnection()->isClosed())
+            throw new DataSourceException('Connection is already closed.');
+    }
 }
 
 ?>

@@ -1,7 +1,5 @@
 <?php
-/**
- * This package contains a standard way to use caching in applications.
- */
+
 namespace blaze\cache;
 
 /**

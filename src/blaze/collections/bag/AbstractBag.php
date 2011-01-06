@@ -1,8 +1,4 @@
 <?php
-
-/**
- * This package contains implementations of the Bag interface.
- */
 namespace blaze\collections\bag;
 
 /**

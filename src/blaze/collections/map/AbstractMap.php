@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the Map interface.
- */
 namespace blaze\collections\map;
 use blaze\lang\Object;
 

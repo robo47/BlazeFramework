@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains classes for generic data storage.
- */
 namespace blaze\collections;
 
 use blaze\collections\Collection;

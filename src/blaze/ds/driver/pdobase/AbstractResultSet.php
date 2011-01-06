@@ -60,7 +60,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return boolean
      */
     public function next() {
-        $this->checkedClosed();
+        $this->checkClosed();
 
         $this->actRow = $this->pdoStmt->fetch(\PDO::FETCH_ASSOC);
         $this->actRowIndex = is_array($this->actRow) ? array_values($this->actRow) : $this->actRow;
@@ -96,7 +96,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return blaze\ds\DataSourceWarning
      */
     public function getWarnings() {
-        $this->checkedClosed();
+        $this->checkClosed();
         return $this->warnings;
     }
 
@@ -105,7 +105,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return blaze\ds\Statement
      */
     public function getStatement() {
-        $this->checkedClosed();
+        $this->checkClosed();
         return $this->stmt;
     }
 
@@ -114,7 +114,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return int The actual row number
      */
     public function getRow() {
-        $this->checkedClosed();
+        $this->checkClosed();
         return $this->rowNumber;
     }
 
@@ -123,7 +123,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return boolean True if the cursor was moved to the new position and false if not
      */
     public function absolute($number) {
-        $this->checkedClosed();
+        $this->checkClosed();
         if ($number < $this->rowNumber) {
             return false;
         } else if ($number == $this->rowNumber) {
@@ -141,7 +141,7 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      * @return boolean True if the cursor was moved to the new position and false if not
      */
     public function relative($count) {
-        $this->checkedClosed();
+        $this->checkClosed();
         if ($number < 0) {
             return false;
         } else if ($number == 0) {
@@ -175,9 +175,9 @@ abstract class AbstractResultSet extends Object implements ResultSet {
         }
     }
 
-    protected function checkedClosed() {
+    protected function checkClosed() {
         if ($this->isClosed())
-            throw new \blaze\ds\DataSourceException('Statement is already closed.');
+            throw new \blaze\ds\DataSourceException('ResultSet is already closed.');
     }
 
 }

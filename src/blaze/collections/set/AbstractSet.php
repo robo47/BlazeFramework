@@ -1,7 +1,4 @@
 <?php
-/**
- * This package contains implementations of the Set interface.
- */
 namespace blaze\collections\set;
 use blaze\lang\Object;
 

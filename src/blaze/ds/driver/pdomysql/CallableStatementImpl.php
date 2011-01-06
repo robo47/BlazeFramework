@@ -49,7 +49,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     }
     
     public function getMetaData() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->rsmd == null)
             $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->stmt);
 
@@ -57,7 +57,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     }
 
     public function getResultSet() {
-        $this->checkclosed();
+        $this->checkClosed();
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)
@@ -68,6 +68,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
    
 
     protected function get($identifier){
+        $this->checkClosed();
         $stm =$this->con->prepareStatement('Select @'.$identifier);
         $rs = $stm->executeQuery();
         
@@ -77,7 +78,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     }
 
     public function getArray($identifier) {
-        $this->checkedClosed();
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
 //        $a = new ArrayObject();
 //
@@ -90,7 +90,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\math\BigDecimal
      */
     public function getDecimal($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -109,7 +108,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\ds\type\Blob
      */
     public function getBlob($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -124,7 +122,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return boolean
      */
     public function getBoolean($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -139,7 +136,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return int
      */
     public function getByte($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -155,7 +151,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      */
     public function getClob($identifier) {
         throw new \blaze\lang\NotYetImplementedException();
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -173,7 +168,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\util\Date
      */
     public function getDate($identifier) {
-        //$this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -188,7 +182,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\util\Date
      */
     public function getDateTime($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -204,7 +197,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return double
      */
     public function getDouble($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -219,7 +211,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return float
      */
     public function getFloat($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -234,7 +225,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return int
      */
     public function getInt($identifier) {
-        //$this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -249,7 +239,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return long
      */
     public function getLong($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -265,7 +254,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      */
     public function getNClob($identifier) {
         throw new \blaze\lang\NotYetImplementedException();
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -284,7 +272,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\lang\String
      */
     public function getNString($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -299,7 +286,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\lang\String
      */
     public function getString($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
@@ -314,7 +300,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
      * @return blaze\util\Date
      */
     public function getTime($identifier) {
-        $this->checkedClosed();
         $val = $this->get($identifier);
 
         if ($val == null)

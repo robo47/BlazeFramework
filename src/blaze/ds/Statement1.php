@@ -32,7 +32,7 @@ interface Statement1 {
     public function close();
 
     /**
-     * @return array An array of updateCounts
+     * @return array[int] An array of updateCounts
      */
     public function executeBatch();
 

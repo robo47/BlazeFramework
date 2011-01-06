@@ -1,8 +1,6 @@
 <?php
 namespace blaze\lang;
 
-require_once 'PHPUnit/Framework.php';
-
 require_once dirname(__FILE__).'/../../../src/blaze/lang/Object.php';
 require_once dirname(__FILE__).'/../../../src/blaze/lang/ClassLoader.php';
 spl_autoload_register('blaze\lang\ClassLoader::autoLoad');
