@@ -58,9 +58,9 @@ class DataSourceImpl extends Object implements DataSource {
      *
      * @var int
      */
-    private $loginTimeout;
+    private $loginTimeout = -1;
 
-    private function __construct($driver, $host, $port, $database, $user, $password, $options) {
+    public function __construct($driver, $host, $port, $database, $user, $password, \blaze\collections\map\Properties $options = null) {
         $this->driver = $driver;
         $this->host = $host;
         $this->port = $port;
@@ -68,28 +68,24 @@ class DataSourceImpl extends Object implements DataSource {
         $this->user = $user;
         $this->password = $password;
         $this->options = $options;
+
+        if($this->options === null)
+                $this->options = new \blaze\collections\map\Properties();
     }
 
-    public function getConnection($user = null, $password = null, $options = null) {
-        if ($user !== null)
-            $this->user = $user;
-        if ($password !== null)
-            $this->password = $password;
+    public function getConnection($user = null, $password = null, \blaze\collections\map\Properties $options = null) {
+        if ($user === null)
+            $user = $this->user;
+        if ($password === null)
+            $password = $this->password;
         if ($options !== null)
-            $this->options = array_merge($this->options, $options);
+            $options->putAll($this->options);
+        else
+            $options = new \blaze\collections\map\Properties($this->options);
+        if($this->loginTimeout !== -1)
+            $options->put('timeout', $this->loginTimeout);
 
-        return new ConnectionImpl($this->driver, $this->host, $this->port, $this->database, $this->user, $this->password, $this->options);
-    }
-
-    public static function getDataSource($host, $port, $database, $user = null, $password = null, $options = null) {
-        $driver = 'mysql';
-
-        if (!in_array($driver, \PDO::getAvailableDrivers()))
-            throw new \blaze\lang\IllegalArgumentException('Driver ' . $dirver . ' does not exist.');
-        if ($port == null || $port < 1 || $port > 65536)
-            $port = 3306;
-
-        return new DataSourceImpl($driver, $host, $port, $database, $user, $password, $options);
+        return new ConnectionImpl($this->driver, $this->host, $this->port, $this->database, $user, $password, $options);
     }
 
     public function getLoginTimeout() {

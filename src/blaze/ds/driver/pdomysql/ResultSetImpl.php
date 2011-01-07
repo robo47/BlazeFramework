@@ -8,6 +8,7 @@ use blaze\lang\Object,
  blaze\lang\Long,
  blaze\lang\Float,
  blaze\lang\Byte,
+ blaze\lang\Short,
  blaze\lang\Integer,
  blaze\lang\Double,
  blaze\math\BigDecimal,
@@ -45,11 +46,13 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         parent::__construct($stmt, $pdoStmt);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\collections\ArrayI
-     */
+    public function getMetaData() {
+        $this->checkClosed();
+        if ($this->rsmd == null)
+            $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this->stmt, $this->pdoStmt);
+        return $this->rsmd;
+    }
+
     public function getArray($identifier) {
         $this->checkClosed();
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
@@ -58,11 +61,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 //        return $a;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\math\BigDecimal
-     */
     public function getDecimal($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -77,26 +75,19 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return $d;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\type\Blob
-     */
     public function getBlob($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
 
-        if ($val == null)
+        if ($val === null)
             return null;
 
-        return new BlobImpl(new \blaze\io\input\ByteArrayInputStream($val, $this->stmt));
+        if(!is_resource($val))
+            return new BlobImpl(new \blaze\io\input\ByteArrayInputStream($val));
+        else
+            return new BlobImpl(new \blaze\io\input\FilterNativeInputStream($val));
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return boolean
-     */
     public function getBoolean($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -107,11 +98,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Integer::asNative($val) === 1;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return int
-     */
     public function getByte($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -122,30 +108,29 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Byte::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\Clob
-     */
-    public function getClob($identifier) {
-        throw new \blaze\lang\NotYetImplementedException();
+    public function getShort($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
 
         if ($val == null)
             return null;
 
-        var_dump($val);
-        $c = new ClobImpl();
-
-        return $c;
+        return Short::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
+    public function getClob($identifier) {
+        $this->checkClosed();
+        $val = $this->get($identifier);
+
+        if ($val === null)
+            return null;
+
+        if(!is_resource($val))
+            return new ClobImpl(new \blaze\io\input\ByteArrayInputStream($val));
+        else
+            return new ClobImpl(new \blaze\io\input\FilterNativeInputStream($val));
+    }
+
     public function getDate($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -157,11 +142,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return self::$dateFormatter->parseDate($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getDateTime($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -173,11 +153,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return self::$dateTimeFormatter->parseDate($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return double
-     */
     public function getDouble($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -188,11 +163,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Double::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return float
-     */
     public function getFloat($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -203,11 +173,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Float::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return int
-     */
     public function getInt($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -218,11 +183,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Integer::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return long
-     */
     public function getLong($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -233,46 +193,19 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return Long::asNative($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\type\NClob
-     */
     public function getNClob($identifier) {
-        throw new \blaze\lang\NotYetImplementedException();
         $this->checkClosed();
         $val = $this->get($identifier);
 
-        if ($val == null)
+        if ($val === null)
             return null;
 
-        var_dump($val);
-        $n = new NClobImpl();
-
-        return $n;
+        if(!is_resource($val))
+            return new NClobImpl(new \blaze\io\input\ByteArrayInputStream($val));
+        else
+            return new NClobImpl(new \blaze\io\input\FilterNativeInputStream($val));
     }
 
-    /**
-     * Varchar2
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\lang\String
-     */
-    public function getNString($identifier) {
-        $this->checkClosed();
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return String::asWrapper($val);
-    }
-
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\lang\String
-     */
     public function getString($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -283,11 +216,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return String::asWrapper($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getTime($identifier) {
         $this->checkClosed();
         $val = $this->get($identifier);
@@ -298,11 +226,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         return self::$timeFormatter->parseDate($val);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getTimestamp($identifier) {
         return $this->getDateTime($identifier);
     }

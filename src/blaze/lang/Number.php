@@ -14,6 +14,7 @@ use blaze\math\BigInteger,
  * @since   1.0
 
  * @author  Christian Beikov
+ * @todo    Extend, http://commons.apache.org/lang/api-release/org/apache/commons/lang/math/NumberUtils.html
  */
 abstract class Number extends Object implements NativeWrapper, Comparable {
 

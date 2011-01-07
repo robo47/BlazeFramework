@@ -7,10 +7,11 @@ namespace blaze\lang;
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
 
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
 
  * @author  Christian Beikov
+ * @todo    Extend, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/StringUtils.html
+ * @todo    Extend, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/WordUtils.html
  */
 final class String extends Object implements NativeWrapper, \blaze\io\Serializable, Comparable {
 

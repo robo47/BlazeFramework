@@ -92,7 +92,7 @@ class Object implements Reflectable {
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function toString() {
-        return $this->getClass()->getName() . "@" . dechex(($this->hashCode()));
+        return String::asWrapper($this->getClass()->getName() . "@" . dechex(($this->hashCode())));
     }
 
     /**

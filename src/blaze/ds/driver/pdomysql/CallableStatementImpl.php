@@ -27,11 +27,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class CallableStatementImpl extends AbstractCallableStatement implements \blaze\lang\StaticInitialization {
 
@@ -53,7 +49,6 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         $this->checkClosed();
         if ($this->rsmd == null)
             $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->stmt);
-
         return $this->rsmd;
     }
 
@@ -71,460 +66,194 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         $stm = $this->con->prepareStatement('Select @' . $identifier);
         $rs = $stm->executeQuery();
 
-        while ($rs->next()) {
-            return ($rs->getString(0));
-        }
+        return $rs;
     }
 
     public function getArray($identifier) {
-        throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
-//        $a = new ArrayObject();
-//
-//        return $a;
+        return $this->get($identifier)->getArray(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\math\BigDecimal
-     */
     public function getDecimal($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        $pair = explode(',', $val);
-
-        $d = new BigDecimal($val);
-
-        return $d;
+        return $this->get($identifier)->getDecimal(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\type\Blob
-     */
     public function getBlob($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return new BlobImpl(new \blaze\io\input\ByteArrayInputStream($val, $this->stmt));
+        return $this->get($identifier)->getBlob(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return boolean
-     */
     public function getBoolean($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Integer::asNative($val) === 1;
+        return $this->get($identifier)->getBoolean(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return int
-     */
     public function getByte($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Byte::asNative($val);
+        return $this->get($identifier)->getByte(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\Clob
-     */
     public function getClob($identifier) {
-        throw new \blaze\lang\NotYetImplementedException();
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        var_dump($val);
-        $c = new ClobImpl();
-
-        return $c;
+        return $this->get($identifier)->getClob(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getDate($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return self::$dateFormatter->parseDate($val);
+        return $this->get($identifier)->getDate(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getDateTime($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-
-        return self::$dateTimeFormatter->parseDate($val);
+        return $this->get($identifier)->getDateTime(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return double
-     */
     public function getDouble($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Double::asNative($val);
+        return $this->get($identifier)->getDouble(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return float
-     */
     public function getFloat($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Float::asNative($val);
+        return $this->get($identifier)->getFloat(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return int
-     */
     public function getInt($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Integer::asNative($val);
+        return $this->get($identifier)->getInt(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return long
-     */
     public function getLong($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return Long::asNative($val);
+        return $this->get($identifier)->getLong(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\ds\type\NClob
-     */
     public function getNClob($identifier) {
-        throw new \blaze\lang\NotYetImplementedException();
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        var_dump($val);
-        $n = new NClobImpl();
-
-        return $n;
+        return $this->get($identifier)->getNClob(0);
     }
 
-    /**
-     * Varchar2
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\lang\String
-     */
-    public function getNString($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return String::asWrapper($val);
-    }
-
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\lang\String
-     */
     public function getString($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return String::asWrapper($val);
+        return $this->get($identifier)->getString(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getTime($identifier) {
-        $val = $this->get($identifier);
-
-        if ($val == null)
-            return null;
-
-        return self::$timeFormatter->parseDate($val);
+        return $this->get($identifier)->getTime(0);
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @return blaze\util\Date
-     */
     public function getTimestamp($identifier) {
-        return $this->getDateTime($identifier);
+        return $this->get($identifier)->getTimestamp(0);
     }
 
-    public function wasNull() {
-        
-    }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\collections\ArrayI $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setArray($identifier, \blaze\collections\ArrayI $value) {
         throw new \blaze\lang\UnsupportedOperationException('There is no array datatype in mysql.');
         //return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\math\BigDecimal $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setDecimal($identifier, \blaze\math\BigDecimal $value) {
         $this->set($identifier, $value->toString(), \PDO::PARAM_STR);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\ds\type\Blob $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setBlob($identifier, \blaze\ds\type\Blob $value) {
-        $buffer = new \blaze\lang\StringBuffer();
-        $value->getInputStream()->read($buffer);
-        $this->set($identifier, $buffer->toString(), \PDO::PARAM_LOB);
+        $stream = $value->getInputStream();
+
+        if($stream instanceof type\NativePipedInputStream){
+            $native = $stream->getNativeStream();
+            fseek($native, 0, SEEK_SET);
+            $this->set($identifier, $native, \PDO::PARAM_LOB);
+        }else{
+            $buffer = new \blaze\lang\StringBuffer();
+            $content = $stream->read($buffer);
+            $this->set($identifier, $buffer->toString());
+        }
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param boolean $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setBoolean($identifier, $value) {
         $this->set($identifier, \blaze\lang\Boolean::asNative($value), \PDO::PARAM_BOOL);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param int $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setByte($identifier, $value) {
         $this->set($identifier, \blaze\lang\Byte::asNative($value), \PDO::PARAM_INT);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\ds\Clob $value
-     * @return blaze\lang\PreparedStatement
-     */
-    public function setClob($identifier, \blaze\ds\type\Clob $value) {
-        throw new \blaze\lang\NotYetImplementedException();
-        //$this->set($identifier, $value->,\PDO::PARAM_LOB);
+    public function setShort($identifier, $value) {
+        $this->set($identifier, \blaze\lang\Short::asNative($value), \PDO::PARAM_INT);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\Date $value
-     * @return blaze\lang\PreparedStatement
-     */
+    public function setClob($identifier, \blaze\ds\type\Clob $value) {
+        $stream = $value->getInputStream();
+
+        if($stream instanceof type\NativePipedInputStream){
+            $native = $stream->getNativeStream();
+            fseek($native, 0, SEEK_SET);
+            $this->set($identifier, $native, \PDO::PARAM_LOB);
+        }else{
+            $buffer = new \blaze\lang\StringBuffer();
+            $content = $stream->read($buffer);
+            $this->set($identifier, $buffer->toString());
+        }
+        return $this;
+    }
+
     public function setDate($identifier, \blaze\util\Date $value) {
         $str = self::$dateFormatter->format($value);
         $this->set($identifier, $str);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\Date $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setDateTime($identifier, \blaze\util\Date $value) {
         $str = self::$dateTimeFormatter->format($value);
         $this->set($identifier, $str);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param double $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setDouble($identifier, $value) {
         $this->set($identifier, \blaze\lang\Double::asNative($value), \PDO::PARAM_STR);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param float $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setFloat($identifier, $value) {
         $this->set($identifier, \blaze\lang\Float::asNative($value), \PDO::PARAM_STR);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param int $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setInt($identifier, $value) {
         $this->set($identifier, \blaze\lang\Integer::asNative($value), \PDO::PARAM_INT);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param long $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setLong($identifier, $value) {
         $this->set($identifier, \blaze\lang\Long::asNative($value), \PDO::PARAM_STR);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\ds\type\NClob $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setNClob($identifier, \blaze\ds\type\NClob $value) {
-        throw new \blaze\lang\NotYetImplementedException();
-        $this->set($identifier, $value->toString(), \PDO::PARAM_STR);
+        $stream = $value->getInputStream();
+
+        if($stream instanceof type\NativePipedInputStream){
+            $native = $stream->getNativeStream();
+            fseek($native, 0, SEEK_SET);
+            $this->set($identifier, $native, \PDO::PARAM_LOB);
+        }else{
+            $buffer = new \blaze\lang\StringBuffer();
+            $content = $stream->read($buffer);
+            $this->set($identifier, $buffer->toString());
+        }
         return $this;
     }
 
-    /**
-     * Varchar2
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param string|blaze\lang\String $value
-     * @return blaze\lang\PreparedStatement
-     */
-    public function setNString($identifier, $value) {
-        $this->set($identifier, \blaze\lang\String::asNative($value), \PDO::PARAM_STR);
-        return $this;
-    }
-
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\lang\Object $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setNull($identifier) {
         $this->set($identifier, null, \PDO::PARAM_NULL);
         return $this;
     }
 
-//, $value);
-
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param string|blaze\lang\String $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setString($identifier, $value) {
         $this->set($identifier, \blaze\lang\String::asNative($value), \PDO::PARAM_STR);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\Date $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setTime($identifier, \blaze\util\Date $value) {
         $str = self::$timeFormatter->format($value);
         $this->set($identifier, $str);
         return $this;
     }
 
-    /**
-     *
-     * @param blaze\lang\String|string|int $identifier
-     * @param blaze\util\Date $value
-     * @return blaze\lang\PreparedStatement
-     */
     public function setTimestamp($identifier, \blaze\util\Date $value) {
-        return $this->setDateTime($identifier, $value);
+        return $this->set($identifier, $value->getUnixTime());
     }
 
 }

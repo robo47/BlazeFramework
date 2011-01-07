@@ -38,16 +38,6 @@ class StatementImpl extends AbstractStatement {
         return $this->resultSet;
     }
 
-    /**
-     * @return blaze\ds\meta\ResultSetMetaData
-     */
-    public function getMetaData() {
-        $this->checkClosed();
-        if ($this->rsmd == null)
-            $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->stmt);
-        return $this->rsmd;
-    }
-
     public function getResultSet() {
         $this->checkClosed();
         if ($this->stmt == null)

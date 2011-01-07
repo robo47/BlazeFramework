@@ -306,7 +306,7 @@ class Properties extends HashMap {
      * @return blaze\collections\MapIterator
      */
     public function getIterator() {
-        throw new \blaze\lang\NotYetImplenetedException('ITerator must be programm', $code, $previous);
+        return new PropertiesIterator($this->properties);
     }
 
     /**
@@ -326,16 +326,12 @@ class Properties extends HashMap {
 
 }
 
-class PrpertiesIterator implements \blaze\collections\MapIterator {
+class PropertiesIterator implements \blaze\collections\MapIterator {
 
     private $data;
 
     public function __construct($data) {
-        if (is_array($data)) {
-            $this->data = $data;
-        } else {
-            throw new \blaze\lang\IllegalArgumentException('data must be a Array!');
-        }
+        $this->data = $data;
     }
 
     public function current() {

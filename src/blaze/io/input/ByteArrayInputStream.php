@@ -19,9 +19,9 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
 
     protected $bytes;
     protected $count = 0;
-    private $closed = false;
-    private $position = 0;
-    private $mark = 0;
+    protected $closed = false;
+    protected $position = 0;
+    protected $mark = 0;
 
     public function __construct($bytes, $off = 0, $len = -1) {
         $this->bytes = $bytes;

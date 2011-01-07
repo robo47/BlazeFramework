@@ -59,11 +59,26 @@ abstract class AbstractConnection extends Object implements Connection {
      * @var array
      */
     protected $options;
+    /**
+     *
+     * @var blaze\ds\DataSourceWarning
+     */
+    protected $warnings;
 
-    public function __construct($driver, $host, $port, $database, $user, $password, $options) {
-        if (!is_array($options))
-            $options = array();
-        $options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+    public function __construct($driver, $host, $port, $database, $user, $password, \blaze\collections\map\Properties $options = null) {
+        $opts = array();
+
+        if ($options !== null){
+            $timeout = $options->remove('timeout');
+
+            if($timeout !== null && $timeout > 0)
+                $opts[PDO::ATTR_TIMEOUT] = $timeout;
+
+            foreach($options as $key => $value)
+                $opts[$key] = $value;
+        }
+
+        $opts[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
         $this->driver = $driver;
         $this->host = $host;
         $this->port = $port;
@@ -72,8 +87,9 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->password = $password;
         $this->options = $options;
         $dsn = $driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $database;
+
         try {
-            $this->pdo = new PDO($dsn, $user, $password, $options);
+            $this->pdo = new PDO($dsn, $user, $password, $opts);
         } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
@@ -89,6 +105,15 @@ abstract class AbstractConnection extends Object implements Connection {
 
     public function __wakeup() {
         $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
+    }
+
+    public function getWarnings() {
+        $this->checkClosed();
+        return $this->warnings;
+    }
+
+    public function clearWarnings() {
+        $this->warnings = null;
     }
 
     public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null) {

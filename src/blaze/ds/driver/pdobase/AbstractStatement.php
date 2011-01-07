@@ -28,7 +28,7 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
             $this->stmt = $this->pdo->query($sql);
 
             if ($this->stmt !== false && $this->stmt->columnCount() == 0) {
-                $this->stmt = null;
+                $this->updateCount = $this->stmt->rowCount();
                 return false;
             }
 

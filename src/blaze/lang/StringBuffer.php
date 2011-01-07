@@ -12,6 +12,7 @@ use blaze\lang\Object;
 
 
  * @since   1.0
+ * @todo    Extend, http://commons.apache.org/lang/api-release/org/apache/commons/lang/text/StrBuilder.html
 
  */
 class StringBuffer extends Object {

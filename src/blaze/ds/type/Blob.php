@@ -3,15 +3,11 @@
 namespace blaze\ds\type;
 
 /**
- * Description of Blob
+ * The data type for the SQL specific type BLOB.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 interface Blob {
 

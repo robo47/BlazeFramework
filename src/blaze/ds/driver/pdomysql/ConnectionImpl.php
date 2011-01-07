@@ -21,7 +21,7 @@ use blaze\lang\Object,
  */
 class ConnectionImpl extends AbstractConnection {
 
-    public function __construct($driver, $host, $port, $database, $user, $password, $options) {
+    public function __construct($driver, $host, $port, $database, $user, $password, \blaze\collections\map\Properties $options = null) {
         parent::__construct($driver, $host, $port, $database, $user, $password, $options);
     }
 
@@ -33,6 +33,18 @@ class ConnectionImpl extends AbstractConnection {
     public function getMetaData() {
         $this->checkClosed();
         return new DatabaseMetaDataImpl($this, $this->pdo, $this->host, $this->port, $this->database, $this->user, $this->options);
+    }
+
+    public function createBlob(){
+        return new type\BlobImpl(null);
+    }
+
+    public function createClob(){
+        return new type\ClobImpl(null);
+    }
+
+    public function createNClob(){
+        return new type\NClobImpl(null);
     }
 
     /**
@@ -113,7 +125,7 @@ class ConnectionImpl extends AbstractConnection {
 
         try {
             $this->pdo->query($query);
-            $con = new self($this->driver, $this->host, $this->port, $databaseName, $this->user, $this->password, array());
+            $con = new self($this->driver, $this->host, $this->port, $databaseName, $this->user, $this->password, null);
             return new DatabaseMetaDataImpl($con, $con->pdo, $con->host, $con->port, $con->database, $con->user, $con->options);
         } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);

@@ -21,6 +21,11 @@ use blaze\lang\Object,
 abstract class AbstractPreparedStatement extends AbstractStatement1 implements PreparedStatement {
 
     private $query;
+    /**
+     *
+     * @var \blaze\ds\meta\ResultSetMetaData
+     */
+    protected $rsmd;
 
     public function __construct(Connection $con, \PDO $pdo, $sql) {
         parent::__construct($con, $pdo);
@@ -80,7 +85,6 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
         $this->checkClosed();
 
         try {
-            //$this->reset();
             if ($this->stmt->execute() === false) {
                 throw new DataSourceException('Could not execute query. ' . $this->stmt->errorInfo());
             }
@@ -103,9 +107,8 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
     protected function set($identifier, $value, $type = \PDO::PARAM_STR) {
         if (\blaze\lang\String::isType($identifier))
             $this->stmt->bindValue(':' . $identifier, $value, $type); //|\PDO::PARAM_INPUT_OUTPUT);
- else
+        else
             $this->stmt->bindValue($identifier + 1, $value, $type); //|\PDO::PARAM_INPUT_OUTPUT);
-
     }
 
 }

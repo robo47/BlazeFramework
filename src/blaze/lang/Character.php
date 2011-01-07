@@ -11,6 +11,7 @@ namespace blaze\lang;
  * @since   1.0
 
  * @author  Christian Beikov
+ * @todo    Extends, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/CharUtils.html
  */
 class Character extends Object implements NativeWrapper, Comparable {
 

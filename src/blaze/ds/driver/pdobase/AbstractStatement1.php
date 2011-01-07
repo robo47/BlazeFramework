@@ -37,19 +37,14 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
     protected $stmt;
     /**
      *
-     * @var blaze\ds\meta\ResultSetMetaData
-     */
-    protected $rsmd;
-    /**
-     *
      * @var blaze\ds\ResultSet
      */
     protected $resultSet;
     /**
      *
-     * @var array[blaze\ds\DataSourceWarning]
+     * @var blaze\ds\DataSourceWarning
      */
-    protected $warnings = array();
+    protected $warnings;
     /**
      *
      * @var string
@@ -59,16 +54,17 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
      *
      * @var int
      */
-    protected $timeout = 0;
+    protected $updateCount = -1;
     /**
      *
      * @var int
      */
-    protected $updateCount = -1;
+    protected $resultSetType;
 
-    public function __construct(Connection $con, PDO $pdo) {
+    public function __construct(Connection $con, PDO $pdo, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
         $this->con = $con;
         $this->pdo = $pdo;
+        $this->resultSetType = $type;
     }
 
     public function addBatch($sql) {
@@ -108,7 +104,7 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
                     if ($res !== false && $res->columnCount() == 0)
                         $results[] = $res->rowCount();
                     else
-                        throw new \blaze\ds\BatchUpdateException('Query returned result: ' . $query);
+                        throw new \blaze\ds\BatchUpdateException('Query returned result: ' . $query, null, null, null, $results);
                 }
             }
 
@@ -134,9 +130,32 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
         return $this->updateCount;
     }
 
+    public function getMoreResults() {
+        $this->checkClosed();
+        $this->stmt->nextRowset();
+
+        $this->resultSet = null;
+        $this->updateCount = -1;
+
+        if($this->stmt->columnCount() == 0){
+            $this->updateCount = $this->stmt->rowCount();
+            return false;
+        }
+        
+        return true;
+    }
+
+    public function getResultSetType(){
+        return $this->resultSetType;
+    }
+
     public function getWarnings() {
         $this->checkClosed();
         return $this->warnings;
+    }
+
+    public function clearWarnings() {
+        $this->warnings = null;
     }
 
     public function isClosed() {
@@ -144,18 +163,39 @@ abstract class AbstractStatement1 extends Object implements Statement1 {
     }
 
     public function getQueryTimeout() {
-        return $this->timeout;
+        $this->checkClosed();
+        return $this->stmt->getAttribute(\PDO::ATTR_TIMEOUT);
     }
 
     public function setQueryTimeout($seconds) {
-        $this->timeout = $seconds;
+        $this->checkClosed();
+        $this->stmt->setAttribute(\PDO::ATTR_TIMEOUT, \blaze\lang\Integer::asNative($seconds));
+    }
+
+    public function getCursorName(){
+        $this->checkClosed();
+        return \blaze\lang\String::asWrapper($this->stmt->getAttribute(\PDO::ATTR_CURSOR_NAME));
+    }
+
+    public function setCursorName($cursorName){
+        $this->checkClosed();
+        $this->stmt->setAttribute(\PDO::ATTR_CURSOR_NAME, \blaze\lang\String::asNative($cursorName));
+    }
+
+    public function getFetchSize(){
+        $this->checkClosed();
+        return $this->stmt->getAttribute(\PDO::ATTR_PREFETCH);
+    }
+
+    public function setFetchSize($fetchSize){
+        $this->checkClosed();
+        $this->stmt->setAttribute(\PDO::ATTR_PREFETCH, \blaze\lang\Integer::asNative($fetchSize));
     }
 
     protected function reset() {
         if ($this->stmt != null)
             $this->stmt->closeCursor();
         $this->stmt = null;
-        $this->rsmd = null;
         $this->resultSet = null;
         $this->updateCount = -1;
     }

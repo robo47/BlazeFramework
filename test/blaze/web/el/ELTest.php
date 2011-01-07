@@ -61,10 +61,6 @@ class ELTest extends \PHPUnit_Framework_TestCase {
     protected $mapper;
     protected $bCtx;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $test1 = new ATest();
         $test1->setLabel(true);

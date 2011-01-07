@@ -21,7 +21,7 @@ class ResultSetMetaDataImpl extends AbstractResultSetMetaData {
         $this->stmt = $stmt;
         $this->pdoStmt = $pdoStmt;
         $meta = $stmt->getConnection()->getMetaData();
-        $this->schema = $stmt->getConnection()->getMetaData()->getSchema($meta->getDatabaseName());
+        $this->schema = $meta->getSchema($meta->getDatabaseName());
     }
 
     /**

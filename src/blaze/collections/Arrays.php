@@ -8,9 +8,9 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     \blaze\collections\Collections
  * @since   1.0
+ * @todo    Extend the class with the methods mentioned here, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/ArrayUtils.html
  */
 class Arrays extends \blaze\lang\Object {
 

@@ -21,17 +21,55 @@ interface Connection extends \blaze\io\Closeable {
     const TRANSACTION_SERIALIZABLE = 4;
 
     /**
+     * Creates an empty Blob object and returns it.
+     * 
+     * @return \blaze\ds\type\Blob
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function createBlob();
+
+    /**
+     * Creates an empty Clob object and returns it.
+     *
+     * @return \blaze\ds\type\Clob
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function createClob();
+
+    /**
+     * Creates an empty NClob object and returns it.
+     *
+     * @return \blaze\ds\type\NClob
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function createNClob();
+
+    /**
      * Returns an objects which represents the meta data model of the data source object.
      *
      * @return blaze\ds\meta\DatabaseMetaData
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getMetaData();
+    
+    /**
+     * Returns warnings which were made of the datasource end.
+     *
+     * @return blaze\ds\DataSourceWarning The warning of the datasource end.
+     * @throws \blaze\ds\DataSourceException If a connection error or so occurs.
+     */
+    public function getWarnings();
+
+    /**
+     * Clears the warnings which were made of the datasource end.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function clearWarnings();
 
     /**
      * Returns the DatabaseMetaData of the database with the given name.
      *
-     * @param string|blaze\lang\String $databaseName
+     * @param string|\blaze\lang\String $databaseName The name of the datasource object
      * @return \blaze\ds\meta\DatabaseMetaData Returns the meta data of the database or null if no db with that name was found.
      */
     public function getDatabase($databaseName);
@@ -39,6 +77,9 @@ interface Connection extends \blaze\io\Closeable {
     /**
      * Creates and returns an objects which represents the meta data model of the data source object.
      *
+     * @param string|\blaze\lang\String $databaseName The name of the datasource object
+     * @param string|\blaze\lang\String $defaultCharset The default charset of the datasource object
+     * @param string|\blaze\lang\String $defaultCollation The default collation of the datasource object
      * @return blaze\ds\meta\DatabaseMetaData
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
@@ -57,6 +98,7 @@ interface Connection extends \blaze\io\Closeable {
     /**
      * Removes the data source object of the data source by name and uninitializes it.
      *
+     * @param string|\blaze\lang\String $databaseName The name of the datasource object
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function dropDatabase($databaseName);
@@ -65,6 +107,7 @@ interface Connection extends \blaze\io\Closeable {
      * Removes the data source object of the data source by name and uninitializes it, but does not
      * throw an exception if it does not exist.
      *
+     * @param string|\blaze\lang\String $databaseName The name of the datasource object
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function dropDatabaseIfExists($databaseName);
@@ -73,6 +116,7 @@ interface Connection extends \blaze\io\Closeable {
      * Returns wether every statement is commited after its execution or not.
      *
      * @return boolean
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getAutoCommit();
 
@@ -80,6 +124,7 @@ interface Connection extends \blaze\io\Closeable {
      * Sets wether every statement is commited after its execution or not.
      *
      * @param boolean $autoCommit
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function setAutoCommit($autoCommit);
 
@@ -87,8 +132,9 @@ interface Connection extends \blaze\io\Closeable {
      * Begins a transaction in the given isolation level with the optional transaction name.
      * Within a transaction read an write actions are synchronized so the data is consistent.
      *
-     * @param int $isolationLevel The isolation level, see constants in \blaze\ds\Connection
+     * @param int $isolationLevel The isolation level, see constants Connection::TRANSACTION_*
      * @param string|blaze\lang\String $name The name of the transaction(optional)
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null);
 
@@ -97,6 +143,7 @@ interface Connection extends \blaze\io\Closeable {
      * one is commited.
      *
      * @param string|blaze\lang\String $name The name of the transaction(optional)
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function commit($name = null);
 
@@ -105,13 +152,16 @@ interface Connection extends \blaze\io\Closeable {
      * if no name is given the current one is rolled back.
      *
      * @param string|blaze\lang\String $name The name of the transaction(optional)
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function rollback($name = null);
 
     /**
      * Creates a new statement object with which a request to the datasource can be made.
      *
-     * @return blaze\ds\Statement
+     * @param int $type The type of the ResultSet which the statement shall produce. See ResultSet::TYPE_* constants.
+     * @return blaze\ds\Statement The created Statement
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function createStatement($type = ResultSet::TYPE_FORWARD_ONLY);
 
@@ -119,17 +169,23 @@ interface Connection extends \blaze\io\Closeable {
      * The same as createStatement, but a prepared statement gets compiled first
      * and has only to be fed with parameters to execute.
      *
-     * @return blaze\ds\PreparedStatement
+     * @param string|blaze\lang\String $query The query which shall be executed
+     * @param int $type The type of the ResultSet which the statement shall produce. See ResultSet::TYPE_* constants.
+     * @return blaze\ds\PreparedStatement The created PreparedStatement
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function prepareStatement($sql, $type = ResultSet::TYPE_FORWARD_ONLY);
+    public function prepareStatement($query, $type = ResultSet::TYPE_FORWARD_ONLY);
 
     /**
      * Prepares a callable statement to call functions or procedures which are
      * located at the datasource endpoint.
      * 
-     * @return blaze\ds\CallableStatement
+     * @param string|blaze\lang\String $query The query which shall be executed
+     * @param int $type The type of the ResultSet which the statement shall produce. See ResultSet::TYPE_* constants.
+     * @return blaze\ds\CallableStatement The created CallableStatement
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function prepareCall($sql, $type = ResultSet::TYPE_FORWARD_ONLY);
+    public function prepareCall($query, $type = ResultSet::TYPE_FORWARD_ONLY);
 }
 
 ?>

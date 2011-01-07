@@ -24,26 +24,31 @@ abstract class AbstractResultSet extends Object implements ResultSet {
      *
      * @var blaze\ds\Statement
      */
-    private $stmt;
+    protected $stmt;
     /**
      *
      * @var \PDOStatement
      */
-    private $pdoStmt;
+    protected $pdoStmt;
     /**
      *
-     * @var mixed
+     * @var array
      */
-    private $actRow;
+    protected $actRow;
     /**
-     * @var mixed
+     * Specifies wether the column have been bound or not.
+     * @var boolean
      */
-    private $actRowIndex;
+    protected $columnsBound = false;
+    /**
+     * @var array
+     */
+    protected $actRowIndex;
     /**
      *
      * @var int
      */
-    private $rowNumber;
+    protected $rowNumber;
     /**
      *
      * @var blaze\ds\DataSourceWarning
@@ -58,14 +63,30 @@ abstract class AbstractResultSet extends Object implements ResultSet {
 
     /**
      * @return boolean
+     * @todo    check if LOB works with PHP 5.3.4+
      */
     public function next() {
         $this->checkClosed();
 
-        $this->actRow = $this->pdoStmt->fetch(\PDO::FETCH_ASSOC);
-        $this->actRowIndex = is_array($this->actRow) ? array_values($this->actRow) : $this->actRow;
+        if(!$this->columnsBound){
+            $this->columnsBound = true;
+            $this->actRow = array();
+            $this->actRowIndex = array();
+            $count = $this->pdoStmt->columnCount();
 
-        if ($this->actRow !== false) {
+            for($i = 0; $i < $count; $i++){
+                $meta = $this->pdoStmt->getColumnMeta($i);
+
+                if(array_key_exists('native_type',$meta) && $meta['native_type'] == 'BLOB')
+                    $this->pdoStmt->bindColumn(($i + 1), $this->actRow[$meta['name']], \PDO::PARAM_LOB);
+                else
+                    $this->pdoStmt->bindColumn(($i + 1), $this->actRow[$meta['name']]);
+
+                $this->actRowIndex[$i] = &$this->actRow[$meta['name']];
+            }
+        }
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND) !== false) {
             $this->rowNumber++;
             return true;
         }
@@ -81,6 +102,11 @@ abstract class AbstractResultSet extends Object implements ResultSet {
             $this->stmt = null;
     }
 
+    public function getCursorName() {
+        $this->checkClosed();
+        return String::asWrapper($this->pdoStmt->getAttribute(\PDO::ATTR_CURSOR_NAME));
+    }
+
     /**
      * Returns wether the ResultSet is closed or not.
      *
@@ -90,14 +116,13 @@ abstract class AbstractResultSet extends Object implements ResultSet {
         return $this->stmt == null;
     }
 
-    /**
-     * Returns the warnings which from the database
-     *
-     * @return blaze\ds\DataSourceWarning
-     */
     public function getWarnings() {
         $this->checkClosed();
         return $this->warnings;
+    }
+
+    public function clearWarnings() {
+        $this->warnings = null;
     }
 
     /**

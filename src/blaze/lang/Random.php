@@ -10,7 +10,8 @@ namespace blaze\lang;
 /**
  * Description of Random
  *
- * @author Oliver Kotzina
+ * @author  Oliver Kotzina
+ * @todo    Extend, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/RandomStringUtils.html
  */
 class Random {
 
