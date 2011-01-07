@@ -61,7 +61,7 @@ abstract class AbstractConnection extends Object implements Connection {
     protected $options;
 
     public function __construct($driver, $host, $port, $database, $user, $password, $options) {
-        if(!is_array($options))
+        if (!is_array($options))
             $options = array();
         $options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
         $this->driver = $driver;
@@ -72,22 +72,22 @@ abstract class AbstractConnection extends Object implements Connection {
         $this->password = $password;
         $this->options = $options;
         $dsn = $driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $database;
-        try{
+        try {
             $this->pdo = new PDO($dsn, $user, $password, $options);
-        } catch (\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    public function  __sleep() {
+    public function __sleep() {
         $arr = array_keys(get_class_vars($this->getClass()->getName()->toNative()));
         $key = array_search('pdo', $arr);
-        if($key !== false)
+        if ($key !== false)
             unset($arr[$key]);
         return $arr;
     }
 
-    public function  __wakeup() {
+    public function __wakeup() {
         $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
     }
 
@@ -134,21 +134,23 @@ abstract class AbstractConnection extends Object implements Connection {
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
     }
 
-    public function createOrGetDatabase($databaseName, $defaultCharset = null, $defaultCollation = null){
-        try{
+    public function createOrGetDatabase($databaseName, $defaultCharset = null, $defaultCollation = null) {
+        try {
             return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
-        }catch(\blaze\ds\DataSourceException $e){
+        } catch (\blaze\ds\DataSourceException $e) {
             return $this->getDatabase($databaseName);
         }
     }
 
-    public function dropDatabaseIfExists($databaseName){
-        try{
+    public function dropDatabaseIfExists($databaseName) {
+        try {
             $this->dropDatabase($databaseName);
-        }catch(\blaze\ds\DataSourceException $e){}
+        } catch (\blaze\ds\DataSourceException $e) {
+
+        }
     }
 
-    public function createOrReplaceDatabase($databaseName, $defaultCharset = null, $defaultCollation = null){
+    public function createOrReplaceDatabase($databaseName, $defaultCharset = null, $defaultCollation = null) {
         $this->dropDatabaseIfExists($databaseName);
         return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
     }
@@ -159,4 +161,5 @@ abstract class AbstractConnection extends Object implements Connection {
     }
 
 }
+
 ?>

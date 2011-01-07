@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class ClickEvent extends \blaze\web\component\UIEvent{// implements NamingContainer{
+class ClickEvent extends \blaze\web\component\UIEvent {// implements NamingContainer{
 
     public static function create() {
         return new ClickEvent();
@@ -29,9 +29,10 @@ class ClickEvent extends \blaze\web\component\UIEvent{// implements NamingContai
         return 'EventRenderer';
     }
 
-    public function getType(){
+    public function getType() {
         return 'click';
     }
 
 }
+
 ?>

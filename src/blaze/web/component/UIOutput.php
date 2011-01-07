@@ -23,7 +23,6 @@ abstract class UIOutput extends \blaze\web\component\UIComponentCore implements 
      */
     private $value;
     private $localValue;
-
     /**
      *
      * @var blaze\web\converter\Converter

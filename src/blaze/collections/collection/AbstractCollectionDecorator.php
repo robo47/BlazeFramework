@@ -50,7 +50,10 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
     public function count() {
         return $this->collection->count();
     }
-    public function size(){return $this->count();}
+
+    public function size() {
+        return $this->count();
+    }
 
     public function isEmpty() {
         return $this->collection->isEmpty();
@@ -72,7 +75,7 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
         return $this->collection->toArray($type);
     }
 
-    public function getIterator(){
+    public function getIterator() {
         return $this->collection->getIterator();
     }
 

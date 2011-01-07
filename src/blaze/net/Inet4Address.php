@@ -15,13 +15,13 @@ use blaze\lang\Object;
 
 
  */
-final class Inet4Address extends InetAddress{
+final class Inet4Address extends InetAddress {
     const INADDRSZ = 4;
 
     public function Inet4Address(\blaze\lang\String $hostName, $address) {
-	$this->hostName = $hostName;
-	$this->family = self::$IPv4;
-	$this->address = $address;
+        $this->hostName = $hostName;
+        $this->family = self::$IPv4;
+        $this->address = $address;
     }
 
     /**
@@ -58,7 +58,7 @@ final class Inet4Address extends InetAddress{
      * @since   JDK1.1
      */
     public function isMulticastAddress() {
-	return (($this->address & 0xf0000000) == 0xe0000000);
+        return (($this->address & 0xf0000000) == 0xe0000000);
     }
 
     /**
@@ -68,7 +68,7 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isAnyLocalAddress() {
-	return $this->address == 0;
+        return $this->address == 0;
     }
 
     /**
@@ -81,9 +81,9 @@ final class Inet4Address extends InetAddress{
     private static $loopback = 2130706433; /* 127.0.0.1 */
 
     public function isLoopbackAddress() {
- 	/* 127.x.x.x */
- 	$byteAddr = $this->getAddress();
- 	return $byteAddr[0] == 127;
+        /* 127.x.x.x */
+        $byteAddr = $this->getAddress();
+        return $byteAddr[0] == 127;
     }
 
     /**
@@ -94,12 +94,12 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isLinkLocalAddress() {
-	// link-local unicast in IPv4 (169.254.0.0/16)
-	// defined in "Documenting Special Use IPv4 Address Blocks
-	// that have been Registered with IANA" by Bill Manning
-	// draft-manning-dsua-06.txt
-	return ((($this->address >> 24) & 0xFF) == 169)
-	    && ((($this->address >> 16) & 0xFF) == 254);
+        // link-local unicast in IPv4 (169.254.0.0/16)
+        // defined in "Documenting Special Use IPv4 Address Blocks
+        // that have been Registered with IANA" by Bill Manning
+        // draft-manning-dsua-06.txt
+        return ((($this->address >> 24) & 0xFF) == 169)
+        && ((($this->address >> 16) & 0xFF) == 254);
     }
 
     /**
@@ -110,15 +110,15 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isSiteLocalAddress() {
-	// refer to RFC 1918
-	// 10/8 prefix
-	// 172.16/12 prefix
-	// 192.168/16 prefix
-	return ((($this->address >> 24) & 0xFF) == 10)
-	    || (((($this->address >> 24) & 0xFF) == 172)
-		&& ((($this->address >> 16) & 0xF0) == 16))
-	    || (((($this->address >> 24) & 0xFF) == 192)
-		&& ((($this->address >> 16) & 0xFF) == 168));
+        // refer to RFC 1918
+        // 10/8 prefix
+        // 172.16/12 prefix
+        // 192.168/16 prefix
+        return ((($this->address >> 24) & 0xFF) == 10)
+        || (((($this->address >> 24) & 0xFF) == 172)
+        && ((($this->address >> 16) & 0xF0) == 16))
+        || (((($this->address >> 24) & 0xFF) == 192)
+        && ((($this->address >> 16) & 0xFF) == 168));
     }
 
     /**
@@ -130,11 +130,11 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isMCGlobal() {
-	// 224.0.1.0 to 238.255.255.255
- 	$byteAddr = $this->getAddress();
- 	return (($byteAddr[0] & 0xff) >= 224 && ($byteAddr[0] & 0xff) <= 238 ) &&
- 	    !(($byteAddr[0] & 0xff) == 224 && $byteAddr[1] == 0 &&
- 	      $byteAddr[2] == 0);
+        // 224.0.1.0 to 238.255.255.255
+        $byteAddr = $this->getAddress();
+        return (($byteAddr[0] & 0xff) >= 224 && ($byteAddr[0] & 0xff) <= 238 ) &&
+        !(($byteAddr[0] & 0xff) == 224 && $byteAddr[1] == 0 &&
+        $byteAddr[2] == 0);
     }
 
     /**
@@ -146,8 +146,8 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isMCNodeLocal() {
-	// unless ttl == 0
-	return false;
+        // unless ttl == 0
+        return false;
     }
 
     /**
@@ -159,10 +159,10 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isMCLinkLocal() {
-	// 224.0.0/24 prefix and ttl == 1
-	return ((($this->address >> 24) & 0xFF) == 224)
-	    && ((($this->address >> 16) & 0xFF) == 0)
-	    && ((($this->address >> 8) & 0xFF) == 0);
+        // 224.0.0/24 prefix and ttl == 1
+        return ((($this->address >> 24) & 0xFF) == 224)
+        && ((($this->address >> 16) & 0xFF) == 0)
+        && ((($this->address >> 8) & 0xFF) == 0);
     }
 
     /**
@@ -174,9 +174,9 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isMCSiteLocal() {
-	// 239.255/16 prefix or ttl < 32
-	return ((($this->address >> 24) & 0xFF) == 239)
-	    && ((($this->address >> 16) & 0xFF) == 255);
+        // 239.255/16 prefix or ttl < 32
+        return ((($this->address >> 24) & 0xFF) == 239)
+        && ((($this->address >> 16) & 0xFF) == 255);
     }
 
     /**
@@ -189,10 +189,10 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
     public function isMCOrgLocal() {
-	// 239.192 - 239.195
-	return ((($this->address >> 24) & 0xFF) == 239)
-	    && ((($this->address >> 16) & 0xFF) >= 192)
-	    && ((($this->address >> 16) & 0xFF) <= 195);
+        // 239.192 - 239.195
+        return ((($this->address >> 24) & 0xFF) == 239)
+        && ((($this->address >> 16) & 0xFF) >= 192)
+        && ((($this->address >> 16) & 0xFF) <= 195);
     }
 
     /**
@@ -203,13 +203,13 @@ final class Inet4Address extends InetAddress{
      * @return  the raw IP address of this object.
      */
     public function getAddress() {
-	$addr = new ArrayObject(self::INADDRSZ);
+        $addr = new ArrayObject(self::INADDRSZ);
 
-	$addr[0] = (($this->address >> 24) & 0xFF);
-	$addr[1] = (($this->address >> 16) & 0xFF);
-	$addr[2] = (($this->address >> 8) & 0xFF);
-	$addr[3] = ($this->address & 0xFF);
-	return $addr;
+        $addr[0] = (($this->address >> 24) & 0xFF);
+        $addr[1] = (($this->address >> 16) & 0xFF);
+        $addr[2] = (($this->address >> 8) & 0xFF);
+        $addr[3] = ($this->address & 0xFF);
+        return $addr;
     }
 
     /**
@@ -219,7 +219,7 @@ final class Inet4Address extends InetAddress{
      * @since   JDK1.0.2
      */
     public function getHostAddress() {
-	return self::numericToTextFormat($this->getAddress());
+        return self::numericToTextFormat($this->getAddress());
     }
 
     /**
@@ -228,7 +228,7 @@ final class Inet4Address extends InetAddress{
      * @return  a hash code value for this IP address.
      */
     public function hashCode() {
-	return $this->address;
+        return $this->address;
     }
 
     /**
@@ -248,8 +248,8 @@ final class Inet4Address extends InetAddress{
      * @see     java.net.InetAddress#getAddress()
      */
     public function equals(Object $obj) {
-	return ($obj != null) && ($obj instanceof Inet4Address) &&
-	    ($obj->address == $this->address);
+        return ($obj != null) && ($obj instanceof Inet4Address) &&
+        ($obj->address == $this->address);
     }
 
     // Utilities
@@ -262,11 +262,9 @@ final class Inet4Address extends InetAddress{
      * @since 1.4
      */
 
-    private static function numericToTextFormat($src)
-    {
-	return ($src[0] & 0xff) + "." + ($src[1] & 0xff) + "." + ($src[2] & 0xff) + "." + ($src[3] & 0xff);
+    private static function numericToTextFormat($src) {
+        return ($src[0] & 0xff) + "." + ($src[1] & 0xff) + "." + ($src[2] & 0xff) + "." + ($src[3] & 0xff);
     }
-
 
 }
 

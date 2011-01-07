@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\netlet;
 
  */
 interface Netlet {
+
     /**
      * Description
      *
@@ -22,9 +24,11 @@ interface Netlet {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function init(NetletConfig $config);
-     public function destroy();
-     public function service(NetletRequest $request, NetletResponse $response);
+    public function init(NetletConfig $config);
+
+    public function destroy();
+
+    public function service(NetletRequest $request, NetletResponse $response);
 }
 
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\queue;
+
 use blaze\lang\Object;
 
 /**
@@ -11,74 +13,80 @@ use blaze\lang\Object;
  * @since   1.0
  * @todo    Tuning, extending the class to be more java like and documentation.
  */
-class Stack extends \blaze\collections\queue\AbstractQueue{
+class Stack extends \blaze\collections\queue\AbstractQueue {
 
     private $data;
     private $size;
 
-    public function __construct(){
+    public function __construct() {
         $this->data = array();
         $this->size = 0;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj){
+    public function add($obj) {
         $this->data[$this->size] = $obj;
         $this->size++;
         return true;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(\blaze\collections\Collection $obj){
+    public function addAll(\blaze\collections\Collection $obj) {
         $ar = $obj->toArray();
-        foreach($ar as $val){
+        foreach ($ar as $val) {
             $this->add($val);
         }
         return true;
     }
+
     /**
      * Removes all elements from this collections
      */
-    public function clear(){
+    public function clear() {
         $this->data = array();
         $this->size = 0;
     }
 
-    public function isEmpty(){
+    public function isEmpty() {
         return $this->size == 0;
     }
 
-    public function getIterator(){
+    public function getIterator() {
         return new StackIterator($this->data, $this);
     }
 
-    public function count(){
+    public function count() {
         return $this->size;
     }
+
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj){
+    public function contains($obj) {
         return \in_array($obj, $this->data);
     }
+
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(\blaze\collections\Collection $c){
+    public function containsAll(\blaze\collections\Collection $c) {
         $ar = $c->toArray();
-        foreach($ar as $val){
-            if(!$this->contains($val)){
+        foreach ($ar as $val) {
+            if (!$this->contains($val)) {
                 return false;
             }
         }
         return true;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAt($index){
+    public function removeAt($index) {
         $this->rangeCheck($index);
         $ret = $this->data[$index];
         unset($this->data[$index]);
@@ -86,77 +94,77 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         $this->size--;
         return $ret;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-
     public function remove($obj) {
         $index = $this->indexOf($obj);
-        if($index ===-1){
+        if ($index === -1) {
             return false;
-        }else{
+        } else {
             $this->removeAt($index);
             return true;
         }
     }
 
-    public function removeAll(\blaze\collections\Collection $obj){
+    public function removeAll(\blaze\collections\Collection $obj) {
         $ret = false;
         $ar = $obj->toArray();
-        foreach($ar as $val){
-            if($this->remove($val)){
+        foreach ($ar as $val) {
+            if ($this->remove($val)) {
                 $ret = true;
             }
         }
         return $ret;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(\blaze\collections\Collection $obj){
+    public function retainAll(\blaze\collections\Collection $obj) {
         $reomve = \array_diff($this->data, $obj->toArray());
         $ret = false;
-        foreach($reomve as $val){
-            if($this->remove($val)){
+        foreach ($reomve as $val) {
+            if ($this->remove($val)) {
                 $ret = true;
             }
         }
         return $ret;
     }
+
     /**
      * @return blaze\collections\ArrayI
      */
-    public function toArray($type = null){
+    public function toArray($type = null) {
         return $this->data;
     }
-   
+
     public function element() {
         return $this->peek();
     }
 
     public function offer($element) {
         return $this->add($element);
-
     }
 
     public function peek() {
-        if($this->size == 0){
+        if ($this->size == 0) {
             return null;
         }
-        return $this->data[($this->size-1)];
-
+        return $this->data[($this->size - 1)];
     }
 
     public function poll() {
-        $ret =$this->peek();
-        if($ret!=null){
-            $this->removeAt($this->size-1);
+        $ret = $this->peek();
+        if ($ret != null) {
+            $this->removeAt($this->size - 1);
         }
         return $ret;
-
     }
-     public function indexOf($obj) {
-         $help = \array_reverse($this->data,true);
+
+    public function indexOf($obj) {
+        $help = \array_reverse($this->data, true);
         $index = array_search($obj, $help, true);
         if (\is_int($index)) {
             return $index;
@@ -165,44 +173,45 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
         }
     }
 
-  
-
     public function removeElement() {
-       return  $this->poll();
+        return $this->poll();
     }
 
-    public function pop(){
-         $ret =$this->peek();
-        if($ret!=null){
-            $this->removeAt($this->size-1);
+    public function pop() {
+        $ret = $this->peek();
+        if ($ret != null) {
+            $this->removeAt($this->size - 1);
         }
         return $ret;
     }
-    public function push($element){
+
+    public function push($element) {
         $this->add($element);
     }
+
     /**
      *
      * @param <type> $element
      * @return int Returns the 1-based position where an object is on this stack.
      */
-    public function search($element){
-        $ret = \array_search($element,$this->data);
-        if($ret ===false){
+    public function search($element) {
+        $ret = \array_search($element, $this->data);
+        if ($ret === false) {
             return false;
         }
-        return $ret+1;
+        return $ret + 1;
     }
+
     private function rangeCheck($index) {
         if ($index < 0 || $this->size < $index) {
             throw new \blaze\lang\IndexOutOfBoundsException('Index: ' . $index . ' Size: ' . $this->size);
         }
     }
 
-    public function toString(){
+    public function toString() {
         $ret = 'Stack: ';
-        foreach ($this->data as $val){
-            $ret = $ret.$val.'|';
+        foreach ($this->data as $val) {
+            $ret = $ret . $val . '|';
         }
         return $ret;
     }
@@ -212,8 +221,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue{
 /**
  * @access private
  */
-class StackIterator implements \blaze\collections\Iterator{
-
+class StackIterator implements \blaze\collections\Iterator {
 
     private $data;
     private $index;
@@ -223,9 +231,9 @@ class StackIterator implements \blaze\collections\Iterator{
      */
     private $stack;
 
-    public function __construct(&$data,  Stack $stack) {
-        $this->data =  $data;
-        $this->index = (count($this->data)-1);
+    public function __construct(&$data, Stack $stack) {
+        $this->data = $data;
+        $this->index = (count($this->data) - 1);
         $this->stack = $stack;
     }
 
@@ -236,7 +244,7 @@ class StackIterator implements \blaze\collections\Iterator{
     }
 
     public function hasNext() {
-        return $this->check($this->index -1);
+        return $this->check($this->index - 1);
     }
 
     public function key() {
@@ -250,7 +258,6 @@ class StackIterator implements \blaze\collections\Iterator{
 
     public function remove() {
         $this->stack->removeAt($this->index);
-
     }
 
     public function valid() {
@@ -258,13 +265,12 @@ class StackIterator implements \blaze\collections\Iterator{
     }
 
     public function rewind() {
-        $this->index = (count($this->data)-1);
+        $this->index = (count($this->data) - 1);
     }
 
     private function check($index) {
         return array_key_exists($index, $this->data);
     }
-
 
 }
 

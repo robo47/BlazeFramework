@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -10,6 +11,7 @@ namespace blaze\ds\meta;
  * @since   1.0
  */
 interface ViewMetaData {
+
     /**
      * Returns the parent schema object.
      *
@@ -29,35 +31,35 @@ interface ViewMetaData {
      *
      * @return blaze\lang\String
      */
-     public function getViewName();
+    public function getViewName();
 
     /**
      * Sets the name of the view.
      *
      * @param string|\blaze\lang\String $viewName
      */
-     public function setViewName($viewName);
+    public function setViewName($viewName);
 
     /**
      * Returns the definition of the view.
      *
      * @return blaze\lang\String
      */
-     public function getViewDefinition();
+    public function getViewDefinition();
 
     /**
      * Sets the definition of the view.
      *
      * @param string|\blaze\lang\String $viewDefinition
      */
-     public function setViewDefinition($viewDefinition);
-     
+    public function setViewDefinition($viewDefinition);
+
     /**
      * Returns wether the view is updateable or not.
      *
      * @return boolean
      */
-     public function isUpdateable();
+    public function isUpdateable();
 }
 
 ?>

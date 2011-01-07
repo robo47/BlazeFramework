@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\event;
 
 /**
@@ -12,19 +13,19 @@ namespace blaze\web\render\event;
 
 
  */
-class RenderKitImpl extends \blaze\lang\Object implements \blaze\web\render\RenderKit{
+class RenderKitImpl extends \blaze\lang\Object implements \blaze\web\render\RenderKit {
 
     private $renderer = array();
 
-    public function __construct(){
+    public function __construct() {
 
     }
-    
-    public function getRenderer($rendererId){
-         if(!array_key_exists($rendererId, $this->renderer))
-                 $this->renderer[$rendererId] = \blaze\lang\ClassWrapper::forName('blaze\\web\\render\\event\\'.$rendererId)->newInstance();
-         return $this->renderer[$rendererId];
-     }
+
+    public function getRenderer($rendererId) {
+        if (!array_key_exists($rendererId, $this->renderer))
+            $this->renderer[$rendererId] = \blaze\lang\ClassWrapper::forName('blaze\\web\\render\\event\\' . $rendererId)->newInstance();
+        return $this->renderer[$rendererId];
+    }
 
 }
 

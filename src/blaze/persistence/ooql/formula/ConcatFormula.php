@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\ooql\formula;
 
 /**
@@ -12,7 +13,8 @@ namespace blaze\persistence\ooql\formula;
 
 
  */
-class ConcatFormula extends \blaze\persistence\ooql\Formula{
+class ConcatFormula extends \blaze\persistence\ooql\Formula {
+
     private $expression1;
     private $expression2;
 

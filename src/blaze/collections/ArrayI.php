@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections;
+
 use blaze\lang\Object;
 
 /**
@@ -16,4 +18,5 @@ use blaze\lang\Object;
 interface ArrayI extends Iterable, Countable, ArrayAccess {
 
 }
+
 ?>

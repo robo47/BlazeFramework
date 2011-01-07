@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\cache;
 
 /**
@@ -29,27 +30,27 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
      *
      * @param \blaze\io\File $dir The directory which shall be used for caching
      */
-    public function __construct(\blaze\io\File $dir = null){
-        if($dir !== null)
+    public function __construct(\blaze\io\File $dir = null) {
+        if ($dir !== null)
             $this->cacheDir = $dir;
         else
             $this->cacheDir = self::$standardDir;
 
-        if(!$this->cacheDir->canWrite())
-                throw new CacheException('Can not write to the given directory!');
+        if (!$this->cacheDir->canWrite())
+            throw new CacheException('Can not write to the given directory!');
     }
 
     /**
      * @access private
      */
     public static function staticInit() {
-        self::$standardDir = new \blaze\io\File(\blaze\lang\ClassLoader::getSystemClassLoader()->getClassPath()->toNative().'/../cache');
+        self::$standardDir = new \blaze\io\File(\blaze\lang\ClassLoader::getSystemClassLoader()->getClassPath()->toNative() . '/../cache');
     }
 
     /**
      * {@inheritDoc}
      */
-    public function put($key, $value){
+    public function put($key, $value) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         $h = fopen($f->getAbsolutePath(), 'w');
         fwrite($h, serialize($value));
@@ -60,7 +61,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
      * {@inheritDoc}
      */
     public function putAll(\blaze\collections\Map $map) {
-        foreach($map as $key => $value){
+        foreach ($map as $key => $value) {
             $f = new \blaze\io\File($this->cacheDir, $key);
             $h = fopen($f->getAbsolutePath(), 'w');
             fwrite($h, serialize($value));
@@ -71,7 +72,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function contains($key){
+    public function contains($key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         return $f->exists();
     }
@@ -79,39 +80,39 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function containsByPrefix($keyPrefix){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->startsWith($keyPrefix))
-                        return true;
+    public function containsByPrefix($keyPrefix) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->startsWith($keyPrefix))
+                return true;
         return false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function containsBySuffix($keySuffix){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->endsWith($keySuffix))
-                        return true;
+    public function containsBySuffix($keySuffix) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->endsWith($keySuffix))
+                return true;
         return false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function containsByRegex($regex){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->matches($regex))
-                        return true;
+    public function containsByRegex($regex) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->matches($regex))
+                return true;
         return false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get($key){
+    public function get($key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
-        if(!$f->exists())
+        if (!$f->exists())
             return null;
         return $this->cached[$key] = unserialize(file_get_contents($f->getAbsolutePath()));
     }
@@ -119,81 +120,83 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function getByPrefix($keyPrefix){
+    public function getByPrefix($keyPrefix) {
         $map = new \blaze\collections\map\HashMap();
 
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->startsWith($keyPrefix))
-                        $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->startsWith($keyPrefix))
+                $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
         return $map;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getBySuffix($keySuffix){
+    public function getBySuffix($keySuffix) {
         $map = new \blaze\collections\map\HashMap();
 
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->endsWith($keySuffix))
-                        $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->endsWith($keySuffix))
+                $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
         return $map;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getByRegex($regex){
+    public function getByRegex($regex) {
         $map = new \blaze\collections\map\HashMap();
 
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->matches($regex))
-                        $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->matches($regex))
+                $map->put($file->getFileName(), unserialize(file_get_contents($file->getAbsolutePath())));
         return $map;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function remove($key){
+    public function remove($key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
-        if($f->exists())
+        if ($f->exists())
             $f->delete();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeByPrefix($keyPrefix){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->startsWith($keyPrefix))
-                        $file->delete();
+    public function removeByPrefix($keyPrefix) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->startsWith($keyPrefix))
+                $file->delete();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeBySuffix($keySuffix){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->endsWith($keySuffix))
-                        $file->delete();
+    public function removeBySuffix($keySuffix) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->endsWith($keySuffix))
+                $file->delete();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeByRegex($regex){
-        foreach($this->cacheDir->listFiles() as $file)
-                if($file->getName()->matches($regex))
-                        $file->delete();
+    public function removeByRegex($regex) {
+        foreach ($this->cacheDir->listFiles() as $file)
+            if ($file->getName()->matches($regex))
+                $file->delete();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function clear(){
-        foreach($this->cacheDir->listFiles() as $file)
-                        $file->delete();
+    public function clear() {
+        foreach ($this->cacheDir->listFiles() as $file)
+            $file->delete();
     }
+
 }
+
 ?>

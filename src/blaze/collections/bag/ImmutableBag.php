@@ -74,6 +74,7 @@ final class ImmutableBag extends AbstractBagDecorator implements \blaze\collecti
     public function retainAll(\blaze\collections\Collection $obj) {
         return null;
     }
+
 }
 
 ?>

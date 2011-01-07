@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 use blaze\collections\Collection;
@@ -13,7 +14,7 @@ use blaze\collections\Collection;
  * @see     \blaze\collections\Arrays
  * @since   1.0
  */
-class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitialization{
+class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitialization {
 
     /**
      * The empty immutable list
@@ -68,52 +69,51 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      */
     public static function binarySearch(ListI $a, $key, \blaze\lang\Comparator $c = null) {
         $ar = $a->toArray();
-        if($c==null){
+        if ($c == null) {
             return Collections::arrayBsearch($key, $ar);
-        }
-        else{
+        } else {
             return Collections::arrayBsearchComperator($key, $ar, $c);
         }
     }
 
-   private static function arrayBsearch($needle, $haystack) {
-        $high = Count( $haystack ) -1;
+    private static function arrayBsearch($needle, $haystack) {
+        $high = Count($haystack) - 1;
         $low = 0;
-       
-        while ( $high >= $low ){
-            $probe = Floor( ( $high + $low ) / 2 );
-            $comparison = $haystack[$probe]->compareTo($needle );
-            if ( $comparison < 0 ) {
-                $low = $probe +1;
-            } elseif ( $comparison > 0 ) {
-                $high = $probe -1;
+
+        while ($high >= $low) {
+            $probe = Floor(( $high + $low ) / 2);
+            $comparison = $haystack[$probe]->compareTo($needle);
+            if ($comparison < 0) {
+                $low = $probe + 1;
+            } elseif ($comparison > 0) {
+                $high = $probe - 1;
             } else {
                 return $probe;
             }
         }
-     
-      // ---The loop ended without a match
-      return -1;
+
+        // ---The loop ended without a match
+        return -1;
     }
 
-    private static function arrayBsearchComperator( $needle, $haystack, $cmp) {
-        $high = Count( $haystack ) -1;
+    private static function arrayBsearchComperator($needle, $haystack, $cmp) {
+        $high = Count($haystack) - 1;
         $low = 0;
 
-        while ( $high >= $low ){
-            $probe = Floor( ( $high + $low ) / 2 );
-            $comparison = $cmp->compare($haystack[$probe],$needle );
-            if ( $comparison < 0 ) {
-                $low = $probe +1;
-            } elseif ( $comparison > 0 ) {
-                $high = $probe -1;
+        while ($high >= $low) {
+            $probe = Floor(( $high + $low ) / 2);
+            $comparison = $cmp->compare($haystack[$probe], $needle);
+            if ($comparison < 0) {
+                $low = $probe + 1;
+            } elseif ($comparison > 0) {
+                $high = $probe - 1;
             } else {
                 return $probe;
             }
         }
 
-      // ---The loop ended without a match
-      return -1;
+        // ---The loop ended without a match
+        return -1;
     }
 
     /**
@@ -152,8 +152,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     public static function copyOfRange(ListI $src, $from, $to, ListI $dest) {
         $dest->clear();
         $iterator = $src->listIterator($from);
-        for($i = $from; $i<$to;$i++)
-        {
+        for ($i = $from; $i < $to; $i++) {
             $dest->add($src->get($i));
         }
     }
@@ -174,7 +173,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      */
     public static function fillRange(ListI $a, $from, $to, $value) {
         for ($i = $from; $i < $to; $i++) {
-            $a->set($i,$value);
+            $a->set($i, $value);
         }
     }
 
@@ -197,8 +196,8 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      */
     public static function max(Collection $src, \blaze\lang\Comparator $comp = null) {
         $list = new lists\ArrayList($src);
-        Collections::sort($list,$comp);
-        return $list->get($list->count()-1);
+        Collections::sort($list, $comp);
+        return $list->get($list->count() - 1);
     }
 
     /**
@@ -206,7 +205,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      */
     public static function min(Collection $src, \blaze\lang\Comparator $comp = null) {
         $list = new lists\ArrayList($src);
-        Collections::sort($list,$comp);
+        Collections::sort($list, $comp);
         return $list->get(0);
     }
 
@@ -214,9 +213,9 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      *  Replaces all occurrences of one specified value in a list with another.
      */
     public static function replaceAll(ListI $src, $oldVal, $newVal) {
-       while(($index=$src->indexOf($oldVal))!=-1){
-           $src->set($index, $newVal);
-       }
+        while (($index = $src->indexOf($oldVal)) != -1) {
+            $src->set($index, $newVal);
+        }
     }
 
     /**
@@ -225,7 +224,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     public static function reverse(ListI $src) {
         $ar = \array_reverse($src->toArray());
         $ret = new lists\ArrayList();
-        foreach($ar as $val){
+        foreach ($ar as $val) {
             $ret->add($val);
         }
         $src = $ret;
@@ -256,7 +255,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
         if ($size <= 0) {
             throw new \blaze\lang\IndexOutOfBoundsException('List has not any Values');
         }
-        if (($size+1) < $to || $to < 0) {
+        if (($size + 1) < $to || $to < 0) {
             throw new \blaze\lang\IndexOutOfBoundsException('size: ' . $size . ' to: ' . $to);
         }
         if ($size <= $from || $from < 0) {
@@ -280,27 +279,27 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
 
     private static function cmpObjects($a, $b) {
         $ret = $a->compareTo($b);
-        if($ret === 0){
-                return 0;
-            }
-            if($ret>0){
-                return 1;
-            }
-            if($ret<0){
-                return -1;
-            }
+        if ($ret === 0) {
+            return 0;
+        }
+        if ($ret > 0) {
+            return 1;
+        }
+        if ($ret < 0) {
+            return -1;
+        }
     }
 
     /**
      * Swaps the element from posA with posB
      */
     public static function swap(ListI $list, $posA, $posB) {
-        if($posA>=0&&$posA<$list->count()&&$posB>=0&&$posB<$list->count()){
+        if ($posA >= 0 && $posA < $list->count() && $posB >= 0 && $posB < $list->count()) {
             $h = $list->set($posA, $list->get($posB));
             $list->set($posB, $h);
         }
         else
-            throw new \blaze\lang\IndexOutOfBoundsException ('posA: '.$posA.'posB:'.$posB.'size:'.$list->count());
+            throw new \blaze\lang\IndexOutOfBoundsException('posA: ' . $posA . 'posB:' . $posB . 'size:' . $list->count());
     }
 
     /**
@@ -308,7 +307,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @return boolean
      */
     public static function deepEquals(arrays\ArrayObject $a1, arrays\ArrayObject $a2) {
-       
+
     }
 
     /**

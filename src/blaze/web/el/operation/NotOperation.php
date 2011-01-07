@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el\operation;
+
 use blaze\lang\Object;
 
 /**
@@ -13,13 +15,12 @@ use blaze\lang\Object;
 
 
  */
-class NotOperation extends SimpleOperation{
+class NotOperation extends SimpleOperation {
+
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
-        return !parent::getValue($context, $subExpressions, $subBrackets);
+        return!parent::getValue($context, $subExpressions, $subBrackets);
     }
 
 }
-
-
 
 ?>

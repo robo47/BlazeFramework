@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\event;
 
 /**
@@ -12,7 +13,7 @@ namespace blaze\web\event;
 
 
  */
-interface ValueChangeListener extends BlazeListener{
+interface ValueChangeListener extends BlazeListener {
     public function processValueChange(ValueChangeEvent $event);
 }
 

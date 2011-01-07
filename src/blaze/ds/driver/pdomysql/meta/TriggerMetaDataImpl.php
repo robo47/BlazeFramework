@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\ds\driver\pdobase\meta\AbstractTriggerMetaData;
 
 /**
@@ -9,7 +11,7 @@ use blaze\ds\driver\pdobase\meta\AbstractTriggerMetaData;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-class TriggerMetaDataImpl extends AbstractTriggerMetaData{
+class TriggerMetaDataImpl extends AbstractTriggerMetaData {
 
     public function __construct(\blaze\ds\meta\TableMetaData $table, $triggerTiming, $triggerEvent, $triggerOrder, $triggerName, $triggerDefinition, $triggerOldName, $triggerNewName) {
         $this->table = $table;
@@ -25,73 +27,80 @@ class TriggerMetaDataImpl extends AbstractTriggerMetaData{
     /**
      * @return blaze\ds\meta\TriggerTiming
      */
-    public function getTriggerTiming(){
+    public function getTriggerTiming() {
         return $this->triggerTiming;
     }
+
     /**
      * @return blaze\ds\meta\TriggerEvent
      */
-    public function getTriggerEvent(){
+    public function getTriggerEvent() {
         return $this->triggerEvent;
     }
+
     /**
      * @return int
      */
-    public function getTriggerOrder(){
+    public function getTriggerOrder() {
         return $this->triggerOrder;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getTriggerName(){
+    public function getTriggerName() {
         return $this->triggerName;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getTriggerDefinition(){
+    public function getTriggerDefinition() {
         return $this->triggerDefinition;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getTriggerOldName(){
+    public function getTriggerOldName() {
         return $this->triggerOldName;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getTriggerNewName(){
+    public function getTriggerNewName() {
         return $this->triggerNewName;
     }
+
     /**
      * @return blaze\ds\meta\TableMetaData
      */
-    public function getTable(){
+    public function getTable() {
         return $this->table;
     }
 
     public function drop() {
         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-         $stmt->executeQuery('DROP TRIGGER '.$this->triggerName);
+        $stmt->executeQuery('DROP TRIGGER ' . $this->triggerName);
     }
 
-    private function recreateTrigger($definition, $name, $event, $timing, $order, $oldName, $newName){
+    private function recreateTrigger($definition, $name, $event, $timing, $order, $oldName, $newName) {
         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-         $stmt->addBatch('DROP TRIGGER '.$this->triggerName);
-         $timingS = $timing == 1 ? 'BEFORE' : 'AFTER';
-         $eventS = $event == 1 ? 'INSERT' :($event == 2 ? 'UPDATE' : 'DELETE');
-         $stmt->addBatch('CREATE TRIGGER '.$name.' '.$timingS.' '.$eventS.' ON '.$this->table->getTableName().' FOR EACH ROW '.$definition);
-         $stmt->addBatch('UPDATE information_schema.TRIGGERS SET ACTION_REFERENCE_OLD_TABLE = '.$oldName.', ACTION_REFERENCE_NEW_TABLE = '.$newName.', ACTION_ORDER = '.$order.
-                         ' WHERE TRIGGER_NAME = '.$name.' AND EVENT_OBJECT_SCHEMA = '.$this->table->getSchema()->getSchemaName().' AND EVENT_OBJECT_TABLE = '.$this->table->getTableName());
+        $stmt->addBatch('DROP TRIGGER ' . $this->triggerName);
+        $timingS = $timing == 1 ? 'BEFORE' : 'AFTER';
+        $eventS = $event == 1 ? 'INSERT' : ($event == 2 ? 'UPDATE' : 'DELETE');
+        $stmt->addBatch('CREATE TRIGGER ' . $name . ' ' . $timingS . ' ' . $eventS . ' ON ' . $this->table->getTableName() . ' FOR EACH ROW ' . $definition);
+        $stmt->addBatch('UPDATE information_schema.TRIGGERS SET ACTION_REFERENCE_OLD_TABLE = ' . $oldName . ', ACTION_REFERENCE_NEW_TABLE = ' . $newName . ', ACTION_ORDER = ' . $order .
+                ' WHERE TRIGGER_NAME = ' . $name . ' AND EVENT_OBJECT_SCHEMA = ' . $this->table->getSchema()->getSchemaName() . ' AND EVENT_OBJECT_TABLE = ' . $this->table->getTableName());
 
-         $this->triggerName = $name;
-         $this->triggerDefinition = $definition;
-         $this->triggerEvent = $event;
-         $this->triggerTiming = $timing;
-         $this->triggerOrder = $order;
-         $this->triggerOldName = $oldName;
-         $this->triggerNewName = $newName;
+        $this->triggerName = $name;
+        $this->triggerDefinition = $definition;
+        $this->triggerEvent = $event;
+        $this->triggerTiming = $timing;
+        $this->triggerOrder = $order;
+        $this->triggerOldName = $oldName;
+        $this->triggerNewName = $newName;
     }
 
     public function setTriggerDefinition($triggerDefinition) {

@@ -30,8 +30,8 @@ class NativeInputStream extends \blaze\io\InputStream {
     }
 
     public function close() {
-        if($this->stream == null)
-                return;
+        if ($this->stream == null)
+            return;
         if (fclose($this->stream) === false)
             throw new \blaze\io\IOException('Closing failed');
         $this->stream = null;
@@ -117,4 +117,5 @@ class NativeInputStream extends \blaze\io\InputStream {
     }
 
 }
+
 ?>

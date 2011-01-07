@@ -22,7 +22,7 @@ class HttpsFilter extends Object implements \blaze\netlet\Filter {
     }
 
     public function doFilter(\blaze\netlet\NetletRequest $request, \blaze\netlet\NetletResponse $response, \blaze\netlet\FilterChain $chain) {
-        if(!$request->isSecure())
+        if (!$request->isSecure())
             $response->sendRedirect($request->getRequestPath()->replace('http', 'https'));
         else
             $chain->doFilter($request, $response);

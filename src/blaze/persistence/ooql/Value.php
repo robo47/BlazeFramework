@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Value extends Object implements Argument, Conditionable, Operationable{
-
+class Value extends Object implements Argument, Conditionable, Operationable {
     const TYPE_STRING = 0;
     const TYPE_SCALAR = 1;
 

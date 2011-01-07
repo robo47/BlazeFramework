@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\IndexMetaData;
+ blaze\ds\meta\IndexMetaData;
 
 /**
  * Description of AbstractIndexMetaData
@@ -14,7 +16,8 @@ use blaze\lang\Object,
 
 
  */
-abstract class AbstractIndexMetaData extends Object implements IndexMetaData{
+abstract class AbstractIndexMetaData extends Object implements IndexMetaData {
+
     /**
      * @return blaze\lang\String
      */

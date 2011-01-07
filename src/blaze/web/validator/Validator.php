@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\validator;
+
 use blaze\lang\Singleton;
 
 /**
@@ -13,8 +15,8 @@ use blaze\lang\Singleton;
 
 
  */
-interface Validator{
-     public function validate(\blaze\web\application\BlazeContext $context, $obj);
+interface Validator {
+    public function validate(\blaze\web\application\BlazeContext $context, $obj);
 }
 
 ?>

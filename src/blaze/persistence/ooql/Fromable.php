@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\ooql;
 
 /**
@@ -14,6 +15,7 @@ namespace blaze\persistence\ooql;
  */
 interface Fromable {
     public function getAlias();
+
     public function setAlias($alias);
 }
 

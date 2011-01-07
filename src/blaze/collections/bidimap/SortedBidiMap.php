@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\bidimap;
 
 /**
@@ -11,7 +12,7 @@ namespace blaze\collections\bidimap;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-interface SortedBidiMap extends \blaze\collections\BidiMap, \blaze\collections\map\SortedMap{
+interface SortedBidiMap extends \blaze\collections\BidiMap, \blaze\collections\map\SortedMap {
 
 }
 

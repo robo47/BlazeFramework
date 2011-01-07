@@ -31,14 +31,15 @@ abstract class BlazeEvent extends EventObject {
      */
     public function __construct(\blaze\web\component\UIComponent $component, $phaseId = null) {
         parent::__construct($component);
-        if($phaseId == null)
+        if ($phaseId == null)
             $phaseId = PhaseId::ANY_PHASE;
         $this->phaseId = $phaseId;
     }
 
-  public abstract function isAppropriateListener(BlazeListener $blazeListener);
+    public abstract function isAppropriateListener(BlazeListener $blazeListener);
 
-  public abstract function processListener(BlazeListener $blazeListener);
+    public abstract function processListener(BlazeListener $blazeListener);
+
     /**
      *
      * @return blaze\web\component\UIComponent
@@ -54,7 +55,7 @@ abstract class BlazeEvent extends EventObject {
     public function getPhaseId() {
         return $this->phaseId;
     }
-    
+
     /**
      *
      * @param blaze\web\event\PhaseId $phaseId
@@ -63,7 +64,6 @@ abstract class BlazeEvent extends EventObject {
         $this->phaseId = $phaseId;
     }
 
-
-
 }
+
 ?>

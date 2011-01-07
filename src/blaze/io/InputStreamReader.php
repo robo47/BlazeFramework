@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Object;
 
 /**
@@ -12,13 +14,14 @@ use blaze\lang\Object;
 
  */
 class InputStreamReader extends Reader {
+
     /**
      *
      * @var blaze\io\InputStream
      */
     protected $is;
 
-    protected function __construct(InputStream $is){
+    protected function __construct(InputStream $is) {
         $this->is = $is;
     }
 
@@ -33,18 +36,18 @@ class InputStreamReader extends Reader {
      *                  If a buffer is given, if returns the number of chars which were read into it, or -1 if nothing could be read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function read(StringBuffer $buffer = null, $off = -1, $len = -1){
-         return $this->is->read($buffer, $off, $len);
-     }
+    public function read(StringBuffer $buffer = null, $off = -1, $len = -1) {
+        return $this->is->read($buffer, $off, $len);
+    }
 
     /**
      * Closes the output stream and releases the ressources which are used by it.
      *
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the stream is already closed
      */
-     public function close(){
-         $this->is->close();
-     }
+    public function close() {
+        $this->is->close();
+    }
 
     /**
      * Tries to skip over $n chars and returns the number of chars which were skipped over.
@@ -53,9 +56,10 @@ class InputStreamReader extends Reader {
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function skip($n){
-         return $this->is->skip($n);
-     }
+    public function skip($n) {
+        return $this->is->skip($n);
+    }
+
 }
 
 ?>

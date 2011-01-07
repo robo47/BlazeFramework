@@ -61,7 +61,9 @@ class ImageRenderer extends \blaze\web\render\html4\CoreRenderer {
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+
     }
 
 }
+
 ?>

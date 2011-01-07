@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -12,6 +14,8 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-interface Cloneable{}
+interface Cloneable {
+
+}
 
 ?>

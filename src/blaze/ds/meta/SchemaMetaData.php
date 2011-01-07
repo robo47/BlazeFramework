@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -70,7 +71,7 @@ interface SchemaMetaData {
      * @return boolean
      */
     public function setSchemaCollation($schemaCollation);
-    
+
     /**
      * Returns the tables which are in this schema as list.
      *
@@ -147,7 +148,6 @@ interface SchemaMetaData {
      * @return blaze\ds\meta\ViewMetaData
      */
     public function createView($viewName, $viewDefinition);
-
 }
 
 ?>

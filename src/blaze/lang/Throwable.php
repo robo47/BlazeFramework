@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * The main class for throwables. This is just to provide a framework specific base class in the case that
  * php will use a different namespace for the SPL stuff in further versions.
@@ -8,7 +10,6 @@ namespace blaze\lang;
  * @since   1.0
  * @author  Christian Beikov
  */
-
 class Throwable extends \Exception implements Reflectable {
 
     /**
@@ -20,26 +21,28 @@ class Throwable extends \Exception implements Reflectable {
      */
     public function __construct($message = null, $code = null, $previous = null) {
         parent::__construct(String::asNative($message),
-                            Integer::asNative($code),
-                            $previous);
+                        Integer::asNative($code),
+                        $previous);
 
-        if($previous != null && !$previous instanceof Throwable)
+        if ($previous != null && !$previous instanceof Throwable)
             new IllegalArgumentException('Previous element must be a subtype of Throwable', 0, $this);
     }
 
     /**
      * @access protected
      */
-    public function cloneObject(){
-        if(!$this instanceof Cloneable)
-                throw new CloneNotSupportedException();
+    public function cloneObject() {
+        if (!$this instanceof Cloneable)
+            throw new CloneNotSupportedException();
         return clone $this;
     }
 
     /**
      * @access protected
      */
-    public function finalize(){}
+    public function finalize() {
+
+    }
 
     /**
      * Magic method of PHP, look at the finalize Method for details.
@@ -56,7 +59,7 @@ class Throwable extends \Exception implements Reflectable {
      * @access private
      */
     public static final function __callStatic($name, $args) {
-        if($name === 'classWrapper')
+        if ($name === 'classWrapper')
             return ClassWrapper::forName(get_called_class());
         return null;
     }
@@ -67,7 +70,7 @@ class Throwable extends \Exception implements Reflectable {
      * @param 	blaze\lang\Reflectable $obj The reference object with which to compare.
      * @return 	boolean True if the object is the same as the parameter, otherwise false.
      */
-    public function equals(Reflectable $obj){
+    public function equals(Reflectable $obj) {
         return $this == $obj;
     }
 
@@ -76,20 +79,22 @@ class Throwable extends \Exception implements Reflectable {
      *
      * @return 	blaze\lang\ClassWrapper Returns a ClassWrapper which represents the class of the object.
      */
-    public function getClass(){
+    public function getClass() {
         return ClassWrapper::forName(get_class($this));
     }
+
     /**
      * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
      *
      * @return 	int A hash code value for this object.
      */
-    public function hashCode(){
+    public function hashCode() {
         return spl_object_hash($this);
     }
-     /**
+
+    /**
      * Returns a string representation of the Object which includes the hash code of the object.
-      *
+     *
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function toString() {
@@ -104,4 +109,5 @@ class Throwable extends \Exception implements Reflectable {
 //        return String::asNative($this->toString());
 //    }
 }
+
 ?>

@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable, \blaze\lang\StaticInitialization{
+final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable, \blaze\lang\StaticInitialization {
 
     /**
      *
@@ -126,7 +126,7 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
 
         $parts = parse_url($url);
 
-        if($parts === false)
+        if ($parts === false)
             throw new \blaze\lang\Exception('Invalid URL');
 
         $scheme = isset($parts['scheme']) ? $parts['scheme'] : null;
@@ -298,15 +298,15 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
     }
 
     public static function setURLStreamHandlerFactory(URLStreamHandlerFactory $fac) {
-	    if ($this->factory != null) {
-		throw new \blaze\lang\Error("factory already defined");
-	    }
+        if ($this->factory != null) {
+            throw new \blaze\lang\Error("factory already defined");
+        }
 //	    SecurityManager security = System.getSecurityManager();
 //	    if (security != null) {
 //		security.checkSetFactory();
 //	    }
-	    $handlers->clear();
-	    $this->factory = $fac;
+        $handlers->clear();
+        $this->factory = $fac;
     }
 
     public function toString() {
@@ -324,21 +324,21 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
     /**
      * @return blaze\net\URLConnection
      */
-    public function openConnection(Proxy $p = null){
+    public function openConnection(Proxy $p = null) {
         return $this->handler->openConnection($this, $p);
     }
 
-    protected function getURLStreamHandler(\blaze\lang\String $protocol){
+    protected function getURLStreamHandler(\blaze\lang\String $protocol) {
         $this->handler = self::$handlers->get($protocol);
 
-	if ($this->handler == null) {
+        if ($this->handler == null) {
 
-	    // Use the factory (if any)
-	    if (self::$factory != null) {
-		$this->handler = $this->factory->createURLStreamHandler($protocol);
-	    }
+            // Use the factory (if any)
+            if (self::$factory != null) {
+                $this->handler = $this->factory->createURLStreamHandler($protocol);
+            }
 
-	    // Try java protocol handler
+            // Try java protocol handler
 //	    if ($this->handler == null) {
 //		$packagePrefixList = null;
 //
@@ -383,74 +383,77 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
 //		    }
 //		}
 //	    }
-
             // Insert this handler into the map
             if ($this->handler != null) {
                 self::$handlers->put($protocol, $this->handler);
             }
+        }
 
-	}
-
-	return $this->handler;
+        return $this->handler;
     }
 
     public function compareTo(Object $obj) {
         if (($c = self::compareIgnoringCase($this->scheme, $that->scheme)) != 0)
-	    return $c;
+            return $c;
         if (($this->host != null) && ($that->host != null)) {
-	    // Both server-based
-	    if (($c = self::compare($this->userInfo, $that->userInfo)) != 0)
-		return $c;
-	    if (($c = self::compareIgnoringCase($this->host, $that->host)) != 0)
-		return c;
-	    if (($c = $this->port - $that->port) != 0)
-		return $c;
-	} else {
-	    // If one or both authorities are registry-based then we simply
-	    // compare them in the usual, case-sensitive way.  If one is
-	    // registry-based and one is server-based then the strings are
-	    // guaranteed to be unequal, hence the comparison will never return
-	    // zero and the compareTo and equals methods will remain
-	    // consistent.
-	    if (($c = self::compare($this->authority, $that->authority)) != 0) return $c;
-	}
+            // Both server-based
+            if (($c = self::compare($this->userInfo, $that->userInfo)) != 0)
+                return $c;
+            if (($c = self::compareIgnoringCase($this->host, $that->host)) != 0)
+                return c;
+            if (($c = $this->port - $that->port) != 0)
+                return $c;
+        } else {
+            // If one or both authorities are registry-based then we simply
+            // compare them in the usual, case-sensitive way.  If one is
+            // registry-based and one is server-based then the strings are
+            // guaranteed to be unequal, hence the comparison will never return
+            // zero and the compareTo and equals methods will remain
+            // consistent.
+            if (($c = self::compare($this->authority, $that->authority)) != 0)
+                return $c;
+        }
 
-	if (($c = self::compare($this->path, $that->path)) != 0) return $c;
-	if (($c = self::compare($this->query, $that->query)) != 0) return $c;
-	return self::compare($this->fragment, $that->fragment);
+        if (($c = self::compare($this->path, $that->path)) != 0)
+            return $c;
+        if (($c = self::compare($this->query, $that->query)) != 0)
+            return $c;
+        return self::compare($this->fragment, $that->fragment);
     }
 
     public static function compare($obj1, $obj2) {
-	if ($obj1 === $obj2) return 0;
-	if ($obj1 !== null) {
-	    if ($obj2 !== null)
-		return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
-	    else
-		return +1;
-	} else {
-	    return -1;
-	}
+        if ($obj1 === $obj2)
+            return 0;
+        if ($obj1 !== null) {
+            if ($obj2 !== null)
+                return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
+            else
+                return +1;
+        } else {
+            return -1;
+        }
     }
 
     // US-ASCII only
     private static function compareIgnoringCase(String $s, String $t) {
-	if ($s == $t) return 0;
-	if ($s != null) {
-	    if ($t != null) {
-		$sn = $s->length();
-		$tn = $t->length();
-		$n = $sn < $tn ? $sn : $tn;
-		for ($i = 0; $i < $n; $i++) {
-		    $c = self::toLower($s->charAt($i)) - self::toLower($t->charAt($i));
-		    if ($c != 0)
-			return $c;
-		}
-		return $sn - $tn;
-	    }
-	    return +1;
-	} else {
-	    return -1;
-	}
+        if ($s == $t)
+            return 0;
+        if ($s != null) {
+            if ($t != null) {
+                $sn = $s->length();
+                $tn = $t->length();
+                $n = $sn < $tn ? $sn : $tn;
+                for ($i = 0; $i < $n; $i++) {
+                    $c = self::toLower($s->charAt($i)) - self::toLower($t->charAt($i));
+                    if ($c != 0)
+                        return $c;
+                }
+                return $sn - $tn;
+            }
+            return +1;
+        } else {
+            return -1;
+        }
     }
 
     public function equals(\blaze\lang\Reflectable $obj) {
@@ -465,9 +468,8 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
             return $this->hashCode;
 
         $this->hashCode = $this->handler->hashCode($this);
-	return $this->hashCode;
+        return $this->hashCode;
     }
-
 
 }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of Comparable
  *
@@ -8,9 +10,10 @@ namespace blaze\lang;
  * @since   1.0
  * @author  Christian Beikov
  */
-
-interface Comparable{
+interface Comparable {
     public function compareTo(Object $obj);
+
     public static function compare($obj1, $obj2);
 }
+
 ?>

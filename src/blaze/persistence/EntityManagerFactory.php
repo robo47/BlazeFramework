@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence;
 
 /**
@@ -12,24 +13,27 @@ namespace blaze\persistence;
 
 
  */
-interface EntityManagerFactory extends \blaze\io\Closeable{
+interface EntityManagerFactory extends \blaze\io\Closeable {
+
     /**
      *
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $class
      * @return blaze\persistence\meta\ClassDescriptor
      */
     public function getClassDescriptor($class);
+
     /**
      *
      * @return blaze\collections\ListI[blaze\persistence\meta\ClassDescriptor]
      */
     public function getClassDescriptors();
+
     /**
      * Returns a new EntityManager
      *
      * @return 	blaze\persistence\EntityManager
      */
-     public function createEntityManager();
+    public function createEntityManager();
 }
 
 ?>

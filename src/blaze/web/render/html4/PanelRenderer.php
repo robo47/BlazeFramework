@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,16 +13,16 @@ namespace blaze\web\render\html4;
 
 
  */
-class PanelRenderer extends \blaze\web\render\html4\CoreRenderer{
+class PanelRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
-    private function getTypeTag(\blaze\web\component\UIComponent $component){
+    private function getTypeTag(\blaze\web\component\UIComponent $component) {
         $type = $component->getType();
 
-        switch($type){
+        switch ($type) {
             case 'span':
                 return'span';
             case 'div':
@@ -32,7 +33,7 @@ class PanelRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('<'.$this->getTypeTag($component));
+        $writer->write('<' . $this->getTypeTag($component));
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
@@ -43,9 +44,8 @@ class PanelRenderer extends \blaze\web\render\html4\CoreRenderer{
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        $writer->write('</'.$this->getTypeTag($component).'>');
+        $writer->write('</' . $this->getTypeTag($component) . '>');
     }
-
 
 }
 

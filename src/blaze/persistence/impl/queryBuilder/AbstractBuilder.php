@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\impl\queryBuilder;
 
 /**
@@ -12,16 +13,17 @@ namespace blaze\persistence\impl\queryBuilder;
 
 
  */
-abstract class AbstractBuilder extends \blaze\lang\Object{
+abstract class AbstractBuilder extends \blaze\lang\Object {
 
     protected $statement;
 
     /**
      * @return blaze\persistence\Statement
      */
-    public function getStatement(){
+    public function getStatement() {
         return $this->statement;
     }
+
 }
 
 ?>

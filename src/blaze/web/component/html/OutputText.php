@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,9 +15,9 @@ use blaze\lang\Object;
 
 
  */
-class OutputText extends \blaze\web\component\UIOutput{
+class OutputText extends \blaze\web\component\UIOutput {
 
-     /**
+    /**
      * - p -> default
      * - b
      * - em
@@ -31,10 +33,11 @@ class OutputText extends \blaze\web\component\UIOutput{
      */
     private $type;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new OutputText();
     }
 

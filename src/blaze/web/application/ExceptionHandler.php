@@ -24,9 +24,10 @@ class ExceptionHandler extends Object {
         
     }
 
-    public function handle(\blaze\lang\Exception $e){
+    public function handle(\blaze\lang\Exception $e) {
         throw $e;
     }
 
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\lang;
 
 /**
@@ -12,24 +13,26 @@ namespace blaze\lang;
  * @author  Christian Beikov
  */
 class Integer extends Number implements Comparable {
+
     private $value;
     private $digitCount;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = self::asNative($value);
         $this->digitCount = 1 + floor(log10(abs($this->value)));
     }
+
     public function byteValue() {
         return Byte::asNative($this->value);
     }
 
-public function doubleValue() {
+    public function doubleValue() {
         return Double::asNative($this->value);
     }
 
     public function floatValue() {
         return Float::asNative($this->value);
-     }
+    }
 
     public function intValue() {
         return Integer::asNative($this->value);
@@ -78,40 +81,42 @@ public function doubleValue() {
         return self::isNativeType($value) || self::isWrapperType($value);
     }
 
-    public static function toHexString($i){
+    public static function toHexString($i) {
         return dechex($i);
     }
-    public static function toBinaryString($i){
+
+    public static function toBinaryString($i) {
         return \decbin($i);
     }
-    public static  function toOctal($i){
+
+    public static function toOctal($i) {
         return \decoct($i);
     }
 
-    public static function hexStringToInt($str){
+    public static function hexStringToInt($str) {
         return hexdec($str);
     }
 
-    public function subNumber($beginIndex, $endIndex = null){
-        if($endIndex === null)
+    public function subNumber($beginIndex, $endIndex = null) {
+        if ($endIndex === null)
             $endIndex = $this->digitCount;
-	if ($beginIndex < 0) {
-	    throw new IndexOutOfBoundsException($beginIndex);
-	}
-	if ($endIndex < 0) {
-	    throw new IndexOutOfBoundsException($endIndex);
-	}
-	if ($endIndex > $this->digitCount) {
-	    throw new IndexOutOfBoundsException($endIndex);
-	}
-	if ($beginIndex > $endIndex) {
-	    throw new IndexOutOfBoundsException($endIndex - $beginIndex);
+        if ($beginIndex < 0) {
+            throw new IndexOutOfBoundsException($beginIndex);
+        }
+        if ($endIndex < 0) {
+            throw new IndexOutOfBoundsException($endIndex);
+        }
+        if ($endIndex > $this->digitCount) {
+            throw new IndexOutOfBoundsException($endIndex);
+        }
+        if ($beginIndex > $endIndex) {
+            throw new IndexOutOfBoundsException($endIndex - $beginIndex);
         }
 
-        return (int)substr($this->value, $this->digitCount - $endIndex, $endIndex - $beginIndex);
+        return (int) substr($this->value, $this->digitCount - $endIndex, $endIndex - $beginIndex);
     }
 
-    public function getDigitCount(){
+    public function getDigitCount() {
         return $this->digitCount;
     }
 
@@ -120,33 +125,34 @@ public function doubleValue() {
      * @param blaze\lang\Integer|int $value
      * @return int
      */
-    public static function asNative($value){
-        return (int)parent::asNative($value);
+    public static function asNative($value) {
+        return (int) parent::asNative($value);
     }
 
-    public function hashCode(){
+    public function hashCode() {
         return $this->value;
     }
 
-    public function equals(Reflectable $o){
+    public function equals(Reflectable $o) {
         return $o instanceof Integer && $o->value == $this->value;
     }
 
-    public function toString(){
-        return (string)$this->value;
+    public function toString() {
+        return (string) $this->value;
     }
 
     public function compareTo(Object $obj) {
-        if($obj === null)
+        if ($obj === null)
             throw new NullPointerException();
-        if($obj instanceof Integer)
+        if ($obj instanceof Integer)
             return $this->value - $obj->value;
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Integer.');
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Integer.');
     }
 
-    public static function valueOf($string){
+    public static function valueOf($string) {
         
     }
 
 }
+
 ?>

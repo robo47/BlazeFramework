@@ -32,7 +32,6 @@ class ClassLoader extends Object {
      * @var blaze\lang\ClassLoader
      */
     protected $parent;
-
     private $classes = array();
 
     /**
@@ -58,28 +57,28 @@ class ClassLoader extends Object {
         return self::$instance;
     }
 
-    protected function isLoadedClass($className){
+    protected function isLoadedClass($className) {
         return array_key_exists($className, $this->classes);
     }
 
-    public final function isInitializedClass($className){
-        $className = trim((string)$className, '\\');
+    public final function isInitializedClass($className) {
+        $className = trim((string) $className, '\\');
         return $this->isLoadedClass($className) && $this->classes[$className] != null;
     }
 
-    public function findLoadedClass($className){
-        $className = trim((string)$className, '\\');
+    public function findLoadedClass($className) {
+        $className = trim((string) $className, '\\');
         if (!$this->isLoadedClass($className)) {
             return null;
-        }else if(!$this->isInitializedClass($className)){
+        } else if (!$this->isInitializedClass($className)) {
             $this->classes[$className] = ClassWrapper::forName($className, true, $this);
         }
 
         return $this->classes[$className];
     }
 
-    public function findClass($className){
-        $className = trim((string)$className, '\\');
+    public function findClass($className) {
+        $className = trim((string) $className, '\\');
         $this->loadClass($className);
         return $this->findLoadedClass($className);
     }
@@ -89,15 +88,15 @@ class ClassLoader extends Object {
      * @param blaze\lang\String|string $name The full name of the class which shall be loaded.
      */
     public function loadClass($className) {
-        $className = trim((string)$className, '\\');
-        
+        $className = trim((string) $className, '\\');
+
         // Check if class was already loaded
         if ($this->isLoadedClass($className))
-                return;
+            return;
 
         // Try to load the class with the parent
-        if($this->parent != null && $this->parent->loadClass($className))
-                return true;
+        if ($this->parent != null && $this->parent->loadClass($className))
+            return true;
 
         // Setup the full path to the class within the classpath
         $fullName = $this->classPath . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';

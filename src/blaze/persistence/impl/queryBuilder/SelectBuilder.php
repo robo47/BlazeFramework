@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\impl\queryBuilder;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\persistence\impl\queryBuilder;
 
 
  */
-class SelectBuilder extends FromBuilder{
+class SelectBuilder extends FromBuilder {
 
-    public function __construct(){
+    public function __construct() {
         $this->statement = new \blaze\persistence\ooql\SelectStatement();
         $this->statement->setSelectClause(new \blaze\persistence\ooql\SelectClause(\blaze\persistence\ooql\SelectClause::TYPE_NONE));
         $this->statement->setFromClause(new \blaze\persistence\ooql\FromClause());
@@ -24,7 +25,7 @@ class SelectBuilder extends FromBuilder{
      *
      * @return SelectBuilder
      */
-    public function selectAll(){
+    public function selectAll() {
         $sel = $this->statement->getSelectClause();
         $sel->setSelectType($sel->getSelectType() | \blaze\persistence\ooql\SelectClause::TYPE_ALL);
         return $this;
@@ -34,12 +35,12 @@ class SelectBuilder extends FromBuilder{
      *
      * @return SelectBuilder
      */
-    public function selectDistinct(){
+    public function selectDistinct() {
         $sel = $this->statement->getSelectClause();
         $sel->setSelectType($sel->getSelectType() | \blaze\persistence\ooql\SelectClause::TYPE_DISTINCT);
         return $this;
     }
-    
+
     /**
      *
      * @param string|blaze\lang\String $property
@@ -47,18 +48,18 @@ class SelectBuilder extends FromBuilder{
      * @param string|blaze\lang\String $propertyAlias
      * @return SelectBuilder 
      */
-    public function selectProperty($property, $entityAlias = null, $propertyAlias = null){
+    public function selectProperty($property, $entityAlias = null, $propertyAlias = null) {
         $sel = $this->statement->getSelectClause();
         $sel->addSelectable(new \blaze\persistence\ooql\Property($entityAlias, $property, $propertyAlias));
         return $this;
     }
-    
+
     /**
      * @see blaze\persistence\Formulas
      * @param \blaze\persistence\ooql\Formula $formula
      * @return SelectBuilder 
      */
-    public function selectFormula(\blaze\persistence\ooql\Formula $formula){
+    public function selectFormula(\blaze\persistence\ooql\Formula $formula) {
         $sel = $this->statement->getSelectClause();
         $sel->addSelectable($formula);
         return $this;

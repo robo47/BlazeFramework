@@ -79,11 +79,11 @@ class SelectListRenderer extends \blaze\web\render\html4\BaseSelectRenderer {
                                 $id++;
                         }
                     }
-                }else{
+                }else {
                     $id = $item->getValue();
                     $label = $item->getLabel();
                     $disabled = $item->getDisabled();
-                    
+
                     if ($type === 'multiple')
                         $selected = $this->isSelectedMany($value, $idFieldList, $id);
                     else
@@ -98,13 +98,13 @@ class SelectListRenderer extends \blaze\web\render\html4\BaseSelectRenderer {
     }
 
     private function isSelectedMany($array, $idFieldArray, $item, $idFieldItem = null) {
-        if($selectedItem === null || $selectedItem == '')
+        if ($selectedItem === null || $selectedItem == '')
             return false;
-        if($idFieldItem !== null)
+        if ($idFieldItem !== null)
             $curVal = $item->getClass()->getMethod('get' . ucfirst($idFieldItem))->invoke($item);
         else
             $curVal = $item;
-        
+
         foreach ($array as $selectedItem) {
             if ($selectedItem->getClass()->getMethod('get' . ucfirst($idFieldArray))->invoke($selectedItem)
                     === $curVal)
@@ -115,7 +115,7 @@ class SelectListRenderer extends \blaze\web\render\html4\BaseSelectRenderer {
     }
 
     private function isSelectedOne($selectedItem, $idFieldSelected, $item, $idFieldItem = null) {
-        if($selectedItem === null || $selectedItem == '')
+        if ($selectedItem === null || $selectedItem == '')
             return false;
         return $selectedItem->getClass()->getMethod('get' . ucfirst($idFieldSelected))->invoke($selectedItem)
         === ($idFieldItem === null ? $item : $item->getClass()->getMethod('get' . ucfirst($idFieldItem))->invoke($item));
@@ -125,11 +125,11 @@ class SelectListRenderer extends \blaze\web\render\html4\BaseSelectRenderer {
         $writer = $context->getResponse()->getWriter();
         $writer->write('<option');
 
-        $writer->write(' value="'.$id.'"');
+        $writer->write(' value="' . $id . '"');
 
-        if($selected)
+        if ($selected)
             $writer->write(' selected="selected"');
-        if($disabled)
+        if ($disabled)
             $writer->write(' disabled="disabled"');
         $writer->write('>');
         $writer->write($label);

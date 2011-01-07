@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of NoSuchMethodException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class NoSuchMethodException extends Exception {}
+class NoSuchMethodException extends Exception {
+
+}
 
 ?>

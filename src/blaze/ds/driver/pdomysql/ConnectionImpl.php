@@ -41,14 +41,14 @@ class ConnectionImpl extends AbstractConnection {
      */
     public function getTransactionIsolation() {
         $this->checkClosed();
-        try{
+        try {
             $stm = $this->createStatement();
             $rs = $stm->executeQuery('SELECT @@tx_isolation');
-            if($rs->next())
+            if ($rs->next())
                 return $rs->getString(0);
             else
                 return null;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -69,10 +69,10 @@ class ConnectionImpl extends AbstractConnection {
      */
     public function setTransactionIsolation($level) {
         $this->checkClosed();
-        try{
-            $stm = $this->pdo->query('SET SESSION TRANSACTION ISOLATION LEVEL '.$level);
+        try {
+            $stm = $this->pdo->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $level);
             $stm->execute();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -82,53 +82,53 @@ class ConnectionImpl extends AbstractConnection {
      * @param string|blaze\lang\String $databaseName
      * @return \blaze\ds\meta\DatabaseMetaData Returns the meta data of the database or null if no db with that name was found.
      */
-    public function getDatabase($databaseName){
+    public function getDatabase($databaseName) {
         $this->checkClosed();
-        try{
+        try {
             $con = new self($this->driver, $this->host, $this->port, $databaseName, $this->user, $this->password, array());
             return new DatabaseMetaDataImpl($con, $con->pdo, $con->host, $con->port, $con->database, $con->user, $con->options);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return null;
         }
     }
 
     public function addDatabase(\blaze\ds\meta\DatabaseMetaData $database, $newName = null) {
         $this->checkClosed();
-        if($newName === null)
+        if ($newName === null)
             $db = $this->createDatabase($database->getDatabaseName(), $database->getDatabaseCharset(), $database->getDatabaseCollation());
         else
             $db = $this->createDatabase($newName, $database->getDatabaseCharset(), $database->getDatabaseCollation());
 
-        foreach($database->getSchemas() as $schema)
+        foreach ($database->getSchemas() as $schema)
             $db->addSchema($schema);
     }
 
     public function createDatabase($databaseName, $defaultCharset = null, $defaultCollation = null) {
-        $query = 'CREATE DATABASE '.$databaseName;
+        $query = 'CREATE DATABASE ' . $databaseName;
 
-        if($defaultCharset !== null)
-            $query .= ' CHARACTER SET '.$defaultCharset;
-        if($defaultCollation !== null)
-            $query .= ' COLLATE '.$defaultCollation;
+        if ($defaultCharset !== null)
+            $query .= ' CHARACTER SET ' . $defaultCharset;
+        if ($defaultCollation !== null)
+            $query .= ' COLLATE ' . $defaultCollation;
 
-        try{
+        try {
             $this->pdo->query($query);
             $con = new self($this->driver, $this->host, $this->port, $databaseName, $this->user, $this->password, array());
             return new DatabaseMetaDataImpl($con, $con->pdo, $con->host, $con->port, $con->database, $con->user, $con->options);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     public function dropDatabase($databaseName) {
         $this->checkClosed();
-        try{
-            $this->pdo->query('DROP DATABASE '.$databaseName);
-        }catch(\PDOException $e){
+        try {
+            $this->pdo->query('DROP DATABASE ' . $databaseName);
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-
 }
+
 ?>

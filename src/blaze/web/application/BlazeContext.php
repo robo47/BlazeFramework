@@ -40,7 +40,7 @@ class BlazeContext extends Object {
         $this->application = $application;
         $this->request = $request;
         $this->response = $response;
-        
+
         $this->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->resetValues($this);
     }
 
@@ -98,7 +98,7 @@ class BlazeContext extends Object {
      *
      * @return blaze\web\el\ELContext
      */
-    public function getELContext(){
+    public function getELContext() {
         return $this->application->getELContext();
     }
 
@@ -246,4 +246,5 @@ class BlazeContext extends Object {
     }
 
 }
+
 ?>

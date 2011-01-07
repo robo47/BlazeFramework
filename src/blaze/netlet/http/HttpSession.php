@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet\http;
 
 /**
@@ -12,9 +13,7 @@ namespace blaze\netlet\http;
 
 
  */
-
 interface HttpSession {
-
     public function invalidate();
 
     public function getAttribute($name);

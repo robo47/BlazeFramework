@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Operation extends Object implements Argument, Operationable, Conditionable{
-    
+class Operation extends Object implements Argument, Operationable, Conditionable {
     const OP_PLUS = '+';
     const OP_MINUS = '-';
     const OP_DIVIDE = '/';
@@ -43,7 +44,6 @@ class Operation extends Object implements Argument, Operationable, Conditionable
     public function getOperation() {
         return $this->operation;
     }
-
 
 }
 

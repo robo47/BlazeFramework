@@ -107,7 +107,7 @@ class BufferedReader extends \blaze\io\Reader {
         return $read;
     }
 
-    public function getLineNumber(){
+    public function getLineNumber() {
         return $this->lineCount;
     }
 
@@ -129,4 +129,5 @@ class BufferedReader extends \blaze\io\Reader {
     }
 
 }
+
 ?>

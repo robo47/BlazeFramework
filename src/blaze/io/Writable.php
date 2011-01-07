@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\io;
 
 /**
@@ -11,6 +12,7 @@ namespace blaze\io;
 
  */
 interface Writable {
+
     /**
      * Writes the value of $str into the underlying ressource.
      * With $off you can define a start point in $str and $len specifies the number of chars you want to
@@ -21,7 +23,7 @@ interface Writable {
      * @param 	int $len The number of chars to write, if this value is -1 then $str is written from $off to the end of $str
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function write($str, $off = 0, $len = -1);
+    public function write($str, $off = 0, $len = -1);
 }
 
 ?>

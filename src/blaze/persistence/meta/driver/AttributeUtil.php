@@ -16,8 +16,8 @@ use blaze\lang\Object;
  */
 class AttributeUtil extends Object {
 
-    public static function set(\DOMElement $node, $key, $value){
-        if($value != null && $value != '')
+    public static function set(\DOMElement $node, $key, $value) {
+        if ($value != null && $value != '')
             $node->setAttribute($key, $value);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -13,19 +14,22 @@ namespace blaze\ds\meta;
 
  */
 interface ResultSetMetaData {
+
     /**
-      * @return array[blaze\ds\meta\ColumnMetaData]
-      */
-     public function getColumns();
-     /**
-      * @return blaze\ds\meta\ColumnMetaData
-      * @param blaze\lang\String|string|int $identifier 
-      */
-     public function getColumn($identifier);
-     /**
-      * @return blaze\ds\Statement1
-      */
-     public function getStatement();
+     * @return array[blaze\ds\meta\ColumnMetaData]
+     */
+    public function getColumns();
+
+    /**
+     * @return blaze\ds\meta\ColumnMetaData
+     * @param blaze\lang\String|string|int $identifier
+     */
+    public function getColumn($identifier);
+
+    /**
+     * @return blaze\ds\Statement1
+     */
+    public function getStatement();
 }
 
 ?>

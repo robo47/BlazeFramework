@@ -15,6 +15,6 @@ use blaze\lang\Object;
  */
 class GZIPInputStream extends DeflaterInputStream {
 
-
 }
+
 ?>

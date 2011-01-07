@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\xml;
+
 /**
  * Description of IllegalArgumentException
  *
@@ -10,6 +12,8 @@ namespace blaze\xml;
 
  * @author  Christian Beikov
  */
-class XMLWriterException extends Exception {}
+class XMLWriterException extends Exception {
+
+}
 
 ?>

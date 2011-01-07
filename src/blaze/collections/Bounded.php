@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -12,7 +13,8 @@ namespace blaze\collections;
  * @see     \blaze\collections\Collections
  * @since   1.0
  */
-interface Bounded{
+interface Bounded {
+
     /**
      * Returns true if this collections is full and no new elements can be added.
      * @return boolean

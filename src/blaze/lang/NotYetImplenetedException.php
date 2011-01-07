@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of ClassNotFoundException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class NotYetImplenetedException extends Exception {}
+class NotYetImplenetedException extends Exception {
+
+}
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class InputTextRenderer extends \blaze\web\render\html4\BaseInputRenderer{
+class InputTextRenderer extends \blaze\web\render\html4\BaseInputRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -25,19 +26,17 @@ class InputTextRenderer extends \blaze\web\render\html4\BaseInputRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context, $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
-        
-        $writer->write(' type="'.$component->getType().'"');
-        $writer->write(' value="'.$this->getValue($context, $component).'"');
-        
+
+        $writer->write(' type="' . $component->getType() . '"');
+        $writer->write(' value="' . $this->getValue($context, $component) . '"');
     }
 
-        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-         $writer = $context->getResponse()->getWriter();
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        $writer = $context->getResponse()->getWriter();
         $writer->write('/>');
     }
-
 
 }
 

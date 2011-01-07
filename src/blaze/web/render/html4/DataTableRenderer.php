@@ -232,9 +232,9 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
 //            if ($colspan != null)
 //                $writer->write(' colspan="' . $colspan . '"');
             if ($styleClass != null)
-                $writer->write(' class="'.$styleClass.'"');
+                $writer->write(' class="' . $styleClass . '"');
             if ($style != null)
-                $writer->write(' style="'.$style.'"');
+                $writer->write(' style="' . $style . '"');
 
             $writer->write('>');
             $parent->processRender($context);
@@ -254,19 +254,19 @@ class DataTableRenderer extends \blaze\web\render\html4\CoreRenderer {
     }
 
     private function recursiveCheckSelected(\blaze\web\component\UIComponent $component) {
-        if ($component instanceof \blaze\web\component\UICommand){
+        if ($component instanceof \blaze\web\component\UICommand) {
             return $component->getClicked();
         }
 
         $found = false;
 
-        foreach ($component->getChildren() as $child){
-            if($found)
+        foreach ($component->getChildren() as $child) {
+            if ($found)
                 break;
-            if($this->recursiveCheckSelected($child) === true)
-                    $found = true;
+            if ($this->recursiveCheckSelected($child) === true)
+                $found = true;
         }
-        
+
         return $found;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\event;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\event;
 
 
  */
-class EventRenderer extends \blaze\web\render\Renderer{
+class EventRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,17 +25,17 @@ class EventRenderer extends \blaze\web\render\Renderer{
         $writer->write('<script type="text/javascript">');
 
 
-        foreach($component->getEffects() as $effect){
+        foreach ($component->getEffects() as $effect) {
             $id = $component->getParent()->getClientId($context);
             $writer->write('var listener = ');
             $effect->processRender($context);
             $writer->write(';');
-            $writer->write('var element = document.getElementById(\''.$id.'\');');
+            $writer->write('var element = document.getElementById(\'' . $id . '\');');
 //            $writer->write('if(document.addEventListener)
 //                                element.addEventListener(\''.$type.'\', listener, false);
 //                            else
 //                                element.attachEvent(\'on'.$type.'\', listener);');
-            $writer->write('element.on'.$type.' = listener;');
+            $writer->write('element.on' . $type . ' = listener;');
         }
 
         $writer->write('</script>');
@@ -43,7 +44,6 @@ class EventRenderer extends \blaze\web\render\Renderer{
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         
     }
-
 
 }
 

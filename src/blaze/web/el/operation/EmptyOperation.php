@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el\operation;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,13 @@ use blaze\lang\Object;
 
 
  */
-class EmptyOperation extends SimpleOperation{
+class EmptyOperation extends SimpleOperation {
+
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
         $val = $this->resolveSubParts($context, $subExpressions, $subBrackets, $this->expression);
         return $val == '';
     }
 
 }
-
-
 
 ?>

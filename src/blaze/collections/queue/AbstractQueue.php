@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\queue;
+
 use blaze\lang\Object;
 
 /**
@@ -12,9 +14,9 @@ use blaze\lang\Object;
  * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
  */
-abstract class AbstractQueue extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\Queue{
-    
-    public function add($obj){
+abstract class AbstractQueue extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\Queue {
+
+    public function add($obj) {
         $this->offer($obj);
     }
 

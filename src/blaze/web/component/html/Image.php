@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Image extends \blaze\web\component\UIComponentCore{
+class Image extends \blaze\web\component\UIComponentCore {
 
     private $alt;
     private $src;
@@ -22,8 +24,8 @@ class Image extends \blaze\web\component\UIComponentCore{
     private $useMap = false;
 
     public function addChild(\blaze\web\component\UIComponent $child) {
-        if(!$this->useMap && $child instanceof Area)
-                $this->useMap = true;
+        if (!$this->useMap && $child instanceof Area)
+            $this->useMap = true;
         return parent::addChild($child);
     }
 
@@ -31,10 +33,11 @@ class Image extends \blaze\web\component\UIComponentCore{
         return $this->useMap;
     }
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Image();
     }
 
@@ -81,7 +84,6 @@ class Image extends \blaze\web\component\UIComponentCore{
         $this->width = new \blaze\web\el\Expression($width);
         return $this;
     }
-
 
 }
 

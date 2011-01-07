@@ -90,6 +90,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
     public function set($index, $obj) {
         return false;
     }
+
 }
 
 ?>

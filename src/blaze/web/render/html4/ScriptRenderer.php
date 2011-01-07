@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class ScriptRenderer extends \blaze\web\render\Renderer{
+class ScriptRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,8 +25,8 @@ class ScriptRenderer extends \blaze\web\render\Renderer{
         $src = $component->getSrc();
 
         $writer->write(' type="text/javascript"');
-        if($src != null)
-            $writer->write(' src="'.$src.'"');
+        if ($src != null)
+            $writer->write(' src="' . $src . '"');
         $writer->write('>');
     }
 
@@ -33,7 +34,6 @@ class ScriptRenderer extends \blaze\web\render\Renderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('</script>');
     }
-
 
 }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class Script extends \blaze\web\component\UIComponentBase{
+class Script extends \blaze\web\component\UIComponentBase {
 
     private $src;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Script();
     }
 
@@ -40,7 +43,6 @@ class Script extends \blaze\web\component\UIComponentBase{
         $this->src = new \blaze\web\el\Expression($src);
         return $this;
     }
-
 
 }
 

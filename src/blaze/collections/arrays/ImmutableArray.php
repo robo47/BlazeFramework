@@ -18,12 +18,17 @@ final class ImmutableArray extends AbstractArrayDecorator {
     /**
      * Nothing gets set, because it is immutable.
      */
-    public function offsetSet($offset, $value) {}
+    public function offsetSet($offset, $value) {
+
+    }
 
     /**
      * Nothing gets unset, because it is immutable.
      */
-    public function offsetUnset($offset) { }
+    public function offsetUnset($offset) {
+        
+    }
+
 }
 
 ?>

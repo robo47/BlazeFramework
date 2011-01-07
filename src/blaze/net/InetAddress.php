@@ -213,8 +213,6 @@ class InetAddress extends Object implements \blaze\io\Serializable {
         return $this->impl->isReachable($this, $timeout, $netif, $ttl);
     }
 
-
-
     /**
      * Returns the hostname for this address.
      * If the host is equal to null, then this address refers to any
@@ -404,12 +402,11 @@ class InetAddress extends Object implements \blaze\io\Serializable {
 
     protected final function expandIPv6Notation(\blaze\lang\String $ip) {
         if ($ip->indexOf('::') !== -1)
-            $ip = $ip->replace('::', str_repeat(':0', 8 - substr_count($ip, ':')).':');
+            $ip = $ip->replace('::', str_repeat(':0', 8 - substr_count($ip, ':')) . ':');
         if ($ip->indexOf(':') === 0)
-                $ip = '0'.$ip;
+            $ip = '0' . $ip;
         return \blaze\lang\String::asWrapper($ip);
-}
-
+    }
 
     protected final function textToNumericFormatV4(\blaze\lang\String $string) {
         $ret = ip2long($string);
@@ -417,16 +414,16 @@ class InetAddress extends Object implements \blaze\io\Serializable {
     }
 
     protected final function textToNumericFormatV6(\blaze\lang\String $ip) {
-            $ip = ExpandIPv6Notation($ip);
-            $parts = explode(':', $ip);
-            $ip = array('', '');
+        $ip = ExpandIPv6Notation($ip);
+        $parts = explode(':', $ip);
+        $ip = array('', '');
 
-            for ($i = 0; $i < 4; $i++)
-                $ip[0] .= str_pad(base_convert($parts[$i], 16, 2), 16, 0, STR_PAD_LEFT);
-            for ($i = 4; $i < 8; $i++)
-                $ip[1] .= str_pad(base_convert($parts[$i], 16, 2), 16, 0, STR_PAD_LEFT);
+        for ($i = 0; $i < 4; $i++)
+            $ip[0] .= str_pad(base_convert($parts[$i], 16, 2), 16, 0, STR_PAD_LEFT);
+        for ($i = 4; $i < 8; $i++)
+            $ip[1] .= str_pad(base_convert($parts[$i], 16, 2), 16, 0, STR_PAD_LEFT);
 
-            return base_convert($ip[0], 2, 10) + base_convert($ip[1], 2, 10);
+        return base_convert($ip[0], 2, 10) + base_convert($ip[1], 2, 10);
     }
 
     protected final function convertIPv4To6(\blaze\lang\String $ip) {
@@ -436,8 +433,8 @@ class InetAddress extends Object implements \blaze\io\Serializable {
         if (!$IPv4 && !$IPv6)
             return null;
         if ($IPv6 && $IPv4)
-            $ip = $ip->substring($ip->indexOf(':')+1); // Strip IPv4 Compatibility notation
-        elseif (!$IPv4)
+            $ip = $ip->substring($ip->indexOf(':') + 1); // Strip IPv4 Compatibility notation
+ elseif (!$IPv4)
             return $ip; // Seems to be IPv6 already?
 
         $ipParts = $ip->split('.');
@@ -446,7 +443,7 @@ class InetAddress extends Object implements \blaze\io\Serializable {
         $part8 = base_convert(($ipParts[2] * 256) + $ipParts[3], 10, 16);
         $mask = '::ffff:'; // This tells IPv6 it has an IPv4 address
 
-        return \blaze\lang\String::asWrapper($mask.$part7.':'.$part8);
+        return \blaze\lang\String::asWrapper($mask . $part7 . ':' . $part8);
     }
 
     protected final function convertIPv6To4(\blaze\lang\String $ip) {
@@ -458,8 +455,8 @@ class InetAddress extends Object implements \blaze\io\Serializable {
             return null;
         if (!$IPv6)
             return $ip; // Seems to be IPv4 already?
-        if(!$ip->startsWith($mask))
-                return null;
+        if (!$ip->startsWith($mask))
+            return null;
 
         $ipParts = $ip->substring(strlen($mask))->split(':');
         $part7 = base_convert($ipParts[0], 16, 10);
@@ -474,15 +471,13 @@ class InetAddress extends Object implements \blaze\io\Serializable {
         return \blaze\lang\String::asWrapper(implode('.', $ip4));
     }
 
-
-   protected final function isIPv4LiteralAddress(\blaze\lang\String $string) {
+    protected final function isIPv4LiteralAddress(\blaze\lang\String $string) {
         return $string->matches('/((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])/');
     }
 
     protected final function isIPv6LiteralAddress(\blaze\lang\String $string) {
         return $string->matches('/(?:(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){6})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:::(?:(?:(?:[0-9a-fA-F]{1,4})):){5})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){4})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,1}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){3})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,2}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){2})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,3}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:[0-9a-fA-F]{1,4})):)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,4}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,5}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,6}(?:(?:[0-9a-fA-F]{1,4})))?::))))/');
     }
-
 
     /*
      * Cached addresses - our own litle nis, not!

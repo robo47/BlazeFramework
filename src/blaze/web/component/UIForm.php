@@ -15,10 +15,10 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIForm extends \blaze\web\component\UIComponentCore implements NamingContainer{
+abstract class UIForm extends \blaze\web\component\UIComponentCore implements NamingContainer {
 
     private $submitted = false;
-    
+
     public function getSubmitted() {
         return $this->submitted;
     }
@@ -30,20 +30,23 @@ abstract class UIForm extends \blaze\web\component\UIComponentCore implements Na
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
         $renderer = $this->getRenderer($context);
         $renderer->decode($context, $this);
-        
-        if(!$this->submitted) return;
 
-        foreach($this->getChildren() as $child)
+        if (!$this->submitted)
+            return;
+
+        foreach ($this->getChildren() as $child)
             $child->processDecodes($context);
     }
 
     public function processUpdates(\blaze\web\application\BlazeContext $context) {
-        if(!$this->submitted) return;
+        if (!$this->submitted)
+            return;
         parent::processUpdates($context);
     }
 
     public function processValidations(\blaze\web\application\BlazeContext $context) {
-        if(!$this->submitted) return;
+        if (!$this->submitted)
+            return;
         parent::processValidations($context);
     }
 
@@ -51,5 +54,7 @@ abstract class UIForm extends \blaze\web\component\UIComponentCore implements Na
         parent::processRender($context);
         $this->submitted = false;
     }
+
 }
+
 ?>

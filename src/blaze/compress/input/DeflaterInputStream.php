@@ -32,6 +32,6 @@ class DeflaterInputStream extends \blaze\io\input\FilterInputStream {
         return gzdecode($this->in->read($len));
     }
 
-
 }
+
 ?>

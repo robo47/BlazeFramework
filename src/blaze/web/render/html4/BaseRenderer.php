@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class BaseRenderer extends \blaze\web\render\Renderer{
+class BaseRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,17 +25,16 @@ class BaseRenderer extends \blaze\web\render\Renderer{
         $href = $component->getHref();
         $target = $component->getTarget();
 
-        if($href != null)
-            $writer->write(' href="'.$href.'"');
-        if($target != null)
-            $writer->write(' target="'.$target.'"');
+        if ($href != null)
+            $writer->write(' href="' . $href . '"');
+        if ($target != null)
+            $writer->write(' target="' . $target . '"');
         $writer->write('/>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         
     }
-
 
 }
 

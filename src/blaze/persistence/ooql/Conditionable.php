@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -14,6 +16,7 @@ use blaze\lang\Object;
  * @todo    Something which has to be done, implementation or so
  */
 interface Conditionable {
+
 }
 
 ?>

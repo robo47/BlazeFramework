@@ -37,8 +37,8 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
         try {
             //$this->reset();
-            if ($this->stmt->execute() === false){
-                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
+            if ($this->stmt->execute() === false) {
+                throw new DataSourceException('Could not execute query. ' . $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() === 0)
@@ -58,8 +58,8 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
         $this->checkClosed();
 
         try {
-            if ($this->stmt->execute() === false){
-                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
+            if ($this->stmt->execute() === false) {
+                throw new DataSourceException('Could not execute query. ' . $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() === 0)
@@ -81,8 +81,8 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
 
         try {
             //$this->reset();
-            if ($this->stmt->execute() === false){
-                throw new DataSourceException('Could not execute query. '. $this->stmt->errorInfo());
+            if ($this->stmt->execute() === false) {
+                throw new DataSourceException('Could not execute query. ' . $this->stmt->errorInfo());
             }
 
             if ($this->stmt->columnCount() !== 0)
@@ -101,11 +101,13 @@ abstract class AbstractPreparedStatement extends AbstractStatement1 implements P
      * @return blaze\lang\PreparedStatement
      */
     protected function set($identifier, $value, $type = \PDO::PARAM_STR) {
-        if(\blaze\lang\String::isType($identifier))
-            $this->stmt->bindValue(':'.$identifier, $value, $type);//|\PDO::PARAM_INPUT_OUTPUT);
-        else
-            $this->stmt->bindValue($identifier + 1, $value, $type);//|\PDO::PARAM_INPUT_OUTPUT);
+        if (\blaze\lang\String::isType($identifier))
+            $this->stmt->bindValue(':' . $identifier, $value, $type); //|\PDO::PARAM_INPUT_OUTPUT);
+ else
+            $this->stmt->bindValue($identifier + 1, $value, $type); //|\PDO::PARAM_INPUT_OUTPUT);
+
     }
 
 }
+
 ?>

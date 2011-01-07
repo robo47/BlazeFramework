@@ -13,7 +13,8 @@ namespace blaze\net;
 
 
  */
-interface URLStreamHandlerFactory{
+interface URLStreamHandlerFactory {
+
     /**
      * @param \blaze\lang\String|string $protocol
      * @return blaze\net\URLStreamHandler

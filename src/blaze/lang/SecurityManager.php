@@ -1,6 +1,7 @@
 <?php
 
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -15,7 +16,6 @@ use blaze\lang\Object;
  */
 class SecurityManager extends Object {
 
-    
-
 }
+
 ?>

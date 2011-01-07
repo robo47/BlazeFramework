@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,11 +13,12 @@ namespace blaze\web\render\html4;
 
 
  */
-class HeadRenderer extends \blaze\web\render\Renderer{
+class HeadRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
+
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
 
     }
@@ -30,7 +32,6 @@ class HeadRenderer extends \blaze\web\render\Renderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('</head>');
     }
-
 
 }
 

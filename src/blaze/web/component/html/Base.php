@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,15 +15,16 @@ use blaze\lang\Object;
 
 
  */
-class Base extends \blaze\web\component\UIComponentBase{
+class Base extends \blaze\web\component\UIComponentBase {
 
     private $href;
     private $target;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Base();
     }
 

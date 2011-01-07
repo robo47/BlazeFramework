@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet\http;
+
 use blaze\lang\Cloneable;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Cloneable;
 
 
  */
-interface HttpUserAgent extends Cloneable{
-
+interface HttpUserAgent extends Cloneable {
     const BROWSER_UNKNOWN = 'unknown';
 
     const BROWSER_OPERA = 'Opera';                            // http://www.opera.com/
@@ -69,26 +70,26 @@ interface HttpUserAgent extends Cloneable{
     const OS_OPENSOLARIS = 'OpenSolaris';
 
     const OS_UNKNOWN = 'unknown';
-    
+
     public function getUserAgentString();
 
     public function getBrowser();
 
-     public function getBrowserMajorVersion();
+    public function getBrowserMajorVersion();
 
-     public function getBrowserMinorVersion();
+    public function getBrowserMinorVersion();
 
-     public function getBrowserVersionString();
+    public function getBrowserVersionString();
 
-     public function getOperatingSystem();
+    public function getOperatingSystem();
 
-     public function getHtmlVersion();
+    public function getHtmlVersion();
 
-     public function getCssVersion();
+    public function getCssVersion();
 
-     public function isMobile();
+    public function isMobile();
 
-     public function isRobot();
+    public function isRobot();
 }
 
 ?>

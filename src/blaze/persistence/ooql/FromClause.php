@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,11 +15,12 @@ use blaze\lang\Object;
 
 
  */
-class FromClause extends Object{
+class FromClause extends Object {
 
     private $fromables = array();
 
     public function __construct() {
+
     }
 
     public function getFromables() {
@@ -27,8 +30,6 @@ class FromClause extends Object{
     public function addFromable(Fromable $fromable) {
         $this->fromables[] = $fromable;
     }
-
-
 
 }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\input;
+
 use blaze\lang\Object;
 
 /**
@@ -17,11 +19,11 @@ class FileReader extends \blaze\io\InputStreamReader {
      *
      * @param string|blaze\lang\String|blaze\io\File|blaze\io\input\FileInputStream $fileOrStream
      */
-    public function __construct($fileOrStream, $append = false){
+    public function __construct($fileOrStream, $append = false) {
         $stream = null;
-        if($fileOrStream instanceof FileInputStream)
+        if ($fileOrStream instanceof FileInputStream)
             $stream = $fileOrStream;
-        else if($fileOrStream instanceof \blaze\io\File || \blaze\lang\String::isType($fileOrStream))
+        else if ($fileOrStream instanceof \blaze\io\File || \blaze\lang\String::isType($fileOrStream))
             $stream = new FileInputStream($fileOrStream, false);
         else
             throw new \blaze\lang\IllegalArgumentException('Invalid argument type for $fileOrStream.');

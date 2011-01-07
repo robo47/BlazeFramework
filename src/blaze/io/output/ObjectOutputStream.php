@@ -88,7 +88,7 @@ class ObjectOutputStream extends \blaze\io\output\FilterOutputStream implements 
 
         if ($method != null) {
             $className = $class->getName();
-            $ser = 'O:'.$className->length().':"'.$className->toNative().'":';
+            $ser = 'O:' . $className->length() . ':"' . $className->toNative() . '":';
             $this->current = $object;
             $method->invoke($object, $this);
             $this->current = null;

@@ -1,6 +1,8 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql;
-use  blaze\lang\Object,
+
+use blaze\lang\Object,
  blaze\lang\String,
  blaze\lang\Boolean,
  blaze\lang\Long,
@@ -15,10 +17,10 @@ use  blaze\lang\Object,
  blaze\ds\driver\pdomysql\type\BlobImpl,
  blaze\ds\driver\pdomysql\type\ClobImpl,
  blaze\ds\driver\pdomysql\type\NClobImpl,
-        \blaze\ds\driver\pdobase\AbstractCallableStatement,
-        \blaze\ds\Connection,
-        \blaze\ds\CallableStatement,
-       \blaze\ds\driver\pdobase\AbstractStatement1;
+ \blaze\ds\driver\pdobase\AbstractCallableStatement,
+ \blaze\ds\Connection,
+ \blaze\ds\CallableStatement,
+ \blaze\ds\driver\pdobase\AbstractStatement1;
 
 /**
  * Description of CallableStatementImpl
@@ -43,11 +45,10 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
     }
 
-    public function  __construct(Connection $con, \PDO $pdo, $sql){
+    public function __construct(Connection $con, \PDO $pdo, $sql) {
         parent::__construct($con, $pdo, $sql);
-
     }
-    
+
     public function getMetaData() {
         $this->checkClosed();
         if ($this->rsmd == null)
@@ -65,13 +66,11 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         return $this->resultSet;
     }
 
-   
-
-    protected function get($identifier){
+    protected function get($identifier) {
         $this->checkClosed();
-        $stm =$this->con->prepareStatement('Select @'.$identifier);
+        $stm = $this->con->prepareStatement('Select @' . $identifier);
         $rs = $stm->executeQuery();
-        
+
         while ($rs->next()) {
             return ($rs->getString(0));
         }
@@ -318,11 +317,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
     }
 
     public function wasNull() {
-
+        
     }
-
-
-
 
     /**
      *

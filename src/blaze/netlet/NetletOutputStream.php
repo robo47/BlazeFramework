@@ -1,8 +1,10 @@
 <?php
+
 namespace blaze\netlet;
+
 use blaze\lang\Object,
-    blaze\lang\String,
-    blaze\io\OutputStream;
+ blaze\lang\String,
+ blaze\io\OutputStream;
 
 /**
  * Description of NetletOutputStream
@@ -16,6 +18,7 @@ use blaze\lang\Object,
 
  */
 class NetletOutputStream extends OutputStream {
+
     private static $MAX_SIZE = 52428800; // 5 MB
     private $output;
     private $closed;
@@ -29,10 +32,10 @@ class NetletOutputStream extends OutputStream {
      *
      * @throws blaze\io\IOException Is thrown when the stream creation failed.
      */
-    public function __construct(NetletResponse $response){
-        $this->output = fopen('php://temp/maxmemory:'.self::$MAX_SIZE, 'r+');
-        if(!$this->output)
-                throw new \blaze\io\IOException();
+    public function __construct(NetletResponse $response) {
+        $this->output = fopen('php://temp/maxmemory:' . self::$MAX_SIZE, 'r+');
+        if (!$this->output)
+            throw new \blaze\io\IOException();
         $this->closed = false;
         $this->response = $response;
     }
@@ -46,13 +49,12 @@ class NetletOutputStream extends OutputStream {
      * @throws	blaze\io\IOException
      * @todo	Check which method is faster
      */
-     public function write($buf, $off = 0, $len = -1){
-         //Maybe faster?
+    public function write($buf, $off = 0, $len = -1) {
+        //Maybe faster?
 //         if($off == 0 && $len == -1)
 //            $this->output .= $buf;
 //         else
 //            $this->output .= String::asWrapper($buf)->substring($off, $len)->toNative();
-
 //         ob_start();
 //         echo $this->output;
 //         echo String::asWrapper($buf)->substring($off, $len)->toNative();
@@ -60,7 +62,7 @@ class NetletOutputStream extends OutputStream {
 //         ob_end_clean();
 
         $this->checkClosed();
-         fwrite($this->output, $buf);
+        fwrite($this->output, $buf);
     }
 
     /**
@@ -68,27 +70,28 @@ class NetletOutputStream extends OutputStream {
      *
      * @throws	blaze\io\IOException Is thrown when the stream is already closed
      */
-     public function flush(){
-         $this->checkClosed();
-         $contentLength = ftell($this->output);
-         rewind($this->output);
-         $this->response->setContentLength($contentLength);
-         echo stream_get_contents($this->output);
-         //unset($this->output);
-         //$this->output = "";
-     }
-
-     /**
-      * Flushes and then closes the stream
-      *
-      * @throws blaze\io\IOException Is thrown when the stream is already closed
-      */
-     public function close(){
-         $this->flush();
-         if(!fclose($this->output))
-                 throw new \blaze\io\IOException();
-         $this->closed = true;
+    public function flush() {
+        $this->checkClosed();
+        $contentLength = ftell($this->output);
+        rewind($this->output);
+        $this->response->setContentLength($contentLength);
+        echo stream_get_contents($this->output);
+        //unset($this->output);
+        //$this->output = "";
     }
+
+    /**
+     * Flushes and then closes the stream
+     *
+     * @throws blaze\io\IOException Is thrown when the stream is already closed
+     */
+    public function close() {
+        $this->flush();
+        if (!fclose($this->output))
+            throw new \blaze\io\IOException();
+        $this->closed = true;
+    }
+
     public function isClosed() {
         return $this->closed;
     }

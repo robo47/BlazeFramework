@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\event;
 
 /**
@@ -12,15 +13,14 @@ namespace blaze\web\event;
 
 
  */
-class PhaseId extends \blaze\lang\Enum{
-
-     const ANY_PHASE = 0;
-     const RESTORE_VIEW = 1;
-     const APPLY_REQUEST = 2;
-     const PROCESS_VALIDATION = 3;
-     const UPDATE_MODEL = 4;
-     const INVOKE_APPLICATION = 5;
-     const RENDER_RESPONSE = 6;
+class PhaseId extends \blaze\lang\Enum {
+    const ANY_PHASE = 0;
+    const RESTORE_VIEW = 1;
+    const APPLY_REQUEST = 2;
+    const PROCESS_VALIDATION = 3;
+    const UPDATE_MODEL = 4;
+    const INVOKE_APPLICATION = 5;
+    const RENDER_RESPONSE = 6;
 }
 
 ?>

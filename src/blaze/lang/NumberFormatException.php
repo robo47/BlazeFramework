@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of NullPointerException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class NumberFormatException extends Exception {}
+class NumberFormatException extends Exception {
+
+}
 
 ?>

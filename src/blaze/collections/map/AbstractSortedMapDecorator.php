@@ -11,7 +11,7 @@ namespace blaze\collections\map;
  * @since   1.0
  */
 abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implements \blaze\collections\map\SortedMap {
-    
+
     /**
      * The decorated map.
      * @var \blaze\collections\map\SortedMap
@@ -27,7 +27,7 @@ abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implement
         parent::__construct($map);
         $this->sortedMap = $map;
     }
-    
+
     public function ceiling($element) {
         return $this->sortedMap->ceiling($element);
     }

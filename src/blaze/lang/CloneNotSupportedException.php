@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of CloneNotSupportedException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class CloneNotSupportedException extends Exception {}
+class CloneNotSupportedException extends Exception {
+
+}
 
 ?>

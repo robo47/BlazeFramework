@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\application;
 
 /**
@@ -13,9 +14,10 @@ namespace blaze\web\application;
  * @todo    Implementation and documentation.
  */
 interface Application {
-
     public function addConverter($name, $class);
+
     public function addValidator($name, $class);
+
     public function addNavigationRule(\blaze\web\application\NavigationRule $rule);
 
     /**
@@ -23,25 +25,29 @@ interface Application {
      * @return blaze\web\el\ELContext
      */
     public function getELContext();
+
     /**
      * @return blaze\web\application\ViewHandler
      */
     public function getViewHandler();
+
     /**
      * @return blaze\web\render\RendererDecorator
      */
     public function getDecorator($decoratorName);
-    
+
     /**
      * @return blaze\util\Locale
      */
     public function getDefaultLocale();
+
     public function setDefaultLocale(\blaze\util\Locale $locale);
 
     /**
      * @return blaze\web\application\NavigationHandler
      */
     public function getNavigationHandler();
+
     public function setNavigationHandler(NavigationHandler $handler);
 
     /**
@@ -53,20 +59,24 @@ interface Application {
      * @return blaz\lang\String
      */
     public function getName();
+
     /**
      *
      * @return blaze\web\application\WebConfig
      */
     public function getConfig();
+
     /**
      *
      * @return blaze\lang\String
      */
     public function getPackage();
+
     /**
      *
      * @return blaze\lang\String
      */
     public function getUrlPrefix();
 }
+
 ?>

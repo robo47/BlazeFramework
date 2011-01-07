@@ -14,6 +14,7 @@ namespace blaze\persistence\meta;
 
  */
 class CollectionFieldDescriptor extends \blaze\lang\Object {
+
     /**
      *
      * @var blaze\persistence\meta\SingleFieldDescriptor
@@ -113,25 +114,25 @@ class CollectionFieldDescriptor extends \blaze\lang\Object {
         $this->junctionColumnDescriptor = $junctionColumnDescriptor;
     }
 
-    public function generate(\blaze\lang\StringBuffer $buffer){
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @var blaze\\collections\\Set['.$this->classDescriptor->getFullName().']'.PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'private $');
+    public function generate(\blaze\lang\StringBuffer $buffer) {
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @var blaze\\collections\\Set[' . $this->classDescriptor->getFullName() . ']' . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'private $');
         $buffer->append($this->fieldDescriptor->getName());
-        $buffer->append(';'.PHP_EOL.PHP_EOL);
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @return blaze\\collections\\Set['.$this->classDescriptor->getFullName().']'.PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'public function get'.$this->fieldDescriptor->getName()->toUpperCase(true)->toNative().'(){'.PHP_EOL);
-        $buffer->append("\t"."\t".' return $this->'.$this->fieldDescriptor->getName().';'.PHP_EOL);
-        $buffer->append("\t".'}'.PHP_EOL.PHP_EOL);
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @param blaze\\collections\\Set['.$this->classDescriptor->getFullName().'] $'.$this->fieldDescriptor->getName().PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'public function set'.$this->fieldDescriptor->getName()->toUpperCase(true)->toNative().'($'.$this->fieldDescriptor->getName().'){'.PHP_EOL);
-        $buffer->append("\t"."\t".' $this->'.$this->fieldDescriptor->getName().' = $'.$this->fieldDescriptor->getName().';'.PHP_EOL);
-        $buffer->append("\t".'}'.PHP_EOL.PHP_EOL);
+        $buffer->append(';' . PHP_EOL . PHP_EOL);
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @return blaze\\collections\\Set[' . $this->classDescriptor->getFullName() . ']' . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'public function get' . $this->fieldDescriptor->getName()->toUpperCase(true)->toNative() . '(){' . PHP_EOL);
+        $buffer->append("\t" . "\t" . ' return $this->' . $this->fieldDescriptor->getName() . ';' . PHP_EOL);
+        $buffer->append("\t" . '}' . PHP_EOL . PHP_EOL);
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @param blaze\\collections\\Set[' . $this->classDescriptor->getFullName() . '] $' . $this->fieldDescriptor->getName() . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'public function set' . $this->fieldDescriptor->getName()->toUpperCase(true)->toNative() . '($' . $this->fieldDescriptor->getName() . '){' . PHP_EOL);
+        $buffer->append("\t" . "\t" . ' $this->' . $this->fieldDescriptor->getName() . ' = $' . $this->fieldDescriptor->getName() . ';' . PHP_EOL);
+        $buffer->append("\t" . '}' . PHP_EOL . PHP_EOL);
     }
 
 }

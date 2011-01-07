@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\component;
 
 /**
@@ -13,17 +14,24 @@ namespace blaze\web\component;
 
  */
 interface ValueHolder {
-     public function getLocalValue();
-     public function setLocalValue($localValue);
-     public function getValueExpression();
-     public function getValue();
-     public function setValue($value);
-     public function setConverter(\blaze\web\converter\Converter $converter);
-     /**
-      * @return blaze\web\converter\Converter
-      */
-     public function getConverter();
-     public function removeConverter();
+    public function getLocalValue();
+
+    public function setLocalValue($localValue);
+
+    public function getValueExpression();
+
+    public function getValue();
+
+    public function setValue($value);
+
+    public function setConverter(\blaze\web\converter\Converter $converter);
+
+    /**
+     * @return blaze\web\converter\Converter
+     */
+    public function getConverter();
+
+    public function removeConverter();
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\type;
 
 /**
@@ -12,7 +13,8 @@ namespace blaze\ds\type;
 
 
  */
-interface NClob extends Clob{
+interface NClob extends Clob {
+
     /**
      * Description
      *
@@ -22,7 +24,7 @@ interface NClob extends Clob{
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function method();
+    public function method();
 }
 
 ?>

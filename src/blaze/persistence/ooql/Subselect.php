@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Subselect extends SelectStatement implements Fromable{
+class Subselect extends SelectStatement implements Fromable {
 
     private $alias;
 
@@ -30,8 +32,8 @@ class Subselect extends SelectStatement implements Fromable{
         $this->alias = $alias;
     }
 
-    public static function fromStatement(FromStatement $statement, $alias = null){
-        if($statement instanceof SelectStatement)
+    public static function fromStatement(FromStatement $statement, $alias = null) {
+        if ($statement instanceof SelectStatement)
             return new Subselect($this->selectClause, $this->fromClause, $this->whereClause, $this->groupByClause, $this->orderByClause, $this->limitClause, $alias);
         else
             return new Subselect(null, $this->fromClause, $this->whereClause, $this->groupByClause, $this->orderByClause, $this->limitClause, $alias);

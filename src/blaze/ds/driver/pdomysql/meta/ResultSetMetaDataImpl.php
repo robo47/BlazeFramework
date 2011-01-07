@@ -1,6 +1,7 @@
 <?php
 
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\ds\driver\pdobase\meta\AbstractResultSetMetaData;
 
 /**
@@ -46,4 +47,5 @@ class ResultSetMetaDataImpl extends AbstractResultSetMetaData {
     }
 
 }
+
 ?>

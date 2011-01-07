@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\meta;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,8 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class ResultSetDescriptor extends Object{
+class ResultSetDescriptor extends Object {
+
     private $columnAliasToPropertyPathMapping;
     private $collectionProxies;
     private $resultClass;
@@ -23,22 +26,22 @@ class ResultSetDescriptor extends Object{
      *
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $resultClass
      */
-    public function __construct($resultClass, $isArray = false){
+    public function __construct($resultClass, $isArray = false) {
         $this->columnAliasToPropertyPathMapping = array();
         $this->collectionProxies = array();
 
-        if($resultClass instanceof \blaze\lang\ClassWrapper)
+        if ($resultClass instanceof \blaze\lang\ClassWrapper)
             $this->resultClass = $resultClass;
         else
             $this->resultClass = \blaze\lang\ClassWrapper::forName(\blaze\lang\String::asNative($resultClass));
         $this->isArray = $isArray;
     }
 
-    public function addFieldMapping(SingleFieldDescriptor $fieldDescriptor, $columnAlias = null){
-        if($columnAlias === null)
+    public function addFieldMapping(SingleFieldDescriptor $fieldDescriptor, $columnAlias = null) {
+        if ($columnAlias === null)
             $columnAlias = $fieldDescriptor->getColumnDescriptor()->getName();
-        
-        if($columnAlias === null)
+
+        if ($columnAlias === null)
             throw new \blaze\lang\Exception('No column name available');
 
         $columnAlias = \blaze\lang\String::asNative($columnAlias);
@@ -47,21 +50,22 @@ class ResultSetDescriptor extends Object{
         $this->columnAliasToPropertyPathMapping[$columnAlias] = $propPath;
     }
 
-    public function addCustomMapping($columnAlias, PropertyPath $propPath, $index = null){
+    public function addCustomMapping($columnAlias, PropertyPath $propPath, $index = null) {
 
     }
 
-    public function getFieldMappings(){
+    public function getFieldMappings() {
         return $this->columnAliasToPropertyPathMapping;
     }
 
-    public function addCollectionMapping(CollectionFieldDescriptor $collectionDesc){
+    public function addCollectionMapping(CollectionFieldDescriptor $collectionDesc) {
         
     }
 
-    public function getResultClassInstance(){
+    public function getResultClassInstance() {
         return $this->resultClass->newInstance();
     }
+
 }
 
 ?>

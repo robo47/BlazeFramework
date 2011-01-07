@@ -47,15 +47,15 @@ class NavigationRule extends Object {
         return $this->actions;
     }
 
-    public function addAction($action, $view){
-        if($this->actions == null)
-                $this->actions = new \blaze\collections\map\HashMap();
+    public function addAction($action, $view) {
+        if ($this->actions == null)
+            $this->actions = new \blaze\collections\map\HashMap();
         $this->actions->put($action, $view);
     }
 
-    public function addBinding($name, $reference, $default = null){
-        if($this->bindings == null)
-                $this->bindings = new \blaze\collections\lists\ArrayList();
+    public function addBinding($name, $reference, $default = null) {
+        if ($this->bindings == null)
+            $this->bindings = new \blaze\collections\lists\ArrayList();
         $this->actions->add(new Binding($name, $reference, $default));
     }
 

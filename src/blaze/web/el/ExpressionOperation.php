@@ -49,17 +49,17 @@ class ExpressionOperation extends Object {
                     $this->rootOperation = new operation\NotOperation($operations[0]['leftExpression']);
                 else
                     $this->rootOperation = new operation\NoOperation($operations[0]['leftExpression']);
-            }else{
+            }else {
                 $this->rootOperation = $this->operations[0][0];
             }
-        }else {
+        } else {
             // Go through all operator levels, $i is the actual operator level
             for ($i = 0; $i < count($this->operatorLevels); $i++) {
                 // For each operator level go to all operations, $j is the actual operation which was tokenized before
                 for ($j = 0; $j < count($operations); $j++) {
                     if ($i == 0) { // Function level
                         $this->parseFirstLevel($i, $j, $operations);
-                        
+
                         // If no function was found, make a NoOperation object
                         if (!isset($this->operations[$i][$j]) || $this->operations[$i][$j] == null)
                             $this->operations[$i][$j] = new operation\NoOperation($operations[$j]['leftExpression']);
@@ -96,7 +96,7 @@ class ExpressionOperation extends Object {
         }
     }
 
-    private function parseFirstLevel($i, $j, $operations){
+    private function parseFirstLevel($i, $j, $operations) {
         // Look through all functions
         foreach ($this->operatorLevels[$i] as $functionName) {
             $pos = stripos($operations[$j]['leftExpression'], $functionName);
@@ -172,4 +172,5 @@ class ExpressionOperation extends Object {
     }
 
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\event;
 
 /**
@@ -12,8 +13,8 @@ namespace blaze\web\event;
 
 
  */
-interface ActionListener extends \blaze\util\EventListener{
-     public function processAction(ActionEvent $obj);
+interface ActionListener extends \blaze\util\EventListener {
+    public function processAction(ActionEvent $obj);
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\io;
 
 /**
@@ -44,11 +45,11 @@ class UnixFileSystem extends FileSystem {
      * This way we iterate through the whole pathname string only once.
      */
     public function normalize($strPathname) {
-        
+
         if (!strlen($strPathname)) {
             return;
         }
-        
+
         // Resolve home directories. We assume /home is where all home
         // directories reside, b/c there is no other way to do this with
         // PHP AFAIK.
@@ -64,7 +65,7 @@ class UnixFileSystem extends FileSystem {
 
         $n = strlen($strPathname);
         $prevChar = 0;
-        for ($i=0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; $i++) {
             $c = $strPathname{$i};
             if (($prevChar === '/') && ($c === '/')) {
                 return self::normalizer($strPathname, $n, $i - 1);
@@ -86,7 +87,7 @@ class UnixFileSystem extends FileSystem {
             return $pathname;
         }
         $n = (int) $len;
-        while (($n > 0) && ($pathname{$n-1} === '/')) {
+        while (($n > 0) && ($pathname{$n - 1} === '/')) {
             $n--;
         }
         if ($n === 0) {
@@ -135,14 +136,14 @@ class UnixFileSystem extends FileSystem {
             if ($parent === '/') {
                 return $child;
             }
-            return $parent.$child;
+            return $parent . $child;
         }
 
         if ($parent === '/') {
-            return $parent.$child;
+            return $parent . $child;
         }
 
-        return $parent.'/'.$child;
+        return $parent . '/' . $child;
     }
 
     public function getDefaultParent() {
@@ -162,12 +163,13 @@ class UnixFileSystem extends FileSystem {
             return $f->getPath()->toNative();
         } else {
             return $this->resolve(\blaze\lang\System::getProperty("user.dir"), $f->getPath()->toNative());
-        }       
+        }
     }
 
-    /* -- most of the following is mapped to the php natives wrapped by FileSystem */    
+    /* -- most of the following is mapped to the php natives wrapped by FileSystem */
 
     /* -- Attribute accessors -- */
+
     public function getBooleanAttributes(&$f) {
         //$rv = getBooleanAttributes0($f);
         $name = $f->getName()->toNative();
@@ -192,7 +194,7 @@ class UnixFileSystem extends FileSystem {
      * compares file paths lexicographically
      */
     public function compare(File $f1, File $f2) {
-        if ( ($f1 instanceof File) && ($f2 instanceof File) ) {
+        if (($f1 instanceof File) && ($f2 instanceof File)) {
             $f1Path = $f1->getPath()->toNative();
             $f2Path = $f2->getPath()->toNative();
             return strcmp((string) $f1Path, (string) $f2Path);
@@ -212,28 +214,26 @@ class UnixFileSystem extends FileSystem {
      */
     public function copy(File $src, File $dest) {
         global $php_errormsg;
-        
-        if (!$src->isLink())
-        {
+
+        if (!$src->isLink()) {
             return parent::copy($src, $dest);
         }
-        
-        $srcPath  = $src->getAbsolutePath()->toNative();
+
+        $srcPath = $src->getAbsolutePath()->toNative();
         $destPath = $dest->getAbsolutePath()->toNative();
-        
+
         $linkTarget = $src->getLinkTarget();
-        if (false === @symlink($linkTarget, $destPath))
-        {
+        if (false === @symlink($linkTarget, $destPath)) {
             $msg = "FileSystem::copy() FAILED. Cannot create symlink from $destPath to $linkTarget.";
             throw new Exception($msg);
         }
     }
-    
-    /* -- fs interface --*/
+
+    /* -- fs interface -- */
 
     public function listRoots() {
         if (!$this->checkAccess('/', false)) {
-            die ("Can not access root");
+            die("Can not access root");
         }
         return array(new File("/"));
     }
@@ -262,22 +262,20 @@ class UnixFileSystem extends FileSystem {
 
             // "/foo/" --> "/foo", but "/" --> "/"            
             $p = substr($p, 0, strlen($p) - 1);
-
         }
 
         return $p;
     }
-    
+
     /**
      * Whether file can be deleted.
      * @param File $f
      * @return boolean
      */
-    public function canDelete(File $f)
-    { 
-        @clearstatcache(); 
+    public function canDelete(File $f) {
+        @clearstatcache();
         $dir = dirname($f->getAbsolutePath()->toNative());
-        return (bool) @is_writable($dir); 
+        return (bool) @is_writable($dir);
     }
-    
+
 }

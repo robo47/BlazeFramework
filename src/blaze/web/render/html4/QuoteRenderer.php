@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,27 +13,27 @@ namespace blaze\web\render\html4;
 
 
  */
-class QuoteRenderer extends \blaze\web\render\html4\CoreRenderer{
+class QuoteRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
-        if($component->getBlock() === 'true')
+        if ($component->getBlock() === 'true')
             $writer->write('<blockquote');
         else
             $writer->write('<q');
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $cite = $component->getCite();
-        
-        if($cite != null)
-            $writer->write(' cite="'.$cite.'"');
+
+        if ($cite != null)
+            $writer->write(' cite="' . $cite . '"');
         $writer->write('>');
     }
 
@@ -40,7 +41,6 @@ class QuoteRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('</blockquote>');
     }
-
 
 }
 

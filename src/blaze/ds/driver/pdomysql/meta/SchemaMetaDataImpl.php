@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\ds\driver\pdobase\meta\AbstractSchemaMetaData;
 
 /**
@@ -15,90 +17,99 @@ use blaze\ds\driver\pdobase\meta\AbstractSchemaMetaData;
  */
 class SchemaMetaDataImpl extends AbstractSchemaMetaData {
 
-    public function __construct(\blaze\ds\meta\DatabaseMetaData $databaseMetaData, $schemaName, $schemaCharset, $schemaCollation){
+    public function __construct(\blaze\ds\meta\DatabaseMetaData $databaseMetaData, $schemaName, $schemaCharset, $schemaCollation) {
         $this->databaseMetaData = $databaseMetaData;
         $this->schemaName = $schemaName;
         $this->schemaCharset = $schemaCharset;
         $this->schemaCollation = $schemaCollation;
     }
+
     /**
      * @return blaze\ds\meta\DatabaseMetaData
      */
-    public function getDatabaseMetaData(){
+    public function getDatabaseMetaData() {
         return $this->databaseMetaData;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getSchemaName(){
+    public function getSchemaName() {
         return $this->schemaName;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getSchemaCharset(){
+    public function getSchemaCharset() {
         return $this->schemaCharset;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getSchemaCollation(){
+    public function getSchemaCollation() {
         return $this->schemaCollation;
     }
-    
+
     /**
      * @return blaze\util\ListI[blaze\ds\meta\TableMetaData]
      */
-    public function getTables(){
+    public function getTables() {
         $stmt = null;
         $rs = null;
         $tables = array();
 
-        try{
+        try {
             $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?');
             $stmt->setString(0, $this->schemaName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
-            while($rs->next())
+            while ($rs->next())
                 $tables[] = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                                           $rs->getString('TABLE_COMMENT'),
-                                                           $this->schemaCharset,
-                                                           $rs->getString('TABLE_COLLATION'));
-        }catch(\blaze\ds\DataSourceException $e){}
+                                $rs->getString('TABLE_COMMENT'),
+                                $this->schemaCharset,
+                                $rs->getString('TABLE_COLLATION'));
+        } catch (\blaze\ds\DataSourceException $e) {
 
-        if($stmt != null)
+        }
+
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $tables;
     }
+
     /**
      * @return blaze\ds\meta\TableMetaData
      */
-    public function getTable($tableName){
+    public function getTable($tableName) {
         $stmt = null;
         $rs = null;
         $table = null;
 
-        try{
+        try {
             $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
             $stmt->setString(0, $this->schemaName);
             $stmt->setString(1, $tableName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
-            
-            if($rs->next())
-                $table = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                                           $rs->getString('TABLE_COMMENT'),
-                                                           $this->schemaCharset,
-                                                           $rs->getString('TABLE_COLLATION'));
-        }catch(\blaze\ds\DataSourceException $e){}
 
-        if($stmt != null)
+            if ($rs->next())
+                $table = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'),
+                                $rs->getString('TABLE_COMMENT'),
+                                $this->schemaCharset,
+                                $rs->getString('TABLE_COLLATION'));
+        } catch (\blaze\ds\DataSourceException $e) {
+
+        }
+
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $table;
@@ -107,54 +118,59 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
     /**
      * @return blaze\util\ListI[blaze\ds\meta\ViewMetaData]
      */
-    public function getViews(){
+    public function getViews() {
         $stmt = null;
         $rs = null;
         $views = array();
 
-        try{
+        try {
             $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ?');
             $stmt->setString(0, $this->schemaName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
-            while($rs->next())
+            while ($rs->next())
                 $views[] = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                                           $rs->getString('VIEW_DEFINITION'),
-                                                           $rs->getString('IS_UPDATEABLE'));
-        }catch(\blaze\ds\DataSourceException $e){}
+                                $rs->getString('VIEW_DEFINITION'),
+                                $rs->getString('IS_UPDATEABLE'));
+        } catch (\blaze\ds\DataSourceException $e) {
 
-        if($stmt != null)
+        }
+
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $views;
     }
+
     /**
      * @return blaze\ds\meta\ViewMetaData
      */
-    public function getView($viewName){
+    public function getView($viewName) {
         $stmt = null;
         $rs = null;
         $view = null;
 
-        try{
+        try {
             $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
             $stmt->setString(0, $this->schemaName);
             $stmt->setString(1, $viewName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
-            if($rs->next())
+            if ($rs->next())
                 $view = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                                           $rs->getString('VIEW_DEFINITION'),
-                                                           $rs->getString('IS_UPDATEABLE'));
-        }catch(\blaze\ds\DataSourceException $e){}
+                                $rs->getString('VIEW_DEFINITION'),
+                                $rs->getString('IS_UPDATEABLE'));
+        } catch (\blaze\ds\DataSourceException $e) {
 
-        if($stmt != null)
+        }
+
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $view;
@@ -168,7 +184,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
 
     public function addView(\blaze\ds\meta\ViewMetaData $view, $newName = null) {
         $this->checkClosed();
-        if($newName === null)
+        if ($newName === null)
             $view = $this->createView($view->getViewName(), $view->getViewDefinition());
         else
             $view = $this->createView($newName, $view->getViewDefinition());
@@ -183,7 +199,7 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
 
     public function createView($viewName, $viewDefinition) {
         $this->checkClosed();
-        $query = 'CREATE VIEW '.$viewName.' AS '.$viewDefinition;
+        $query = 'CREATE VIEW ' . $viewName . ' AS ' . $viewDefinition;
 
         $this->databaseMetaData->getConnection()->createStatement()->executeQuery($query);
         return $this->getView($viewName);
@@ -195,12 +211,12 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
 
     public function dropTable($tableName) {
         $this->checkClosed();
-        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE '.$tableName);
+        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE ' . $tableName);
     }
 
     public function dropView($viewName) {
         $this->checkClosed();
-        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE '.$viewName);
+        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE ' . $viewName);
     }
 
     public function setSchemaCharset($schemaCharset) {

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Object;
 
 /**
@@ -13,13 +15,15 @@ use blaze\lang\Object;
 
 
  */
-abstract class Reader extends Object implements Readable, Closeable, Markable{
+abstract class Reader extends Object implements Readable, Closeable, Markable {
 
     /**
      * Reset the current position to the beginning or to the last mark (if supported).
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public function reset() {}
+    public function reset() {
+
+    }
 
     /**
      * Returns wether the stream is ready for reading or not
@@ -29,11 +33,14 @@ abstract class Reader extends Object implements Readable, Closeable, Markable{
         return true;
     }
 
-    public function mark() {}
+    public function mark() {
+
+    }
 
     public function markSupported() {
         return false;
     }
+
 }
 
 ?>

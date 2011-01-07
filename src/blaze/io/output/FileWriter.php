@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\lang\Object;
 
 /**
@@ -17,11 +19,11 @@ class FileWriter extends \blaze\io\OutputStreamWriter {
      *
      * @param string|blaze\lang\String|blaze\io\File|blaze\io\output\FileOutputStream $fileOrStream
      */
-    public function __construct($fileOrStream, $append = false){
+    public function __construct($fileOrStream, $append = false) {
         $stream = null;
-        if($fileOrStream instanceof FileOutputStream)
+        if ($fileOrStream instanceof FileOutputStream)
             $stream = $fileOrStream;
-        else if($fileOrStream instanceof \blaze\io\File || \blaze\lang\String::isType($fileOrStream))
+        else if ($fileOrStream instanceof \blaze\io\File || \blaze\lang\String::isType($fileOrStream))
             $stream = new FileOutputStream($fileOrStream, $append, false);
         else
             throw new \blaze\lang\IllegalArgumentException('Invalid argument type for $fileOrStream.');

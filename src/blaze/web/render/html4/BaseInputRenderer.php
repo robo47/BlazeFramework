@@ -23,13 +23,13 @@ abstract class BaseInputRenderer extends \blaze\web\render\html4\CoreRenderer {
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context, $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $disabled = $component->getDisabled();
 
-        $writer->write(' name="'.$component->getClientId($context).'"');
+        $writer->write(' name="' . $component->getClientId($context) . '"');
 
-        if($disabled === true)
+        if ($disabled === true)
             $writer->write(' disabled="disabled"');
     }
 
@@ -43,16 +43,16 @@ abstract class BaseInputRenderer extends \blaze\web\render\html4\CoreRenderer {
         }
     }
 
-    protected function getValue(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
+    protected function getValue(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $value = $component->getSubmittedValue();
-        if($value !== null)
-                return $value;
+        if ($value !== null)
+            return $value;
         $value = $component->getLocalValue();
-        if($value !== null)
-                return $value;
+        if ($value !== null)
+            return $value;
         $value = $component->getValue();
-        if($value !== null)
-                return $value;
+        if ($value !== null)
+            return $value;
         return '';
     }
 

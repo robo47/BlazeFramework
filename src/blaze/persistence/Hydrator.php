@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence;
 
 /**
@@ -10,8 +11,8 @@ namespace blaze\persistence;
  * @since   1.0
 
  */
-interface Hydrator extends \blaze\collections\Iterable{
-     public function hydrateAll();
+interface Hydrator extends \blaze\collections\Iterable {
+    public function hydrateAll();
 }
 
 ?>

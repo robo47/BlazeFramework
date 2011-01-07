@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\netlet;
 
  */
 interface NetletConfig {
+
     /**
      * Description
      *
@@ -22,13 +24,16 @@ interface NetletConfig {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function getNetletName();
-     public function getInitParameter($name);
-     public function getInitParameterMap();
-     /**
-      * @return blaze\netlet\NetletContext
-      */
-     public function getNetletContext();
+    public function getNetletName();
+
+    public function getInitParameter($name);
+
+    public function getInitParameterMap();
+
+    /**
+     * @return blaze\netlet\NetletContext
+     */
+    public function getNetletContext();
 }
 
 ?>

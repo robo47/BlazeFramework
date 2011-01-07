@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class StyleSheetRenderer extends \blaze\web\render\Renderer{
+class StyleSheetRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,18 +25,18 @@ class StyleSheetRenderer extends \blaze\web\render\Renderer{
         $href = $component->getHref();
         $charset = $component->getCharset();
 
-        if($href != null)
-            $writer->write(' href="'.$href.'"');
-        if($charset != null)
-            $writer->write(' charset="'.$charset.'"');
+        if ($href != null)
+            $writer->write(' href="' . $href . '"');
+        if ($charset != null)
+            $writer->write(' charset="' . $charset . '"');
         else
             $writer->write(' charset="utf-8"');
         $writer->write('/>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
     }
-
 
 }
 

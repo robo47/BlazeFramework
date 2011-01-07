@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class UpdateStatement extends Object implements Statement{
+class UpdateStatement extends Object implements Statement {
 
     private $entity;
     private $properties = array();

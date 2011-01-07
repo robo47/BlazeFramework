@@ -34,4 +34,5 @@ class Head extends \blaze\web\component\UIComponentBase {
     }
 
 }
+
 ?>

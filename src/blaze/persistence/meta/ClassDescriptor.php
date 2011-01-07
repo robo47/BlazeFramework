@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\meta;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class ClassDescriptor extends Object{
+class ClassDescriptor extends Object {
 
     /**
      *
@@ -56,16 +58,16 @@ class ClassDescriptor extends Object{
      */
     private $superClassDescriptor;
 
-    public static function getClassDescriptor($name){
+    public static function getClassDescriptor($name) {
         $name = \blaze\lang\String::asNative($name);
-        if(self::$classDescriptors === null)
-            self::$classDescriptors = array();//new \blaze\collections\map\HashMap();
-        $cd = isset(self::$classDescriptors[$name]) ? self::$classDescriptors[$name] : null;//self::$classDescriptors->get($name);
+        if (self::$classDescriptors === null)
+            self::$classDescriptors = array(); //new \blaze\collections\map\HashMap();
+ $cd = isset(self::$classDescriptors[$name]) ? self::$classDescriptors[$name] : null; //self::$classDescriptors->get($name);
 
-        if($cd === null){
+        if ($cd === null) {
             $cd = new ClassDescriptor();
             $cd->setName($name);
-            self::$classDescriptors[$name] = $cd;//self::$classDescriptors->put($name, $cd);
+            self::$classDescriptors[$name] = $cd; //self::$classDescriptors->put($name, $cd);
         }
 
         return $cd;
@@ -80,9 +82,9 @@ class ClassDescriptor extends Object{
     /**
      * @return blaze\lang\String
      */
-    public function getFullName(){
-        if($this->package != null)
-                return $this->package.'\\'.$this->name;
+    public function getFullName() {
+        if ($this->package != null)
+            return $this->package . '\\' . $this->name;
         return $this->name;
     }
 
@@ -198,7 +200,7 @@ class ClassDescriptor extends Object{
         $this->superClassDescriptor = $superClassDescriptor;
     }
 
-    public function generate(\blaze\lang\StringBuffer $buffer){
+    public function generate(\blaze\lang\StringBuffer $buffer) {
         if ($this->package != null) {
             $packageName = $this->package;
             $className = $this->name;
@@ -208,23 +210,23 @@ class ClassDescriptor extends Object{
             $className = $this->name->substring($idx + 1)->toNative();
         }
 
-        $buffer->append('<?php '.PHP_EOL.PHP_EOL);
+        $buffer->append('<?php ' . PHP_EOL . PHP_EOL);
         $buffer->append('namespace ');
         $buffer->append($packageName);
-        $buffer->append(';' . PHP_EOL.PHP_EOL);
+        $buffer->append(';' . PHP_EOL . PHP_EOL);
         $buffer->append('class ');
         $buffer->append($className);
-        $buffer->append(' extends \\blaze\\lang\\Object {' . PHP_EOL.PHP_EOL);
+        $buffer->append(' extends \\blaze\\lang\\Object {' . PHP_EOL . PHP_EOL);
 
-        foreach($this->identifiers as $member) {
+        foreach ($this->identifiers as $member) {
             $member->generate($buffer);
         }
 
-        foreach($this->singleFields as $member) {
+        foreach ($this->singleFields as $member) {
             $member->generate($buffer);
         }
 
-        foreach($this->collectionFields as $member) {
+        foreach ($this->collectionFields as $member) {
             $member->generate($buffer);
         }
 

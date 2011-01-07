@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence;
 
 /**
@@ -13,17 +14,20 @@ namespace blaze\persistence;
 
  */
 interface Cache {
+
     /**
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $class
      * @param mixed $identifier
      * @return boolean
      */
     public function contains($class, $identifier);
+
     /**
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $class
      * @param mixed $identifier
      */
     public function evict($class, $identifier = null);
+
     public function evictAll();
 }
 

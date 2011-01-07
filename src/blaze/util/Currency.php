@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\util;
+
 use blaze\lang\Object;
 
 /**
@@ -12,15 +14,16 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class Currency extends Object implements \blaze\lang\StaticInitialization{
+class Currency extends Object implements \blaze\lang\StaticInitialization {
 
     public static function staticInit() {
         
     }
 
-    private function __construct(){
+    private function __construct() {
         
     }
+
 }
 
 ?>

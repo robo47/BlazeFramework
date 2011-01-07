@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\TriggerMetaData;
+ blaze\ds\meta\TriggerMetaData;
 
 /**
  * Description of AbstractTriggerMetaData
@@ -14,7 +16,8 @@ use blaze\lang\Object,
 
 
  */
-abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData{
+abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData {
+
     /**
      * @return int
      */
@@ -52,6 +55,7 @@ abstract class AbstractTriggerMetaData extends Object implements TriggerMetaData
         if ($this->table->getSchema()->getDatabaseMetaData()->getConnection()->isClosed())
             throw new DataSourceException('Connection is already closed.');
     }
+
 }
 
 ?>

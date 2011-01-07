@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render;
 
 /**
@@ -12,21 +13,26 @@ namespace blaze\web\render;
 
 
  */
-abstract class Renderer extends \blaze\lang\Object{
-     public abstract function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
-     public abstract function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
-     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
-         
-     }
-     public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
-         foreach($component->getChildren() as $child){
-            $child->processRender($context);
-        }
-     }
-     
-     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+abstract class Renderer extends \blaze\lang\Object {
+
+    public abstract function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+
+    public abstract function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+
+    public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
 
     }
+
+    public function renderChildren(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        foreach ($component->getChildren() as $child) {
+            $child->processRender($context);
+        }
+    }
+
+    public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
+    }
+
 }
 
 ?>

@@ -262,4 +262,5 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
     }
 
 }
+
 ?>

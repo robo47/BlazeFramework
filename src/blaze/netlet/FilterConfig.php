@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\netlet;
 
  */
 interface FilterConfig {
+
     /**
      * Description
      *
@@ -22,11 +24,13 @@ interface FilterConfig {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function getFilterName();
-     public function getInitParameter($name);
-     public function getInitParameterMap();
-     public function getNetletContext();
+    public function getFilterName();
 
+    public function getInitParameter($name);
+
+    public function getInitParameterMap();
+
+    public function getNetletContext();
 }
 
 ?>

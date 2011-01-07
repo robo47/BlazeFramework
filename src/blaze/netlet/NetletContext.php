@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,37 +14,43 @@ namespace blaze\netlet;
 
  */
 interface NetletContext {
+    public function addNetlet($name, \blaze\netlet\Netlet $netlet);
 
-     public function addNetlet($name, \blaze\netlet\Netlet $netlet);
-     public function getNetlets();
-     
-     public function addNetletMapping($uriMapping, $name);
-     public function getNetletMapping();
+    public function getNetlets();
 
-     public function addFilter($name, \blaze\netlet\Filter $filter);
-     public function getFilters();
+    public function addNetletMapping($uriMapping, $name);
 
-     public function addFilterMapping($uriMapping, $name);
-     public function getFilterMapping();
+    public function getNetletMapping();
 
-     public function addListener($listenerClass);
-     public function getListeners();
+    public function addFilter($name, \blaze\netlet\Filter $filter);
 
-     /**
-      * @return \blazeServer\source\netlet\NetletApplication
-      */
-     public function getNetletApplication();
+    public function getFilters();
+
+    public function addFilterMapping($uriMapping, $name);
+
+    public function getFilterMapping();
+
+    public function addListener($listenerClass);
+
+    public function getListeners();
+
+    /**
+     * @return \blazeServer\source\netlet\NetletApplication
+     */
+    public function getNetletApplication();
 
     /**
      * @param blaze\lang\String|string $name
      * @param mixed $o
      */
-     public function setAttribute($name, $o);
+    public function setAttribute($name, $o);
+
     /**
      * @param blaze\lang\String|string $name
      * @return mixed
      */
     public function getAttribute($name);
+
     /**
      * @param blaze\lang\String|string $name
      */
@@ -54,6 +61,7 @@ interface NetletContext {
      * @return blaze\lang\String
      */
     public function getInitParameter($name);
+
     /**
      * @return blaze\util\Map
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,14 +13,15 @@ namespace blaze\web\render\html4;
 
 
  */
-class FormRenderer extends \blaze\web\render\html4\CoreRenderer{
+class FormRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
-
+    public function __construct() {
+        
     }
+
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        if($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER') == $component->getClientId($context)){
-                $component->setSubmitted(true);
+        if ($context->getRequest()->getParameter('BLAZE_FORM_IDENTIFIER') == $component->getClientId($context)) {
+            $component->setSubmitted(true);
         }
     }
 
@@ -29,16 +31,15 @@ class FormRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
-        $writer->write(' method="post" action=""><div style="display: none;"><input type="hidden" name="BLAZE_FORM_IDENTIFIER" value="'.$component->getClientId($context).'"/></div>');
+        $writer->write(' method="post" action=""><div style="display: none;"><input type="hidden" name="BLAZE_FORM_IDENTIFIER" value="' . $component->getClientId($context) . '"/></div>');
     }
 
-        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $writer = $context->getResponse()->getWriter();
         $writer->write('</form>');
     }
-
 
 }
 

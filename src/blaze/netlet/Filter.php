@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\netlet;
 
  */
 interface Filter {
+
     /**
      * Description
      *
@@ -22,9 +24,11 @@ interface Filter {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function init(FilterConfig $config);
-     public function doFilter(NetletRequest $request, NetletResponse $response, FilterChain $chain);
-     public function destroy();
+    public function init(FilterConfig $config);
+
+    public function doFilter(NetletRequest $request, NetletResponse $response, FilterChain $chain);
+
+    public function destroy();
 }
 
 ?>

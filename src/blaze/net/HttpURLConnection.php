@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class HttpURLConnection extends URLConnection{
+class HttpURLConnection extends URLConnection {
 
     /**
      *
@@ -35,30 +35,31 @@ class HttpURLConnection extends URLConnection{
     /**
      * @return blaze\lang\Object
      */
-    public function getContent(){
+    public function getContent() {
 
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getContentEncoding(){
+    public function getContentEncoding() {
 
     }
 
     /**
      * @return int
      */
-    public function getContentLength(){
+    public function getContentLength() {
 
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getContentType(){
-
+    public function getContentType() {
+        
     }
+
 }
 
 ?>

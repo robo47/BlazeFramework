@@ -34,17 +34,17 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         $this->tokenizer = new \blaze\io\SerializationTokenizer('{', '}');
     }
 
-    private function fillBuffer(){
+    private function fillBuffer() {
         $add = $this->in->read();
         $this->bufferSize += strlen($add);
         $this->buffer .= $add;
     }
 
-    private function fillTokens(){
+    private function fillTokens() {
         $this->fillBuffer();
-        if($this->bufferCursor < $this->bufferSize){
+        if ($this->bufferCursor < $this->bufferSize) {
             $result = $this->tokenizer->tokenize(substr($this->buffer, $this->bufferCursor, $this->bufferSize - $this->bufferCursor));
-            foreach($result[0] as $token){
+            foreach ($result[0] as $token) {
                 $this->tokens[] = $token;
                 $this->tokensSize++;
             }
@@ -52,9 +52,9 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         }
     }
 
-    private function getNext(){
-        while($this->tokensCurser == $this->tokensSize)
-                $this->fillTokens();
+    private function getNext() {
+        while ($this->tokensCurser == $this->tokensSize)
+            $this->fillTokens();
         return $this->tokens[$this->tokensCurser++];
     }
 
@@ -67,8 +67,8 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         $result = unserialize($this->getNext());
         $read = strlen($result);
 
-        if($len != -1 && $read != $len)
-            throw new \blaze\io\StreamCorruptedException('Tried to read '.$len.' chars for the next token but the token has '.$read.' characters.');
+        if ($len != -1 && $read != $len)
+            throw new \blaze\io\StreamCorruptedException('Tried to read ' . $len . ' chars for the next token but the token has ' . $read . ' characters.');
         return $result;
     }
 
@@ -76,62 +76,62 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         $result = unserialize($this->getNext());
         $read = strlen($str);
 
-        if($len != -1 && $read != $len)
-            throw new \blaze\io\StreamCorruptedException('Tried to read '.$len.' chars for the next token but the token has '.$read.' characters.');
+        if ($len != -1 && $read != $len)
+            throw new \blaze\io\StreamCorruptedException('Tried to read ' . $len . ' chars for the next token but the token has ' . $read . ' characters.');
 
-         if($off < 0)
-             $buffer->append($result);
-         else
+        if ($off < 0)
+            $buffer->append($result);
+        else
             $buffer->insert($result, $off);
 
-         return $read;
+        return $read;
     }
 
     public function readBoolean() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Boolean::isType($result))
+        if (!\blaze\lang\Boolean::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a boolean');
         return $result;
     }
 
     public function readInt() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Integer::isType($result))
+        if (!\blaze\lang\Integer::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a integer');
         return $result;
     }
 
     public function readFloat() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Float::isType($result))
+        if (!\blaze\lang\Float::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a float');
         return $result;
     }
 
     public function readLong() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Long::isType($result))
+        if (!\blaze\lang\Long::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a long');
         return $result;
     }
 
     public function readDouble() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Double::isType($result))
+        if (!\blaze\lang\Double::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a double');
         return $result;
     }
 
     public function readShort() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Short::isType($result))
+        if (!\blaze\lang\Short::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a short');
         return $result;
     }
 
     public function readByte() {
         $result = unserialize($this->getNext());
-        if(!\blaze\lang\Byte::isType($result))
+        if (!\blaze\lang\Byte::isType($result))
             throw new \blaze\lang\ClassCastException('The next token is not a byte');
         return $result;
     }
@@ -145,7 +145,7 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
 
     public function readObjectOverride() {
         $ser = $this->getNext();
-        if($ser[0] != 'O')
+        if ($ser[0] != 'O')
             throw new \blaze\lang\ClassCastException('The next token is not a object');
         $start = strpos($ser, '"') + 1;
         $end = strpos($ser, '"', $start);
@@ -157,7 +157,7 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         $method = $class->getMethod('readObject');
 
         if ($method != null) {
-            $this->current = substr($ser,strpos($ser, '{', $end) + 1, -1);
+            $this->current = substr($ser, strpos($ser, '{', $end) + 1, -1);
             $method->invoke($object, $this);
             $this->current = null;
         } else {
@@ -176,6 +176,6 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         return $this->bufferSize - $this->bufferCursor;
     }
 
-
 }
+
 ?>

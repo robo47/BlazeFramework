@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render;
 
 /**
@@ -12,27 +13,29 @@ namespace blaze\web\render;
 
 
  */
-class RenderKitFactoryEventImpl  extends \blaze\lang\Object{
-    
+class RenderKitFactoryEventImpl extends \blaze\lang\Object {
+
     private static $instance;
     private $renderKits = array();
 
-    private function __construct(){
+    private function __construct() {
         
     }
 
-    public function addRenderKit($componentFamily, $renderKitId, RenderKit $renderKit){
+    public function addRenderKit($componentFamily, $renderKitId, RenderKit $renderKit) {
         $this->renderKits[$componentFamily][$renderKitId] = $renderKit;
     }
-     public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily){
-        return $this->renderKits[$componentFamily]['js'];
-     }
 
-     public static function getInstance(){
-         if(self::$instance == null)
-             self::$instance = new self();
-         return self::$instance;
-     }
+    public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily) {
+        return $this->renderKits[$componentFamily]['js'];
+    }
+
+    public static function getInstance() {
+        if (self::$instance == null)
+            self::$instance = new self();
+        return self::$instance;
+    }
+
 }
 
 ?>

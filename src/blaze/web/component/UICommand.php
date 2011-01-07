@@ -92,7 +92,7 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
     }
 
     public function processEvent(\blaze\web\application\BlazeContext $context, \blaze\web\event\BlazeEvent $event) {
-        if($event instanceof \blaze\web\event\ActionEvent){
+        if ($event instanceof \blaze\web\event\ActionEvent) {
             $actionListeners = $this->getActionListeners();
             $action = $this->getAction();
             $navigationString = null;
@@ -109,19 +109,16 @@ abstract class UICommand extends \blaze\web\component\UIComponentCore implements
         parent::processEvent($context, $event);
     }
 
-    public function queueEvent(\blaze\web\event\BlazeEvent $event)
-     {
-         if ($event != null && $event instanceof \blaze\web\event\ActionEvent)
-         {
-             if ($this->getImmediate()){
-                 $event->setPhaseId(\blaze\web\event\PhaseId::APPLY_REQUEST);
-             }
-             else{
-                 $event->setPhaseId(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
-             }
-         }
-         parent::queueEvent($event);
-     }
+    public function queueEvent(\blaze\web\event\BlazeEvent $event) {
+        if ($event != null && $event instanceof \blaze\web\event\ActionEvent) {
+            if ($this->getImmediate()) {
+                $event->setPhaseId(\blaze\web\event\PhaseId::APPLY_REQUEST);
+            } else {
+                $event->setPhaseId(\blaze\web\event\PhaseId::INVOKE_APPLICATION);
+            }
+        }
+        parent::queueEvent($event);
+    }
 
 }
 

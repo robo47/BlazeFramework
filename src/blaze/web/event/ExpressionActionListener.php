@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\event;
 
 /**
@@ -12,16 +13,18 @@ namespace blaze\web\event;
 
 
  */
-class ExpressionActionListener extends \blaze\lang\Object implements ActionListener{
+class ExpressionActionListener extends \blaze\lang\Object implements ActionListener {
+
     private $expression;
-    
-    public function __construct(\blaze\web\el\Expression $expression){
+
+    public function __construct(\blaze\web\el\Expression $expression) {
         $this->expression = $expression;
     }
 
     public function processAction(ActionEvent $obj) {
-        $this->expression->invoke(\blaze\web\application\BlazeContext::getCurrentInstance(),array($event));
+        $this->expression->invoke(\blaze\web\application\BlazeContext::getCurrentInstance(), array($event));
     }
+
 }
 
 ?>

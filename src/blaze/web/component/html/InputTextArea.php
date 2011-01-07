@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,15 +15,16 @@ use blaze\lang\Object;
 
 
  */
-class InputTextArea extends \blaze\web\component\UIInput{
+class InputTextArea extends \blaze\web\component\UIInput {
 
     private $cols;
     private $rows;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new InputTextArea();
     }
 
@@ -50,7 +53,6 @@ class InputTextArea extends \blaze\web\component\UIInput{
         $this->cols = new \blaze\web\el\Expression($cols);
         return $this;
     }
-
 
 }
 

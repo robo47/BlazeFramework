@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet\http;
 
 /**
@@ -11,6 +12,7 @@ namespace blaze\netlet\http;
  * @author 	Christian Beikov
  */
 class HttpNetletRequestWrapper extends \blaze\lang\Object implements \blaze\netlet\http\HttpNetletRequest {
+
     /**
      *
      * @var \blaze\netlet\http\HttpNetletRequest
@@ -162,4 +164,5 @@ class HttpNetletRequestWrapper extends \blaze\lang\Object implements \blaze\netl
     }
 
 }
+
 ?>

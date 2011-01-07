@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class SelectClause extends Object{
-
+class SelectClause extends Object {
     const TYPE_NONE = 0;
     const TYPE_ALL = 1;
     const TYPE_DISTINCT = 2;
@@ -39,12 +40,10 @@ class SelectClause extends Object{
     }
 
     public function addSelectable(Selectable $selectable) {
-        if($this->selectType === self::TYPE_ALL)
-                throw new \blaze\lang\Exception('A select clause of the type ALL may not take any selectables.');
+        if ($this->selectType === self::TYPE_ALL)
+            throw new \blaze\lang\Exception('A select clause of the type ALL may not take any selectables.');
         $this->selectables[] = $selectable;
     }
-
-
 
 }
 

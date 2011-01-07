@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\cache;
 
 /**
@@ -13,11 +14,13 @@ class LocalCacheProvider implements CacheProvider {
     /**
      * {@inheritDoc}
      */
-    public function buildCache(\blaze\collections\map\Properties $properties = null){
-        if($properties === null)
+    public function buildCache(\blaze\collections\map\Properties $properties = null) {
+        if ($properties === null)
             return new LocalCache(null);
         else
             return new LocalCache($properties->get('cacheDir'));
     }
+
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**

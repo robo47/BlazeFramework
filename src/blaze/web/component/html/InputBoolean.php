@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class InputBoolean extends \blaze\web\component\UIInput{
+class InputBoolean extends \blaze\web\component\UIInput {
 
     private $type;
-    
-    public function __construct(){
+
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new InputBoolean();
     }
 
@@ -40,6 +43,7 @@ class InputBoolean extends \blaze\web\component\UIInput{
         $this->type = new \blaze\web\el\Expression($type);
         return $this;
     }
+
 }
 
 ?>

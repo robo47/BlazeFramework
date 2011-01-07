@@ -98,6 +98,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
     public function pollLastEntry() {
         return null;
     }
+
 }
 
 ?>

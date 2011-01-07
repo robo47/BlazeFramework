@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\cache;
 
 /**
@@ -29,7 +30,7 @@ namespace blaze\cache;
  * @since   1.0
  * @author Christian Beikov
  */
-final class CacheManager{
+final class CacheManager {
 
     private static $rootInstances = array();
     private $parent;
@@ -54,16 +55,16 @@ final class CacheManager{
      * Checks the key and returns it as native string when wrapper is false, otherwise as blaze\lang\String.
      * @return string|blaze\lang\String
      */
-    private static function getCheckedKey($key, $wrapper = false){
-        if($wrapper){
+    private static function getCheckedKey($key, $wrapper = false) {
+        if ($wrapper) {
             $key = \blaze\lang\String::asWrapper($key);
 
-            if($key->length() < 1)
+            if ($key->length() < 1)
                 throw new CacheException('The length of the key must be at least one char!');
-        }else{
+        }else {
             $key = \blaze\lang\String::asNative($key);
 
-            if(strlen($key) < 1)
+            if (strlen($key) < 1)
                 throw new CacheException('The length of the key must be at least one char!');
         }
 
@@ -82,15 +83,15 @@ final class CacheManager{
      * @return blaze\cache\CacheManager Returns a CacheManager or null if no entry for the key is available and the parameter cache is null
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public static function getInstance($key, Cache $cache = null){
+    public static function getInstance($key, Cache $cache = null) {
         $key = self::getCheckedKey($key);
-        
-        if(!array_key_exists($key, self::$rootInstances)){
-            if($cache !== null)
+
+        if (!array_key_exists($key, self::$rootInstances)) {
+            if ($cache !== null)
                 return self::$rootInstances[$key] = new self(null, $key, $cache);
             else
                 return null;
-        }else{
+        }else {
             return self::$rootInstances[$key];
         }
     }
@@ -103,10 +104,10 @@ final class CacheManager{
      * @return blaze\cache\CacheManager The CacheManager child instance
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function getChild($key){
+    public function getChild($key) {
         $key = self::getCheckedKey($key);
-        if(!array_key_exists($key, $this->children))
-            $this->children[$key] = new self($this, $this->key.'.'.$key, $this->cache);
+        if (!array_key_exists($key, $this->children))
+            $this->children[$key] = new self($this, $this->key . '.' . $key, $this->cache);
         return $this->children[$key];
     }
 
@@ -118,8 +119,8 @@ final class CacheManager{
      * @return boolean True if the caching action was successfull, otherwise false
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function put($key, $value){
-        $this->cache->put($this->key.'.'.self::getCheckedKey($key), $value);
+    public function put($key, $value) {
+        $this->cache->put($this->key . '.' . self::getCheckedKey($key), $value);
     }
 
     /**
@@ -134,8 +135,8 @@ final class CacheManager{
     public function putAll(\blaze\collections\Map $map) {
         $newMap = new \blaze\collections\map\HashMap();
 
-        foreach($map as $key => $value){
-            $newMap->put($this->key.'.'.self::getCheckedKey($key), $value);
+        foreach ($map as $key => $value) {
+            $newMap->put($this->key . '.' . self::getCheckedKey($key), $value);
         }
 
         return $this->cache->putAll($newMap);
@@ -149,8 +150,8 @@ final class CacheManager{
      * @return boolean True if an entry in the cache exists, otherwise false
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function contains($key){
-        return $this->cache->contains($this->key.'.'.self::getCheckedKey($key));
+    public function contains($key) {
+        return $this->cache->contains($this->key . '.' . self::getCheckedKey($key));
     }
 
     /**
@@ -161,8 +162,8 @@ final class CacheManager{
      * @return boolean True if an entry in the cache exists, otherwise false
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function containsByPrefix($keyPrefix){
-        return $this->cache->containsByPrefix($this->key.'.'.self::getCheckedKey($keyPrefix));
+    public function containsByPrefix($keyPrefix) {
+        return $this->cache->containsByPrefix($this->key . '.' . self::getCheckedKey($keyPrefix));
     }
 
     /**
@@ -172,8 +173,8 @@ final class CacheManager{
      * @return boolean True if an entry in the cache exists, otherwise false
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function containsBySuffix($keySuffix){
-        return $this->cache->containsBySuffix('/'.$this->key.'\\..*'.self::getCheckedKey($keySuffix));
+    public function containsBySuffix($keySuffix) {
+        return $this->cache->containsBySuffix('/' . $this->key . '\\..*' . self::getCheckedKey($keySuffix));
     }
 
     /**
@@ -183,9 +184,9 @@ final class CacheManager{
      * @return boolean True if an entry in the cache exists, otherwise false
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function containsByRegex($regex){
+    public function containsByRegex($regex) {
         $regex = self::getCheckedKey($regex, true);
-        return $this->cache->containsBySuffix($regex->charAt(0).$this->key.'\\.'.$regex->substring(1));
+        return $this->cache->containsBySuffix($regex->charAt(0) . $this->key . '\\.' . $regex->substring(1));
     }
 
     /**
@@ -197,8 +198,8 @@ final class CacheManager{
      * @return mixed|blaze\lang\Object The value or null if no cache can be found.
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function get($key){
-        return $this->cache->get($this->key.'.'.self::getCheckedKey($key));
+    public function get($key) {
+        return $this->cache->get($this->key . '.' . self::getCheckedKey($key));
     }
 
     /**
@@ -210,9 +211,10 @@ final class CacheManager{
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys that start with keyPrefix, or an empty map
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function getByPrefix($keyPrefix){
-        return $this->cache->getByPrefix($this->key.'.'.self::getCheckedKey($keyPrefix));
+    public function getByPrefix($keyPrefix) {
+        return $this->cache->getByPrefix($this->key . '.' . self::getCheckedKey($keyPrefix));
     }
+
     /**
      * First the cache gets locked to be able to get consistent values. The keys
      * of the cache entries which start with the given keyPrefix are returned as a list.
@@ -222,8 +224,8 @@ final class CacheManager{
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys that start with keyPrefix, or an empty map
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function getBySuffix($keySuffix){
-        return $this->cache->getByRegex('/'.$this->key.'\\..*'.self::getCheckedKey($keySuffix));
+    public function getBySuffix($keySuffix) {
+        return $this->cache->getByRegex('/' . $this->key . '\\..*' . self::getCheckedKey($keySuffix));
     }
 
     /**
@@ -235,9 +237,9 @@ final class CacheManager{
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys match the regex, or an empty map
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function getByRegex($regex){
+    public function getByRegex($regex) {
         $regex = self::getCheckedKey($regex, true);
-        return $this->cache->getByRegex($regex->charAt(0).$this->key.'\\.'.$regex->substring(1));
+        return $this->cache->getByRegex($regex->charAt(0) . $this->key . '\\.' . $regex->substring(1));
     }
 
     /**
@@ -248,8 +250,8 @@ final class CacheManager{
      * @return boolean False if the cache entry could not be invalidated, otherwise true
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function remove($key){
-        $this->cache->remove($this->key.'.'.self::getCheckedKey($key));
+    public function remove($key) {
+        $this->cache->remove($this->key . '.' . self::getCheckedKey($key));
     }
 
     /**
@@ -258,7 +260,7 @@ final class CacheManager{
      *
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      */
-    public function clear(){
+    public function clear() {
         $this->cache->removeByPrefix($this->key);
     }
 
@@ -270,8 +272,8 @@ final class CacheManager{
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function removeByPrefix($keyPrefix){
-        $this->cache->removeByPrefix($this->key.'.'.self::getCheckedKey($keyPrefix));
+    public function removeByPrefix($keyPrefix) {
+        $this->cache->removeByPrefix($this->key . '.' . self::getCheckedKey($keyPrefix));
     }
 
     /**
@@ -282,8 +284,8 @@ final class CacheManager{
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function removeBySuffix($keySuffix){
-        return $this->cache->removeByRegex('/'.$this->key.'\\..*'.self::getCheckedKey($keySuffix));
+    public function removeBySuffix($keySuffix) {
+        return $this->cache->removeByRegex('/' . $this->key . '\\..*' . self::getCheckedKey($keySuffix));
     }
 
     /**
@@ -294,9 +296,11 @@ final class CacheManager{
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      * @throws CacheException Is thrown when the key has less than one char.
      */
-    public function removeByRegex($regex){
+    public function removeByRegex($regex) {
         $regex = self::getCheckedKey($regex, true);
-        return $this->cache->removeByRegex($regex->charAt(0).$this->key.'\\.'.$regex->substring(1));
+        return $this->cache->removeByRegex($regex->charAt(0) . $this->key . '\\.' . $regex->substring(1));
     }
+
 }
+
 ?>

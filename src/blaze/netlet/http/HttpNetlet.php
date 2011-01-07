@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet\http;
+
 use blaze\lang\Object;
 
 /**

@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\io\input;
+
 use blaze\lang\Object,
-    blaze\lang\StringBuffer;
+ blaze\lang\StringBuffer;
 
 /**
  * Description of ByteArrayInputStream
@@ -21,12 +23,12 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
     private $position = 0;
     private $mark = 0;
 
-    public function __construct($bytes, $off = 0, $len = -1){
+    public function __construct($bytes, $off = 0, $len = -1) {
         $this->bytes = $bytes;
         $this->count = strlen($bytes);
     }
 
-    public function close(){
+    public function close() {
         $this->closed = true;
     }
 
@@ -36,7 +38,7 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
 
     public function read($len = -1) {
         $this->checkClosed();
-        if($len > 0 && $len + $this->position <= $this->count)
+        if ($len > 0 && $len + $this->position <= $this->count)
             $result = substr($this->bytes, $this->position, $len);
         else
             $result = substr($this->bytes, $this->position);
@@ -52,10 +54,10 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
      * @return 	int The number of chars which are available for read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function available(){
+    public function available() {
         $this->checkClosed();
-         return $this->count - $this->position;
-     }
+        return $this->count - $this->position;
+    }
 
     /**
      * Tries to skip over $n chars and returns the number of chars which were skipped over.
@@ -64,22 +66,22 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-     public function skip($n){
+    public function skip($n) {
         $this->checkClosed();
-         $this->position += $n;
-     }
+        $this->position += $n;
+    }
 
-     public function mark() {
-         $this->mark = $this->position;
-     }
+    public function mark() {
+        $this->mark = $this->position;
+    }
 
-     public function markSupported() {
-         return true;
-     }
+    public function markSupported() {
+        return true;
+    }
 
-     public function reset() {
-         $this->position = $this->mark;
-     }
+    public function reset() {
+        $this->position = $this->mark;
+    }
 
 }
 

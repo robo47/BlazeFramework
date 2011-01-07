@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class SelectItems extends \blaze\web\component\UIComponentBase{
+class SelectItems extends \blaze\web\component\UIComponentBase {
 
     private $value;
     private $labelField;

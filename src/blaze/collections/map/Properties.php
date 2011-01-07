@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\map;
+
 use blaze\lang\Object;
 
 /**
@@ -12,21 +14,21 @@ use blaze\lang\Object;
  * @todo    Clean up the implementation, no need to extend from HashMap because of associative arrays in PHP. Documentation!
  */
 class Properties extends HashMap {
+
     /**
      *
      * @var array
      */
     private $properties = array();
 
-
-    public function __construct(){
+    public function __construct() {
 
     }
-    public function setProperty($key, $value){
-        if(array_key_exists($key, $this->properties)){
+
+    public function setProperty($key, $value) {
+        if (array_key_exists($key, $this->properties)) {
             return false;
-        }
-        else{
+        } else {
             $this->properties[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
         }
     }
@@ -35,14 +37,14 @@ class Properties extends HashMap {
      *
      * @return blaze\lang\String
      */
-    public function getProperty($key, $default = null){
+    public function getProperty($key, $default = null) {
         $key = \blaze\lang\String::asNative($key);
-        if(!array_key_exists($key, $this->properties))
-                return $default;
+        if (!array_key_exists($key, $this->properties))
+            return $default;
         return $this->properties[$key];
     }
-	
-	/**
+
+    /**
      * Load properties from a file.
      *
      * @param File $file
@@ -51,13 +53,12 @@ class Properties extends HashMap {
      */
     public function load(\blaze\io\File $file) {
         if ($file->canRead()) {
-            $this->parse($file->getPath(), false);                    
+            $this->parse($file->getPath(), false);
         } else {
-            throw new IOException('Can not read file '.$file->getPath());
+            throw new IOException('Can not read file ' . $file->getPath());
         }
-        
     }
-    
+
     /**
      * Replaces parse_ini_file() or better_parse_ini_file().
      * Saves a step since we don't have to parse and then check return value
@@ -72,34 +73,33 @@ class Properties extends HashMap {
         // load() already made sure that file is readable                
         // but we'll double check that when reading the file into 
         // an array
-        
+
         if (($lines = @file($filePath)) === false) {
-            throw new \blaze\io\IOException('Unable to parse contents of '.$filePath);
+            throw new \blaze\io\IOException('Unable to parse contents of ' . $filePath);
         }
-        
+
         $this->properties = array();
         $sec_name = '';
-        
-        foreach($lines as $line) {
-            
+
+        foreach ($lines as $line) {
+
             $line = trim($line);
-    
-            if($line == '')
+
+            if ($line == '')
                 continue;
-                    
+
             if ($line{0} == '#' or $line{0} == ';') {
                 // it's a comment, so continue to next line
                 continue;
             } else {
                 $pos = strpos($line, '=');
                 $property = trim(substr($line, 0, $pos));
-                $value = trim(substr($line, $pos + 1));                
+                $value = trim(substr($line, $pos + 1));
                 $this->properties[$property] = $this->inVal($value);
             }
-            
-        } // for each line        
+        } // for each line
     }
-    
+
     /**
      * Process values when being read in from properties file.
      * does things like convert "true" => true
@@ -110,11 +110,11 @@ class Properties extends HashMap {
         if ($val === 'true') {
             $val = true;
         } elseif ($val === 'false') {
-            $val = false; 
+            $val = false;
         }
         return $val;
     }
-    
+
     /**
      * Process values when being written out to properties file.
      * does things like convert true => "true"
@@ -129,7 +129,7 @@ class Properties extends HashMap {
         }
         return $val;
     }
-    
+
     /**
      * Create string representation that can be written to file and would be loadable using load() method.
      * 
@@ -140,12 +140,12 @@ class Properties extends HashMap {
      */
     public function toString() {
         $buf = '';
-        foreach($this->properties as $key => $item) {
+        foreach ($this->properties as $key => $item) {
             $buf .= $key . '=' . $this->outVal($item) . PHP_EOL;
         }
-        return $buf;    
+        return $buf;
     }
-    
+
     /**
      * Stores current properties to specified file.
      * 
@@ -161,15 +161,15 @@ class Properties extends HashMap {
         try {
             $fw = new \blaze\io\output\FileWriter($file);
             if ($header !== null) {
-                $fw->write( '# ' . $header . PHP_EOL );
+                $fw->write('# ' . $header . PHP_EOL);
             }
             $fw->write($this->toString());
             $fw->close();
         } catch (\blaze\io\IOException $e) {
             throw new \blaze\io\IOException('Error writing property file: ' . $e->getMessage());
-        }                
+        }
     }
-    
+
     /**
      * Returns copy of internal properties hash.
      * Mostly for performance reasons, property hashes are often
@@ -180,7 +180,7 @@ class Properties extends HashMap {
     public function getProperties() {
         return $this->properties;
     }
-    
+
     /**
      * Set the value for a property.
      * This function exists to provide hashtable-lie
@@ -192,7 +192,7 @@ class Properties extends HashMap {
     public function put($key, $value) {
         return $this->setProperty($key, $value);
     }
-    
+
     /**
      * Appends a value to a property if it already exists with a delimiter
      *
@@ -204,7 +204,7 @@ class Properties extends HashMap {
      */
     public function append($key, $value, $delimiter = ',') {
         $newValue = $value;
-        if (isset($this->properties[$key]) && !empty($this->properties[$key]) ) {
+        if (isset($this->properties[$key]) && !empty($this->properties[$key])) {
             $newValue = $this->properties[$key] . $delimiter . $value;
         }
         $this->properties[$key] = $newValue;
@@ -217,7 +217,7 @@ class Properties extends HashMap {
     public function propertyNames() {
         return $this->keys();
     }
-    
+
     /**
      * Whether loaded properties array contains specified property name.
      * @return boolean
@@ -235,7 +235,7 @@ class Properties extends HashMap {
     public function keys() {
         return array_keys($this->properties);
     }
-    
+
     /**
      * Whether properties list is empty.
      * @return boolean
@@ -244,89 +244,91 @@ class Properties extends HashMap {
         return empty($this->properties);
     }
 
-    public function clear(){
+    public function clear() {
         $this->size = 0;
         $this->properties = array();
     }
 
-   
-
-    public function containsValue($value){
-        foreach($this->properties as &$val){
-            if($val==$value){
+    public function containsValue($value) {
+        foreach ($this->properties as &$val) {
+            if ($val == $value) {
                 return true;
             }
         }
         return false;
     }
 
-    public function entrySet(){}
-    public function keySet(){}
-    public function valueSet(){}
+    public function entrySet() {
 
-    public function get($key){
-        if(array_key_exists($key, $this->properties)){
+    }
+
+    public function keySet() {
+
+    }
+
+    public function valueSet() {
+
+    }
+
+    public function get($key) {
+        if (array_key_exists($key, $this->properties)) {
             return $this->data[$key]->getValue();
         }
         return null;
     }
-   
 
-    public function putAll(\blaze\collections\Map $m){
-        foreach($m as $value){
+    public function putAll(\blaze\collections\Map $m) {
+        foreach ($m as $value) {
             $this->put($value->getKey(), $value->getValue());
         }
     }
 
+    public function remove($key) {
 
-    public function remove($key){
-   
 
-         if($this->containsKey($key)){
+        if ($this->containsKey($key)) {
             unset($this->data[$key]);
             return true;
-         }
-         else{
-             return false;
-         }
+        } else {
+            return false;
+        }
     }
 
-    public function values(){}
+    public function values() {
 
+    }
 
-
-
-    public function count(){
+    public function count() {
         return $this->size;
     }
+
     /**
      * @return blaze\collections\MapIterator
      */
-    public function getIterator(){
+    public function getIterator() {
         throw new \blaze\lang\NotYetImplenetedException('ITerator must be programm', $code, $previous);
     }
-/**
- *
- * @param \blaze\collections\Map $c
- * @return <type>
- * @todo Implement
- */
+
+    /**
+     *
+     * @param \blaze\collections\Map $c
+     * @return <type>
+     * @todo Implement
+     */
     public function containsAll(\blaze\collections\Map $c) {
-        foreach($c as $val){
-            if(!$this->containsKey($val->getKey())){
+        foreach ($c as $val) {
+            if (!$this->containsKey($val->getKey())) {
                 return false;
             }
-
         }
         return true;
-
     }
 
 }
 
-class PrpertiesIterator implements \blaze\collections\MapIterator{
+class PrpertiesIterator implements \blaze\collections\MapIterator {
 
- private $data;
+    private $data;
 
     public function __construct($data) {
         if (is_array($data)) {
@@ -382,7 +384,6 @@ class PrpertiesIterator implements \blaze\collections\MapIterator{
     public function valid() {
         return (current($this->data) !== false);
     }
-
 
 }
 

@@ -13,13 +13,14 @@ namespace blaze\net;
 
 
  */
-class URLStreamHandlerFactoryImpl implements URLStreamHandlerFactory{
+class URLStreamHandlerFactoryImpl implements URLStreamHandlerFactory {
+
     /**
      * @param \blaze\lang\String|string $protocol
      * @return blaze\net\URLStreamHandler
      */
-    public function createURLStreamHandler($protocol){
-        switch(\blaze\lang\String::asWrapper($protocol)->toLowerCase()->toNative()){
+    public function createURLStreamHandler($protocol) {
+        switch (\blaze\lang\String::asWrapper($protocol)->toLowerCase()->toNative()) {
             case 'http':
                 break;
             case 'https':
@@ -28,6 +29,7 @@ class URLStreamHandlerFactoryImpl implements URLStreamHandlerFactory{
                 break;
         }
     }
+
 }
 
 ?>

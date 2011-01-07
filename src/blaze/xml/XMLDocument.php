@@ -49,7 +49,7 @@ class XMLDocument extends XMLNode {
     }
 
     public function createElementNS($namespaceURI, $qualifiedName, $value = null) {
-            return $this->doc->createElementNS($namespaceURI, $qualifiedName, $value);
+        return $this->doc->createElementNS($namespaceURI, $qualifiedName, $value);
     }
 
     public function createEntityReference($name) {

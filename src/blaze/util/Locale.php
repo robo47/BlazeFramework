@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\util;
+
 use blaze\lang\Object,
-    blaze\io\Serializable,
-    blaze\lang\Cloneable,
-    blaze\lang\StaticInitialization;
+ blaze\io\Serializable,
+ blaze\lang\Cloneable,
+ blaze\lang\StaticInitialization;
 
 /**
  * Description of Locale
@@ -17,92 +19,70 @@ use blaze\lang\Object,
  */
 final class Locale extends Object implements Cloneable, Serializable, StaticInitialization {
 
-    private static $cache = array();// = new ConcurrentHashMap<String, Locale>(32);
-
+    private static $cache = array(); // = new ConcurrentHashMap<String, Locale>(32);
     /** Useful constant for language.
      */
     public static $ENGLISH;
-
     /** Useful constant for language.
      */
     public static $FRENCH;
-
     /** Useful constant for language.
      */
     public static $GERMAN;
-
     /** Useful constant for language.
      */
     public static $ITALIAN;
-
     /** Useful constant for language.
      */
     public static $JAPANESE;
-
     /** Useful constant for language.
      */
     public static $KOREAN;
-
     /** Useful constant for language.
      */
     public static $CHINESE;
-
     /** Useful constant for language.
      */
     public static $SIMPLIFIED_CHINESE;
-
     /** Useful constant for language.
      */
     public static $TRADITIONAL_CHINESE;
-
     /** Useful constant for country.
      */
     public static $FRANCE;
-
     /** Useful constant for country.
      */
     public static $GERMANY;
-
     /** Useful constant for country.
      */
     public static $ITALY;
-
     /** Useful constant for country.
      */
     public static $JAPAN;
-
     /** Useful constant for country.
      */
     public static $KOREA;
-
     /** Useful constant for country.
      */
     public static $CHINA;
-
     /** Useful constant for country.
      */
     public static $PRC;
-
     /** Useful constant for country.
      */
     public static $TAIWAN;
-
     /** Useful constant for country.
      */
     public static $UK;
-
     /** Useful constant for country.
      */
     public static $US;
-
     /** Useful constant for country.
      */
     public static $CANADA;
-
     /** Useful constant for country.
      */
     public static $CANADA_FRENCH;
-
     /**
      * Useful constant for the root locale.  The root locale is the locale whose
      * language, country, and variant are empty ("") strings.  This is regarded
@@ -112,16 +92,10 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * @since 1.6
      */
     //public static $ROOT = self::getSingleton("__", "", "");
-
-
     private static $isoLanguages = null;
-
     private static $isoCountries = null;
-
     private static $defaultLocale = null;
-
     private $hash = -1;
-
     private $language;
     private $country;
     private $variant;
@@ -129,7 +103,7 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
     /**
      * Description
      */
-    public function __construct($language, $country = '', $variant = ''){
+    public function __construct($language, $country = '', $variant = '') {
         $this->language = $this->convertOldISOCodes($language);
         $this->country = strtoupper($country);
         $this->variant = $variant;
@@ -157,7 +131,7 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
         self::$US = self::getSingleton("en_US_", "en", "US");
         self::$CANADA = self::getSingleton("en_CA_", "en", "CA");
         self::$CANADA_FRENCH = self::getSingleton("fr_CA_", "fr", "CA");
-        setlocale(LC_ALL,0);
+        setlocale(LC_ALL, 0);
     }
 
     /**
@@ -168,21 +142,21 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
      * @throws	blaze\lang\Exception
      */
-     private static function getSingleton($key, $language, $country){
-        if(!isset(self::$cache[$key]))
-            self::$cache[$key] = new self($language,$country);
+    private static function getSingleton($key, $language, $country) {
+        if (!isset(self::$cache[$key]))
+            self::$cache[$key] = new self($language, $country);
 
         return self::$cache[$key];
-     }
+    }
 
-     private function convertOldISOCodes($language) {
+    private function convertOldISOCodes($language) {
         // we accept both the old and the new ISO codes for the languages whose ISO
         // codes have changed, but we always store the OLD code, for backward compatibility
         $language = strtolower($language);
         if ($language == "he") {
             return "iw";
         } else if ($language == "yi") {
-            return "ji"; 
+            return "ji";
         } else if ($language == "id") {
             return "in";
         } else {
@@ -201,8 +175,6 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
     public function getVariant() {
         return $this->variant;
     }
-
-    
 
     /**
      * Gets the current value of the default locale for this instance
@@ -398,7 +370,6 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
 //        }
 //	return country3;
 //    }
-
 //    private static final String getISO3Code(String iso2Code, String table) {
 //	int codeLength = iso2Code.length();
 //        if (codeLength == 0) {
@@ -489,7 +460,6 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
 //    public String getDisplayCountry(Locale inLocale) {
 //        return getDisplayString(country, inLocale, DISPLAY_COUNTRY);
 //    }
-
 //    private String getDisplayString(String code, Locale inLocale, int type) {
 //        if (code.length() == 0) {
 //            return "";
@@ -689,7 +659,7 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
             $language = new String($this->language);
             $country = new String($this->country);
             $variant = new String($this->variant);
-	    $hc = ($language->hashCode() << 8) ^ $country->hashCode() ^ ($variant->hashCode() << 4);
+            $hc = ($language->hashCode() << 8) ^ $country->hashCode() ^ ($variant->hashCode() << 4);
             $this->hash = $hc;
         }
         return $hc;
@@ -704,17 +674,15 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
      *
      * @return boolean true if this Locale is equal to the specified object.
      */
-
     public function equals(\blaze\lang\Reflectable $obj) {
         if ($this == $obj)                      // quick check
             return true;
         if (!($obj instanceof Locale))
             return false;
-	return $this->language == $obj->language
-            && $this->country == $obj->country
-            && $this->variant == $obj->variant;
+        return $this->language == $obj->language
+        && $this->country == $obj->country
+        && $this->variant == $obj->variant;
     }
-
 
     /**
      * Return an array of the display names of the variant.
@@ -809,7 +777,6 @@ final class Locale extends Object implements Cloneable, Serializable, StaticInit
 //    private Object readResolve() throws java.io.ObjectStreamException {
 //        return getInstance(language, country, variant);
 //    }
-
 }
 
 ?>

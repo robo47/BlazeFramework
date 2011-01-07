@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\ds\driver\pdobase\meta\AbstractViewMetaData;
 
 /**
@@ -15,53 +17,59 @@ use blaze\ds\driver\pdobase\meta\AbstractViewMetaData;
  */
 class ViewMetaDataImpl extends AbstractViewMetaData {
 
-    public function __construct(\blaze\ds\meta\SchemaMetaData $schemaMetaData, $viewName, $viewDefinition, $updateable){
+    public function __construct(\blaze\ds\meta\SchemaMetaData $schemaMetaData, $viewName, $viewDefinition, $updateable) {
         $this->schema = $schemaMetaData;
         $this->viewName = $viewName;
         $this->viewDefinition = $viewDefinition;
         $this->updateable = $updateable;
     }
+
     /**
      * @return blaze\ds\meta\SchemaMetaData
      */
-    public function getSchema(){
+    public function getSchema() {
         return $this->schema;
     }
+
     /**
      * @return blaze\lang\String
      */
-     public function getViewName(){
-         return $this->viewName;
-     }
-     public function setViewName($viewName){
-         $this->checkClosed();
-         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-         $stmt->executeQuery('RENAME TABLE '.$this->viewName.' TO '.$viewName);
-         $this->viewName = $viewName;
-     }
-    /**
-     * @return blaze\lang\String
-     */
-     public function getViewDefinition(){
-         return $this->viewDefinition;
-     }
-     public function  setViewDefinition($viewDefinition) {
-         $this->checkClosed();
+    public function getViewName() {
+        return $this->viewName;
+    }
+
+    public function setViewName($viewName) {
+        $this->checkClosed();
         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-         $stmt->executeQuery('ALTER VIEW '.$this->viewName.' AS '.$viewDefinition);
-         $this->viewDefinition = $viewDefinition;
-     }
+        $stmt->executeQuery('RENAME TABLE ' . $this->viewName . ' TO ' . $viewName);
+        $this->viewName = $viewName;
+    }
+
+    /**
+     * @return blaze\lang\String
+     */
+    public function getViewDefinition() {
+        return $this->viewDefinition;
+    }
+
+    public function setViewDefinition($viewDefinition) {
+        $this->checkClosed();
+        $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
+        $stmt->executeQuery('ALTER VIEW ' . $this->viewName . ' AS ' . $viewDefinition);
+        $this->viewDefinition = $viewDefinition;
+    }
+
     /**
      * @return boolean
      */
-     public function isUpdateable(){
-         return $this->updateable;
-     }
+    public function isUpdateable() {
+        return $this->updateable;
+    }
 
-     public function drop() {
+    public function drop() {
         $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-         $stmt->executeQuery('DROP VIEW '.$this->viewName);
-     }
+        $stmt->executeQuery('DROP VIEW ' . $this->viewName);
+    }
 
 }
 

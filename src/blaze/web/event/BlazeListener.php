@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\event;
 
 /**
@@ -12,6 +13,8 @@ namespace blaze\web\event;
 
 
  */
-interface BlazeListener extends \blaze\util\EventListener{}
+interface BlazeListener extends \blaze\util\EventListener {
+
+}
 
 ?>

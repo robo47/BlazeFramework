@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\map;
 
 /**
@@ -11,13 +12,14 @@ namespace blaze\collections\map;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted{
+interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
 
     /**
      * Returns the first (lowest) key currently in this map.
      * @return mixed
      */
     public function firstKey();
+
     /**
      * Returns the last (highest) key currently in this map.
      * @return mixed
@@ -29,6 +31,7 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted{
      * @return mixed
      */
     public function ceilingKey($key);
+
     /**
      * Returns the greatest key less than or equal to the given key, or null if there is no such key.
      * @return mixed
@@ -106,6 +109,7 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted{
      * @return blaze\collections\MapEntry
      */
     public function lowerEntry($key);
+
     /**
      * Returns a view of the current map which starts at the first element of the map
      * and ends at the element toElement.
@@ -134,7 +138,6 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted{
      * @return blaze\collections\SortedMap
      */
     public function tailMap($fromElement, $inclusive = true);
-
 }
 
 ?>

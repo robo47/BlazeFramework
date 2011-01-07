@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class CommandLink extends \blaze\web\component\UICommand{
+class CommandLink extends \blaze\web\component\UICommand {
 
     private $value;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new CommandLink();
     }
 
@@ -40,7 +43,6 @@ class CommandLink extends \blaze\web\component\UICommand{
         $this->value = new \blaze\web\el\Expression($value);
         return $this;
     }
-
 
 }
 

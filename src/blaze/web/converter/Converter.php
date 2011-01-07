@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\converter;
+
 use blaze\lang\Singleton;
 
 /**
@@ -13,9 +15,10 @@ use blaze\lang\Singleton;
 
 
  */
-interface Converter{
-     public function toString(\blaze\web\application\BlazeContext $context, $obj);
-     public function toObject(\blaze\web\application\BlazeContext $context, $string);
+interface Converter {
+    public function toString(\blaze\web\application\BlazeContext $context, $obj);
+
+    public function toObject(\blaze\web\application\BlazeContext $context, $string);
 }
 
 ?>

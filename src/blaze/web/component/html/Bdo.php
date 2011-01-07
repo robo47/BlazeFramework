@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class Bdo extends \blaze\web\component\UIComponentCore{
+class Bdo extends \blaze\web\component\UIComponentCore {
 
     private $dir;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Bdo();
     }
 
@@ -40,6 +43,7 @@ class Bdo extends \blaze\web\component\UIComponentCore{
         $this->dir = new \blaze\web\el\Expression($dir);
         return $this;
     }
+
 }
 
 ?>

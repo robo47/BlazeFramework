@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\io;
 
 /**
@@ -11,12 +12,13 @@ namespace blaze\io;
 
  */
 interface Flushable {
+
     /**
      * Flushes the buffered content to the underlying ressource.
      *
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the stream is already closed
      */
-     public function flush();
+    public function flush();
 }
 
 ?>

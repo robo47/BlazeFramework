@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,13 +15,13 @@ use blaze\lang\Object;
 
 
  */
-class InputText extends \blaze\web\component\UIInput{
+class InputText extends \blaze\web\component\UIInput {
 
+    public function __construct() {
 
-    public function __construct(){
     }
 
-    public static function create(){
+    public static function create() {
         return new InputText();
     }
 
@@ -31,9 +33,10 @@ class InputText extends \blaze\web\component\UIInput{
         return 'InputTextRenderer';
     }
 
-    public function getType(){
+    public function getType() {
         return 'text';
     }
+
 }
 
 ?>

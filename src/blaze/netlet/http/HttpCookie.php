@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet\http;
+
 use blaze\lang\Cloneable;
 
 /**
@@ -13,33 +15,32 @@ use blaze\lang\Cloneable;
 
 
  */
-interface HttpCookie extends Cloneable{
+interface HttpCookie extends Cloneable {
+    public function getName();
 
-     public function getName();
+    public function getValue();
 
-     public function getValue();
+    public function getExpire();
 
-     public function getExpire();
+    public function getPath();
 
-     public function getPath();
+    public function getDomain();
 
-     public function getDomain();
+    public function getSecure();
 
-     public function getSecure();
+    public function getHttponly();
 
-     public function getHttponly();
+    public function setValue($value);
 
-     public function setValue($value);
+    public function setExpire($expire);
 
-     public function setExpire($expire);
+    public function setPath($path);
 
-     public function setPath($path);
+    public function setDomain($domain);
 
-     public function setDomain($domain);
+    public function setSecure($secure);
 
-     public function setSecure($secure);
-
-     public function setHttponly($httponly);
+    public function setHttponly($httponly);
 }
 
 ?>

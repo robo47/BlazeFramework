@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\iterator;
 
 /**
@@ -12,10 +13,11 @@ namespace blaze\collections\iterator;
 
 
  */
-final class ImmutableIterator implements \blaze\collections\Iterator, \blaze\collections\Immutable{
+final class ImmutableIterator implements \blaze\collections\Iterator, \blaze\collections\Immutable {
+
     private $iter;
 
-    public function __construct(\blaze\collections\Iterator $iter){
+    public function __construct(\blaze\collections\Iterator $iter) {
         $this->iter = $iter;
     }
 
@@ -46,7 +48,6 @@ final class ImmutableIterator implements \blaze\collections\Iterator, \blaze\col
     public function valid() {
         return $this->iter->valid();
     }
-
 
 }
 

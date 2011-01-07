@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\meta;
+
 use blaze\lang\Object;
 
 /**
@@ -11,25 +13,26 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class PropertyPath extends Object{
+class PropertyPath extends Object {
+
     private $classesPath;
     private $namesPath;
 
-    public function __construct(){
+    public function __construct() {
         $this->classesPath = array();
         $this->namesPath = array();
     }
 
-    public function addPathStep($className, $propertyName){
+    public function addPathStep($className, $propertyName) {
         $this->classesPath[] = $className;
         $this->namesPath[] = $propertyName;
     }
 
-    public function getNamesPath(){
+    public function getNamesPath() {
         return $this->namesPath;
     }
 
-    public function getClassesPath(){
+    public function getClassesPath() {
         return $this->classesPath;
     }
 

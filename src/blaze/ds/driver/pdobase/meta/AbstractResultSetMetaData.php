@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\ResultSetMetaData;
+ blaze\ds\meta\ResultSetMetaData;
 
 /**
  * Description of AbstractResultSetMetaData
@@ -15,6 +17,7 @@ use blaze\lang\Object,
 
  */
 abstract class AbstractResultSetMetaData extends Object implements ResultSetMetaData {
+
     /**
      *
      * @var blaze\ds\Statement1
@@ -30,13 +33,14 @@ abstract class AbstractResultSetMetaData extends Object implements ResultSetMeta
      * @var blaze\ds\meta\SchemaMetaData
      */
     protected $schema;
-    
-     /**
-      * @return blaze\ds\Statement1
-      */
-    public function getStatement(){
+
+    /**
+     * @return blaze\ds\Statement1
+     */
+    public function getStatement() {
         return $this->stmt;
     }
+
 }
 
 ?>

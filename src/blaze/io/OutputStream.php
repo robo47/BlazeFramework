@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Object;
 
 /**
@@ -15,11 +17,11 @@ use blaze\lang\Object;
  */
 abstract class OutputStream extends Object implements Closeable, Flushable, Writable {
 
-
-    protected function checkClosed(){
-        if($this->isClosed())
-                throw new IOException($this->toString().' is already closed.');
+    protected function checkClosed() {
+        if ($this->isClosed())
+            throw new IOException($this->toString() . ' is already closed.');
     }
+
 }
 
 ?>

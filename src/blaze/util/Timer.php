@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\util;
+
 use blaze\lang\Object;
 
 /**
@@ -12,7 +14,8 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class Timer extends Object{
+class Timer extends Object {
+
     private $elapsedTime;
 
     public function start() {
@@ -20,15 +23,16 @@ class Timer extends Object{
     }
 
     public function stop() {
-        $this->elapsedTime = round($this->getMicrotime()-$this->elapsedTime,5);
+        $this->elapsedTime = round($this->getMicrotime() - $this->elapsedTime, 5);
 
         return $this->elapsedTime;
     }
 
-    private function getMicrotime() {				
-        list($useg,$seg) = explode(' ',microtime());
-        return ((float)$useg+(float)$seg);
+    private function getMicrotime() {
+        list($useg, $seg) = explode(' ', microtime());
+        return ((float) $useg + (float) $seg);
     }
+
 }
 
 ?>

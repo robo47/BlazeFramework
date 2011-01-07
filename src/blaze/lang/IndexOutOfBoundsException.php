@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Exception;
 
 /**
@@ -11,6 +13,8 @@ use blaze\lang\Exception;
  * @since   1.0
 
  */
-class IndexOutOfBoundsException extends Exception {}
+class IndexOutOfBoundsException extends Exception {
+
+}
 
 ?>

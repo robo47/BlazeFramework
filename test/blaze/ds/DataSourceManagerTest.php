@@ -4,13 +4,7 @@ namespace blaze\ds;
 
 use blaze\ds\meta\ColumnMetaData,
  blaze\ds\CallableStatement,
-        \PDO;
-
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
-spl_autoload_register('blaze\lang\ClassLoader::autoLoad');
-
+ \PDO;
 
 /**
  * Test class for the whole ds Package!
@@ -73,12 +67,12 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals('test_db', $this->db[$i]->getDatabaseName());
         }
     }
-    
+
     /**
      * This creates tables in the databases which can all be accessed the same way
      * and changed.
      */
-    protected function setupTables(){
+    protected function setupTables() {
         for ($i = 0; $i < (count($this->bdsc)); $i++) {
             $schema = $this->db[$i]->createSchema('test_db');
 
@@ -91,8 +85,8 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $col->setPrimaryKey(true, 'PK_COL_ID');
             $tbl1->addColumn($col);
             $schema->addTable($tbl1);
-            
-            
+
+
             $tbl2 = $schema->createTable('test_table2');
             $tbl2->setTableComment('This table is special too');
             $col = $tbl1->createColumn('col_id', 'blaze\\lang\\String', 10);
@@ -105,7 +99,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Drops all test databases and closes all connections.
      */
-    protected function closeConnection(){
+    protected function closeConnection() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $this->assertFalse($this->con[$i]->isClosed());
             $this->con[$i]->dropDatabase('test_db');
@@ -114,25 +108,23 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-
-
     //-------- Normal Statements ----------//
 
     /**
      * Inserts data with a normal statement with the executeUpdate() method.
      */
-    protected function insertDataNormal(){
+    protected function insertDataNormal() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
 
-            for($i = 0; $i < 26; $i++){
-                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table1 VALUES('.$i.')'));
-                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table2 VALUES(\''.(chr(ord('a') + $i)).'\')'));
+            for ($i = 0; $i < 26; $i++) {
+                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table1 VALUES(' . $i . ')'));
+                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table2 VALUES(\'' . (chr(ord('a') + $i)) . '\')'));
             }
-            for($i = 0; $i < 26; $i++){
-                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table1 VALUES('.($i + 26).')'));
-                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table2 VALUES(\''.('a'.chr(ord('a') + $i)).'\')'));
+            for ($i = 0; $i < 26; $i++) {
+                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table1 VALUES(' . ($i + 26) . ')'));
+                $this->assertEquals(1, $stmt->executeUpdate('INSERT INTO test_table2 VALUES(\'' . ('a' . chr(ord('a') + $i)) . '\')'));
             }
 
             $stmt->close();
@@ -143,7 +135,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a normal statement with the executeUpdate() method.
      */
-    protected function updateDataNormal(){
+    protected function updateDataNormal() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
@@ -159,18 +151,18 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Selects data with a normal statement with the executeQuery() method.
      */
-    protected function selectDataNormal(){
+    protected function selectDataNormal() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->createStatement();
             $stmt2 = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt1);
             $this->assertNotNull($stmt2);
 
-            for($i = 0; $i < 26; $i++){
-                $rs1 = $stmt1->executeQuery('SELECT * FROM test_table1 WHERE col_id = '.$i);
+            for ($i = 0; $i < 26; $i++) {
+                $rs1 = $stmt1->executeQuery('SELECT * FROM test_table1 WHERE col_id = ' . $i);
                 $this->assertNotNull($rs1);
                 $this->assertEquals($rs1, $stmt1->getResultSet());
-                $rs2 = $stmt2->executeQuery('SELECT * FROM test_table2 WHERE col_id = \''.(chr(ord('a') + $i)).'\'');
+                $rs2 = $stmt2->executeQuery('SELECT * FROM test_table2 WHERE col_id = \'' . (chr(ord('a') + $i)) . '\'');
                 $this->assertNotNull($rs2);
                 $this->assertEquals($rs2, $stmt2->getResultSet());
 
@@ -184,16 +176,16 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertTrue($rs1->isClosed());
                 $this->assertTrue($rs2->isClosed());
             }
-            for($i = 0; $i < 26; $i++){
-                $rs1 = $stmt1->executeQuery('SELECT * FROM test_table1 WHERE col_id = '.($i + 26));
+            for ($i = 0; $i < 26; $i++) {
+                $rs1 = $stmt1->executeQuery('SELECT * FROM test_table1 WHERE col_id = ' . ($i + 26));
                 $this->assertEquals($rs1, $stmt1->getResultSet());
-                $rs2 = $stmt2->executeQuery('SELECT * FROM test_table2 WHERE col_id = \''.('a'.chr(ord('a') + $i)).'\'');
+                $rs2 = $stmt2->executeQuery('SELECT * FROM test_table2 WHERE col_id = \'' . ('a' . chr(ord('a') + $i)) . '\'');
                 $this->assertEquals($rs2, $stmt2->getResultSet());
 
                 $this->assertTrue($rs1->next());
                 $this->assertTrue($rs2->next());
                 $this->assertEquals($i + 26, $rs1->getInt(0));
-                $this->assertEquals('a'.chr(ord('a') + $i), $rs2->getString(0)->toNative());
+                $this->assertEquals('a' . chr(ord('a') + $i), $rs2->getString(0)->toNative());
 
                 $rs1->close();
                 $rs2->close();
@@ -211,7 +203,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a normal statement with the executeUpdate() method.
      */
-    protected function deleteDataNormal(){
+    protected function deleteDataNormal() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
@@ -224,31 +216,29 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-
-
     //-------- Batch Statements ----------//
 
     /**
      * Inserts data with a normal statement with the executeBatch() method.
      */
-    protected function insertDataBatch(){
+    protected function insertDataBatch() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
 
-            for($i = 0; $i < 26; $i++){
-                $stmt->addBatch('INSERT INTO test_table1 VALUES('.$i.');');
-                $stmt->addBatch('INSERT INTO test_table2 VALUES(\''.(chr(ord('a') + $i)).'\');');
+            for ($i = 0; $i < 26; $i++) {
+                $stmt->addBatch('INSERT INTO test_table1 VALUES(' . $i . ');');
+                $stmt->addBatch('INSERT INTO test_table2 VALUES(\'' . (chr(ord('a') + $i)) . '\');');
             }
-            for($i = 0; $i < 26; $i++){
-                $stmt->addBatch('INSERT INTO test_table1 VALUES('.($i + 26).');');
-                $stmt->addBatch('INSERT INTO test_table2 VALUES(\''.('a'.chr(ord('a') + $i)).'\');');
+            for ($i = 0; $i < 26; $i++) {
+                $stmt->addBatch('INSERT INTO test_table1 VALUES(' . ($i + 26) . ');');
+                $stmt->addBatch('INSERT INTO test_table2 VALUES(\'' . ('a' . chr(ord('a') + $i)) . '\');');
             }
 
             $results = $stmt->executeBatch();
             $this->assertTrue(is_array($results));
 
-            foreach($results as $result){
+            foreach ($results as $result) {
                 $this->assertEquals(1, $result);
             }
 
@@ -260,7 +250,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a normal statement with the executeUpdate() method.
      */
-    protected function updateDataBatch(){
+    protected function updateDataBatch() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
@@ -280,11 +270,11 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a normal statement with the executeUpdate() method.
      */
-    protected function deleteDataBatch(){
+    protected function deleteDataBatch() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt = $this->db[$i]->getConnection()->createStatement();
             $this->assertNotNull($stmt);
-            
+
             $stmt->addBatch('DELETE FROM test_table1;');
             $stmt->addBatch('DELETE FROM test_table2;');
 
@@ -298,31 +288,28 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-
-
-
     //-------- Prepared Statements Index ----------//
 
     /**
      * Inserts data with a prepared statement which uses a '?' for the parameters.
      */
-    protected function insertDataPreparedIndex(){
+    protected function insertDataPreparedIndex() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('INSERT INTO test_table1 VALUES(?)');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('INSERT INTO test_table2 VALUES(?)');
             $this->assertNotNull($stmt1);
             $this->assertNotNull($stmt2);
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i);
                 $stmt2->setString(0, chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i + 26);
-                $stmt2->setString(0, 'a'.chr(ord('a') + $i));
+                $stmt2->setString(0, 'a' . chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
@@ -338,7 +325,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a prepared statement which uses a '?' for the parameters.
      */
-    protected function updateDataPreparedIndex(){
+    protected function updateDataPreparedIndex() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('UPDATE test_table1 SET col_id = col_id + ?');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('UPDATE test_table2 SET col_id = CONCAT(?, col_id)');
@@ -361,14 +348,14 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Selects data with a prepared statement with the executeQuery() method.
      */
-    protected function selectDataPreparedIndex(){
+    protected function selectDataPreparedIndex() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('SELECT * FROM test_table1 WHERE col_id = ?');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('SELECT * FROM test_table2 WHERE col_id = ?');
             $this->assertNotNull($stmt1);
             $this->assertNotNull($stmt2);
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i);
                 $stmt2->setString(0, chr(ord('a') + $i));
                 $rs1 = $stmt1->executeQuery();
@@ -391,9 +378,9 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertTrue($rs1->isClosed());
                 $this->assertTrue($rs2->isClosed());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i + 26);
-                $stmt2->setString(0, 'a'.chr(ord('a') + $i));
+                $stmt2->setString(0, 'a' . chr(ord('a') + $i));
                 $rs1 = $stmt1->executeQuery();
                 $rs2 = $stmt2->executeQuery();
 
@@ -405,7 +392,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertTrue($rs1->next());
                 $this->assertTrue($rs2->next());
                 $this->assertEquals($i + 26, $rs1->getInt(0));
-                $this->assertEquals('a'.chr(ord('a') + $i), $rs2->getString(0)->toNative());
+                $this->assertEquals('a' . chr(ord('a') + $i), $rs2->getString(0)->toNative());
 
                 $rs1->close();
                 $rs2->close();
@@ -423,7 +410,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a prepared statement which uses a '?' for the parameters.
      */
-    protected function deleteDataPreparedIndex(){
+    protected function deleteDataPreparedIndex() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('DELETE FROM test_table1 WHERE col_id = ?');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('DELETE FROM test_table2 WHERE col_id = ?');
@@ -431,16 +418,16 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertNotNull($stmt2);
 
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i);
                 $stmt2->setString(0, chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt(0, $i + 26);
-                $stmt2->setString(0, 'a'.chr(ord('a') + $i));
+                $stmt2->setString(0, 'a' . chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
@@ -453,29 +440,28 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-
     //-------- Prepared Statements Named ----------//
 
     /**
      * Inserts data with a prepared statement which uses a ':id' for the parameters.
      */
-    protected function insertDataPreparedNamed(){
+    protected function insertDataPreparedNamed() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('INSERT INTO test_table1 VALUES(:id)');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('INSERT INTO test_table2 VALUES(:id)');
             $this->assertNotNull($stmt1);
             $this->assertNotNull($stmt2);
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i);
                 $stmt2->setString('id', chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i + 26);
-                $stmt2->setString('id', 'a'.chr(ord('a') + $i));
+                $stmt2->setString('id', 'a' . chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
@@ -491,7 +477,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Updates data with a prepared statement which uses a ':id' for the parameters.
      */
-    protected function updateDataPreparedNamed(){
+    protected function updateDataPreparedNamed() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('UPDATE test_table1 SET col_id = col_id + :id');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('UPDATE test_table2 SET col_id = CONCAT(:id, col_id)');
@@ -514,14 +500,14 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * Selects data with a prepared statement with the executeQuery() method.
      */
-    protected function selectDataPreparedNamed(){
+    protected function selectDataPreparedNamed() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('SELECT * FROM test_table1 WHERE col_id = :id');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('SELECT * FROM test_table2 WHERE col_id = :id');
             $this->assertNotNull($stmt1);
             $this->assertNotNull($stmt2);
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i);
                 $stmt2->setString('id', chr(ord('a') + $i));
                 $rs1 = $stmt1->executeQuery();
@@ -542,9 +528,9 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertTrue($rs1->isClosed());
                 $this->assertTrue($rs2->isClosed());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i + 26);
-                $stmt2->setString('id', 'a'.chr(ord('a') + $i));
+                $stmt2->setString('id', 'a' . chr(ord('a') + $i));
                 $rs1 = $stmt1->executeQuery();
                 $rs2 = $stmt2->executeQuery();
 
@@ -556,7 +542,7 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertTrue($rs1->next());
                 $this->assertTrue($rs2->next());
                 $this->assertEquals($i + 26, $rs1->getInt('col_id'));
-                $this->assertEquals('a'.chr(ord('a') + $i), $rs2->getString('col_id')->toNative());
+                $this->assertEquals('a' . chr(ord('a') + $i), $rs2->getString('col_id')->toNative());
 
                 $rs1->close();
                 $rs2->close();
@@ -571,11 +557,10 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-
     /**
      * Updates data with a prepared statement which uses a '?' for the parameters.
      */
-    protected function deleteDataPreparedNamed(){
+    protected function deleteDataPreparedNamed() {
         for ($i = 0; $i < (count($this->con)); $i++) {
             $stmt1 = $this->db[$i]->getConnection()->prepareStatement('DELETE FROM test_table1 WHERE col_id = :id');
             $stmt2 = $this->db[$i]->getConnection()->prepareStatement('DELETE FROM test_table2 WHERE col_id = :id');
@@ -583,16 +568,16 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
             $this->assertNotNull($stmt2);
 
 
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i);
                 $stmt2->setString('id', chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
             }
-            for($i = 0; $i < 26; $i++){
+            for ($i = 0; $i < 26; $i++) {
                 $stmt1->setInt('id', $i + 26);
-                $stmt2->setString('id', 'a'.chr(ord('a') + $i));
+                $stmt2->setString('id', 'a' . chr(ord('a') + $i));
 
                 $this->assertEquals(1, $stmt1->executeUpdate());
                 $this->assertEquals(1, $stmt2->executeUpdate());
@@ -911,6 +896,6 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
 //        }
 //
 //    }
-
 }
+
 ?>

@@ -56,4 +56,5 @@ abstract class AbstractConstraintMetaData extends Object implements ConstraintMe
     }
 
 }
+
 ?>

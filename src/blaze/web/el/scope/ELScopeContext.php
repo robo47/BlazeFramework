@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\web\el\scope;
+
 use blaze\lang\Object,
-    blaze\util\Map;
+ blaze\util\Map;
 
 /**
  * Description of ELScopeContext
@@ -14,14 +16,15 @@ use blaze\lang\Object,
 
 
  */
-abstract class ELScopeContext extends Object{
+abstract class ELScopeContext extends Object {
+
     protected $nutDefinitions;
 
     /**
      * @return \blaze\collections\Map 
      */
-    public function getDefinitions(){
-            return $this->nutDefinitions;
+    public function getDefinitions() {
+        return $this->nutDefinitions;
     }
 
     /**
@@ -29,7 +32,9 @@ abstract class ELScopeContext extends Object{
      * @return blaze\lang\Object
      */
     public abstract function get(\blaze\web\application\BlazeContext $context, $key);
+
     public abstract function set(\blaze\web\application\BlazeContext $context, $key, $val);
+
     public abstract function resetValues(\blaze\web\application\BlazeContext $context);
 }
 

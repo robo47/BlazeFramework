@@ -15,12 +15,13 @@ namespace blaze\web\render\html4;
  */
 abstract class BaseSelectRenderer extends \blaze\web\render\html4\BaseInputRenderer {
 
-    protected function getValue(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component){
+    protected function getValue(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
         $value = $component->getValue();
-        if($value !== null)
-                return $value;
+        if ($value !== null)
+            return $value;
         return '';
     }
+
 }
 
 ?>

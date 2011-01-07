@@ -11,7 +11,7 @@ namespace blaze\collections\bidimap;
  * @since   1.0
  */
 abstract class AbstractSortedBidiMapDecorator extends AbstractBidiMapDecorator implements \blaze\collections\bidimap\SortedBidiMap {
-    
+
     /**
      * The decorated bidimap.
      * @var \blaze\collections\bidimap\SortedBidiMap
@@ -27,7 +27,7 @@ abstract class AbstractSortedBidiMapDecorator extends AbstractBidiMapDecorator i
         parent::__construct($bidiMap);
         $this->sortedBidiMap = $bidiMap;
     }
-    
+
     public function ceiling($element) {
         return $this->sortedBidiMap->ceiling($element);
     }

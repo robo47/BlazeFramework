@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\ds\driver\pdobase\meta\AbstractForeignKeyMetaData;
 
 /**
@@ -21,7 +23,7 @@ class ForeignKeyMetaDataImpl extends AbstractForeignKeyMetaData {
      * @param array[\blaze\ds\meta\ColumnMetaData] $referencedColumns
      * @param blaze\lang\String $constraintName
      */
-    public function __construct($columns, \blaze\ds\meta\ColumnMetaData $referencedColumns, $constraintName){
+    public function __construct($columns, \blaze\ds\meta\ColumnMetaData $referencedColumns, $constraintName) {
         $this->columns = $columns;
         $this->referencedColumns = $referencedColumns;
         $this->constraintName = $constraintName;
@@ -31,10 +33,10 @@ class ForeignKeyMetaDataImpl extends AbstractForeignKeyMetaData {
     /**
      * @return blaze\ds\meta\ColumnMetaData
      */
-    public function getReferencedColumn(){
+    public function getReferencedColumn() {
         return $this->referencedColumns;
     }
-    
+
     public function addColumn(\blaze\ds\meta\ColumnMetaData $column) {
 
     }

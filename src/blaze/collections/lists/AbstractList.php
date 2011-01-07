@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\lists;
+
 use blaze\lang\Object,
  blaze\collections\Collection;
 
@@ -13,8 +15,8 @@ use blaze\lang\Object,
  * @see     http://download.oracle.com/javase/6/docs/api/java/util/Queue.html
  * @since   1.0
  */
-abstract class AbstractList extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\ListI{
-   
+abstract class AbstractList extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\ListI {
+
 }
 
 ?>

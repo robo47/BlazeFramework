@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\lang;
 
 /**
@@ -10,6 +11,7 @@ namespace blaze\lang;
  * @method  blaze\lang\ClassWrapper classWrapper Returns the ClassWrapper object for the class
  */
 interface Reflectable {
+
     /**
      * Creates and returns a copy of this object.
      * @access protected
@@ -18,11 +20,13 @@ interface Reflectable {
      * @return 	blaze\lang\Reflectable Returns the cloned object.
      */
     public function cloneObject();
+
     /**
      * Called by the garbage collector on an object when garbage collections determines that there are no more references to the object.
      * @access protected
      */
     public function finalize();
+
     /**
      * Identifies if the given object is equal to this one.
      *
@@ -37,15 +41,17 @@ interface Reflectable {
      * @return 	blaze\lang\ClassWrapper Returns a ClassWrapper which represents the class of the object.
      */
     public function getClass();
+
     /**
      * Returns a hash code for the object. This method is used by blaze\util\Hashtable.
      *
      * @return 	int A hash code value for this object.
      */
     public function hashCode();
-     /**
+
+    /**
      * Returns a string representation of the Object which includes the hash code of the object.
-      *
+     *
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function toString();

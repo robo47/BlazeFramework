@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,12 +15,13 @@ use blaze\lang\Object;
 
 
  */
-class GroupByClause extends Object{
+class GroupByClause extends Object {
 
     private $groupBys = array();
     private $havingCondition;
 
     public function __construct() {
+
     }
 
     public function getGroupBys() {

@@ -70,7 +70,7 @@ class ReverseEngineer extends Object {
             $id = new \blaze\persistence\meta\IdDescriptor();
             $field = new \blaze\persistence\meta\SingleFieldDescriptor();
             $id->setSingleFieldDescriptor($field);
-            
+
             $field->setName($this->getMemberName($primaryKey->getName()));
             $field->setType($primaryKey->getClassType());
 
@@ -125,13 +125,13 @@ class ReverseEngineer extends Object {
             $field = new \blaze\persistence\meta\SingleFieldDescriptor();
             $name = $this->getMemberName($foreignConstraint->getReferencedColumn()->getTable()->getTableName());
 
-            if(array_key_exists($name, $usedNames))
-                    $name .= $usedNames[$name]++;
+            if (array_key_exists($name, $usedNames))
+                $name .= $usedNames[$name]++;
             else
                 $usedNames[$name] = 0;
 
             $field->setName($name);
-            $field->setType($this->package . '\\'. $this->getClassName($foreignConstraint->getReferencedColumn()->getTable()->getTableName()));
+            $field->setType($this->package . '\\' . $this->getClassName($foreignConstraint->getReferencedColumn()->getTable()->getTableName()));
 
             $col = new \blaze\persistence\meta\ColumnDescriptor();
             $col->apply($column);
@@ -169,16 +169,16 @@ class ReverseEngineer extends Object {
 
                 $name = $this->getMemberName($otherTable->getTableName());
 
-                if(array_key_exists($name, $usedNames))
-                        $usedNames[$name]++;
+                if (array_key_exists($name, $usedNames))
+                    $usedNames[$name]++;
                 else
                     $usedNames[$name] = 0;
                 $this->makeManyToMany($elem, $column, $secondColumn, $otherTable, $usedNames[$name]);
             } else {
                 $name = $this->getMemberName($column->getTable()->getTableName());
 
-                if(array_key_exists($name, $usedNames))
-                        $usedNames[$name]++;
+                if (array_key_exists($name, $usedNames))
+                    $usedNames[$name]++;
                 else
                     $usedNames[$name] = 0;
 
@@ -191,7 +191,7 @@ class ReverseEngineer extends Object {
         $property = new \blaze\persistence\meta\CollectionFieldDescriptor();
         $field = new \blaze\persistence\meta\SingleFieldDescriptor();
         $property->setFieldDescriptor($field);
-        $ident = $ident > 0 ? ''.$ident : '';
+        $ident = $ident > 0 ? '' . $ident : '';
         $field->setName($this->getMemberName($otherTable->getTableName() . 's' . $ident));
         //$property->setSchema($column->getTable()->getSchema()->getSchemaName());
         $property->setTableDescriptor(\blaze\persistence\meta\TableDescriptor::getTableDescriptor($column->getTable()->getTableName()));
@@ -211,7 +211,7 @@ class ReverseEngineer extends Object {
         $property = new \blaze\persistence\meta\CollectionFieldDescriptor();
         $field = new \blaze\persistence\meta\SingleFieldDescriptor();
         $property->setFieldDescriptor($field);
-        $ident = $ident > 0 ? ''.$ident : '';
+        $ident = $ident > 0 ? '' . $ident : '';
         $field->setName($this->getMemberName($column->getTable()->getTableName() . 's' . $ident));
         //$property->setInverse('true');
         $col = new \blaze\persistence\meta\ColumnDescriptor();

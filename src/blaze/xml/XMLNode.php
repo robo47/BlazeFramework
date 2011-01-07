@@ -42,7 +42,7 @@ class XMLNode extends Object {
 
     }
 
-    public function isDefaultNamespace( $namespaceURI) {
+    public function isDefaultNamespace($namespaceURI) {
 
     }
 
@@ -50,15 +50,15 @@ class XMLNode extends Object {
 
     }
 
-    public function isSupported( $feature,  $version) {
+    public function isSupported($feature, $version) {
 
     }
 
-    public function lookupNamespaceURI( $prefix) {
+    public function lookupNamespaceURI($prefix) {
 
     }
 
-    public function lookupPrefix( $namespaceURI) {
+    public function lookupPrefix($namespaceURI) {
 
     }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\math;
+
 use blaze\lang\Object;
 use blaze\lang\Integer;
 use blaze\lang\StaticInitialization;
@@ -19,12 +21,14 @@ use blaze\lang\String;
 
  */
 class BigInteger extends Number implements StaticInitialization, Comparable {
+
     private $value;
     private static $bcExists = false;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = new String($value);
     }
+
     public static function asNative($value) {
 
     }
@@ -77,53 +81,47 @@ class BigInteger extends Number implements StaticInitialization, Comparable {
 
     }
 
-    public static function staticInit(){
-         if(function_exists('bcadd')){
-             self::$bcExists = true;
-         }
+    public static function staticInit() {
+        if (function_exists('bcadd')) {
+            self::$bcExists = true;
+        }
+    }
 
-     }
-     public function add(BigInteger $summand){
-         if(BigInteger::$bcExists){
+    public function add(BigInteger $summand) {
+        if (BigInteger::$bcExists) {
             return new BigInteger(bcadd($this, $summand));
-         }
-         else{
+        } else {
             $ret = new \blaze\lang\StringBuffer('');
             $fragmentthis;
             $fragmentsummand;
+        }
+    }
 
-         }
-
-     }
-     
-
-     public function sub(BigInteger $subtrahend ){
-         if(BigInteger::$bcExists){
+    public function sub(BigInteger $subtrahend) {
+        if (BigInteger::$bcExists) {
             return new BigInteger(bcsub($this, $summand));
-         }
-     }
+        }
+    }
 
-     public function div(BigInteger $divisor ){
-         if(BigInteger::$bcExists){
+    public function div(BigInteger $divisor) {
+        if (BigInteger::$bcExists) {
             return new BigInteger(bcdiv($this, $divisor));
-         }
-     }
+        }
+    }
 
-      public function mul(BigInteger $multiplicator ){
-          if(BigInteger::$bcExists){
+    public function mul(BigInteger $multiplicator) {
+        if (BigInteger::$bcExists) {
             return new BigInteger(bcmul($this, $multiplicator));
-          }
-     }
-     
+        }
+    }
 
-    public function toString(){
+    public function toString() {
         return String::asNative($this->value);
     }
-    public function compareTo(Object $obj) {
 
+    public function compareTo(Object $obj) {
+        
     }
 
-
 }
-
 ?>

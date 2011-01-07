@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-blaze\ds\meta\DatabaseMetaData;
+ blaze\ds\meta\DatabaseMetaData;
 
 /**
  * Description of AbstractDatabaseMetaData
@@ -86,26 +88,28 @@ abstract class AbstractDatabaseMetaData extends Object implements DatabaseMetaDa
      * @var boolean
      */
     protected $initialized = false;
-    
-    public function dropIfExistsSchema($schemaName){
-        try{
+
+    public function dropIfExistsSchema($schemaName) {
+        try {
             $this->dropSchema($schemaName);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    public function createOrGetSchema($name, $charset = null, $collation = null){
-        try{
+
+    public function createOrGetSchema($name, $charset = null, $collation = null) {
+        try {
             return $this->createSchema($name, $charset, $collation);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return $this->getSchema($name);
         }
     }
-    public function createOrReplaceSchema($name, $charset = null, $collation = null){
-        try{
+
+    public function createOrReplaceSchema($name, $charset = null, $collation = null) {
+        try {
             $this->dropSchema($schemaName);
             return $this->createSchema($name, $charset, $collation);
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -114,6 +118,7 @@ abstract class AbstractDatabaseMetaData extends Object implements DatabaseMetaDa
         if ($this->con->isClosed())
             throw new DataSourceException('Connection is already closed.');
     }
+
 }
 
 ?>

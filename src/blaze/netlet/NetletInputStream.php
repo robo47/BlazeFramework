@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\netlet;
+
 use blaze\lang\Object,
-    blaze\io\InputStream;
+ blaze\io\InputStream;
 
 /**
  * Description of NetletInputStream
@@ -19,7 +21,7 @@ class NetletInputStream extends InputStream {
     /**
      * Description
      */
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -32,21 +34,29 @@ class NetletInputStream extends InputStream {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function method(){
+    public function method() {
 
-     }
-    public function close() {
     }
 
-    public function isClosed(){
-}
-public function available(){
-}
-public function skip($n){
-}
-public function read($len = -1) {
+    public function close() {
 
-}
+    }
+
+    public function isClosed() {
+
+    }
+
+    public function available() {
+
+    }
+
+    public function skip($n) {
+
+    }
+
+    public function read($len = -1) {
+
+    }
 
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence;
 
 /**
@@ -12,7 +13,7 @@ namespace blaze\persistence;
  * @version $Revision$
  * @todo    Something which has to be done, implementation or so
  */
-interface NativeQuery extends Query{
+interface NativeQuery extends Query {
     
 }
 

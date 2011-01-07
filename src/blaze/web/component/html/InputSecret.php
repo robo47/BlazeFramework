@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,18 +15,20 @@ use blaze\lang\Object;
 
 
  */
-class InputSecret extends InputText{
+class InputSecret extends InputText {
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new InputSecret();
     }
 
-    public function getType(){
+    public function getType() {
         return 'password';
     }
+
 }
 
 ?>

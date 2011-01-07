@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el\operation;
+
 use blaze\lang\Object;
 
 /**
@@ -13,27 +15,28 @@ use blaze\lang\Object;
 
 
  */
-class ComplexOperation extends BaseOperation{
-	private $leftOperation;
-	private $rightOperation;
+class ComplexOperation extends BaseOperation {
 
-	public function __construct(BaseOperation $leftOperation, BaseOperation $rightOperation){
-		$this->leftOperation = $leftOperation;
-		$this->rightOperation = $rightOperation;
-	}
+    private $leftOperation;
+    private $rightOperation;
 
-        public function getLeftOperation() {
-            return $this->leftOperation;
-        }
+    public function __construct(BaseOperation $leftOperation, BaseOperation $rightOperation) {
+        $this->leftOperation = $leftOperation;
+        $this->rightOperation = $rightOperation;
+    }
 
-        public function getRightOperation() {
-            return $this->rightOperation;
-        }
+    public function getLeftOperation() {
+        return $this->leftOperation;
+    }
 
-        public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
+    public function getRightOperation() {
+        return $this->rightOperation;
+    }
 
-        }
+    public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
+        
+    }
+
 }
-
 
 ?>

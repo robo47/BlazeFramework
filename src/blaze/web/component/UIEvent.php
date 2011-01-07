@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,12 +15,12 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIEvent extends \blaze\web\component\UIComponentBase{
+abstract class UIEvent extends \blaze\web\component\UIComponentBase {
 
     private $effects = array();
 
     public function addChild(\blaze\web\component\UIComponent $child) {
-        if($child instanceof UIEffect)
+        if ($child instanceof UIEffect)
             $this->effects[] = $child;
         else
             ; // Impossible because of XSD

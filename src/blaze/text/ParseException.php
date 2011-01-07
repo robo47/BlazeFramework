@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\text;
+
 use blaze\lang\Exception;
 
 /**
@@ -13,6 +15,8 @@ use blaze\lang\Exception;
 
 
  */
-class ParseException extends Exception {}
+class ParseException extends Exception {
+
+}
 
 ?>

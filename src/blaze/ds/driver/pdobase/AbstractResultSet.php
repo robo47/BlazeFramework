@@ -181,4 +181,5 @@ abstract class AbstractResultSet extends Object implements ResultSet {
     }
 
 }
+
 ?>

@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\type;
+
 use blaze\lang\Object,
-    blaze\ds\type\Clob;
+ blaze\ds\type\Clob;
 
 /**
  * Description of ClobImpl
@@ -14,7 +16,7 @@ use blaze\lang\Object,
 
 
  */
-class ClobImpl extends Object implements Clob{
+class ClobImpl extends Object implements Clob {
 
 }
 

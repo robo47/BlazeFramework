@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -16,11 +18,12 @@ class Double extends Number implements Comparable {
 
     private $value;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = self::asNative($value);
     }
+
     public function byteValue() {
-       return Byte::asNative($this->value);
+        return Byte::asNative($this->value);
     }
 
     public function doubleValue() {
@@ -29,7 +32,7 @@ class Double extends Number implements Comparable {
 
     public function floatValue() {
         return Float::asNative($this->value);
-     }
+    }
 
     public function intValue() {
         return Integer::asNative($this->value);
@@ -54,6 +57,7 @@ class Double extends Number implements Comparable {
     public function toNative() {
         return $this->value;
     }
+
     /**
      *
      * @param mixed $value
@@ -86,44 +90,44 @@ class Double extends Number implements Comparable {
      * @param blaze\lang\Double|double $value
      * @return double
      */
-    public static function asNative($value){
-        return (double)parent::asNative($value);
+    public static function asNative($value) {
+        return (double) parent::asNative($value);
     }
-    
-    public static function doubleToRawLongBits($double){
-        return unpack('L',pack('d',$double));
+
+    public static function doubleToRawLongBits($double) {
+        return unpack('L', pack('d', $double));
     }
+
     public static function doubleToLongBits($value) {
-	return self::doubleToRawLongBits($value);
+        return self::doubleToRawLongBits($value);
     }
 
-    public function hashCode(){
+    public function hashCode() {
         $bits = self::doubleToLongBits($this->value);
-	return (int)($bits ^ ($bits >> 32));
+        return (int) ($bits ^ ($bits >> 32));
     }
 
-    public function equals(Reflectable $o){
+    public function equals(Reflectable $o) {
         return $o instanceof Double && self::doubleToLongBits($o->value) == self::doubleToLongBits($this->value);
     }
 
     public function compareTo(Object $obj) {
 
-        if($obj === null)
+        if ($obj === null)
             throw new NullPointerException();
-        if($obj instanceof Double)
+        if ($obj instanceof Double)
             return $this->value - $obj->value < 0 ? -1 : ($this->value - $obj->value > 0 ? 1 : 0);
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Double.');
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Double.');
     }
 
-    public static function valueOf($string){
+    public static function valueOf($string) {
         
     }
-    public static function  longBitsToDouble($bits){
 
+    public static function longBitsToDouble($bits) {
+        
     }
+
 }
-
-    
-
 
 ?>

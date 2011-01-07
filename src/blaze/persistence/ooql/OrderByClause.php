@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,14 @@ use blaze\lang\Object;
 
 
  */
-class OrderByClause extends Object{
-
+class OrderByClause extends Object {
     const ORD_ASC = 'ASC';
     const ORD_DESC = 'DESC';
 
     private $orderBys = array();
 
     public function __construct() {
+
     }
 
     public function getOrderBys() {

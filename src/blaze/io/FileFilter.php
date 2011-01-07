@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\io;
 
 /**
@@ -11,6 +12,7 @@ namespace blaze\io;
 
  */
 interface FileFilter {
+
     /**
      * @return boolean
      */

@@ -1,3 +1,0 @@
-Copy the phpunit file into the xampp/php directory and the TestClass.tpl.dist into xampp/php/PEAR/PHPUnit/Util/Skeleton/Template
-
-You will probably have to change the paths to be able to use the templates right.

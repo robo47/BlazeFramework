@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\lang\Object,
-blaze\ds\driver\pdobase\meta\AbstractDatabaseMetaData;
+ blaze\ds\driver\pdobase\meta\AbstractDatabaseMetaData;
 
 /**
  * Description of DatabaseMetaDataImpl
@@ -15,7 +17,7 @@ blaze\ds\driver\pdobase\meta\AbstractDatabaseMetaData;
 
  */
 class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
-    
+
     public function __construct(\blaze\ds\Connection $con, \PDO $pdo, $host, $port, $database, $user, $options) {
         $this->con = $con;
         $this->pdo = $pdo;
@@ -36,93 +38,101 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
     /**
      * @return blaze\ds\Connection
      */
-    public function getConnection(){
+    public function getConnection() {
         return $this->con;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getHost(){
+    public function getHost() {
         return $this->host;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getPort(){
+    public function getPort() {
         return $this->port;
     }
+
     /**
      * @return array
      */
-    public function getOptions(){
+    public function getOptions() {
         return $this->options;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getDatabaseName(){
+    public function getDatabaseName() {
         return $this->database;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getUser(){
+    public function getUser() {
         return $this->user;
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getDatabaseProductName(){
+    public function getDatabaseProductName() {
         return $this->databaseProductName;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getDatabaseProductVersion(){
+    public function getDatabaseProductVersion() {
         return $this->databaseProductVersion;
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getDatabaseCharset(){
+    public function getDatabaseCharset() {
         return $this->databaseCharset;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getDatabaseCollation(){
+    public function getDatabaseCollation() {
         return $this->databaseCollation;
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function setDatabaseCharset($databaseCharset){
+    public function setDatabaseCharset($databaseCharset) {
         $this->checkClosed();
-        $query = 'ALTER DATABASE '.$this->database.' CHARACTER SET '.$databaseCharset;
+        $query = 'ALTER DATABASE ' . $this->database . ' CHARACTER SET ' . $databaseCharset;
 
-        try{
+        try {
             $this->pdo->query($query);
             $this->databaseCharset = $databaseCharset;
             return true;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function setDatabaseCollation($databaseCollation){
+    public function setDatabaseCollation($databaseCollation) {
         $this->checkClosed();
-        $query = 'ALTER DATABASE '.$this->database.' COLLATE '.$databaseCollation;
+        $query = 'ALTER DATABASE ' . $this->database . ' COLLATE ' . $databaseCollation;
 
-        try{
+        try {
             $this->pdo->query($query);
             $this->databaseCollation = $databaseCollation;
             return true;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return false;
         }
     }
@@ -130,71 +140,73 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
     /**
      * @return blaze\lang\String
      */
-    public function getDriverName(){
+    public function getDriverName() {
         return $this->driverName;
     }
+
     /**
      * @return blaze\lang\String
      */
-    public function getDriverVersion(){
+    public function getDriverVersion() {
         return $this->driverVersion;
     }
 
     /**
      * @return blaze\util\ListI[blaze\ds\meta\SchemaMetaData]
      */
-    public function getSchemas(){
+    public function getSchemas() {
         $this->checkClosed();
         $stmt = null;
         $rs = null;
         $schemas = array();
 
-        try{
+        try {
             $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA');
             $stmt->execute();
             $rs = $stmt->getResultSet();
-            
-            while($rs->next())
+
+            while ($rs->next())
                 $schemas[] = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
-                                                           $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
-                                                           $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\PDOException $e){
+                                $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
+                                $rs->getString('DEFAULT_COLLATION_NAME'));
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if($stmt != null)
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $schemas;
     }
+
     /**
      * @return blaze\ds\meta\SchemaMetaData
      */
-    public function getSchema($schemaName){
+    public function getSchema($schemaName) {
         $this->checkClosed();
         $stmt = null;
         $rs = null;
         $schema = null;
 
-        try{
+        try {
             $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
             $stmt->setString(0, $schemaName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
-            if($rs->next())
+            if ($rs->next())
                 $schema = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
-                                                         $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
-                                                         $rs->getString('DEFAULT_COLLATION_NAME'));
-        }catch(\PDOException $e){
+                                $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
+                                $rs->getString('DEFAULT_COLLATION_NAME'));
+        } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if($stmt != null)
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
 
         return $schema;
@@ -204,9 +216,9 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
         $this->checkClosed();
         $dbSchema = $this->getSchema($this->database);
 
-        foreach($schema->getTables() as $table)
+        foreach ($schema->getTables() as $table)
             $dbSchema->addTable($table);
-        foreach($schema->getViews() as $view)
+        foreach ($schema->getViews() as $view)
             $dbSchema->addView($view);
     }
 
@@ -226,7 +238,6 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
 
     public function setDatabaseName($name) {
         throw new OperationNotSupportedException('This can cause data loss because of the MySQL implementation, you can use the addDatabase() method to copy a database.');
-
     }
 
 }

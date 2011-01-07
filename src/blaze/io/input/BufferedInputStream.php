@@ -57,6 +57,6 @@ class BufferedInputStream extends \blaze\io\input\FilterInputStream {
         }
     }
 
-
 }
+
 ?>

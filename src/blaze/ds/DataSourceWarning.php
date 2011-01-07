@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds;
+
 use blaze\lang\Exception;
 
 /**
@@ -14,13 +16,14 @@ use blaze\lang\Exception;
 
  */
 class DataSourceWarning extends DataSourceException {
+
     /**
      *
      * @var blaze\ds\DataSourceWarning
      */
     private $nextWarning;
 
-    public function __construct($reason = null, $SQLState = null, $vendorCode = null, $cause = null){
+    public function __construct($reason = null, $SQLState = null, $vendorCode = null, $cause = null) {
         parent::__construct($reason, $code, $cause);
     }
 
@@ -39,7 +42,6 @@ class DataSourceWarning extends DataSourceException {
     public function setNextWarning($nextWarning) {
         $this->nextWarning = $nextWarning;
     }
-
 
 }
 

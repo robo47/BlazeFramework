@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,12 +15,13 @@ use blaze\lang\Object;
 
 
  */
-class Aside extends \blaze\web\component\UIPanel{
+class Aside extends \blaze\web\component\UIPanel {
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Aside();
     }
 
@@ -30,7 +33,7 @@ class Aside extends \blaze\web\component\UIPanel{
         return 'PanelRenderer';
     }
 
-    public function getType(){
+    public function getType() {
         return 'div';
     }
 

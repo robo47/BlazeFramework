@@ -1,8 +1,10 @@
 <?php
+
 namespace blaze\ds;
+
 use blaze\lang\Object,
-blaze\lang\Singleton,
-blaze\lang\String;
+ blaze\lang\Singleton,
+ blaze\lang\String;
 
 /**
  * Description of DataSourceManager
@@ -31,7 +33,7 @@ final class DataSourceManager extends Object implements Singleton {
     /**
      * @param int $seconds
      */
-    public function setLoginTimeout($seconds){
+    public function setLoginTimeout($seconds) {
         $this->timeout = $seconds;
     }
 
@@ -39,7 +41,7 @@ final class DataSourceManager extends Object implements Singleton {
      *
      * @return int
      */
-    public function getLoginTimeout(){
+    public function getLoginTimeout() {
         return $this->timeout;
     }
 
@@ -50,7 +52,7 @@ final class DataSourceManager extends Object implements Singleton {
      * @see 	blaze\ds\DataSource
      */
     public static function getInstance() {
-        if(self::$instance == null)
+        if (self::$instance == null)
             self::$instance = new DataSourceManager();
         return self::$instance;
     }
@@ -82,14 +84,14 @@ final class DataSourceManager extends Object implements Singleton {
         $uri = null;
         $url = null;
 
-        try{
+        try {
             $uri = \blaze\net\URI::parseURI($dsn);
             $url = \blaze\net\URL::parseURL($uri->getSchemeSpecificPart());
-        }catch(blaze\lang\Exception $e){
+        } catch (blaze\lang\Exception $e) {
             throw $e;
         }
 
-        if(!$uri->getScheme()->equalsIgnoreCase('bdsc'))
+        if (!$uri->getScheme()->equalsIgnoreCase('bdsc'))
             throw new DataSourceException('Invalid DSN');
 
         $driver = $url->getScheme();
@@ -100,17 +102,17 @@ final class DataSourceManager extends Object implements Singleton {
         $password = null;
         $options1 = array();
 
-        if(strlen($url->getQuery()) != 0) {
+        if (strlen($url->getQuery()) != 0) {
             $optParts = explode('&', $url->getQuery());
 
-            if(count($optParts) != 0) {
-                foreach($optParts as $opt) {
+            if (count($optParts) != 0) {
+                foreach ($optParts as $opt) {
                     $optPair = explode('=', $opt);
 
-                    if(count($optPair) == 2) {
-                        if(strcasecmp($optPair[0], 'uid') == 0)
+                    if (count($optPair) == 2) {
+                        if (strcasecmp($optPair[0], 'uid') == 0)
                             $user = $optPair[1];
-                        else if(strcasecmp($optPair[0], 'pwd') == 0)
+                        else if (strcasecmp($optPair[0], 'pwd') == 0)
                             $password = $optPair[1];
                         else
                             $options1[$optPair[0]] = $optPair[1];
@@ -119,23 +121,24 @@ final class DataSourceManager extends Object implements Singleton {
             }
         }
 
-        if($uid !== null)
+        if ($uid !== null)
             $user = $uid;
-        if($pwd !== null)
+        if ($pwd !== null)
             $password = $pwd;
-        if($options !== null)
+        if ($options !== null)
             $options1 = $options;
 
-        $className = '\\blaze\\ds\\driver\\'.$driver.'\\DataSourceImpl';
-        
+        $className = '\\blaze\\ds\\driver\\' . $driver . '\\DataSourceImpl';
+
         $method = \blaze\lang\ClassWrapper::forName($className)->getMethod('getDataSource');
 
-        if($method == null)
-            throw new \blaze\lang\IllegalArgumentException('Driver '.$dirver.' does not exist.');
+        if ($method == null)
+            throw new \blaze\lang\IllegalArgumentException('Driver ' . $dirver . ' does not exist.');
         $ds = $method->invokeArgs(null, array($host, $port, $database, $user, $password, $options));
         $ds->setLoginTimeout($this->timeout);
         return $ds;
     }
+
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\iterator;
 
 /**
@@ -12,10 +13,11 @@ namespace blaze\collections\iterator;
 
 
  */
-final class ImmutableMapIterator implements \blaze\collections\MapIterator, \blaze\collections\Immutable{
+final class ImmutableMapIterator implements \blaze\collections\MapIterator, \blaze\collections\Immutable {
+
     private $iter;
 
-    public function __construct(\blaze\collections\MapIterator $iter){
+    public function __construct(\blaze\collections\MapIterator $iter) {
         $this->iter = $iter;
     }
 
@@ -58,7 +60,6 @@ final class ImmutableMapIterator implements \blaze\collections\MapIterator, \bla
     public function setValue($value) {
         return;
     }
-
 
 }
 

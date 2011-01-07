@@ -68,7 +68,7 @@ final class BoundedQueue extends AbstractQueueDecorator implements \blaze\collec
         else
             return false;
     }
-    
+
 }
 
 ?>

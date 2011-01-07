@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,12 +15,13 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIPanel extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
+abstract class UIPanel extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer {
 
-    public function __construct(){
+    public function __construct() {
+
     }
-    
-    public static function create(){
+
+    public static function create() {
         return new Panel();
     }
 

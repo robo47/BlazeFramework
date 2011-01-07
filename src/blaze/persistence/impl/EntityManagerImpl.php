@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\impl;
+
 use blaze\lang\Object;
 
 /**
@@ -13,25 +15,24 @@ use blaze\lang\Object;
 
 
  */
-class EntityManagerImpl extends Object implements \blaze\persistence\EntityManager{
+class EntityManagerImpl extends Object implements \blaze\persistence\EntityManager {
 
     private $con;
     private $factory;
     private $dialect;
-
     private $isClosed = false;
 
-    public function __construct(\blaze\ds\Connection $con, \blaze\persistence\EntityManagerFactory $factory, \blaze\persistence\Dialect $dialect){
+    public function __construct(\blaze\ds\Connection $con, \blaze\persistence\EntityManagerFactory $factory, \blaze\persistence\Dialect $dialect) {
         $this->con = $con;
         $this->factory = $factory;
         $this->dialect = $dialect;
     }
 
-    public function getConnection(){
+    public function getConnection() {
         return $this->con;
     }
 
-    public function getEntityManagerFactory(){
+    public function getEntityManagerFactory() {
         return $this->factory;
     }
 
@@ -78,15 +79,15 @@ class EntityManagerImpl extends Object implements \blaze\persistence\EntityManag
         $this->checkClose();
     }
 
-    public function removeByIds($class, \blaze\collections\ListI $ids){
+    public function removeByIds($class, \blaze\collections\ListI $ids) {
         $this->checkClose();
     }
 
-    private function checkClose(){
-        if($this->isClosed)
-                throw new \blaze\lang\Exception('The EntityManager is already closed!');
+    private function checkClose() {
+        if ($this->isClosed)
+            throw new \blaze\lang\Exception('The EntityManager is already closed!');
     }
-    
+
 }
 
 ?>

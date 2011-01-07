@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\io\input;
+
 use blaze\lang\Object,
-    blaze\lang\StringBuffer;
+ blaze\lang\StringBuffer;
 
 /**
  * Description of ByteArrayInputStream
@@ -15,7 +17,8 @@ use blaze\lang\Object,
 
  */
 class FileInputStream extends NativeInputStream {
-     /**
+
+    /**
      * @var \blaze\io\File The associated file.
      */
     protected $file;
@@ -53,6 +56,7 @@ class FileInputStream extends NativeInputStream {
     public function markSupported() {
         return true;
     }
+
 }
 
 ?>

@@ -21,24 +21,24 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @param \blaze\collections\Collection|\blaze\collections\ArrayI|array $collectionOrArray
      */
-    public function __construct( $collectionOrArray = null) {
+    public function __construct($collectionOrArray = null) {
         if ($collectionOrArray !== null) {
-            if($collectionOrArray instanceof blaze\collections\Collection){
+            if ($collectionOrArray instanceof blaze\collections\Collection) {
                 $this->elementData = $collectionOrArray->toArray();
                 $this->size = count($this->elementData);
-            } else if($collectionOrArray instanceof \blaze\collections\ArrayI || is_array($collectionOrArray)) {
+            } else if ($collectionOrArray instanceof \blaze\collections\ArrayI || is_array($collectionOrArray)) {
                 $this->size = count($collectionOrArray);
                 $this->elementData = array();
 
-                foreach($collectionOrArray as $elem){
+                foreach ($collectionOrArray as $elem) {
                     $this->elementData[] = $elem;
                 }
-            }else{
+            } else {
                 throw new \blaze\lang\IllegalArgumentException('Invalid type for parameter');
             }
-        }else{
+        } else {
             $this->size = 0;
-                $this->elementData = array();
+            $this->elementData = array();
         }
     }
 
@@ -89,7 +89,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function getIterator() {
-        return new ArrayListIterator($this->elementData,$this);
+        return new ArrayListIterator($this->elementData, $this);
     }
 
     public function count() {
@@ -124,10 +124,10 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      */
     public function remove($obj) {
         $index = $this->indexOf($obj);
-        if($index ===-1){
+        if ($index === -1) {
 
             return false;
-        }else{
+        } else {
             $this->removeAt($index);
             return true;
         }
@@ -159,18 +159,17 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
         $ret = false;
 
-        foreach($diff as $val){
+        foreach ($diff as $val) {
             $index = $this->indexOf($val);
-            if($index!==-1){
+            if ($index !== -1) {
                 $ret = true;
                 unset($this->elementData[$index]);
                 $this->size--;
             }
-          
         }
 
         $this->elementData = \array_keys($this->elementData);
-  
+
 
         return $ret;
     }
@@ -188,7 +187,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function indexOf($obj) {
-        $index = array_search($obj, $this->elementData,false);
+        $index = array_search($obj, $this->elementData, false);
         if (\is_int($index)) {
             return $index;
         } else {
@@ -204,7 +203,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     public function listIterator($index = 0) {
         $this->rangeCheck($index);
-        return new ListArrayListIterator($this->elementData,$this,$index);
+        return new ListArrayListIterator($this->elementData, $this, $index);
     }
 
     public function removeAt($index) {
@@ -245,14 +244,14 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         }
     }
 
-     protected function removeRange($fromIndex,$toIndex){
-         $this->rangeCheck($fromIndex);
-         $this->rangeCheck($toIndex-1);
-         $i;
-         for($i=$fromIndex;$i<$toIndex;$i++){
-             $this->removeAt($i);
-         }
-     }
+    protected function removeRange($fromIndex, $toIndex) {
+        $this->rangeCheck($fromIndex);
+        $this->rangeCheck($toIndex - 1);
+        $i;
+        for ($i = $fromIndex; $i < $toIndex; $i++) {
+            $this->removeAt($i);
+        }
+    }
 
 }
 
@@ -262,7 +261,7 @@ class ArrayListIterator implements \blaze\collections\Iterator {
     private $index = 0;
     private $arraylist;
 
-    public function __construct(&$data,$arraylist) {
+    public function __construct(&$data, $arraylist) {
         $this->data = $data;
         $this->arraylist = $arraylist;
     }
@@ -283,7 +282,7 @@ class ArrayListIterator implements \blaze\collections\Iterator {
 
     public function next() {
         $this->index++;
-        if($this->valid())
+        if ($this->valid())
             return $this->current();
         else
             return null;
@@ -308,57 +307,53 @@ class ArrayListIterator implements \blaze\collections\Iterator {
 
 }
 
-class ListArrayListIterator implements \blaze\collections\iterator\ListIterator{
+class ListArrayListIterator implements \blaze\collections\iterator\ListIterator {
 
     private $data;
     private $index;
     private $arraylist;
 
-    public function __construct(&$data,&$arraylist, $index) {
+    public function __construct(&$data, &$arraylist, $index) {
         $this->data = $data;
         $this->arraylist = $arraylist;
         $this->index = $index;
     }
-public function add($value) {
+
+    public function add($value) {
         $this->arraylist->add($value);
     }
 
-
-public function hasPrevious() {
-       return $this->check($this->index-1);
+    public function hasPrevious() {
+        return $this->check($this->index - 1);
     }
 
-
-public function nextIndex() {
-        if($this->check($this->index+1)){
-            return $this->index+1;
-        }
-        else{
+    public function nextIndex() {
+        if ($this->check($this->index + 1)) {
+            return $this->index + 1;
+        } else {
             return count($this->data);
         }
     }
-public function previous() {
-        if($this->check($this->index-1)){
-            return $this->data[$this->index-1];
-        }
-        else{
+
+    public function previous() {
+        if ($this->check($this->index - 1)) {
+            return $this->data[$this->index - 1];
+        } else {
             throw new \blaze\lang\IndexOutOfBoundsException('Has no Previous');
         }
     }
-public function previousIndex() {
-        if($this->check($this->index-1)){
-            return $this->index-1;
-        }
-        else{
-           return -1;
+
+    public function previousIndex() {
+        if ($this->check($this->index - 1)) {
+            return $this->index - 1;
+        } else {
+            return -1;
         }
     }
 
-public function set($value) {
-        $this->data[$this->index] =$value;
+    public function set($value) {
+        $this->data[$this->index] = $value;
     }
-
-
 
     public function current() {
         if (!$this->check($this->index))
@@ -376,10 +371,9 @@ public function set($value) {
 
     public function next() {
         $this->index++;
-        if($this->check($this->index)){
+        if ($this->check($this->index)) {
             return $this->current();
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -400,6 +394,7 @@ public function set($value) {
     private function check($index) {
         return array_key_exists($index, $this->data);
     }
+
 }
 
 /* * class ArrayListIterator implements \blaze\collections\Iterator {

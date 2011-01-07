@@ -45,4 +45,5 @@ class Messages extends \blaze\web\component\UIComponentCore {
     }
 
 }
+
 ?>

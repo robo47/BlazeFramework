@@ -57,8 +57,8 @@ class Logger extends Object {
         $this->out->flush();
     }
 
-    public function logError($errno, $errstr, $errfile , $errline, $errcontext ) {
-        $this->err->writeLine($errno.' - '.$errstr.' in file '.$errfile.' on line '.$errline.' with context '.var_export($errcontext));
+    public function logError($errno, $errstr, $errfile, $errline, $errcontext) {
+        $this->err->writeLine($errno . ' - ' . $errstr . ' in file ' . $errfile . ' on line ' . $errline . ' with context ' . var_export($errcontext));
         $this->err->flush();
     }
 

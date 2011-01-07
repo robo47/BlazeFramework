@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\ooql\formula;
 
 /**
@@ -12,7 +13,8 @@ namespace blaze\persistence\ooql\formula;
 
 
  */
-class AbsFormula extends \blaze\persistence\ooql\Formula{
+class AbsFormula extends \blaze\persistence\ooql\Formula {
+
     private $expression;
 
     public function __construct($expression) {

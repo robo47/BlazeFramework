@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\ds;
+
 use blaze\lang\Exception;
 
 /**
@@ -13,6 +15,8 @@ use blaze\lang\Exception;
 
 
  */
-class DataSourceException extends Exception {}
+class DataSourceException extends Exception {
+
+}
 
 ?>

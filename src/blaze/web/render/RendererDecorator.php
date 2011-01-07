@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render;
 
 /**
@@ -12,9 +13,10 @@ namespace blaze\web\render;
 
 
  */
-interface RendererDecorator{
-     public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
-     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+interface RendererDecorator {
+    public function renderBegin(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
+
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component);
 }
 
 ?>

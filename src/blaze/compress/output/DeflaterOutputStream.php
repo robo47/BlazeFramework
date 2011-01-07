@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\compress\output;
+
 use blaze\lang\Object;
 
 /**
@@ -25,15 +27,14 @@ class DeflaterOutputStream extends \blaze\io\output\FilterOutputStream {
      * Writes the encoded data to the underlying stream.
      */
     public function write($str, $off = 0, $len = -1) {
-        if($off !== 0){
-            if($len === -1)
+        if ($off !== 0) {
+            if ($len === -1)
                 return $this->out->write(gzencode(substr($str, $off), 9, \FORCE_DEFLATE));
             else
                 return $this->out->write(gzencode(substr($str, $off, $len), 9, \FORCE_DEFLATE));
         }
         return $this->out->write(gzencode($str, 9, \FORCE_DEFLATE));
     }
-
 
 }
 

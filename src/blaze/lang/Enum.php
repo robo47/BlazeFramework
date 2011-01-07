@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of Enum
  *
@@ -10,7 +12,7 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-abstract class Enum extends Object{
+abstract class Enum extends Object {
 
     /**
      *
@@ -35,23 +37,23 @@ abstract class Enum extends Object{
     public static function getEntries() {
         return static::classWrapper()->getEnumConstants();
     }
-    
+
     /**
      *
      * @param blaze\lang\String|string $name
      * @return mixed
      */
     public static function valueOf($name) {
-        if($name instanceof String)
+        if ($name instanceof String)
             $constName = $name->toNative();
-        else if(!is_string($name))
+        else if (!is_string($name))
             throw new IllegalArgumentException('Name has to be a blaze\lang\String or string!');
         else
             $constName = $name;
 
         $entries = self::getEntries();
 
-        if(!array_key_exists($name,$entries))
+        if (!array_key_exists($name, $entries))
             throw new IllegalArgumentException('The enum constant ' . $name . ' does not exist!');
         return $entries[$name];
     }
@@ -63,8 +65,8 @@ abstract class Enum extends Object{
      */
     public static function nameOf($value) {
         $entries = self::getEntries();
-        $key = array_search($value,$entries);
-        if($key === false)
+        $key = array_search($value, $entries);
+        if ($key === false)
             throw new IllegalArgumentException('There is no  enum constant for the value' . $value);
         return $key;
     }

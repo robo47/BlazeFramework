@@ -61,8 +61,8 @@ class NavigationHandler extends Object {
         }
 
         $view = $context->getViewHandler()->getView($context, $actionString);
-        
-        if($view != null){
+
+        if ($view != null) {
             $context->setViewRoot($view);
             $context->setNavigated();
         }
@@ -84,19 +84,19 @@ class NavigationHandler extends Object {
         foreach ($this->mapping as $navigationRule) {
             $regex = '/^' . str_replace(array('/', '*'), array('\/', '.*'), $navigationRule->getMapping()) . '$/';
             if ($requestUri->matches($regex)) {
-                $bindingParts = $requestUri->substring(strlen($navigationRule->getMapping())-1)->split('/');
+                $bindingParts = $requestUri->substring(strlen($navigationRule->getMapping()) - 1)->split('/');
                 $count = count($bindingParts);
                 $newValue = null;
 
                 // Look for the bindings
                 $binds = $navigationRule->getBindings();
-                for($i = 0; $i < $binds->count(); $i++) {
-                    if($i < $count && $bindingParts[$i] != '')
+                for ($i = 0; $i < $binds->count(); $i++) {
+                    if ($i < $count && $bindingParts[$i] != '')
                         $newValue = $bindingParts[$i];
                     else
                         $newValue = $binds->get($i)->getDefault();
 
-                    if($newValue !== null){
+                    if ($newValue !== null) {
                         $binds->get($i)->getReference()->setValue($context, $newValue);
                         $newValue = null;
                     }

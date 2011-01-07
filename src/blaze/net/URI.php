@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable{
+class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable {
 
     /**
      *
@@ -58,16 +58,16 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
         $this->scheme = $scheme !== null ? \blaze\lang\String::asWrapper($scheme) : null;
         $this->fragment = $fragment !== null ? \blaze\lang\String::asWrapper($fragment) : null;
 
-        if($sspOrUrl instanceof URL){
+        if ($sspOrUrl instanceof URL) {
             $this->url = $sspOrUrl;
-            if($this->scheme == null)
-                    $this->scheme = $this->url->getScheme();
+            if ($this->scheme == null)
+                $this->scheme = $this->url->getScheme();
             $this->schemeSpecificPart = $this->url->getUrlString()->substring($this->url->getScheme()->length() + 1);
 
-            if($this->fragmet == null)
-                    $this->fragment = $this->url->getFragment();
+            if ($this->fragmet == null)
+                $this->fragment = $this->url->getFragment();
             $this->uriString = $this->url->getUrlString();
-        }else{
+        }else {
             $this->schemeSpecificPart = $sspOrUrl !== null ? \blaze\lang\String::asWrapper($sspOrUrl) : null;
         }
 
@@ -92,12 +92,12 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
         $ssp = $uri->substring($idx + 1);
         $idx = $ssp->lastIndexOf('#');
         $fragment = null;
-        
-        if($idx !== -1){
-            $fragment = $ssp->substring ($idx + 1);
+
+        if ($idx !== -1) {
+            $fragment = $ssp->substring($idx + 1);
             $ssp = $ssp->substring(0, $idx);
         }
-        
+
         return new URI($scheme, $ssp, $fragment);
     }
 
@@ -181,7 +181,7 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
         return $this->uriString;
     }
 
-    public function isOpaque(){
+    public function isOpaque() {
         return $this->url === null;
     }
 
@@ -191,75 +191,78 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
         if ($this->schemeSpecificPart === null || $this->schemeSpecificPart->length() == 0)
             throw new \blaze\lang\IllegalArgumentException('Scheme specific part is not given!');
 
-        if($this->url === null){
+        if ($this->url === null) {
             $this->uriString = $this->scheme . ':' . $this->schemeSpecificPart;
 
             if ($this->fragment != null)
                 $this->uriString .= '#' . $this->fragment;
 
             $this->uriString = new \blaze\lang\String($this->uriString);
-            
-            try{
+
+            try {
                 $this->url = URL::parseURL($this->uriString);
-            }catch(\blaze\lang\Exception $e){}
+            } catch (\blaze\lang\Exception $e) {
+
+            }
         }
     }
 
     public function equals(\blaze\lang\Reflectable $obj) {
-        if($obj === $this)
+        if ($obj === $this)
             return true;
-        if($obj == null || !$obj instanceof URI)
+        if ($obj == null || !$obj instanceof URI)
             return false;
-        if($this->url != null && $obj->url != null)
-                return $this->url->equals($obj);
+        if ($this->url != null && $obj->url != null)
+            return $this->url->equals($obj);
 
         $fragmetOk = true;
-        if($this->fragment != null xor $obj->fragment != null)
-                $fragmetOk = false;
-        if($fragmetOk && $this->fragment != null && $obj->fragment != null)
-                $fragmetOk = $this->fragment->equals($obj->fragment);
+        if ($this->fragment != null xor $obj->fragment != null)
+            $fragmetOk = false;
+        if ($fragmetOk && $this->fragment != null && $obj->fragment != null)
+            $fragmetOk = $this->fragment->equals($obj->fragment);
         return $this->scheme->equalsIgnoreCase($obj->scheme) &&
-               $this->schemeSpecificPart->equals($obj->schemeSpecificPart) &&
-               $fragmetOk;
+        $this->schemeSpecificPart->equals($obj->schemeSpecificPart) &&
+        $fragmetOk;
     }
 
     public function hashCode() {
-        if($this->hash != 0)
-                return $this->hash;
+        if ($this->hash != 0)
+            return $this->hash;
 
         $h = self::hashIgnoringCase(0, $this->scheme);
-	$h = self::hash($h, $this->fragment);
-	if ($this->isOpaque()) {
-	    $h = self::hash($h, $this->schemeSpecificPart);
-	} else {
-	    $h = self::hash($h, $this->url->hashCode());
-	}
+        $h = self::hash($h, $this->fragment);
+        if ($this->isOpaque()) {
+            $h = self::hash($h, $this->schemeSpecificPart);
+        } else {
+            $h = self::hash($h, $this->url->hashCode());
+        }
 
-	$this->hash = $h;
-	return $h;
+        $this->hash = $h;
+        return $h;
     }
 
-
     private static function hash($hash, \blaze\lang\String $s = null) {
-	if ($s == null) return $hash;
-	return $hash * 127 + $s->hashCode();
+        if ($s == null)
+            return $hash;
+        return $hash * 127 + $s->hashCode();
     }
 
     // US-ASCII only
     private static function hashIgnoringCase($hash, \blaze\lang\String $s) {
-	if ($s == null) return $hash;
-	$h = $hash;
-	$n = $s->length();
-	for ($i = 0; $i < $n; $i++)
-	    $h = 31 * $h + self::toLower($s->charAt($i));
-	return $h;
+        if ($s == null)
+            return $hash;
+        $h = $hash;
+        $n = $s->length();
+        for ($i = 0; $i < $n; $i++)
+            $h = 31 * $h + self::toLower($s->charAt($i));
+        return $h;
     }
 
     // US-ASCII only
     private static function toLower($c) {
-	if (($c >= 'A') && ($c <= 'Z'))
-	    return $c + ('a' - 'A');
-	return $c;
+        if (($c >= 'A') && ($c <= 'Z'))
+            return $c + ('a' - 'A');
+        return $c;
     }
 
     public function toString() {
@@ -267,69 +270,70 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
     }
 
     public function toURL() {
-        if($this->url != null)
-            return new URL ($this->url->getScheme(), $this->url->getUser(), $this->url->getPassword(), $this->url->getHost(), $this->url->getPort(), $this->url->getPath(), $this->url->getQuery(), $this->url->getFragment());
+        if ($this->url != null)
+            return new URL($this->url->getScheme(), $this->url->getUser(), $this->url->getPassword(), $this->url->getHost(), $this->url->getPort(), $this->url->getPath(), $this->url->getQuery(), $this->url->getFragment());
         else
             return URL::parseURL($this->uriString);
     }
 
     public function compareTo(Object $that) {
-        if(!$that instanceof URI)
+        if (!$that instanceof URI)
             throw new \blaze\lang\IllegalArgumentException('Parameters must be of the type blaze\\net\\URI');
         $c = 0;
 
-	if (($c = self::compareIgnoringCase($this->scheme, $that->scheme)) != 0)
-	    return $c;
+        if (($c = self::compareIgnoringCase($this->scheme, $that->scheme)) != 0)
+            return $c;
 
-	if ($this->isOpaque()) {
-	    if ($that->isOpaque()) {
-		// Both opaque
-		if (($c = self::compare($this->schemeSpecificPart,
-				 $that->schemeSpecificPart)) != 0)
-		    return $c;
-		return self::compare($this->fragment, $that->fragment);
-	    }
-	    return +1;			// Opaque > hierarchical
-	} else if ($that->isOpaque()) {
-	    return -1;			// Hierarchical < opaque
-	}
+        if ($this->isOpaque()) {
+            if ($that->isOpaque()) {
+                // Both opaque
+                if (($c = self::compare($this->schemeSpecificPart,
+                                $that->schemeSpecificPart)) != 0)
+                    return $c;
+                return self::compare($this->fragment, $that->fragment);
+            }
+            return +1;   // Opaque > hierarchical
+        } else if ($that->isOpaque()) {
+            return -1;   // Hierarchical < opaque
+        }
 
-	return $this->url->compareTo($that);
+        return $this->url->compareTo($that);
     }
 
     public static function compare($obj1, $obj2) {
-	if ($obj1 === $obj2) return 0;
-	if ($obj1 !== null) {
-	    if ($obj2 !== null)
-		return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
-	    else
-		return +1;
-	} else {
-	    return -1;
-	}
+        if ($obj1 === $obj2)
+            return 0;
+        if ($obj1 !== null) {
+            if ($obj2 !== null)
+                return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
+            else
+                return +1;
+        } else {
+            return -1;
+        }
     }
 
     // US-ASCII only
     private static function compareIgnoringCase(String $s, String $t) {
-	if ($s == $t) return 0;
-	if ($s != null) {
-	    if ($t != null) {
-		$sn = $s->length();
-		$tn = $t->length();
-		$n = $sn < $tn ? $sn : $tn;
-		for ($i = 0; $i < $n; $i++) {
-		    $c = self::toLower($s->charAt($i)) - self::toLower($t->charAt($i));
-		    if ($c != 0)
-			return $c;
-		}
-		return $sn - $tn;
-	    }
-	    return +1;
-	} else {
-	    return -1;
-	}
+        if ($s == $t)
+            return 0;
+        if ($s != null) {
+            if ($t != null) {
+                $sn = $s->length();
+                $tn = $t->length();
+                $n = $sn < $tn ? $sn : $tn;
+                for ($i = 0; $i < $n; $i++) {
+                    $c = self::toLower($s->charAt($i)) - self::toLower($t->charAt($i));
+                    if ($c != 0)
+                        return $c;
+                }
+                return $sn - $tn;
+            }
+            return +1;
+        } else {
+            return -1;
+        }
     }
-
 
     /**
      * Normalizes this URI's path.
@@ -461,13 +465,9 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //    public function relativize(URI $uri) {
 //
 //    }
-
-
     // -- Normalization, resolution, and relativization --
-
     // RFC2396 5.2 (6)
-    private static function resolvePath(String $base, String $child, $absolute)
-    {
+    private static function resolvePath(String $base, String $child, $absolute) {
 //        int i = base.lastIndexOf('/');
 //	int cn = child.length();
 //	String path = "";
@@ -612,10 +612,7 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	return v;
     }
 
-
-
     // -- Path normalization --
-
     // The following algorithm for path normalization avoids the creation of a
     // string object for each segment, as well as the use of a string buffer to
     // compute the final result, by using a single char array and editing it in
@@ -627,8 +624,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
     // arrays are used to rejoin the segments and compute the final result.
     //
     // This code is based upon src/solaris/native/java/io/canonicalize_md.c
-
-
     // Check the given path to see if it might need normalization.  A path
     // might need normalization if it contains duplicate slashes, a "."
     // segment, or a ".." segment.  Return -1 if no further normalization is
@@ -683,7 +678,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	return normal ? -1 : ns;
     }
 
-
     // Split the given path into segments, replacing slashes with nulls and
     // filling in the given segment-index array.
     //
@@ -729,7 +723,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	if (i != segs.length)
 //	    throw new InternalError();	// ASSERT
     }
-
 
     // Join the segments in the given path according to the given segment-index
     // array, ignoring those segments whose index entries have been set to -1,
@@ -781,7 +774,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //
 //	return p;
     }
-
 
     // Remove "." segments from the given path, and remove segment pairs
     // consisting of a non-".." segment followed by a ".." segment.
@@ -839,7 +831,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	}
     }
 
-
     // DEVIATION: If the normalized path is relative, and if the first
     // segment could be parsed as a scheme name, then prepend a "." segment
     //
@@ -873,7 +864,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	path[1] = '\0';
 //	segs[0] = 0;
     }
-
 
     // Normalize the given path string.  A normal path string has no empty
     // segments (i.e., occurrences of "//"), no segments equal to ".", and no
@@ -909,6 +899,7 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
 //	}
 //	return s;
     }
+
 }
 
 ?>

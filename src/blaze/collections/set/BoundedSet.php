@@ -57,7 +57,7 @@ final class BoundedSet extends AbstractSetDecorator implements \blaze\collection
         else
             return false;
     }
-    
+
 }
 
 ?>

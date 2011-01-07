@@ -16,7 +16,7 @@ class HashBag extends AbstractBag {
     /**
      * Creates a new HashBag with the elements of the given collection.
      */
-    public function __construct(\blaze\collections\Collection $col){
+    public function __construct(\blaze\collections\Collection $col) {
 
     }
 

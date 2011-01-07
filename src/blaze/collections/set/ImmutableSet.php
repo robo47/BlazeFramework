@@ -58,7 +58,7 @@ final class ImmutableSet extends AbstractSetDecorator implements \blaze\collecti
     public function retainAll(\blaze\collections\Collection $obj) {
         return null;
     }
-    
+
 }
 
 ?>

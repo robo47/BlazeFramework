@@ -56,4 +56,5 @@ class FilterInputStream extends \blaze\io\InputStream {
     }
 
 }
+
 ?>

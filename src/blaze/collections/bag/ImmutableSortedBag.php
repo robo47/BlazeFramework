@@ -90,6 +90,7 @@ final class ImmutableSortedBag extends AbstractSortedBagDecorator implements \bl
     public function pollLast() {
         return null;
     }
+
 }
 
 ?>

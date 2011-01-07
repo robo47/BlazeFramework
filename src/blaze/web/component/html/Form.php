@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class Form extends \blaze\web\component\UIForm{
+class Form extends \blaze\web\component\UIForm {
 
     private $destination;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Form();
     }
 

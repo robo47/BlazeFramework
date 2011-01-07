@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\arrays;
+
 use blaze\lang\Object;
 
 /**
@@ -25,13 +27,13 @@ final class TypedArray extends AbstractArray implements \blaze\collections\Typed
      * @param array|int|blaze\collections\ArrayI $arrayOrSize
      * @param string|blaze\lang\String|blaze\lang\ClassWrapper $type
      */
-    public function __construct($arrayOrSize, $type){
+    public function __construct($arrayOrSize, $type) {
         $this->typeChecker = \blaze\collections\TypeChecker::getInstance($type);
         parent::__construct($arrayOrSize);
 
-        foreach($this->objects as $obj){
-            if(!$this->typeChecker->isType($obj))
-                    throw new \blaze\lang\IllegalArgumentException('The array may only contain objects of the given type '.$this->typeChecker->getType());
+        foreach ($this->objects as $obj) {
+            if (!$this->typeChecker->isType($obj))
+                throw new \blaze\lang\IllegalArgumentException('The array may only contain objects of the given type ' . $this->typeChecker->getType());
         }
     }
 
@@ -43,14 +45,15 @@ final class TypedArray extends AbstractArray implements \blaze\collections\Typed
      * @throws \blaze\lang\ClassCastException When the type of the value does not fit.
      */
     public function offsetSet($offset, $value) {
-        if(!\blaze\lang\Integer::isNativeType($offset))
+        if (!\blaze\lang\Integer::isNativeType($offset))
             throw new \blaze\lang\IllegalArgumentException('The index must be a number');
-        if($offset < 0 || $offset > $this->size)
-                throw new \blaze\lang\IndexOutOfBoundsException($offset);
-        if(!$this->typeChecker->isType($value))
-                    throw new \blaze\lang\ClassCastException('This array may only contain objects of the given type '.$this->typeChecker->getType());
-       $this->objects[$offset] = $value;
+        if ($offset < 0 || $offset > $this->size)
+            throw new \blaze\lang\IndexOutOfBoundsException($offset);
+        if (!$this->typeChecker->isType($value))
+            throw new \blaze\lang\ClassCastException('This array may only contain objects of the given type ' . $this->typeChecker->getType());
+        $this->objects[$offset] = $value;
     }
-    
+
 }
+
 ?>

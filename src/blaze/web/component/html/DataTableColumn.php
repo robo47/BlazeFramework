@@ -29,6 +29,7 @@ class DataTableColumn extends \blaze\web\component\UIComponentCore {
             return parent::addChild($child);
         }
     }
+
     public function getHeader() {
         return $this->header;
     }

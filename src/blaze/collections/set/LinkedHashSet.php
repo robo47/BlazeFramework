@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\map;
+
 use blaze\lang\Object;
 
 /**
@@ -10,7 +12,7 @@ use blaze\lang\Object;
  * @since   1.0
  * @todo    Implementation and documentation
  */
-class LinkedHashSet extends HashSet{
+class LinkedHashSet extends HashSet {
 
 }
 

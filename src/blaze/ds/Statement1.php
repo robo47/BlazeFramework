@@ -82,6 +82,7 @@ interface Statement1 {
      * @return int
      */
     public function getQueryTimeout();
+
     /**
      * Sets the timeout for this statement
      *
@@ -89,4 +90,5 @@ interface Statement1 {
      */
     public function setQueryTimeout($seconds);
 }
+
 ?>

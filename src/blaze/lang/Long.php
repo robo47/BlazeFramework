@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -12,24 +14,25 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class Long extends Number{
+class Long extends Number {
 
     private $value;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = self::asNative($value);
     }
+
     public function byteValue() {
         return Byte::asNative($this->value);
     }
 
-public function doubleValue() {
+    public function doubleValue() {
         return Double::asNative($this->value);
     }
 
     public function floatValue() {
         return Float::asNative($this->value);
-     }
+    }
 
     public function intValue() {
         return Integer::asNative($this->value);
@@ -54,6 +57,7 @@ public function doubleValue() {
     public function toNative() {
         return $this->value;
     }
+
     /**
      *
      * @param mixed $value
@@ -86,44 +90,45 @@ public function doubleValue() {
      * @param blaze\lang\Long|long $value
      * @return long
      */
-    public static function asNative($value){
+    public static function asNative($value) {
         return parent::asNative($value);
     }
 
-    public function hashCode(){
-        return (int)($this->value ^ ($this->value >> 32));
+    public function hashCode() {
+        return (int) ($this->value ^ ($this->value >> 32));
     }
 
-
-    public function equals(Reflectable $o){
+    public function equals(Reflectable $o) {
         return $o instanceof Long && $o->value == $this->value;
     }
 
-    public static function compare($obj1, $obj2){
-        if($obj1 === null || $obj2 === null)
+    public static function compare($obj1, $obj2) {
+        if ($obj1 === null || $obj2 === null)
             return new NullPointerException();
         return self::asNative($obj1) - self::asNative($obj2);
     }
-    
+
     public function compareTo(Object $obj) {
-        if($obj === null)
+        if ($obj === null)
             throw new NullPointerException();
-        if($obj instanceof Long)
+        if ($obj instanceof Long)
             return $this->value - $obj->value;
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Long.');
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Long.');
     }
 
-    public static function valueOf($string){
+    public static function valueOf($string) {
 
     }
 
-     public static function toHexString($i){
+    public static function toHexString($i) {
         return dechex($i);
     }
-    public static function toBinaryString($i){
+
+    public static function toBinaryString($i) {
         return \decbin($i);
     }
-    public static  function toOctal($i){
+
+    public static function toOctal($i) {
         return \decoct($i);
     }
 

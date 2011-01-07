@@ -44,7 +44,10 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
     public function count() {
         return $this->map->count();
     }
-    public function size(){return $this->count();}
+
+    public function size() {
+        return $this->count();
+    }
 
     public function entrySet() {
         return $this->map->entrySet();

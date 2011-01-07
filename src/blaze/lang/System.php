@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\lang;
 
 /**
@@ -37,7 +38,7 @@ final class System extends Object implements StaticInitialization {
         self::$err = new \blaze\io\output\NativeOutputStream('php://stderr');
     }
 
-        /**
+    /**
      *
      * @return long
      */
@@ -159,4 +160,5 @@ final class System extends Object implements StaticInitialization {
     }
 
 }
+
 ?>

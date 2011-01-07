@@ -34,6 +34,7 @@ class ActionEvent extends BlazeEvent {
     public function processListener(BlazeListener $blazeListener) {
         $blazeListener->processAction($this);
     }
+
 }
 
 ?>

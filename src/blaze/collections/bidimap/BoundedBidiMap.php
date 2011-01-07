@@ -53,7 +53,7 @@ final class BoundedBidiMap extends AbstractBidiMapDecorator implements \blaze\co
         if ($obj->count() + $this->count() <= $this->maxCount)
             return $this->bidiMap->putAll($m);
     }
-    
+
 }
 
 ?>

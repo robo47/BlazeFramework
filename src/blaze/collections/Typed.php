@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -10,6 +11,8 @@ namespace blaze\collections;
 
  * @since   1.0
  */
-interface Typed{}
+interface Typed {
+
+}
 
 ?>

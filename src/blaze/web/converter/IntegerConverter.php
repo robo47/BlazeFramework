@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\web\converter;
+
 use blaze\lang\Object,
-    blaze\lang\Integer,
-    blaze\lang\String,
-    blaze\util\Map;
+ blaze\lang\Integer,
+ blaze\lang\String,
+ blaze\util\Map;
 
 /**
  * Description of IntegerConverter
@@ -16,7 +18,8 @@ use blaze\lang\Object,
 
 
  */
-class IntegerConverter implements Converter{
+class IntegerConverter implements Converter {
+
     public function toObject(\blaze\web\application\BlazeContext $context, $string) {
         return Integer::asNative($string);
     }

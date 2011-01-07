@@ -60,6 +60,7 @@ interface Connection extends \blaze\io\Closeable {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function dropDatabase($databaseName);
+
     /**
      * Removes the data source object of the data source by name and uninitializes it, but does not
      * throw an exception if it does not exist.

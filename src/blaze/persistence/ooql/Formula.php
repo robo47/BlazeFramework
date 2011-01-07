@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-abstract class Formula extends Object implements Selectable, Argument, Operationable, Conditionable{
+abstract class Formula extends Object implements Selectable, Argument, Operationable, Conditionable {
 
     private $alias;
     private $formulaName;
@@ -31,11 +33,11 @@ abstract class Formula extends Object implements Selectable, Argument, Operation
         return $this->arguments;
     }
 
-    public function getPrefix(){
+    public function getPrefix() {
         return null;
     }
 
-    public function getType(){
+    public function getType() {
         return self::FORMULA;
     }
 

@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-abstract class URLConnection extends Object{
+abstract class URLConnection extends Object {
 
     /**
      *
@@ -35,30 +35,31 @@ abstract class URLConnection extends Object{
     /**
      * @return blaze\lang\Object
      */
-    public function getContent(){
+    public function getContent() {
 
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getContentEncoding(){
+    public function getContentEncoding() {
 
     }
 
     /**
      * @return int
      */
-    public function getContentLength(){
+    public function getContentLength() {
 
     }
 
     /**
      * @return blaze\lang\String
      */
-    public function getContentType(){
-
+    public function getContentType() {
+        
     }
+
 }
 
 ?>

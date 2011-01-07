@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\lang\Object,
-    blaze\lang\StringBuffer;
+ blaze\lang\StringBuffer;
 
 /**
  * Description of ByteArrayInputStream
@@ -15,6 +17,7 @@ use blaze\lang\Object,
 
  */
 class FileOutputStream extends NativeOutputStream {
+
     /**
      * @var \blaze\io\File The associated file.
      */
@@ -45,7 +48,6 @@ class FileOutputStream extends NativeOutputStream {
     public function toString() {
         return $this->file->getPath();
     }
-
 
 }
 

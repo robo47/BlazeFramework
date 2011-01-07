@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\persistence;
 
  */
 interface Transaction {
+
     /**
      * Description
      *
@@ -22,8 +24,9 @@ interface Transaction {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function commit();
-     public function rollback();
+    public function commit();
+
+    public function rollback();
 }
 
 ?>

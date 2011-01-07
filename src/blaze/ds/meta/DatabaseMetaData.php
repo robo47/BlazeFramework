@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -10,6 +11,7 @@ namespace blaze\ds\meta;
  * @since   1.0
  */
 interface DatabaseMetaData {
+
     /**
      * Returns the underlying connection which has been used to get this
      * database meta data.
@@ -17,24 +19,28 @@ interface DatabaseMetaData {
      * @return blaze\ds\Connection
      */
     public function getConnection();
+
     /**
      * Drops the datasource object.
      *
      * @return boolean
      */
     public function drop();
+
     /**
      * Returns the host with which the datasource is connected.
      *
      * @return blaze\lang\String
      */
     public function getHost();
+
     /**
      * Returns the name of the datasource object.
      *
      * @return blaze\lang\String
      */
     public function getDatabaseName();
+
     /**
      * Sets a new name for the current datasource object.
      *
@@ -42,18 +48,21 @@ interface DatabaseMetaData {
      * @return boolean Wether the action was successfull or not.
      */
     public function setDatabaseName($name);
+
     /**
      * Returns the username with which the datasource is connected.
      *
      * @return blaze\lang\String
      */
     public function getUser();
+
     /**
      * Returns the port with which the datasource is connected.
      *
      * @return int
      */
     public function getPort();
+
     /**
      * Returns the options which were used to configure the datasource.
      *
@@ -67,6 +76,7 @@ interface DatabaseMetaData {
      * @return blaze\lang\String
      */
     public function getDatabaseProductName();
+
     /**
      * Returns the version of the datasource endpoint product.
      *
@@ -101,12 +111,14 @@ interface DatabaseMetaData {
      * @param string|\blaze\lang\String $databaseCollation
      */
     public function setDatabaseCollation($databaseCollation);
+
     /**
      * Returns the name of the drive which is used to connect to the datasource.
      *
      * @return blaze\lang\String
      */
     public function getDriverName();
+
     /**
      * Returns the version of the drive which is used to connect to the datasource.
      *
@@ -120,18 +132,21 @@ interface DatabaseMetaData {
      * @return blaze\util\ListI[blaze\ds\meta\SchemaMetaData]
      */
     public function getSchemas();
+
     /**
      * Returns the schema with the given name of this datasource object.
      *
      * @return blaze\ds\meta\SchemaMetaData
      */
     public function getSchema($schemaName);
+
     /**
      * Drops the schema with the given name from this datasource object.
      *
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function dropSchema($schemaName);
+
     /**
      * Removes the schema from the datasource object by name and uninitializes it, but does not
      * throw an exception if it does not exist.
@@ -139,6 +154,7 @@ interface DatabaseMetaData {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function dropIfExistsSchema($schemaName);
+
     /**
      * Creates a new schema object within this datasourc object.
      *
@@ -146,6 +162,7 @@ interface DatabaseMetaData {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function createSchema($name, $charset = null, $collation = null);
+
     /**
      * Adds the schema to the datasource object recursively and returns the new schema.
      *
@@ -154,7 +171,6 @@ interface DatabaseMetaData {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function addSchema(SchemaMetaData $schema, $newName = null);
-    
 }
 
 ?>

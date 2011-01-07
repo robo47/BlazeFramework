@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -26,13 +27,15 @@ namespace blaze\collections;
  * @see     \blaze\collections\Iterable
  * @since   1.0
  */
-interface Iterator extends \Iterator{
+interface Iterator extends \Iterator {
+
     /**
      * Returns if another object can be iterated, this method has to block until
      * a right value can be returned.
      * @return boolean true if there is another object, otherwise false
      */
     public function hasNext();
+
     /**
      * Removes the current object
      */

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Entity extends Object implements Joinable, Fromable{
+class Entity extends Object implements Joinable, Fromable {
 
     private $entityName;
     private $entityAlias;
@@ -22,6 +24,7 @@ class Entity extends Object implements Joinable, Fromable{
         $this->entityName = $entityName;
         $this->entityAlias = $entityAlias;
     }
+
     public function getName() {
         return $this->entityName;
     }
@@ -37,7 +40,6 @@ class Entity extends Object implements Joinable, Fromable{
     public function setAlias($entityAlias) {
         $this->entityAlias = $entityAlias;
     }
-
 
 }
 

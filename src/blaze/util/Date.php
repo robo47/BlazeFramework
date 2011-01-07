@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\util;
+
 use blaze\lang\Object,
-    blaze\lang\Integer;
+ blaze\lang\Integer;
 
 /**
  * Description of Date
@@ -14,7 +16,7 @@ use blaze\lang\Object,
 
  */
 class Date extends Object {
-    
+
     /**
      *
      * @var int
@@ -80,7 +82,7 @@ class Date extends Object {
     /**
      * @return blaze\util\Date
      */
-    public static function now(){
+    public static function now() {
         return self::fromUnixTime(time());
     }
 
@@ -88,7 +90,7 @@ class Date extends Object {
      * Generates a Date object with a timestamp and a timezone.
      * @param long $timestamp 
      */
-    public static function fromTime($timestamp, TimeZone $timeZone = null){
+    public static function fromTime($timestamp, TimeZone $timeZone = null) {
         $d = new self();
         $d->setTimeZone($timeZone);
         $d->setTime(\blaze\lang\Long::asNative($timestamp));
@@ -99,28 +101,28 @@ class Date extends Object {
      * Generates a Date object with a timestamp and a timezone.
      * @param long $timestamp 
      */
-    public static function fromUnixTime($timestamp, TimeZone $timeZone = null){
+    public static function fromUnixTime($timestamp, TimeZone $timeZone = null) {
         return self::fromTime($timestamp * 1000, $timeZone);
     }
 
     /**
      * Calculates the date from the timestamp
      */
-    private function calculateDate(){
-        $info = getdate((int)($this->timestamp / 1000));
+    private function calculateDate() {
+        $info = getdate((int) ($this->timestamp / 1000));
         $this->setYear($info['year']);
         $this->setMonth($info['mon']);
         $this->setDay($info['mday']);
         $this->setHour($info['hours']);
         $this->setMinute($info['minutes']);
         $this->setSecond($info['seconds']);
-        $this->setMillisecond(Integer::asWrapper($this->timestamp)->subNumber(0,3));
+        $this->setMillisecond(Integer::asWrapper($this->timestamp)->subNumber(0, 3));
     }
 
     /**
      * Calculates the timestamp from the date
      */
-    private function calculateTimestamp(){
+    private function calculateTimestamp() {
         $this->timestamp = mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year) * 1000 + $this->millisecond;
         $this->newTime = false;
     }
@@ -158,7 +160,7 @@ class Date extends Object {
      */
     public function setYear($year) {
         $this->year = Integer::asNative($year);
-        if($this->year < 0)
+        if ($this->year < 0)
             $this->year = 0;
         $this->newTime = true;
         return $this;
@@ -179,7 +181,7 @@ class Date extends Object {
      */
     public function setMonth($month) {
         $this->month = Integer::asNative($month);
-        if($this->month < 1)
+        if ($this->month < 1)
             $this->month = 1;
         $this->newTime = true;
         return $this;
@@ -200,7 +202,7 @@ class Date extends Object {
      */
     public function setDay($day) {
         $this->day = Integer::asNative($day);
-        if($this->day < 1)
+        if ($this->day < 1)
             $this->day = 1;
         $this->newTime = true;
         return $this;
@@ -221,7 +223,7 @@ class Date extends Object {
      */
     public function setHour($hour) {
         $this->hour = Integer::asNative($hour);
-        if($this->hour < 0)
+        if ($this->hour < 0)
             $this->hour = 0;
         $this->newTime = true;
         return $this;
@@ -242,7 +244,7 @@ class Date extends Object {
      */
     public function setMinute($minute) {
         $this->minute = Integer::asNative($minute);
-        if($this->minute < 0)
+        if ($this->minute < 0)
             $this->minute = 0;
         $this->newTime = true;
         return $this;
@@ -263,12 +265,12 @@ class Date extends Object {
      */
     public function setSecond($second) {
         $this->second = Integer::asNative($second);
-        if($this->second < 0)
+        if ($this->second < 0)
             $this->second = 0;
         $this->newTime = true;
         return $this;
     }
-    
+
     /**
      *
      * @return int
@@ -284,7 +286,7 @@ class Date extends Object {
      */
     public function setMillisecond($millisecond) {
         $this->millisecond = Integer::asNative($millisecond);
-        if($this->millisecond < 0)
+        if ($this->millisecond < 0)
             $this->millisecond = 0;
         $this->newTime = true;
         return $this;
@@ -295,7 +297,7 @@ class Date extends Object {
      * @return long
      */
     public function getTime() {
-        if($this->newTime)
+        if ($this->newTime)
             $this->calculateTimestamp();
         return $this->timestamp;
     }
@@ -315,7 +317,7 @@ class Date extends Object {
      * @return long
      */
     public function getUnixTime() {
-        return (int)($this->getTime() / 1000);
+        return (int) ($this->getTime() / 1000);
     }
 
     /**
@@ -340,16 +342,17 @@ class Date extends Object {
      * @return blaze\util\Date
      */
     public function setTimeZone($timeZone) {
-        if($timeZone == null)
+        if ($timeZone == null)
             $this->timeZone = TimeZone::getDefault();
         else
             $this->timeZone = $timeZone;
         return $this;
     }
 
-    public function toString(){
-        return $this->day.'.'.$this->month.'.'.$this->year.' '.($this->hour < 10 ? '0'.$this->hour : $this->hour).':'.($this->minute < 10 ? '0'.$this->minute : $this->minute).':'.($this->second < 10 ? '0'.$this->second : $this->second);
+    public function toString() {
+        return $this->day . '.' . $this->month . '.' . $this->year . ' ' . ($this->hour < 10 ? '0' . $this->hour : $this->hour) . ':' . ($this->minute < 10 ? '0' . $this->minute : $this->minute) . ':' . ($this->second < 10 ? '0' . $this->second : $this->second);
     }
+
 }
 
 ?>

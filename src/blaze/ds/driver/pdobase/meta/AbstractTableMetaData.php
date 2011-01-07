@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\TableMetaData;
+ blaze\ds\meta\TableMetaData;
 
 /**
  * Description of AbstractTableMetaData
@@ -14,7 +16,8 @@ use blaze\lang\Object,
 
 
  */
-abstract class AbstractTableMetaData extends Object implements TableMetaData{
+abstract class AbstractTableMetaData extends Object implements TableMetaData {
+
     /**
      * @return blaze\lang\String
      */
@@ -40,6 +43,7 @@ abstract class AbstractTableMetaData extends Object implements TableMetaData{
         if ($this->schema->getDatabaseMetaData()->getConnection()->isClosed())
             throw new DataSourceException('Connection is already closed.');
     }
+
 }
 
 ?>

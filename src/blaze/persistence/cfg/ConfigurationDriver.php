@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\cfg;
 
 /**
@@ -13,15 +14,18 @@ namespace blaze\persistence\cfg;
 
  */
 interface ConfigurationDriver {
+
     /**
      * @param string|blaze\lang\String $content
      * @param string|blaze\lang\String|blaze\io\File $basePath
      */
     public function parse(\blaze\persistence\cfg\Configuration $config, $content, $basePath = null);
+
     /**
      * @param string|blaze\lang\String|blaze\io\File $file
      */
     public function parseFile(\blaze\persistence\cfg\Configuration $config, $file);
+
     /**
      * @param string|blaze\lang\String|blaze\io\File $file
      * @param \blaze\persistence\cfg\Configuration $config

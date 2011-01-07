@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of Exception
  *
@@ -9,6 +11,8 @@ namespace blaze\lang;
  * @version $Revision$
  * @author  Christian Beikov
  */
+class Exception extends Throwable {
 
-class Exception extends Throwable{ }
+}
+
 ?>

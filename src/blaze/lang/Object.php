@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\lang;
 
 /**
@@ -9,15 +10,15 @@ namespace blaze\lang;
  * @since	1.0
  * @author 	Christian Beikov
  */
-class Object implements Reflectable{
-    
+class Object implements Reflectable {
+
     /**
      * {@inheritDoc}
      * @access protected
      */
-    public function cloneObject(){
-        if(!$this instanceof Cloneable)
-                throw new CloneNotSupportedException();
+    public function cloneObject() {
+        if (!$this instanceof Cloneable)
+            throw new CloneNotSupportedException();
         return clone $this;
     }
 
@@ -25,7 +26,9 @@ class Object implements Reflectable{
      * {@inheritDoc}
      * @access protected
      */
-    public function finalize(){}
+    public function finalize() {
+
+    }
 
     /**
      * Magic method of PHP, look at the cloneObject Method for details.
@@ -50,7 +53,7 @@ class Object implements Reflectable{
      * @access private
      */
     public static final function __callStatic($name, $args) {
-        if($name === 'classWrapper')
+        if ($name === 'classWrapper')
             return ClassWrapper::forName(get_called_class());
         return null;
     }
@@ -61,7 +64,7 @@ class Object implements Reflectable{
      * @param 	blaze\lang\Reflectable $obj The reference object with which to compare.
      * @return 	boolean True if the object is the same as the parameter, otherwise false.
      */
-    public function equals(Reflectable $obj){
+    public function equals(Reflectable $obj) {
         return $this == $obj;
     }
 
@@ -70,20 +73,22 @@ class Object implements Reflectable{
      * 
      * @return 	blaze\lang\ClassWrapper Returns a ClassWrapper which represents the class of the object.
      */
-    public function getClass(){
+    public function getClass() {
         return ClassWrapper::forName(get_class($this));
     }
+
     /**
      * Returns a hash code for the object. This method is used by classes which try to raise the performance of hashcodes.
      *
      * @return 	int A hash code value for this object.
      */
-    public function hashCode(){
+    public function hashCode() {
         return spl_object_hash($this);
     }
-     /**
+
+    /**
      * Returns a string representation of the Object which includes the hash code of the object.
-      *
+     *
      * @return 	blaze\lang\String A string representation of the object.
      */
     public function toString() {
@@ -94,8 +99,10 @@ class Object implements Reflectable{
      * @access private
      * @return string
      */
-    public final function  __toString() {
+    public final function __toString() {
         return String::asNative($this->toString());
     }
+
 }
+
 ?>

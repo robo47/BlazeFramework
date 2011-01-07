@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\set;
+
 use blaze\lang\Object;
 
 /**
@@ -11,7 +13,7 @@ use blaze\lang\Object;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-abstract class AbstractSortedSet extends \blaze\collections\collection\AbstractSortedCollection implements \blaze\collections\set\SortedSet{
+abstract class AbstractSortedSet extends \blaze\collections\collection\AbstractSortedCollection implements \blaze\collections\set\SortedSet {
     
 }
 

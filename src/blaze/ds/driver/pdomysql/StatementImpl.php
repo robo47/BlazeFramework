@@ -58,4 +58,5 @@ class StatementImpl extends AbstractStatement {
     }
 
 }
+
 ?>

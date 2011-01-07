@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\io;
 
 /**
@@ -11,18 +12,19 @@ namespace blaze\io;
 
  */
 interface Closeable {
+
     /**
      * Closes the object and releases the ressources which are used by it.
      *
      * @throws	blaze\io\IOException Is thrown when an IO error occurs
      */
-     public function close();
+    public function close();
 
-     /**
-      * Returns wether the object is closed or not.
-      * @return boolean
-      */
-     public function isClosed();
+    /**
+     * Returns wether the object is closed or not.
+     * @return boolean
+     */
+    public function isClosed();
 }
 
 ?>

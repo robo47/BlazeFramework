@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\lists;
+
 use blaze\lang\Object;
 
 /**
@@ -10,7 +12,7 @@ use blaze\lang\Object;
  * @since   1.0
  * @todo    Figure out which implementations are the same for all sequential lists and implement them.
  */
-abstract class AbstractSequentialList extends AbstractList{
+abstract class AbstractSequentialList extends AbstractList {
     
 }
 

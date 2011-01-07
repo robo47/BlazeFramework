@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\ColumnMetaData;
+ blaze\ds\meta\ColumnMetaData;
 
 /**
  * Description of AbstractColumnMetaData
@@ -15,6 +17,7 @@ use blaze\lang\Object,
 
  */
 abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
+
     /**
      *
      * @var blaze\lang\String

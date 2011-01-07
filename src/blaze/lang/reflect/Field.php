@@ -1,8 +1,11 @@
 <?php
+
 namespace blaze\lang\reflect;
+
 use blaze\lang\Object;
 use blaze\lang\ClassWrapper;
 use blaze\lang\String;
+
 /**
  * Field class represents a field which is defined within a class.
  *
@@ -13,17 +16,16 @@ use blaze\lang\String;
 
  * @author  Christian Beikov
  */
-class Field extends Object{
+class Field extends Object {
 
     private $property;
 
     /**
      * Description of the constructor of Field
      */
-    public function __construct(\ReflectionProperty $property){
+    public function __construct(\ReflectionProperty $property) {
         $this->property = $property;
     }
-
 
     /**
      * Returns the <code>Class</code> object representing the class or interface
@@ -32,7 +34,7 @@ class Field extends Object{
      * @return blaze\lang\ClassWrapper
      */
     public function getDeclaringClass() {
-	return ClassWrapper::forName($this->property->getDeclaringClass()->getName());
+        return ClassWrapper::forName($this->property->getDeclaringClass()->getName());
     }
 
     /**
@@ -40,7 +42,7 @@ class Field extends Object{
      * Returns the name of the field represented by this <code>Field</code> object.
      */
     public function getName() {
-	return new String($this->property->getName());
+        return new String($this->property->getName());
     }
 
     /**
@@ -52,7 +54,7 @@ class Field extends Object{
      * @return int
      */
     public function getModifiers() {
-	return $this->property->getModifiers();
+        return $this->property->getModifiers();
     }
 
     /**
@@ -77,37 +79,36 @@ class Field extends Object{
      */
     public function getType(\blaze\lang\Reflectable $obj) {
         $value = $this->property->getValue($obj);
-        if($value === null){
+        if ($value === null) {
             $annot = $this->getAnnotations();
-            if(array_key_exists('var', $annot) && isset($annot['var'][0])){
+            if (array_key_exists('var', $annot) && isset($annot['var'][0])) {
                 return $annot['var'][0];
             }
             return 'null';
-        }else if(is_object($value)){
+        } else if (is_object($value)) {
             return get_class($value);
-        }else if(is_array($value)){
+        } else if (is_array($value)) {
             return 'array';
-        }else if(is_bool($value)){
+        } else if (is_bool($value)) {
             return 'boolean';
-        }else if(is_float($value)){
+        } else if (is_float($value)) {
             return 'float';
-        }else if(is_double($value)){
+        } else if (is_double($value)) {
             return 'double';
-        }else if(is_int($value)){
+        } else if (is_int($value)) {
             return 'int';
-        }else if(is_resource($value)){
+        } else if (is_resource($value)) {
             return 'ressource';
-        }else if(is_string($value)){
+        } else if (is_string($value)) {
             return 'string';
-        }else{
+        } else {
             return 'undefined';
         }
     }
 
-    public function setAccessible($accessible){
+    public function setAccessible($accessible) {
         $this->property->setAccessible($accessible);
     }
-
 
     /**
      * Compares this <code>Field</code> against the specified object.  Returns
@@ -118,12 +119,12 @@ class Field extends Object{
      * @return boolean
      */
     public function equals(\blaze\lang\Reflectable $obj) {
-	if ($obj != null && $obj instanceof Field) {
-	    return ($this->getDeclaringClass() == $other->getDeclaringClass())
-                && ($this->getName() == $other->getName())
-		&& ($this->getType() == $other->getType());
-	}
-	return false;
+        if ($obj != null && $obj instanceof Field) {
+            return ($this->getDeclaringClass() == $other->getDeclaringClass())
+            && ($this->getName() == $other->getName())
+            && ($this->getType() == $other->getType());
+        }
+        return false;
     }
 
     /**
@@ -134,7 +135,7 @@ class Field extends Object{
      * @return int
      */
     public function hashCode() {
-	//return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
+        //return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
     }
 
     /**
@@ -158,11 +159,11 @@ class Field extends Object{
      * @return string
      */
     public function toString() {
-	$mod = $this->getModifiers();
-	return ((($mod == 0) ? "" : (Modifier::toString(mod) + " "))
-	    + $this->getTypeName($this->getType()) + " "
-	    + $this->getTypeName($this->getDeclaringClass()) + "."
-	    + $this->getName());
+        $mod = $this->getModifiers();
+        return ((($mod == 0) ? "" : (Modifier::toString(mod) + " "))
+        + $this->getTypeName($this->getType()) + " "
+        + $this->getTypeName($this->getDeclaringClass()) + "."
+        + $this->getName());
     }
 
     /**
@@ -170,7 +171,7 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function isDefault(){
+    public function isDefault() {
         return $this->property->isDefault();
     }
 
@@ -179,7 +180,7 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function isPrivate(){
+    public function isPrivate() {
         return $this->property->isPrivate();
     }
 
@@ -188,7 +189,7 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function isProtected(){
+    public function isProtected() {
         return $this->property->isProtected();
     }
 
@@ -197,7 +198,7 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function isPublic(){
+    public function isPublic() {
         return $this->property->isPublic();
     }
 
@@ -206,11 +207,11 @@ class Field extends Object{
      *
      * @return boolean
      */
-    public function isStatic(){
+    public function isStatic() {
         return $this->property->isStatic();
     }
 
-    public function getDocComment(){
+    public function getDocComment() {
         return $this->property->getDocComment();
     }
 
@@ -260,9 +261,8 @@ class Field extends Object{
      * @exception ExceptionInInitializerError if the initialization provoked
      *              by this method fails.
      */
-    public function get(\blaze\lang\Reflectable $obj)
-        //throws IllegalArgumentException, IllegalAccessException
-    {
+    public function get(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         $this->property->setAccessible(true);
         return $this->property->getValue($obj);
         //return $this->getFieldAccessor($obj)->get($obj);
@@ -289,9 +289,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getBoolean(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getBoolean(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getBoolean(obj);
     }
 
@@ -316,9 +315,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getByte(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getByte(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getByte(obj);
     }
 
@@ -345,9 +343,8 @@ class Field extends Object{
      *              by this method fails.
      * @see Field#get
      */
-    public function getChar(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getChar(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getChar(obj);
     }
 
@@ -374,9 +371,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getShort(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getShort(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getShort(obj);
     }
 
@@ -403,9 +399,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getInt(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getInt(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getInt(obj);
     }
 
@@ -432,9 +427,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getLong(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getLong(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getLong(obj);
     }
 
@@ -461,9 +455,8 @@ class Field extends Object{
      *              by this method fails.
      * @see Field#get
      */
-    public function getFloat(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getFloat(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getFloat(obj);
     }
 
@@ -490,9 +483,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#get
      */
-    public function getDouble(\blaze\lang\Reflectable $obj)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function getDouble(\blaze\lang\Reflectable $obj) {
+    //throws IllegalArgumentException, IllegalAccessException
         //return getFieldAccessor(obj).getDouble(obj);
     }
 
@@ -561,9 +553,8 @@ class Field extends Object{
      * @exception ExceptionInInitializerError if the initialization provoked
      *              by this method fails.
      */
-    public function set(\blaze\lang\Reflectable $obj, \blaze\lang\Reflectable $value)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function set(\blaze\lang\Reflectable $obj, \blaze\lang\Reflectable $value) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).set(obj, value);
     }
 
@@ -590,9 +581,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setBoolean(\blaze\lang\Reflectable $obj, $z)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setBoolean(\blaze\lang\Reflectable $obj, $z) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setBoolean(obj, z);
     }
 
@@ -619,9 +609,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setByte(\blaze\lang\Reflectable $obj, $b)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setByte(\blaze\lang\Reflectable $obj, $b) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setByte(obj, b);
     }
 
@@ -648,9 +637,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setChar(\blaze\lang\Reflectable $obj, $c)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setChar(\blaze\lang\Reflectable $obj, $c) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setChar(obj, c);
     }
 
@@ -677,9 +665,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setShort(\blaze\lang\Reflectable $obj, $s)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setShort(\blaze\lang\Reflectable $obj, $s) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setShort(obj, s);
     }
 
@@ -706,9 +693,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setInt(\blaze\lang\Reflectable $obj, $i)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setInt(\blaze\lang\Reflectable $obj, $i) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setInt(obj, i);
     }
 
@@ -735,9 +721,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setLong(\blaze\lang\Reflectable $obj, $l)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setLong(\blaze\lang\Reflectable $obj, $l) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setLong(obj, l);
     }
 
@@ -764,9 +749,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setFloat(\blaze\lang\Reflectable $obj, $f)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setFloat(\blaze\lang\Reflectable $obj, $f) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setFloat(obj, f);
     }
 
@@ -793,9 +777,8 @@ class Field extends Object{
      *              by this method fails.
      * @see       Field#set
      */
-    public function setDouble(\blaze\lang\Reflectable $obj, $d)
-	//throws IllegalArgumentException, IllegalAccessException
-    {
+    public function setDouble(\blaze\lang\Reflectable $obj, $d) {
+    //throws IllegalArgumentException, IllegalAccessException
         //getFieldAccessor(obj).setDouble(obj, d);
     }
 
@@ -803,7 +786,7 @@ class Field extends Object{
      *
      * @return array
      */
-    public function getAnnotations(){
+    public function getAnnotations() {
         $annotations = array();
 
         if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $this->property->getDocComment(), $matches)) {
@@ -824,6 +807,7 @@ class Field extends Object{
     public function hasAnnotations() {
         return count($this->getAnnotations()) != 0;
     }
+
 }
 
 ?>

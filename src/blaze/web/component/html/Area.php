@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,17 +15,18 @@ use blaze\lang\Object;
 
 
  */
-class Area extends \blaze\web\component\UIComponentCore{
+class Area extends \blaze\web\component\UIComponentCore {
 
     private $alt;
     private $coords;
     private $href;
     private $shape;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Area();
     }
 
@@ -70,7 +73,6 @@ class Area extends \blaze\web\component\UIComponentCore{
         $this->shape = new \blaze\web\el\Expression($shape);
         return $this;
     }
-
 
 }
 

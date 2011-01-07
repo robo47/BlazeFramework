@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet\http;
+
 use blaze\netlet\NetletResponse;
 
 /**
@@ -12,7 +14,7 @@ use blaze\netlet\NetletResponse;
  * @since   1.0
 
  */
-interface HttpNetletResponse extends NetletResponse{
+interface HttpNetletResponse extends NetletResponse {
     /**
      * Status code (202) indicating that a request was accepted for processing, but was not completed.
      */
@@ -175,7 +177,7 @@ interface HttpNetletResponse extends NetletResponse{
      *
      * @param 	blaze\netlet\http\Cookie $cookie
      */
-     public function addCookie(HttpCookie $cookie);
+    public function addCookie(HttpCookie $cookie);
 
     /**
      * Adds a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a
@@ -185,7 +187,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	blaze\util\Date|long $value The name of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setDateHeader
      */
-     public function addDateHeader($name, $value);
+    public function addDateHeader($name, $value);
 
     /**
      * Adds a header with the given name and value. This method allows response headers to have multiple values.
@@ -194,7 +196,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	blaze\lang\String|string $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setHeader
      */
-     public function addHeader($name, $value);
+    public function addHeader($name, $value);
 
     /**
      * Adds a header with the given name and value. This method allows response headers to have multiple values.
@@ -203,7 +205,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	int $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:setIntHeader
      */
-     public function addIntHeader($name, $value);
+    public function addIntHeader($name, $value);
 
     /**
      * Returns a boolean which indicates if a header with the given name has
@@ -212,30 +214,30 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	blaze\lang\String|string $name The name of the header which shall be sent
      * @return 	boolean true if the header has already been set, otherwise false.
      */
-     public function containsHeader($name);
+    public function containsHeader($name);
 
-     /**
+    /**
      * Gets the value of the header with the given name.
      *
      * @param 	blaze\lang\String|string $name The name of the header.
      * @return 	blaze\lang\String The value of the header.
      */
-     public function getHeader($name);
+    public function getHeader($name);
 
-     /**
+    /**
      * Gets the values of the header with the given name.
      *
      * @param 	blaze\lang\String|string $name The name of the header.
      * @return 	array[blaze\lang\String] The values of the header.
      */
-     public function getHeaders($name);
+    public function getHeaders($name);
 
-     /**
+    /**
      * Gets the statuscode of the response.
      *
      * @return 	int The statuscode of the HTTP response.
      */
-     public function getStatus();
+    public function getStatus();
     /**
      * Description
      *
@@ -245,7 +247,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     //public function encodeRedirectURL($url);
+    //public function encodeRedirectURL($url);
 
     /**
      * Description
@@ -256,7 +258,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     //public function encodeURL($url);
+    //public function encodeURL($url);
 
     /**
      * Sends an error response to the client using the given status code and
@@ -269,7 +271,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @throws	blaze\io\IOException If an input or output exception occurs
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
      */
-     public function sendError($sc, $msg = null);
+    public function sendError($sc, $msg = null);
 
     /**
      * Sends a temporary redirect response to the client using the given
@@ -282,7 +284,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @throws	blaze\io\IOException If an input or output exception occurs
      * @throws	blaze\lang\IllegalStateException If the response was committed before this method call
      */
-     public function sendRedirect($location);
+    public function sendRedirect($location);
 
     /**
      * Sets a header with the given name and value. The date is either a long value which represents an UNIX-Timestamp or a
@@ -293,7 +295,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	blaze\util\Date|long $value The name of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addDateHeader
      */
-     public function setDateHeader($name, $value);
+    public function setDateHeader($name, $value);
 
     /**
      * Sets a header with the given name and value. This method allows response headers to have multiple values.
@@ -303,7 +305,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	blaze\lang\String|string $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addHeader
      */
-     public function setHeader($name, $value);
+    public function setHeader($name, $value);
 
     /**
      * Sets a header with the given name and value. This method allows response headers to have multiple values.
@@ -313,7 +315,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	int $value The value of the header which shall be sent
      * @see 	blaze\netlet\http\HttpNetletResponse:addIntHeader
      */
-     public function setIntHeader($name, $value);
+    public function setIntHeader($name, $value);
 
     /**
      * Sets the status code for this response.
@@ -323,12 +325,7 @@ interface HttpNetletResponse extends NetletResponse{
      * @param 	int $sc The status code
      * @see 	blaze\netlet\http\HttpNetletResponse:sedError
      */
-     public function setStatus($sc);
-
-
-
-
-
+    public function setStatus($sc);
 }
 
 ?>

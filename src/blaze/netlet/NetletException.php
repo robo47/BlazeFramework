@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet;
+
 use blaze\lang\Exception;
 
 /**
@@ -13,6 +15,8 @@ use blaze\lang\Exception;
 
 
  */
-class NetletException extends Exception {}
+class NetletException extends Exception {
+
+}
 
 ?>

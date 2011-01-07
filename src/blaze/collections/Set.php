@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -11,7 +12,7 @@ namespace blaze\collections;
 
  * @since   1.0
  */
-interface Set extends Collection{
+interface Set extends Collection {
 
 }
 

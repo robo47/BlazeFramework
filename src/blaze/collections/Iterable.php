@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -11,6 +12,8 @@ namespace blaze\collections;
  * @see     \blaze\collections\Iterator
  * @since   1.0
  */
-interface Iterable extends \IteratorAggregate{}
+interface Iterable extends \IteratorAggregate {
+
+}
 
 ?>

@@ -12,10 +12,10 @@ namespace blaze\tokenizer;
  * @since   1.0
 
  */
-interface BalancedTokenizer extends Tokenizer{
+interface BalancedTokenizer extends Tokenizer {
+    public function getOpenToken();
 
-	public function getOpenToken();
-	public function getCloseToken();
-
+    public function getCloseToken();
 }
+
 ?>

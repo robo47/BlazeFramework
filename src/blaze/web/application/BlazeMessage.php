@@ -19,7 +19,6 @@ use blaze\lang\Object,
 
  */
 class BlazeMessage extends Object {
-
     const SEVERITY_ERROR = 0;
     const SEVERITY_FATAL = 1;
     const SEVERITY_INFO = 2;
@@ -39,12 +38,12 @@ class BlazeMessage extends Object {
         $this->summary = $summary;
         $this->detail = $detail;
 
-        if($severity == -1)
+        if ($severity == -1)
             $this->severity = self::SEVERITY_INFO;
         else
             $this->severity = $severity;
     }
-    
+
     public function getSummary() {
         return $this->summary;
     }
@@ -70,4 +69,5 @@ class BlazeMessage extends Object {
     }
 
 }
+
 ?>

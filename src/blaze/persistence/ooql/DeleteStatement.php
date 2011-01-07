@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class DeleteStatement extends Object implements Statement{
+class DeleteStatement extends Object implements Statement {
 
     private $entity;
     private $whereClause;
@@ -22,6 +24,7 @@ class DeleteStatement extends Object implements Statement{
         $this->entity = $entity;
         $this->whereClause = $whereClause;
     }
+
     public function getEntity() {
         return $this->entity;
     }

@@ -12,9 +12,8 @@ namespace blaze\tokenizer;
  * @since   1.0
 
  */
-interface Tokenizer{
-
-	public function tokenize($string);
-
+interface Tokenizer {
+    public function tokenize($string);
 }
+
 ?>

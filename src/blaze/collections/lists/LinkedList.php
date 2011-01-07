@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\lists;
+
 use blaze\lang\Object,
  blaze\collections\ListI;
 
@@ -12,7 +14,8 @@ use blaze\lang\Object,
  * @since   1.0
  * @todo    Tuning and extending the class to be more java like. Documentation.
  */
-class LinkedList implements \blaze\collections\Iterable{
+class LinkedList implements \blaze\collections\Iterable {
+
     /**
      *
      * @var Entry
@@ -24,9 +27,9 @@ class LinkedList implements \blaze\collections\Iterable{
      * @var Entry
      */
     private $tail;
-    
-    public function __construct(\blaze\collections\Collection $c=null){
-        if($c == null){
+
+    public function __construct(\blaze\collections\Collection $c=null) {
+        if ($c == null) {
             $this->head = new Entry(null, null, null);
             $this->size = 0;
         }
@@ -35,14 +38,12 @@ class LinkedList implements \blaze\collections\Iterable{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj){
+    public function add($obj) {
         $new = new Entry($obj);
-        if($this->size == 0){
-            $this->head =$new;
-        }
-        else{
-           $this->tail->next = $new;
-
+        if ($this->size == 0) {
+            $this->head = $new;
+        } else {
+            $this->tail->next = $new;
         }
         $new->previous = $this->tail;
         $this->tail = $new;
@@ -52,68 +53,79 @@ class LinkedList implements \blaze\collections\Iterable{
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(\blaze\collections\Collection $obj){
+    public function addAll(\blaze\collections\Collection $obj) {
         $ar = $obj->toArray();
-        foreach($ar as $val){
-           $this->add($val); 
+        foreach ($ar as $val) {
+            $this->add($val);
         }
     }
+
     /**
      * Removes all elements from this collections
      */
-    public function clear(){
-        $this->head =null;
+    public function clear() {
+        $this->head = null;
         $this->tail = null;
         $this->size = 0;
     }
 
-    public function isEmpty(){
-        return $this->size ==0;
+    public function isEmpty() {
+        return $this->size == 0;
     }
 
-    public function getIterator(){
+    public function getIterator() {
         return new LinkedListIterator($this->head, $this->size);
     }
 
-    public function count(){
+    public function count() {
         return $this->size;
     }
+
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj){
-
+    public function contains($obj) {
+        
     }
+
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(\blaze\collections\Collection $c){}
-    /**
-     * @return boolean Wether the action was successfull or not
-     */
-    public function remove($obj){
-
+    public function containsAll(\blaze\collections\Collection $c) {
+        
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAll(\blaze\collections\Collection $obj){
+    public function remove($obj) {
+        
+    }
+
+    /**
+     * @return boolean Wether the action was successfull or not
+     */
+    public function removeAll(\blaze\collections\Collection $obj) {
         $this->clear();
         return true;
     }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(\blaze\collections\Collection $obj){}
+    public function retainAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * @return blaze\collections\ArrayI
      */
-    public function toArray($type = null){}
+    public function toArray($type = null) {
+
+    }
 
     public function addFirst($element) {
         $new = new Entry($element);
-
-
     }
 
     public function addLast($element) {
@@ -201,11 +213,13 @@ class LinkedList implements \blaze\collections\Iterable{
     }
 
     /**
-      * Inserts all of the elements in the specified collections into this list at the specified position (optional operation).
-      * @param int $index
-      * @param mixed $element
-      */
-     public function addAllAt($index, Collection $c){}
+     * Inserts all of the elements in the specified collections into this list at the specified position (optional operation).
+     * @param int $index
+     * @param mixed $element
+     */
+    public function addAllAt($index, Collection $c) {
+
+    }
 
     public function addAt($index, $obj) {
 
@@ -247,23 +261,22 @@ class LinkedList implements \blaze\collections\Iterable{
 
     }
 
-    public function toString(){
+    public function toString() {
         $akt = $this->head;
-        $str = 'LinkedList: '.$akt->element;
+        $str = 'LinkedList: ' . $akt->element;
         $akt = $akt->next;
         $i = 0;
-        while($this->size>$i){
-            $str = $str.' /'.$akt->element;
+        while ($this->size > $i) {
+            $str = $str . ' /' . $akt->element;
             $akt = $akt->next;
             $i++;
         }
         return $str;
-
     }
 
 }
 
-class Entry{
+class Entry {
 
     public $element;
     /**
@@ -277,20 +290,20 @@ class Entry{
      */
     public $previous;
 
-    public function __construct($element){
+    public function __construct($element) {
         $this->element = $element;
     }
 
-    
-
-
-    public function remove(){
+    public function remove() {
         $this->previous->next = $this->next;
         $this->next->previous = $this->previous;
-        unset ($this);
+        unset($this);
     }
+
 }
-class LinkedListIterator implements \blaze\collections\Iterator{
+
+class LinkedListIterator implements \blaze\collections\Iterator {
+
     private $head;
     private $size;
     /**
@@ -299,38 +312,45 @@ class LinkedListIterator implements \blaze\collections\Iterator{
      */
     private $cur;
     private $index = 0;
-    public function __construct(Entry $head, $size){
+    public function __construct(Entry $head, $size) {
         $this->cur = $head;
         $this->size = $size;
         $this->head = $head;
     }
-public function current() {
+
+    public function current() {
         return $this->cur->element;
     }
-public function hasNext() {
-        return $this->cur->next!=null;
+
+    public function hasNext() {
+        return $this->cur->next != null;
     }
-public function key() {
+
+    public function key() {
         return $this->index;
     }
-public function next() {
+
+    public function next() {
         $this->cur = $this->cur->next;
         $this->index++;
         return $this->cur;
     }
-public function remove() {
-       $this->cur->previous->next = $this->cur->next;
-       $this->cur->next->previous = $this->cur->previous;
-       usnet($this->cur);
-       $this->cur = $this->next();
-       
+
+    public function remove() {
+        $this->cur->previous->next = $this->cur->next;
+        $this->cur->next->previous = $this->cur->previous;
+        usnet($this->cur);
+        $this->cur = $this->next();
     }
-public function rewind() {
-         $this->cur = $head;
+
+    public function rewind() {
+        $this->cur = $head;
     }
-public function valid() {
+
+    public function valid() {
         return $this->cur != null;
     }
+
 }
 
 ?>

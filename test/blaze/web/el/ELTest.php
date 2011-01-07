@@ -2,11 +2,6 @@
 
 namespace blaze\web\el;
 
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Reflectable.php';
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/Object.php';
-require_once 'D:/xampp/htdocs/BlazeFrameworkServer/src/blaze/lang/ClassLoader.php';
-spl_autoload_register('blaze\lang\ClassLoader::autoLoad');
-
 class ATest extends \blaze\lang\Object {
 
     private $name;

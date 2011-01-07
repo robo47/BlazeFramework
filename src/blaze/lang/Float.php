@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -16,20 +18,21 @@ class Float extends Number implements Comparable {
 
     private $value;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = self::asNative($value);
     }
+
     public function byteValue() {
         return Byte::asNative($this->value);
     }
 
-   public function doubleValue() {
+    public function doubleValue() {
         return Double::asNative($this->value);
     }
 
     public function floatValue() {
         return Float::asNative($this->value);
-     }
+    }
 
     public function intValue() {
         return Integer::asNative($this->value);
@@ -46,15 +49,15 @@ class Float extends Number implements Comparable {
     public function shortValue() {
         return Short::asNative($this->value);
     }
-    
 
-        /**
+    /**
      *
      * @return float
      */
     public function toNative() {
         return $this->value;
     }
+
     /**
      *
      * @param mixed $value
@@ -87,40 +90,43 @@ class Float extends Number implements Comparable {
      * @param blaze\lang\Float|float $value
      * @return float
      */
-    public static function asNative($value){
-        return (float)parent::asNative($value);
+    public static function asNative($value) {
+        return (float) parent::asNative($value);
     }
 
-    public static function floatToRawIntBits($float){
-        return unpack('I',pack('f',$float));
+    public static function floatToRawIntBits($float) {
+        return unpack('I', pack('f', $float));
     }
+
     public static function floatToIntBits($value) {
-	return self::floatToRawIntBits($value);
+        return self::floatToRawIntBits($value);
     }
 
-    public function hashCode(){
+    public function hashCode() {
         $bits = self::floatToIntBits($this->value);
-	return (int)($bits ^ ($bits >> 32));
+        return (int) ($bits ^ ($bits >> 32));
     }
 
-    public function equals(Reflectable $o){
+    public function equals(Reflectable $o) {
         return $o instanceof Float && self::floatToIntBits($o->value) == self::floatToIntBits($this->value);
     }
 
     public function compareTo(Object $obj) {
-        if($obj === null)
+        if ($obj === null)
             throw new NullPointerException();
-        if($obj instanceof Float)
+        if ($obj instanceof Float)
             return $this->value - $obj->value < 0 ? -1 : ($this->value - $obj->value > 0 ? 1 : 0);
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Float.');
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Float.');
     }
-    public static function  intBitsToFloat($bits){
+
+    public static function intBitsToFloat($bits) {
 
     }
 
-    public static function valueOf($string){
-
+    public static function valueOf($string) {
+        
     }
+
 }
 
 ?>

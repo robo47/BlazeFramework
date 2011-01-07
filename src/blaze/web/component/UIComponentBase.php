@@ -42,7 +42,7 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         return $this;
     }
 
-    public function unsetClientId(){
+    public function unsetClientId() {
 //        \blaze\util\Logger::get()->log('Unsetting Client id of '.$this->clientId);
         $this->clientId = null;
         return $this;
@@ -58,8 +58,8 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function getRendered() {
-        if($this->rendered === null)
-                return true;
+        if ($this->rendered === null)
+            return true;
         return $this->getResolvedExpression($this->rendered);
     }
 
@@ -71,71 +71,73 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     public function queueEvent(\blaze\web\event\BlazeEvent $event) {
         $parent = $this->getParent();
 
-        if($parent == null)
+        if ($parent == null)
             throw new \blaze\lang\IllegalArgumentException('Component has no ViewRoot');
         $parent->queueEvent($event);
     }
 
-    public function getClientId(\blaze\web\application\BlazeContext $context){
-        if($this->clientId != null) return $this->clientId;
-        if($this->getId() == null)
+    public function getClientId(\blaze\web\application\BlazeContext $context) {
+        if ($this->clientId != null)
+            return $this->clientId;
+        if ($this->getId() == null)
             $this->id = $context->getViewRoot()->createUniqueId();
 
         $container = $this->getParent();
 
-        while($container != null && !$container instanceof NamingContainer){
+        while ($container != null && !$container instanceof NamingContainer) {
             $container = $container->getParent();
         }
 
-        if($container == null){
+        if ($container == null) {
             $this->clientId = $this->id;
-        }else{
-            $this->clientId = $container->getClientId($context).NamingContainer::ID_SEPARATOR.$this->id;
+        } else {
+            $this->clientId = $container->getClientId($context) . NamingContainer::ID_SEPARATOR . $this->id;
         }
 //        \blaze\util\Logger::get()->log('Setting Client id to '.$this->clientId);
 
         return $this->clientId;
     }
 
-    protected function getRoot(){
+    protected function getRoot() {
         $parent = $this;
 
-        while(true){
+        while (true) {
             $comp = $parent->getParent();
 
-            if($comp == null)
+            if ($comp == null)
                 return $parent;
             $parent = $comp;
         }
     }
 
-    protected function addBlazeListener(\blaze\web\event\BlazeListener $listener){
+    protected function addBlazeListener(\blaze\web\event\BlazeListener $listener) {
         $this->listeners[] = $listeners;
     }
 
-    protected function getBlazeListeners(){
+    protected function getBlazeListeners() {
         return $this->listeners;
     }
 
-    protected function removeBlazeListener(\blaze\web\event\BlazeListener $listener){
+    protected function removeBlazeListener(\blaze\web\event\BlazeListener $listener) {
         $key = array_search($listener, $this->listeners);
-        if($key !== false) unset($this->listeners[$key]);
+        if ($key !== false)
+            unset($this->listeners[$key]);
     }
 
-    protected function getResolvedExpression(\blaze\web\el\Expression $expr = null){
-        if($expr === null)
+    protected function getResolvedExpression(\blaze\web\el\Expression $expr = null) {
+        if ($expr === null)
             return null;
-        if(!$expr->isValid())
-                return $expr->getExpressionString();
+        if (!$expr->isValid())
+            return $expr->getExpressionString();
         $context = \blaze\web\application\BlazeContext::getCurrentInstance();
         return $expr->getValue($context);
     }
 
-    protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null, $args = null){
-        if($expr == null)
+    protected function invokeResolvedExpression(\blaze\web\el\Expression $expr = null, $args = null) {
+        if ($expr == null)
             return null;
-        if(!$expr->isValid())
-                return $expr->getExpressionString();
+        if (!$expr->isValid())
+            return $expr->getExpressionString();
         $context = \blaze\web\application\BlazeContext::getCurrentInstance();
         $args = func_get_args();
         array_shift($args);
@@ -153,9 +155,9 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
     }
 
     public function processEvent(\blaze\web\application\BlazeContext $context, \blaze\web\event\BlazeEvent $event) {
-        foreach($this->listeners as $listener){
-            if($event->isAppropriateListener($listener))
-                    $event->processListener($listener);
+        foreach ($this->listeners as $listener) {
+            if ($event->isAppropriateListener($listener))
+                $event->processListener($listener);
         }
     }
 
@@ -192,19 +194,21 @@ abstract class UIComponentBase extends \blaze\lang\Object implements UIComponent
         $renderer->renderEnd($context, $this);
     }
 
-    private function checkId($id){
-        if($id == null)
+    private function checkId($id) {
+        if ($id == null)
             return;
         $str = \blaze\lang\String::asNative($id);
-        if(strlen($str) == 0)
+        if (strlen($str) == 0)
             throw new \blaze\lang\IllegalArgumentException('Component id must have a length of at least one character');
 
         $firstChar = $str[0];
-        if($firstChar != '_' && !\blaze\lang\Character::isLetter($firstChar))
-            throw new \blaze\lang\IllegalArgumentException('Component id\'s first character must be a letter or underscore (_) and not '.$firstChar);
+        if ($firstChar != '_' && !\blaze\lang\Character::isLetter($firstChar))
+            throw new \blaze\lang\IllegalArgumentException('Component id\'s first character must be a letter or underscore (_) and not ' . $firstChar);
 
-        if(!preg_match('/^..[a-zA-Z0-9\\-\\_]*$/', $str))
+        if (!preg_match('/^..[a-zA-Z0-9\\-\\_]*$/', $str))
             throw new \blaze\lang\IllegalArgumentException('Component id\'s may only contain digits, letters, underscores(_) and dashes(-)');
     }
+
 }
+
 ?>

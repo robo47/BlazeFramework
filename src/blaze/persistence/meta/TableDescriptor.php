@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\meta;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class TableDescriptor extends Object{
+class TableDescriptor extends Object {
 
     /**
      *
@@ -36,13 +38,13 @@ class TableDescriptor extends Object{
      */
     private $columns;
 
-    public static function getTableDescriptor($name){
+    public static function getTableDescriptor($name) {
         $name = \blaze\lang\String::asNative($name);
-        if(self::$tableDescriptors === null)
-            self::$tableDescriptors = array();//new \blaze\collections\map\HashMap();
-        $td = isset(self::$tableDescriptors[$name]) ? self::$tableDescriptors[$name] : null;//self::$tableDescriptors->get($name);
+        if (self::$tableDescriptors === null)
+            self::$tableDescriptors = array(); //new \blaze\collections\map\HashMap();
+ $td = isset(self::$tableDescriptors[$name]) ? self::$tableDescriptors[$name] : null; //self::$tableDescriptors->get($name);
 
-        if($td === null){
+        if ($td === null) {
             $td = new TableDescriptor();
             $td->setName($name);
             self::$tableDescriptors[$name] = $td; //self::$tableDescriptors->put($name, $td);
@@ -103,7 +105,7 @@ class TableDescriptor extends Object{
         $this->columns->add($column);
     }
 
-    public function toString(){
+    public function toString() {
         return $this->name;
     }
 

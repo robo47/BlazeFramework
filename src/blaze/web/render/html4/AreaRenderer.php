@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class AreaRenderer extends \blaze\web\render\html4\CoreRenderer{
+class AreaRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,29 +25,29 @@ class AreaRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $alt = $component->getAlt();
         $href = $component->getHref();
         $coords = $component->getCoords();
         $shape = $component->getShape();
 
-        if($href != null)
-            $writer->write(' href="'.$href.'"');
+        if ($href != null)
+            $writer->write(' href="' . $href . '"');
         else
             $writer->write(' nohref="nohref"');
-        if($alt != null)
-            $writer->write(' alt="'.$alt.'"');
-        if($coords != null)
-            $writer->write(' coords="'.$coords.'"');
-        if($shape != null)
-            $writer->write(' shape="'.$shape.'"');
+        if ($alt != null)
+            $writer->write(' alt="' . $alt . '"');
+        if ($coords != null)
+            $writer->write(' coords="' . $coords . '"');
+        if ($shape != null)
+            $writer->write(' shape="' . $shape . '"');
         $writer->write('/>');
     }
 
     public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
     }
-
 
 }
 

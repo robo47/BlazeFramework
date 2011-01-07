@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdobase\meta;
+
 use blaze\lang\Object,
-    blaze\ds\meta\ForeignKeyMetaData;
+ blaze\ds\meta\ForeignKeyMetaData;
 
 /**
  * Description of AbstractForeignKeyMetaData
@@ -20,6 +22,7 @@ abstract class AbstractForeignKeyMetaData extends AbstractConstraintMetaData imp
      * @return blaze\ds\meta\ColumnMetaData
      */
     protected $referencedColumns;
+
 }
 
 ?>

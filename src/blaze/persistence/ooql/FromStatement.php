@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class FromStatement extends Object implements Statement, Joinable, Conditionable{
+class FromStatement extends Object implements Statement, Joinable, Conditionable {
 
     protected $fromClause;
     protected $whereClause;

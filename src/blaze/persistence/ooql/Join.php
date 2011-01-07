@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Join extends Object implements Fromable, Joinable{
-
+class Join extends Object implements Fromable, Joinable {
     const TYPE_NORMAL = 0;
     const TYPE_CROSS = 1;
     const TYPE_INNER = 2;
@@ -67,9 +68,10 @@ class Join extends Object implements Fromable, Joinable{
         $this->joinType = $joinType;
     }
 
-    public function addJoinType($joinType){
+    public function addJoinType($joinType) {
         $this->joinType |= $joinType;
     }
+
 }
 
 ?>

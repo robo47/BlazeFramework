@@ -15,10 +15,9 @@ use blaze\lang\Object;
 
 
  */
-class CustomEffect extends \blaze\web\component\UIEffect{
+class CustomEffect extends \blaze\web\component\UIEffect {
 
     private $effectCode;
-
 
     public static function create() {
         return new CustomEffect();
@@ -31,5 +30,7 @@ class CustomEffect extends \blaze\web\component\UIEffect{
     public function getRendererId() {
         return 'CustomEffectRenderer';
     }
+
 }
+
 ?>

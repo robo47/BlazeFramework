@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\ooql;
 
 /**
@@ -13,6 +14,7 @@ namespace blaze\persistence\ooql;
  * @todo    Something which has to be done, implementation or so
  */
 interface Joinable {
+
 }
 
 ?>

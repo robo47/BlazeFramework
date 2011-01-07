@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,13 +15,12 @@ use blaze\lang\Object;
 
 
  */
-class DataList extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
+class DataList extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer {
 
     private $value;
     private $var;
     private $rows = array();
     private $rowClasses;
-    
     private $rowId = -1;
     private $idCount = 0;
 
@@ -39,10 +40,11 @@ class DataList extends \blaze\web\component\UIComponentCore implements \blaze\we
         return $this->rows;
     }
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new DataList();
     }
 

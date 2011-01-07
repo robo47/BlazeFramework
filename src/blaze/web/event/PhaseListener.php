@@ -18,8 +18,8 @@ use blaze\util\EventListener,
 
  */
 interface PhaseListener extends EventListener {
-
     public function afterPhase(PhaseEvent $event);
+
     public function beforePhase(PhaseEvent $event);
 
     /**
@@ -27,6 +27,6 @@ interface PhaseListener extends EventListener {
      * @return blaze\web\event\PhaseId
      */
     public function getPhaseId();
-
 }
+
 ?>

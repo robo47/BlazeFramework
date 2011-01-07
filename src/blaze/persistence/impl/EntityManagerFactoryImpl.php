@@ -36,7 +36,8 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
             $dsClass = \blaze\lang\ClassWrapper::forName($driverName);
             $dsHost = $properties->getProperty('persistence.connection.datasource.host');
             $dsPort = $properties->getProperty('persistence.connection.datasource.port');
-            $dsDatabase = $properties->getProperty('persistence.connection.datasource.database');;
+            $dsDatabase = $properties->getProperty('persistence.connection.datasource.database');
+            ;
             $this->ds = $dsClass->getMethod('getDataSource')->invokeArgs(null, array($dsHost, $dsPort, $dsDatabase, $dsUsername, $dsPassword, $dsOptions));
         } else {
             $dsn = $properties->getProperty('persistence.connection.datasource.url');
@@ -88,7 +89,7 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
     }
 
     private function loadMapping(\blaze\persistence\meta\ClassDescriptor $class) {
-        $fullClassName = $class->getPackage().'\\'.$class->getName();
+        $fullClassName = $class->getPackage() . '\\' . $class->getName();
         $this->mapping[$fullClassName] = $class;
     }
 
@@ -116,9 +117,9 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
     }
 
     public function getClassDescriptor($className) {
-        foreach($this->mapping as $cName => $classMeta){
-            if($cName === $className || \blaze\lang\String::asWrapper($cName)->endsWith($className))
-                    return $classMeta;
+        foreach ($this->mapping as $cName => $classMeta) {
+            if ($cName === $className || \blaze\lang\String::asWrapper($cName)->endsWith($className))
+                return $classMeta;
         }
 
         return null;
@@ -127,7 +128,6 @@ class EntityManagerFactoryImpl extends Object implements \blaze\persistence\Enti
     public function getClassDescriptors() {
         return $this->mapping;
     }
-
 
 }
 

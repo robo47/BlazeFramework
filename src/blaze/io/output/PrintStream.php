@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\lang\Object;
 
 /**
@@ -31,14 +33,14 @@ class PrintStream extends \blaze\io\output\FilterOutputStream {
      *
      * @return boolean
      */
-    public function checkError(){
+    public function checkError() {
         return $this->error;
     }
 
     /**
      * Sets that an error has occured on the stream.
      */
-    public function setError(){
+    public function setError() {
         $this->error = true;
     }
 
@@ -47,7 +49,7 @@ class PrintStream extends \blaze\io\output\FilterOutputStream {
      *
      * @param mixed|\blaze\lang\Reflectable $val
      */
-    public function println($val){
+    public function println($val) {
         $this->prints($val);
         $this->prints('\n');
     }
@@ -57,13 +59,14 @@ class PrintStream extends \blaze\io\output\FilterOutputStream {
      *
      * @param mixed|\blaze\lang\Reflectable $val
      */
-    public function prints($val){
-        try{
+    public function prints($val) {
+        try {
             $this->out->write($val);
-        }catch(blaze\io\IOException $ioe){
+        } catch (blaze\io\IOException $ioe) {
             $this->setError();
         }
     }
+
 }
 
 ?>

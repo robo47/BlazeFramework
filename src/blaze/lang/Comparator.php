@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of Comparable
  *
@@ -10,8 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-
-interface Comparator{
+interface Comparator {
     public function compare(Reflectable $o1, Reflectable $o2);
 }
+
 ?>

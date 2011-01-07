@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\lang;
 
 /**
@@ -12,6 +13,7 @@ namespace blaze\lang;
  * @author  Christian Beikov
  */
 final class String extends Object implements NativeWrapper, \blaze\io\Serializable, Comparable {
+
     private $string;
     private $count;
     private $hash;
@@ -20,33 +22,35 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *
      * @param blaze\lang\String|string $string
      */
-    public function __construct($string, $beginIndex = 0, $endIndex = null){
+    public function __construct($string, $beginIndex = 0, $endIndex = null) {
         $string = self::asNative($string);
         $this->count = strlen($string);
-        
-        if($endIndex === null)
+
+        if ($endIndex === null)
             $endIndex = $this->count;
-	if ($beginIndex < 0) {
-	    throw new StringIndexOutOfBoundsException($beginIndex);
-	}
-	if ($endIndex < 0) {
-	    throw new StringIndexOutOfBoundsException($endIndex);
-	}
-	if ($endIndex > $this->count) {
-	    throw new StringIndexOutOfBoundsException($endIndex);
-	}
-	if ($beginIndex > $endIndex) {
-	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
-	}
-        $this->string = substr($string,$beginIndex,$endIndex - $beginIndex);
-        if($this->string === false)
-                $this->string = '';
+        if ($beginIndex < 0) {
+            throw new StringIndexOutOfBoundsException($beginIndex);
+        }
+        if ($endIndex < 0) {
+            throw new StringIndexOutOfBoundsException($endIndex);
+        }
+        if ($endIndex > $this->count) {
+            throw new StringIndexOutOfBoundsException($endIndex);
+        }
+        if ($beginIndex > $endIndex) {
+            throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
+        }
+        $this->string = substr($string, $beginIndex, $endIndex - $beginIndex);
+        if ($this->string === false)
+            $this->string = '';
         $this->count = strlen($this->string);
         $this->hash = 0;
     }
+
     public function toNative() {
         return $this->string;
     }
+
     /**
      *
      * @param mixed $value
@@ -79,13 +83,13 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @param blaze\lang\String|string $value
      * @return string
      */
-    public static function asNative($value){
-        if($value instanceof String)
+    public static function asNative($value) {
+        if ($value instanceof String)
             return $value->toNative();
-        else if(is_string($value))
+        else if (is_string($value))
             return $value;
         else
-            return (string)$value;
+            return (string) $value;
     }
 
     /**
@@ -93,14 +97,14 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @param blaze\lang\String|string $value
      * @return blaze\lang\String
      */
-    public static function asWrapper($value){
-        if($value instanceof String)
+    public static function asWrapper($value) {
+        if ($value instanceof String)
             return $value;
         else
-            return new self((string)$value);
+            return new self((string) $value);
     }
 
-    public function toString(){
+    public function toString() {
         return $this->string;
     }
 
@@ -125,7 +129,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @since 1.6
      */
     public function isEmpty() {
-	return $this->count == 0;
+        return $this->count == 0;
     }
 
     /**
@@ -218,13 +222,11 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *
      * @since  JDK1.1
      */
-    public function getBytes(String $charsetName)
-	//throws UnsupportedEncodingException
-    {
+    public function getBytes(String $charsetName) {
+    //throws UnsupportedEncodingException
 //	if (charsetName == null) throw new NullPointerException();
 //	return StringCoding.encode(charsetName, value, offset, count);
     }
-
 
     /**
      * Encodes this {@code String} into a sequence of bytes using the given
@@ -282,15 +284,15 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @see  #equalsIgnoreCase(String)
      */
     public function equals(Reflectable $obj) {
-	if ($this == $obj) {
-	    return true;
-	}
-	if ($obj instanceof String) {
-	    if($this->string !== $obj->string)
-                    return false;
+        if ($this == $obj) {
             return true;
-	}
-	return false;
+        }
+        if ($obj instanceof String) {
+            if ($this->string !== $obj->string)
+                return false;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -392,8 +394,6 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
                 strcasecmp($this->string, $anotherString) == 0;
     }
 
-
-
     /**
      * Compares two strings lexicographically.
      * The comparison is based on the Unicode value of each character in
@@ -436,18 +436,18 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          lexicographically greater than the string argument.
      */
     public static function compare($str1, $str2) {
-        if($str1 === null || $str2 === null)
+        if ($str1 === null || $str2 === null)
             throw new NullPointerException();
         return strcmp(String::asNative($str1), String::asNative($str2));
     }
 
     public function compareTo(Object $obj) {
-        if($obj instanceof String)
+        if ($obj instanceof String)
             return strcmp($this->value, $obj->value);
-        throw new ClassCastException('Could not cast '.$obj1->getClass()->getName().' to String.');
+        throw new ClassCastException('Could not cast ' . $obj1->getClass()->getName() . ' to String.');
     }
 
-        /**
+    /**
      * A Comparator that orders <code>String</code> objects as by
      * <code>compareToIgnoreCase</code>. This comparator is serializable.
      * <p>
@@ -502,8 +502,8 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *
      * @param   str   the <code>String</code> to be compared.
      * @return int a negative int, zero, or a positive int as the
-     *		specified String is greater than, equal to, or less
-     *		than this String, ignoring case considerations.
+     * 		specified String is greater than, equal to, or less
+     * 		than this String, ignoring case considerations.
      * @see     java.text.Collator#compare(String, String)
      * @since   1.2
      */
@@ -538,7 +538,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * int <i>k</i> less than <tt>len</tt> such that:
      * <blockquote><pre>
      * Character.toLowerCase(this.charAt(toffset+k)) !=
-               Character.toLowerCase(other.charAt(ooffset+k))
+      Character.toLowerCase(other.charAt(ooffset+k))
      * </pre></blockquote>
      * and:
      * <blockquote><pre>
@@ -561,8 +561,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          or case insensitive depends on the <code>ignoreCase</code>
      *          argument.
      */
-    public function regionMatches(String $other, $toffset, $ooffset,
-                                           $len, $ignoreCase = false) {
+    public function regionMatches(String $other, $toffset, $ooffset, $len, $ignoreCase = false) {
         $ta = $this->string;
         $to = $toffset;
         $pa = $other->string;
@@ -618,10 +617,10 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public function startsWith($prefix, $toffset = 0, $ignoreCase = false) {
         $prefix = String::asWrapper($prefix);
-        if($ignoreCase){
-            return strcasecmp(substr($this->string, $toffset, $prefix->count),$prefix->string)===0;
+        if ($ignoreCase) {
+            return strcasecmp(substr($this->string, $toffset, $prefix->count), $prefix->string) === 0;
         }
-        return strcmp(substr($this->string, $toffset, $prefix->count),$prefix->string)===0;
+        return strcmp(substr($this->string, $toffset, $prefix->count), $prefix->string) === 0;
 
 //	char ta[] = value;
 //	int to = offset + toffset;
@@ -653,7 +652,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public function endsWith($suffix, $ignoreCase = false) {
         $suffix = String::asWrapper($suffix);
-	return $this->startsWith($suffix, $this->count - $suffix->count, $ignoreCase);
+        return $this->startsWith($suffix, $this->count - $suffix->count, $ignoreCase);
     }
 
     /**
@@ -670,14 +669,14 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @return int a hash code value for this object.
      */
     public function hashCode() {
-	$h = $this->hash;
-	if ($h == 0) {
-	    $off = 0;
-	    $val = $this->string;
-	    $len = $this->count;
+        $h = $this->hash;
+        if ($h == 0) {
+            $off = 0;
+            $val = $this->string;
+            $len = $this->count;
 
             for ($i = 0; $i < $len; $i++) {
-                $h = 31*$h + $val[$off++];
+                $h = 31 * $h + $val[$off++];
             }
             $this->hash = $h;
         }
@@ -737,7 +736,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          <code>-1</code> if the character does not occur.
      */
     public function lastIndexOf($ch, $fromIndex = null) {
-	$pos = strrpos($this->string, String::asNative($ch), $fromIndex);
+        $pos = strrpos($this->string, String::asNative($ch), $fromIndex);
         return $pos === false ? -1 : $pos;
     }
 
@@ -764,23 +763,23 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *             <code>endIndex</code>.
      */
     public function substring($beginIndex, $endIndex = null) {
-        if($endIndex === null) {
+        if ($endIndex === null) {
             $endIndex = $this->count;
         }
-	if ($beginIndex < 0) {
-	    throw new StringIndexOutOfBoundsException($beginIndex);
-	}
+        if ($beginIndex < 0) {
+            throw new StringIndexOutOfBoundsException($beginIndex);
+        }
         if ($endIndex < 0) {
-	    throw new StringIndexOutOfBoundsException($endIndex);
-	}
-	if ($endIndex > $this->count) {
-	    throw new StringIndexOutOfBoundsException($endIndex);
-	}
-	if ($beginIndex > $endIndex) {
-	    throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
-	}
-	return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
-	    new String($this->string, $beginIndex, $endIndex);
+            throw new StringIndexOutOfBoundsException($endIndex);
+        }
+        if ($endIndex > $this->count) {
+            throw new StringIndexOutOfBoundsException($endIndex);
+        }
+        if ($beginIndex > $endIndex) {
+            throw new StringIndexOutOfBoundsException($endIndex - $beginIndex);
+        }
+        return (($beginIndex == 0) && ($endIndex == $this->count)) ? $this :
+                new String($this->string, $beginIndex, $endIndex);
     }
 
     /**
@@ -804,7 +803,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          characters followed by the string argument's characters.
      */
     public function concat($str) {
-	return new String($this->string . String::asNative($str));
+        return new String($this->string . String::asNative($str));
     }
 
     /**
@@ -837,7 +836,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          occurrence of <code>oldChar</code> with <code>newChar</code>.
      */
     public function replace($oldChar, $newChar, $ignoreCase = false) {
-        if($ignoreCase)
+        if ($ignoreCase)
             return new String(str_ireplace(String::asNative($oldChar), String::asNative($newChar), $this->string));
 
         return new String(str_replace(String::asNative($oldChar), String::asNative($newChar), $this->string));
@@ -930,7 +929,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * matcher}(</tt><i>str</i><tt>).{@link java.util.regex.Matcher#replaceFirst
      * replaceFirst}(</tt><i>repl</i><tt>)</tt></blockquote>
      *
-     *<p>
+     * <p>
      * Note that backslashes (<tt>\</tt>) and dollar signs (<tt>$</tt>) in the
      * replacement string may cause the results to be different than if it were
      * being treated as a literal replacement string; see
@@ -977,7 +976,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * matcher}(</tt><i>str</i><tt>).{@link java.util.regex.Matcher#replaceAll
      * replaceAll}(</tt><i>repl</i><tt>)</tt></blockquote>
      *
-     *<p>
+     * <p>
      * Note that backslashes (<tt>\</tt>) and dollar signs (<tt>$</tt>) in the
      * replacement string may cause the results to be different than if it were
      * being treated as a literal replacement string; see
@@ -1048,16 +1047,16 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public function split($delimiter, $limit = null, $wrapper = false) {
         $delimiter = String::asNative($delimiter);
-        if($limit != null)
+        if ($limit != null)
             $pieces = explode($delimiter, $this->string, $limit);
         else
             $pieces = explode($delimiter, $this->string);
 
-        if(!$wrapper)
+        if (!$wrapper)
             return $pieces;
         $result = array();
 
-        foreach($pieces as $piece)
+        foreach ($pieces as $piece)
             $result[] = new String($piece);
         return $result;
     }
@@ -1102,12 +1101,12 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public function splitRegex($regex, $limit = null, $wrapper = false) {
         $regex = String::asNative($regex);
-        if(!$wrapper)
+        if (!$wrapper)
             return preg_split($regex, $this->string, $limit);
         $pieces = preg_split($regex, $this->string, $limit);
         $result = array();
 
-        foreach($pieces as $piece)
+        foreach ($pieces as $piece)
             $result[] = new String($piece);
         return $result;
     }
@@ -1165,7 +1164,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @since   1.1
      */
     public function toLowerCase($first = false, Locale $locale = null) {
-        if($first)
+        if ($first)
             return new String(lcfirst($this->string));
         return new String(strtolower($this->string));
 //	if (locale == null) {
@@ -1326,7 +1325,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @since   1.1
      */
     public function toUpperCase($first = false, Locale $locale = null) {
-        if($first)
+        if ($first)
             return new String(ucfirst($this->string));
         return new String(strtoupper($this->string));
 //	if (locale == null) {
@@ -1478,7 +1477,6 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
         return new String(trim($this->string, $charlist));
     }
 
-
     /**
      * Returns a formatted string using the specified locale, format string,
      * and arguments.
@@ -1521,7 +1519,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public static function format($format, $args, Locale $l = null) {
         $f = new Formatter($l);
-	return $f->format($format, $args)->toString();
+        return $f->format($format, $args)->toString();
     }
 
     /**
@@ -1535,24 +1533,25 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @see     java.lang.Double#toString(double)
      */
     public static function valueOf($value) {
-        if($value === null){
+        if ($value === null) {
             return 'null';
-        }else if(is_object($value) && $value instanceof Object){
+        } else if (is_object($value) && $value instanceof Object) {
             return $value->toString();
-        }else if(is_bool($value)){
+        } else if (is_bool($value)) {
             return $value ? 'true' : 'false';
-        }else if(is_float($value)){
+        } else if (is_float($value)) {
             return Float::toString($value);
-        }else if(is_double($value)){
+        } else if (is_double($value)) {
             return Double::toString($value);
-        }else if(is_int($value)){
+        } else if (is_int($value)) {
             return Integer::toString($value);
-        }else if(is_string($value)){
+        } else if (is_string($value)) {
             return $value;
-        }else{
+        } else {
             throw new IllegalArgumentException($value);
         }
     }
 
 }
+
 ?>

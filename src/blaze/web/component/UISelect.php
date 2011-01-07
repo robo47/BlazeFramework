@@ -20,12 +20,11 @@ abstract class UISelect extends \blaze\web\component\UIInput {
     private $items = array();
     private $idField;
 
-
     public function addChild(\blaze\web\component\UIComponent $child) {
         if ($child instanceof html\SelectItem || $child instanceof html\SelectItems) {
             $this->items[] = $child->setParent($this);
             return $this;
-        }else{
+        } else {
             // Not possible because of XSD
             //return parent::addChild($child);
             throw new \blaze\lang\IllegalArgumentException();
@@ -74,7 +73,7 @@ abstract class UISelect extends \blaze\web\component\UIInput {
 //            }
 //            $valExpr->setValue($context, $newVal);
             $obj = $valExpr->getValue($context);
-            $obj->getClass()->getMethod('set'.ucfirst($this->getIdField()))->invoke($obj, $newVal);
+            $obj->getClass()->getMethod('set' . ucfirst($this->getIdField()))->invoke($obj, $newVal);
         } catch (\blaze\lang\Exception $e) {
             $context->renderResponse();
             throw $e;

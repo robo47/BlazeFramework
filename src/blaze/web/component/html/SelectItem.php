@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class SelectItem extends \blaze\web\component\UIComponentBase{
+class SelectItem extends \blaze\web\component\UIComponentBase {
 
     private $value;
     private $label;
@@ -63,7 +63,6 @@ class SelectItem extends \blaze\web\component\UIComponentBase{
         $this->value = new \blaze\web\el\Expression($value);
         return $this;
     }
-
 
 }
 

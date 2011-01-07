@@ -318,6 +318,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
         $this->checkKey($fromElement);
         return $this->bidiMap->tailMap($fromElement, $inclusive);
     }
+
 }
 
 ?>

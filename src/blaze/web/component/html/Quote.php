@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,15 +15,16 @@ use blaze\lang\Object;
 
 
  */
-class Quote extends \blaze\web\component\UIComponentCore{
+class Quote extends \blaze\web\component\UIComponentCore {
 
     private $cite;
     private $block;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Quote();
     }
 
@@ -43,7 +46,8 @@ class Quote extends \blaze\web\component\UIComponentCore{
     }
 
     public function getBlock() {
-        if($this->block == null) return true;
+        if ($this->block == null)
+            return true;
         return $this->getResolvedExpression($this->block);
     }
 
@@ -51,6 +55,7 @@ class Quote extends \blaze\web\component\UIComponentCore{
         $this->block = new \blaze\web\el\Expression($block);
         return $this;
     }
+
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
 
 namespace blaze\web\filter;
+
 use blaze\lang\Object;
 
 /**
@@ -17,17 +18,17 @@ class CompressorFilter extends Object implements \blaze\netlet\Filter {
     }
 
     public function doFilter(\blaze\netlet\NetletRequest $request, \blaze\netlet\NetletResponse $response, \blaze\netlet\FilterChain $chain) {
-        if($request instanceof \blaze\netlet\http\HttpNetletRequest){
+        if ($request instanceof \blaze\netlet\http\HttpNetletRequest) {
             $ae = $request->getHeader('Accept-Encoding');
 
-            if($ae != null){
-                if($ae->indexOf('deflate') !== -1){
+            if ($ae != null) {
+                if ($ae->indexOf('deflate') !== -1) {
                     $response = new CompressedHttpNetletResponse($response, false); //gzcompress
                     $chain->doFilter($request, $response);
                     $response->flush();
                     return;
                 }
-                if($ae->indexOf('gzip') !== -1 || $ae->indexOf('x-gzip') !== -1){
+                if ($ae->indexOf('gzip') !== -1 || $ae->indexOf('x-gzip') !== -1) {
                     $response = new CompressedHttpNetletResponse($response, true); //gzencode
                     $chain->doFilter($request, $response);
                     $response->flush();
@@ -44,7 +45,8 @@ class CompressorFilter extends Object implements \blaze\netlet\Filter {
 
 }
 
-class CompressedHttpNetletResponse extends \blaze\netlet\http\HttpNetletResponseWrapper{
+class CompressedHttpNetletResponse extends \blaze\netlet\http\HttpNetletResponseWrapper {
+
     /**
      *
      * @var \blaze\io\OutputStream
@@ -64,8 +66,8 @@ class CompressedHttpNetletResponse extends \blaze\netlet\http\HttpNetletResponse
     }
 
     public function getOutputStream() {
-        if($this->compressedStream === null){
-            if($this->gzip)
+        if ($this->compressedStream === null) {
+            if ($this->gzip)
                 $this->compressedStream = new GZIPOutputStream($this->response->getOutputStream());
             else
                 $this->compressedStream = new DeflaterOutputStream($this->response->getOutputStream());
@@ -74,8 +76,8 @@ class CompressedHttpNetletResponse extends \blaze\netlet\http\HttpNetletResponse
     }
 
     public function getWriter() {
-        if($this->compressedWriter === null)
-                $this->compressedWriter = new \blaze\io\OutputStreamWriter($this->getOutputStream());
+        if ($this->compressedWriter === null)
+            $this->compressedWriter = new \blaze\io\OutputStreamWriter($this->getOutputStream());
         return $this->compressedWriter;
     }
 

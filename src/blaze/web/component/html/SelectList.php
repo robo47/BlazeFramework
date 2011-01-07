@@ -15,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class SelectList extends \blaze\web\component\UISelect{
+class SelectList extends \blaze\web\component\UISelect {
 
     private $type;
     private $size;

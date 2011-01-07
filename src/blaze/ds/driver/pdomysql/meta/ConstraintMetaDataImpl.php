@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\meta;
+
 use blaze\lang\Object,
-    blaze\ds\driver\pdobase\meta\AbstractConstraintMetaData;
+ blaze\ds\driver\pdobase\meta\AbstractConstraintMetaData;
 
 /**
  * Description of AbstractConstraintMetaData
@@ -22,19 +24,19 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
      * @param blaze\lang\String $constraintName
      * @param blaze\lang\String $constraintType
      */
-    public function __construct($columns, $constraintName, $constraintType){
+    public function __construct($columns, $constraintName, $constraintType) {
         $this->columns = $columns;
         $this->constraintName = $constraintName;
         $this->constraintType = $constraintType;
     }
 
-    private function getCols(\blaze\ds\meta\ColumnMetaData $column){
+    private function getCols(\blaze\ds\meta\ColumnMetaData $column) {
         $stmt = null;
         $rs = null;
         $constType = null;
         $constraint = null;
 
-        try{
+        try {
             $con = $column->getTable()->getSchema()->getDatabaseMetaData()->getConnection();
             $stmt = $con->prepareStatement('SELECT * FROM information_schema.TABLE_CONSTRAINTS JOIN information_schema.KEY_COLUMN_USAGE ON KEY_COLUMN_USAGE.TABLE_SCHEMA = TABLE_CONSTRAINTS.TABLE_SCHEMA AND KEY_COLUMN_USAGE.TABLE_NAME = TABLE_CONSTRAINTS.TABLE_NAME AND KEY_COLUMN_USAGE.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME WHERE KEY_COLUMN_USAGE.TABLE_SCHEMA = ? AND KEY_COLUMN_USAGE.TABLE_NAME = ? AND KEY_COLUMN_USAGE.CONSTRAINT_NAME = ?');
             $stmt->setString(0, $column->getTable()->getSchema()->getSchemaName());
@@ -86,11 +88,13 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
 //                        break;
 //                }
 //            }
-        }catch(\blaze\ds\DataSourceException $e){throw $e;}
+        } catch (\blaze\ds\DataSourceException $e) {
+            throw $e;
+        }
 
-        if($stmt != null)
+        if ($stmt != null)
             $stmt->close();
-        if($rs != null)
+        if ($rs != null)
             $rs->close();
     }
 

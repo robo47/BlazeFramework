@@ -1,9 +1,11 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Object,
-    blaze\lang\String,
-    blaze\lang\Singleton,
-    blaze\lang\ClassLoader;
+ blaze\lang\String,
+ blaze\lang\Singleton,
+ blaze\lang\ClassLoader;
 
 /**
  * Description of FileSystem
@@ -16,24 +18,22 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @todo    Implementation and documentation.
  */
-abstract class FileSystem extends Object implements Singleton{
-
+abstract class FileSystem extends Object implements Singleton {
     /* properties for simple boolean attributes */
-    const BA_EXISTS    = 0x01;
-    const BA_REGULAR   = 0x02;
+    const BA_EXISTS = 0x01;
+    const BA_REGULAR = 0x02;
     const BA_DIRECTORY = 0x04;
-    const BA_HIDDEN    = 0x08;
+    const BA_HIDDEN = 0x08;
 
-    const ACCESS_READ    = 0x04;
-    const ACCESS_WRITE   = 0x02;
+    const ACCESS_READ = 0x04;
+    const ACCESS_WRITE = 0x02;
     const ACCESS_EXECUTE = 0x01;
 
-    const SPACE_TOTAL  = 0;
-    const SPACE_FREE   = 1;
+    const SPACE_TOTAL = 0;
+    const SPACE_FREE = 1;
     const SPACE_USABLE = 2;
 
     private static $instance;
-
     private $currentWorkingDirectory;
     private $regexSafeSeparator;
 
@@ -42,9 +42,9 @@ abstract class FileSystem extends Object implements Singleton{
      *
      * @return FileSystem
      */
-    private function __construct(){
+    private function __construct() {
         $this->currentWorkingDirectory = getcwd();
-        $this->regexSafeSeparator = addslashes(preg_replace('/\//','\\/',DIRECTORY_SEPARATOR));
+        $this->regexSafeSeparator = addslashes(preg_replace('/\//', '\\/', DIRECTORY_SEPARATOR));
     }
 
     /**
@@ -52,17 +52,17 @@ abstract class FileSystem extends Object implements Singleton{
      * @return FileSystem
      */
     public static function getInstance() {
-        if(self::$instance === null){
-            switch(String::asNative(\blaze\lang\System::getProperty('host.fs'))) {
+        if (self::$instance === null) {
+            switch (String::asNative(\blaze\lang\System::getProperty('host.fs'))) {
                 case 'UNIX':
                     self::$instance = new UnixFileSystem();
-                break;
+                    break;
                 case 'WIN32':
                     self::$instance = new Win32FileSystem();
-                break;
+                    break;
                 case 'WINNT':
                     self::$instance = new WinNTFileSystem();
-                break;
+                    break;
                 default:
                     throw new \blaze\lang\Exception('Host uses unsupported filesystem, unable to proceed');
             }
@@ -77,7 +77,7 @@ abstract class FileSystem extends Object implements Singleton{
      *
      * @return string
      */
-    public function getDirectorySeparator(){
+    public function getDirectorySeparator() {
         return DIRECTORY_SEPARATOR;
     }
 
@@ -86,7 +86,7 @@ abstract class FileSystem extends Object implements Singleton{
      *
      * @return string
      */
-    public function getPathSeparator(){
+    public function getPathSeparator() {
         return PATH_SEPARATOR;
     }
 
@@ -121,7 +121,7 @@ abstract class FileSystem extends Object implements Singleton{
      * pathname.
      */
     public abstract function getDefaultParent();
-    
+
     public abstract function lister(File $f, $filter = null);
 
     /**
@@ -190,7 +190,7 @@ abstract class FileSystem extends Object implements Singleton{
 
         $access = false;
 
-        switch($accessCheck){
+        switch ($accessCheck) {
             case self::ACCESS_READ:
                 $access = @is_readable($strPath);
                 break;
@@ -203,7 +203,7 @@ abstract class FileSystem extends Object implements Singleton{
             default:
                 break;
         }
-        
+
         return $access;
     }
 
@@ -217,8 +217,8 @@ abstract class FileSystem extends Object implements Singleton{
      * @param boolean $owneronly
      * @return boolean
      */
-    public function setPermission(File $f, $access, $enable, $owneronly){
-        $mode  = $owneronly ? 'u' : 'a';
+    public function setPermission(File $f, $access, $enable, $owneronly) {
+        $mode = $owneronly ? 'u' : 'a';
         $mode .= $enable ? '+' : '-';
         $mode .= $access && self::ACCESS_READ ? 'r' : '';
         $mode .= $access && self::ACCESS_WRITE ? 'w' : '';
@@ -231,8 +231,7 @@ abstract class FileSystem extends Object implements Singleton{
      * @param File $f
      * @return boolean
      */
-    public function canDelete(File $f)
-    {
+    public function canDelete(File $f) {
         clearstatcache();
         $dir = dirname($f->getAbsolutePath()->toNative());
         return (bool) @is_writable($dir);
@@ -317,7 +316,7 @@ abstract class FileSystem extends Object implements Singleton{
     /**
      * Arrange for the file or directory denoted by the given abstract
      * pathname to be deleted when System::shutdown is called, returning
-    * true if and only if the operation succeeds.
+     * true if and only if the operation succeeds.
      */
     public function deleteOnExit($f) {
         throw new Exception("deleteOnExit() not implemented by local fs driver");
@@ -335,7 +334,7 @@ abstract class FileSystem extends Object implements Singleton{
             return null;
         }
         $list = array();
-        while($entry = $d->read()) {
+        while ($entry = $d->read()) {
             if ($entry != "." && $entry != "..") {
                 array_push($list, $entry);
             }
@@ -416,10 +415,10 @@ abstract class FileSystem extends Object implements Singleton{
      * @return long
      *
      */
-    public function getSpace(File $f, $type){
+    public function getSpace(File $f, $type) {
         $space = false;
 
-        switch($type){
+        switch ($type) {
             case self::SPACE_TOTAL:
                 $space = disk_total_space($f->getAbsolutePath()->toNative());
                 break;
@@ -431,7 +430,7 @@ abstract class FileSystem extends Object implements Singleton{
                 break;
         }
 
-        if($space === false)
+        if ($space === false)
             throw new IOExeption('Could not get the space of ' . $f->getAbsolutePath()->toNative());
         return $space;
     }
@@ -458,11 +457,11 @@ abstract class FileSystem extends Object implements Singleton{
         global $php_errormsg;
 
         // Recursively copy a directory
-        if($src->isDirectory()) {
+        if ($src->isDirectory()) {
             return $this->copyr($src->getAbsolutePath()->toNative(), $dest->getAbsolutePath()->toNative());
         }
 
-        $srcPath  = $src->getAbsolutePath()->toNative();
+        $srcPath = $src->getAbsolutePath()->toNative();
         $destPath = $dest->getAbsolutePath()->toNative();
 
         if (false === @copy($srcPath, $destPath)) { // Copy FAILED. Log and return err.
@@ -473,7 +472,7 @@ abstract class FileSystem extends Object implements Singleton{
 
         try {
             $dest->setMode($src->getMode());
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             // [MA] does chmod returns an error on systems that do not support it ?
             // eat it up for now.
         }
@@ -489,8 +488,7 @@ abstract class FileSystem extends Object implements Singleton{
      * @param       string   $dest      Destination path
      * @return      bool     Returns TRUE on success, FALSE on failure
      */
-    public function copyr($source, $dest)
-    {
+    public function copyr($source, $dest) {
         // Check for symlinks
         if (is_link($source)) {
             return symlink(readlink($source), $dest);
@@ -640,7 +638,6 @@ abstract class FileSystem extends Object implements Singleton{
             $msg = "FileSystem::Symlink() FAILED. Cannot symlink '$target' to '$link'. $php_errormsg";
             throw new Exception($msg);
         }
-
     }
 
     /**
@@ -686,18 +683,13 @@ abstract class FileSystem extends Object implements Singleton{
                 $msg = "FileSystem::rmdir() FAILED. Cannot rmdir $dir. $php_errormsg";
                 throw new Exception($msg);
             }
-
         } else { // delete contents and dir.
-
             $handle = @opendir($dir);
 
             if (false === $handle) { // Error.
-
                 $msg = "FileSystem::rmdir() FAILED. Cannot opendir() $dir. $php_errormsg";
                 throw new Exception($msg);
-
             } else { // Read from handle.
-
                 // Don't error on readdir().
                 while (false !== ($entry = @readdir($handle))) {
 
@@ -715,31 +707,25 @@ abstract class FileSystem extends Object implements Singleton{
 
                         // NOTE: As of php 4.1.1 is_dir doesn't return FALSE it
                         // returns 0. So use == not ===.
-
                         // Don't error on is_dir()
                         if (false == @is_dir($next_entry)) { // Is file.
-
                             try {
                                 self::unlink($next_entry); // Delete.
                             } catch (Exception $e) {
-                                $msg = "FileSystem::Rmdir() FAILED. Cannot FileSystem::Unlink() $next_entry. ". $e->getMessage();
+                                $msg = "FileSystem::Rmdir() FAILED. Cannot FileSystem::Unlink() $next_entry. " . $e->getMessage();
                                 throw new Exception($msg);
                             }
-
                         } else { // Is directory.
-
                             try {
                                 self::rmdir($next_entry, true); // Delete
                             } catch (Exception $e) {
-                                $msg = "FileSystem::rmdir() FAILED. Cannot FileSystem::rmdir() $next_entry. ". $e->getMessage();
+                                $msg = "FileSystem::rmdir() FAILED. Cannot FileSystem::rmdir() $next_entry. " . $e->getMessage();
                                 throw new Exception($msg);
                             }
-
                         } // end is_dir else
                     } // end .. if
                 } // end while
             } // end handle if
-
             // Don't error on closedir()
             @closedir($handle);
 
@@ -748,9 +734,7 @@ abstract class FileSystem extends Object implements Singleton{
                 $msg = "FileSystem::rmdir() FAILED. Cannot rmdir $dir. $php_errormsg";
                 throw new Exception($msg);
             }
-
         }
-
     }
 
     /**

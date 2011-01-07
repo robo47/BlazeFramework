@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\util;
+
 /**
  * Description of PhaseEvent
  *
@@ -10,6 +12,8 @@ namespace blaze\util;
  * @since   1.0
  * @version $Revision$
  */
-interface EventListener{ }
+interface EventListener {
+
+}
 
 ?>

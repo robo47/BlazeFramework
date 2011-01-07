@@ -3,15 +3,12 @@
 namespace blaze\collections\queue;
 
 /**
- * Description of List
+ * This is a basic implementation of a DequeDecorator which can be used to
+ * give a Deque a different behaviour via the same interface by decorating it.
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 abstract class AbstractDequeDecorator extends AbstractQueueDecorator implements \blaze\collections\queue\Deque {
 

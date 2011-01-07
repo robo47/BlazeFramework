@@ -49,7 +49,7 @@ abstract class AbstractArrayDecorator extends Object implements \blaze\collectio
      * Returns the size of the decorated array.
      * @return int
      */
-    public function size(){
+    public function size() {
         return $this->count();
     }
 

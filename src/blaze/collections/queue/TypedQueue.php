@@ -116,7 +116,7 @@ final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\T
         $this->check($element);
         return $this->queue->offer($element);
     }
-    
+
 }
 
 ?>

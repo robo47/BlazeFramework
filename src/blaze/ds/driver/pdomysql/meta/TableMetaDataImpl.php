@@ -54,7 +54,7 @@ class TableMetaDataImpl extends AbstractTableMetaData {
             $query .= ' COLLATE ' . $this->tableCollation;
         if ($this->tableComment !== null)
             $query .= ' COMMENT \'' . $this->tableComment . '\'';
-        
+
         $schema->getDatabaseMetaData()->getConnection()->createStatement()->executeQuery($query);
         $this->schema = $schema;
         $this->initialized = true;

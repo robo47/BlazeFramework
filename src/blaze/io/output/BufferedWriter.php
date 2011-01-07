@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\lang\Object;
 
 /**
@@ -12,11 +14,11 @@ use blaze\lang\Object;
 
  */
 class BufferedWriter extends \blaze\io\Writer {
-     /**
+
+    /**
      * The size of the buffer in kb.
      */
     private $bufferSize = 0;
-
     /**
      * @var blaze\io\Writer The Writer we are buffering output to.
      */

@@ -82,6 +82,7 @@ final class ImmutableQueue extends AbstractQueueDecorator implements \blaze\coll
     public function poll() {
         return null;
     }
+
 }
 
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\validator;
+
 use blaze\lang\Exception;
 
 /**
@@ -14,16 +16,18 @@ use blaze\lang\Exception;
 
  */
 class ValidatorException extends \blaze\web\application\BlazeException {
+
     private $blazeMessage;
-    
-    public function __construct(\blaze\web\application\BlazeMessage $blazeMessage, \Exception $previous = null){
+
+    public function __construct(\blaze\web\application\BlazeMessage $blazeMessage, \Exception $previous = null) {
         parent::__construct($blazeMessage->getSummary(), 0, $previous);
         $this->blazeMessage = $blazeMessage;
     }
-    
-    public function getBlazeMessage(){
+
+    public function getBlazeMessage() {
         return $this->blazeMessage;
     }
+
 }
 
 ?>

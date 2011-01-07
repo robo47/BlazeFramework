@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -11,12 +12,14 @@ namespace blaze\ds\meta;
  * @since   1.0
  */
 interface TableMetaData {
+
     /**
      * Returns the name of the table.
      *
      * @return blaze\lang\String
      */
     public function getTableName();
+
     /**
      * Sets the name of the table.
      *
@@ -24,12 +27,14 @@ interface TableMetaData {
      * @return boolean
      */
     public function setTableName($tableName);
+
     /**
      * Returns the comment of the table.
      *
      * @return blaze\lang\String
      */
     public function getTableComment();
+
     /**
      * Sets the comment of the table.
      *
@@ -37,12 +42,14 @@ interface TableMetaData {
      * @return boolean
      */
     public function setTableComment($tableComment);
+
     /**
      * Returns the charset of the table.
      *
      * @return blaze\lang\String
      */
     public function getTableCharset();
+
     /**
      * Sets the charset of the table.
      *
@@ -50,12 +57,14 @@ interface TableMetaData {
      * @return boolean
      */
     public function setTableCharset($tableCharset);
+
     /**
      * Returns the collation of the table.
      *
      * @return blaze\lang\String
      */
     public function getTableCollation();
+
     /**
      * Sets the collation of the table.
      *
@@ -63,12 +72,14 @@ interface TableMetaData {
      * @return boolean
      */
     public function setTableCollation($tableCollation);
+
     /**
      * Returns the parent schema object.
      *
      * @return blaze\ds\meta\SchemaMetaData
      */
     public function getSchema();
+
     /**
      * Drops the table.
      *
@@ -82,6 +93,7 @@ interface TableMetaData {
      * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
      */
     public function getColumns();
+
     /**
      * Returns the column with the given name of the table or null if no column
      * was found.
@@ -89,12 +101,14 @@ interface TableMetaData {
      * @return blaze\ds\meta\ColumnMetaData
      */
     public function getColumn($columnName);
+
     /**
      * Drops the column with the given name.
      *
      * @return boolean
      */
     public function dropColumn($columnName);
+
     /**
      * Creates a column with the given parameters. This column has to be initialized
      * with the addColumn() method.
@@ -111,12 +125,14 @@ interface TableMetaData {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function addColumn(ColumnMetaData $column, $newName = null);
+
     /**
      * Returns the triggers which are in this table as list.
      *
      * @return blaze\util\ListI[blaze\ds\meta\TriggerMetaData]
      */
     public function getTriggers();
+
     /**
      * Returns the trigger with the given name of the table or null if no trigger
      * was found.
@@ -124,12 +140,14 @@ interface TableMetaData {
      * @return blaze\ds\meta\TriggerMetaData
      */
     public function getTrigger($triggerName);
+
     /**
      * Drops the trigger with the given name.
      *
      * @return boolean
      */
     public function dropTrigger($triggerName);
+
     /**
      * Creates a trigger with the given parameters. This trigger has to be initialized
      * with the addTrigger() method.
@@ -137,7 +155,7 @@ interface TableMetaData {
      * @return blaze\ds\meta\TriggerMetaData
      */
     public function createTrigger($triggerName, $triggerDefinition, $triggerTiming, $triggerEvent, $triggerOrder = null, $triggerOldName = null, $triggerNewName = null);
-    
+
     /**
      * Adds the trigger to the table recursively and initializes it.
      *
@@ -146,12 +164,14 @@ interface TableMetaData {
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function addTrigger(TriggerMetaData $trigger, $newName = null);
+
     /**
      * Returns the indizes which are in this table as list.
      *
      * @return blaze\util\ListI[blaze\ds\meta\IndexMetaData]
      */
     public function getIndizes();
+
     /**
      * Returns the index with the given name of the table or null if no index
      * was found.
@@ -159,12 +179,14 @@ interface TableMetaData {
      * @return blaze\ds\meta\IndexMetaData
      */
     public function getIndex($indexName);
+
     /**
      * Drops the index with the given name.
      *
      * @return boolean
      */
     public function dropIndex($indexName);
+
     /**
      * Creates an index with the given parameters. This index has to be initialized
      * with the addIndex() method.
@@ -172,7 +194,7 @@ interface TableMetaData {
      * @return blaze\ds\meta\IndexMetaData
      */
     public function createIndex($indexName, \blaze\collections\ListI $columns, $structure = IndexMetaData::STRUCTURE_UNKNOWN, $type = IndexMetaData::TYPE_NONE);
-    
+
     /**
      * Adds the index to the table recursively and initializes it.
      *
@@ -188,18 +210,21 @@ interface TableMetaData {
      * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
      */
     public function getPrimaryKeys();
+
     /**
      * Returns the columns which have a foreign key constraint of this table as list.
      *
      * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
      */
     public function getForeignKeys();
+
     /**
      * Returns the columns which have a unique key constraint of this table as list.
      *
      * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
      */
     public function getUniqueKeys();
+
     /**
      * Returns the columns which are referenced by other foreign keys of this table as list.
      *

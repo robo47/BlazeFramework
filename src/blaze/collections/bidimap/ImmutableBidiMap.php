@@ -66,6 +66,7 @@ final class ImmutableBidiMap extends AbstractBidiMapDecorator implements \blaze\
     public function removeValue($value) {
         return null;
     }
+
 }
 
 ?>

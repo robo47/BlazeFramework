@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIData extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
+abstract class UIData extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer {
 
     private $rowVar;
     private $rowIndexVar;
@@ -25,11 +27,10 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
     private $selectedRowStyle;
     private $rowClasses;
     private $rows;
-
     private $idCount = 0;
 
-    public function createUniqueId(){
-        return $this->getId().self::ID_SEPARATOR.($this->idCount++);
+    public function createUniqueId() {
+        return $this->getId() . self::ID_SEPARATOR . ($this->idCount++);
     }
 
     public function getValue() {
@@ -64,8 +65,8 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
     }
 
     public function getSelectedRowIndex() {
-        if($this->selectedRowIndex === null)
-                return -1;
+        if ($this->selectedRowIndex === null)
+            return -1;
         $idx = $this->getResolvedExpression($this->selectedRowIndex);
         return $idx !== null ? $idx : -1;
     }
@@ -133,13 +134,12 @@ abstract class UIData extends \blaze\web\component\UIComponentCore implements \b
         return $this;
     }
 
-    protected function getRowChildren(\blaze\web\application\BlazeContext $context){
+    protected function getRowChildren(\blaze\web\application\BlazeContext $context) {
         $values = $this->getValue();
-        if($values == null)
+        if ($values == null)
             return null;
-        foreach($values as $value){
+        foreach ($values as $value) {
             $context->getELContext()->getContext(\blaze\web\el\ELContext::SCOPE_REQUEST)->set($context, $this->getVar(), $value);
-
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,15 +13,16 @@ namespace blaze\web\render\html4;
 
 
  */
-class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
+class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
-
+    public function __construct() {
+        
     }
+
     public function decode(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        if($context->getRequest()->getParameter($component->getClientId($context)) != null){
-                $component->setClicked(true);
-                $component->queueEvent(new \blaze\web\event\ActionEvent($component));
+        if ($context->getRequest()->getParameter($component->getClientId($context)) != null) {
+            $component->setClicked(true);
+            $component->queueEvent(new \blaze\web\event\ActionEvent($component));
         }
     }
 
@@ -30,21 +32,21 @@ class CommandButtonRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context, $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $disabled = $component->getDisabled();
 
-        $writer->write(' type="submit" name="'.$component->getClientId($context).'"');
-        $writer->write(' value="'.$component->getValue().'"');
-        
-        if($disabled != null)
-            $writer->write(' disabled="'.$disabled.'"');
+        $writer->write(' type="submit" name="' . $component->getClientId($context) . '"');
+        $writer->write(' value="' . $component->getValue() . '"');
+
+        if ($disabled != null)
+            $writer->write(' disabled="' . $disabled . '"');
         $writer->write('/>');
     }
 
-        public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+    public function renderEnd(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
+        
     }
-
 
 }
 

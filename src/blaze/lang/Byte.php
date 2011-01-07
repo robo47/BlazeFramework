@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Object;
 
 /**
@@ -13,21 +15,24 @@ use blaze\lang\Object;
 
  */
 class Byte extends Number {
+
     private $value;
 
-    public function __construct($value){
+    public function __construct($value) {
         $this->value = self::asNative($value);
     }
-       public function byteValue() {
+
+    public function byteValue() {
         return Byte::asNative($this->value);
     }
-public function doubleValue() {
+
+    public function doubleValue() {
         return Double::asNative($this->value);
     }
 
     public function floatValue() {
         return Float::asNative($this->value);
-     }
+    }
 
     public function intValue() {
         return Integer::asNative($this->value);
@@ -81,25 +86,26 @@ public function doubleValue() {
      * @param blaze\lang\Integer|int $value
      * @return int
      */
-    public static function asNative($value){
-        return (int)parent::asNative($value) & 0xFF;
+    public static function asNative($value) {
+        return (int) parent::asNative($value) & 0xFF;
     }
 
     public function compareTo(Object $obj) {
-        if($obj === null)
+        if ($obj === null)
             throw new NullPointerException();
-        if($obj instanceof Byte)
+        if ($obj instanceof Byte)
             return $this->value - $obj->value;
-        throw new ClassCastException('Could not cast '.$obj->getClass()->getName().' to Byte.');
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Byte.');
     }
 
-    public function hashCode(){
+    public function hashCode() {
         return $this->value;
     }
 
-    public function equals(Reflectable $o){
+    public function equals(Reflectable $o) {
         return $o instanceof Byte && $o->value == $this->value;
     }
+
 }
 
 ?>

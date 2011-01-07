@@ -33,6 +33,6 @@ class DataListRow extends \blaze\web\component\UIComponentCore {
         return 'DataListRowRenderer';
     }
 
-
 }
+
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,13 +15,12 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIComponentCore extends \blaze\web\component\UIComponentBase{
+abstract class UIComponentCore extends \blaze\web\component\UIComponentBase {
 
     private $style;
     private $styleClass;
     private $title;
     private $decorator;
-
 
     public function getStyle() {
         return $this->getResolvedExpression($this->style);
@@ -61,17 +62,16 @@ abstract class UIComponentCore extends \blaze\web\component\UIComponentBase{
         if ($this->getRendered() === false)
             return;
         $decoratorName = $this->getDecorator();
-        
-        if($decoratorName == null){
+
+        if ($decoratorName == null) {
             parent::processRender($context);
-        }else{
+        } else {
             $decorator = $context->getApplication()->getDecorator($decoratorName);
             $decorator->renderBegin($context, $this);
             parent::processRender($context);
             $decorator->renderEnd($context, $this);
         }
     }
-
 
 }
 

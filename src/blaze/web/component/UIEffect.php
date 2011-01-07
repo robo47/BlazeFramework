@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-abstract class UIEffect extends \blaze\web\component\UIComponentBase{
+abstract class UIEffect extends \blaze\web\component\UIComponentBase {
 
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
 

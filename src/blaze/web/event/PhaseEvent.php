@@ -59,4 +59,5 @@ class PhaseEvent extends EventObject {
     }
 
 }
+
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Property extends Object implements Argument, Selectable{
+class Property extends Object implements Argument, Selectable {
 
     private $entityAlias;
     private $propertyName;
@@ -49,13 +51,15 @@ class Property extends Object implements Argument, Selectable{
         $this->propertyAlias = $propertyAlias;
     }
 
-    public function getPrefix(){
+    public function getPrefix() {
         return $this->getEntityAlias();
     }
-    public function getType(){
+
+    public function getType() {
         return self::PROPERTY;
     }
-    public function getAlias(){
+
+    public function getAlias() {
         return $this->getPropertyAlias();
     }
 

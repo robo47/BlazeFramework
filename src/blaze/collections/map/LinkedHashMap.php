@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\collections\map;
+
 use blaze\lang\Object;
 
 /**
@@ -10,7 +12,8 @@ use blaze\lang\Object;
  * @author  Christian Beikov
  * @todo    Implementation and documentation.
  */
-class LinkedHashMap extends HashMap  {
+class LinkedHashMap extends HashMap {
     
 }
+
 ?>

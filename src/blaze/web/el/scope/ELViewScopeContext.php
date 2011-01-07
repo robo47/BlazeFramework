@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\web\el\scope;
+
 use blaze\lang\Object,
-    blaze\util\Map;
+ blaze\util\Map;
 
 /**
  * Description of ELScopeContext
@@ -14,50 +16,49 @@ use blaze\lang\Object,
 
 
  */
-class ELViewScopeContext extends ELScopeContext{
+class ELViewScopeContext extends ELScopeContext {
 
-	public function __construct(\blaze\collections\Map $nutDefinitions){
-		$this->nutDefinitions = $nutDefinitions;
-	}
+    public function __construct(\blaze\collections\Map $nutDefinitions) {
+        $this->nutDefinitions = $nutDefinitions;
+    }
 
-	private function getViewMap(\blaze\web\application\BlazeContext $context){
-		$sess = $context->getRequest()->getSession(true);
-		$viewScope = 'blaze.web.el.scope.view';
-		$viewMap = $sess->getAttribute($viewScope);
+    private function getViewMap(\blaze\web\application\BlazeContext $context) {
+        $sess = $context->getRequest()->getSession(true);
+        $viewScope = 'blaze.web.el.scope.view';
+        $viewMap = $sess->getAttribute($viewScope);
 
-		if($viewMap == null)
-			$sess->setAttribute($viewScope, $viewMap = new \blaze\collections\map\HashMap());
+        if ($viewMap == null)
+            $sess->setAttribute($viewScope, $viewMap = new \blaze\collections\map\HashMap());
 
-		return $viewMap;
-	}
+        return $viewMap;
+    }
 
-	public function get(\blaze\web\application\BlazeContext $context, $key){
-		$defVal = $this->nutDefinitions->get($key);
-                if($defVal === null)
-                    return null;
+    public function get(\blaze\web\application\BlazeContext $context, $key) {
+        $defVal = $this->nutDefinitions->get($key);
+        if ($defVal === null)
+            return null;
 
-		$viewMap = $this->getViewMap($context);
-		$val = $viewMap->get($key);
+        $viewMap = $this->getViewMap($context);
+        $val = $viewMap->get($key);
 
-		if($val == null){
-			$val = \blaze\lang\ClassWrapper::forName($defVal)->newInstance();
-			$viewMap->set($key, $val);
-		}
+        if ($val == null) {
+            $val = \blaze\lang\ClassWrapper::forName($defVal)->newInstance();
+            $viewMap->set($key, $val);
+        }
 
-		return $val;
-	}
+        return $val;
+    }
 
-	public function set(\blaze\web\application\BlazeContext $context, $key, $val){
-		$viewMap = $this->getViewMap($context);
-		$viewMap->set($key, $value);
-	}
+    public function set(\blaze\web\application\BlazeContext $context, $key, $val) {
+        $viewMap = $this->getViewMap($context);
+        $viewMap->set($key, $value);
+    }
 
-	public function resetValues(\blaze\web\application\BlazeContext $context){
-		$sess = $context->getRequest()->getSession(true);
-		$sess->setAttribute('blaze.web.el.scope.view',null);
-	}
+    public function resetValues(\blaze\web\application\BlazeContext $context) {
+        $sess = $context->getRequest()->getSession(true);
+        $sess->setAttribute('blaze.web.el.scope.view', null);
+    }
+
 }
-
-
 
 ?>

@@ -14,7 +14,6 @@ namespace blaze\persistence;
 
  */
 interface Query {
-
     const TYPE_UNDEFINED = 0;
     const TYPE_SELECT = 1;
     const TYPE_INSERT = 2;
@@ -34,7 +33,6 @@ interface Query {
 //     public function setCacheable($cacheable);
 //     public function setLockMode(LockMode $lockMode);
 
-
     /**
      * Returns the query string
      * @return blaze\lang\String
@@ -46,7 +44,7 @@ interface Query {
      * @return int
      */
     public function getTimeout();
-    
+
     /**
      * Sets the query timeout in seconds
      * @param int $seconds

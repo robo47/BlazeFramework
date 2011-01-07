@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\component;
 
 /**
@@ -13,8 +14,8 @@ namespace blaze\web\component;
 
  */
 interface NamingContainer {
-     const CONTAINER_SEPARATOR = ':';
-     const ID_SEPARATOR = '_';
+    const CONTAINER_SEPARATOR = ':';
+    const ID_SEPARATOR = '_';
 }
 
 ?>

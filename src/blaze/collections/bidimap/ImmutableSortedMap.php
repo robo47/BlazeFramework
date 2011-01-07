@@ -15,7 +15,6 @@ namespace blaze\collections\bidimap;
  */
 final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implements \blaze\collections\Immutable {
 
-
     public function clear() {
         return false;
     }
@@ -43,7 +42,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
     public function removeValue($value) {
         return null;
     }
-    
+
     public function pollFirst() {
         return null;
     }
@@ -59,6 +58,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
     public function pollLastEntry() {
         return null;
     }
+
 }
 
 ?>

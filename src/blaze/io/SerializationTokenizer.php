@@ -67,26 +67,27 @@ class SerializationTokenizer extends Object implements BalancedTokenizer {
 
         if (count($matches[0]) == 0)
             return null; // no match
-        if ($matches[0][0][1] != 0)
+ if ($matches[0][0][1] != 0)
             return null; // illegal expression
 
             for ($i = 0; $i < count($matches[0]); $i++) {
-                if ($nextPos != $matches[0][$i][1])
-                    return array($parts, $nextPos); // illegal expression
-                $nextPos += strlen($matches[0][$i][0]);
+            if ($nextPos != $matches[0][$i][1])
+                return array($parts, $nextPos); // illegal expression
+ $nextPos += strlen($matches[0][$i][0]);
 
-                if ($matches[0][$i][0][0] == '{')
-                    $parts[count($parts) - 1] .= $matches[0][$i][0];
-                else {
-                    $tokens = explode(';', $matches[0][$i][0]);
+            if ($matches[0][$i][0][0] == '{')
+                $parts[count($parts) - 1] .= $matches[0][$i][0];
+            else {
+                $tokens = explode(';', $matches[0][$i][0]);
 
-                    for ($j = 0; $j < count($tokens) - 1; $j++)
-                        $parts[] = $tokens[$j] . ';';
-                    $parts[] = $tokens[count($tokens) - 1];
-                }
+                for ($j = 0; $j < count($tokens) - 1; $j++)
+                    $parts[] = $tokens[$j] . ';';
+                $parts[] = $tokens[count($tokens) - 1];
             }
+        }
 
-            return array($parts, $nextPos);;
+        return array($parts, $nextPos);
+        ;
     }
 
 }

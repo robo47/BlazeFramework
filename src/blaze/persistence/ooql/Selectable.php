@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\persistence\ooql;
 
 /**
@@ -15,9 +16,11 @@ namespace blaze\persistence\ooql;
 interface Selectable {
     const PROPERTY = 1;
     const FORMULA = 2;
-    
+
     public function getPrefix();
+
     public function getType();
+
     public function getAlias();
 }
 

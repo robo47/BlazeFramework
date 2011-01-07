@@ -1,6 +1,9 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Exception;
+
 /**
  * Description of StreamCorruptedException
  *
@@ -12,6 +15,8 @@ use blaze\lang\Exception;
  * @author  Christian Beikov
  * @todo    Documentation.
  */
-class StreamCorruptedException extends Exception {}
+class StreamCorruptedException extends Exception {
+
+}
 
 ?>

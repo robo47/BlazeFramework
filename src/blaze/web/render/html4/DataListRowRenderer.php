@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class DataListRowRenderer extends \blaze\web\render\html4\CoreRenderer{
+class DataListRowRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -33,7 +34,6 @@ class DataListRowRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('</li>');
     }
-
 
 }
 

@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\math\BigInteger,
-    blaze\math\BigDecimal;
+ blaze\math\BigDecimal;
 
 /**
  * Description of Integer
@@ -13,7 +15,7 @@ use blaze\math\BigInteger,
 
  * @author  Christian Beikov
  */
-abstract class Number extends Object implements NativeWrapper, Comparable{
+abstract class Number extends Object implements NativeWrapper, Comparable {
 
     private static $numberClasses = null;
 
@@ -34,73 +36,79 @@ abstract class Number extends Object implements NativeWrapper, Comparable{
      * @param blaze\lang\Integer|int $value
      * @return blaze\lang\ClassWrapper
      */
-    public static function getNumberClass($value){
-        if(self::$numberClasses == null)
+    public static function getNumberClass($value) {
+        if (self::$numberClasses == null)
             self::lazyInit();
-        
-        if(is_string($value)){
-            if(preg_match('/^[0-9]*$/', $value))
+
+        if (is_string($value)) {
+            if (preg_match('/^[0-9]*$/', $value))
                 return self::$numberClasses[4];
-            else if(preg_match('/^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][-+]?\d+)?$/', $value))
+            else if (preg_match('/^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][-+]?\d+)?$/', $value))
                 return self::$numberClasses[3];
             else
                 return null;
-        }else if(Byte::isNativeType($value) || $value instanceof Byte){
+        }else if (Byte::isNativeType($value) || $value instanceof Byte) {
             return self::$numberClasses[0];
-        }else if(Short::isNativeType($value) || $value instanceof Short){
+        } else if (Short::isNativeType($value) || $value instanceof Short) {
             return self::$numberClasses[1];
-        }else if(Double::isNativeType($value) || $value instanceof Double){
+        } else if (Double::isNativeType($value) || $value instanceof Double) {
             return self::$numberClasses[2];
-        }else if(Float::isNativeType($value) || $value instanceof Float){
+        } else if (Float::isNativeType($value) || $value instanceof Float) {
             return self::$numberClasses[3];
-        }else if(Integer::isNativeType($value) || $value instanceof Integer){
+        } else if (Integer::isNativeType($value) || $value instanceof Integer) {
             return self::$numberClasses[4];
-        }else if(Long::isNativeType($value) || $value instanceof Long){
+        } else if (Long::isNativeType($value) || $value instanceof Long) {
             return self::$numberClasses[5];
-        }else if(BigInteger::isNativeType($value) || $value instanceof BigInteger){
+        } else if (BigInteger::isNativeType($value) || $value instanceof BigInteger) {
             return self::$numberClasses[6];
-        }else if(BigDecimal::isNativeType($value) || $value instanceof BigDecimal){
+        } else if (BigDecimal::isNativeType($value) || $value instanceof BigDecimal) {
             return self::$numberClasses[7];
         }
 
         return null;
     }
 
-    public static function compare($obj1, $obj2){
-        if($obj1 === null || $obj2 === null)
+    public static function compare($obj1, $obj2) {
+        if ($obj1 === null || $obj2 === null)
             return new NullPointerException();
         $diff = static::asNative($obj1) - static::asNative($obj2);
         return $diff < 0 ? -1 : ($diff > 0 ? 1 : 0);
     }
 
     public static function asNative($value) {
-        if(static::isWrapperType($value))
+        if (static::isWrapperType($value))
             return $value->toNative();
-        else if(static::isNativeType($value))
+        else if (static::isNativeType($value))
             return $value;
-        else{
+        else {
             return String::asNative($value);
         }
     }
 
     public static function asWrapper($value) {
-        if(static::isWrapperType($value))
+        if (static::isWrapperType($value))
             return $value;
         else
             return new static($value);
     }
 
-        /**
+    /**
      * Parses a string to the native representation of the Class
      * @param string|blaze\lang\String $value
      * @throws blaze\lang\NumberFormatException
      */
     //public static abstract function parse($value);
     public abstract function byteValue();
+
     public abstract function doubleValue();
+
     public abstract function floatValue();
+
     public abstract function intValue();
+
     public abstract function longValue();
+
     public abstract function shortValue();
 }
+
 ?>

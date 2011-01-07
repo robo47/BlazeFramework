@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\web\el;
+
 use blaze\lang\Object,
-    blaze\util\Map;
+ blaze\util\Map;
 
 /**
  * Description of ELContext
@@ -14,8 +16,7 @@ use blaze\lang\Object,
 
 
  */
-class ELContext extends Object{
-
+class ELContext extends Object {
     const SCOPE_REQUEST = 0;
     const SCOPE_VIEW = 1;
     const SCOPE_SESSION = 2;
@@ -28,7 +29,7 @@ class ELContext extends Object{
         $this->resolver = new ELResolver($this);
     }
 
-    public function setContext($key, scope\ELScopeContext $context){
+    public function setContext($key, scope\ELScopeContext $context) {
         $this->contexts[$key] = $context;
         return $this;
     }
@@ -38,9 +39,9 @@ class ELContext extends Object{
      * @param mixed $key
      * @return blaze\web\el\scope\ELScopeContext
      */
-    public function getContext($key){
-        if(array_key_exists($key, $this->contexts))
-                return $this->contexts[$key];
+    public function getContext($key) {
+        if (array_key_exists($key, $this->contexts))
+            return $this->contexts[$key];
         return null;
     }
 
@@ -51,6 +52,7 @@ class ELContext extends Object{
     public function getELResolver() {
         return $this->resolver;
     }
+
 }
 
 ?>

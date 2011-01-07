@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render;
 
 /**
@@ -12,12 +13,13 @@ namespace blaze\web\render;
 
 
  */
-interface RenderKitFactory extends \blaze\lang\Singleton{
+interface RenderKitFactory extends \blaze\lang\Singleton {
     public function addRenderKit($componentFamily, $renderKitId, RenderKit $renderKit);
+
     /**
      * @return blaze\web\render\RenderKit
      */
-     public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily);
+    public function getRenderKit(\blaze\web\application\BlazeContext $context, $componentFamily);
 }
 
 ?>

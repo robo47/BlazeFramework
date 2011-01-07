@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\lang\Object;
 
 /**
@@ -10,7 +12,8 @@ use blaze\lang\Object;
  * @since   1.0
  */
 class BufferedOutputStream extends \blaze\io\output\FilterOutputStream {
-     /**
+
+    /**
      * The size of the buffer in kb.
      */
     private $bufferSize = 0;

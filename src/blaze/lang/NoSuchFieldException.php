@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of NoSuchFieldException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class NoSuchFieldException extends Exception {}
+class NoSuchFieldException extends Exception {
+
+}
 
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io\output;
+
 use blaze\io\OutputStream;
 
 /**
@@ -27,8 +29,8 @@ class NativeOutputStream extends \blaze\io\OutputStream {
     }
 
     public function close() {
-        if($this->stream == null)
-                return;
+        if ($this->stream == null)
+            return;
         $this->flush();
         if (fclose($this->stream) === false)
             throw new \blaze\io\IOException('Closing failed');
@@ -44,20 +46,22 @@ class NativeOutputStream extends \blaze\io\OutputStream {
             throw new \blaze\io\IOException('Could not flush stream');
         }
     }
+
     public function write($str, $off = 0, $len = -1) {
         $str = \blaze\lang\String::asNative($str);
-        
-        if ($off > 0){
-            if($len > 0)
+
+        if ($off > 0) {
+            if ($len > 0)
                 $str = substr($str, $off, $len);
             else
                 $str = substr($str, $off);
         }
 
-        if ( fwrite($this->stream, $str) === false ) {
+        if (fwrite($this->stream, $str) === false) {
             throw new \blaze\io\IOException('Error writing to stream.');
         }
     }
+
 }
 
 ?>

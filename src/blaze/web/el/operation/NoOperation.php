@@ -22,7 +22,7 @@ class NoOperation extends SimpleOperation {
     public function __construct($expression) {
         $this->expression = $expression;
         $this->isString = preg_match('/^"[^"\\\\\r\n]*(?:\\\\.[^"\\\\\r\n]*)*"$/', $this->expression) == 1 ||
-                          preg_match('/^\'[^\'\\\\\r\n]*(?:\\\\.[^\'\\\\\r\n]*)*\'$/', $this->expression) == 1;
+                preg_match('/^\'[^\'\\\\\r\n]*(?:\\\\.[^\'\\\\\r\n]*)*\'$/', $this->expression) == 1;
     }
 
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
@@ -43,4 +43,5 @@ class NoOperation extends SimpleOperation {
     }
 
 }
+
 ?>

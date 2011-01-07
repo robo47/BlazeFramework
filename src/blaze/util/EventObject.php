@@ -1,6 +1,9 @@
 <?php
+
 namespace blaze\util;
+
 use blaze\lang\Object;
+
 /**
  * Description of PhaseEvent
  *
@@ -11,17 +14,17 @@ use blaze\lang\Object;
  * @since   1.0
 
  */
-class EventObject extends Object{
+class EventObject extends Object {
 
     protected $source;
 
-    public function __construct(\blaze\lang\Reflectable $source){
+    public function __construct(\blaze\lang\Reflectable $source) {
         $this->source = $source;
     }
 
-     public function getSource(){
+    public function getSource() {
         return $this->source;
-     }
+    }
 
 }
 

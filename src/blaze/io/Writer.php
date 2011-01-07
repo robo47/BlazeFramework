@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\io;
+
 use blaze\lang\Object;
 
 /**

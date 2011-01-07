@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 use blaze\lang\Exception;
 
 /**
@@ -12,6 +14,8 @@ use blaze\lang\Exception;
  * @since   1.0
 
  */
-class ClassCastException extends Exception {}
+class ClassCastException extends Exception {
+
+}
 
 ?>

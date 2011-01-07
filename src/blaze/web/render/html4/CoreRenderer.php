@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-abstract class CoreRenderer extends \blaze\web\render\Renderer{
+abstract class CoreRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -26,16 +27,15 @@ abstract class CoreRenderer extends \blaze\web\render\Renderer{
         $style = $component->getStyle();
         $title = $component->getTitle();
 
-        if($id != null)
-            $writer->write(' id="'.$id.'"');
-        if($title != null)
-            $writer->write(' title="'.$title.'"');
-        if($styleClass != null)
-            $writer->write(' class="'.$styleClass.'"');
-        if($style != null)
-            $writer->write(' style="'.$style.'"');
+        if ($id != null)
+            $writer->write(' id="' . $id . '"');
+        if ($title != null)
+            $writer->write(' title="' . $title . '"');
+        if ($styleClass != null)
+            $writer->write(' class="' . $styleClass . '"');
+        if ($style != null)
+            $writer->write(' style="' . $style . '"');
     }
-
 
 }
 

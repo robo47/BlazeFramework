@@ -14,7 +14,8 @@ namespace blaze\persistence\meta;
 
  */
 class SingleFieldDescriptor extends \blaze\lang\Object {
-/**
+
+    /**
      *
      * @var blaze\lang\String
      */
@@ -83,25 +84,25 @@ class SingleFieldDescriptor extends \blaze\lang\Object {
         $this->columnDescriptor = $columnDescriptor;
     }
 
-    public function generate(\blaze\lang\StringBuffer $buffer){
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @var '.$this->type.PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'private $');
+    public function generate(\blaze\lang\StringBuffer $buffer) {
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @var ' . $this->type . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'private $');
         $buffer->append($this->name);
-        $buffer->append(';'.PHP_EOL.PHP_EOL);
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @return '.$this->type.PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'public function get'.$this->name->toUpperCase(true)->toNative().'(){'.PHP_EOL);
-        $buffer->append("\t"."\t".' return $this->'.$this->name.';'.PHP_EOL);
-        $buffer->append("\t".'}'.PHP_EOL.PHP_EOL);
-        $buffer->append("\t".'/**'.PHP_EOL);
-        $buffer->append("\t".' * @param '.$this->type.' $'.$this->name.PHP_EOL);
-        $buffer->append("\t".' */'.PHP_EOL);
-        $buffer->append("\t".'public function set'.$this->name->toUpperCase(true)->toNative().'($'.$this->name.'){'.PHP_EOL);
-        $buffer->append("\t"."\t".' $this->'.$this->name.' = $'.$this->name.';'.PHP_EOL);
-        $buffer->append("\t".'}'.PHP_EOL.PHP_EOL);
+        $buffer->append(';' . PHP_EOL . PHP_EOL);
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @return ' . $this->type . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'public function get' . $this->name->toUpperCase(true)->toNative() . '(){' . PHP_EOL);
+        $buffer->append("\t" . "\t" . ' return $this->' . $this->name . ';' . PHP_EOL);
+        $buffer->append("\t" . '}' . PHP_EOL . PHP_EOL);
+        $buffer->append("\t" . '/**' . PHP_EOL);
+        $buffer->append("\t" . ' * @param ' . $this->type . ' $' . $this->name . PHP_EOL);
+        $buffer->append("\t" . ' */' . PHP_EOL);
+        $buffer->append("\t" . 'public function set' . $this->name->toUpperCase(true)->toNative() . '($' . $this->name . '){' . PHP_EOL);
+        $buffer->append("\t" . "\t" . ' $this->' . $this->name . ' = $' . $this->name . ';' . PHP_EOL);
+        $buffer->append("\t" . '}' . PHP_EOL . PHP_EOL);
     }
 
 }

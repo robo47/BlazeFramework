@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\ds\meta;
 
 /**
@@ -12,27 +13,33 @@ namespace blaze\ds\meta;
 
 
  */
-interface ConstraintMetaData{
+interface ConstraintMetaData {
 
     /**
      * Drops the constraint.
      * @return boolean
      */
     public function drop();
+
     /**
      * @return blaze\lang\String
      */
     public function getConstraintName();
+
     public function setConstraintName();
+
     /**
      * @return blaze\lang\String
      */
     public function getConstraintType();
+
     /**
      * @return blaze\ds\meta\ColumnMetaData
      */
     public function getColumns();
+
     public function addColumn(\blaze\ds\meta\ColumnMetaData $column);
+
     public function removeColumn(\blaze\ds\meta\ColumnMetaData $column);
 }
 

@@ -76,4 +76,5 @@ class ByteArrayOutputStream extends \blaze\io\OutputStream {
     }
 
 }
+
 ?>

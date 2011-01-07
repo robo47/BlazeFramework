@@ -20,9 +20,9 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
     public function __construct(\blaze\ds\meta\TableMetaData $table = null, $columnName = null, $columnType = null, $columnLength = null, $columnPrecision = null, $columnDefault = null, $columnComment = null, $nullable = true, $primaryKey = false, $uniqueKey = false, $initialized = true) {
         $this->table = $table;
         $this->name = \blaze\lang\String::asWrapper($columnName);
-        if($initialized)
+        if ($initialized)
             $this->getColumnInfo();
-        else{
+        else {
             $this->classType = $columnType;
             $this->nativeType = $this->getNativeName($columnType);
             $this->length = $columnLength;
@@ -35,7 +35,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         }
     }
 
-    public function initialize(\blaze\ds\meta\TableMetaData $table){
+    public function initialize(\blaze\ds\meta\TableMetaData $table) {
         $this->table = $table;
         $this->getColumnInfo();
     }
@@ -48,7 +48,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
     private function getClassName($nativeName, $length) {
         $className = null;
         switch (\blaze\lang\String::asNative($nativeName->toLowerCase())) {
-            case 'bigint':  $className = 'blaze\\math\\BigInteger';
+            case 'bigint': $className = 'blaze\\math\\BigInteger';
                 break;
             case 'real':
             case 'double': $className = 'double';
@@ -75,7 +75,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         }
         return new \blaze\lang\String($className);
     }
-    
+
     /**
      * Map the class names to database specific type names.
      *
@@ -156,8 +156,8 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $stmt->execute();
         $rs = $stmt->getResultSet();
 
-        while($rs->next()){
-            if($rs->getString('REFERENCED_TABLE_SCHEMA') != null){
+        while ($rs->next()) {
+            if ($rs->getString('REFERENCED_TABLE_SCHEMA') != null) {
                 $this->foreignKey = true;
                 break;
             }
@@ -166,7 +166,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $stmt->close();
     }
 
-    public function getComposedNativeType(){
+    public function getComposedNativeType() {
         $type = $this->getNativeType();
 
         switch (\blaze\lang\String::asNative($type)) {
@@ -175,19 +175,19 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
             case 'smallint':
             case 'mediumint':
             case 'int':
-                $type .= '('.$this->getLength().')'.$this->isSigned() ? '' : 'UNSIGNED';
+                $type .= '(' . $this->getLength() . ')' . $this->isSigned() ? '' : 'UNSIGNED';
                 break;
             case 'char':
             case 'varchar':
             case 'binary':
-                $type .= '('.$this->getLength().')';
+                $type .= '(' . $this->getLength() . ')';
                 break;
             case 'real':
             case 'double':
             case 'float':
             case 'numeric':
             case 'decimal':
-                $type .= '('.$this->getLength().','.$this->getPrecision().')';
+                $type .= '(' . $this->getLength() . ',' . $this->getPrecision() . ')';
                 break;
         }
 

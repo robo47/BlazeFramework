@@ -1,10 +1,12 @@
 <?php
+
 namespace blaze\ds\driver\pdobase;
+
 use blaze\lang\Object,
-        \blaze\ds\CallableStatement,
-       \blaze\ds\Connection,
-       \PDO,
-       \blaze\ds\DataSourceException;
+ \blaze\ds\CallableStatement,
+ \blaze\ds\Connection,
+ \PDO,
+ \blaze\ds\DataSourceException;
 
 /**
  * Description of AbstractCallableStatement
@@ -21,17 +23,15 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
 
     protected $registeredOutParam = array();
 
-    public function  __construct(Connection $con, \PDO $pdo, $sql){
+    public function __construct(Connection $con, \PDO $pdo, $sql) {
         parent::__construct($con, $pdo, $sql);
-
-
     }
 
     public function set($identifier, $value, $type =\PDO::PARAM_STR) {
         return parent::set($identifier, $value, $type);
     }
 
-   protected function get($identifier){
+    protected function get($identifier) {
         if (!is_array($this->actRow))
             throw new DataSourceException('No valid result.');
         if (is_int($identifier)) {
@@ -45,7 +45,7 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
         }
     }
 
-     public function execute() {
+    public function execute() {
         $this->checkClosed();
 
         try {
@@ -61,9 +61,6 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
             throw new DataSourceException($e->getMessage(), $e->getCode());
         }
     }
-
-
-
 
 }
 

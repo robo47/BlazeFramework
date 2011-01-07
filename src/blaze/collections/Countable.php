@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections;
 
 /**
@@ -12,7 +13,8 @@ namespace blaze\collections;
 
  * @since   1.0
  */
-interface Countable extends \Countable{
+interface Countable extends \Countable {
+
     /**
      * Returns wether the object is empty or not.
      * 

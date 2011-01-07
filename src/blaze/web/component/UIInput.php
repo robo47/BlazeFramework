@@ -162,7 +162,7 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
     public function processDecodes(\blaze\web\application\BlazeContext $context) {
         if (!$this->getRendered())
             return;
-        if($this->getImmediate()){
+        if ($this->getImmediate()) {
             $this->validate($context);
         }
         parent::processDecodes($context);
@@ -199,12 +199,12 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
         }
 
         parent::processUpdates($context);
-        if($ex != null)
+        if ($ex != null)
             throw $ex;
     }
 
-    private function compare($old, $new){
-        if($old instanceof Object && $new instanceof Object)
+    private function compare($old, $new) {
+        if ($old instanceof Object && $new instanceof Object)
             return $old->equals($new);
         else
             return $old == $new;
@@ -216,27 +216,27 @@ abstract class UIInput extends \blaze\web\component\UIOutput implements Editable
 
         $ex = null;
         if (!$this->getImmediate()) {
-            try{
+            try {
                 $this->validate($context);
-            }catch(blaze\lang\Exception $e){
+            } catch (blaze\lang\Exception $e) {
                 $context->renderResponse();
-            $ex = $e;
+                $ex = $e;
             }
-            if(!$this->getValid()){
-                  $context->renderResponse();
+            if (!$this->getValid()) {
+                $context->renderResponse();
             }
         }
 
         parent::processValidations($context);
-        if($ex != null)
+        if ($ex != null)
             throw $ex;
     }
 
-    protected function validate(\blaze\web\application\BlazeContext $context){
+    protected function validate(\blaze\web\application\BlazeContext $context) {
         try {
             $requMsg = $this->getRequiredMessage();
-            if($this->getRequired() === true && ($this->submittedValue === null || strlen($this->submittedValue) == 0))
-                    throw new \blaze\web\validator\ValidatorException(new \blaze\web\application\BlazeMessage( $requMsg !== null ? $requMsg : $this->getClientId($context).' is required!'));
+            if ($this->getRequired() === true && ($this->submittedValue === null || strlen($this->submittedValue) == 0))
+                throw new \blaze\web\validator\ValidatorException(new \blaze\web\application\BlazeMessage($requMsg !== null ? $requMsg : $this->getClientId($context) . ' is required!'));
 
             $convertedValue = $this->submittedValue;
             $converter = $this->getConverter();

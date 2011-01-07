@@ -324,4 +324,5 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
     }
 
 }
+
 ?>

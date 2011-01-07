@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,17 +15,18 @@ use blaze\lang\Object;
 
 
  */
-class Link extends \blaze\web\component\UIComponentCore{
+class Link extends \blaze\web\component\UIComponentCore {
 
     private $value;
     private $href;
     private $rel;
     private $target;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new Link();
     }
 
@@ -70,7 +73,6 @@ class Link extends \blaze\web\component\UIComponentCore{
         $this->target = new \blaze\web\el\Expression($target);
         return $this;
     }
-
 
 }
 

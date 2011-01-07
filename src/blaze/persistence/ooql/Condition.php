@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,8 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class Condition extends Object implements Argument, Conditionable{
-
+class Condition extends Object implements Argument, Conditionable {
     const COND_EQUALS = '=';
     const COND_EQUALS_NOT = '!=';
     const COND_LOWER = '<';
@@ -54,7 +55,6 @@ class Condition extends Object implements Argument, Conditionable{
     public function getCondOperation() {
         return $this->condOperation;
     }
-
 
 }
 

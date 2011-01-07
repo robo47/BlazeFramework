@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\persistence\ooql;
+
 use blaze\lang\Object;
 
 /**
@@ -13,7 +15,7 @@ use blaze\lang\Object;
 
 
  */
-class SelectStatement extends FromStatement{
+class SelectStatement extends FromStatement {
 
     protected $selectClause;
 
@@ -33,6 +35,7 @@ class SelectStatement extends FromStatement{
     public function setSelectClause(SelectClause $selectClause) {
         $this->selectClause = $selectClause;
     }
+
 }
 
 ?>

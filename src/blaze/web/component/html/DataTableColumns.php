@@ -15,14 +15,13 @@ use blaze\lang\Object;
 
 
  */
-class DataTableColumns extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer{
+class DataTableColumns extends \blaze\web\component\UIComponentCore implements \blaze\web\component\NamingContainer {
 
     private $header;
     private $footer;
     private $value;
     private $columnVar;
     private $columnIndexVar;
-
     private $columnId = -1;
 
     public function addChild(\blaze\web\component\UIComponent $child) {
@@ -34,6 +33,7 @@ class DataTableColumns extends \blaze\web\component\UIComponentCore implements \
             return parent::addChild($child);
         }
     }
+
     public function getHeader() {
         return $this->header;
     }

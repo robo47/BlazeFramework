@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el\operation;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,14 @@ use blaze\lang\Object;
 
 
  */
-class GreaterOperation extends ComplexOperation{
+class GreaterOperation extends ComplexOperation {
+
     public function getValue(\blaze\web\application\BlazeContext $context, $subExpressions, $subBrackets) {
         $left = $this->getLeftOperation()->getValue($context, $subExpressions, $subBrackets);
         $right = $this->getRightOperation()->getValue($context, $subExpressions, $subBrackets);
         return $left > $right;
     }
+
 }
-
-
 
 ?>

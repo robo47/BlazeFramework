@@ -27,11 +27,11 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
             $this->reset();
             $this->stmt = $this->pdo->query($sql);
 
-            if ($this->stmt !== false && $this->stmt->columnCount() == 0){
+            if ($this->stmt !== false && $this->stmt->columnCount() == 0) {
                 $this->stmt = null;
                 return false;
             }
-            
+
             return true;
         } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode());
@@ -47,9 +47,9 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
             $this->reset();
             $result = $this->pdo->query($sql);
 
-            if ($result !== false && $result->columnCount() === 0){
-                    $this->updateCount = $result->rowCount();
-                    return $this->updateCount;
+            if ($result !== false && $result->columnCount() === 0) {
+                $this->updateCount = $result->rowCount();
+                return $this->updateCount;
             }
             throw new \blaze\ds\DataSourceException('No select statements allowed, please use execute() or executeQuery().');
         } catch (\PDOException $e) {
@@ -60,4 +60,5 @@ abstract class AbstractStatement extends AbstractStatement1 implements Statement
     }
 
 }
+
 ?>

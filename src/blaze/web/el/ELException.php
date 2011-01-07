@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\el;
+
 use blaze\lang\Exception;
 
 /**
@@ -13,6 +15,8 @@ use blaze\lang\Exception;
 
 
  */
-class ELException extends Exception {}
+class ELException extends Exception {
+
+}
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\component;
 
 /**
@@ -13,13 +14,17 @@ namespace blaze\web\component;
 
  */
 interface ActionSource {
-     public function getAction();
-     public function setAction($action);
-     public function getActionListeners();
-     public function setActionListener($actionListener);
-     public function addActionListener(\blaze\web\el\Expression $actionListener);
+    public function getAction();
 
-     // Immediate and more actionListeners?
+    public function setAction($action);
+
+    public function getActionListeners();
+
+    public function setActionListener($actionListener);
+
+    public function addActionListener(\blaze\web\el\Expression $actionListener);
+
+    // Immediate and more actionListeners?
 }
 
 ?>

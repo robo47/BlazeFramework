@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of Error
  *
@@ -9,6 +11,8 @@ namespace blaze\lang;
  * @version $Revision$
  * @author  Christian Beikov
  */
+class Error extends Throwable {
 
-class Error extends Throwable{ }
+}
+
 ?>

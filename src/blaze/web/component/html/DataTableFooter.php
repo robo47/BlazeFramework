@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\web\component\html;
+
 use blaze\lang\Object;
 
 /**
@@ -13,14 +15,15 @@ use blaze\lang\Object;
 
 
  */
-class DataTableFooter extends \blaze\web\component\UIComponentCore{
+class DataTableFooter extends \blaze\web\component\UIComponentCore {
 
     private $span;
 
-    public function __construct(){
+    public function __construct() {
+
     }
 
-    public static function create(){
+    public static function create() {
         return new DataTableFooter();
     }
 
@@ -42,10 +45,11 @@ class DataTableFooter extends \blaze\web\component\UIComponentCore{
     }
 
     public function processRender(\blaze\web\application\BlazeContext $context) {
-        foreach($this->getChildren() as $child){
+        foreach ($this->getChildren() as $child) {
             $child->processRender($context);
         }
     }
+
 }
 
 ?>

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  * Description of IllegalArgumentException
  *
@@ -10,6 +12,8 @@ namespace blaze\lang;
 
  * @author  Christian Beikov
  */
-class IllegalArgumentException extends Exception {}
+class IllegalArgumentException extends Exception {
+
+}
 
 ?>

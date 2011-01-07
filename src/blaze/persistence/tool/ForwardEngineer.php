@@ -30,19 +30,20 @@ class ForwardEngineer extends Object {
 
         $fileName = \blaze\lang\String::asWrapper($cd->getName());
         $fileName = $fileName->substring($fileName->lastIndexOf('\\') + 1);
-        $writer = new \blaze\io\output\FileWriter(new \blaze\io\File($this->dir, $fileName.'.php'));
+        $writer = new \blaze\io\output\FileWriter(new \blaze\io\File($this->dir, $fileName . '.php'));
         $writer->write($buf->toString());
         $writer->close();
     }
 
-    public function forwardEngineerXmlFiles(\blaze\io\File $dir){
-        foreach($dir->listFiles() as $file){
-            if($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compare('xml') == 0)
+    public function forwardEngineerXmlFiles(\blaze\io\File $dir) {
+        foreach ($dir->listFiles() as $file) {
+            if ($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compare('xml') == 0)
                 $this->forwardEngineerXmlFile($file);
         }
 
         // Lookup the classdescriptors and tabledescriptors
     }
+
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\event;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\event;
 
 
  */
-class CustomEffectRenderer extends \blaze\web\render\Renderer{
+class CustomEffectRenderer extends \blaze\web\render\Renderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -27,7 +28,6 @@ class CustomEffectRenderer extends \blaze\web\render\Renderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('}');
     }
-
 
 }
 

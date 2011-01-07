@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\io\input;
+
 use blaze\io\InputStream,
-    blaze\lang\StringBuffer;
+ blaze\lang\StringBuffer;
 
 /**
  * Description of PipedInputStream
@@ -22,11 +24,12 @@ class PipedInputStream extends ByteArrayInputStream {
     private $pos = null;
 
     public function __construct(\blaze\io\output\PipedOutputStream $pos = null) {
-        if($pos !== null)
-                $this->connect($pos);
+        if ($pos !== null)
+            $this->connect($pos);
     }
+
     public function connect(\blaze\io\output\PipedOutputStream $pos) {
-        if($this->pos == null){
+        if ($this->pos == null) {
             $this->pos = $pos;
             $this->pos->connect($this);
         }
@@ -37,14 +40,14 @@ class PipedInputStream extends ByteArrayInputStream {
     }
 
     public function close() {
-        if($this->pos != null) {
+        if ($this->pos != null) {
             $pos = $this->pos;
             $this->pos = null;
             $pos->close();
         }
     }
 
-    public function receive($data){
+    public function receive($data) {
         $this->checkClosed();
         $this->bytes .= $data;
         $this->count += strlen($data);

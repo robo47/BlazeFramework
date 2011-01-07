@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\lang\reflect;
+
 use blaze\lang\Object,
-    blaze\lang\Exception;
+ blaze\lang\Exception;
 
 /**
  * The method which is defined within a class.
@@ -13,15 +15,18 @@ use blaze\lang\Object,
 
  * @author  Christian Beikov
  */
-class Method extends Object{
+class Method extends Object {
+
     private $reflectionMethod;
 
-    public function __construct(\ReflectionMethod $method){
+    public function __construct(\ReflectionMethod $method) {
         //parent::__construct();
         $this->reflectionMethod = $method;
     }
 
-    public static function export ($class, $name, $return) {}
+    public static function export($class, $name, $return) {
+
+    }
 
     /**
      * Returns a string describing this <code>Method</code>.  The string is
@@ -45,7 +50,7 @@ class Method extends Object{
      * <tt>abstract</tt>, <tt>static</tt>, <tt>final</tt>,
      * <tt>synchronized</tt>, <tt>native</tt>.
      */
-	public function toString () {
+    public function toString() {
         return $this->reflectionMethod->toString();
 //        try {
 //	    StringBuffer sb = new StringBuffer();
@@ -135,7 +140,7 @@ class Method extends Object{
      * take a variable number of arguments.
      * @since 1.5
      */
-    public function isVarArgs(){
+    public function isVarArgs() {
         throw new Exception('Not yet implemented');
     }
 
@@ -147,27 +152,41 @@ class Method extends Object{
      * method as defined by the Java Language Specification.
      * @since 1.5
      */
-    public function isSynthetic(){
+    public function isSynthetic() {
         throw new Exception('Not yet implemented');
     }
 
-    public function isPublic () {
+    public function isPublic() {
         return $this->reflectionMethod->isPublic();
     }
 
-    public function isPrivate () {}
+    public function isPrivate() {
 
-    public function isProtected () {}
+    }
 
-    public function isAbstract () {}
+    public function isProtected() {
 
-    public function isFinal () {}
+    }
 
-    public function isStatic () {}
+    public function isAbstract() {
 
-    public function isConstructor () {}
+    }
 
-    public function isDestructor () {}
+    public function isFinal() {
+
+    }
+
+    public function isStatic() {
+
+    }
+
+    public function isConstructor() {
+
+    }
+
+    public function isDestructor() {
+
+    }
 
     /**
      * Returns the Java language modifiers for the method represented
@@ -176,7 +195,7 @@ class Method extends Object{
      *
      * @see Modifier
      */
-    public function getModifiers () {
+    public function getModifiers() {
         return $this->reflectionMethod->getModifiers();
     }
 
@@ -238,7 +257,7 @@ class Method extends Object{
      * provoked by this method fails.
      */
     public function invoke($obj, $args = null) {
-        if($args !== null){
+        if ($args !== null) {
             $args = func_get_args();
             array_shift($args);
             return $this->reflectionMethod->invokeArgs($obj, $args);
@@ -246,14 +265,15 @@ class Method extends Object{
         return $this->reflectionMethod->invoke($obj, null);
     }
 
-    public function setAccessible($accessible){
+    public function setAccessible($accessible) {
         $this->reflectionMethod->setAccessible($accessible);
     }
+
     /**
-	 * @param object
-	 * @param args
-	 */
-    public function invokeArgs ($obj , $args) {
+     * @param object
+     * @param args
+     */
+    public function invokeArgs($obj, $args) {
         return $this->reflectionMethod->invokeArgs($obj, $args);
     }
 
@@ -261,37 +281,59 @@ class Method extends Object{
      * Returns the <code>Class</code> object representing the class or interface
      * that declares the method represented by this <code>Method</code> object.
      */
-    public function getDeclaringClass () {
+    public function getDeclaringClass() {
         return $this->reflectionMethod->getDeclaringClass();
     }
 
-    public function getPrototype () {}
+    public function getPrototype() {
 
-    public function inNamespace () {}
+    }
 
-    public function isClosure () {}
+    public function inNamespace() {
 
-    public function isDeprecated () {}
+    }
 
-    public function isInternal () {}
+    public function isClosure() {
 
-    public function isUserDefined () {}
+    }
 
-    public function getDocComment () {}
+    public function isDeprecated() {
 
-    public function getEndLine () {}
+    }
 
-    public function getExtension () {}
+    public function isInternal() {
 
-    public function getExtensionName () {}
+    }
 
-    public function getFileName () {}
+    public function isUserDefined() {
+
+    }
+
+    public function getDocComment() {
+
+    }
+
+    public function getEndLine() {
+
+    }
+
+    public function getExtension() {
+
+    }
+
+    public function getExtensionName() {
+
+    }
+
+    public function getFileName() {
+
+    }
 
     /**
      * Returns the name of the method represented by this <code>Method</code>
      * object, as a <code>String</code>.
      */
-	public function getName () {
+    public function getName() {
         return $this->reflectionMethod->getName();
     }
 
@@ -310,7 +352,7 @@ class Method extends Object{
      *     3rd edition
      * @since 1.5
      */
-    public function getTypeParameters(){
+    public function getTypeParameters() {
         throw new Exception('Not yet implemented');
     }
 
@@ -320,7 +362,7 @@ class Method extends Object{
      * 
      * @return the return type for the method this object represents
      */
-    public function getReturnType(){
+    public function getReturnType() {
         throw new Exception('Not yet implemented');
     }
 
@@ -347,7 +389,7 @@ class Method extends Object{
      *     type that cannot be instantiated for any reason
      * @since 1.5
      */
-    public function getGenericReturnType(){
+    public function getGenericReturnType() {
         throw new Exception('Not yet implemented');
     }
 
@@ -360,7 +402,7 @@ class Method extends Object{
      * @return the parameter types for the method this object
      * represents
      */
-    public function getParameterTypes(){
+    public function getParameterTypes() {
         throw new Exception('Not yet implemented');
     }
 
@@ -390,7 +432,7 @@ class Method extends Object{
      *     type that cannot be instantiated for any reason
      * @since 1.5
      */
-    public function getGenericParameterTypes(){
+    public function getGenericParameterTypes() {
         throw new Exception('Not yet implemented');
     }
 
@@ -404,7 +446,7 @@ class Method extends Object{
      * @return the exception types declared as being thrown by the
      * method this object represents
      */
-    public function getExceptionTypes(){
+    public function getExceptionTypes() {
         throw new Exception('Not yet implemented');
     }
 
@@ -433,38 +475,47 @@ class Method extends Object{
      *     parameterized type that cannot be instantiated for any reason
      * @since 1.5
      */
-    public function getGenericExceptionTypes(){
+    public function getGenericExceptionTypes() {
         throw new Exception('Not yet implemented');
     }
 
-    public function getNamespaceName () {}
+    public function getNamespaceName() {
 
-    public function getNumberOfParameters () {
+    }
+
+    public function getNumberOfParameters() {
         return $this->reflectionMethod->getNumberOfParameters();
     }
 
-    public function getNumberOfRequiredParameters () {
+    public function getNumberOfRequiredParameters() {
         return $this->reflectionMethod->getNumberOfRequiredParameters();
     }
 
-    public function getParameters () {
+    public function getParameters() {
         return $this->reflectionMethod->getParameters();
     }
 
-    public function getShortName () {}
+    public function getShortName() {
 
-    public function getStartLine () {}
+    }
 
-    public function getStaticVariables () {}
+    public function getStartLine() {
 
-    public function returnsReference () {}
+    }
 
-    
+    public function getStaticVariables() {
+
+    }
+
+    public function returnsReference() {
+        
+    }
+
     /**
      *
      * @return array
      */
-    public function getAnnotations(){
+    public function getAnnotations() {
         $annotations = array();
 
         if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $this->reflectionMethod->getDocComment(), $matches)) {
@@ -485,5 +536,7 @@ class Method extends Object{
     public function hasAnnotations() {
         return count($this->getAnnotations()) != 0;
     }
+
 }
+
 ?>

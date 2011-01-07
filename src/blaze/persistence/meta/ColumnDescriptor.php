@@ -14,7 +14,8 @@ namespace blaze\persistence\meta;
 
  */
 class ColumnDescriptor extends \blaze\lang\Object {
-/**
+
+    /**
      *
      * @var blaze\lang\String
      */
@@ -79,7 +80,7 @@ class ColumnDescriptor extends \blaze\lang\Object {
         
     }
 
-    public function apply(\blaze\ds\meta\ColumnMetaData $meta){
+    public function apply(\blaze\ds\meta\ColumnMetaData $meta) {
         $this->name = $meta->getName();
         $this->className = $meta->getClassType();
         $this->comment = $meta->getComment();
@@ -277,7 +278,7 @@ class ColumnDescriptor extends \blaze\lang\Object {
         $this->uniqueKey = $uniqueKey;
     }
 
-    public function toString(){
+    public function toString() {
         return $this->name;
     }
 

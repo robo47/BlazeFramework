@@ -1,7 +1,9 @@
 <?php
+
 namespace blaze\ds\driver\pdomysql\type;
+
 use blaze\lang\Object,
-    blaze\ds\type\NClob;
+ blaze\ds\type\NClob;
 
 /**
  * Description of NClobImpl
@@ -14,7 +16,7 @@ use blaze\lang\Object,
 
 
  */
-class NClobImpl extends Object implements NClob{
+class NClobImpl extends Object implements NClob {
 
 }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\netlet;
+
 use blaze\lang\Object;
 
 /**
@@ -18,7 +20,7 @@ class GenericNetlet extends Object {
     /**
      * Description
      */
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -31,9 +33,10 @@ class GenericNetlet extends Object {
      * @throws	blaze\lang\Exception
      * @todo	Something which has to be done, implementation or so
      */
-     public function method(){
+    public function method() {
+        
+    }
 
-     }
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\queue;
 
 /**
@@ -10,49 +11,82 @@ namespace blaze\collections\queue;
  * @since   1.0
  * @todo    Implementation and documentation.
  */
-class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque, \blaze\lang\Cloneable, \blaze\io\Serializable{
+class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque, \blaze\lang\Cloneable, \blaze\io\Serializable {
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj){}
+    public function add($obj) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function addAll(\blaze\collections\Collection $obj){}
+    public function addAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * Removes all elements from this collections
      */
-    public function clear(){}
+    public function clear() {
 
-    public function isEmpty(){}
+    }
 
-    public function getIterator(){}
+    public function isEmpty() {
 
-    public function count(){}
+    }
+
+    public function getIterator() {
+
+    }
+
+    public function count() {
+        
+    }
+
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj){}
+    public function contains($obj) {
+        
+    }
+
     /**
      * @return boolean True if every element of c is in this collections
      */
-    public function containsAll(\blaze\collections\Collection $c){}
+    public function containsAll(\blaze\collections\Collection $c) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj){}
+    public function remove($obj) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAll(\blaze\collections\Collection $obj){}
+    public function removeAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function retainAll(\blaze\collections\Collection $obj){}
+    public function retainAll(\blaze\collections\Collection $obj) {
+        
+    }
+
     /**
      * @return blaze\collections\ArrayI
      */
-    public function toArray($type = null){}
+    public function toArray($type = null) {
+
+    }
 
     public function addFirst($element) {
 
@@ -107,8 +141,9 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
     }
 
     public function removeLastOccurrence($element) {
-
+        
     }
+
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render;
 
 /**
@@ -13,7 +14,7 @@ namespace blaze\web\render;
 
  */
 interface RenderKit {
-     public function getRenderer($rendererId);
+    public function getRenderer($rendererId);
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\web\render\html4;
 
 /**
@@ -12,9 +13,9 @@ namespace blaze\web\render\html4;
 
 
  */
-class BdoRenderer extends \blaze\web\render\html4\CoreRenderer{
+class BdoRenderer extends \blaze\web\render\html4\CoreRenderer {
 
-    public function __construct(){
+    public function __construct() {
 
     }
 
@@ -24,12 +25,12 @@ class BdoRenderer extends \blaze\web\render\html4\CoreRenderer{
     }
 
     public function renderAttributes(\blaze\web\application\BlazeContext $context, \blaze\web\component\UIComponent $component) {
-        parent::renderAttributes( $context,  $component);
+        parent::renderAttributes($context, $component);
         $writer = $context->getResponse()->getWriter();
         $dir = $component->getDir();
-        
-        if($dir != null)
-            $writer->write(' dir="'.$dir.'"');
+
+        if ($dir != null)
+            $writer->write(' dir="' . $dir . '"');
         $writer->write('>');
     }
 
@@ -37,7 +38,6 @@ class BdoRenderer extends \blaze\web\render\html4\CoreRenderer{
         $writer = $context->getResponse()->getWriter();
         $writer->write('</bdo>');
     }
-
 
 }
 

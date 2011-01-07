@@ -650,24 +650,23 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         return $fs;
     }
 
-
     /**
      *
      * @param blaze\io\File|blaze\lang\String|string $file The File-Object or path of the child.
      * @param boolean $direct
      * @return boolean
      */
-    public function isChildOf($file, $direct = false){
-        if(!$file instanceof File)
+    public function isChildOf($file, $direct = false) {
+        if (!$file instanceof File)
             $file = new File(String::asNative($file));
 
         $parentPath = $file->getAbsolutePath();
         $childPath = $this->getAbsolutePath();
 
         $index = $childPath->indexOf($parentPath);
-        if($index === -1)
+        if ($index === -1)
             return false;
-        if(!$direct)
+        if (!$direct)
             return $index === 0;
         return $childPath->substring($parentPath->length())->indexOf(DIRECTORY_SEPARATOR) < 0;
     }
@@ -678,8 +677,8 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @param boolean $direct
      * @return boolean
      */
-    public function isParentOf($file, $direct = false){
-        if(!$file instanceof File)
+    public function isParentOf($file, $direct = false) {
+        if (!$file instanceof File)
             $file = new File(String::asNative($file));
 
         return $file->isChildOf($this, $direct);
@@ -803,8 +802,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         return self::$fs->setReadOnly($this);
     }
 
-
-   /**
+    /**
      * Sets the owner's or everybody's write permission for this abstract
      * pathname.
      *
@@ -824,7 +822,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          the access permissions of this abstract pathname.
      */
     public function setWritable($writable, $ownerOnly = true) {
-	return self::$fs->setPermission($this, FileSystem::ACCESS_WRITE, $writable, $ownerOnly);
+        return self::$fs->setPermission($this, FileSystem::ACCESS_WRITE, $writable, $ownerOnly);
     }
 
     /**
@@ -850,7 +848,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          operation will fail.
      */
     public function setReadable($readable, $ownerOnly = true) {
-	return self::$fs->setPermission($this, FileSystem::ACCESS_READ, $readable, $ownerOnly);
+        return self::$fs->setPermission($this, FileSystem::ACCESS_READ, $readable, $ownerOnly);
     }
 
     /**
@@ -876,7 +874,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          operation will fail.
      */
     public function setExecutable($executable, $ownerOnly = true) {
-	return self::$fs->setPermission($this, FileSystem::ACCESS_EXECUTE, $executable, $ownerOnly);
+        return self::$fs->setPermission($this, FileSystem::ACCESS_EXECUTE, $executable, $ownerOnly);
     }
 
     /**
@@ -970,7 +968,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         return (array) self::$fs->listRoots();
     }
 
-     /* -- Disk usage -- */
+    /* -- Disk usage -- */
 
     /**
      * Returns the size of the partition <a href="#partName">named</a> by this
@@ -980,7 +978,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          abstract pathname does not name a partition
      */
     public function getTotalSpace() {
-	return self::$fs->getSpace($this,FileSystem::SPACE_TOTAL);
+        return self::$fs->getSpace($this, FileSystem::SPACE_TOTAL);
     }
 
     /**
@@ -1002,7 +1000,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          returned by {@link #getTotalSpace}.
      */
     public function getFreeSpace() {
-	return self::$fs->getFreeSpace($this,FileSystem::SPACE_FREE);
+        return self::$fs->getFreeSpace($this, FileSystem::SPACE_FREE);
     }
 
     /**
@@ -1028,7 +1026,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *
      */
     public function getUsableSpace() {
-	return self::$fs->getUsableSpace($this,FileSystem::SPACE_USABLE);
+        return self::$fs->getUsableSpace($this, FileSystem::SPACE_USABLE);
     }
 
     /* -- Tempfile management -- */
@@ -1103,14 +1101,14 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         return self::$fs->compare($this, $file);
     }
 
-    public static function compare($obj1, $obj2){
-        if($obj1 === null || $obj1 === null)
+    public static function compare($obj1, $obj2) {
+        if ($obj1 === null || $obj1 === null)
             throw new NullPointerException();
-        if($obj1 instanceof File)
+        if ($obj1 instanceof File)
             $obj1 = $obj1->getAbsolutePath();
         else
             $obj1 = String::asNative($obj1);
-        if($obj2 instanceof File)
+        if ($obj2 instanceof File)
             $obj2 = $obj1->getAbsolutePath();
         else
             $obj2 = String::asNative($obj2);
@@ -1167,4 +1165,5 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     }
 
 }
+
 ?>

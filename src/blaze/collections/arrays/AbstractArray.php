@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\arrays;
 
 use blaze\lang\Object;
@@ -36,7 +37,7 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
             $this->objects = $arrayOrSize->objects;
             $this->size = $arrayOrSize->size;
         } else if ($arrayOrSize instanceof \blaze\collections\ArrayI) {
-            foreach($arrayOrSize as $obj)
+            foreach ($arrayOrSize as $obj)
                 $this->objects[] = $obj;
             $this->size = count($this->objects);
         } else {
@@ -68,7 +69,7 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
      * Alias for count.
      * @return int
      */
-    public function size(){
+    public function size() {
         return $this->count();
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\netlet;
 
 /**
@@ -13,32 +14,37 @@ namespace blaze\netlet;
 
  */
 interface NetletResponse {
+    public function flush();
 
-     public function flush();
-     public function isCommited();
-     public function reset();
+    public function isCommited();
 
-     public function getContentLength();
-     public function setContentLength($len);
+    public function reset();
 
-     public function getCharacterEncoding();
-     public function setCharacterEncoding($charset);
+    public function getContentLength();
 
-     public function getLocale();
-     public function setLocale($locale);
+    public function setContentLength($len);
 
-     public function getContentType();
-     public function setContentType($type);
+    public function getCharacterEncoding();
 
-     /**
-      * @return blaze\io\OutputStream
-      */
-     public function getOutputStream();
+    public function setCharacterEncoding($charset);
 
-     /**
-      * @return blaze\io\Writer
-      */
-     public function getWriter();
+    public function getLocale();
+
+    public function setLocale($locale);
+
+    public function getContentType();
+
+    public function setContentType($type);
+
+    /**
+     * @return blaze\io\OutputStream
+     */
+    public function getOutputStream();
+
+    /**
+     * @return blaze\io\Writer
+     */
+    public function getWriter();
 }
 
 ?>

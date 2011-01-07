@@ -14,7 +14,8 @@ namespace blaze\persistence\meta;
 
  */
 class IdDescriptor extends \blaze\lang\Object {
-/**
+
+    /**
      *
      * @var blaze\lang\String
      */
@@ -83,9 +84,10 @@ class IdDescriptor extends \blaze\lang\Object {
         $this->fieldDescriptor = $fieldDescriptor;
     }
 
-    public function generate(\blaze\lang\StringBuffer $buffer){
+    public function generate(\blaze\lang\StringBuffer $buffer) {
         $this->fieldDescriptor->generate($buffer);
     }
+
 }
 
 ?>

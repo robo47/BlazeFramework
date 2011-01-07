@@ -1,5 +1,7 @@
 <?php
+
 namespace blaze\lang;
+
 /**
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
@@ -10,6 +12,7 @@ namespace blaze\lang;
  * @author  Christian Beikov
  */
 interface Singleton {
+
     /**
      * Returns a Singleton instance of the given class which exists only once
      *
@@ -17,4 +20,5 @@ interface Singleton {
      */
     public static function getInstance();
 }
+
 ?>

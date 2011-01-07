@@ -1,4 +1,5 @@
 <?php
+
 namespace blaze\collections\bidimap;
 
 /**
