@@ -50,7 +50,7 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
             $sessionId = null;
 
             foreach ($cookies as $cookie){
-                if ($cookie->getName()->compare(self::SESSION_NAME) == 0){
+                if (\blaze\lang\String::compare($cookie->getName(), self::SESSION_NAME) == 0){
                     $sessionId = $cookie->getValue();
                     break;
                 }
