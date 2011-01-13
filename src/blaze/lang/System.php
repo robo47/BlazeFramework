@@ -75,12 +75,15 @@ final class System extends Object implements StaticInitialization {
                 return false;
 
             case E_RECOVERABLE_ERROR:
-                if (array_key_exists($errorMessage, self::$cachedHints))
-                    return true;
-
                 $ok = false;
-
-                if (preg_match('/^Argument (?<argNumber>\d+) passed to (?<namespace>(([a-zA-Z_]{1}[a-zA-Z0-9_]+)\\\)+)?[:a-zA-Z0-9_]+\(\) must be an instance of (?<hintName>[a-zA-Z0-9_\\\]+), (instance of )?(?<typeName>[a-zA-Z0-9_\\\]+) given/AUD', $errorMessage, $matches)) {
+                $matches = null;
+                
+                if (array_key_exists($errorMessage, self::$cachedHints))
+                    $matches = self::$cachedHints[$errorMessage];
+                else
+                    preg_match('/^Argument (?<argNumber>\d+) passed to (?<namespace>(([a-zA-Z_]{1}[a-zA-Z0-9_]+)\\\)+)?[:a-zA-Z0-9_]+\(\) must (be an instance of|be an|implement interface) (?<hintName>[a-zA-Z0-9_\\\]+), (instance of )?(?<typeName>[a-zA-Z0-9_\\\]+) given/AUD', $errorMessage, $matches);
+               
+                if($matches !== null){
                     $argNumber = ((int) $matches['argNumber']) - 1;
                     $args = self::getArgsOfErrorCall();
 
@@ -346,6 +349,9 @@ final class System extends Object implements StaticInitialization {
                             break;
                         case 'array':
                             switch ($matches['typeName']) {
+                                case 'object':
+                                    if(!$args[$argNumber] instanceof \blaze\collections\ArrayI)
+                                        break;
                                 case 'blaze\\collections\\arrays\\ArrayObject':
                                     var_dump('Unboxing does not work yet!');
                                     $args[$argNumber] = $args[$argNumber]->toNative();
@@ -404,12 +410,11 @@ final class System extends Object implements StaticInitialization {
                             }
                             break;
                         default:
-                            if (array_key_exists('namespace', $matches))
-                                $matches['typeName'] = $matches['namespace'] . $matches['typeName'];
+                            $ok = false;
                     }
 
                     if ($ok)
-                        return self::$cachedHints[$errorMessage] = true;
+                        return self::$cachedHints[$errorMessage] = $matches;
                     return false;
                 }
 

@@ -74,9 +74,6 @@ class Double extends Number implements Comparable {
      * @return boolean
      */
     public static function isNativeType($value) {
-        var_dump($value);
-        var_dump(self::MAX_VALUE);
-        var_dump($value <= self::MAX_VALUE);
         return is_numeric($value) && $value >= self::MIN_VALUE && $value <= self::MAX_VALUE || $value === self::NAN || $value === self::NEGATIVE_INFINITY || $value === self::POSITIVE_INFINITY;
     }
 
