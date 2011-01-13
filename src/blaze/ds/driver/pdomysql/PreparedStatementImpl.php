@@ -30,8 +30,8 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
         self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
     }
 
-    public function __construct(Connection $con, \PDO $pdo, $sql) {
-        parent::__construct($con, $pdo, $sql);
+    public function __construct(Connection $con, \PDO $pdo, $query, $type) {
+        parent::__construct($con, $pdo, $query, $type);
     }
 
     public function getMetaData() {
@@ -46,8 +46,30 @@ class PreparedStatementImpl extends AbstractPreparedStatement implements \blaze\
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)
-            $this->resultSet = new ResultSetImpl($this, $this->stmt);
+            $this->resultSet = new ResultSetImpl($this, $this->stmt, $this->resultSetType);
         return $this->resultSet;
+    }
+    
+    /**
+     *
+     * @return blaze\ds\ResultSet
+     */
+    public function executeQuery($query = null) {
+        $this->checkClosed();
+
+        try {
+            if ($this->stmt->execute() === false) {
+                throw new DataSourceException('Could not execute query. ' . $this->stmt->errorInfo());
+            }
+
+            if ($this->stmt->columnCount() === 0)
+                throw new DataSourceException('Statement has no resultset.');
+
+            $this->resultSet = new \blaze\ds\driver\pdomysql\ResultSetImpl($this, $this->stmt, $this->resultSetType);
+            return $this->resultSet;
+        } catch (\PDOException $e) {
+            throw new DataSourceException($e->getMessage(), $e->getCode());
+        }
     }
 
     public function setArray($identifier, \blaze\collections\ArrayI $value) {

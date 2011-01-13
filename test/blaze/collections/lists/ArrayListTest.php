@@ -13,10 +13,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $this->object = new ArrayList();
         $this->object = new ArrayList();
@@ -25,26 +21,16 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
     protected function tearDown() {
 
     }
 
-    /**
-     * @todo Implement testAdd().
-     */
     public function testAdd() {
         // Remove the following lines when you implement this test.
                    $this->object->add(10);
            $this->assertTrue($this->object->get(10)==10);
     }
 
-    /**
-     * @todo Implement testAddAll().
-     */
     public function testAddAll() {
         // Remove the following lines when you implement this test.
         $this->object->addAt(3, 11);
@@ -52,18 +38,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(4)==3);
     }
 
-    /**
-     * @todo Implement testClear().
-     */
     public function testClear() {
         // Remove the following lines when you implement this test.
         $this->object->clear();
         $this->assertTrue($this->object->count()==0);
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
         // Remove the following lines when you implement this test.
         $this->assertFalse($this->object->isEmpty());
@@ -71,9 +51,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->isEmpty());
     }
 
-    /**
-     * @todo Implement testGetIterator().
-     */
     public function testGetIterator() {
         // Remove the following lines when you implement this test.
         $it = $this->object->getIterator();
@@ -96,9 +73,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testCount().
-     */
     public function testCount() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->count() == 10);
@@ -109,18 +83,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testContains().
-     */
     public function testContains() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->contains(5));
         $this->assertFalse($this->object->contains(9999));
     }
 
-    /**
-     * @todo Implement testContainsAll().
-     */
     public function testContainsAll() {
         // Remove the following lines when you implement this test.
        $list = $this->object->subList(2, 4);
@@ -130,9 +98,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
         // Remove the following lines when you implement this test.
 
@@ -141,9 +106,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->indexOf(4)==-1);
     }
 
-    /**
-     * @todo Implement testRemoveAll().
-     */
     public function testRemoveAll() {
         // Remove the following lines when you implement this test.
         $list = new ArrayList();
@@ -162,9 +124,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
  
     }
 
-    /**
-     * @todo Implement testRetainAll().
-     */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->retainAll($list = $this->object->subList(2, 8)));
@@ -178,17 +137,11 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testToArray().
-     */
     public function testToArray() {
         // Remove the following lines when you implement this test.
         $this->assertTrue(\is_array($this->object->toArray()));
     }
 
-    /**
-     * @todo Implement testAddAllAt().
-     */
     public function testAddAllAt() {
         // Remove the following lines when you implement this test.
         $list = new ArrayList();
@@ -199,9 +152,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->object->addAllAt(4,$list);
     }
 
-    /**
-     * @todo Implement testAddAt().
-     */
     public function testAddAt() {
         // Remove the following lines when you implement this test.
         $this->object->addAt(3, 11);
@@ -209,9 +159,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(4)==3);
     }
 
-    /**
-     * @todo Implement testGet().
-     */
     public function testGet() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->get(0)==0);
@@ -219,18 +166,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(8)==8);
     }
 
-    /**
-     * @todo Implement testIndexOf().
-     */
     public function testIndexOf() {
         // Remove the following lines when you implement this test.
        $this->assertTrue($this->object->indexOf(3)==3);
        $this->assertTrue($this->object->indexOf(45)==-1);
     }
 
-    /**
-     * @todo Implement testLastIndexOf().
-     */
     public function testLastIndexOf() {
         // Remove the following lines when you implement this test.
         $this->object->add(5);
@@ -239,9 +180,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->lastIndexOf(5)==11);
     }
 
-    /**
-     * @todo Implement testListIterator().
-     */
     public function testListIterator() {
         // Remove the following lines when you implement this test.
         $it = $this->object->listIterator();
@@ -264,9 +202,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRemoveAt().
-     */
     public function testRemoveAt() {
         // Remove the following lines when you implement this test.
         $this->object->removeAt(5);
@@ -274,10 +209,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     }
 
    
-
-    /**
-     * @todo Implement testSet().
-     */
     public function testSet() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->set(2, 69)==2);
@@ -285,9 +216,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->indexOf(69)==2);
     }
 
-    /**
-     * @todo Implement testSubList().
-     */
     public function testSubList() {
         // Remove the following lines when you implement this test.
         $list = $this->object->subList(2, 5);

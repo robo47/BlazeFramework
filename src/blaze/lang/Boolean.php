@@ -31,7 +31,6 @@ class Boolean extends Object implements NativeWrapper, Comparable {
      * @param blaze\lang\String|boolean|string $boolean
      */
     public function __construct($value) {
-        parent::__construct();
         if (is_bool($value))
             $this->value = $value;
         else if ($value instanceof String || is_string($value))
@@ -174,7 +173,7 @@ class Boolean extends Object implements NativeWrapper, Comparable {
         throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Boolean.');
     }
 
-    public static function compare(Object $obj1, Object $obj2) {
+    public static function compare($obj1, $obj2) {
         if ($obj1 === null || $obj2 === null)
             throw new NullPointerException();
         if ($obj1 instanceof Boolean && $obj2 instanceof Boolean)

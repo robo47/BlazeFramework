@@ -4,7 +4,7 @@ namespace blaze\ds\driver\pdobase;
 
 use blaze\lang\Object,
  blaze\ds\ResultSet,
- blaze\ds\Statement1,
+ blaze\ds\Statement,
  blaze\lang\String;
 
 /**
@@ -51,23 +51,23 @@ abstract class AbstractResultSet extends Object implements ResultSet {
     protected $rowNumber;
     /**
      *
+     * @var int
+     */
+    protected $type;
+    /**
+     *
      * @var blaze\ds\DataSourceWarning
      */
     protected $warnings;
 
-    public function __construct(Statement1 $stmt, \PDOStatement $pdoStmt) {
+    public function __construct(Statement $stmt, \PDOStatement $pdoStmt, $type) {
         $this->stmt = $stmt;
         $this->pdoStmt = $pdoStmt;
         $this->rowNumber = 0;
+        $this->type = $type;
     }
 
-    /**
-     * @return boolean
-     * @todo    check if LOB works with PHP 5.3.4+
-     */
-    public function next() {
-        $this->checkClosed();
-
+    protected function bindColumns(){
         if(!$this->columnsBound){
             $this->columnsBound = true;
             $this->actRow = array();
@@ -85,8 +85,17 @@ abstract class AbstractResultSet extends Object implements ResultSet {
                 $this->actRowIndex[$i] = &$this->actRow[$meta['name']];
             }
         }
+    }
 
-        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND) !== false) {
+    /**
+     * @return boolean
+     * @todo    check if LOB works with PHP 5.3.4+
+     */
+    public function next() {
+        $this->checkClosed();
+        $this->bindColumns();
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_NEXT) !== false) {
             $this->rowNumber++;
             return true;
         }
@@ -125,60 +134,78 @@ abstract class AbstractResultSet extends Object implements ResultSet {
         $this->warnings = null;
     }
 
-    /**
-     *
-     * @return blaze\ds\Statement
-     */
     public function getStatement() {
         $this->checkClosed();
         return $this->stmt;
     }
 
-    /**
-     *
-     * @return int The actual row number
-     */
     public function getRow() {
         $this->checkClosed();
         return $this->rowNumber;
     }
 
-    /**
-     *
-     * @return boolean True if the cursor was moved to the new position and false if not
-     */
-    public function absolute($number) {
-        $this->checkClosed();
-        if ($number < $this->rowNumber) {
-            return false;
-        } else if ($number == $this->rowNumber) {
-            return true;
-        } else {
-            while ($this->next())
-                if ($this->rowNumber == $number)
-                    return true;
-            return false;
-        }
+    public function getType() {
+        return $this->type;
     }
 
-    /**
-     *
-     * @return boolean True if the cursor was moved to the new position and false if not
-     */
+    public function first() {
+        $this->checkClosed();
+        $this->bindColumns();
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_FIRST) !== false) {
+            $this->rowNumber++;
+            return true;
+        }
+
+        return false;
+    }
+
+    public function last() {
+        $this->checkClosed();
+        $this->bindColumns();
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_LAST) !== false) {
+            $this->rowNumber++;
+            return true;
+        }
+
+        return false;
+    }
+
+    public function previous() {
+        $this->checkClosed();
+        $this->bindColumns();
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_PRIOR) !== false) {
+            $this->rowNumber++;
+            return true;
+        }
+
+        return false;
+    }
+
+    public function absolute($number) {
+        $this->checkClosed();
+        $this->bindColumns();
+
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_ABS, $number) !== false) {
+            $this->rowNumber++;
+            return true;
+        }
+
+        return false;
+    }
+
     public function relative($count) {
         $this->checkClosed();
-        if ($number < 0) {
-            return false;
-        } else if ($number == 0) {
-            return true;
-        } else {
-            $target = $this->rowNumber + $count;
+        $this->bindColumns();
 
-            while ($this->next())
-                if ($this->rowNumber == $target)
-                    return true;
-            return false;
+        if ($this->pdoStmt->fetch(\PDO::FETCH_BOUND, \PDO::FETCH_ORI_REL, $count) !== false) {
+            $this->rowNumber++;
+            return true;
         }
+
+        return false;
     }
 
     /**

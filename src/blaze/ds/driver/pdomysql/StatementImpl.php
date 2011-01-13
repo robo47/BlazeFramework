@@ -13,28 +13,34 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class StatementImpl extends AbstractStatement {
 
-    public function __construct(Connection $con, PDO $pdo) {
-        parent::__construct($con, $pdo);
+    public function __construct(Connection $con, PDO $pdo, $type) {
+        parent::__construct($con, $pdo, $type);
     }
 
-    public function executeQuery($sql) {
+    public function executeQuery($query = null) {
         $this->checkClosed();
+        if ($query === null)
+            throw new \blaze\lang\NullPointerException('Query must not be null!');
         try {
             $this->reset();
-            $this->stmt = $this->pdo->query($sql);
+            $options = array();
+
+            if ($this->resultSetType === \blaze\ds\ResultSet::TYPE_SCROLL)
+                $options[PDO::ATTR_CURSOR] = PDO::CURSOR_SCROLL;
+            else
+                $options[PDO::ATTR_CURSOR] = PDO::CURSOR_FWDONLY;
+
+            $this->stmt = $this->pdo->prepare($query, $options);
+            $this->stmt->execute();
         } catch (\PDOException $e) {
             throw new DataSourceException($e->getMessage(), $e->getCode());
         }
 
-        $this->resultSet = new ResultSetImpl($this, $this->stmt);
+        $this->resultSet = new ResultSetImpl($this, $this->stmt, $this->resultSetType);
         return $this->resultSet;
     }
 
@@ -43,7 +49,7 @@ class StatementImpl extends AbstractStatement {
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)
-            $this->resultSet = new ResultSetImpl($this, $this->stmt);
+            $this->resultSet = new ResultSetImpl($this, $this->stmt, $this->resultSetType);
         return $this->resultSet;
     }
 

@@ -16,6 +16,14 @@ use blaze\lang\Object;
  */
 class Double extends Number implements Comparable {
 
+    const MAX_VALUE = 1.7976931348623157e+308;
+    const MIN_VALUE = -1.7976931348623157e+308;
+    const MIN_POSITIVE = 10e-324;
+    const MAX_NEGATIVE = -10e-324;
+    const NAN = \NAN;
+    const POSITIVE_INFINITY = INF;
+    const NEGATIVE_INFINITY = NINF;
+    
     private $value;
 
     public function __construct($value) {
@@ -59,12 +67,17 @@ class Double extends Number implements Comparable {
     }
 
     /**
+     * If the given value is between MAX_VALUE and MAX_VALUE + 10^291 or MIN_VALUE
+     * and MIN_VALUE - 10^291 it is still represented as MAX_VALUE or MIN_VALUE.
      *
      * @param mixed $value
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_double($value);
+        var_dump($value);
+        var_dump(self::MAX_VALUE);
+        var_dump($value <= self::MAX_VALUE);
+        return is_numeric($value) && $value >= self::MIN_VALUE && $value <= self::MAX_VALUE || $value === self::NAN || $value === self::NEGATIVE_INFINITY || $value === self::POSITIVE_INFINITY;
     }
 
     /**

@@ -37,7 +37,7 @@ class ClassLoader extends Object {
     /**
      * Constructs a new ClassLoader
      */
-    public function __construct($parent = null) {
+    private function __construct($parent = null) {
         // Split up the path to get the classpath
         // Implode the pathArray to an absolute path which represents the classpath
         $this->classPath = implode(DIRECTORY_SEPARATOR, explode(DIRECTORY_SEPARATOR, __DIR__, -2));
@@ -48,12 +48,16 @@ class ClassLoader extends Object {
     }
 
     /**
-     * Returns the singleton instance or creates the first one.
+     * Returns the singleton instance or creates the first one and sets the class path
+     * to the system properties.
+     * 
      * @return \blaze\lang\ClassLoader Returns a ClassLoader instance
      */
     public static final function getSystemClassLoader() {
-        if (self::$instance == null)
+        if (self::$instance == null){
             self::$instance = new ClassLoader();
+            System::setProperty('blaze.class.path', self::$instance->classPath);
+        }
         return self::$instance;
     }
 

@@ -14,6 +14,8 @@ namespace blaze\lang;
  */
 class Integer extends Number implements Comparable {
 
+    const MAX_VALUE = 2147483647;
+    const MIN_VALUE = -2147483648;
     private $value;
     private $digitCount;
 
@@ -60,7 +62,9 @@ class Integer extends Number implements Comparable {
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_int($value);
+        if(!is_numeric($value) || round($value) != $value)
+            return false;
+        return $value >= self::MIN_VALUE && $value <= self::MAX_VALUE;
     }
 
     /**

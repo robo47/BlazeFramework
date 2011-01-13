@@ -10,18 +10,20 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
 
-    public function __construct(\blaze\ds\Connection $con, \PDO $pdo, $host, $port, $database, $user, $options) {
+    /**
+     *
+     * @var \blaze\ds\meta\SchemaMetaData
+     */
+    private $schema;
+
+    public function __construct(\blaze\ds\Connection $con, \PDO $pdo, $host, $port, $database, $username, $options) {
         $this->con = $con;
         $this->pdo = $pdo;
-        $this->user = $user;
+        $this->username = $username;
         $this->host = $host;
         $this->port = $port;
         $this->database = $database;
@@ -30,184 +32,100 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
         $this->driverVersion = new \blaze\lang\String('0.1');
         $this->databaseProductName = new \blaze\lang\String('MySQL');
         $this->databaseProductVersion = new \blaze\lang\String($this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION));
-        $schema = $this->getSchema($this->database);
-        $this->databaseCharset = $schema->getSchemaCharset();
-        $this->databaseCollation = $schema->getSchemaCollation();
+        $this->schema = $this->getSchema($this->database);
     }
 
-    /**
-     * @return blaze\ds\Connection
-     */
     public function getConnection() {
         return $this->con;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getHost() {
         return $this->host;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getPort() {
         return $this->port;
     }
 
-    /**
-     * @return array
-     */
     public function getOptions() {
         return $this->options;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getDatabaseName() {
-        return $this->database;
+    public function getUsername() {
+        return $this->username;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * @return blaze\lang\String
-     */
     public function getDatabaseProductName() {
         return $this->databaseProductName;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getDatabaseProductVersion() {
         return $this->databaseProductVersion;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
+    public function getDatabaseName() {
+        return $this->database;
+    }
+
     public function getDatabaseCharset() {
-        return $this->databaseCharset;
+        return $this->schema->getSchemaCharset();
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getDatabaseCollation() {
-        return $this->databaseCollation;
+        return $this->schema->getSchemaCollation();
     }
 
-    /**
-     * @return blaze\lang\String
-     */
+    public function setDatabaseName($name) {
+        $this->schema->setSchemaName($name);
+        return $this;
+    }
+
     public function setDatabaseCharset($databaseCharset) {
-        $this->checkClosed();
-        $query = 'ALTER DATABASE ' . $this->database . ' CHARACTER SET ' . $databaseCharset;
-
-        try {
-            $this->pdo->query($query);
-            $this->databaseCharset = $databaseCharset;
-            return true;
-        } catch (\PDOException $e) {
-            return false;
-        }
+        $this->schema->setSchemaCharset($databaseCharset);
+        return $this;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function setDatabaseCollation($databaseCollation) {
-        $this->checkClosed();
-        $query = 'ALTER DATABASE ' . $this->database . ' COLLATE ' . $databaseCollation;
-
-        try {
-            $this->pdo->query($query);
-            $this->databaseCollation = $databaseCollation;
-            return true;
-        } catch (\PDOException $e) {
-            return false;
-        }
+        $this->schema->setSchemaCollation($databaseCollation);
+        return $this;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getDriverName() {
         return $this->driverName;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getDriverVersion() {
         return $this->driverVersion;
     }
 
-    /**
-     * @return blaze\util\ListI[blaze\ds\meta\SchemaMetaData]
-     */
     public function getSchemas() {
         $this->checkClosed();
-        $stmt = null;
-        $rs = null;
         $schemas = array();
 
-        try {
-            $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA');
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA');
+        $rs = $stmt->executeQuery();
 
-            while ($rs->next())
-                $schemas[] = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
-                                $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
-                                $rs->getString('DEFAULT_COLLATION_NAME'));
-        } catch (\PDOException $e) {
-            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
-        }
+        while ($rs->next())
+            $schemas[] = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'));
 
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
+        $stmt->close();
+        $rs->close();
 
-        return $schemas;
+        return \blaze\collections\Arrays::asList($schemas);
     }
 
-    /**
-     * @return blaze\ds\meta\SchemaMetaData
-     */
     public function getSchema($schemaName) {
         $this->checkClosed();
-        $stmt = null;
-        $rs = null;
         $schema = null;
 
-        try {
-            $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
-            $stmt->setString(0, $schemaName);
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
+        $stmt->setString(0, $schemaName);
+        $rs = $stmt->executeQuery();
 
-            if ($rs->next())
-                $schema = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'),
-                                $rs->getString('DEFAULT_CHARACTER_SET_NAME'),
-                                $rs->getString('DEFAULT_COLLATION_NAME'));
-        } catch (\PDOException $e) {
-            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
-        }
-
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
+        if ($rs->next())
+            $schema = new SchemaMetaDataImpl($this, $rs->getString('SCHEMA_NAME'));
+        $stmt->close();
+        $rs->close();
 
         return $schema;
     }
@@ -222,13 +140,18 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
             $dbSchema->addView($view);
     }
 
+    /**
+     * Does not create a new schema, instead it delivers the schema object
+     * which represents this database. This is because mysql does not support
+     * schemas.
+     */
     public function createSchema($name, $charset = null, $collation = null) {
         return $this->getSchema($this->database);
     }
 
     public function drop() {
         $this->checkClosed();
-        $this->con->dropDatabase($this->database);
+        $this->schema->drop();
     }
 
     public function dropSchema($schemaName) {
@@ -236,8 +159,78 @@ class DatabaseMetaDataImpl extends AbstractDatabaseMetaData {
         $this->con->dropDatabase($this->database);
     }
 
-    public function setDatabaseName($name) {
-        throw new OperationNotSupportedException('This can cause data loss because of the MySQL implementation, you can use the addDatabase() method to copy a database.');
+    public function addRole($roleName, $password = null) {
+        return new RoleMetaDataImpl($this);
+    }
+
+    public function getRole($name) {
+        return new RoleMetaDataImpl($this);
+    }
+
+    public function dropRole($roleName) {
+
+    }
+
+    public function getRoles() {
+        return \blaze\collections\Arrays::asList(array(new RoleMetaDataImpl($this)));
+    }
+
+    public function addUser($userName, $password) {
+        $this->checkClosed();
+        $user = null;
+
+        $stmt = $this->con->prepareStatement('CREATE USER ?@\'localhost\' IDENTIFIED BY ?');
+        $stmt->setString(0, $userName);
+        $stmt->setString(1, $password);
+        $stmt->executeUpdate();
+        $user = $this->getUser($userName);
+        $stmt->close();
+
+        return $user;
+    }
+
+    public function getUser($userName = null) {
+        if ($userName === null)
+            $userName = $this->username;
+
+        $this->checkClosed();
+        $user = null;
+
+        $stmt = $this->con->prepareStatement('SELECT * FROM mysql.user WHERE user = ?');
+        $stmt->setString(0, $userName);
+        $rs = $stmt->executeQuery();
+
+        if ($rs->next())
+            $user = new UserMetaDataImpl($this, $userName);
+
+        $stmt->close();
+        $rs->close();
+
+        return $user;
+    }
+
+    public function dropUser($userName) {
+        $this->checkClosed();
+        $stmt = $this->con->prepareStatement('DROP USER ?');
+        $stmt->setString(0, $userName);
+        $stmt->executeUpdate();
+        $stmt->close();
+    }
+
+    public function getUsers() {
+        $this->checkClosed();
+        $users = array();
+
+        $stmt = $this->con->prepareStatement('SELECT user FROM mysql.user');
+        $rs = $stmt->executeQuery();
+
+        while ($rs->next())
+            $users[] = new UserMetaDataImpl($this, $rs->getString(0));
+
+        $stmt->close();
+        $rs->close();
+
+        return \blaze\collections\Arrays::asList($users);
     }
 
 }

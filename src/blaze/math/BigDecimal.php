@@ -12,13 +12,12 @@ use blaze\lang\String;
 /**
  * Description of BigDecimal
  *
- * @author  Oliver Kotzina
+ * @author  Christian Beikov, Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
 
 
  * @since   1.0
-
-
+ * @todo    Scale not properly set if the value in the constructor has the format 10.0e-20
  */
 class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Comparable {
 
@@ -26,50 +25,51 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
     private $value;
     private $scale;
 
-    /**
-     * Generate a new BigDecimal Object.
-     * @param <int|string|float|blaze\lang\Number> $value Is a native String, with scale and algebric sign
-     * @param <type> $scale If value has no scale you can define the scale
-     */
-    public function __construct($value, $scale = null) {
-        if ($value instanceof Number) {
-            $value = $value . doubleValue;
-        }
-
-        $this->value = trim($value, '0');
-        if ($scale != null) {
-            $this->scale = $scale;
-        } else {
-            $ar = split('[\.]', $this->value);
-            if ($ar[1] != null) {
-                $this->scale = strlen($ar[1]);
-            }
-            else
-                $this->scale = 0;
-        }
-    }
 
     public static function staticInit() {
         if (function_exists('bcadd')) {
             self::$bcExists = true;
         }
     }
+    
+    /**
+     * Generate a new BigDecimal Object.
+     * @param <int|string|float|blaze\lang\Number> $value Is a native String, with scale and algebric sign
+     * @param <type> $scale If value has no scale you can define the scale
+     */
+    public function __construct($value, $scale = null) {
+        if(($class = Number::getNumberClass($value)) !== null)
+            $value = $class->getMethod('asNative')->invoke(null, $value);
+        else if(!self::isNativeType($value))
+            throw new \blaze\lang\NumberFormatException('Not a valid representation of BigDecimal!');
+
+        $this->value = String::asNative($value);
+        
+        if ($scale != null) {
+            $this->scale = $scale;
+        } else {
+            $ar = explode('.', $this->value);
+            $count = count($ar);
+
+            if($count > 2)
+                throw new \blaze\lang\NumberFormatException('Not a valid representation of BigDecimal!');
+            
+            if($count == 2)
+                $this->scale = strlen($ar[1]);
+            else
+                $this->scale = 0;
+        }
+    }
 
     private function getIntVal() {
-        $ar = split('[\.]', $this->value);
+        $ar = explode('.', $this->value);
         return $ar[0];
     }
 
-    public static function asNative($value) {
-        return $this->value;
-    }
-
-    public static function asWrapper($value) {
-        return new BigDecimal($value);
-    }
-
     public static function isNativeType($value) {
-        return is_string($var);
+        if(is_numeric($value))
+            return true;
+        return preg_match('/^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/', $value) === 1;
     }
 
     public static function isType($value) {
@@ -85,7 +85,7 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
     }
 
     public function byteValue() {
-        \blaze\lang\Byte::asWrapper($this->getIntVal());
+        \blaze\lang\Byte::asNative($this->getIntVal());
     }
 
     public function doubleValue() {
@@ -93,23 +93,19 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
     }
 
     public function floatValue() {
-        \blaze\lang\Float::asWrapper($this->value);
+        \blaze\lang\Float::asNative($this->value);
     }
 
     public function intValue() {
-        Integer::asWrapper($this->getIntVal());
+        \blaze\lang\Integer::asNative($this->getIntVal());
     }
 
     public function longValue() {
-        \blaze\lang\Long::asWrapper($this->getIntVal());
-    }
-
-    public static function parse($value) {
-
+        \blaze\lang\Long::asNative($this->getIntVal());
     }
 
     public function shortValue() {
-        \blaze\lang\Short::asWrapper($this->getIntVal());
+        \blaze\lang\Short::asNative($this->getIntVal());
     }
 
     public function getScale() {
@@ -279,11 +275,18 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
         return $this->value;
     }
 
-    public function compareTo(Object $obj) {
-        $hthis = new String($this->value);
-        $hobj = new String($obj->value);
+    public static function compare($obj1, $obj2) {
+        if ($obj1 === null || $obj2 === null)
+            return new NullPointerException();
+        return bccomp(static::asNative($obj1), static::asNative($obj2));
+    }
 
-        return $hthis->compareTo($hobj);
+    public function compareTo(Object $obj) {
+        if ($obj === null)
+            throw new NullPointerException();
+        if ($obj instanceof BigDecimal)
+            return bccomp($this->value, $obj->value);
+        throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to BigDecimal.');
     }
 
 }

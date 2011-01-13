@@ -13,10 +13,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $this->object = new Stack();
         for($i = 0; $i<10;$i++){
@@ -24,26 +20,16 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
     protected function tearDown() {
 
     }
 
-    /**
-     * @todo Implement testAdd().
-     */
     public function testAdd() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->add(11));
 
     }
 
-    /**
-     * @todo Implement testAddAll().
-     */
     public function testAddAll() {
         // Remove the following lines when you implement this test.
         $list = new \blaze\collections\lists\ArrayList();
@@ -57,18 +43,12 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testClear().
-     */
     public function testClear() {
         // Remove the following lines when you implement this test.
        $this->object->clear();
        $this->assertTrue($this->object->isEmpty());
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
         // Remove the following lines when you implement this test.
         $this->assertFalse($this->object->isEmpty());
@@ -77,9 +57,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testGetIterator().
-     */
     public function testGetIterator() {
         // Remove the following lines when you implement this test.
         $it = $this->object->getIterator();
@@ -102,9 +79,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testCount().
-     */
     public function testCount() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->count()==10);
@@ -115,9 +89,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testContains().
-     */
     public function testContains() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->contains(4));
@@ -126,9 +97,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(!$this->object->contains(855));
     }
 
-    /**
-     * @todo Implement testContainsAll().
-     */
     public function testContainsAll() {
         // Remove the following lines when you implement this test.
          $list = new \blaze\collections\lists\ArrayList();
@@ -140,9 +108,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(!$this->object->containsAll($list));
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->remove(2));
@@ -151,9 +116,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRemoveAll().
-     */
     public function testRemoveAll() {
         // Remove the following lines when you implement this test.
         $list = new \blaze\collections\lists\ArrayList();
@@ -181,9 +143,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRetainAll().
-     */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
         $list = new \blaze\collections\lists\ArrayList();
@@ -195,19 +154,12 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         
     }
 
-    /**
-     * @todo Implement testToArray().
-     */
     public function testToArray() {
         // Remove the following lines when you implement this test.
         $this->assertTrue(\is_array($this->object->toArray()));
 
     }
 
-
-    /**
-     * @todo Implement testPeek().
-     */
     public function testPeek() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->peek()==9);
@@ -216,9 +168,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->peek()==null);
     }
 
-    /**
-     * @todo Implement testPoll().
-     */
     public function testPoll() {
         // Remove the following lines when you implement this test.
          $this->assertTrue($this->object->poll()==9);
@@ -228,11 +177,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->poll()==null);
     }
 
-
-
-    /**
-     * @todo Implement testPop().
-     */
     public function testPop() {
         // Remove the following lines when you implement this test.
          $this->assertTrue($this->object->pop()==9);
@@ -240,9 +184,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
          $this->assertTrue($this->object->pop()==7);
     }
 
-    /**
-     * @todo Implement testPush().
-     */
     public function testPush() {
         // Remove the following lines when you implement this test.
         $this->object->push(99);
@@ -250,9 +191,6 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->pop()!=99);
     }
 
-    /**
-     * @todo Implement testSearch().
-     */
     public function testSearch() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->search(5)==6);

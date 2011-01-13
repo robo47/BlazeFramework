@@ -16,6 +16,8 @@ use blaze\lang\Object;
  */
 class Short extends Number {
 
+    const MAX_VALUE = 32767;
+    const MIN_VALUE = -32768;
     private $value;
 
     public function __construct($value) {
@@ -60,7 +62,9 @@ class Short extends Number {
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_int($value) && $value < 0xFFFF;
+        if(!is_numeric($value) || round($value) != $value)
+            return false;
+        return $value >= self::MIN_VALUE && $value <= self::MAX_VALUE;
     }
 
     /**

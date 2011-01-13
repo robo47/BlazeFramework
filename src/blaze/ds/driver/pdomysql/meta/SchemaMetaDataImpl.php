@@ -9,171 +9,181 @@ use blaze\ds\driver\pdobase\meta\AbstractSchemaMetaData;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class SchemaMetaDataImpl extends AbstractSchemaMetaData {
 
-    public function __construct(\blaze\ds\meta\DatabaseMetaData $databaseMetaData, $schemaName, $schemaCharset, $schemaCollation) {
+    public function __construct(\blaze\ds\meta\DatabaseMetaData $databaseMetaData, $schemaName) {
         $this->databaseMetaData = $databaseMetaData;
         $this->schemaName = $schemaName;
-        $this->schemaCharset = $schemaCharset;
-        $this->schemaCollation = $schemaCollation;
     }
 
-    /**
-     * @return blaze\ds\meta\DatabaseMetaData
-     */
+    public function drop() {
+        $this->databaseMetaData->getConnection()->dropDatabase($this->schemaName);
+    }
+
     public function getDatabaseMetaData() {
         return $this->databaseMetaData;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getSchemaName() {
         return $this->schemaName;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getSchemaCharset() {
-        return $this->schemaCharset;
+        $this->checkClosed();
+        $charset = null;
+
+        $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
+        $stmt->setString(0, $schemaName);
+        $stmt->execute();
+        $rs = $stmt->getResultSet();
+
+        if ($rs->next())
+            $charset = $rs->getString('SCHEMA_CHARSET');
+
+        $stmt->close();
+        $rs->close();
+
+        return $charset;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
     public function getSchemaCollation() {
-        return $this->schemaCollation;
+        $this->checkClosed();
+        $charset = null;
+
+        $stmt = $this->con->prepareStatement('SELECT * FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
+        $stmt->setString(0, $schemaName);
+        $stmt->execute();
+        $rs = $stmt->getResultSet();
+
+        if ($rs->next())
+            $charset = $rs->getString('SCHEMA_COLLATION');
+
+        $stmt->close();
+        $rs->close();
+
+        return $charset;
     }
 
-    /**
-     * @return blaze\util\ListI[blaze\ds\meta\TableMetaData]
-     */
+    public function setSchemaName($schemaName) {
+        throw new OperationNotSupportedException('This can cause data loss because of the MySQL implementation, you can use the addDatabase() method to copy a database.');
+    }
+
+    public function setSchemaCharset($schemaCharset) {
+        $this->checkClosed();
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('ALTER SCHEMA ' . $this->schemaName . ' CHARACTER SET ' . $schemaCharset);
+        $stmt->execute();
+        $stmt->close();
+        return $this;
+    }
+
+    public function setSchemaCollation($schemaCollation) {
+        $this->checkClosed();
+        $stmt = $this->con->prepareStatement('ALTER SCHEMA ' . $this->schemaName . ' COLLATE ' . $schemaCollation);
+        $stmt->execute();
+        $stmt->close();
+        return $this;
+    }
+
     public function getTables() {
-        $stmt = null;
-        $rs = null;
         $tables = array();
 
-        try {
-            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?');
-            $stmt->setString(0, $this->schemaName);
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?');
+        $stmt->setString(0, $this->schemaName);
+        $rs = $stmt->executeQuery();
 
-            while ($rs->next())
-                $tables[] = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                $rs->getString('TABLE_COMMENT'),
-                                $this->schemaCharset,
-                                $rs->getString('TABLE_COLLATION'));
-        } catch (\blaze\ds\DataSourceException $e) {
+        while ($rs->next())
+            $tables[] = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'));
 
-        }
+        $rs->close();
+        $stmt->close();
 
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
-
-        return $tables;
+        return \blaze\collections\Arrays::asList($tables);
     }
 
-    /**
-     * @return blaze\ds\meta\TableMetaData
-     */
     public function getTable($tableName) {
-        $stmt = null;
-        $rs = null;
         $table = null;
 
-        try {
-            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
-            $stmt->setString(0, $this->schemaName);
-            $stmt->setString(1, $tableName);
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
+        $stmt->setString(0, $this->schemaName);
+        $stmt->setString(1, $tableName);
+        $rs = $stmt->executeQuery();
 
-            if ($rs->next())
-                $table = new TableMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                $rs->getString('TABLE_COMMENT'),
-                                $this->schemaCharset,
-                                $rs->getString('TABLE_COLLATION'));
-        } catch (\blaze\ds\DataSourceException $e) {
+        if ($rs->next())
+            $table = new TableMetaDataImpl($this, $tableName);
 
-        }
-
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
+        $rs->close();
+        $stmt->close();
 
         return $table;
     }
 
-    /**
-     * @return blaze\util\ListI[blaze\ds\meta\ViewMetaData]
-     */
     public function getViews() {
-        $stmt = null;
-        $rs = null;
         $views = array();
 
-        try {
-            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ?');
-            $stmt->setString(0, $this->schemaName);
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ?');
+        $stmt->setString(0, $this->schemaName);
+        $rs = $stmt->executeQuery();
 
-            while ($rs->next())
-                $views[] = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                $rs->getString('VIEW_DEFINITION'),
-                                $rs->getString('IS_UPDATEABLE'));
-        } catch (\blaze\ds\DataSourceException $e) {
+        while ($rs->next())
+            $views[] = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'));
+        $rs->close();
+        $stmt->close();
 
-        }
-
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
-
-        return $views;
+        return \blaze\collections\Arrays::asList($views);
     }
 
-    /**
-     * @return blaze\ds\meta\ViewMetaData
-     */
     public function getView($viewName) {
-        $stmt = null;
-        $rs = null;
         $view = null;
 
-        try {
-            $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
-            $stmt->setString(0, $this->schemaName);
-            $stmt->setString(1, $viewName);
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT * FROM information_schema.VIEWS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?');
+        $stmt->setString(0, $this->schemaName);
+        $stmt->setString(1, $viewName);
+        $rs = $stmt->executeQuery();
 
-            if ($rs->next())
-                $view = new ViewMetaDataImpl($this, $rs->getString('TABLE_NAME'),
-                                $rs->getString('VIEW_DEFINITION'),
-                                $rs->getString('IS_UPDATEABLE'));
-        } catch (\blaze\ds\DataSourceException $e) {
-
-        }
-
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
+        if ($rs->next())
+            $view = new ViewMetaDataImpl($this, $viewName);
+        $rs->close();
+        $stmt->close();
 
         return $view;
+    }
+
+    public function getSequences() {
+        $sequences = array();
+
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT col.TABLE_NAME, col.COLUMN_NAME FROM information_schema.TABLES tbl join information_schema.COLUMNS col ON tbl.TABLE_NAME = col.TABLE_NAME WHERE tbl.TABLE_SCHEMA = ? AND col.EXTRA = \'auto_increment\'');
+        $stmt->setString(0, $this->schemaName);
+        $rs = $stmt->executeQuery();
+
+        while ($rs->next())
+            $sequences[] = new SequenceMetaDataImpl($this, $rs->getString(0), $rs->getString(1));
+        $rs->close();
+        $stmt->close();
+
+        return \blaze\collections\Arrays::asList($sequences);
+    }
+
+    public function getSequence($sequenceName) {
+        $sequences = null;
+        $parts = \blaze\lang\String::asWrapper($sequenceName)->split('_');
+
+        if (count($parts) !== 3)
+            throw new \blaze\ds\DataSourceException('Sequencenames in this driver must have the following structure: tablename_columnname_seq');
+
+        $stmt = $this->databaseMetaData->getConnection()->prepareStatement('SELECT 1 FROM information_schema.TABLES tbl join information_schema.COLUMNS col ON tbl.TABLE_NAME = col.TABLE_NAME WHERE tbl.TABLE_SCHEMA = ? AND col.EXTRA = \'auto_increment\' AND col.TABLE_NAME = ? AND col.COLUMN_NAME = ?');
+        $stmt->setString(0, $this->schemaName);
+        $stmt->setString(1, $parts[0]);
+        $stmt->setString(2, $parts[1]);
+        $rs = $stmt->executeQuery();
+
+        if ($rs->next() && $parts[2] === 'seq')
+            $sequence = new SequenceMetaDataImpl($this, $parts[0], $parts[1]);
+        $rs->close();
+        $stmt->close();
+
+        return $sequence;
     }
 
     public function addTable(\blaze\ds\meta\TableMetaData $table, $newName = null) {
@@ -192,6 +202,13 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
         return $view;
     }
 
+    /**
+     * This method does nothing because mysql does not support sequences.
+     */
+    public function addSequence(\blaze\ds\meta\SequenceMetaData $sequence, $newName = null) {
+
+    }
+
     public function createTable($tableName, $charset = null, $collation = null, $comment = null) {
         $this->checkClosed();
         return new TableMetaDataImpl(null, $tableName, $comment, $charset, $collation, false);
@@ -201,34 +218,41 @@ class SchemaMetaDataImpl extends AbstractSchemaMetaData {
         $this->checkClosed();
         $query = 'CREATE VIEW ' . $viewName . ' AS ' . $viewDefinition;
 
-        $this->databaseMetaData->getConnection()->createStatement()->executeQuery($query);
+        $this->databaseMetaData->getConnection()->prepareStatement($query)->executeUpdate();
         return $this->getView($viewName);
     }
 
-    public function drop() {
-        $this->databaseMetaData->drop();
+    /**
+     * This method will always deliver null because mysql does not support sequences.
+     */
+    public function createSequence($sequenceName, $sequenceType = null, $sequencePrecision = null, $sequenceCurrentValue = null, $sequenceIncrement = null) {
+        return null;
     }
 
     public function dropTable($tableName) {
         $this->checkClosed();
-        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE ' . $tableName);
+        $this->databaseMetaData->getConnection()->createStatement()->executeUpdate('DROP TABLE ' . $tableName);
     }
 
     public function dropView($viewName) {
         $this->checkClosed();
-        $this->databaseMetaData->getConnection()->createStatement()->executeQuery('DROP TABLE ' . $viewName);
+        $this->databaseMetaData->getConnection()->createStatement()->executeUpdate('DROP VIEW ' . $viewName);
     }
 
-    public function setSchemaCharset($schemaCharset) {
-        $this->databaseMetaData->setDatabaseCharset($schemaCharset);
-    }
+    public function dropSequence($sequenceName) {
+        $this->checkClosed();
+        $parts = \blaze\lang\String::asWrapper($sequenceName)->split('_');
 
-    public function setSchemaCollation($schemaCollation) {
-        $this->databaseMetaData->setDatabaseCollation($schemaCollation);
-    }
+        if (count($parts) !== 3)
+            throw new \blaze\ds\DataSourceException('Sequencenames in this driver must have the following structure: tablename_columnname_seq');
 
-    public function setSchemaName($schemaName) {
-        $this->databaseMetaData->setDatabaseName($schemaName);
+        $tbl = $this->getTable($parts[0]);
+        $col = $tbl->getColumn($parts[1]);
+        $this->databaseMetaData
+                ->getConnection()
+                ->createStatement()
+                ->executeUpdate('ALTER TABLE ' . $parts[0] . ' MODIFY COLUMN ' .
+                        ColumnMetaDataImpl::getColumnDefinition($col, null, true, true, false));
     }
 
 }

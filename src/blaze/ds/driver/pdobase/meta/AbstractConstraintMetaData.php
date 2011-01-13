@@ -10,11 +10,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 abstract class AbstractConstraintMetaData extends Object implements ConstraintMetaData {
 
@@ -28,11 +24,6 @@ abstract class AbstractConstraintMetaData extends Object implements ConstraintMe
      * @var blaze\lang\String
      */
     protected $constraintType;
-    /**
-     *
-     * @var array[blaze\ds\meta\ColumnMetaData]
-     */
-    protected $columns;
 
     /**
      * @return blaze\lang\String
@@ -46,13 +37,6 @@ abstract class AbstractConstraintMetaData extends Object implements ConstraintMe
      */
     public function getConstraintType() {
         return $this->constraintType;
-    }
-
-    /**
-     * @return array[blaze\ds\meta\ColumnMetaData]
-     */
-    public function getColumns() {
-        return $this->columns;
     }
 
 }

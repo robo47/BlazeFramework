@@ -62,11 +62,6 @@ abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
      *
      * @var boolean
      */
-    protected $autoIncrement;
-    /**
-     *
-     * @var boolean
-     */
     protected $signed;
     /**
      *
@@ -119,10 +114,6 @@ abstract class AbstractColumnMetaData extends Object implements ColumnMetaData {
 
     public function isNullable() {
         return $this->nullable;
-    }
-
-    public function isAutoIncrement() {
-        return $this->autoIncrement;
     }
 
     public function isSigned() {

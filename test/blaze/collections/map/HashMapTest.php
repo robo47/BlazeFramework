@@ -13,10 +13,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $this->object = new HashMap();
            for($a = 0;$a<10;$a++){
@@ -25,80 +21,52 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
     protected function tearDown() {
 
     }
 
-    /**
-     * @todo Implement testClear().
-     */
     public function testClear() {
         // Remove the following lines when you implement this test.
         $this->object->clear();
         $this->assertTrue($this->object->count()==0);
     }
 
-    /**
-     * @todo Implement testContainsKey().
-     */
     public function testContainsKey() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->containsKey(5));
         $this->assertFalse($this->object->containsKey(896));
     }
 
-    /**
-     * @todo Implement testContainsValue().
-     */
     public function testContainsValue() {
         // Remove the following lines when you implement this test.
      $this->assertTrue($this->object->containsValue(5));
      $this->assertFalse($this->object->containsValue(896));
     }
 
-    /**
-     * @todo Implement testEntrySet().
-     */
     public function testEntrySet() {
         // Remove the following lines when you implement this test.
         $set = $this->object->entrySet();
 
     }
 
-    /**
-     * @todo Implement testKeySet().
-     */
     public function testKeySet() {
         // Remove the following lines when you implement this test.
        $set = $this->object->keySet();
        $this->assertTrue($set->contains(0));
     }
 
-    /**
-     * @todo Implement testValueSet().
-     */
     public function testValueSet() {
         // Remove the following lines when you implement this test.
         $set = $this->object->valueSet();
         $this->assertTrue($set->contains(0));
     }
 
-    /**
-     * @todo Implement testGet().
-     */
     public function testGet() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->get(5)==5);
         $this->assertTrue($this->object->get(79)==null);
     }
 
-    /**
-     * @todo Implement testPut().
-     */
     public function testPut() {
         // Remove the following lines when you implement this test.
         $this->object->put(78,'hallo');
@@ -108,9 +76,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testPutAll().
-     */
     public function testPutAll() {
         // Remove the following lines when you implement this test.
        $hashmap = new HashMap();
@@ -131,9 +96,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
        $this->assertTrue($this->object->containsValue(4));
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
         // Remove the following lines when you implement this test.
         var_dump($this->object);
@@ -143,9 +105,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
        var_dump($this->object);
     }
 
-    /**
-     * @todo Implement testValues().
-     */
     public function testValues() {
         // Remove the following lines when you implement this test.
         $col = $this->object->values();
@@ -153,9 +112,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
         // Remove the following lines when you implement this test.
         $this->assertFalse($this->object->isEmpty());
@@ -163,17 +119,11 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->isEmpty());
     }
 
-    /**
-     * @todo Implement testCount().
-     */
     public function testCount() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->count()==10);
     }
 
-    /**
-     * @todo Implement testGetIterator().
-     */
     public function testGetIterator() {
         // Remove the following lines when you implement this test.
       $it = $this->object->getIterator();
@@ -192,9 +142,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $it->remove();
     }
 
-    /**
-     * @todo Implement testContainsAll().
-     */
     public function testContainsAll() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->containsAll($this->object));
@@ -204,9 +151,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->containsAll($map));
     }
 
-    /**
-     * @todo Implement testRemoveAll().
-     */
     public function testRemoveAll() {
         // Remove the following lines when you implement this test.
         $map = new HashMap();
@@ -221,9 +165,6 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRetainAll().
-     */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
         $map = new HashMap();

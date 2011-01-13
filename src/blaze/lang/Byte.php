@@ -16,6 +16,8 @@ use blaze\lang\Object;
  */
 class Byte extends Number {
 
+    const MAX_VALUE = 127;
+    const MIN_VALUE = -128;
     private $value;
 
     public function __construct($value) {
@@ -60,7 +62,9 @@ class Byte extends Number {
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_int($value) && $value < 0xFF;
+        if(!is_numeric($value) || round($value) != $value)
+            return false;
+        return $value >= self::MIN_VALUE && $value <= self::MAX_VALUE;
     }
 
     /**
@@ -91,8 +95,6 @@ class Byte extends Number {
     }
 
     public function compareTo(Object $obj) {
-        if ($obj === null)
-            throw new NullPointerException();
         if ($obj instanceof Byte)
             return $this->value - $obj->value;
         throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Byte.');

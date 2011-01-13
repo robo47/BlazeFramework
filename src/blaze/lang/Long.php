@@ -16,6 +16,8 @@ use blaze\lang\Object;
  */
 class Long extends Number {
 
+    const MAX_VALUE = 9223372036854775807;
+    const MIN_VALUE = -9223372036854775808;
     private $value;
 
     public function __construct($value) {
@@ -59,12 +61,18 @@ class Long extends Number {
     }
 
     /**
+     * If the given value is between MAX_VALUE and MAX_VALUE + 1024 or MIN_VALUE
+     * and MIN_VALUE - 1024 this method still returns true, because of the
+     * comparison with the native datatype float.
+     *
      *
      * @param mixed $value
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_long($value);
+        if(!is_numeric($value) || round($value) != $value)
+            return false;
+        return $value >= self::MIN_VALUE && $value <= self::MAX_VALUE;
     }
 
     /**

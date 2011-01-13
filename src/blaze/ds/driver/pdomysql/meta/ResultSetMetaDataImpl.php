@@ -17,15 +17,16 @@ use blaze\ds\driver\pdobase\meta\AbstractResultSetMetaData;
  */
 class ResultSetMetaDataImpl extends AbstractResultSetMetaData {
 
-    public function __construct(\blaze\ds\Statement1 $stmt, \PDOStatement $pdoStmt) {
-        $this->stmt = $stmt;
+    public function __construct(\blaze\ds\ResultSet $resultSet, \PDOStatement $pdoStmt) {
+        $this->resultSet = $resultSet;
         $this->pdoStmt = $pdoStmt;
-        $meta = $stmt->getConnection()->getMetaData();
+        $meta = $resultSet->getStatement()->getConnection()->getMetaData();
         $this->schema = $meta->getSchema($meta->getDatabaseName());
     }
 
     /**
      * @return array[blaze\ds\meta\ColumnMetaData]
+     * @todo check what happens when a column of the result is function based
      */
     public function getColumns() {
         $arr = array();

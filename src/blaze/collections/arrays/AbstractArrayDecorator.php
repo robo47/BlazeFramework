@@ -54,6 +54,14 @@ abstract class AbstractArrayDecorator extends Object implements \blaze\collectio
     }
 
     /**
+     * Returns wether the decorated array is empty or not.
+     * @return int
+     */
+    public function isEmpty() {
+        return $this->array->isEmpty();
+    }
+
+    /**
      * Return wether the offset exists in the decorated array or not
      * @param int $offset
      * @return boolean
@@ -94,6 +102,59 @@ abstract class AbstractArrayDecorator extends Object implements \blaze\collectio
      */
     public function getIterator() {
         return $this->array->getIterator();
+    }
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return array
+     */
+    public function toNative(){
+        return $this->array->toNative();
+    }
+
+    /**
+     * This method returns wether the given value is the native type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isNativeType($value){
+        return AbstractArray::isNativeType($value);
+    }
+
+    /**
+     * This method returns wether the given value is the wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isWrapperType($value){
+        return AbstractArray::isWrapperType($value);
+    }
+
+    /**
+     * This method returns wether the given value is the native or wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isType($value){
+        return AbstractArray::isType($value);
+    }
+
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return \blaze\collections\ArrayI
+     */
+    public static function asWrapper($value){
+        return AbstractArray::asWrapper($value);
+    }
+
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return array
+     */
+    public static function asNative($value){
+        return AbstractArray::asNative($value);
     }
 
     /**

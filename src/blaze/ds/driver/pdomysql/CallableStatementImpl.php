@@ -11,7 +11,7 @@ use blaze\lang\Object,
  blaze\lang\Integer,
  blaze\lang\Double,
  blaze\math\BigDecimal,
- blaze\ds\Statement1,
+ blaze\ds\Statement,
  blaze\ds\DataSourceException,
  blaze\ds\driver\pdobase\AbstractResultSet,
  blaze\ds\driver\pdomysql\type\BlobImpl,
@@ -20,7 +20,7 @@ use blaze\lang\Object,
  \blaze\ds\driver\pdobase\AbstractCallableStatement,
  \blaze\ds\Connection,
  \blaze\ds\CallableStatement,
- \blaze\ds\driver\pdobase\AbstractStatement1;
+ \blaze\ds\driver\pdobase\AbstractStatement;
 
 /**
  * Description of CallableStatementImpl
@@ -41,8 +41,8 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
     }
 
-    public function __construct(Connection $con, \PDO $pdo, $sql) {
-        parent::__construct($con, $pdo, $sql);
+    public function __construct(Connection $con, \PDO $pdo, $query, $type) {
+        parent::__construct($con, $pdo, $query, $type);
     }
 
     public function getMetaData() {
@@ -57,7 +57,7 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         if ($this->stmt == null)
             return null;
         if ($this->resultSet == null)
-            $this->resultSet = new ResultSetImpl($this, $this->stmt);
+            $this->resultSet = new ResultSetImpl($this, $this->stmt, $this->resultSetType);
         return $this->resultSet;
     }
 
@@ -87,6 +87,10 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
 
     public function getByte($identifier) {
         return $this->get($identifier)->getByte(0);
+    }
+
+    public function getShort($identifier) {
+        return $this->get($identifier)->getShort(0);
     }
 
     public function getClob($identifier) {

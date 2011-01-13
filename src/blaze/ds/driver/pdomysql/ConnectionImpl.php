@@ -13,11 +13,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class ConnectionImpl extends AbstractConnection {
 
@@ -25,9 +21,22 @@ class ConnectionImpl extends AbstractConnection {
         parent::__construct($driver, $host, $port, $database, $user, $password, $options);
     }
 
+    private function getTransactionName($level){
+        switch($level){
+            case Connection::TRANSACTION_READ_COMMITTED:
+                return 'READ COMMITTED';
+            case Connection::TRANSACTION_READ_UNCOMMITTED:
+                return 'READ UNCOMMITTED';
+            case Connection::TRANSACTION_REPEATABLE_READ:
+                return 'REPEATABLE READ';
+            case Connection::TRANSACTION_SERIALIZABLE:
+                return 'SERIALIZABLE';
+        }
+    }
+
     public function createStatement($type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
         $this->checkClosed();
-        return new StatementImpl($this, $this->pdo);
+        return new StatementImpl($this, $this->pdo, $type);
     }
 
     public function getMetaData() {
@@ -47,53 +56,103 @@ class ConnectionImpl extends AbstractConnection {
         return new type\NClobImpl(null);
     }
 
-    /**
-     *
-     * @todo Implement
-     */
+    public function prepareCall($query, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
+        $this->checkClosed();
+        return new CallableStatementImpl($this, $this->pdo, $query, $type);
+    }
+
+    public function prepareStatement($query, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
+        $this->checkClosed();
+        return new PreparedStatementImpl($this, $this->pdo, $query, $type);
+    }
+
+    public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED) {
+        $this->checkClosed();
+        $this->transactionNestingLevel++;
+
+        if($this->transactionNestingLevel === 1){
+            $this->pdo->beginTransaction();
+        }else{
+            $this->setSavepoint();
+        }
+
+        $this->setTransactionIsolation($isolationLevel);
+    }
+    
+    protected function getNestedTransactionSavepointName(){
+        return 'BDSC_SAVEPOINT_'.$this->transactionNestingLevel;
+    }
+
+    public function rollback(\blaze\ds\Savepoint $savepoint = null) {
+        $this->checkClosed();
+        if($this->transactionNestingLevel === 0)
+                throw new \blaze\ds\DataSourceException('No active transaction');
+
+        if($savepoint !== null){
+            $this->prepareStatement('ROLLBACK TO SAVEPOINT '.$savepoint->getSavepointName())->executeUpdate();
+        }else{
+            if($this->transactionNestingLevel === 1){
+                $this->transactionNestingLevel = 0;
+                $this->pdo->rollBack();
+            }else{
+                $this->prepareStatement('ROLLBACK TO SAVEPOINT '.$this->getNestedTransactionSavepointName())->executeUpdate();
+                $this->transactionNestingLevel--;
+            }
+        }
+    }
+
+    public function commit() {
+        $this->checkClosed();
+
+        if($this->transactionNestingLevel === 1){
+            $this->pdo->commit();
+        }else{
+            $this->releaseSavepoint(new SavepointImpl(null, $this->getNestedTransactionSavepointName()));
+        }
+
+        $this->transactionNestingLevel--;
+    }
+
+    public function setTransactionIsolation($isolationLevel = Connection::TRANSACTION_READ_COMMITTED) {
+        $this->checkClosed();
+        $this->transactionIsolationLevel = $isolationLevel;
+        $this->prepareStatement('SET SESSION TRANSACTION ISOLATION LEVEL ' . $this->getTransactionName($isolationLevel))->executeUpdate();
+    }
+
     public function getTransactionIsolation() {
         $this->checkClosed();
-        try {
-            $stm = $this->createStatement();
-            $rs = $stm->executeQuery('SELECT @@tx_isolation');
-            if ($rs->next())
-                return $rs->getString(0);
-            else
-                return null;
-        } catch (\PDOException $e) {
-            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->transactionIsolationLevel;
     }
 
-    public function prepareCall($sql, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
-        $this->checkClosed();
-        return new CallableStatementImpl($this, $this->pdo, $sql);
+    public function releaseSavepoint(\blaze\ds\Savepoint $savepoint){
+        $this->prepareStatement('RELEASE SAVEPOINT '.$savepoint->getSavepointName())->executeUpdate();
     }
 
-    public function prepareStatement($sql, $type = \blaze\ds\ResultSet::TYPE_FORWARD_ONLY) {
-        $this->checkClosed();
-        return new PreparedStatementImpl($this, $this->pdo, $sql);
+    public function setSavepoint($name = null){
+        if($name === null)
+            $name = $this->getNestedTransactionSavepointName();
+        $this->prepareStatement('SAVEPOINT '.$name)->executeUpdate();
+                return new SavepointImpl($name, $name);
     }
 
-    /**
-     *
-     * @todo Implement
-     */
-    public function setTransactionIsolation($level) {
-        $this->checkClosed();
-        try {
-            $stm = $this->pdo->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $level);
-            $stm->execute();
-        } catch (\PDOException $e) {
-            throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
-        }
+    public function getTransactionNestingLevel() {
+        return $this->transactionNestingLevel;
     }
 
-    /**
-     * Returns the DatabaseMetaData of the database with the given name
-     * @param string|blaze\lang\String $databaseName
-     * @return \blaze\ds\meta\DatabaseMetaData Returns the meta data of the database or null if no db with that name was found.
-     */
+    public function isTransactionActive() {
+        return $this->transactionNestingLevel !== 0;
+    }
+
+    public function getDatabases() {
+        $rs = $this->prepareStatement('SHOW DATABASES')->executeQuery();
+        $list = new \blaze\collections\lists\ArrayList();
+
+        while($rs->next())
+                $list->add($this->getDatabase($rs->getString(0)));
+
+        return $list;
+    }
+
     public function getDatabase($databaseName) {
         $this->checkClosed();
         try {
@@ -124,7 +183,7 @@ class ConnectionImpl extends AbstractConnection {
             $query .= ' COLLATE ' . $defaultCollation;
 
         try {
-            $this->pdo->query($query);
+            $this->prepareStatement($query)->executeUpdate();
             $con = new self($this->driver, $this->host, $this->port, $databaseName, $this->user, $this->password, null);
             return new DatabaseMetaDataImpl($con, $con->pdo, $con->host, $con->port, $con->database, $con->user, $con->options);
         } catch (\PDOException $e) {
@@ -135,7 +194,7 @@ class ConnectionImpl extends AbstractConnection {
     public function dropDatabase($databaseName) {
         $this->checkClosed();
         try {
-            $this->pdo->query('DROP DATABASE ' . $databaseName);
+            $this->prepareStatement('DROP DATABASE ' . $databaseName)->executeUpdate();
         } catch (\PDOException $e) {
             throw new \blaze\ds\DataSourceException($e->getMessage(), $e->getCode(), $e);
         }

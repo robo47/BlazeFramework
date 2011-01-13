@@ -71,8 +71,17 @@ interface Connection extends \blaze\io\Closeable {
      *
      * @param string|\blaze\lang\String $databaseName The name of the datasource object
      * @return \blaze\ds\meta\DatabaseMetaData Returns the meta data of the database or null if no db with that name was found.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getDatabase($databaseName);
+
+    /**
+     * Returns a list of DatabaseMetaData which represent the available databases on this host.
+     *
+     * @return blaze\collections\ListI[\blaze\ds\meta\DatabaseMetaData] A list of database meta data.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function getDatabases();
 
     /**
      * Creates and returns an objects which represents the meta data model of the data source object.
@@ -133,28 +142,73 @@ interface Connection extends \blaze\io\Closeable {
      * Within a transaction read an write actions are synchronized so the data is consistent.
      *
      * @param int $isolationLevel The isolation level, see constants Connection::TRANSACTION_*
-     * @param string|blaze\lang\String $name The name of the transaction(optional)
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null);
+    public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED);
 
+    /**
+     * Returns wether a transaction is active or not.
+     *
+     * @return boolean True if a transaction is running, otherwise false
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function isTransactionActive();
+
+    /**
+     * Returns the nesting level of transactions.
+     *
+     * @return int The transaction nesting level or 0 for no active transaction.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function getTransactionNestingLevel();
+    /**
+     * Sets the transaction isolation level for the current transaction.
+     * Within a transaction read an write actions are synchronized so the data is consistent.
+     *
+     * @param int $isolationLevel The isolation level, see constants Connection::TRANSACTION_*
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function setTransactionIsolation($isolationLevel = Connection::TRANSACTION_READ_COMMITTED);
+
+    /**
+     * Returns the transaction isolation level of the transaction with the given name
+     * or of the current one if no name is given
+     * 
+     * @return int The isolation level, see constants Connection::TRANSACTION_*
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function getTransactionIsolation();
     /**
      * Commits the transaction with the given name, if no name is given the current
      * one is commited.
      *
-     * @param string|blaze\lang\String $name The name of the transaction(optional)
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function commit($name = null);
+    public function commit();
 
     /**
      * Rolls back every action which happened in the transaction with the given name,
      * if no name is given the current one is rolled back.
      *
-     * @param string|blaze\lang\String $name The name of the transaction(optional)
+     * @param \blaze\ds\Savepoint $savepoint The savepoint to roll back
      * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function rollback($name = null);
+    public function rollback(\blaze\ds\Savepoint $savepoint = null);
+    /**
+     * Releases the given savepoint and savepoints which were created after this one.
+     *
+     * @param \blaze\ds\Savepoint $savepoint The savepoint to release
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function releaseSavepoint(\blaze\ds\Savepoint $savepoint);
+    /**
+     * Creates a savepoint at the current position and returns it as object.
+     *
+     * @param string|\blaze\lang\String $name The name of the savepoint
+     * @return \blaze\ds\Savepoint The created savepoint
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
+     */
+    public function setSavepoint($name = null);
 
     /**
      * Creates a new statement object with which a request to the datasource can be made.

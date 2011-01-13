@@ -9,15 +9,11 @@ use blaze\ds\driver\pdobase\meta\AbstractIndexMetaData;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class IndexMetaDataImpl extends AbstractIndexMetaData {
 
-    function __construct(\blaze\ds\meta\TableMetaData $table, $indexName, $unique, $nullable, $indexType) {
+    public function __construct(\blaze\ds\meta\TableMetaData $table, $indexName, $unique, $nullable, $indexType) {
         $this->indexName = $indexName;
         $this->table = $table;
         $this->unique = $unique;
@@ -25,98 +21,100 @@ class IndexMetaDataImpl extends AbstractIndexMetaData {
         $this->indexType = $indexType;
     }
 
-    /**
-     * @return blaze\lang\String
-     */
-    public function getIndexName() {
-        return $this->indexName;
-    }
-
-    /**
-     * @return blaze\ds\meta\TableMetaData
-     */
     public function getTable() {
         return $this->table;
     }
 
     /**
-     * @return blaze\util\ListI[blaze\ds\meta\ColumnMetaData]
+     * Returns always null because index expressions are not supported by mysql.
      */
+    public function getIndexExpression() {
+        return null;
+    }
+
+    /**
+     * Does nothing because index expressions are not supported by mysql.
+     */
+    public function setIndexExpression($indexExpression) {
+        return $this;
+    }
+
     public function getColumns() {
-        $stmt = null;
-        $rs = null;
         $columns = array();
 
-        try {
-            $stmt = $this->table->getSchema()
-                            ->getDatabaseMetaData()
-                            ->getConnection()
-                            ->prepareStatement('SHOW INDEX FROM ' . $this->table->getSchema()->getSchemaName() . '.' . $this->table->getTableName() . ' WHERE Key_name = \'' . $this->indexName->toString() . '\'');
-            $stmt->execute();
-            $rs = $stmt->getResultSet();
+        $stmt = $this->table->getSchema()
+                        ->getDatabaseMetaData()
+                        ->getConnection()
+                        ->prepareStatement('SHOW INDEX FROM ' . $this->table->getSchema()->getSchemaName() . '.' . $this->table->getTableName() . ' WHERE Key_name = ?');
+        $rs = $stmt->setString(0, $this->indexName)->executeQuery();
 
-            while ($rs->next())
-                $columns[] = $this->table->getColumn($rs->getString('Column_name'));
-        } catch (\blaze\ds\DataSourceException $e) {
+        while ($rs->next())
+            $columns[] = new ColumnIndexEntryImpl($this, $this->table->getColumn($rs->getString('Column_name')));
 
-        }
+        $rs->close();
+        $stmt->close();
 
-        if ($stmt != null)
-            $stmt->close();
-        if ($rs != null)
-            $rs->close();
-
-        return $columns;
+        return \blaze\collections\Arrays::asList($columns);
     }
 
-    /**
-     * @return boolean
-     */
-    public function isUnique() {
-        return $this->unique;
+    public function addColumn(\blaze\ds\meta\ColumnMetaData $column, $prefix = 0) {
+
     }
 
-    /**
-     * @return boolean
-     */
-    public function isNullable() {
-        return $this->nullable;
-    }
-
-    /**
-     * Btree, Bitmap etc.
-     * 
-     * @return blaze\lang\String
-     */
-    public function getIndexType() {
-        return $this->indexType;
-    }
-
-    public function addColumn($columnName, $prefix = null, $sorting = 'ASC') {
+    public function dropColumn($columnName) {
 
     }
 
     public function drop() {
-
+        $this->table->dropIndex($this->indexName);
+        return true;
     }
 
-    public function getIndexStructure() {
-
+    public function getIndexName() {
+        return $this->indexName;
     }
 
     public function setIndexName($indexName) {
 
     }
 
-    public function setIndexStructure($indexStructure) {
+    public function isUnique(){
+        $stmt = $this->table->getSchema()
+                        ->getDatabaseMetaData()
+                        ->getConnection()
+                        ->prepareStatement('SHOW INDEX FROM ' . $this->table->getSchema()->getSchemaName() . '.' . $this->table->getTableName() . ' WHERE Key_name = ?');
+        $rs = $stmt->setString(0, $this->indexName)->executeQuery();
 
+        if($rs->next())
+            return !$rs->getBoolean('Not_unique');
+
+        return false;
+    }
+
+    public function getIndexType() {
+        $stmt = $this->table->getSchema()
+                        ->getDatabaseMetaData()
+                        ->getConnection()
+                        ->prepareStatement('SHOW INDEX FROM ' . $this->table->getSchema()->getSchemaName() . '.' . $this->table->getTableName() . ' WHERE Key_name = ?');
+        $rs = $stmt->setString(0, $this->indexName)->executeQuery();
+
+        if($rs->next()){
+            switch($rs->getString('Index_type')->toUpperCase()->toNative){
+                case 'BTREE':
+                    return \blaze\ds\meta\IndexMetaData::TYP_BTREE;
+                case 'BITMAP':
+                    return \blaze\ds\meta\IndexMetaData::TYPE_BITMAP;
+                case 'HASH':
+                    return \blaze\ds\meta\IndexMetaData::TYPE_HASH;
+                case 'FULLTEXT':
+                    return \blaze\ds\meta\IndexMetaData::TYPE_FULLTEXT;
+            }
+        }
+
+        return \blaze\ds\meta\IndexMetaData::TYPE_UNKNOWN;
     }
 
     public function setIndexType($indexType) {
-
-    }
-
-    public function setTable(\blaze\ds\meta\TableMetaData $table) {
 
     }
 

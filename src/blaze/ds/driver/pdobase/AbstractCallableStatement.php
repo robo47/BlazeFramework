@@ -19,8 +19,8 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
 
     protected $registeredOutParam = array();
 
-    public function __construct(Connection $con, \PDO $pdo, $sql) {
-        parent::__construct($con, $pdo, $sql);
+    public function __construct(Connection $con, \PDO $pdo, $query, $type) {
+        parent::__construct($con, $pdo, $query, $type);
     }
 
     public function set($identifier, $value, $type =\PDO::PARAM_STR) {
@@ -41,7 +41,7 @@ abstract class AbstractCallableStatement extends AbstractPreparedStatement imple
         }
     }
 
-    public function execute() {
+    public function execute($query = null) {
         $this->checkClosed();
 
         try {

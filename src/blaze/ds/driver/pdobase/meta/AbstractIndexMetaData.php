@@ -27,17 +27,15 @@ abstract class AbstractIndexMetaData extends Object implements IndexMetaData {
      */
     protected $table;
     /**
-     * @return boolean
-     */
-    protected $unique;
-    /**
-     * @return boolean
-     */
-    protected $nullable;
-    /**
      * Btree, Bitmap etc.
-     * 
-     * @return blaze\lang\String
+     *
+     * @return int
+     */
+    protected $indexStructure;
+    /**
+     * Unique, Fulltext etc.
+     *
+     * @return int
      */
     protected $indexType;
 }

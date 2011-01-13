@@ -15,7 +15,7 @@ use blaze\ds\driver\pdobase\meta\AbstractForeignKeyMetaData;
 
 
  */
-class ForeignKeyMetaDataImpl extends AbstractForeignKeyMetaData {
+class ReferentialConstraintMetaData extends \blaze\ds\driver\pdobase\meta\AbstractReferentialConstraintMetaData{
 
     /**
      *

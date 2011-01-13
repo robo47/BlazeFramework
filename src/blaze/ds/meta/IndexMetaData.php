@@ -11,85 +11,101 @@ namespace blaze\ds\meta;
  * @since   1.0
  */
 interface IndexMetaData {
-    const STRUCTURE_UNKNOWN = 0;
-    const STRUCTURE_BTREE = 1;
-    const STRUCTURE_HASH = 2;
-    const STRUCTURE_BITMAP = 3;
 
-    const TYPE_NONE = 0;
-    const TYPE_UNIQUE = 1;
-    const TYPE_FULLTEXT = 2;
-    const TYPE_SPATIAL = 3;
+    /**
+     * Index type none
+     */
+    const TYPE_UNKNOWN = 0;
+    /**
+     * Index type btree
+     */
+    const TYPE_BTREE = 1;
+    /**
+     * Index type hash
+     */
+    const TYPE_HASH = 2;
+    /**
+     * Index type bitmap
+     */
+    const TYPE_BITMAP = 3;
+    /**
+     * Index type fulltext
+     */
+    const TYPE_FULLTEXT = 4;
 
     /**
      * Drops the index.
      *
-     * @return boolean
+     * @return boolean Wether the action was successful or not
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function drop();
 
     /**
      * Returns the name of the index.
      *
-     * @return blaze\lang\String
+     * @return blaze\lang\String The index name
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getIndexName();
 
     /**
      * Sets the name of the index.
      *
-     * @param string|\blaze\lang\String $indexName
+     * @param string|\blaze\lang\String $indexName The index name
+     * @return blaze\ds\meta\IndexMetaData This object for chaining.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function setIndexName($indexName);
 
     /**
      * Returns the parent table.
      *
-     * @return blaze\ds\meta\TableMetaData
+     * @return blaze\ds\meta\TableMetaData The parent table
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getTable();
 
     /**
      * Returns the columns which are affected by this index.
      *
-     * @return blaze\util\ListI[blaze\ds\meta\ColumnIndexEntry]
+     * @return blaze\util\ListI[blaze\ds\meta\ColumnIndexEntry] The columns
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getColumns();
 
     /**
      * Adds a column to the index.
      *
-     * @param string|\blaze\lang\String $columnName
-     * @param string|\blaze\lang\String $prefix
-     * @param string|\blaze\lang\String $sorting
+     * @param string|\blaze\lang\String $indexExpression The index expression
+     * @param int $prefix The prefix length
+     * @param boolean $ascending True if ascending, otherwise false
+     * @return blaze\ds\meta\IndexMetaData This object for chaining.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
-    public function addColumn($columnName, $prefix = null, $sorting = 'ASC');
+    public function addColumn($indexExpression, $prefix = 0, $ascending = true);
 
     /**
-     * Returns the index structure. See the constants STRUCTURE_*
+     * Returns wether the index has only unique value or not
      * 
-     * @return int
+     * @return boolean True if only unique values can be hold, otherwise false.
      */
-    public function getIndexStructure();
-
-    /**
-     * Sets the index structure of the index. See the constants STRUCTURE_*
-     *
-     * @param int $indexStructure
-     */
-    public function setIndexStructure($indexStructure);
+    public function isUnique();
 
     /**
      * Returns the index types. See the costants TYPE_*
      *
-     * @return int
+     * @return int The index type
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function getIndexType();
 
     /**
      * Sets the index type of the index. See the constants TYPE_*
      *
-     * @param int $indexType
+     * @param int $indexType The index type
+     * @return blaze\ds\meta\IndexMetaData This object for chaining.
+     * @throws \blaze\ds\DataSourceException Is thrown when an error occurs.
      */
     public function setIndexType($indexType);
 }

@@ -64,6 +64,16 @@ abstract class AbstractConnection extends Object implements Connection {
      * @var blaze\ds\DataSourceWarning
      */
     protected $warnings;
+    /**
+     *
+     * @var int
+     */
+    protected $transactionNestingLevel;
+    /**
+     *
+     * @var int
+     */
+    protected $transactionIsolationLevel;
 
     public function __construct($driver, $host, $port, $database, $user, $password, \blaze\collections\map\Properties $options = null) {
         $opts = array();
@@ -95,18 +105,6 @@ abstract class AbstractConnection extends Object implements Connection {
         }
     }
 
-    public function __sleep() {
-        $arr = array_keys(get_class_vars($this->getClass()->getName()->toNative()));
-        $key = array_search('pdo', $arr);
-        if ($key !== false)
-            unset($arr[$key]);
-        return $arr;
-    }
-
-    public function __wakeup() {
-        $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
-    }
-
     public function getWarnings() {
         $this->checkClosed();
         return $this->warnings;
@@ -114,11 +112,6 @@ abstract class AbstractConnection extends Object implements Connection {
 
     public function clearWarnings() {
         $this->warnings = null;
-    }
-
-    public function beginTransaction($isolationLevel = Connection::TRANSACTION_READ_COMMITTED, $name = null) {
-        $this->checkClosed();
-        $this->pdo->beginTransaction();
     }
 
     public function close() {
@@ -130,41 +123,14 @@ abstract class AbstractConnection extends Object implements Connection {
         return $this->pdo == null;
     }
 
-    public function commit($name = null) {
-        $this->checkClosed();
-        $this->pdo->commit();
-    }
-
     public function getAutoCommit() {
         $this->checkClosed();
         return $this->pdo->getAttribute(PDO::ATTR_AUTOCOMMIT);
     }
 
-    /**
-     * Returns the Transaction isolation
-     * @return int
-     */
-    public function getTransactionIsolation() {
-        $this->checkClosed();
-        return Connection::TRANSACTION_NONE;
-    }
-
-    public function rollback($name = null) {
-        $this->checkClosed();
-        $this->pdo->rollBack();
-    }
-
     public function setAutoCommit($autoCommit) {
         $this->checkClosed();
         return $this->pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, $autoCommit);
-    }
-
-    public function createOrGetDatabase($databaseName, $defaultCharset = null, $defaultCollation = null) {
-        try {
-            return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
-        } catch (\blaze\ds\DataSourceException $e) {
-            return $this->getDatabase($databaseName);
-        }
     }
 
     public function dropDatabaseIfExists($databaseName) {
@@ -174,12 +140,7 @@ abstract class AbstractConnection extends Object implements Connection {
 
         }
     }
-
-    public function createOrReplaceDatabase($databaseName, $defaultCharset = null, $defaultCollation = null) {
-        $this->dropDatabaseIfExists($databaseName);
-        return $this->createDatabase($databaseName, $defaultCharset, $defaultCollation);
-    }
-
+    
     protected function checkClosed() {
         if ($this->isClosed())
             throw new DataSourceException('Connection is already closed.');

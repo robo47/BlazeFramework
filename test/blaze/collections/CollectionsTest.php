@@ -14,10 +14,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $ar = new lists\ArrayList();
         $ar->add(new \blaze\lang\Integer(5));
@@ -31,17 +27,10 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $this->object = $ar;
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
     protected function tearDown() {
 
     }
 
-    /**
-     * @todo Implement testAddAll().
-     */
     public function testAddAll() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -50,9 +39,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
        
     }
 
-    /**
-     * @todo Implement testBinarySearch().
-     */
     public function testBinarySearch() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -60,9 +46,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBinaryRangeSearch().
-     */
     public function testBinaryRangeSearch() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -70,9 +53,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testCopyOf().
-     */
     public function testCopyOf() {
         // Remove the following lines when you implement this test.
         $list = new lists\ArrayList();
@@ -84,9 +64,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(7) == $list->get(7));
     }
 
-    /**
-     * @todo Implement testCopyOfRange().
-     */
     public function testCopyOfRange() {
         // Remove the following lines when you implement this test.
         $dest = new lists\ArrayList();
@@ -98,9 +75,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testFill().
-     */
     public function testFill() {
         // Remove the following lines when you implement this test.
         Collections::fill($this->object, new \blaze\lang\Integer(99));
@@ -111,9 +85,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(99));
     }
 
-    /**
-     * @todo Implement testFillRange().
-     */
     public function testFillRange() {
         // Remove the following lines when you implement this test.
        Collections::fillRange($this->object, 2, 6, new \blaze\lang\Integer(99));
@@ -126,9 +97,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testIndexOfSubList().
-     */
     public function testIndexOfSubList() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -136,9 +104,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testLastIndexOfSubList().
-     */
     public function testLastIndexOfSubList() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -146,9 +111,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testMax().
-     */
     public function testMax() {
         // Remove the following lines when you implement this test.
   
@@ -156,17 +118,11 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testMin().
-     */
     public function testMin() {
         // Remove the following lines when you implement this test.
         $this->assertTrue(Collections::min($this->object)==new \blaze\lang\Integer(1));
     }
 
-    /**
-     * @todo Implement testReplaceAll().
-     */
     public function testReplaceAll() {
         // Remove the following lines when you implement this test.
         echo $this->object->indexOf(new \blaze\lang\Integer(5));
@@ -178,9 +134,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testReverse().
-     */
     public function testReverse() {
         // Remove the following lines when you implement this test.
         Collections::reverse($this->object);
@@ -188,9 +141,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(5));
     }
 
-    /**
-     * @todo Implement testReverseComperator().
-     */
     public function testReverseComperator() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -198,9 +148,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testSort().
-     */
     public function testSort() {
         // Remove the following lines when you implement this test.
         $ar = new lists\ArrayList();
@@ -223,9 +170,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      
     }
 
-    /**
-     * @todo Implement testSortRange().
-     */
     public function testSortRange() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -233,9 +177,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testSwap().
-     */
     public function testSwap() {
         // Remove the following lines when you implement this test.
         Collections::swap($this->object, 0, 7);
@@ -244,9 +185,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testDeepEquals().
-     */
     public function testDeepEquals() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -254,9 +192,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedCollection().
-     */
     public function testBoundedCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -264,9 +199,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSortedCollection().
-     */
     public function testBoundedSortedCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -274,9 +206,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedBag().
-     */
     public function testBoundedBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -284,9 +213,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSortedBag().
-     */
     public function testBoundedSortedBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -294,9 +220,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSet().
-     */
     public function testBoundedSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -304,9 +227,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSortedSet().
-     */
     public function testBoundedSortedSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -314,9 +234,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedList().
-     */
     public function testBoundedList() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -324,9 +241,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedMap().
-     */
     public function testBoundedMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -334,9 +248,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSortedMap().
-     */
     public function testBoundedSortedMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -344,9 +255,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedBidiMap().
-     */
     public function testBoundedBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -354,9 +262,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testBoundedSortedBidiMap().
-     */
     public function testBoundedSortedBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -364,9 +269,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableCollection().
-     */
     public function testImmutableCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -374,9 +276,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSortedCollection().
-     */
     public function testImmutableSortedCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -384,9 +283,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableBag().
-     */
     public function testImmutableBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -394,9 +290,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSortedBag().
-     */
     public function testImmutableSortedBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -404,9 +297,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSet().
-     */
     public function testImmutableSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -414,9 +304,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSortedSet().
-     */
     public function testImmutableSortedSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -424,9 +311,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableList().
-     */
     public function testImmutableList() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -434,9 +318,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableMap().
-     */
     public function testImmutableMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -444,9 +325,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSortedMap().
-     */
     public function testImmutableSortedMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -454,9 +332,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableBidiMap().
-     */
     public function testImmutableBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -464,9 +339,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testImmutableSortedBidiMap().
-     */
     public function testImmutableSortedBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -474,9 +346,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedCollection().
-     */
     public function testTypedCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -484,9 +353,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSortedCollection().
-     */
     public function testTypedSortedCollection() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -494,9 +360,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedBag().
-     */
     public function testTypedBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -504,9 +367,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSortedBag().
-     */
     public function testTypedSortedBag() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -514,9 +374,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSet().
-     */
     public function testTypedSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -524,9 +381,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSortedSet().
-     */
     public function testTypedSortedSet() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -534,9 +388,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedList().
-     */
     public function testTypedList() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -544,9 +395,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedMap().
-     */
     public function testTypedMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -554,9 +402,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSortedMap().
-     */
     public function testTypedSortedMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -564,9 +409,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedBidiMap().
-     */
     public function testTypedBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -574,9 +416,6 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testTypedSortedBidiMap().
-     */
     public function testTypedSortedBidiMap() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

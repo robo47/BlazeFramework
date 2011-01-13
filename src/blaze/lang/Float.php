@@ -16,6 +16,14 @@ use blaze\lang\Object;
  */
 class Float extends Number implements Comparable {
 
+    const MAX_VALUE = 3.4028235e+38;
+    const MIN_VALUE = -3.4028235e+38;
+    const MIN_POSITIVE = 2e-149;
+    const MAX_NEGATIVE = -2e-149;
+    const NAN = \NAN;
+    const POSITIVE_INFINITY = INF;
+    const NEGATIVE_INFINITY = NINF;
+    
     private $value;
 
     public function __construct($value) {
@@ -59,12 +67,15 @@ class Float extends Number implements Comparable {
     }
 
     /**
+     * If the given value is between MAX_VALUE and MAX_VALUE + 10^22 or MIN_VALUE
+     * and MIN_VALUE - 10^22 this method still returns true, because of the
+     * blur of the float datatype.
      *
      * @param mixed $value
      * @return boolean
      */
     public static function isNativeType($value) {
-        return is_float($value);
+        return is_numeric($value) && ($value >= self::MIN_VALUE && $value <= self::MAX_VALUE) || $value === self::NAN || $value === self::NEGATIVE_INFINITY || $value === self::POSITIVE_INFINITY;
     }
 
     /**

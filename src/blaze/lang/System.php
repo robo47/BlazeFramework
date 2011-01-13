@@ -27,15 +27,419 @@ final class System extends Object implements StaticInitialization {
      * @var blaze\lang\SecurityManager
      */
     private static $sm;
+    private static $cachedHints = array();
+    /**
+     *
+     * @var mixed
+     */
+    private static $oldErrorHandler;
+    /**
+     *
+     * @var mixed
+     */
+    private static $oldExceptionHandler;
 
     private function __construct() {
 
     }
 
+    /**
+     * This method handles every error from PHP and decides
+     * wether this is a real error or not. The type hinting of
+     * native types, widening and auto boxing is supported through this method.
+     *
+     * @access private
+     * @param int $errorLevel
+     * @param string $errorMessage
+     * @return boolean False if an error occured, otherwise true
+     */
+    public static function systemErrorHandler($errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext) {
+        switch ($errorLevel) {
+            case E_USER_ERROR:
+            // User error
+
+            case E_WARNING:
+            // Runtime warnings
+            case E_USER_WARNING:
+            // User warning
+
+            case E_NOTICE:
+            // Runtime notices
+            case E_USER_NOTICE:
+            // User notice
+
+            case E_DEPRECATED:
+            case E_USER_DEPRECATED:
+
+            case E_STRICT:
+                return false;
+
+            case E_RECOVERABLE_ERROR:
+                if (array_key_exists($errorMessage, self::$cachedHints))
+                    return true;
+
+                $ok = false;
+
+                if (preg_match('/^Argument (?<argNumber>\d+) passed to (?<namespace>(([a-zA-Z_]{1}[a-zA-Z0-9_]+)\\\)+)?[:a-zA-Z0-9_]+\(\) must be an instance of (?<hintName>[a-zA-Z0-9_\\\]+), (instance of )?(?<typeName>[a-zA-Z0-9_\\\]+) given/AUD', $errorMessage, $matches)) {
+                    $argNumber = ((int) $matches['argNumber']) - 1;
+                    $args = self::getArgsOfErrorCall();
+
+                    switch ($matches['hintName']) {
+                        case 'boolean':
+                            if ($matches['typeName'] === 'blaze\\lang\\Boolean') {
+                                var_dump('Unboxing does not work yet!');
+                                $args[$argNumber] = $args[$argNumber]->toNative();
+                                $ok = true;
+                            } else {
+                                $ok = $matches['typeName'] === 'boolean';
+                            }
+                            break;
+                        case 'blaze\\lang\\Boolean':
+                            if ($matches['typeName'] === 'boolean') {
+                                $args[$argNumber] = new Boolean($args[$argNumber]);
+                                $ok = true;
+                            }
+                            break;
+                        case 'byte':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Byte::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (int) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Byte':
+                            if ($matches['typeName'] === 'integer' || $matches['typeName'] === 'double') {
+                                $ok = Byte::isNativeType($args[$argNumber]);
+
+                                if($ok)
+                                    $args[$argNumber] = new Byte($args[$argNumber]);
+                            }
+                            break;
+                        case 'short':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Short::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (int) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Short':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                    $args[$argNumber] = new Short($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Short::isNativeType($args[$argNumber]);
+
+                                    if($ok)
+                                        $args[$argNumber] = new Short($args[$argNumber]);
+                            }
+                            break;
+                        case 'int':
+                            switch ($matches['typeName']) {
+                                case 'integer':
+                                    $ok = true;
+                                    break;
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'double':
+                                    $ok = Integer::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (int) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Integer':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                    $args[$argNumber] = new Integer($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Integer::isNativeType($args[$argNumber]);
+
+                                    if($ok)
+                                        $args[$argNumber] = new Integer($args[$argNumber]);
+                            }
+                            break;
+                        case 'long':
+                            switch ($matches['typeName']) {
+                                case 'integer':
+                                    $ok = true;
+                                    break;
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'double':
+                                    $ok = Long::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (float) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Long':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                    $args[$argNumber] = new Long($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Long::isNativeType($args[$argNumber]);
+
+                                    if($ok)
+                                        $args[$argNumber] = new Long($args[$argNumber]);
+                            }
+                            break;
+                        case 'float':
+                            switch ($matches['typeName']) {
+                                case 'integer':
+                                    $ok = true;
+                                    break;
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                case 'blaze\\lang\\Float':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'double':
+                                    $ok = Float::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (float) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Float':
+
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                    $args[$argNumber] = new Float($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Float::isNativeType($args[$argNumber]);
+
+                                    if($ok)
+                                        $args[$argNumber] = new Float($args[$argNumber]);
+                            }
+                            break;
+                        case 'double':
+                            switch ($matches['typeName']) {
+                                case 'integer':
+                                    $ok = true;
+                                    break;
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                case 'blaze\\lang\\Float':
+                                case 'blaze\\lang\\Double':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                                case 'double':
+                                    $ok = Double::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = (float) $args[$argNumber];
+                            }
+                            break;
+                        case 'blaze\\lang\\Double':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                case 'blaze\\lang\\Float':
+                                    $args[$argNumber] = new Double($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    $ok = Double::isNativeType($args[$argNumber]);
+
+                                    if($ok)
+                                        $args[$argNumber] = new Double($args[$argNumber]);
+                                break;
+
+                            }
+                            break;
+                        case 'char':
+                            switch ($matches['typeName']) {
+                                case 'string':
+                                    $ok = Character::isNativeType($args[$argNumber]);
+                                    break;
+                                case 'blaze\\lang\\Character':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                            }
+                            break;
+                        case 'blaze\\lang\\Character':
+                            if ($matches['typeName'] === 'string') {
+                                $ok = Character::isNativeType($args[$argNumber]);
+
+                                if($ok)
+                                    $args[$argNumber] = new Character($args[$argNumber]);
+                            }
+                            break;
+                        case 'string':
+                            switch ($matches['typeName']) {
+                                case 'integer':
+                                case 'double':
+                                    $args[$argNumber] = (string)$args[$argNumber];
+                                    $ok = true;
+                                    break;
+                                case 'blaze\\lang\\String':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                            }
+                            break;
+                        case 'blaze\\lang\\String':
+                            if ($matches['typeName'] === 'string') {
+                                $args[$argNumber] = new String($args[$argNumber]);
+                                $ok = true;
+                            }
+                            break;
+                        case 'array':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\collections\\arrays\\ArrayObject':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = $args[$argNumber]->toNative();
+                                    $ok = true;
+                                    break;
+                            }
+                            break;
+                        case 'blaze\\collections\\ArrayI':
+                        case 'blaze\\collections\\arrays\\ArrayObject':
+                            if ($matches['typeName'] === 'array') {
+                                $ok = \blaze\collections\arrays\ArrayObject::isNativeType($args[$argNumber]);
+
+                                if($ok)
+                                    $args[$argNumber] = new \blaze\collections\arrays\ArrayObject($args[$argNumber]);
+                            }
+                            break;
+                        case 'blaze\\math\\BigInteger':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = new \blaze\math\BigInteger($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                case 'string':
+                                    $ok = \blaze\math\BigInteger::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = new \blaze\math\BigInteger($args[$argNumber]);
+                            }
+                            break;
+                        case 'blaze\\math\\BigDecimal':
+                            switch ($matches['typeName']) {
+                                case 'blaze\\lang\\Byte':
+                                case 'blaze\\lang\\Short':
+                                case 'blaze\\lang\\Integer':
+                                case 'blaze\\lang\\Long':
+                                case 'blaze\\lang\\Float':
+                                case 'blaze\\lang\\Double':
+                                case 'blaze\\math\\BigInteger':
+                                    var_dump('Unboxing does not work yet!');
+                                    $args[$argNumber] = new \blaze\math\BigDecimal($args[$argNumber]->toNative());
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                case 'string':
+                                    $ok = \blaze\math\BigDecimal::isNativeType($args[$argNumber]);
+
+                                    if ($ok)
+                                        $args[$argNumber] = new \blaze\math\BigDecimal($args[$argNumber]);
+                            }
+                            break;
+                        default:
+                            if (array_key_exists('namespace', $matches))
+                                $matches['typeName'] = $matches['namespace'] . $matches['typeName'];
+                    }
+
+                    if ($ok)
+                        return self::$cachedHints[$errorMessage] = true;
+                    return false;
+                }
+
+                return false;
+        }
+    }
+
+    private static function getArgsOfErrorCall() {
+        $debug = debug_backtrace();
+        return $debug[2]['args'];
+    }
+
+    /**
+     * This method handles every exception which is thrown but not catched.
+     * 
+     * @access private
+     * @param \Exception $exception
+     */
+    public static function systemExceptionHandler(\Exception $exception) {
+
+    }
+
     public static function staticInit() {
+        self::$oldErrorHandler = set_error_handler(array('blaze\lang\System', 'systemErrorHandler'));
+        self::$oldExceptionHandler = set_exception_handler(array('blaze\lang\System', 'systemExcetionHandler'));
+        error_reporting(E_ALL | E_STRICT);
+        set_time_limit(0);
         self::$in = new \blaze\io\input\NativeInputStream('php://stdin');
         self::$out = new \blaze\io\output\PrintStream(new \blaze\io\output\NativeOutputStream('php://stdout'));
-        self::$err = new \blaze\io\output\NativeOutputStream('php://stderr');
+        self::$err = new \blaze\io\output\PrintStream(new \blaze\io\output\NativeOutputStream('php://stderr'));
     }
 
     /**
@@ -43,7 +447,15 @@ final class System extends Object implements StaticInitialization {
      * @return long
      */
     public static function currentTimeMillis() {
-        return microtime(true) * 1000000;
+        return microtime(true) * 1000;
+    }
+
+    /**
+     *
+     * @return long
+     */
+    public static function nanoTime() {
+        return microtime(true) * 1000000000;
     }
 
     public static function gc() {
@@ -85,6 +497,8 @@ final class System extends Object implements StaticInitialization {
     }
 
     public static function identityHashCode(Reflectable $o) {
+        if ($o === null)
+            return 0;
         return spl_object_hash($o);
     }
 

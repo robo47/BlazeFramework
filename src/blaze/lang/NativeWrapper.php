@@ -17,7 +17,7 @@ interface NativeWrapper {
     /**
      * This method returns the native datatype of a wrapper class.
      *
-     * @return int|float|string|boolean
+     * @return int|float|string|boolean|array
      */
     public function toNative();
 
@@ -45,14 +45,14 @@ interface NativeWrapper {
     /**
      * This method returns the native datatype of a wrapper class.
      *
-     * @return int|float|string|boolean
+     * @return Byte|Short|Integer|Long|Float|Double|String|Boolean|Character|\blaze\collections\ArrayI
      */
     public static function asWrapper($value);
 
     /**
      * This method returns the native datatype of a wrapper class.
      *
-     * @return int|float|string|boolean
+     * @return int|float|string|boolean|array
      */
     public static function asNative($value);
 }

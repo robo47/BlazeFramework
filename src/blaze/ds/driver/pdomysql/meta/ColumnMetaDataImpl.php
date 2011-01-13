@@ -226,23 +226,19 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $this->nullable = $nullable;
     }
 
-    public function setAutoIncrement($autoIncrement) {
-        $this->autoIncrement = $autoIncrement;
-    }
-
     public function setSigned($signed) {
         $this->signed = $signed;
     }
 
-    public function setPrimaryKey($primaryKey, $name) {
+    public function setPrimaryKey($primaryKey, $name = null) {
         $this->primaryKey = $primaryKey;
     }
 
-    public function setForeignKey($foreignKey, $name, \blaze\ds\meta\ColumnMetaData $referencingColumn) {
+    public function setForeignKey($foreignKey, \blaze\ds\meta\ColumnMetaData $referencingColumn, $name = null) {
         $this->foreignKey = $foreignKey;
     }
 
-    public function setUniqueKey($uniqueKey, $name) {
+    public function setUniqueKey($uniqueKey, $name = null) {
         $this->uniqueKey = $uniqueKey;
     }
 
@@ -442,7 +438,43 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
     public function drop() {
         
     }
+    public function getCheckConstraint() {
 
+    }
+
+    public function getSequence() {
+
+    }
+
+    public function setCheckConstraint($checkConstraint, $name = null) {
+
+    }
+
+    public function setSequence(\balze\ds\meta\SequenceMetaData $sequence = null) {
+
+    }
+
+    public static function getColumnDefinition(\blaze\ds\meta\ColumnMetaData $column, $newName = null, $nullable = true, $default = true, $sequence = true, $primary = true, $unique = true, $comment = true) {
+        if ($newName === null)
+            $query = $column->getName() . ' ' . $column->getComposedNativeType();
+        else
+            $query = $newName . ' ' . $column->getComposedNativeType();
+
+        if ($nullable && !$column->isNullable())
+            $query .= ' NOT NULL';
+        if ($default && $column->getDefault() !== null)
+            $query .= ' DEFAULT ' . $column->getDefault();
+        if ($sequence && $column->getSequence() !== null)
+            $query .= ' AUTO_INCREMENT';
+        if ($primary && $column->isPrimaryKey())
+            $query .= ' PRIMARY KEY';
+        else if ($unique && $column->isUniqueKey())
+            $query .= ' UNIQUE KEY';
+        if ($comment && $column->getComment() !== null)
+            $query .= ' COMMENT \'' . $column->getComment() . '\'';
+
+        return $query;
+    }
 }
 
 ?>

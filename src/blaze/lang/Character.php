@@ -11,17 +11,18 @@ namespace blaze\lang;
  * @since   1.0
 
  * @author  Christian Beikov
- * @todo    Extends, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/CharUtils.html
+ * @todo    Extend, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/CharUtils.html
  */
 class Character extends Object implements NativeWrapper, Comparable {
 
+    const MAX_VALUE = "\xFF";
+    const MIN_VALUE = "\x0";
     /**
      * @var char
      */
     private $value;
 
     public function __construct($value) {
-        parent::__construct();
         if ($value instanceof String && $value->length() == 1)
             $this->value->charAt(0);
         else if (is_string($value) && strlen($value) == 1)

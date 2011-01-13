@@ -13,10 +13,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp() {
         $this->object = new HashSet();
         for($i = 0; $i<10;$i++){
@@ -25,17 +21,10 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
     protected function tearDown() {
 
     }
 
-    /**
-     * @todo Implement testAdd().
-     */
     public function testAdd() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->add(456));
@@ -43,9 +32,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->contains(456));
     }
 
-    /**
-     * @todo Implement testAddAll().
-     */
     public function testAddAll() {
         // Remove the following lines when you implement this test.
         $col = new HashSet();
@@ -59,18 +45,12 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         
     }
 
-    /**
-     * @todo Implement testClear().
-     */
     public function testClear() {
         // Remove the following lines when you implement this test.
         $this->object->clear();
         $this->assertTrue($this->object->count()==0);
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
         // Remove the following lines when you implement this test.
         $this->assertFalse($this->object->isEmpty());
@@ -78,9 +58,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->isEmpty());
     }
 
-    /**
-     * @todo Implement testGetIterator().
-     */
     public function testGetIterator() {
         // Remove the following lines when you implement this test.
         $it =$this->object->getIterator();
@@ -92,9 +69,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($test);
     }
 
-    /**
-     * @todo Implement testCount().
-     */
     public function testCount() {
         // Remove the following lines when you implement this test.
         //$this->assertTrue($this->count()==10);
@@ -103,18 +77,12 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testContains().
-     */
     public function testContains() {
         // Remove the following lines when you implement this test.
         $this->assertTrue($this->object->contains(5));
         $this->assertFalse($this->object->contains(88));
     }
 
-    /**
-     * @todo Implement testContainsAll().
-     */
     public function testContainsAll() {
         // Remove the following lines when you implement this test.
         $col = new HashSet();
@@ -127,9 +95,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($this->object->containsAll($col));
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
         // Remove the following lines when you implement this test.
         $this->assertFalse($this->object->remove(89));
@@ -138,9 +103,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testRemoveAll().
-     */
     public function testRemoveAll() {
         // Remove the following lines when you implement this test.
         $col = new HashSet();
@@ -153,9 +115,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->object->removeAll($col));
     }
 
-    /**
-     * @todo Implement testRetainAll().
-     */
     public function testRetainAll() {
         // Remove the following lines when you implement this test.
         $col = new \blaze\collections\lists\ArrayList();
@@ -166,9 +125,6 @@ class HashSetTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testToArray().
-     */
     public function testToArray() {
         // Remove the following lines when you implement this test.
         $this->assertTrue(\is_array($this->object->toArray()));

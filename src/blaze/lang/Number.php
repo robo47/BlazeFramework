@@ -5,6 +5,8 @@ namespace blaze\lang;
 use blaze\math\BigInteger,
  blaze\math\BigDecimal;
 
+define('NINF',\INF * -1);
+
 /**
  * Description of Integer
  *
@@ -48,21 +50,21 @@ abstract class Number extends Object implements NativeWrapper, Comparable {
                 return self::$numberClasses[3];
             else
                 return null;
-        }else if (Byte::isNativeType($value) || $value instanceof Byte) {
+        }else if (Byte::isType($value)) {
             return self::$numberClasses[0];
-        } else if (Short::isNativeType($value) || $value instanceof Short) {
+        } else if (Short::isType($value)) {
             return self::$numberClasses[1];
-        } else if (Double::isNativeType($value) || $value instanceof Double) {
+        } else if (Double::isType($value)) {
             return self::$numberClasses[2];
-        } else if (Float::isNativeType($value) || $value instanceof Float) {
+        } else if (Float::isType($value)) {
             return self::$numberClasses[3];
-        } else if (Integer::isNativeType($value) || $value instanceof Integer) {
+        } else if (Integer::isType($value)) {
             return self::$numberClasses[4];
-        } else if (Long::isNativeType($value) || $value instanceof Long) {
+        } else if (Long::isType($value)) {
             return self::$numberClasses[5];
-        } else if (BigInteger::isNativeType($value) || $value instanceof BigInteger) {
+        } else if (BigInteger::isType($value)) {
             return self::$numberClasses[6];
-        } else if (BigDecimal::isNativeType($value) || $value instanceof BigDecimal) {
+        } else if (BigDecimal::isType($value)) {
             return self::$numberClasses[7];
         }
 

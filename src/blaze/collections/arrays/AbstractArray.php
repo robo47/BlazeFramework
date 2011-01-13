@@ -74,6 +74,14 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
     }
 
     /**
+     * Returns wether the array is empty or not.
+     * @return boolean
+     */
+    public function isEmpty() {
+        return $this->size == 0;
+    }
+
+    /**
      * Checks wether the offset exists or not.
      * @return boolean
      * @throws \blaze\lang\IllegalArgumentException If the offset is not a number.
@@ -129,6 +137,65 @@ abstract class AbstractArray extends Object implements \blaze\collections\ArrayI
      */
     public function getIterator() {
         return; // new Iterator();
+    }
+
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return array
+     */
+    public function toNative(){
+        return $this->objects;
+    }
+
+    /**
+     * This method returns wether the given value is the native type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isNativeType($value){
+        return is_array($value);
+    }
+
+    /**
+     * This method returns wether the given value is the wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isWrapperType($value){
+        return $value instanceof \blaze\collections\ArrayI;
+    }
+
+    /**
+     * This method returns wether the given value is the native or wrapper type of the class or not.
+     *
+     * @return boolean
+     */
+    public static function isType($value){
+        return self::isNativeType($value) || self::isWrapperType($value);
+    }
+
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return \blaze\collections\ArrayI
+     */
+    public static function asWrapper($value){
+        return new ArrayObject($value);
+    }
+
+    /**
+     * This method returns the native datatype of a wrapper class.
+     *
+     * @return array
+     */
+    public static function asNative($value){
+        if(self::isWrapperType($value))
+            return $value->toNative();
+        else if(self::isNativeType($value))
+            return $value;
+        else
+            return (array) $value;
     }
 
     /**

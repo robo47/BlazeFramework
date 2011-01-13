@@ -12,7 +12,7 @@ use blaze\lang\Object,
  blaze\lang\Integer,
  blaze\lang\Double,
  blaze\math\BigDecimal,
- blaze\ds\Statement1,
+ blaze\ds\Statement,
  blaze\ds\DataSourceException,
  blaze\ds\driver\pdobase\AbstractResultSet,
  blaze\ds\driver\pdomysql\type\BlobImpl,
@@ -24,11 +24,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticInitialization {
 
@@ -42,14 +38,14 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
         self::$timeFormatter = new \blaze\text\DateFormat('H:i:s');
     }
 
-    public function __construct(Statement1 $stmt, \PDOStatement $pdoStmt) {
-        parent::__construct($stmt, $pdoStmt);
+    public function __construct(Statement $stmt, \PDOStatement $pdoStmt, $type) {
+        parent::__construct($stmt, $pdoStmt, $type);
     }
 
     public function getMetaData() {
         $this->checkClosed();
         if ($this->rsmd == null)
-            $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this->stmt, $this->pdoStmt);
+            $this->rsmd = new \blaze\ds\driver\pdomysql\meta\ResultSetMetaDataImpl($this, $this->pdoStmt);
         return $this->rsmd;
     }
 
@@ -69,7 +65,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
             return null;
 
         $pair = explode(',', $val);
-
         $d = new BigDecimal($val);
 
         return $d;
@@ -228,22 +223,6 @@ class ResultSetImpl extends AbstractResultSet implements \blaze\lang\StaticIniti
 
     public function getTimestamp($identifier) {
         return $this->getDateTime($identifier);
-    }
-
-    public function first() {
-
-    }
-
-    public function getType() {
-
-    }
-
-    public function last() {
-
-    }
-
-    public function previous() {
-
     }
 
 }

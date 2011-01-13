@@ -40,7 +40,7 @@ class TableMetaDataImpl extends AbstractTableMetaData {
 
         if (count($this->notInitializedColumns) > 0) {
             foreach ($this->notInitializedColumns as $column) {
-                $query .= $this->getColumnDefinition($column);
+                $query .= ColumnMetaDataImpl::getColumnDefinition($column);
                 $query .= ',';
             }
 
@@ -64,28 +64,6 @@ class TableMetaDataImpl extends AbstractTableMetaData {
                 $column->initialize($this);
 
         $this->notInitializedColumns = array();
-    }
-
-    private function getColumnDefinition(\blaze\ds\meta\ColumnMetaData $column, $newName = null) {
-        if ($newName === null)
-            $query = $column->getName() . ' ' . $column->getComposedNativeType();
-        else
-            $query = $newName . ' ' . $column->getComposedNativeType();
-
-        if (!$column->isNullable())
-            $query .= ' NOT NULL';
-        if ($column->getDefault() !== null)
-            $query .= ' DEFAULT ' . $column->getDefault();
-        if ($column->isAutoincrement())
-            $query .= ' AUTO_INCREMENT';
-        if ($column->isPrimaryKey())
-            $query .= ' PRIMARY KEY';
-        else if ($column->isUniqueKey())
-            $query .= ' UNIQUE KEY';
-        if ($column->getComment() !== null)
-            $query .= ' COMMENT \'' . $column->getComment() . '\'';
-
-        return $query;
     }
 
     /**
@@ -237,7 +215,7 @@ class TableMetaDataImpl extends AbstractTableMetaData {
             $stmt = $this->schema->getDatabaseMetaData()->getConnection()->prepareStatement('SELECT * FROM information_schema.TRIGGERS WHERE EVENT_OBJECT_SCHEMA = ? AND EVENT_OBJECT_TABLE = ? AND TRIGGER_NAME = ?');
             $stmt->setString(0, $this->schema->getSchemaName());
             $stmt->setString(1, $this->tableName);
-            $stmt->setString(1, $triggerName);
+            $stmt->setString(2, $triggerName);
             $stmt->execute();
             $rs = $stmt->getResultSet();
 
@@ -416,7 +394,7 @@ class TableMetaDataImpl extends AbstractTableMetaData {
         }else {
             $this->checkClosed();
             $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-            $stmt->executeQuery('ALTER TABLE ' . $this->tableName . ' ADD COLUMN ' . $this->getColumnDefinition($column, $newName));
+            $stmt->executeQuery('ALTER TABLE ' . $this->tableName . ' ADD COLUMN ' . ColumnMetaDataImpl::getColumnDefinition($column, $newName));
         }
     }
 
@@ -447,6 +425,8 @@ class TableMetaDataImpl extends AbstractTableMetaData {
     public function drop() {
         if (!$this->initialized)
             return;
+        $this->schema->dropTable($this->tableName);
+        return true;
     }
 
     public function dropColumn($columnName) {
@@ -497,6 +477,8 @@ class TableMetaDataImpl extends AbstractTableMetaData {
 
         }
     }
+
+    
 
 }
 

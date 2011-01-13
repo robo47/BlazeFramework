@@ -11,9 +11,9 @@ use blaze\ds\meta\ColumnMetaData,
  * By adding a new BDSC-Url in setUp() other databases can be tested too.
  * @todo extend this test to use every possible type for columns, getBlob/Clob/NClob on resultset will return stream which should have an native stream but will have a string as content for PHP Version < 5.3.4
  * @todo write a test for callable statement
- * @todo test transaction isolation levels
+ * @todo test transaction isolation levels and nested transactions
  * @todo test scrollable ResultSets
- * @todo test multiple resultsets and implement them!
+ * @todo test multiple resultsets
  * @todo test the metadata
  * @todo test the addXXX() methods to copy a db or parts of it from one server to another
  */

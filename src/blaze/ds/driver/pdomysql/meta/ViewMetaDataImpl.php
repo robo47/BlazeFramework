@@ -9,11 +9,7 @@ use blaze\ds\driver\pdobase\meta\AbstractViewMetaData;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class ViewMetaDataImpl extends AbstractViewMetaData {
 
@@ -67,8 +63,8 @@ class ViewMetaDataImpl extends AbstractViewMetaData {
     }
 
     public function drop() {
-        $stmt = $this->schema->getDatabaseMetaData()->getConnection()->createStatement();
-        $stmt->executeQuery('DROP VIEW ' . $this->viewName);
+        $this->schema->dropView($this->viewName);
+        return true;
     }
 
 }

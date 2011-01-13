@@ -15,7 +15,7 @@ use blaze\lang\Object;
  * @property-read int $length Provide the java feeling, that every array has a final memeber which holds the length of the array
  * @author  Christian Beikov
  */
-interface ArrayI extends Iterable, Countable, ArrayAccess {
+interface ArrayI extends Iterable, Countable, ArrayAccess, \blaze\lang\NativeWrapper {
 
 }
 
