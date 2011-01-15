@@ -54,7 +54,6 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
      * @return boolean Wether the action was successfull or not
      */
     public function addAll(\blaze\collections\Collection $obj) {
-        $this->rangeCheck($index);
         $ar = $obj->toArray();
         for ($i = 0; $i < count($ar); $i++) {
             $this->add($ar[$i]);
@@ -187,18 +186,17 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     public function indexOf(\blaze\lang\Reflectable $obj) {
-        $index = array_search($obj, $this->elementData, false);
-        if (\is_int($index)) {
-            return $index;
-        } else {
-            return -1;
-        }
+		foreach($this->elementData as $key => $element)
+			if($obj->equals($element))
+				return $key;
+		return -1;
     }
 
     public function lastIndexOf(\blaze\lang\Reflectable $obj) {
         for ($i = $this->size - 1; $i >= 0; $i--)
-            if ($obj === $this->elementData[$i])
+            if ($obj->equals($this->elementData[$i]))
                 return $i;
+		return -1;
     }
 
     public function listIterator($index = 0) {
@@ -217,7 +215,10 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
 
     public function set(\int $index, \blaze\lang\Reflectable $obj) {
         $this->rangeCheck($index);
-        $old = $this->elementData[$index];
+		if($index != $this->size)
+			$old = $this->elementData[$index];
+		else
+			$old = null;
         $this->elementData[$index] = $obj;
         return $old;
     }
@@ -239,7 +240,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     }
 
     private function rangeCheck(\int $index, $offset = 0) {
-        if ($index < 0 || $this->size - $offset < $index) {
+        if ($index < 0 || $this->size + $offset < $index) {
             throw new \blaze\lang\IndexOutOfBoundsException('Index: ' . $index . ' Size: ' . $this->size);
         }
     }

@@ -107,8 +107,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function putAll(\blaze\collections\Map $m) {
-        foreach ($m as $value) {
-            $this->put($value->getKey(), $value->getValue());
+        foreach ($m as $key => $value) {
+            $this->put($key, $value);
         }
     }
 
@@ -129,7 +129,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     public function values() {
         $list = new \blaze\collections\lists\ArrayList();
         foreach ($this as $val) {
-            $list->add($val->getValue());
+            $list->add($val);
         }
         return $list;
     }
@@ -150,8 +150,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function containsAll(\blaze\collections\Map $c) {
-        foreach ($c as $val) {
-            if (!$this->containsKey($val->getKey())) {
+        foreach ($c as $key => $val) {
+            if (!$this->containsKey($key)) {
                 return false;
             }
         }
@@ -160,8 +160,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
     public function removeAll(\blaze\collections\Map $obj) {
         $ret = false;
-        foreach ($obj as $value) {
-            if ($this->remove($value->getKey())) {
+        foreach ($obj as $key => $value) {
+            if ($this->remove($key)) {
                 $ret = true;
             }
         }
@@ -169,9 +169,9 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     public function retainAll(\blaze\collections\Map $obj) {
-        foreach ($this as $val) {
-            if (!$obj->containsKey($val->getKey())) {
-                $this->remove($val->getKey());
+        foreach ($this as $key => $val) {
+            if (!$obj->containsKey($key)) {
+                $this->remove($key);
             }
         }
     }
@@ -182,8 +182,8 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
 
     public function toString() {
         $str = new \blaze\lang\StringBuffer('HashMap:{');
-        foreach ($this->data as $val) {
-            $str->append(' [' . $val->getKey() . ',' . $val->getValue() . ']');
+        foreach ($this->data as $key => $val) {
+            $str->append(' [' . $key . ',' . $val . ']');
         }
         $str->append('}');
     }

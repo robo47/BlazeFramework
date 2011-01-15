@@ -427,7 +427,12 @@ final class System extends Object implements StaticInitialization {
                                 case 'integer':
                                 case 'double':
                                     if (($class = Number::getNumberClass($args[$argNumber])) != null) {
-                                        $className = $class->getName()->toNative();
+										if(Integer::isNativeType($args[$argNumber]))
+											$className = 'blaze\\lang\\Integer';
+										else if(Double::isNativeType($args[$argNumber]))
+											$className = 'blaze\\lang\\Double';
+										else
+											$className = $class->getName()->toNative();
                                         $args[$argNumber] = $className::asWrapper($args[$argNumber]);
                                         $ok = true;
                                     }

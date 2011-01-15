@@ -14,7 +14,7 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    protected function setUp() {
+    public function getList() {
         $ar = new lists\ArrayList();
         $ar->add(new \blaze\lang\Integer(5));
         $ar->add(new \blaze\lang\Integer(98));
@@ -24,7 +24,7 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
         $ar->add(new \blaze\lang\Integer(2));
         $ar->add(new \blaze\lang\Integer(5));
         $ar->add(new \blaze\lang\Integer(67));
-        $this->object = $ar;
+        return $ar;
     }
 
     protected function tearDown() {
@@ -56,44 +56,47 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
     public function testCopyOf() {
         // Remove the following lines when you implement this test.
         $list = new lists\ArrayList();
-        Collections::copyOf($this->object, $list);
-        $this->assertTrue($this->object->get(0) == $list->get(0));
-        $this->assertTrue($this->object->get(2) == $list->get(2));
-        $this->assertTrue($this->object->get(5) == $list->get(5));
-        $this->assertTrue($this->object->get(6) == $list->get(6));
-        $this->assertTrue($this->object->get(7) == $list->get(7));
+        Collections::copyOf($this->getList(), $list);
+        $this->assertTrue($list->get(0) == $list->get(0));
+        $this->assertTrue($list->get(2) == $list->get(2));
+        $this->assertTrue($list->get(5) == $list->get(5));
+        $this->assertTrue($list->get(6) == $list->get(6));
+        $this->assertTrue($list->get(7) == $list->get(7));
     }
 
     public function testCopyOfRange() {
         // Remove the following lines when you implement this test.
         $dest = new lists\ArrayList();
-        Collections::copyOfRange($this->object,2, 6, $dest);
-        $this->assertTrue($this->object->get(2) == $dest->get(0));
-        $this->assertTrue($this->object->get(3) == $dest->get(1));
-        $this->assertTrue($this->object->get(4) == $dest->get(2));
-        $this->assertTrue($this->object->get(5) == $dest->get(3));
+		$list = $this->getList();
+        Collections::copyOfRange($list,2, 6, $dest);
+        $this->assertTrue($list->get(2) == $dest->get(0));
+        $this->assertTrue($list->get(3) == $dest->get(1));
+        $this->assertTrue($list->get(4) == $dest->get(2));
+        $this->assertTrue($list->get(5) == $dest->get(3));
 
     }
 
     public function testFill() {
         // Remove the following lines when you implement this test.
-        Collections::fill($this->object, new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(2) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(5) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(6) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(99));
+		$list = $this->getList();
+        Collections::fill($list, new \blaze\lang\Integer(99));
+        $this->assertTrue($list->get(0)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(2)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(5)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(6)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(7)->equals(new \blaze\lang\Integer(99)));
     }
 
     public function testFillRange() {
         // Remove the following lines when you implement this test.
-       Collections::fillRange($this->object, 2, 6, new \blaze\lang\Integer(99));
+		$list = $this->getList();
+       Collections::fillRange($list, 2, 6, new \blaze\lang\Integer(99));
 
-        $this->assertTrue($this->object->get(2) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(3) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(4) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(5) ==  new \blaze\lang\Integer(99));
-        $this->assertTrue($this->object->get(6) !=  new \blaze\lang\Integer(99));
+        $this->assertTrue($list->get(2)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(3)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(4)->equals(new \blaze\lang\Integer(99)));
+        $this->assertTrue($list->get(5)->equals(new \blaze\lang\Integer(99)));
+        $this->assertFalse($list->get(6)->equals(new \blaze\lang\Integer(99)));
 
     }
 
@@ -113,22 +116,21 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     public function testMax() {
         // Remove the following lines when you implement this test.
-  
-        $this->assertTrue(Collections::max($this->object)==new \blaze\lang\Integer(98));
+        $this->assertTrue(Collections::max($this->getList())->equals(new \blaze\lang\Integer(98)));
 
     }
 
     public function testMin() {
         // Remove the following lines when you implement this test.
-        $this->assertTrue(Collections::min($this->object)==new \blaze\lang\Integer(1));
+        $this->assertTrue(Collections::min($this->getList())->equals(new \blaze\lang\Integer(1)));
     }
 
     public function testReplaceAll() {
         // Remove the following lines when you implement this test.
-        echo $this->object->indexOf(new \blaze\lang\Integer(5));
-        Collections::replaceAll($this->object, new \blaze\lang\Integer(5), 'replaced');
-        $this->assertTrue($this->object->get(0) ==  'replaced');
-        $this->assertTrue($this->object->get(3) ==  'replaced');
+		$list = $this->getList();
+        Collections::replaceAll($list, new \blaze\lang\Integer(5), 'replaced');
+        $this->assertTrue($list->get(0)->equals('replaced'));
+        $this->assertTrue($list->get(3)->equals('replaced'));
         
        
 
@@ -136,9 +138,10 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     public function testReverse() {
         // Remove the following lines when you implement this test.
-        Collections::reverse($this->object);
-        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(67));
-        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(5));
+		$list = $this->getList();
+        Collections::reverse($list);
+        $this->assertTrue($list->get(0)->equals(new \blaze\lang\Integer(67)));
+        $this->assertTrue($list->get(7)->equals(new \blaze\lang\Integer(5)));
     }
 
     public function testReverseComperator() {
@@ -150,24 +153,10 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     public function testSort() {
         // Remove the following lines when you implement this test.
-        $ar = new lists\ArrayList();
-        $ar->add(new \blaze\lang\Integer(5));
-        $ar->add(new \blaze\lang\Integer(98));
-        $ar->add(new \blaze\lang\Integer(1));
-        $ar->add(new \blaze\lang\Integer(5));
-        $ar->add(new \blaze\lang\Integer(68));
-        $ar->add(new \blaze\lang\Integer(2));
-        $ar->add(new \blaze\lang\Integer(5));
-        $ar->add(new \blaze\lang\Integer(67));
-       /* var_dump($ar);
-        Collections::sortRange($ar, 2, 7);
-        var_dump($ar);*/
-
-        Collections::sort($ar);
-
-        $this->assertTrue(Collections::binarySearch($ar, new \blaze\lang\Integer(98), null)==7);
-
-     
+        
+		$list = $this->getList();
+        Collections::sort($list);
+        $this->assertTrue(Collections::binarySearch($list, new \blaze\lang\Integer(98), null)==7);     
     }
 
     public function testSortRange() {
@@ -179,9 +168,10 @@ class CollectionsTest extends \PHPUnit_Framework_TestCase {
 
     public function testSwap() {
         // Remove the following lines when you implement this test.
-        Collections::swap($this->object, 0, 7);
-        $this->assertTrue($this->object->get(0) ==  new \blaze\lang\Integer(67));
-        $this->assertTrue($this->object->get(7) ==  new \blaze\lang\Integer(5));
+		$list = $this->getList();
+        Collections::swap($list, 0, 7);
+        $this->assertTrue($list->get(0)->equals(new \blaze\lang\Integer(67)));
+        $this->assertTrue($list->get(7)->equals(new \blaze\lang\Integer(5)));
 
     }
 

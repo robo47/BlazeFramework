@@ -170,7 +170,7 @@ class UnixFileSystem extends FileSystem {
 
     /* -- Attribute accessors -- */
 
-    public function getBooleanAttributes(&$f) {
+    public function getBooleanAttributes($f) {
         //$rv = getBooleanAttributes0($f);
         $name = $f->getName()->toNative();
         $hidden = (strlen($name) > 0) && ($name{0} == '.');

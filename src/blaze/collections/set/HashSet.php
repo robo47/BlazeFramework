@@ -109,7 +109,8 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
      */
     public function remove(\blaze\lang\Reflectable $obj) {
         if ($this->contains($obj)) {
-            unset($this->data[$this->hash($obj)]);
+			$hash = $this->hash($obj);
+            unset($this->data[$hash]);
             unset($this->hashs[$this->indexOf($hash)]);
             $this->hashs = \array_values($this->hashs);
             $this->size--;

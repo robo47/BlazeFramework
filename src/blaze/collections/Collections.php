@@ -67,52 +67,31 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @throws blaze\lang\IndexOutOfBoundsException
      */
     public static function binarySearch(ListI $a, \blaze\lang\Reflectable $key, \blaze\lang\Comparator $c = null) {
-        $ar = $a->toArray();
-        if ($c == null) {
-            return Collections::arrayBsearch($key, $ar);
-        } else {
-            return Collections::arrayBsearchComperator($key, $ar, $c);
-        }
-    }
-
-    private static function arrayBsearch($needle, $haystack) {
-        $high = Count($haystack) - 1;
-        $low = 0;
-
-        while ($high >= $low) {
-            $probe = Floor(( $high + $low ) / 2);
-            $comparison = $haystack[$probe]->compareTo($needle);
-            if ($comparison < 0) {
-                $low = $probe + 1;
-            } elseif ($comparison > 0) {
-                $high = $probe - 1;
-            } else {
-                return $probe;
-            }
-        }
-
-        // ---The loop ended without a match
-        return -1;
-    }
-
-    private static function arrayBsearchComperator($needle, $haystack, $cmp) {
-        $high = Count($haystack) - 1;
-        $low = 0;
-
-        while ($high >= $low) {
-            $probe = Floor(( $high + $low ) / 2);
-            $comparison = $cmp->compare($haystack[$probe], $needle);
-            if ($comparison < 0) {
-                $low = $probe + 1;
-            } elseif ($comparison > 0) {
-                $high = $probe - 1;
-            } else {
-                return $probe;
-            }
-        }
-
-        // ---The loop ended without a match
-        return -1;
+		$count = $a->size();
+		
+		if($count == 0)
+			return -1;
+		
+		$high = $count - 1;
+		$low = 0;
+		
+		while($high >= $low){
+			$probe = floor(($high + $low) / 2);
+			
+			if($c == null)
+				$comp = $a->get($probe)->compareTo($key);
+			else
+				$comp = $c->compare($a->get($probe), $key);
+				
+			if($comp < 0)
+				$low = $probe + 1;
+			else if($comp > 0)
+				$high = $probe + 1;
+			else
+				return $probe;
+		}
+		
+		return -1;
     }
 
     /**
@@ -163,7 +142,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
         $size = $a->count();
         $a->clear();
         for ($i = 0; $i < $size; $i++) {
-            $a->set($i, $value);
+            $a->add($value);
         }
     }
 
@@ -194,18 +173,34 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      *  Returns the maximum element of the given collection, according to the order induced by the specified comparator
      */
     public static function max(Collection $src, \blaze\lang\Comparator $comp = null) {
-        $list = new lists\ArrayList($src);
-        Collections::sort($list, $comp);
-        return $list->get($list->count() - 1);
+		if($src->size() == 0)
+			return null;
+		$arr = $src->toArray();
+		$max = $arr[0];
+		
+		foreach($arr as $val){
+			if(($comp == null && $max->compareTo($val) < 0) ||  ($comp != null && $comp->compare($max, $val) < 0))
+				$max = $val;
+		}
+		
+		return $max;
     }
 
     /**
      * Returns the minimum element of the given collection, according to the natural ordering of its elements.
      */
     public static function min(Collection $src, \blaze\lang\Comparator $comp = null) {
-        $list = new lists\ArrayList($src);
-        Collections::sort($list, $comp);
-        return $list->get(0);
+		if($src->size() == 0)
+			return null;
+		$arr = $src->toArray();
+		$min = $arr[0];
+		
+		foreach($arr as $val){
+			if(($comp == null && $min->compareTo($val) > 0) || ($comp != null && $comp->compare($min, $val) > 0))
+				$min = $val;
+		}
+		
+		return $min;
     }
 
     /**
@@ -221,12 +216,16 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      *  Reverses the order of the elements in the specified list.
      */
     public static function reverse(ListI $src) {
-        $ar = \array_reverse($src->toArray());
-        $ret = new lists\ArrayList();
-        foreach ($ar as $val) {
-            $ret->add($val);
+		$count = $src->size();
+		
+		if($count == 0)
+			return;
+			
+        $arr = $src->toArray();
+		
+        for($i = 0; $i < $count; $i++) {
+            $src->set($i, $arr[$count - $i - 1]);
         }
-        $src = $ret;
     }
 
     /**
@@ -242,7 +241,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * The comparator can only be used for lists which manage objects.
      */
     public static function sort(ListI $list, \blaze\lang\Comparator $c = null) {
-        Collections::sortRange($list, 0, $list->count());
+        Collections::sortRange($list, 0, $list->count() - 1, $c);
     }
 
     /**
@@ -254,26 +253,21 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
         if ($size <= 0) {
             throw new \blaze\lang\IndexOutOfBoundsException('List has not any Values');
         }
-        if (($size + 1) < $to || $to < 0) {
+        if ($size <= $to || $to < 0) {
             throw new \blaze\lang\IndexOutOfBoundsException('size: ' . $size . ' to: ' . $to);
         }
         if ($size <= $from || $from < 0) {
             throw new \blaze\lang\IndexOutOfBoundsException('size: ' . $size . ' to: ' . $from);
         }
-        $ar = $list->subList($from, $to);
+        $ar = $list->subList($from, $to, true, true);
         $ar = $ar->toArray();
-        if ($c === null) {
-            usort($ar, array('\blaze\collections\Collections', 'cmpObjects'));
-        } else {
+        if ($c === null) 
+			usort($ar, array('\\blaze\\collections\\ComparableComparator', 'compare'));
+        else 
             usort($ar, array($c, 'compare'));
-        }
-        $newlist = new lists\ArrayList();
-        $newlist->addAll($list->subList(0, $from));
-        foreach ($ar as $val) {
-            $newlist->add($val);
-        }
-        $newlist->addAll($list->subList($to, $size - 1, true, true));
-        $list = $newlist;
+        
+		for($i = $from; $i <= $to; $i++)
+			$list->set($i, $ar[$i]);
     }
 
     private static function cmpObjects($a, $b) {

@@ -28,14 +28,14 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testAdd() {
         // Remove the following lines when you implement this test.
                    $this->object->add(10);
-           $this->assertTrue($this->object->get(10)==10);
+           $this->assertTrue($this->object->get(10)->toNative()==10);
     }
 
     public function testAddAll() {
         // Remove the following lines when you implement this test.
         $this->object->addAt(3, 11);
-        $this->assertTrue($this->object->get(3)==11);
-        $this->assertTrue($this->object->get(4)==3);
+        $this->assertTrue($this->object->get(3)->toNative()==11);
+        $this->assertTrue($this->object->get(4)->toNative()==3);
     }
 
     public function testClear() {
@@ -59,12 +59,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $assert = false;
         foreach($this->object as $val){
             $assert = true;
-            $this->assertTrue($val == $i);
+            $this->assertTrue($val->toNative() == $i);
             $i++;
         }
         $this->assertTrue($assert);
         $it->next();
-        $this->assertTrue($it->current() === 1);
+        $this->assertTrue($it->current()->toNative() === 1);
         $it->next();
         $it->next();
         $it->next();
@@ -155,15 +155,15 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
     public function testAddAt() {
         // Remove the following lines when you implement this test.
         $this->object->addAt(3, 11);
-        $this->assertTrue($this->object->get(3)==11);
-        $this->assertTrue($this->object->get(4)==3);
+        $this->assertTrue($this->object->get(3)->toNative()==11);
+        $this->assertTrue($this->object->get(4)->toNative()==3);
     }
 
     public function testGet() {
         // Remove the following lines when you implement this test.
-        $this->assertTrue($this->object->get(0)==0);
-        $this->assertTrue($this->object->get(5)==5);
-        $this->assertTrue($this->object->get(8)==8);
+        $this->assertTrue($this->object->get(0)->toNative()==0);
+        $this->assertTrue($this->object->get(5)->toNative()==5);
+        $this->assertTrue($this->object->get(8)->toNative()==8);
     }
 
     public function testIndexOf() {
@@ -189,12 +189,12 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
         $assert = false;
         foreach($this->object as $val){
             $assert = true;
-            $this->assertTrue($val == $i);
+            $this->assertTrue($val->toNative() == $i);
             $i++;
         }
         $this->assertTrue($assert);
         $it->next();
-        $this->assertTrue($it->current() === 1);
+        $this->assertTrue($it->current()->toNative() === 1);
         $it->next();
         $it->next();
         $it->next();
@@ -211,26 +211,26 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
    
     public function testSet() {
         // Remove the following lines when you implement this test.
-        $this->assertTrue($this->object->set(2, 69)==2);
-        $this->assertTrue($this->object->get(2)==69);
+        $this->assertTrue($this->object->set(2, 69)->toNative()==2);
+        $this->assertTrue($this->object->get(2)->toNative()==69);
         $this->assertTrue($this->object->indexOf(69)==2);
     }
 
     public function testSubList() {
         // Remove the following lines when you implement this test.
         $list = $this->object->subList(2, 5);
-        $this->assertTrue($list->get(0)==2);
-        $this->assertTrue($list->get(1)==3);
-        $this->assertTrue($list->get(2)==4);
+        $this->assertTrue($list->get(0)->toNative()==2);
+        $this->assertTrue($list->get(1)->toNative()==3);
+        $this->assertTrue($list->get(2)->toNative()==4);
 
         $list = $this->object->subList(2, 5,false);
-        $this->assertTrue($list->get(0)==3);
-        $this->assertTrue($list->get(1)==4);
+        $this->assertTrue($list->get(0)->toNative()==3);
+        $this->assertTrue($list->get(1)->toNative()==4);
 
         $list = $this->object->subList(2, 5,false,true);
-        $this->assertTrue($list->get(0)==3);
-        $this->assertTrue($list->get(1)==4);
-        $this->assertTrue($list->get(2)==5);
+        $this->assertTrue($list->get(0)->toNative()==3);
+        $this->assertTrue($list->get(1)->toNative()==4);
+        $this->assertTrue($list->get(2)->toNative()==5);
 
 
     }

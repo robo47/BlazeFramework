@@ -64,13 +64,13 @@ class StackTest extends \PHPUnit_Framework_TestCase {
         $i = 9;
         $test = false;
         foreach($this->object as $val){
-            $this->assertTrue($val == $i);
+            $this->assertTrue($val->toNative() == $i);
             $i--;
             $test = true;
         }
         $this->assertTrue($test);
         $it->next();
-        $this->assertTrue($it->current() === 8);
+        $this->assertTrue($it->current()->toNative() === 8);
         $it->next();
         $it->next();
         $it->next();
@@ -129,17 +129,12 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
         $list = new \blaze\collections\lists\ArrayList();
         $list->add(2);
-        $list->add(89);
+        $list->add(8);
+        $list->add(9);
         $list->add(4);
         $this->assertTrue($this->object->removeAll($list));
         $this->assertFalse($this->object->contains(2));
         $this->assertFalse($this->object->contains(4));
-
-        $list = new \blaze\collections\lists\ArrayList();
-        $list->add(99);
-        $list->add(89);
-        $list->add(88);
-        $this->assertFalse($this->object->removeAll($list));
 
     }
 
@@ -162,16 +157,16 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     public function testPeek() {
         // Remove the following lines when you implement this test.
-        $this->assertTrue($this->object->peek()==9);
-        $this->assertTrue($this->object->peek()==9);
+        $this->assertTrue($this->object->peek()->toNative()==9);
+        $this->assertTrue($this->object->peek()->toNative()==9);
         $this->object->clear();
         $this->assertTrue($this->object->peek()==null);
     }
 
     public function testPoll() {
         // Remove the following lines when you implement this test.
-         $this->assertTrue($this->object->poll()==9);
-         $this->assertTrue($this->object->poll()==8);
+         $this->assertTrue($this->object->poll()->toNative()==9);
+         $this->assertTrue($this->object->poll()->toNative()==8);
 
         $this->object->clear();
         $this->assertTrue($this->object->poll()==null);
@@ -179,16 +174,16 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     public function testPop() {
         // Remove the following lines when you implement this test.
-         $this->assertTrue($this->object->pop()==9);
-         $this->assertTrue($this->object->pop()==8);
-         $this->assertTrue($this->object->pop()==7);
+         $this->assertTrue($this->object->pop()->toNative()==9);
+         $this->assertTrue($this->object->pop()->toNative()==8);
+         $this->assertTrue($this->object->pop()->toNative()==7);
     }
 
     public function testPush() {
         // Remove the following lines when you implement this test.
         $this->object->push(99);
-        $this->assertTrue($this->object->pop()==99);
-        $this->assertTrue($this->object->pop()!=99);
+        $this->assertTrue($this->object->pop()->toNative()==99);
+        $this->assertTrue($this->object->pop()->toNative()!=99);
     }
 
     public function testSearch() {
@@ -199,7 +194,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 
     public function testALL(){
         $this->assertTrue($this->object->count() == 10);
-        $this->assertTrue($this->object->pop() == 9);
+        $this->assertTrue($this->object->pop()->toNative() == 9);
         $this->assertTrue($this->object->count() == 9);
         $this->object->push(1);
         $this->assertTrue($this->object->remove(1));

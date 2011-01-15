@@ -67,7 +67,12 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
      * @return boolean True if the element obj is in this collections
      */
     public function contains(\blaze\lang\Reflectable $obj) {
-        return \in_array($obj, $this->data);
+		if($this->size == 0)
+			return false;
+        foreach($this->data as $val)
+			if($val->equals($obj))
+				return true;
+		return false;
     }
 
     /**
@@ -109,11 +114,11 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     }
 
     public function removeAll(\blaze\collections\Collection $obj) {
-        $ret = false;
+        $ret = true;
         $ar = $obj->toArray();
         foreach ($ar as $val) {
-            if ($this->remove($val)) {
-                $ret = true;
+            if (!$this->remove($val)) {
+                $ret = false;
             }
         }
         return $ret;
@@ -123,14 +128,22 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
      * @return boolean Wether the action was successfull or not
      */
     public function retainAll(\blaze\collections\Collection $obj) {
-        $reomve = \array_diff($this->data, $obj->toArray());
-        $ret = false;
-        foreach ($reomve as $val) {
-            if ($this->remove($val)) {
-                $ret = true;
-            }
-        }
-        return $ret;
+		$retained = array();
+		$arr = $obj->toArray();
+		
+		for($i = 0; $i < $this->size; $i++){
+			for($j = 0; $j < $obj->size(); $j++){
+				if($this->data[$i]->equals($arr[$j])){
+					$retained[] = $this->data[$i];
+					break;
+				}
+			}
+		}
+		
+		$changed = count($retained) != $this->size;
+		$this->size = count($retained);
+		$this->data = $retained;
+		return $changed;
     }
 
     /**
@@ -164,13 +177,10 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     }
 
     public function indexOf(\blaze\lang\Reflectable $obj) {
-        $help = \array_reverse($this->data, true);
-        $index = array_search($obj, $help, true);
-        if (\is_int($index)) {
-            return $index;
-        } else {
-            return -1;
-        }
+        foreach($this->data as $key => $element)
+			if($obj->equals($element))
+				return $key;
+		return -1;
     }
 
     public function removeElement() {
@@ -195,11 +205,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
      * @return int Returns the 1-based position where an object is on this stack.
      */
     public function search(\blaze\lang\Reflectable $element) {
-        $ret = \array_search($element, $this->data);
-        if ($ret === false) {
-            return false;
-        }
-        return $ret + 1;
+        return $this->indexOf($element) + 1;
     }
 
     private function rangeCheck($index) {

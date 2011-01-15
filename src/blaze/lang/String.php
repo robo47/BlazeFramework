@@ -438,7 +438,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      */
     public function compareTo(Object $obj) {
         if ($obj instanceof String)
-            return strcmp($this->value, $obj->value);
+            return strcmp($this->string, $obj->string);
         throw new ClassCastException('Could not cast ' . $obj1->getClass()->getName() . ' to String.');
     }
 

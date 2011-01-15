@@ -22,13 +22,13 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function tearDown() {
-
+$this->object->clear();
+        $this->assertTrue($this->object->count()==0);
     }
 
     public function testClear() {
         // Remove the following lines when you implement this test.
-        $this->object->clear();
-        $this->assertTrue($this->object->count()==0);
+        
     }
 
     public function testContainsKey() {
@@ -63,14 +63,14 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testGet() {
         // Remove the following lines when you implement this test.
-        $this->assertTrue($this->object->get(5)==5);
+        $this->assertTrue($this->object->get(5)->toNative()==5);
         $this->assertTrue($this->object->get(79)==null);
     }
 
     public function testPut() {
         // Remove the following lines when you implement this test.
         $this->object->put(78,'hallo');
-        $this->assertTrue($this->object->get(78)=='hallo');
+        $this->assertTrue($this->object->get(78)->toNative()=='hallo');
         $this->assertTrue($this->object->containsValue('hallo'));
         
 
@@ -86,23 +86,20 @@ class HashMapTest extends \PHPUnit_Framework_TestCase {
        $this->object->putAll($hashmap);
 
 
-       $this->assertTrue($this->object->get(87)==48);
+       $this->assertTrue($this->object->get(87)->toNative()==48);
        $this->assertTrue($this->object->containsValue(48));
 
-       $this->assertTrue($this->object->get(45)==98);
+       $this->assertTrue($this->object->get(45)->toNative()==98);
        $this->assertTrue($this->object->containsValue(98));
                 
-       $this->assertTrue($this->object->get(7889)==4);
+       $this->assertTrue($this->object->get(7889)->toNative()==4);
        $this->assertTrue($this->object->containsValue(4));
     }
 
     public function testRemove() {
         // Remove the following lines when you implement this test.
-        var_dump($this->object);
        $this->assertTrue($this->object->remove(5));
-       var_dump($this->object);
        $this->assertFalse($this->object->remove(99));
-       var_dump($this->object);
     }
 
     public function testValues() {

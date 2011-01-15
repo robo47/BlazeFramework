@@ -15,28 +15,7 @@ use blaze\ds\driver\pdobase\meta\AbstractForeignKeyMetaData;
 
 
  */
-class ReferenceConstraintMetaDataImpl extends \blaze\ds\driver\pdobase\meta\AbstractReferentialConstraintMetaData{
-
-    /**
-     *
-     * @param array[\blaze\ds\meta\ColumnMetaData] $columns
-     * @param array[\blaze\ds\meta\ColumnMetaData] $referencedColumns
-     * @param blaze\lang\String $constraintName
-     */
-    public function __construct($columns, \blaze\ds\meta\ColumnMetaData $referencedColumns, $constraintName) {
-        $this->columns = $columns;
-        $this->referencedColumns = $referencedColumns;
-        $this->constraintName = $constraintName;
-        $this->constraintType = 'FOREIGN KEY';
-    }
-
-    /**
-     * @return blaze\ds\meta\ColumnMetaData
-     */
-    public function getReferencedColumn() {
-        return $this->referencedColumns;
-    }
-
+class PrimaryKeyConstraintMetaDataImpl extends \blaze\ds\driver\pdobase\meta\AbstractPrimaryKeyConstraintMetaData{
     public function addColumn(\blaze\ds\meta\ColumnMetaData $column) {
 
     }
@@ -45,15 +24,15 @@ class ReferenceConstraintMetaDataImpl extends \blaze\ds\driver\pdobase\meta\Abst
 
     }
 
+    public function getColumns() {
+
+    }
+
     public function removeColumn(\blaze\ds\meta\ColumnMetaData $column) {
 
     }
 
-    public function setConstraintName() {
-
-    }
-
-    public function setReferencedColumn(\blaze\ds\meta\ColumnMetaData $referencedColumn) {
+    public function setConstraintName($constraintName) {
 
     }
 

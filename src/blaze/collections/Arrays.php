@@ -282,14 +282,4 @@ class Arrays extends \blaze\lang\Object {
 
 }
 
-class ComparableComparator {
-
-    public static function compare(\blaze\lang\Object $o1, \blaze\lang\Object $o2) {
-        if ($o1 !== null && $o1 instanceof \blaze\lang\Comparable)
-            return $o1->compareTo($o2);
-        throw new \blaze\lang\ClassCastException($o1 . ' is not Comparable');
-    }
-
-}
-
 ?>

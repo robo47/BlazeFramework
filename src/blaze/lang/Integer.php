@@ -21,7 +21,10 @@ class Integer extends Number implements Comparable {
 
     public function __construct($value) {
         $this->value = self::asNative($value);
-        $this->digitCount = 1 + floor(log10(abs($this->value)));
+		if($this->value == 0)
+			$this->digitCount = 1;
+		else
+			$this->digitCount = 1 + floor(log10(abs($this->value)));
     }
 
     public function byteValue() {
