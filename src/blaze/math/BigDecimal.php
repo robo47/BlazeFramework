@@ -14,8 +14,6 @@ use blaze\lang\String;
  *
  * @author  Christian Beikov, Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
  * @todo    Scale not properly set if the value in the constructor has the format 10.0e-20
  */
@@ -38,9 +36,10 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
      * @param <type> $scale If value has no scale you can define the scale
      */
     public function __construct($value, $scale = null) {
-        if(($class = Number::getNumberClass($value)) !== null)
-            $value = $class->getMethod('asNative')->invoke(null, $value);
-        else if(!self::isNativeType($value))
+        if(($class = Number::getNumberClass($value)) !== null){
+            $className = $class->getName()->toNative();
+            $value = $className::asNative($value);
+        }else if(!self::isNativeType($value))
             throw new \blaze\lang\NumberFormatException('Not a valid representation of BigDecimal!');
 
         $this->value = String::asNative($value);
@@ -273,12 +272,6 @@ class BigDecimal extends \blaze\lang\Number implements StaticInitialization, Com
 
     public function toString() {
         return $this->value;
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj2 === null)
-            return new NullPointerException();
-        return bccomp(static::asNative($obj1), static::asNative($obj2));
     }
 
     public function compareTo(Object $obj) {

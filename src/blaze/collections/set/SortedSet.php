@@ -27,7 +27,7 @@ interface SortedSet extends \blaze\collections\Set, \blaze\collections\bag\Sorte
      * @param boolean $inclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedSet
      */
-    public function headSet($toElement, $inclusive = true);
+    public function headSet(\blaze\lang\Reflectable $toElement, $inclusive = true);
 
     /**
      * Returns a view of the current set which starts at the fromElement and ends
@@ -38,7 +38,7 @@ interface SortedSet extends \blaze\collections\Set, \blaze\collections\bag\Sorte
      * @param boolean $toInclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedSet
      */
-    public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true);
+    public function subSet(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true);
 
     /**
      * Returns a view of the current set which starts at the fromElement and ends
@@ -47,7 +47,7 @@ interface SortedSet extends \blaze\collections\Set, \blaze\collections\bag\Sorte
      * @param boolean $inclusive Specifies wether the element fromElement is included in the view or not.
      * @return blaze\collections\SortedSet
      */
-    public function tailSet($fromElement, $inclusive = true);
+    public function tailSet(\blaze\lang\Reflectable $fromElement, $inclusive = true);
 }
 
 ?>

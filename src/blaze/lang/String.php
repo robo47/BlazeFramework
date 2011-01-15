@@ -106,7 +106,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
     }
 
     public function toString() {
-        return $this->string;
+        return $this;
     }
 
     /**
@@ -151,7 +151,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *             argument is negative or not less than the length of this
      *             string.
      */
-    public function charAt($index) {
+    public function charAt(\int $index) {
 
         if (($index < 0) || ($index >= $this->count)) {
             throw new StringIndexOutOfBoundsException($index);
@@ -436,12 +436,6 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          value greater than <code>0</code> if this string is
      *          lexicographically greater than the string argument.
      */
-    public static function compare($str1, $str2) {
-        if ($str1 === null || $str2 === null)
-            throw new NullPointerException();
-        return strcmp(String::asNative($str1), String::asNative($str2));
-    }
-
     public function compareTo(Object $obj) {
         if ($obj instanceof String)
             return strcmp($this->value, $obj->value);
@@ -562,7 +556,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          or case insensitive depends on the <code>ignoreCase</code>
      *          argument.
      */
-    public function regionMatches(String $other, $toffset, $ooffset, $len, $ignoreCase = false) {
+    public function regionMatches(String $other, \int $toffset, \int $ooffset, \int $len, $ignoreCase = false) {
         $ta = $this->string;
         $to = $toffset;
         $pa = $other->string;
@@ -672,14 +666,15 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
     public function hashCode() {
         $h = $this->hash;
         if ($h == 0) {
-            $off = 0;
-            $val = $this->string;
-            $len = $this->count;
-
-            for ($i = 0; $i < $len; $i++) {
-                $h = 31 * $h + $val[$off++];
-            }
-            $this->hash = $h;
+            $this->hash = $h = Integer::hexStringToInt(md5($this->string));
+//            $off = 0;
+//            $val = $this->string;
+//            $len = $this->count;
+//
+//            for ($i = 0; $i < $len; $i++) {
+//                $h = 31 * $h + $val[$off++];
+//            }
+//            $this->hash = $h;
         }
         return $h;
     }
@@ -703,13 +698,13 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * is true. In either case, if no such character occurs in this
      * string, then <code>-1</code> is returned.
      *
-     * @param blaze\lang\String|string  ch   a character (Unicode code point).
+     * @param blaze\lang\String|string  string   a character (Unicode code point).
      * @return int the index of the first occurrence of the character in the
      *          character sequence represented by this object, or
      *          <code>-1</code> if the character does not occur.
      */
-    public function indexOf($ch, $fromIndex = 0) {
-        $pos = strpos($this->string, String::asNative($ch), $fromIndex);
+    public function indexOf($string, $fromIndex = 0) {
+        $pos = strpos($this->string, String::asNative($string), $fromIndex);
         return $pos === false ? -1 : $pos;
     }
 
@@ -736,8 +731,8 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *          character sequence represented by this object, or
      *          <code>-1</code> if the character does not occur.
      */
-    public function lastIndexOf($ch, $fromIndex = null) {
-        $pos = strrpos($this->string, String::asNative($ch), $fromIndex);
+    public function lastIndexOf($string, $fromIndex = null) {
+        $pos = strrpos($this->string, String::asNative($string), $fromIndex);
         return $pos === false ? -1 : $pos;
     }
 
@@ -763,7 +758,7 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      *             <code>beginIndex</code> is larger than
      *             <code>endIndex</code>.
      */
-    public function substring($beginIndex, $endIndex = null) {
+    public function substring(\int $beginIndex, $endIndex = null) {
         if ($endIndex === null) {
             $endIndex = $this->count;
         }
@@ -836,11 +831,11 @@ final class String extends Object implements NativeWrapper, \blaze\io\Serializab
      * @return  blaze\lang\String a string derived from this string by replacing every
      *          occurrence of <code>oldChar</code> with <code>newChar</code>.
      */
-    public function replace($oldChar, $newChar, $ignoreCase = false) {
+    public function replace($oldString, $newString, $ignoreCase = false) {
         if ($ignoreCase)
-            return new String(str_ireplace(String::asNative($oldChar), String::asNative($newChar), $this->string));
+            return new String(str_ireplace(String::asNative($oldString), String::asNative($newString), $this->string));
 
-        return new String(str_replace(String::asNative($oldChar), String::asNative($newChar), $this->string));
+        return new String(str_replace(String::asNative($oldString), String::asNative($newString), $this->string));
 //	if (oldChar != newChar) {
 //	    int len = count;
 //	    int i = -1;

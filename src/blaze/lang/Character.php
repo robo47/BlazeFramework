@@ -6,10 +6,7 @@ namespace blaze\lang;
  * Description of Boolean
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\Object
  * @since   1.0
-
  * @author  Christian Beikov
  * @todo    Extend, http://commons.apache.org/lang/api-2.4/org/apache/commons/lang/CharUtils.html
  */
@@ -81,14 +78,7 @@ class Character extends Object implements NativeWrapper, Comparable {
         throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Character.');
     }
 
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj2 === null)
-            throw new NullPointerException();
-        return strcmp(self::asNative($obj1), self::asNative($obj2));
-    }
-
-    public static function isLetter($char) {
-        $char = self::asNative($char);
+    public static function isLetter(\char $char) {
         return ctype_alpha($char);
     }
 

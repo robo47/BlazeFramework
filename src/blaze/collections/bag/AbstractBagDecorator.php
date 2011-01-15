@@ -28,15 +28,15 @@ abstract class AbstractBagDecorator extends \blaze\collections\collection\Abstra
         $this->bag = $bag;
     }
 
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         return $this->bag->addCount($obj, $count);
     }
 
-    public function getCount($obj) {
+    public function getCount(\blaze\lang\Reflectable $obj) {
         return $this->bag->getCount($obj);
     }
 
-    public function removeCount($obj, $count) {
+    public function removeCount(\blaze\lang\Reflectable $obj, \int $count) {
         return $this->bag->removeCount($obj, $count);
     }
 

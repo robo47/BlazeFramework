@@ -59,7 +59,9 @@ class ResultSetDescriptor extends Object {
     }
 
     public function addCollectionMapping(CollectionFieldDescriptor $collectionDesc) {
-        
+        if($collectionDesc->getFieldDescriptor()->getType()->compareTo('blaze\\collections\\Set') == 0){
+            /** @todo Set property to initialize PersistentSet for this field within the hydrator */
+        }
     }
 
     public function getResultClassInstance() {

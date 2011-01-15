@@ -30,11 +30,11 @@ abstract class AbstractBidiMapDecorator extends \blaze\collections\map\AbstractM
         $this->bidiMap = $bidiMap;
     }
 
-    public function getKey($value) {
+    public function getKey(\blaze\lang\Reflectable $value) {
         return $this->bidiMap->getKey($value);
     }
 
-    public function removeValue($value) {
+    public function removeValue(\blaze\lang\Reflectable $value) {
         return $this->bidiMap->removeValue($value);
     }
 

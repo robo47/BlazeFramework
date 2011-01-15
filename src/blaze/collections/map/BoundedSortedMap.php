@@ -40,7 +40,7 @@ final class BoundedSortedMap extends AbstractSortedMapDecorator implements \blaz
      * {@inheritDoc}
      * When the sorted map is full nothing is added and false is returned.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         if (!$this->isFull())
             return $this->map->put($key, $value);
     }

@@ -10,10 +10,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
  */
 class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\HttpCookie{
 
@@ -40,15 +37,6 @@ class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\Htt
         $this->name = $name;
         $this->value = String::asWrapper($value);
     }
-
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     */
 
      public function getName() {
          return $this->name;
@@ -78,27 +66,27 @@ class HttpCookieImpl extends Object implements Cloneable, \blaze\netlet\http\Htt
          return $this->httponly;
      }
 
-     public function setValue($value) {
+     public function setValue(\blaze\lang\String $value) {
          $this->value = $value;
      }
 
-     public function setExpire($expire) {
+     public function setExpire(\int $expire) {
          $this->expire = $expire;
      }
 
-     public function setPath($path) {
+     public function setPath(\blaze\lang\String $path) {
          $this->path = $path;
      }
 
-     public function setDomain($domain) {
+     public function setDomain(\blaze\lang\String $domain) {
          $this->domain = $domain;
      }
 
-     public function setSecure($secure) {
+     public function setSecure(\boolean $secure) {
          $this->secure = $secure;
      }
 
-     public function setHttponly($httponly) {
+     public function setHttponly(\boolean $httponly) {
          $this->httponly = $httponly;
      }
 }

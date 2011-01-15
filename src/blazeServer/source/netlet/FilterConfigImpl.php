@@ -23,7 +23,7 @@ class FilterConfigImpl extends Object implements FilterConfig {
     private $filterName;
     private $netletContext;
 
-    public function __construct($filterName, \blaze\netlet\NetletContext $netletContext, $initParams){
+    public function __construct($filterName, \blaze\netlet\NetletContext $netletContext, \blaze\collections\Map $initParams){
         $this->initParams = $initParams;
         $this->filterName = $filterName;
         $this->netletContext = $netletContext;
@@ -33,10 +33,8 @@ class FilterConfigImpl extends Object implements FilterConfig {
         return $this->filterName;
     }
 
-    public function getInitParameter($name) {
-        if(!array_key_exists($name, $this->initParams))
-             return null;
-        return $this->initParams[$name];
+    public function getInitParameter(\blaze\lang\String $name) {
+        return $this->initParams->get($name);
     }
 
     public function getInitParameterMap() {

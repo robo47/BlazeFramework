@@ -49,7 +49,7 @@ class NavigationHandler extends Object {
                 if ($actionString != null) {
                     // Look for the action in the navigationMap
                     foreach ($navigationRule->getActions() as $action => $view) {
-                        if (String::compare($actionString, $action) == 0) {
+                        if ($actionString->compareTo($action) == 0) {
 //                            \blaze\util\Logger::get()->log('Navigated from '.$context->getViewRoot()->getViewId().' to '. $context->getViewHandler()->getView($context, $action['view'])->getViewId());
                             $context->setViewRoot($context->getViewHandler()->getView($context, $view));
                             $context->setNavigated();

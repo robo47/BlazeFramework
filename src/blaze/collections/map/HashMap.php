@@ -47,11 +47,11 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         $this->hashs = array();
     }
 
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
         return array_key_exists($this->hash($key), $this->data);
     }
 
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         foreach ($this->data as &$val) {
             if ($val->getValue() == $value) {
                 return true;
@@ -84,7 +84,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         return $ret;
     }
 
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         $hash = $this->hash($key);
         if (array_key_exists($hash, $this->data)) {
             return $this->data[$hash]->getValue();
@@ -92,7 +92,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         return null;
     }
 
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         $hash = $this->hash($key);
 
         if (array_key_exists($hash, $this->data)) {
@@ -112,7 +112,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
         }
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         $hash = $this->hash($key);
 
         if ($this->containsKey($key)) {
@@ -177,11 +177,7 @@ class HashMap extends AbstractMap implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     private function hash($key) {
-        if ($key instanceof Object) {
-            return String::asNative($key->hashCode());
-        } else {
-            return String::asNative(Integer::hexStringToInt(md5($key)));
-        }
+        return String::asNative($key->hashCode());
     }
 
     public function toString() {
@@ -224,7 +220,7 @@ class HashMapEntry extends Object implements \blaze\collections\MapEntry {
         return $this->value;
     }
 
-    public function setValue($value) {
+    public function setValue(\blaze\lang\Reflectable $value) {
         $old = $this->value;
         $this->value = $value;
         return $old;
@@ -286,7 +282,10 @@ class HashMapIterator implements \blaze\collections\MapIterator {
     }
 
     public function key() {
-        return $this->getKey();
+        $key = $this->getKey();
+        if($key instanceof \blaze\lang\NativeWrapper)
+            return $key->toNative();
+        return $key;
     }
 
     /**
@@ -310,7 +309,7 @@ class HashMapIterator implements \blaze\collections\MapIterator {
         $this->index = 0;
     }
 
-    public function setValue($value) {
+    public function setValue(\blaze\lang\Reflectable $value) {
         $old = $this->getValue();
         $this->data[$this->hashs[$this->index]]->setValue($value);
         return $old;

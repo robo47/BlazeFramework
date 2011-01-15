@@ -23,11 +23,11 @@ abstract class AbstractDequeDecorator extends AbstractQueueDecorator implements 
         $this->deque = $deque;
     }
 
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
         return $this->deque->addFirst($element);
     }
 
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
         return $this->deque->addLast($element);
     }
 
@@ -47,7 +47,7 @@ abstract class AbstractDequeDecorator extends AbstractQueueDecorator implements 
         return $this->deque->removeFirst();
     }
 
-    public function removeFirstOccurrence($element) {
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element) {
         return $this->deque->removeFirstOccurrence($element);
     }
 
@@ -55,7 +55,7 @@ abstract class AbstractDequeDecorator extends AbstractQueueDecorator implements 
         return $this->deque->removeLast();
     }
 
-    public function removeLastOccurrence($element) {
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
         return $this->deque->removeLastOccurrence($element);
     }
 

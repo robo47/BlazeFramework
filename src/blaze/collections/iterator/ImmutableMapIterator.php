@@ -57,7 +57,7 @@ final class ImmutableMapIterator implements \blaze\collections\MapIterator, \bla
         return $this->iter->getValue();
     }
 
-    public function setValue($value) {
+    public function setValue(\blaze\lang\Reflectable $value) {
         return;
     }
 

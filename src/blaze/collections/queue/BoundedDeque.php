@@ -40,7 +40,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->queue->add($obj);
         else
@@ -62,7 +62,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->offer($element);
         else
@@ -73,7 +73,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->addFirst($element);
         else
@@ -84,7 +84,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->addLast($element);
         else
@@ -95,7 +95,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function offerFirst($element) {
+    public function offerFirst(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->offerFirst($element);
         else
@@ -106,7 +106,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function offerLast($element) {
+    public function offerLast(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->offerLast($element);
         else
@@ -117,7 +117,7 @@ final class BoundedDeque extends AbstractDequeDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the deque is full nothing is added and false is returned.
      */
-    public function push($element) {
+    public function push(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->push($element);
         else

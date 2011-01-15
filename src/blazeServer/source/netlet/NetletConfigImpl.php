@@ -25,7 +25,7 @@ class NetletConfigImpl extends Object implements NetletConfig {
         $this->initParameters = $initParameters;
     }
 
-    public function getInitParameter($name) {
+    public function getInitParameter(\blaze\lang\String $name) {
         return $this->initParameters->get($name);
     }
 

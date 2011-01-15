@@ -28,15 +28,15 @@ abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implement
         $this->sortedMap = $map;
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         return $this->sortedMap->ceiling($element);
     }
 
-    public function ceilingEntry($key) {
+    public function ceilingEntry(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->ceilingEntry($key);
     }
 
-    public function ceilingKey($key) {
+    public function ceilingKey(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->ceilingKey($key);
     }
 
@@ -68,31 +68,31 @@ abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implement
         return $this->sortedMap->firstKey();
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         return $this->sortedMap->floor($element);
     }
 
-    public function floorEntry($key) {
+    public function floorEntry(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->floorEntry($key);
     }
 
-    public function floorKey($key) {
+    public function floorKey(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->floorKey($key);
     }
 
-    public function headMap($toElement, $inclusive = true) {
+    public function headMap(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedMap->headMap($toElement, $inclusive);
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         return $this->sortedMap->higher($element);
     }
 
-    public function higherEntry($key) {
+    public function higherEntry(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->higherEntry($key);
     }
 
-    public function higherKey($key) {
+    public function higherKey(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->higherKey($key);
     }
 
@@ -108,15 +108,15 @@ abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implement
         return $this->sortedMap->lastKey();
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         return $this->sortedMap->lower($element);
     }
 
-    public function lowerEntry($key) {
+    public function lowerEntry(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->lowerEntry($key);
     }
 
-    public function lowerKey($key) {
+    public function lowerKey(\blaze\lang\Reflectable $key) {
         return $this->sortedMap->lowerKey($key);
     }
 
@@ -136,11 +136,11 @@ abstract class AbstractSortedMapDecorator extends AbstractMapDecorator implement
         return $this->sortedMap->pollLastEntry();
     }
 
-    public function subMap($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subMap(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedMap->subMap($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function tailMap($fromElement, $inclusive = true) {
+    public function tailMap(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedMap->tailMap($fromElement, $inclusive);
     }
 

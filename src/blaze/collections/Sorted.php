@@ -8,7 +8,6 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
  */
 interface Sorted {
@@ -27,51 +26,55 @@ interface Sorted {
 
     /**
      * Returns the first (lowest) element currently in this set.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function first();
 
     /**
      * Returns the last (highest) element currently in this set.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function last();
 
     /**
      * Retrieves and removes the first (lowest) element, or returns null if this set is empty.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function pollFirst();
 
     /**
      * Retrieves and removes the last (highest) element, or returns null if this set is empty.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function pollLast();
 
     /**
      *  Returns the least element in this set greater than or equal to the given element, or null if there is no such element.
-     * @return mixed
+     * @param \blaze\lang\Reflectable $element
+     * @return \blaze\lang\Reflectable
      */
-    public function ceiling($element);
+    public function ceiling(\blaze\lang\Reflectable $element);
 
     /**
      *  Returns the greatest element in this set less than or equal to the given element, or null if there is no such element.
-     * @return mixed
+     * @param \blaze\lang\Reflectable $element
+     * @return \blaze\lang\Reflectable
      */
-    public function floor($element);
+    public function floor(\blaze\lang\Reflectable $element);
 
     /**
      * Returns the least element in this set strictly greater than the given element, or null if there is no such element.
-     * @return mixed
+     * @param \blaze\lang\Reflectable $element
+     * @return \blaze\lang\Reflectable
      */
-    public function higher($element);
+    public function higher(\blaze\lang\Reflectable $element);
 
     /**
      * Returns the greatest element in this set strictly less than the given element, or null if there is no such element.
-     * @return mixed
+     * @param \blaze\lang\Reflectable $element
+     * @return \blaze\lang\Reflectable
      */
-    public function lower($element);
+    public function lower(\blaze\lang\Reflectable $element);
 }
 
 ?>

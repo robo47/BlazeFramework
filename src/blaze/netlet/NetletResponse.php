@@ -7,11 +7,7 @@ namespace blaze\netlet;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 interface NetletResponse {
     public function flush();
@@ -22,19 +18,19 @@ interface NetletResponse {
 
     public function getContentLength();
 
-    public function setContentLength($len);
+    public function setContentLength(\int $len);
 
     public function getCharacterEncoding();
 
-    public function setCharacterEncoding($charset);
+    public function setCharacterEncoding(\blaze\lang\String $charset);
 
     public function getLocale();
 
-    public function setLocale($locale);
+    public function setLocale(\blaze\util\Locale $locale);
 
     public function getContentType();
 
-    public function setContentType($type);
+    public function setContentType(\blaze\lang\String $type);
 
     /**
      * @return blaze\io\OutputStream

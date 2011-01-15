@@ -21,7 +21,7 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
      *
      * @var blaze\persistence\EntityManager
      */
-    protected $EntityManager;
+    protected $entityManager;
 
     protected function setUp() {
         $this->config = new \blaze\persistence\cfg\Configuration();
@@ -35,7 +35,7 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
         $this->config = new cfg\Configuration();
         $this->config->configureFile('D:\\xampp\\htdocs\\BlazeFrameworkServer\\src\\blazeCMS\\source\\persistence.cfg.xml');
         $this->factory = $this->config->buildEntityManagerFactory();
-        $this->EntityManager = $this->factory->openEntityManager();
+        $this->entityManager = $this->factory->createEntityManager();
     }
 
 }

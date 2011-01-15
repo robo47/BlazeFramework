@@ -50,7 +50,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         $this->checkKey($key);
         $this->checkValue($value);
         return $this->bidiMap->put($key, $value);
@@ -74,7 +74,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->containsKey($key);
     }
@@ -84,7 +84,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->containsValue($value);
     }
@@ -94,7 +94,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->remove($key);
     }
@@ -104,7 +104,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeValue($value) {
+    public function removeValue(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->removeValue($value);
     }
@@ -114,7 +114,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->get($key);
     }
@@ -124,7 +124,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function getKey($value) {
+    public function getKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->getKey($value);
     }
@@ -173,7 +173,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         $this->checkKey($element);
         return $this->bidiMap->ceiling($element);
     }
@@ -183,7 +183,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function ceilingEntry($key) {
+    public function ceilingEntry(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->ceilingEntry($key);
     }
@@ -193,7 +193,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function ceilingKey($value) {
+    public function ceilingKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->ceilingKey($value);
     }
@@ -203,7 +203,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         $this->checkKey($element);
         return $this->bidiMap->floor($element);
     }
@@ -213,7 +213,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function floorEntry($key) {
+    public function floorEntry(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->floorEntry($key);
     }
@@ -223,7 +223,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function floorKey($value) {
+    public function floorKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->floorKey($value);
     }
@@ -233,7 +233,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function headMap($toElement, $inclusive = true) {
+    public function headMap(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         $this->checkKey($toElement);
         return $this->bidiMap->headMap($toElement, $inclusive);
     }
@@ -243,7 +243,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         $this->checkKey($element);
         return $this->bidiMap->higher($element);
     }
@@ -253,7 +253,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function higherEntry($key) {
+    public function higherEntry(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->higherEntry($key);
     }
@@ -263,7 +263,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function higherKey($value) {
+    public function higherKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->higherKey($value);
     }
@@ -273,7 +273,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         $this->checkKey($element);
         return $this->bidiMap->lower($element);
     }
@@ -283,7 +283,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function lowerEntry($key) {
+    public function lowerEntry(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->lowerEntry($key);
     }
@@ -293,7 +293,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function lowerKey($value) {
+    public function lowerKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->lowerKey($value);
     }
@@ -303,7 +303,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function subMap($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subMap(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         $this->checkKey($fromElement);
         $this->checkKey($toElement);
         return $this->bidiMap->subMap($fromElement, $toElement, $fromInclusive, $toInclusive);
@@ -314,7 +314,7 @@ final class TypedSortedBidiMap extends AbstractSortedBidiMapDecorator implements
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function tailMap($fromElement, $inclusive = true) {
+    public function tailMap(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         $this->checkKey($fromElement);
         return $this->bidiMap->tailMap($fromElement, $inclusive);
     }

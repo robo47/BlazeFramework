@@ -11,10 +11,7 @@ define('NINF',\INF * -1);
  * Description of Integer
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
-
  * @author  Christian Beikov
  * @todo    Extend, http://commons.apache.org/lang/api-release/org/apache/commons/lang/math/NumberUtils.html
  */
@@ -43,25 +40,18 @@ abstract class Number extends Object implements NativeWrapper, Comparable {
         if (self::$numberClasses == null)
             self::lazyInit();
 
-        if (is_string($value)) {
-            if (preg_match('/^[0-9]*$/', $value))
-                return self::$numberClasses[4];
-            else if (preg_match('/^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][-+]?\d+)?$/', $value))
-                return self::$numberClasses[3];
-            else
-                return null;
-        }else if (Byte::isType($value)) {
+        if (Byte::isType($value)) {
             return self::$numberClasses[0];
         } else if (Short::isType($value)) {
             return self::$numberClasses[1];
-        } else if (Double::isType($value)) {
-            return self::$numberClasses[2];
-        } else if (Float::isType($value)) {
-            return self::$numberClasses[3];
         } else if (Integer::isType($value)) {
             return self::$numberClasses[4];
         } else if (Long::isType($value)) {
             return self::$numberClasses[5];
+        } else if (Float::isType($value)) {
+            return self::$numberClasses[3];
+        } else if (Double::isType($value)) {
+            return self::$numberClasses[2];
         } else if (BigInteger::isType($value)) {
             return self::$numberClasses[6];
         } else if (BigDecimal::isType($value)) {
@@ -70,14 +60,7 @@ abstract class Number extends Object implements NativeWrapper, Comparable {
 
         return null;
     }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj2 === null)
-            return new NullPointerException();
-        $diff = static::asNative($obj1) - static::asNative($obj2);
-        return $diff < 0 ? -1 : ($diff > 0 ? 1 : 0);
-    }
-
+    
     public static function asNative($value) {
         if (static::isWrapperType($value))
             return $value->toNative();

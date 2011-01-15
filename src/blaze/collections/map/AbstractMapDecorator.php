@@ -33,11 +33,11 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
         return $this->map->clear();
     }
 
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
         return $this->map->containsKey($key);
     }
 
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         return $this->map->containsValue($value);
     }
 
@@ -53,7 +53,7 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
         return $this->map->entrySet();
     }
 
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         return $this->map->getKey($value);
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
         return $this->map->keySet();
     }
 
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         return $this->map->put($key, $value);
     }
 
@@ -73,7 +73,7 @@ abstract class AbstractMapDecorator extends Object implements \blaze\collections
         return $this->map->putAll($m);
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         return $this->map->remove($key);
     }
 

@@ -11,7 +11,6 @@ use blaze\lang\Exception;
 
  * @see     blaze\lang\ClassWrapper
  * @since   1.0
-
  * @author  Christian Beikov
  * @todo    Documentation.
  */

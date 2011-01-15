@@ -32,7 +32,7 @@ final class BoundedBag extends AbstractBagDecorator implements \blaze\collection
      * {@inheritDoc}
      * When the bag is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->bag->add($obj);
         return false;
@@ -52,7 +52,7 @@ final class BoundedBag extends AbstractBagDecorator implements \blaze\collection
      * {@inheritDoc}
      * When the bag is full and the object is not contained by the banothing is added and false is returned.
      */
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         if (!$this->contains($obj)) {
             if (!$this->isFull())
                 return $this->bag->addCount($obj, $count);

@@ -45,12 +45,12 @@ class HttpSessionHandlerImpl extends Object implements \blaze\netlet\http\HttpSe
         return true;
     }
 
-    public function getCurrentSession($cookies, $create = false) {
+    public function getCurrentSession(\blaze\netlet\http\HttpNetletRequest $request, $create = false) {
         if($this->session == null){
             $sessionId = null;
 
-            foreach ($cookies as $cookie){
-                if (\blaze\lang\String::compare($cookie->getName(), self::SESSION_NAME) == 0){
+            foreach ($request->getCookies() as $cookie){
+                if ($cookie->getName()->compareTo(self::SESSION_NAME) == 0){
                     $sessionId = $cookie->getValue();
                     break;
                 }

@@ -28,7 +28,7 @@ abstract class AbstractSortedBagDecorator extends AbstractBagDecorator implement
         $this->sortedBag = $bag;
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         return $this->sortedBag->ceiling($element);
     }
 
@@ -52,19 +52,19 @@ abstract class AbstractSortedBagDecorator extends AbstractBagDecorator implement
         return $this->sortedBag->first();
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         return $this->sortedBag->floor($element);
     }
 
-    public function headBag($toElement, $inclusive = true) {
+    public function headBag(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedBag->headBag($toElement, $inclusive);
     }
 
-    public function headCollection($toElement, $inclusive = true) {
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedBag->headCollection($toElement, $inclusive);
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         return $this->sortedBag->higher($element);
     }
 
@@ -72,7 +72,7 @@ abstract class AbstractSortedBagDecorator extends AbstractBagDecorator implement
         return $this->sortedBag->last();
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         return $this->sortedBag->lower($element);
     }
 
@@ -84,19 +84,19 @@ abstract class AbstractSortedBagDecorator extends AbstractBagDecorator implement
         return $this->sortedBag->pollLast();
     }
 
-    public function subBag($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subBag(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedBag->subBag($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedBag->subCollection($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function tailBag($fromElement, $inclusive = true) {
+    public function tailBag(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedBag->tailBag($fromElement, $inclusive);
     }
 
-    public function tailCollection($fromElement, $inclusive = true) {
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedBag->tailCollection($fromElement, $inclusive);
     }
 

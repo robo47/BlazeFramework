@@ -27,7 +27,7 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
         $this->collection = $collection;
     }
 
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return $this->collection->add($obj);
     }
 
@@ -39,7 +39,7 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
         return $this->collection->clear();
     }
 
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         return $this->collection->contains($obj);
     }
 
@@ -59,7 +59,7 @@ abstract class AbstractCollectionDecorator extends \blaze\lang\Object implements
         return $this->collection->isEmpty();
     }
 
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return $this->collection->remove($obj);
     }
 

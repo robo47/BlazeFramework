@@ -15,7 +15,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Adds nothing to the list and returns false.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -31,7 +31,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Adds nothing to the list and returns false.
      */
-    public function addAllAt($index, \blaze\collections\Collection $c) {
+    public function addAllAt(\int $index, \blaze\collections\Collection $c) {
         return false;
     }
 
@@ -39,7 +39,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Adds nothing to the list and returns false.
      */
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -55,7 +55,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Removes nothing from the list and returns null.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return null;
     }
 
@@ -71,7 +71,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Removes nothing from the list and returns null.
      */
-    public function removeAt($index) {
+    public function removeAt(\int $index) {
         return null;
     }
 
@@ -87,7 +87,7 @@ final class ImmutableList extends AbstractListDecorator implements \blaze\collec
      * {@inheritDoc}
      * Sets nothing in the list and returns false.
      */
-    public function set($index, $obj) {
+    public function set(\int $index, \blaze\lang\Reflectable $obj) {
         return false;
     }
 

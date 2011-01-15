@@ -16,7 +16,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
         return false;
     }
 
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         return false;
     }
 
@@ -24,7 +24,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
         return false;
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         return null;
     }
 
@@ -36,7 +36,7 @@ final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implem
         return null;
     }
 
-    public function removeValue($value) {
+    public function removeValue(\blaze\lang\Reflectable $value) {
         return null;
     }
 

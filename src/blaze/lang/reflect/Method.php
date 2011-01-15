@@ -9,10 +9,7 @@ use blaze\lang\Object,
  * The method which is defined within a class.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
-
  * @author  Christian Beikov
  */
 class Method extends Object {

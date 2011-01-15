@@ -8,7 +8,6 @@ use blaze\netlet\NetletRequest;
  * The class HttpNetletRequest encapsulates the Header data of the Http-Header.
  *
  * @license	http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since	1.0
  * @author 	Christian Beikov
  * @todo        Documenting.

@@ -45,19 +45,19 @@ class NetletContextImpl extends Object implements NetletContext {
         return $this->netletApplication;
     }
 
-    public function addNetlet($name, \blaze\netlet\Netlet $netlet){
+    public function addNetlet(\blaze\lang\String $name, \blaze\netlet\Netlet $netlet){
         $this->netlets->put($name, $netlet);
     }
 
-    public function addNetletMapping($uriMapping, $name){
+    public function addNetletMapping(\blaze\lang\String $uriMapping, \blaze\lang\String $name){
         $this->netletMapping->put($uriMapping, $name);
     }
 
-    public function addFilter($name, \blaze\netlet\Filter $filter){
+    public function addFilter(\blaze\lang\String $name, \blaze\netlet\Filter $filter){
         $this->filters->put($name, $filter);
     }
 
-    public function addFilterMapping($uriMapping, $name){
+    public function addFilterMapping(\blaze\lang\String $uriMapping, \blaze\lang\String $name){
         $this->filterMapping->put($uriMapping, $name);
     }
     
@@ -85,7 +85,7 @@ class NetletContextImpl extends Object implements NetletContext {
         $this->listeners->add($listener);
     }
 
-    public function getInitParameter($name) {
+    public function getInitParameter(\blaze\lang\String $name) {
         return $this->initParams->get($name);
     }
 
@@ -93,15 +93,15 @@ class NetletContextImpl extends Object implements NetletContext {
         return $this->initParams;
     }
 
-    public function getAttribute($name) {
+    public function getAttribute(\blaze\lang\String $name) {
         return $this->attributes->get($name);
     }
 
-    public function removeAttribute($name) {
+    public function removeAttribute(\blaze\lang\String $name) {
         $this->attributes->remove($name);
     }
 
-    public function setAttribute($name, $o) {
+    public function setAttribute(\blaze\lang\String $name, $o) {
         $this->attributes->put($name, $o);
     }
 

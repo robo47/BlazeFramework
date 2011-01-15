@@ -13,7 +13,7 @@ use blaze\lang\Object;
  * @since   1.0
  * @todo    Clean up the implementation, no need to extend from HashMap because of associative arrays in PHP. Documentation!
  */
-class Properties extends HashMap {
+class Properties extends AbstractMap {
 
     /**
      *
@@ -25,11 +25,11 @@ class Properties extends HashMap {
 
     }
 
-    public function setProperty($key, $value) {
-        if (array_key_exists($key, $this->properties)) {
+    public function setProperty(\blaze\lang\String $key, \blaze\lang\String $value) {
+        if (array_key_exists($key->toNative(), $this->properties)) {
             return false;
         } else {
-            $this->properties[\blaze\lang\String::asNative($key)] = \blaze\lang\String::asWrapper($value);
+            $this->properties[$key->toNative()] = $value;
         }
     }
 
@@ -37,97 +37,10 @@ class Properties extends HashMap {
      *
      * @return blaze\lang\String
      */
-    public function getProperty($key, $default = null) {
-        $key = \blaze\lang\String::asNative($key);
-        if (!array_key_exists($key, $this->properties))
+    public function getProperty(\blaze\lang\String $key, \blaze\lang\String $default = null) {
+        if (!array_key_exists($key->toNative(), $this->properties))
             return $default;
-        return $this->properties[$key];
-    }
-
-    /**
-     * Load properties from a file.
-     *
-     * @param File $file
-     * @return void
-     * @throws IOException - if unable to read file.
-     */
-    public function load(\blaze\io\File $file) {
-        if ($file->canRead()) {
-            $this->parse($file->getPath(), false);
-        } else {
-            throw new IOException('Can not read file ' . $file->getPath());
-        }
-    }
-
-    /**
-     * Replaces parse_ini_file() or better_parse_ini_file().
-     * Saves a step since we don't have to parse and then check return value
-     * before throwing an error or setting class properties.
-     * 
-     * @param string $filePath
-     * @param boolean $processSections Whether to honor [SectionName] sections in INI file.
-     * @return array Properties loaded from file (no prop replacements done yet).
-     */
-    protected function parse($filePath) {
-
-        // load() already made sure that file is readable                
-        // but we'll double check that when reading the file into 
-        // an array
-
-        if (($lines = @file($filePath)) === false) {
-            throw new \blaze\io\IOException('Unable to parse contents of ' . $filePath);
-        }
-
-        $this->properties = array();
-        $sec_name = '';
-
-        foreach ($lines as $line) {
-
-            $line = trim($line);
-
-            if ($line == '')
-                continue;
-
-            if ($line{0} == '#' or $line{0} == ';') {
-                // it's a comment, so continue to next line
-                continue;
-            } else {
-                $pos = strpos($line, '=');
-                $property = trim(substr($line, 0, $pos));
-                $value = trim(substr($line, $pos + 1));
-                $this->properties[$property] = $this->inVal($value);
-            }
-        } // for each line
-    }
-
-    /**
-     * Process values when being read in from properties file.
-     * does things like convert "true" => true
-     * @param string $val Trimmed value.
-     * @return mixed The new property value (may be boolean, etc.)
-     */
-    protected function inVal($val) {
-        if ($val === 'true') {
-            $val = true;
-        } elseif ($val === 'false') {
-            $val = false;
-        }
-        return $val;
-    }
-
-    /**
-     * Process values when being written out to properties file.
-     * does things like convert true => "true"
-     * @param mixed $val The property value (may be boolean, etc.)
-     * @return string
-     */
-    protected function outVal($val) {
-        if ($val === true) {
-            $val = 'true';
-        } elseif ($val === false) {
-            $val = 'false';
-        }
-        return $val;
+        return $this->properties[$key->toNative()];
     }
 
     /**
@@ -140,34 +53,10 @@ class Properties extends HashMap {
      */
     public function toString() {
         $buf = '';
-        foreach ($this->properties as $key => $item) {
-            $buf .= $key . '=' . $this->outVal($item) . PHP_EOL;
+        foreach ($this->properties as $key => $value) {
+            $buf .= $key . '=' . $value . PHP_EOL;
         }
-        return $buf;
-    }
-
-    /**
-     * Stores current properties to specified file.
-     * 
-     * @param File $file File to create/overwrite with properties.
-     * @param string $header Header text that will be placed (within comments) at the top of properties file.
-     * @return void
-     * @throws IOException - on error writing properties file.
-     */
-    public function store(\blaze\io\File $file, $header = null) {
-        // stores the properties in this object in the file denoted
-        // if file is not given and the properties were loaded from a
-        // file prior, this method stores them in the file used by load()        
-        try {
-            $fw = new \blaze\io\output\FileWriter($file);
-            if ($header !== null) {
-                $fw->write('# ' . $header . PHP_EOL);
-            }
-            $fw->write($this->toString());
-            $fw->close();
-        } catch (\blaze\io\IOException $e) {
-            throw new \blaze\io\IOException('Error writing property file: ' . $e->getMessage());
-        }
+        return \blaze\lang\String::asWrapper($buf);
     }
 
     /**
@@ -189,7 +78,7 @@ class Properties extends HashMap {
      * @param string $key
      * @param mixed $value
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         return $this->setProperty($key, $value);
     }
 
@@ -202,38 +91,34 @@ class Properties extends HashMap {
      * @param mixed $value
      * @param string $delimiter
      */
-    public function append($key, $value, $delimiter = ',') {
+    public function append(\blaze\lang\String $key, \blaze\lang\String $value, \blaze\lang\String $delimiter = null) {
+        if($delimiter === null)
+            $delimiter = new \blaze\lang\String(',');
         $newValue = $value;
         if (isset($this->properties[$key]) && !empty($this->properties[$key])) {
             $newValue = $this->properties[$key] . $delimiter . $value;
         }
-        $this->properties[$key] = $newValue;
-    }
-
-    /**
-     * Same as keys() function, returns an array of property names.
-     * @return array
-     */
-    public function propertyNames() {
-        return $this->keys();
+        $this->properties[$key->toNative()] = \blaze\lang\String::asWrapper($newValue);
     }
 
     /**
      * Whether loaded properties array contains specified property name.
      * @return boolean
      */
-    public function containsKey($key) {
-        return isset($this->properties[$key]);
+    public function containsKey(\blaze\lang\Reflectable $key) {
+        return isset($this->properties[$key->toString()->toNative()]);
     }
 
     /**
-     * Returns properties keys.
-     * Use this for foreach() {} iterations, as this is
-     * faster than looping through property values.
-     * @return array
+     * Returns the property names.
+     * @return \blaze\collections\ArrayI[\blaze\lang\String]
      */
-    public function keys() {
-        return array_keys($this->properties);
+    public function propertyNames() {
+        $a = new \blaze\collections\arrays\ArrayObject(count($this->properties));
+        $keys = array_keys($this->properties);
+
+        for($i = 0; $i < count($keys); $i++)
+            $a[] = new \blaze\lang\String($keys);
     }
 
     /**
@@ -249,7 +134,7 @@ class Properties extends HashMap {
         $this->properties = array();
     }
 
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         foreach ($this->properties as &$val) {
             if ($val == $value) {
                 return true;
@@ -270,7 +155,7 @@ class Properties extends HashMap {
 
     }
 
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         if (array_key_exists($key, $this->properties)) {
             return $this->data[$key]->getValue();
         }
@@ -283,7 +168,7 @@ class Properties extends HashMap {
         }
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
 
 
         if ($this->containsKey($key)) {
@@ -292,6 +177,14 @@ class Properties extends HashMap {
         } else {
             return false;
         }
+    }
+
+    public function removeAll(\blaze\collections\Map $obj) {
+
+    }
+
+    public function  retainAll(\blaze\collections\Map $obj) {
+        
     }
 
     public function values() {
@@ -371,7 +264,7 @@ class PropertiesIterator implements \blaze\collections\MapIterator {
         reset($this->data);
     }
 
-    public function setValue($value) {
+    public function setValue(\blaze\lang\Reflectable $value) {
         $old = current($this->data);
         $this->data[key($this->data)] = $value;
         return $old;

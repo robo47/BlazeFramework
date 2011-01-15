@@ -9,11 +9,7 @@ use blaze\lang\Cloneable;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 interface HttpCookie extends Cloneable {
     public function getName();
@@ -30,17 +26,17 @@ interface HttpCookie extends Cloneable {
 
     public function getHttponly();
 
-    public function setValue($value);
+    public function setValue(\blaze\lang\String $value);
 
-    public function setExpire($expire);
+    public function setExpire(\int $expire);
 
-    public function setPath($path);
+    public function setPath(\blaze\lang\String $path);
 
-    public function setDomain($domain);
+    public function setDomain(\blaze\lang\String $domain);
 
-    public function setSecure($secure);
+    public function setSecure(\boolean $secure);
 
-    public function setHttponly($httponly);
+    public function setHttponly(\boolean $httponly);
 }
 
 ?>

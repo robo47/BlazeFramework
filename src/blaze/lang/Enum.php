@@ -6,10 +6,7 @@ namespace blaze\lang;
  * Description of Enum
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\Object
  * @since   1.0
-
  * @author  Christian Beikov
  */
 abstract class Enum extends Object {
@@ -43,14 +40,7 @@ abstract class Enum extends Object {
      * @param blaze\lang\String|string $name
      * @return mixed
      */
-    public static function valueOf($name) {
-        if ($name instanceof String)
-            $constName = $name->toNative();
-        else if (!is_string($name))
-            throw new IllegalArgumentException('Name has to be a blaze\lang\String or string!');
-        else
-            $constName = $name;
-
+    public static function valueOf(String $name) {
         $entries = self::getEntries();
 
         if (!array_key_exists($name, $entries))
@@ -60,7 +50,7 @@ abstract class Enum extends Object {
 
     /**
      *
-     * @param mixed $name
+     * @param mixed $value
      * @return string
      */
     public static function nameOf($value) {

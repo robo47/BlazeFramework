@@ -7,10 +7,7 @@ namespace blaze\lang;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
  */
 class Runtime extends Object implements StaticInitialization {
 
@@ -53,7 +50,7 @@ class Runtime extends Object implements StaticInitialization {
         self::$oldErrorHandler = set_error_handler(array('blaze\lang\System','systemErrorHandler'));
         self::$in = new \blaze\io\input\NativeInputStream('php://stdin');
         self::$out = new \blaze\io\output\PrintStream(new \blaze\io\output\NativeOutputStream('php://stdout'));
-        self::$err = new \blaze\io\output\PrintStream(\blaze\io\output\NativeOutputStream('php://stderr'));
+        self::$err = new \blaze\io\output\PrintStream(new \blaze\io\output\NativeOutputStream('php://stderr'));
     }
 
     /**

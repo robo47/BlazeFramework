@@ -7,11 +7,7 @@ namespace blaze\netlet\http;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 interface HttpSession {
     public function invalidate();
@@ -30,11 +26,11 @@ interface HttpSession {
 
     public function getMaxInactiveInterval();
 
-    public function setMaxInactiveInterval($maxInactiveInterval);
+    public function setMaxInactiveInterval(\int $maxInactiveInterval);
 
     public function getMaxLifetime();
 
-    public function setMaxLifetime($maxLifetime);
+    public function setMaxLifetime(\int $maxLifetime);
 }
 
 ?>

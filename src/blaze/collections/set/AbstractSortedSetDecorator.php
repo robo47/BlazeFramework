@@ -28,7 +28,7 @@ abstract class AbstractSortedSetDecorator extends AbstractSetDecorator implement
         $this->sortedSet = $set;
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         return $this->sortedSet->ceiling($element);
     }
 
@@ -48,15 +48,15 @@ abstract class AbstractSortedSetDecorator extends AbstractSetDecorator implement
         return $this->sortedSet->first();
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         return $this->sortedSet->floor($element);
     }
 
-    public function headCollection($toElement, $inclusive = true) {
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedSet->headCollection($toElement, $inclusive);
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         return $this->sortedSet->higher($element);
     }
 
@@ -64,7 +64,7 @@ abstract class AbstractSortedSetDecorator extends AbstractSetDecorator implement
         return $this->sortedSet->last();
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         return $this->sortedSet->lower($element);
     }
 
@@ -76,11 +76,11 @@ abstract class AbstractSortedSetDecorator extends AbstractSetDecorator implement
         return $this->sortedSet->pollLast();
     }
 
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedSet->subCollection($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function tailCollection($fromElement, $inclusive = true) {
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedSet->tailCollection($fromElement, $inclusive);
     }
 
@@ -88,15 +88,15 @@ abstract class AbstractSortedSetDecorator extends AbstractSetDecorator implement
         return $this->sortedSet->descendingSet();
     }
 
-    public function headSet($toElement, $inclusive = true) {
+    public function headSet(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedSet->headSet($toElement, $inclusive);
     }
 
-    public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subSet(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedSet->subSet($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function tailSet($fromElement, $inclusive = true) {
+    public function tailSet(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedSet->tailSet($fromElement, $inclusive);
     }
 

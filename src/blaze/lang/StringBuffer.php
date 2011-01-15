@@ -9,8 +9,6 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
  * @todo    Extend, http://commons.apache.org/lang/api-release/org/apache/commons/lang/text/StrBuilder.html
 
@@ -69,7 +67,7 @@ class StringBuffer extends Object {
      *             argument is negative or not less than the length of this
      *             string.
      */
-    public function charAt($index) {
+    public function charAt(\int $index) {
 
         if (($index < 0) || ($index >= $this->count)) {
             throw new StringIndexOutOfBoundsException($index);
@@ -99,7 +97,7 @@ class StringBuffer extends Object {
      *             <code>beginIndex</code> is larger than
      *             <code>endIndex</code>.
      */
-    public function substring($beginIndex, $endIndex = -1) {
+    public function substring(\int $beginIndex, $endIndex = -1) {
         if ($endIndex == -1) {
             $endIndex = $this->count;
         }
@@ -124,7 +122,7 @@ class StringBuffer extends Object {
      * @return blaze\lang\StringBuffer
      * @throws blaze\lang\IndexOutOfBoundsException Is thrown when $len is negative
      */
-    public function setLength($len) {
+    public function setLength(\int $len) {
         if ($len < 0)
             throw new IndexOutOfBoundsException($len);
 
@@ -150,7 +148,7 @@ class StringBuffer extends Object {
      * @throws blaze\lang\IndexOutOfBoundsException Is thrown when $len is negative
      * @todo Test what happens when $newStart == $this->count, maybe need ($newStart >= $this->count)
      */
-    public function setStringAt($str, $off) {
+    public function setStringAt($str, \int $off) {
         $str = String::asNative($str);
         if ($off < 0)
             throw new IndexOutOfBoundsException($off);
@@ -174,7 +172,7 @@ class StringBuffer extends Object {
         return $this;
     }
 
-    public function replace($start, $end, $str) {
+    public function replace(\int $start, \int $end, $str) {
         $index = 0;
         for ($i = $start; $i < $end; $i++) {
             $this->string[$i] = $str[$index];
@@ -196,7 +194,7 @@ class StringBuffer extends Object {
      * @param 	int $end The endpoint of $val which shall be insterted into the buffer
      * @return  blaze\lang\StringBuffer
      */
-    public function insert($val, $off, $start, $end) {
+    public function insert($val, \int $off, \int $start, \int $end) {
 
         $index = $off;
         for ($i = $start; $i < $end; $i++) {
@@ -207,7 +205,7 @@ class StringBuffer extends Object {
         }
     }
 
-    public function delete($start, $end = -1) {
+    public function delete(\int $start, $end = -1) {
         $this->string = \substr($this->string, 0, $start) . \substr($this->string, $end, \count($this->string));
         return $this;
     }
@@ -216,7 +214,7 @@ class StringBuffer extends Object {
         return $this->count;
     }
 
-    public function setCharAt($index, $char) {
+    public function setCharAt(\int $index, \char $char) {
         $this->string[$index] = $char;
     }
 

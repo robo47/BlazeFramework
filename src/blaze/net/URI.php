@@ -9,11 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable {
 
@@ -298,19 +294,6 @@ class URI extends Object implements \blaze\lang\Comparable, \blaze\io\Serializab
         }
 
         return $this->url->compareTo($that);
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === $obj2)
-            return 0;
-        if ($obj1 !== null) {
-            if ($obj2 !== null)
-                return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
-            else
-                return +1;
-        } else {
-            return -1;
-        }
     }
 
     // US-ASCII only

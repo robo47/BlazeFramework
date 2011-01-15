@@ -8,7 +8,6 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
  */
 interface Queue extends Collection {
@@ -17,23 +16,23 @@ interface Queue extends Collection {
      * Adds the element to the queue.
      * @return boolean true if the element was added to this queue, else false
      */
-    public function offer($element);
+    public function offer(\blaze\lang\Reflectable $element);
 
     /**
      * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function peek();
 
     /**
      * Retrieves and removes the head of this queue, or returns null if this queue is empty.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function poll();
 
     /**
      * Retrieves, but does not remove, the head of this queue.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function element();
 

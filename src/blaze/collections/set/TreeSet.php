@@ -14,7 +14,7 @@ namespace blaze\collections\set;
  */
 class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze\io\Serializable {
 
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -22,7 +22,7 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         
     }
 
@@ -34,7 +34,7 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -62,19 +62,19 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         
     }
 
-    public function headCollection($toElement, $inclusive = true) {
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         
     }
 
-    public function headSet($toElement, $inclusive = true) {
+    public function headSet(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         
     }
 
@@ -86,7 +86,7 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         
     }
 
@@ -98,7 +98,7 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -110,19 +110,19 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         
     }
 
-    public function subSet($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subSet(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         
     }
 
-    public function tailCollection($fromElement, $inclusive = true) {
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         
     }
 
-    public function tailSet($fromElement, $inclusive = true) {
+    public function tailSet(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         
     }
 

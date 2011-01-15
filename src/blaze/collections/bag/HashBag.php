@@ -20,7 +20,7 @@ class HashBag extends AbstractBag {
 
     }
 
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
 
     }
 
@@ -44,7 +44,7 @@ class HashBag extends AbstractBag {
 
     }
 
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
 
     }
 
@@ -52,7 +52,7 @@ class HashBag extends AbstractBag {
 
     }
 
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
 
     }
 
@@ -68,15 +68,15 @@ class HashBag extends AbstractBag {
         
     }
 
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         
     }
 
-    public function getCount($obj) {
+    public function getCount(\blaze\lang\Reflectable $obj) {
         
     }
 
-    public function removeCount($obj, $count) {
+    public function removeCount(\blaze\lang\Reflectable $obj, \int $count) {
         
     }
 

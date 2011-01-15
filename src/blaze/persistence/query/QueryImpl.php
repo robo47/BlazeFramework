@@ -158,12 +158,12 @@ class QueryImpl extends Object implements \blaze\persistence\Query {
                         foreach ($fields as $fieldGroup) {
                             foreach ($fieldGroup as $field) {
                                 if ($field instanceof \blaze\persistence\meta\SingleFieldDescriptor) {
-                                    if ($field->getName()->compare($propNameParts[0]) == 0) {
+                                    if ($field->getName()->compareTo($propNameParts[0]) == 0) {
                                         $rsd = new \blaze\persistence\meta\ResultSetDescriptor($field->getType());
                                         break;
                                     }
                                 } else {
-                                    if ($field->getFieldDescriptor()->getName()->compare($propNameParts[0]) == 0) {
+                                    if ($field->getFieldDescriptor()->getName()->compareTo($propNameParts[0]) == 0) {
                                         // Collection
                                         //$rsd = new \blaze\persistence\meta\ResultSetDescriptor($field->getType());
                                         break;

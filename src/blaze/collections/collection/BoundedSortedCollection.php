@@ -40,7 +40,7 @@ final class BoundedSortedCollection extends AbstractSortedCollectionDecorator im
      * {@inheritDoc}
      * When the collection is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->collection->add($obj);
         else

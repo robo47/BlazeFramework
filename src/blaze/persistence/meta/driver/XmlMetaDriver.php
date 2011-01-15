@@ -200,7 +200,7 @@ class XmlMetaDriver extends Object implements \blaze\persistence\meta\MetaDriver
         $collection = new \blaze\persistence\meta\CollectionFieldDescriptor();
         $field = new \blaze\persistence\meta\SingleFieldDescriptor();
         $field->setName($xmlNode->getAttribute('name'));
-        $field->setType(new \blaze\lang\String('\\blaze\\collections\\Set'));
+        $field->setType(new \blaze\lang\String('blaze\\collections\\Set'));
         $collection->setFieldDescriptor($field);
 
         $tbl = $xmlNode->getAttribute('table');

@@ -18,13 +18,13 @@ interface Deque extends \blaze\collections\Queue {
      * Inserts element at the beginning of the deque.
      * @return boolean True on success, otherwise false.
      */
-    public function addFirst($element);
+    public function addFirst(\blaze\lang\Reflectable $element);
 
     /**
      * Inserts element at the end of the deque.
      * @return boolean True on success, otherwise false.
      */
-    public function addLast($element);
+    public function addLast(\blaze\lang\Reflectable $element);
 
     /**
      * Retrieves, but does not remove, the first element of this deque.
@@ -54,13 +54,13 @@ interface Deque extends \blaze\collections\Queue {
      * Removes the first occurrence of element from this deque.
      * @return boolean True if an element was removed, otherwise false.
      */
-    public function removeFirstOccurrence($element);
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element);
 
     /**
      * Removes the last occurrence of element from this deque.
      * @return boolean True if an element was removed, otherwise false.
      */
-    public function removeLastOccurrence($element);
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element);
 
     /**
      * Returns an iterator for this deque in reverse order.

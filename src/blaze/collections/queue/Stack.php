@@ -26,7 +26,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->data[$this->size] = $obj;
         $this->size++;
         return true;
@@ -66,7 +66,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         return \in_array($obj, $this->data);
     }
 
@@ -86,7 +86,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function removeAt($index) {
+    public function removeAt(\int $index) {
         $this->rangeCheck($index);
         $ret = $this->data[$index];
         unset($this->data[$index]);
@@ -98,7 +98,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $index = $this->indexOf($obj);
         if ($index === -1) {
             return false;
@@ -144,7 +144,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
         return $this->peek();
     }
 
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         return $this->add($element);
     }
 
@@ -163,7 +163,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
         return $ret;
     }
 
-    public function indexOf($obj) {
+    public function indexOf(\blaze\lang\Reflectable $obj) {
         $help = \array_reverse($this->data, true);
         $index = array_search($obj, $help, true);
         if (\is_int($index)) {
@@ -185,7 +185,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
         return $ret;
     }
 
-    public function push($element) {
+    public function push(\blaze\lang\Reflectable $element) {
         $this->add($element);
     }
 
@@ -194,7 +194,7 @@ class Stack extends \blaze\collections\queue\AbstractQueue {
      * @param <type> $element
      * @return int Returns the 1-based position where an object is on this stack.
      */
-    public function search($element) {
+    public function search(\blaze\lang\Reflectable $element) {
         $ret = \array_search($element, $this->data);
         if ($ret === false) {
             return false;

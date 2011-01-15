@@ -14,11 +14,7 @@ use blaze\lang\String;
  *
  * @author  Christian Beikov, Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class BigInteger extends Number implements StaticInitialization {
 
@@ -111,12 +107,6 @@ class BigInteger extends Number implements StaticInitialization {
 
     public function toString() {
         return String::asWrapper($this->value);
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj2 === null)
-            return new NullPointerException();
-        return bccomp(static::asNative($obj1), static::asNative($obj2));
     }
 
     public function compareTo(Object $obj) {

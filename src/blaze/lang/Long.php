@@ -9,10 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
  */
 class Long extends Number {
 
@@ -129,15 +126,15 @@ class Long extends Number {
     }
 
     public static function toHexString($i) {
-        return dechex($i);
+        return String::asWrapper(dechex($i));
     }
 
     public static function toBinaryString($i) {
-        return \decbin($i);
+        return String::asWrapper(decbin($i));
     }
 
     public static function toOctal($i) {
-        return \decoct($i);
+        return String::asWrapper(decoct($i));
     }
 
 }

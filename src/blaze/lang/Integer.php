@@ -86,19 +86,19 @@ class Integer extends Number implements Comparable {
     }
 
     public static function toHexString($i) {
-        return dechex($i);
+        return String::asWrapper(dechex($i));
     }
 
     public static function toBinaryString($i) {
-        return \decbin($i);
+        return String::asWrapper(decbin($i));
     }
 
     public static function toOctal($i) {
-        return \decoct($i);
+        return String::asWrapper(decoct($i));
     }
 
     public static function hexStringToInt($str) {
-        return hexdec($str);
+        return String::asWrapper(hexdec($str));
     }
 
     public function subNumber($beginIndex, $endIndex = null) {

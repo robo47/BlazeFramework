@@ -12,16 +12,16 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
  */
 interface Collection extends Iterable, Countable {
 
     /**
      * Adds an object to the collection.
+     * @param \blaze\lang\Reflectable $obj
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj);
+    public function add(\blaze\lang\Reflectable $obj);
 
     /**
      * Adds all objects of the parameter to this collection.
@@ -36,9 +36,10 @@ interface Collection extends Iterable, Countable {
 
     /**
      * Checks if the object is within the collection.
+     * @param \blaze\lang\Reflectable $obj
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj);
+    public function contains(\blaze\lang\Reflectable $obj);
 
     /**
      * Checks if every object of the parameter collection is in this collection.
@@ -48,9 +49,10 @@ interface Collection extends Iterable, Countable {
 
     /**
      * Removes the given object from the collection.
+     * @param \blaze\lang\Reflectable $obj
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj);
+    public function remove(\blaze\lang\Reflectable $obj);
 
     /**
      * Removes every object of the parameter collection of this collection.

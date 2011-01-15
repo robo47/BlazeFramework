@@ -24,11 +24,11 @@ class StringMap extends \blaze\collections\map\AbstractMap {
 
     }
 
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
 
     }
 
@@ -40,11 +40,11 @@ class StringMap extends \blaze\collections\map\AbstractMap {
 
     }
 
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
 
     }
 
@@ -52,7 +52,7 @@ class StringMap extends \blaze\collections\map\AbstractMap {
 
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
 
     }
 

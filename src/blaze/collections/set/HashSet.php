@@ -37,7 +37,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if ($this->contains($obj)) {
             return false;
         } else {
@@ -86,7 +86,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $hash = $this->hash($obj);
         return array_key_exists($hash, $this->data);
     }
@@ -107,7 +107,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         if ($this->contains($obj)) {
             unset($this->data[$this->hash($obj)]);
             unset($this->hashs[$this->indexOf($hash)]);
@@ -161,11 +161,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     }
 
     private function hash($key) {
-        if ($key instanceof Object) {
-            return String::asNative($key->hashCode());
-        } else {
-            return String::asNative(Integer::hexStringToInt(md5(String::asNative($key))));
-        }
+        return String::asNative($key->hashCode());
     }
 
     private function indexOf($hash) {

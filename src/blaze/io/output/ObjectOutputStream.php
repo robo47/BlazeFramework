@@ -34,37 +34,37 @@ class ObjectOutputStream extends \blaze\io\output\FilterOutputStream implements 
         return $this->out->write(serialize($str));
     }
 
-    public function writeBoolean($boolean) {
+    public function writeBoolean(\boolean $boolean) {
         $boolean = \blaze\lang\Boolean::asNative($boolean);
         return $this->out->write(serialize($boolean));
     }
 
-    public function writeInt($int) {
+    public function writeInt(\int $int) {
         $int = \blaze\lang\Integer::asNative($int);
         return $this->out->write(serialize($int));
     }
 
-    public function writeFloat($float) {
+    public function writeFloat(\float $float) {
         $float = \blaze\lang\Float::asNative($float);
         return $this->out->write(serialize($float));
     }
 
-    public function writeLong($long) {
+    public function writeLong(\long $long) {
         $long = \blaze\lang\Long::asNative($long);
         return $this->out->write(serialize($long));
     }
 
-    public function writeDouble($double) {
+    public function writeDouble(\double $double) {
         $double = \blaze\lang\Double::asNative($double);
         return $this->out->write(serialize($double));
     }
 
-    public function writeShort($short) {
+    public function writeShort(\short $short) {
         $short = \blaze\lang\Short::asNative($short);
         return $this->out->write(serialize($short));
     }
 
-    public function writeByte($byte) {
+    public function writeByte(\byte $byte) {
         $byte = \blaze\lang\Byte::asNative($byte);
         return $this->out->write(serialize($byte));
     }

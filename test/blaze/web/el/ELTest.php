@@ -80,12 +80,16 @@ class ELTest extends \PHPUnit_Framework_TestCase {
         $netApp = \blazeServer\source\netlet\NetletApplication::getAdminApplication();
         $netlets = $netApp->getNetletContext()->getNetlets();
         \ob_start();
-        $app = $netlets['BlazeNetlet']->getClass()->getField('application')->get($netlets['BlazeNetlet']);
+
+        // Need to do this because PHPUnit does something weird..
+        set_error_handler(array('blaze\lang\System', 'systemErrorHandler'));
+        
+        $app = $netlets->get('BlazeNetlet')->getClass()->getField('application')->get($netlets->get('BlazeNetlet'));
         $this->bCtx = new \blaze\web\application\BlazeContext($app, new \blazeServer\source\netlet\http\HttpNetletRequestImpl(), new \blazeServer\source\netlet\http\HttpNetletResponseImpl());
         \ob_clean();
         
         $this->bCtx = \blaze\web\application\BlazeContext::getCurrentInstance();
-        $this->bCtx->getELContext()->setContext(ELContext::SCOPE_REQUEST, new scope\ELRequestScopeContext(array()));
+        $this->bCtx->getELContext()->setContext(ELContext::SCOPE_REQUEST, new scope\ELRequestScopeContext(new \blaze\collections\map\HashMap()));
         $this->bCtx->getELContext()->getContext(ELContext::SCOPE_REQUEST)->set($this->bCtx, 'test1', $test1);
         $this->bCtx->getELContext()->getContext(ELContext::SCOPE_REQUEST)->set($this->bCtx, 'test2', $test2);
         $this->bCtx->getELContext()->getContext(ELContext::SCOPE_REQUEST)->set($this->bCtx, 'test3', $test3);

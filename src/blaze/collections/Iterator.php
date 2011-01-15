@@ -23,7 +23,6 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     \blaze\collections\Iterable
  * @since   1.0
  */

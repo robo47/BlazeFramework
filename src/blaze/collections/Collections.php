@@ -10,7 +10,6 @@ use blaze\collections\Collection;
  *
  * @author  Christian Beikov , Oliver Kotzina
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     \blaze\collections\Arrays
  * @since   1.0
  */
@@ -62,12 +61,12 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * arrays which manage objects.
      *
      * @param ListI $a
-     * @param mixed $key
+     * @param \blaze\lang\Reflectable $key
      * @param \blaze\lang\Comparator $c
      * @return int
      * @throws blaze\lang\IndexOutOfBoundsException
      */
-    public static function binarySearch(ListI $a, $key, \blaze\lang\Comparator $c = null) {
+    public static function binarySearch(ListI $a, \blaze\lang\Reflectable $key, \blaze\lang\Comparator $c = null) {
         $ar = $a->toArray();
         if ($c == null) {
             return Collections::arrayBsearch($key, $ar);
@@ -121,14 +120,14 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * can be given in which shall be searched for the key.
      *
      * @param ListI $a
-     * @param mixed $key
+     * @param \blaze\lang\Reflectable $key
      * @param int $fromIndex The index where to start at in the array
      * @param int $toIndex The index where to stop at in the array
      * @param blaze\lang\Comparator $c
      * @return int
      * @throws blaze\lang\IndexOutOfBoundsException
      */
-    public static function binaryRangeSearch(ListI $a, $key, $fromIndex, $toIndex, \blaze\lang\Comparator $c = null) {
+    public static function binaryRangeSearch(ListI $a, \blaze\lang\Reflectable $key, \int $fromIndex, \int $toIndex, \blaze\lang\Comparator $c = null) {
         return Collections::binarySearch($a->subList($fromIndex, $toIndex), $key, $c);
     }
 
@@ -149,7 +148,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param blaze\collections\ListI $src
      * @param blaze\collections\ListI $dest
      */
-    public static function copyOfRange(ListI $src, $from, $to, ListI $dest) {
+    public static function copyOfRange(ListI $src, \int $from, \int $to, ListI $dest) {
         $dest->clear();
         $iterator = $src->listIterator($from);
         for ($i = $from; $i < $to; $i++) {
@@ -160,18 +159,18 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     /**
      * Assigns value to every element of the array
      */
-    public static function fill(ListI $a, $value) {
+    public static function fill(ListI $a, \blaze\lang\Reflectable $value) {
         $size = $a->count();
         $a->clear();
         for ($i = 0; $i < $size; $i++) {
-            $a->add($value);
+            $a->set($i, $value);
         }
     }
 
     /**
      * Assigns value to every element of the subpart of the array
      */
-    public static function fillRange(ListI $a, $from, $to, $value) {
+    public static function fillRange(ListI $a, \int $from, \int $to, \blaze\lang\Reflectable $value) {
         for ($i = $from; $i < $to; $i++) {
             $a->set($i, $value);
         }
@@ -212,7 +211,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     /**
      *  Replaces all occurrences of one specified value in a list with another.
      */
-    public static function replaceAll(ListI $src, $oldVal, $newVal) {
+    public static function replaceAll(ListI $src, \blaze\lang\Reflectable $oldVal, \blaze\lang\Reflectable $newVal) {
         while (($index = $src->indexOf($oldVal)) != -1) {
             $src->set($index, $newVal);
         }
@@ -249,7 +248,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     /**
      * Same as sort but for a specific range.
      */
-    public static function sortRange(ListI $list, $from, $to, \blaze\lang\Comparator $c = null) {
+    public static function sortRange(ListI $list, \int $from, \int $to, \blaze\lang\Comparator $c = null) {
         $size = $list->count();
 
         if ($size <= 0) {
@@ -293,7 +292,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
     /**
      * Swaps the element from posA with posB
      */
-    public static function swap(ListI $list, $posA, $posB) {
+    public static function swap(ListI $list, \int $posA, \int $posB) {
         if ($posA >= 0 && $posA < $list->count() && $posB >= 0 && $posB < $list->count()) {
             $h = $list->set($posA, $list->get($posB));
             $list->set($posB, $h);
@@ -315,7 +314,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the Collection
      * @return blaze\collection\Collection
      */
-    public static function boundedCollection(Collection $obj, $maxSize) {
+    public static function boundedCollection(Collection $obj, \int $maxSize) {
         return new collection\BoundedCollection($obj, $maxSize);
     }
 
@@ -324,7 +323,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedCollection
      * @return blaze\collection\collection\SortedCollection
      */
-    public static function boundedSortedCollection(\blaze\collections\collection\SortedCollection $obj, $maxSize) {
+    public static function boundedSortedCollection(\blaze\collections\collection\SortedCollection $obj, \int $maxSize) {
         return new collectio\BoundedSortedCollection($obj, $maxSize);
     }
 
@@ -333,7 +332,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the Bag
      * @return blaze\collection\Bag
      */
-    public static function boundedBag(Bag $obj, $maxSize) {
+    public static function boundedBag(Bag $obj, \int $maxSize) {
         return new bag\BoundedBag($obj, $maxSize);
     }
 
@@ -342,7 +341,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedBag
      * @return blaze\collection\bag\SortedBag
      */
-    public static function boundedSortedBag(\blaze\collections\bag\SortedBag $obj, $maxSize) {
+    public static function boundedSortedBag(\blaze\collections\bag\SortedBag $obj, \int $maxSize) {
         return new bag\BoundedSortedBag($obj, $maxSize);
     }
 
@@ -351,7 +350,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the Set
      * @return blaze\collection\Set
      */
-    public static function boundedSet(Set $obj, $maxSize) {
+    public static function boundedSet(Set $obj, \int $maxSize) {
         return new set\BoundedSet($obj, $maxSize);
     }
 
@@ -360,7 +359,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedSet
      * @return blaze\collection\set\SortedSet
      */
-    public static function boundedSortedSet(\blaze\collections\set\SortedSet $obj, $maxSize) {
+    public static function boundedSortedSet(\blaze\collections\set\SortedSet $obj, \int $maxSize) {
         return new set\BoundedSortedSet($obj, $maxSize);
     }
 
@@ -369,7 +368,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the ListI
      * @return blaze\collection\ListI
      */
-    public static function boundedList(\blaze\collections\ListI $obj, $maxSize) {
+    public static function boundedList(\blaze\collections\ListI $obj, \int $maxSize) {
         return new lists\BoundedList($obj, $maxSize);
     }
 
@@ -378,7 +377,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the Map
      * @return blaze\collection\Map
      */
-    public static function boundedMap(Map $obj, $maxSize) {
+    public static function boundedMap(Map $obj, \int $maxSize) {
         return new map\BoundedMap($obj, $maxSize);
     }
 
@@ -387,7 +386,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedMap
      * @return blaze\collection\map\SortedMap
      */
-    public static function boundedSortedMap(\blaze\collections\map\SortedMap $obj, $maxSize) {
+    public static function boundedSortedMap(\blaze\collections\map\SortedMap $obj, \int $maxSize) {
         return new map\BoundedSortedMap($obj, $maxSize);
     }
 
@@ -396,7 +395,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the BidiMap
      * @return blaze\collection\BidiMap
      */
-    public static function boundedBidiMap(BidiMap $obj, $maxSize) {
+    public static function boundedBidiMap(BidiMap $obj, \int $maxSize) {
         return new bidimap\BoundedBidiMap($obj, $maxSize);
     }
 
@@ -405,7 +404,7 @@ class Collections extends \blaze\lang\Object implements \blaze\lang\StaticInitia
      * @param int $maxSize the maximum size of the SortedBidiMap
      * @return blaze\collection\bidimap\SortedBidiMap
      */
-    public static function boundedSortedBidiMap(\blaze\collections\bidimap\SortedBidiMap $obj, $maxSize) {
+    public static function boundedSortedBidiMap(\blaze\collections\bidimap\SortedBidiMap $obj, \int $maxSize) {
         return new bidimap\BoundedSortedBidiMap($obj, $maxSize);
     }
 

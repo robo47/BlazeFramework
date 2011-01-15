@@ -84,9 +84,9 @@ class NetletApplication extends Object implements StaticInitialization{
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 switch($node->localName){
                     case 'serverHome':
-						$home = '/'.trim($node->getAttribute('url'),'/');
-						if($home !== '/')
-							$home .= '/';
+                        $home = '/'.trim($node->getAttribute('url'),'/');
+                        if($home !== '/')
+                                $home .= '/';
                         self::$serverConfig->put('serverHome', $home);
                         break;
                     case 'defaultNetletConfig':
@@ -126,9 +126,11 @@ class NetletApplication extends Object implements StaticInitialization{
     private function __construct($package, $name, $urlPrefix, $running){
         $this->package = String::asWrapper($package);
         $this->name = String::asWrapper($name);
-		$prefix = trim(str_replace('*', '', $urlPrefix), '/');
-		if(strlen($prefix) !== 0)
-			$prefix .= '/';
+
+        $prefix = trim(str_replace('*', '', $urlPrefix), '/');
+        if(strlen($prefix) !== 0)
+                $prefix .= '/';
+
         $this->urlPrefix = String::asWrapper(self::$serverConfig->get('serverHome').$prefix);
         $this->running = $running;
 
@@ -136,6 +138,8 @@ class NetletApplication extends Object implements StaticInitialization{
     }
 
     private function initApplication(){
+        if($this->netletContext != null)
+                return;
         $f = new File(ClassLoader::getSystemClassLoader()->getClassPath(), $this->package.File::$directorySeparator.'web.xml');
         $doc = new \DOMDocument();
         $doc->load($f->getAbsolutePath());
@@ -294,7 +298,7 @@ class NetletApplication extends Object implements StaticInitialization{
             return null;
 
         foreach(self::$serverConfig->get('applications') as $app){
-            if(String::compare($app->getPackage(), $pkgName) == 0){
+            if($app->getPackage()->compareTo($pkgName) == 0){
                 $app->initApplication();
                 return $app;
             }
@@ -316,6 +320,7 @@ class NetletApplication extends Object implements StaticInitialization{
      * @return blazeServer\source\netlet\NetletApplication
      */
     public static function getAdminApplication() {
+        self::$blazeServer->initApplication();
         return self::$blazeServer;
     }
 

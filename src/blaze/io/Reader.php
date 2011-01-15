@@ -9,11 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 abstract class Reader extends Object implements Readable, Closeable, Markable {
 
@@ -32,6 +28,8 @@ abstract class Reader extends Object implements Readable, Closeable, Markable {
     public function ready() {
         return true;
     }
+
+    public abstract function skip(\long $n);
 
     public function mark() {
 

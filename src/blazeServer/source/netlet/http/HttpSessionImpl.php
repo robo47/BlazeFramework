@@ -87,7 +87,7 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession {
         return $this->maxInactiveInterval;
     }
 
-    public function setMaxInactiveInterval($maxInactiveInterval) {
+    public function setMaxInactiveInterval(\int $maxInactiveInterval) {
         $this->maxInactiveInterval = $maxInactiveInterval;
     }
 
@@ -95,7 +95,7 @@ class HttpSessionImpl extends Object implements \blaze\netlet\http\HttpSession {
         return $this->maxLifetime;
     }
 
-    public function setMaxLifetime($maxLifetime) {
+    public function setMaxLifetime(\int $maxLifetime) {
         $this->maxLifetime = $maxLifetime;
     }
 

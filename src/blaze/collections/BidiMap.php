@@ -11,7 +11,6 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
  */
 interface BidiMap extends Map {
@@ -28,14 +27,14 @@ interface BidiMap extends Map {
      *
      * @return mixed
      */
-    public function getKey($value);
+    public function getKey(\blaze\lang\Reflectable $value);
 
     /**
      * Removes the entry of the map and returns the key of the deleted entry.
      * 
      * @return mixed the key or null if nothing was removed
      */
-    public function removeValue($value);
+    public function removeValue(\blaze\lang\Reflectable $value);
 }
 
 ?>

@@ -25,7 +25,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testQuery(){
-        $sess = $this->fact->openEntityManager();
+        $sess = $this->fact->createEntityManager();
         $qb = QueryBuilder::createFromBuilder();
         $qb->fromEntity('User', 'u')->where('u.userId', '1', ooql\Condition::COND_EQUALS);
         $stmt = $qb->getStatement();

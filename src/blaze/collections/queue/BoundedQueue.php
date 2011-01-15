@@ -40,7 +40,7 @@ final class BoundedQueue extends AbstractQueueDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the queue is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->queue->add($obj);
         else
@@ -62,7 +62,7 @@ final class BoundedQueue extends AbstractQueueDecorator implements \blaze\collec
      * {@inheritDoc}
      * When the queue is full nothing is added and false is returned.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         if (!$this->isFull())
             return $this->queue->offer($element);
         else

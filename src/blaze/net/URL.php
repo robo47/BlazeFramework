@@ -9,11 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Serializable, \blaze\lang\StaticInitialization {
 
@@ -117,8 +113,7 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
      * @return 	blaze\net\URL Description of what the method returns
      * @throws	blaze\lang\Exception
      */
-    public static function parseURL($url) {
-        $url = \blaze\lang\String::asWrapper($url);
+    public static function parseURL(\blaze\lang\String $url) {
         $idx = $url->indexOf('://');
 
         if ($idx == -1)
@@ -218,50 +213,50 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
      * @param blaze\lang\String|string $scheme
      * @return URL
      */
-    public function setScheme($scheme) {
-        $this->scheme = $scheme !== null ? \blaze\lang\String::asWrapper($scheme) : null;
+    public function setScheme(\blaze\lang\String $scheme) {
+        $this->scheme = $scheme;
         $this->buildUrl();
         return $this;
     }
 
-    public function setUser($user) {
-        $this->user = $user !== null ? \blaze\lang\String::asWrapper($user) : null;
+    public function setUser(\blaze\lang\String $user) {
+        $this->user = $user;
         $this->buildUrl();
         return $this;
     }
 
-    public function setPassword($password) {
-        $this->password = $password !== null ? \blaze\lang\String::asWrapper($password) : null;
+    public function setPassword(\blaze\lang\String $password) {
+        $this->password = $password;
         $this->buildUrl();
         return $this;
     }
 
-    public function setHost($host) {
-        $this->host = $host !== null ? \blaze\lang\String::asWrapper($host) : null;
+    public function setHost(\blaze\lang\String $host) {
+        $this->host = $host;
         $this->buildUrl();
         return $this;
     }
 
-    public function setPort($port) {
-        $this->port = $port !== null ? \blaze\lang\Integer::asNative($port) : -1;
+    public function setPort(\int $port) {
+        $this->port = $port;
         $this->buildUrl();
         return $this;
     }
 
-    public function setPath($path) {
-        $this->path = $path !== null ? \blaze\lang\String::asWrapper($path) : null;
+    public function setPath(\blaze\lang\String $path) {
+        $this->path = $path;
         $this->buildUrl();
         return $this;
     }
 
-    public function setQuery($query) {
-        $this->query = $query !== null ? \blaze\lang\String::asWrapper($query) : null;
+    public function setQuery(\blaze\lang\String $query) {
+        $this->query = $query;
         $this->buildUrl();
         return $this;
     }
 
-    public function setFragment($fragment) {
-        $this->fragment = $fragmet !== null ? \blaze\lang\String::asWrapper($fragment) : null;
+    public function setFragment(\blaze\lang\String $fragment) {
+        $this->fragment = $fragmet;
         $this->buildUrl();
         return $this;
     }
@@ -419,19 +414,6 @@ final class URL extends Object implements \blaze\lang\Comparable, \blaze\io\Seri
         if (($c = self::compare($this->query, $that->query)) != 0)
             return $c;
         return self::compare($this->fragment, $that->fragment);
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === $obj2)
-            return 0;
-        if ($obj1 !== null) {
-            if ($obj2 !== null)
-                return \blaze\lang\String::asWrapper($obj1)->compareTo($obj2);
-            else
-                return +1;
-        } else {
-            return -1;
-        }
     }
 
     // US-ASCII only

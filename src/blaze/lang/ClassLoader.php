@@ -9,10 +9,7 @@ namespace blaze\lang;
  * so ClassLoader can extend it.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
-
  * @author  Christian Beikov
  */
 class ClassLoader extends Object {
@@ -32,7 +29,9 @@ class ClassLoader extends Object {
      * @var blaze\lang\ClassLoader
      */
     protected $parent;
+
     private $classes = array();
+    private $initialized = false;
 
     /**
      * Constructs a new ClassLoader
@@ -48,6 +47,27 @@ class ClassLoader extends Object {
     }
 
     /**
+     * This should provide the feature that the lang package can be used from
+     * everywhere without to import it. Currently this is not working.
+     */
+    private function initLang(){
+        if($this->initialized)
+            return;
+        $dir = new \DirectoryIterator(__DIR__);
+        while($dir->valid()){
+            $file = $dir->getFilename();
+
+            if($dir->isFile() && ($len = strpos($file, '.php')) === strlen($file) - 4){
+                $name = substr($file, 0, $len);
+                $fullName = 'blaze\\lang\\'.$name;
+                $this->loadClass($fullName);
+                @class_alias($fullName, $name);
+            }
+            $dir->next();
+        }
+    }
+
+    /**
      * Returns the singleton instance or creates the first one and sets the class path
      * to the system properties.
      * 
@@ -56,13 +76,21 @@ class ClassLoader extends Object {
     public static final function getSystemClassLoader() {
         if (self::$instance == null){
             self::$instance = new ClassLoader();
+//            self::$instance->initLang();
             System::setProperty('blaze.class.path', self::$instance->classPath);
         }
         return self::$instance;
     }
 
     protected function isLoadedClass($className) {
-        return array_key_exists($className, $this->classes);
+        if(!array_key_exists($className, $this->classes)){
+                if(!\class_exists($className, false) && !\interface_exists($className, false))
+                    return false;
+                else
+                    $this->classes[$className] = null;
+        }
+        
+        return true;
     }
 
     public final function isInitializedClass($className) {
@@ -109,6 +137,7 @@ class ClassLoader extends Object {
         if (!file_exists($fullName))
             throw new ClassNotFoundException($className);
 
+        $this->classes[$className] = null;
         // Include the class which shall be loaded
         require($fullName);
 
@@ -125,7 +154,6 @@ class ClassLoader extends Object {
             $className::staticInit(); // maybe faster?
         }
 
-        $this->classes[$className] = null;
         return true;
     }
 

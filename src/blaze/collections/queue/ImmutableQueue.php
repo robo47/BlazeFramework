@@ -15,7 +15,7 @@ final class ImmutableQueue extends AbstractQueueDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the queue and returns false.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -31,7 +31,7 @@ final class ImmutableQueue extends AbstractQueueDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the queue and returns false.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -47,7 +47,7 @@ final class ImmutableQueue extends AbstractQueueDecorator implements \blaze\coll
      * {@inheritDoc}
      * Removes nothing from the queue and returns null.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return null;
     }
 

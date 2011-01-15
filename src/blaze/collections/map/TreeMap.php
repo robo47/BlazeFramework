@@ -20,11 +20,11 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
 
     }
 
@@ -40,11 +40,11 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
 
     }
 
@@ -52,7 +52,7 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
 
     }
 
@@ -75,15 +75,15 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function ceilingEntry($key) {
+    public function ceilingEntry(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function ceilingKey($key) {
+    public function ceilingKey(\blaze\lang\Reflectable $key) {
 
     }
 
@@ -115,31 +115,31 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function floorEntry($key) {
+    public function floorEntry(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function floorKey($key) {
+    public function floorKey(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function headMap($toElement, $inclusive = true) {
+    public function headMap(\blaze\lang\Reflectable $toElement, $inclusive = true) {
 
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function higherEntry($key) {
+    public function higherEntry(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function higherKey($key) {
+    public function higherKey(\blaze\lang\Reflectable $key) {
 
     }
 
@@ -155,15 +155,15 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function lowerEntry($key) {
+    public function lowerEntry(\blaze\lang\Reflectable $key) {
 
     }
 
-    public function lowerKey($key) {
+    public function lowerKey(\blaze\lang\Reflectable $key) {
 
     }
 
@@ -195,11 +195,11 @@ class TreeMap extends AbstractMap implements SortedMap, \blaze\lang\Cloneable, \
 
     }
 
-    public function subMap($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subMap(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
 
     }
 
-    public function tailMap($fromElement, $inclusive = true) {
+    public function tailMap(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
 
     }
 

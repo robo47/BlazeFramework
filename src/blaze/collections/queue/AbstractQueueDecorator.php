@@ -32,7 +32,7 @@ abstract class AbstractQueueDecorator extends \blaze\collections\collection\Abst
         return $this->queue->element();
     }
 
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         return $this->queue->offer($element);
     }
 

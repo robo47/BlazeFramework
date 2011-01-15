@@ -311,7 +311,7 @@ class HttpNetletRequestImpl extends Object implements \blaze\netlet\http\HttpNet
     public function getSession($create = false) {
         if ($this->sessionHandler == null)
             $this->sessionHandler = new HttpSessionHandlerImpl();
-        return $this->sessionHandler->getCurrentSession($this->getCookies(), $create);
+        return $this->sessionHandler->getCurrentSession($this, $create);
     }
 
     public function getSessionHandler() {

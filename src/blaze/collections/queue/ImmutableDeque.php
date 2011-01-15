@@ -15,7 +15,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -31,7 +31,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -39,7 +39,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -47,7 +47,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -55,7 +55,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function offerFirst($element) {
+    public function offerFirst(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -63,7 +63,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function offerLast($element) {
+    public function offerLast(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -71,7 +71,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Adds nothing to the deque and returns false.
      */
-    public function push($element) {
+    public function push(\blaze\lang\Reflectable $element) {
         return false;
     }
 
@@ -127,7 +127,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Removes nothing from the deque and returns null.
      */
-    public function removeFirstOccurrence($element) {
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element) {
         return null;
     }
 
@@ -143,7 +143,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Removes nothing from the deque and returns null.
      */
-    public function removeLastOccurrence($element) {
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
         return null;
     }
 
@@ -151,7 +151,7 @@ final class ImmutableDeque extends AbstractDequeDecorator implements \blaze\coll
      * {@inheritDoc}
      * Removes nothing from the deque and returns null.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return null;
     }
 

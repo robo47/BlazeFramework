@@ -45,7 +45,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->elementData[$this->size++] = $obj;
         return true;
     }
@@ -61,7 +61,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         }
     }
 
-    public function addAllAt($index, \blaze\collections\Collection $c) {
+    public function addAllAt(\int $index, \blaze\collections\Collection $c) {
         $this->rangeCheck($index);
         $ar = $c->toArray();
         for ($i = 0; $i < count($ar); $i++) {
@@ -69,7 +69,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         }
     }
 
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
         $this->rangeCheck($index);
         array_splice($this->elementData, $index, count($this->elementData), array_merge(array($obj), array_slice($this->elementData, $index)));
         $this->size++;
@@ -99,7 +99,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         if ($this->indexOf($obj) == -1)
             return false;
         else
@@ -122,7 +122,7 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $index = $this->indexOf($obj);
         if ($index === -1) {
 
@@ -181,12 +181,12 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         return $this->elementData;
     }
 
-    public function get($index) {
-        $this->rangeCheck($index);
+    public function get(\int $index) {
+        $this->rangeCheck($index, 1);
         return $this->elementData[$index];
     }
 
-    public function indexOf($obj) {
+    public function indexOf(\blaze\lang\Reflectable $obj) {
         $index = array_search($obj, $this->elementData, false);
         if (\is_int($index)) {
             return $index;
@@ -195,19 +195,19 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         }
     }
 
-    public function lastIndexOf($obj) {
+    public function lastIndexOf(\blaze\lang\Reflectable $obj) {
         for ($i = $this->size - 1; $i >= 0; $i--)
             if ($obj === $this->elementData[$i])
                 return $i;
     }
 
     public function listIterator($index = 0) {
-        $this->rangeCheck($index);
+        $this->rangeCheck($index, 1);
         return new ListArrayListIterator($this->elementData, $this, $index);
     }
 
-    public function removeAt($index) {
-        $this->rangeCheck($index);
+    public function removeAt(\int $index) {
+        $this->rangeCheck($index, 1);
         $ret = $this->elementData[$index];
         unset($this->elementData[$index]);
         $this->elementData = \array_values($this->elementData);
@@ -215,22 +215,22 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         return $ret;
     }
 
-    public function set($index, $obj) {
+    public function set(\int $index, \blaze\lang\Reflectable $obj) {
         $this->rangeCheck($index);
         $old = $this->elementData[$index];
         $this->elementData[$index] = $obj;
         return $old;
     }
 
-    public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
+    public function subList(\int $fromIndex, \int $toIndex, $fromInclusive = true, $toInclusive = false) {
         if (!$fromInclusive) {
             $fromIndex++;
         }
         if ($toInclusive) {
             $toIndex++;
         }
-        $this->rangeCheck($fromIndex);
-        $this->rangeCheck($toIndex);
+        $this->rangeCheck($fromIndex, 1);
+        $this->rangeCheck($toIndex, 1);
         $ret = new ArrayList();
         for ($i = $fromIndex; $i < $toIndex; $i++) {
             $ret->add($this->elementData[$i]);
@@ -238,13 +238,13 @@ class ArrayList extends AbstractList implements \blaze\lang\Cloneable, \blaze\io
         return $ret;
     }
 
-    private function rangeCheck($index) {
-        if ($index < 0 || $this->size < $index) {
+    private function rangeCheck(\int $index, $offset = 0) {
+        if ($index < 0 || $this->size - $offset < $index) {
             throw new \blaze\lang\IndexOutOfBoundsException('Index: ' . $index . ' Size: ' . $this->size);
         }
     }
 
-    protected function removeRange($fromIndex, $toIndex) {
+    protected function removeRange(\int $fromIndex, \int $toIndex) {
         $this->rangeCheck($fromIndex);
         $this->rangeCheck($toIndex - 1);
         $i;
@@ -319,7 +319,7 @@ class ListArrayListIterator implements \blaze\collections\iterator\ListIterator 
         $this->index = $index;
     }
 
-    public function add($value) {
+    public function add(\blaze\lang\Reflectable $value) {
         $this->arraylist->add($value);
     }
 
@@ -351,7 +351,7 @@ class ListArrayListIterator implements \blaze\collections\iterator\ListIterator 
         }
     }
 
-    public function set($value) {
+    public function set(\blaze\lang\Reflectable $value) {
         $this->data[$this->index] = $value;
     }
 

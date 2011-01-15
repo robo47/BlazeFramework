@@ -10,12 +10,9 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
  * @todo    Extend, http://commons.apache.org/lang/api-release/org/apache/commons/lang/time/DateUtils.html
  * @todo    Check, http://www.php.net/manual/en/book.datetime.php
-
  */
 class Date extends Object {
 

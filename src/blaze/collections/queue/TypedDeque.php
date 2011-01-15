@@ -38,7 +38,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->add($obj);
     }
@@ -59,7 +59,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->contains($obj);
     }
@@ -80,7 +80,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->remove($obj);
     }
@@ -112,7 +112,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->offer($element);
     }
@@ -122,7 +122,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->addFirst($element);
     }
@@ -132,7 +132,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->addLast($element);
     }
@@ -142,7 +142,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function offerFirst($element) {
+    public function offerFirst(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->offerFirst($element);
     }
@@ -152,7 +152,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function offerLast($element) {
+    public function offerLast(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->offerLast($element);
     }
@@ -162,7 +162,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function push($element) {
+    public function push(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->push($element);
     }
@@ -172,7 +172,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeFirstOccurrence($element) {
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->removeFirstOccurrence($element);
     }
@@ -182,7 +182,7 @@ final class TypedDeque extends AbstractDequeDecorator implements \blaze\collecti
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeLastOccurrence($element) {
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->removeLastOccurrence($element);
     }

@@ -38,7 +38,7 @@ class LinkedList implements \blaze\collections\Iterable {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $new = new Entry($obj);
         if ($this->size == 0) {
             $this->head = $new;
@@ -84,7 +84,7 @@ class LinkedList implements \blaze\collections\Iterable {
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -98,7 +98,7 @@ class LinkedList implements \blaze\collections\Iterable {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -124,11 +124,11 @@ class LinkedList implements \blaze\collections\Iterable {
 
     }
 
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
         $new = new Entry($element);
     }
 
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
         $this->add($element);
     }
 
@@ -148,15 +148,15 @@ class LinkedList implements \blaze\collections\Iterable {
         return $this->tail->element;
     }
 
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function offerFirst($element) {
+    public function offerFirst(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function offerLast($element) {
+    public function offerLast(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -188,7 +188,7 @@ class LinkedList implements \blaze\collections\Iterable {
 
     }
 
-    public function push($element) {
+    public function push(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -200,7 +200,7 @@ class LinkedList implements \blaze\collections\Iterable {
 
     }
 
-    public function removeFirstOccurrence($element) {
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -208,7 +208,7 @@ class LinkedList implements \blaze\collections\Iterable {
 
     }
 
-    public function removeLastOccurrence($element) {
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -217,23 +217,23 @@ class LinkedList implements \blaze\collections\Iterable {
      * @param int $index
      * @param mixed $element
      */
-    public function addAllAt($index, Collection $c) {
+    public function addAllAt(\int $index, Collection $c) {
 
     }
 
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
 
     }
 
-    public function get($index) {
+    public function get(\int $index) {
 
     }
 
-    public function indexOf($obj) {
+    public function indexOf(\blaze\lang\Reflectable $obj) {
 
     }
 
-    public function lastIndexOf($obj) {
+    public function lastIndexOf(\blaze\lang\Reflectable $obj) {
 
     }
 
@@ -241,23 +241,15 @@ class LinkedList implements \blaze\collections\Iterable {
 
     }
 
-    public function removeAt($index) {
+    public function removeAt(\int $index) {
 
     }
 
-    public function serialize() {
+    public function set(\int $index, \blaze\lang\Reflectable $obj) {
 
     }
 
-    public function set($index, $obj) {
-
-    }
-
-    public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
-
-    }
-
-    public function unserialize($serialized) {
+    public function subList(\int $fromIndex, \int $toIndex, $fromInclusive = true, $toInclusive = false) {
 
     }
 

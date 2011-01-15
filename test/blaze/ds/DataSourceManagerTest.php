@@ -617,6 +617,8 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      * that the test_table was created.
      */
     public function testBatchStatement() {
+        // Need to do this because PHPUnit does something weird..
+        set_error_handler(array('blaze\lang\System', 'systemErrorHandler'));
         $this->setupConnection();
         $this->setupTables();
         $this->insertDataBatch();

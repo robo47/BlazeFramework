@@ -10,12 +10,10 @@ use \ReflectionClass,
 
 /**
  * Instances of the class ClassWrapper represent classes, interfaces and enumerations which are classes too.
- * Native datatypes can only be 
+ * Native datatypes are available as static property in the wrapper classes.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
-
  * @author  Christian Beikov
  */
 final class ClassWrapper extends Object implements Serializable {

@@ -53,7 +53,7 @@ final class System extends Object implements StaticInitialization {
      * @param string $errorMessage
      * @return boolean False if an error occured, otherwise true
      */
-    public static function systemErrorHandler($errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext) {
+    public static function systemErrorHandler($errorLevel, $errorMessage, $errorFile, $errorLine, &$errorContext) {
         switch ($errorLevel) {
             case E_USER_ERROR:
             // User error
@@ -64,6 +64,12 @@ final class System extends Object implements StaticInitialization {
             // User warning
 
             case E_NOTICE:
+                // This could be used for operator overloading but the errorContext does not provide references to the objects
+//                var_dump($errorContext);
+//                $keys = array_keys($errorContext);
+//                $errorContext[$keys[count($keys) - 1]] = $errorContext[$keys[count($keys) - 1]]->toNative();
+//                var_dump($errorContext);
+//                return true;
             // Runtime notices
             case E_USER_NOTICE:
             // User notice
@@ -72,18 +78,21 @@ final class System extends Object implements StaticInitialization {
             case E_USER_DEPRECATED:
 
             case E_STRICT:
-                return false;
+                break;
+//                return false;
 
             case E_RECOVERABLE_ERROR:
                 $ok = false;
                 $matches = null;
-                
+
                 if (array_key_exists($errorMessage, self::$cachedHints))
                     $matches = self::$cachedHints[$errorMessage];
                 else
                     preg_match('/^Argument (?<argNumber>\d+) passed to (?<namespace>(([a-zA-Z_]{1}[a-zA-Z0-9_]+)\\\)+)?[:a-zA-Z0-9_]+\(\) must (be an instance of|be an|implement interface) (?<hintName>[a-zA-Z0-9_\\\]+), (instance of )?(?<typeName>[a-zA-Z0-9_\\\]+) given/AUD', $errorMessage, $matches);
-               
-                if($matches !== null){
+
+                if ($matches !== null) {
+                    if($matches['typeName'] === 'null')
+                        throw new NullPointerException();
                     $argNumber = ((int) $matches['argNumber']) - 1;
                     $args = self::getArgsOfErrorCall();
 
@@ -122,7 +131,7 @@ final class System extends Object implements StaticInitialization {
                             if ($matches['typeName'] === 'integer' || $matches['typeName'] === 'double') {
                                 $ok = Byte::isNativeType($args[$argNumber]);
 
-                                if($ok)
+                                if ($ok)
                                     $args[$argNumber] = new Byte($args[$argNumber]);
                             }
                             break;
@@ -152,7 +161,7 @@ final class System extends Object implements StaticInitialization {
                                 case 'double':
                                     $ok = Short::isNativeType($args[$argNumber]);
 
-                                    if($ok)
+                                    if ($ok)
                                         $args[$argNumber] = new Short($args[$argNumber]);
                             }
                             break;
@@ -186,7 +195,7 @@ final class System extends Object implements StaticInitialization {
                                 case 'double':
                                     $ok = Integer::isNativeType($args[$argNumber]);
 
-                                    if($ok)
+                                    if ($ok)
                                         $args[$argNumber] = new Integer($args[$argNumber]);
                             }
                             break;
@@ -222,7 +231,7 @@ final class System extends Object implements StaticInitialization {
                                 case 'double':
                                     $ok = Long::isNativeType($args[$argNumber]);
 
-                                    if($ok)
+                                    if ($ok)
                                         $args[$argNumber] = new Long($args[$argNumber]);
                             }
                             break;
@@ -261,7 +270,7 @@ final class System extends Object implements StaticInitialization {
                                 case 'double':
                                     $ok = Float::isNativeType($args[$argNumber]);
 
-                                    if($ok)
+                                    if ($ok)
                                         $args[$argNumber] = new Float($args[$argNumber]);
                             }
                             break;
@@ -301,10 +310,9 @@ final class System extends Object implements StaticInitialization {
                                 case 'double':
                                     $ok = Double::isNativeType($args[$argNumber]);
 
-                                    if($ok)
+                                    if ($ok)
                                         $args[$argNumber] = new Double($args[$argNumber]);
-                                break;
-
+                                    break;
                             }
                             break;
                         case 'char':
@@ -323,7 +331,7 @@ final class System extends Object implements StaticInitialization {
                             if ($matches['typeName'] === 'string') {
                                 $ok = Character::isNativeType($args[$argNumber]);
 
-                                if($ok)
+                                if ($ok)
                                     $args[$argNumber] = new Character($args[$argNumber]);
                             }
                             break;
@@ -331,7 +339,7 @@ final class System extends Object implements StaticInitialization {
                             switch ($matches['typeName']) {
                                 case 'integer':
                                 case 'double':
-                                    $args[$argNumber] = (string)$args[$argNumber];
+                                    $args[$argNumber] = (string) $args[$argNumber];
                                     $ok = true;
                                     break;
                                 case 'blaze\\lang\\String':
@@ -350,7 +358,7 @@ final class System extends Object implements StaticInitialization {
                         case 'array':
                             switch ($matches['typeName']) {
                                 case 'object':
-                                    if(!$args[$argNumber] instanceof \blaze\collections\ArrayI)
+                                    if (!$args[$argNumber] instanceof \blaze\collections\ArrayI)
                                         break;
                                 case 'blaze\\collections\\arrays\\ArrayObject':
                                     var_dump('Unboxing does not work yet!');
@@ -364,7 +372,7 @@ final class System extends Object implements StaticInitialization {
                             if ($matches['typeName'] === 'array') {
                                 $ok = \blaze\collections\arrays\ArrayObject::isNativeType($args[$argNumber]);
 
-                                if($ok)
+                                if ($ok)
                                     $args[$argNumber] = new \blaze\collections\arrays\ArrayObject($args[$argNumber]);
                             }
                             break;
@@ -409,17 +417,49 @@ final class System extends Object implements StaticInitialization {
                                         $args[$argNumber] = new \blaze\math\BigDecimal($args[$argNumber]);
                             }
                             break;
+                        case 'blaze\\lang\\Reflectable':
+                        case 'blaze\\lang\\Object':
+                            switch ($matches['typeName']) {
+                                case 'boolean':
+                                    $args[$argNumber] = new Boolean($args[$argNumber]);
+                                    $ok = true;
+                                    break;
+                                case 'integer':
+                                case 'double':
+                                    if (($class = Number::getNumberClass($args[$argNumber])) != null) {
+                                        $className = $class->getName()->toNative();
+                                        $args[$argNumber] = $className::asWrapper($args[$argNumber]);
+                                        $ok = true;
+                                    }
+                                    break;
+                                case 'string':
+                                    if (\blaze\math\BigInteger::isNativeType($args[$argNumber]))
+                                        $args[$argNumber] = new \blaze\math\BigInteger($args[$argNumber]);
+                                    else if (\blaze\math\BigDecimal::isNativeType($args[$argNumber]))
+                                        $args[$argNumber] = new \blaze\math\BigDecimal($args[$argNumber]);
+                                    else
+                                        $args[$argNumber] = new String($args[$argNumber]);
+                                    $ok = true;
+                                    break;
+                                case 'array':
+                                    $args[$argNumber] = new \blaze\collections\arrays\ArrayObject($args[$argNumber]);
+                                    $ok = true;
+                                    break;
+                            }
+                            break;
                         default:
                             $ok = false;
                     }
 
-                    if ($ok)
-                        return self::$cachedHints[$errorMessage] = $matches;
+                    if ($ok) {
+                        self::$cachedHints[$errorMessage] = $matches;
+                        return true;
+                    }
                     return false;
                 }
-
-                return false;
         }
+
+        return false;
     }
 
     private static function getArgsOfErrorCall() {
@@ -434,12 +474,12 @@ final class System extends Object implements StaticInitialization {
      * @param \Exception $exception
      */
     public static function systemExceptionHandler(\Exception $exception) {
-
+        echo $exception->getTraceAsString();
     }
 
     public static function staticInit() {
         self::$oldErrorHandler = set_error_handler(array('blaze\lang\System', 'systemErrorHandler'));
-        self::$oldExceptionHandler = set_exception_handler(array('blaze\lang\System', 'systemExcetionHandler'));
+//        self::$oldExceptionHandler = set_exception_handler(array('blaze\lang\System', 'systemExcetionHandler'));
         error_reporting(E_ALL | E_STRICT);
         set_time_limit(0);
         self::$in = new \blaze\io\input\NativeInputStream('php://stdin');
@@ -552,7 +592,8 @@ final class System extends Object implements StaticInitialization {
 
         self::setProperty('line.separator', PHP_EOL);
         self::setProperty('php.version', PHP_VERSION);
-        self::setProperty('user.home', getenv('HOME'));
+        $home = getenv('HOME');
+        self::setProperty('user.home', $home === false ? '' : $home);
         self::setProperty('application.startdir', getcwd());
         self::setProperty('blaze.startTime', gmdate('D, d M Y H:i:s', time()) . ' GMT');
 

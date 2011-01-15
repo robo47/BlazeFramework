@@ -37,7 +37,7 @@ class ForwardEngineer extends Object {
 
     public function forwardEngineerXmlFiles(\blaze\io\File $dir) {
         foreach ($dir->listFiles() as $file) {
-            if ($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compare('xml') == 0)
+            if ($file->getName()->substring($file->getName()->lastIndexOf('.') + 1)->compareTo('xml') == 0)
                 $this->forwardEngineerXmlFile($file);
         }
 

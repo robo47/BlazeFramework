@@ -10,10 +10,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
  */
 class Logger extends Object {
 
@@ -27,6 +24,7 @@ class Logger extends Object {
     }
 
     public function finalize() {
+        parent::finalize();
         try {
             if ($this->out != null)
                 $this->out->close();
@@ -39,7 +37,6 @@ class Logger extends Object {
         } catch (\blaze\lang\Exception $e) {
 
         }
-        parent::finalize();
     }
 
     /**
@@ -55,11 +52,6 @@ class Logger extends Object {
     public function log($str) {
         $this->out->writeLine($str);
         $this->out->flush();
-    }
-
-    public function logError($errno, $errstr, $errfile, $errline, $errcontext) {
-        $this->err->writeLine($errno . ' - ' . $errstr . ' in file ' . $errfile . ' on line ' . $errline . ' with context ' . var_export($errcontext));
-        $this->err->flush();
     }
 
 }

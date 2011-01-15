@@ -10,10 +10,8 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     blaze\io\InputStream
  * @since   1.0
-
  */
 abstract class OutputStream extends Object implements Closeable, Flushable, Writable {
 

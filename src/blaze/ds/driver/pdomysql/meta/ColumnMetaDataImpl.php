@@ -120,7 +120,7 @@ class ColumnMetaDataImpl extends AbstractColumnMetaData {
         $rs->next();
 
         $this->default = $rs->getString('COLUMN_DEFAULT');
-        $this->nullable = \blaze\lang\String::compare($rs->getString('IS_NULLABLE'), 'YES') == 0;
+        $this->nullable = $rs->getString('IS_NULLABLE')->compareToIgnoreCase('YES') == 0;
         $this->nativeType = $rs->getString('DATA_TYPE');
         $this->length = $rs->getInt('NUMERIC_SCALE');
         $this->classType = $this->getClassName($this->nativeType, $this->length);

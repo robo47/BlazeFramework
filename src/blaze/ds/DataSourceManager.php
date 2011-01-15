@@ -149,7 +149,7 @@ final class DataSourceManager extends Object implements Singleton {
                         else if (strcasecmp($optPair[0], 'pwd') == 0)
                             $password = $optPair[1];
                         else if (!$options->containsKey($optPair[0]))
-                            $options->put($optPair[0], $optPair[1]);
+                            $options->setProperty($optPair[0], $optPair[1]);
                     }
                 }
             }
@@ -160,7 +160,7 @@ final class DataSourceManager extends Object implements Singleton {
         if ($pwd !== null)
             $password = $pwd;
 
-        $options->put('timeout', $this->timeout);
+        $options->setProperty('timeout', ''.$this->timeout);
 
         if (!array_key_exists($driverProtocol, $this->drivers))
             throw new DataSourceException('No driver found for the given url.');

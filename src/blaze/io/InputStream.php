@@ -10,10 +10,8 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     blaze\io\OutputStream
  * @since   1.0
-
  */
 abstract class InputStream extends Object implements Readable, Closeable, Markable {
 
@@ -32,7 +30,7 @@ abstract class InputStream extends Object implements Readable, Closeable, Markab
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public abstract function skip($n);
+    public abstract function skip(\long $n);
 
     public function readInto(StringBuffer $buffer, $off = -1, $len = -1) {
         $result = $this->read($len);

@@ -39,7 +39,7 @@ class FilterInputStream extends \blaze\io\InputStream {
         return $this->in->readInto($buffer, $off, $len);
     }
 
-    public function skip($n) {
+    public function skip(\long $n) {
         return $this->in->skip($n);
     }
 

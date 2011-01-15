@@ -15,7 +15,7 @@ final class ImmutableCollection extends AbstractCollectionDecorator implements \
      * {@inheritDoc}
      * Adds nothing to the collection and returns false.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -39,7 +39,7 @@ final class ImmutableCollection extends AbstractCollectionDecorator implements \
      * {@inheritDoc}
      * Removes nothing from the collection and returns null.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return null;
     }
 

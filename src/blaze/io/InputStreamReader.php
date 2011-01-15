@@ -9,9 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
-
  */
 class InputStreamReader extends Reader {
 
@@ -56,7 +54,7 @@ class InputStreamReader extends Reader {
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public function skip($n) {
+    public function skip(\long $n) {
         return $this->is->skip($n);
     }
 

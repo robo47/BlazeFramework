@@ -18,7 +18,7 @@ interface ListIterator extends \blaze\collections\Iterator {
     /**
      * Inserts the specified element into the list (optional operation).
      */
-    public function add($value);
+    public function add(\blaze\lang\Reflectable $value);
 
     /**
      * Returns true if this list iterator has more elements when traversing the list in the reverse direction.
@@ -48,7 +48,7 @@ interface ListIterator extends \blaze\collections\Iterator {
      * Replaces the last element returned by next or previous with the specified element (optional operation).
      * @return mixed
      */
-    public function set($value);
+    public function set(\blaze\lang\Reflectable $value);
 }
 
 ?>

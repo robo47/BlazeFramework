@@ -16,7 +16,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -49,7 +49,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -63,7 +63,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -88,11 +88,11 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
 
     }
 
-    public function addFirst($element) {
+    public function addFirst(\blaze\lang\Reflectable $element) {
 
     }
 
-    public function addLast($element) {
+    public function addLast(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -112,7 +112,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
 
     }
 
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -132,7 +132,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
 
     }
 
-    public function removeFirstOccurrence($element) {
+    public function removeFirstOccurrence(\blaze\lang\Reflectable $element) {
 
     }
 
@@ -140,7 +140,7 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
 
     }
 
-    public function removeLastOccurrence($element) {
+    public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
         
     }
 

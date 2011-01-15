@@ -6,10 +6,7 @@ namespace blaze\lang;
  * This interface is used to wrap the native datatypes of PHP.
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
- * @see     blaze\lang\ClassWrapper
  * @since   1.0
-
  * @author  Christian Beikov
  */
 interface NativeWrapper {

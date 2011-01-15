@@ -50,7 +50,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\String $key, $value) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         $h = fopen($f->getAbsolutePath(), 'w');
         fwrite($h, serialize($value));
@@ -72,7 +72,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function contains($key) {
+    public function contains(\blaze\lang\String $key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         return $f->exists();
     }
@@ -80,7 +80,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function containsByPrefix($keyPrefix) {
+    public function containsByPrefix(\blaze\lang\String $keyPrefix) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->startsWith($keyPrefix))
                 return true;
@@ -90,7 +90,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function containsBySuffix($keySuffix) {
+    public function containsBySuffix(\blaze\lang\String $keySuffix) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->endsWith($keySuffix))
                 return true;
@@ -100,7 +100,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function containsByRegex($regex) {
+    public function containsByRegex(\blaze\lang\String $regex) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->matches($regex))
                 return true;
@@ -110,17 +110,17 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function get($key) {
+    public function get(\blaze\lang\String $key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         if (!$f->exists())
             return null;
-        return $this->cached[$key] = unserialize(file_get_contents($f->getAbsolutePath()));
+        return unserialize(file_get_contents($f->getAbsolutePath()));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getByPrefix($keyPrefix) {
+    public function getByPrefix(\blaze\lang\String $keyPrefix) {
         $map = new \blaze\collections\map\HashMap();
 
         foreach ($this->cacheDir->listFiles() as $file)
@@ -132,7 +132,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function getBySuffix($keySuffix) {
+    public function getBySuffix(\blaze\lang\String $keySuffix) {
         $map = new \blaze\collections\map\HashMap();
 
         foreach ($this->cacheDir->listFiles() as $file)
@@ -144,7 +144,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function getByRegex($regex) {
+    public function getByRegex(\blaze\lang\String $regex) {
         $map = new \blaze\collections\map\HashMap();
 
         foreach ($this->cacheDir->listFiles() as $file)
@@ -156,7 +156,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\String $key) {
         $f = new \blaze\io\File($this->cacheDir, $key);
         if ($f->exists())
             $f->delete();
@@ -165,7 +165,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function removeByPrefix($keyPrefix) {
+    public function removeByPrefix(\blaze\lang\String $keyPrefix) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->startsWith($keyPrefix))
                 $file->delete();
@@ -174,7 +174,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function removeBySuffix($keySuffix) {
+    public function removeBySuffix(\blaze\lang\String $keySuffix) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->endsWith($keySuffix))
                 $file->delete();
@@ -183,7 +183,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
     /**
      * {@inheritDoc}
      */
-    public function removeByRegex($regex) {
+    public function removeByRegex(\blaze\lang\String $regex) {
         foreach ($this->cacheDir->listFiles() as $file)
             if ($file->getName()->matches($regex))
                 $file->delete();

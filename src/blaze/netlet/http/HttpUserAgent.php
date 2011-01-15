@@ -9,11 +9,7 @@ use blaze\lang\Cloneable;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 interface HttpUserAgent extends Cloneable {
     const BROWSER_UNKNOWN = 'unknown';

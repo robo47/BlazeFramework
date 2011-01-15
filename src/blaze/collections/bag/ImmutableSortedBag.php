@@ -15,7 +15,7 @@ final class ImmutableSortedBag extends AbstractSortedBagDecorator implements \bl
      * {@inheritDoc}
      * Adds nothing to the bag and returns false.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         return false;
     }
 
@@ -31,7 +31,7 @@ final class ImmutableSortedBag extends AbstractSortedBagDecorator implements \bl
      * {@inheritDoc}
      * Adds nothing to the bag and returns false.
      */
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         return false;
     }
 
@@ -47,7 +47,7 @@ final class ImmutableSortedBag extends AbstractSortedBagDecorator implements \bl
      * {@inheritDoc}
      * Removes nothing from the bag and returns null.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         return null;
     }
 
@@ -63,7 +63,7 @@ final class ImmutableSortedBag extends AbstractSortedBagDecorator implements \bl
      * {@inheritDoc}
      * Removes nothing from the bag and returns null.
      */
-    public function removeCount($obj, $count) {
+    public function removeCount(\blaze\lang\Reflectable $obj, int $count) {
         return null;
     }
 

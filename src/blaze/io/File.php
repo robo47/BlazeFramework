@@ -207,22 +207,19 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     /**
      * Returns path without leading basedir.
      *
-     * @param string $basedir Base directory to strip
-     *
-     * @return string Path without basedir
-     *
-     * @uses getPath()
+     * @param String $basedir Base directory to strip
+     * @return \blaze\lang\String New path without baseDir or null if the path does not contain the baseDir
      */
-    public function getPathWithoutBase($basedir) {
-        if (!StringHelper::endsWith(self::$directorySeparator, $basedir)) {
-            $basedir .= self::$directorySeparator;
-        }
+    public function getPathWithoutBase(String $baseDir) {
+        if(!$this->path->startsWith($baseDir))
+                return null;
+        if(!$baseDir->endsWith(self::$fs->getDirectorySeparator()))
+                $baseDir = $baseDir . self::$fs->getDirectorySeparator();
+
         $path = $this->getPath()->toNative();
-        if (!substr($path, 0, strlen($basedir)) == $basedir) {
-            //path does not begin with basedir, we don't modify it
-            return $path;
-        }
-        return substr($path, strlen($basedir));
+        $baseDir = String::asNative($baseDir);
+
+        return String::asWrapper(substr($path, strlen($basedir)));
     }
 
     /**
@@ -632,12 +629,12 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          I/O error occurs.
      *
      */
-    public function listFilenames($filter = null) {
+    public function listFilenames(FilenameFilter $filter = null) {
 
         return self::$fs->lister($this, $filter);
     }
 
-    public function listFiles($filter = null) {
+    public function listFiles(FileFilter $filter = null) {
         $ss = $this->listFilenames($filter);
         if ($ss === null) {
             return null;
@@ -717,8 +714,6 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @throws  IOException
      */
     public function mkdir($mode = 0755) {
-
-
         if (self::$fs->checkAccess(new File($this->path), true) !== true) {
             throw new IOException("No write access to " . $this->getPath()->toNative());
         }
@@ -774,7 +769,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *               the epoch (00:00:00 GMT, January 1, 1970)
      * @return true if and only if the operation succeeded; false otherwise
      */
-    public function setLastModified($time) {
+    public function setLastModified(\long $time) {
         $time = (int) $time;
         if ($time < 0) {
             throw new Exception("IllegalArgumentException, Negative $time\n");
@@ -821,7 +816,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          operation will fail if the user does not have permission to change
      *          the access permissions of this abstract pathname.
      */
-    public function setWritable($writable, $ownerOnly = true) {
+    public function setWritable(boolean $writable, $ownerOnly = true) {
         return self::$fs->setPermission($this, FileSystem::ACCESS_WRITE, $writable, $ownerOnly);
     }
 
@@ -847,7 +842,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          file system does not implement a read permission, then the
      *          operation will fail.
      */
-    public function setReadable($readable, $ownerOnly = true) {
+    public function setReadable(boolean $readable, $ownerOnly = true) {
         return self::$fs->setPermission($this, FileSystem::ACCESS_READ, $readable, $ownerOnly);
     }
 
@@ -873,7 +868,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      *          file system does not implement an execute permission, then the
      *          operation will fail.
      */
-    public function setExecutable($executable, $ownerOnly = true) {
+    public function setExecutable(boolean $executable, $ownerOnly = true) {
         return self::$fs->setPermission($this, FileSystem::ACCESS_EXECUTE, $executable, $ownerOnly);
     }
 
@@ -881,7 +876,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * Sets the owner of the file.
      * @param mixed $user User name or number.
      */
-    public function setUser($user) {
+    public function setUser(String $user) {
 
         return self::$fs->chown($this->getPath()->toNative(), $user);
     }
@@ -891,14 +886,14 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @return int User ID of the owner of this file.
      */
     public function getUser() {
-        return @fileowner($this->getPath()->toNative());
+        return String::asWrapper(@fileowner($this->getPath()->toNative()));
     }
 
     /**
      * Sets the group of the file.
      * @param mixed $user User name or number.
      */
-    public function setGroup($group) {
+    public function setGroup(String $group) {
 
         return self::$fs->chgrp($this->getPath()->toNative(), $group);
     }
@@ -908,14 +903,14 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @return int User ID of the owner of this file.
      */
     public function getGroup() {
-        return @filegroup($this->getPath()->toNative());
+        return String::asWrapper(@filegroup($this->getPath()->toNative()));
     }
 
     /**
      * Sets the mode of the file
      * @param int $mode Ocatal mode.
      */
-    public function setMode($mode) {
+    public function setMode(\int $mode) {
 
         return self::$fs->chmod($this->getPath()->toNative(), $mode);
     }
@@ -1048,7 +1043,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
      * @throws      IOException
      * @access      public
      */
-    public function createTempFile($prefix, $suffix, File $directory) {
+    public function createTempFile(String $prefix, String $suffix, File $directory) {
 
         // quick but efficient hack to create a unique filename ;-)
         $result = null;
@@ -1099,20 +1094,6 @@ class File extends Object implements StaticInitialization, Serializable, Compara
         if (!$file instanceof File)
             throw new ClassCastException();
         return self::$fs->compare($this, $file);
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj1 === null)
-            throw new NullPointerException();
-        if ($obj1 instanceof File)
-            $obj1 = $obj1->getAbsolutePath();
-        else
-            $obj1 = String::asNative($obj1);
-        if ($obj2 instanceof File)
-            $obj2 = $obj1->getAbsolutePath();
-        else
-            $obj2 = String::asNative($obj2);
-        return strcmp($obj1, $obj2);
     }
 
     /**

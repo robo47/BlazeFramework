@@ -18,7 +18,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -51,7 +51,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable {
     /**
      * @return boolean True if the element obj is in this collections
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -65,7 +65,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable {
     /**
      * @return boolean Wether the action was successfull or not
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         
     }
 
@@ -101,7 +101,7 @@ class PriorityQueue extends AbstractQueue implements \blaze\io\Serializable {
         
     }
 
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         
     }
 

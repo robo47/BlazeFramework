@@ -38,7 +38,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->add($obj);
     }
@@ -48,7 +48,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->addAt($index, $obj);
     }
@@ -69,7 +69,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->contains($obj);
     }
@@ -90,7 +90,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function indexOf($obj) {
+    public function indexOf(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->indexOf($obj);
     }
@@ -100,7 +100,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function lastIndexOf($obj) {
+    public function lastIndexOf(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->lastIndexOf($obj);
     }
@@ -110,7 +110,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->remove($obj);
     }
@@ -142,7 +142,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function set($index, $obj) {
+    public function set(\int $index, \blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->list->set($index, $obj);
     }
@@ -152,7 +152,7 @@ final class TypedList extends AbstractListDecorator implements \blaze\collection
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
+    public function subList(\int $fromIndex, \int $toIndex, $fromInclusive = true, $toInclusive = false) {
         return $this->list->subList($fromIndex, $toIndex, $fromInclusive, $toInclusive);
     }
 

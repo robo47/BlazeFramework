@@ -66,7 +66,7 @@ class ByteArrayInputStream extends \blaze\io\InputStream {
      * @return 	long The number of chars which were skipped
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public function skip($n) {
+    public function skip(\long $n) {
         $this->checkClosed();
         $this->position += $n;
     }

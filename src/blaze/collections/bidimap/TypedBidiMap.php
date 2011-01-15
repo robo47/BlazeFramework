@@ -50,7 +50,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         $this->checkKey($key);
         $this->checkValue($value);
         return $this->bidiMap->put($key, $value);
@@ -74,7 +74,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->containsKey($key);
     }
@@ -84,7 +84,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->containsValue($value);
     }
@@ -94,7 +94,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->remove($key);
     }
@@ -104,7 +104,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeValue($value) {
+    public function removeValue(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->removeValue($value);
     }
@@ -114,7 +114,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->bidiMap->get($key);
     }
@@ -124,7 +124,7 @@ final class TypedBidiMap extends AbstractBidiMapDecorator implements \blaze\coll
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function getKey($value) {
+    public function getKey(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->bidiMap->getKey($value);
     }

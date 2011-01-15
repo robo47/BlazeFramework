@@ -88,7 +88,7 @@ class TypeChecker extends Object {
      */
     public function isType($value) {
         if ($this->type != null) {
-            switch (strtolower($type)) {
+            switch (strtolower($this->type)) {
                 case 'string':
                     return is_string($value);
                 case 'array':

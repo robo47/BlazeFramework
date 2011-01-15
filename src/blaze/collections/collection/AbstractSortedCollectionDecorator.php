@@ -28,7 +28,7 @@ abstract class AbstractSortedCollectionDecorator extends AbstractCollectionDecor
         $this->sortedCollection = $collection;
     }
 
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         return $this->sortedCollection->ceiling($element);
     }
 
@@ -48,15 +48,15 @@ abstract class AbstractSortedCollectionDecorator extends AbstractCollectionDecor
         return $this->sortedCollection->first();
     }
 
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         return $this->sortedCollection->floor($element);
     }
 
-    public function headCollection($toElement, $inclusive = true) {
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         return $this->sortedCollection->headCollection($toElement, $inclusive);
     }
 
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         return $this->sortedCollection->higher($element);
     }
 
@@ -64,7 +64,7 @@ abstract class AbstractSortedCollectionDecorator extends AbstractCollectionDecor
         return $this->sortedCollection->last();
     }
 
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         return $this->sortedCollection->lower($element);
     }
 
@@ -76,11 +76,11 @@ abstract class AbstractSortedCollectionDecorator extends AbstractCollectionDecor
         return $this->sortedCollection->pollLast();
     }
 
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         return $this->sortedCollection->subCollection($fromElement, $toElement, $fromInclusive, $toInclusive);
     }
 
-    public function tailCollection($fromElement, $inclusive = true) {
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         return $this->sortedCollection->tailCollection($fromElement, $inclusive);
     }
 

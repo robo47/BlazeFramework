@@ -40,7 +40,7 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
      * {@inheritDoc}
      * When the list is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->list->add($obj);
         else
@@ -51,7 +51,7 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
      * {@inheritDoc}
      * When the list is full nothing is added and false is returned.
      */
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->list->addAt($index, $obj);
         else
@@ -73,7 +73,7 @@ final class BoundedList extends AbstractListDecorator implements \blaze\collecti
      * {@inheritDoc}
      * When the list has not enough space for all object nothing is added and false is returned.
      */
-    public function addAllAt($index, \blaze\collections\Collection $obj) {
+    public function addAllAt(\int $index, \blaze\collections\Collection $obj) {
         if ($obj->count() + $this->count() <= $this->maxCount)
             return $this->list->addAllAt($index, $c);
         else

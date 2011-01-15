@@ -23,7 +23,7 @@ final class ImmutableBidiMap extends AbstractBidiMapDecorator implements \blaze\
      * {@inheritDoc}
      * Adds nothing to the bidimap and returns false.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         return false;
     }
 
@@ -39,7 +39,7 @@ final class ImmutableBidiMap extends AbstractBidiMapDecorator implements \blaze\
      * {@inheritDoc}
      * Removes nothing from the bidimap and returns null.
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         return null;
     }
 
@@ -63,7 +63,7 @@ final class ImmutableBidiMap extends AbstractBidiMapDecorator implements \blaze\
      * {@inheritDoc}
      * Removes nothing from the bidimap and returns null.
      */
-    public function removeValue($value) {
+    public function removeValue(\blaze\lang\Reflectable $value) {
         return null;
     }
 

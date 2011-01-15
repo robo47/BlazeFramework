@@ -40,7 +40,7 @@ final class BoundedSortedSet extends AbstractSortedSetDecorator implements \blaz
      * {@inheritDoc}
      * When the sorted set is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->set->add($obj);
         else

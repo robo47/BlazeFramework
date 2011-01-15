@@ -38,7 +38,7 @@ final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\T
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->add($obj);
     }
@@ -59,7 +59,7 @@ final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\T
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->contains($obj);
     }
@@ -80,7 +80,7 @@ final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\T
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->queue->remove($obj);
     }
@@ -112,7 +112,7 @@ final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\T
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function offer($element) {
+    public function offer(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->queue->offer($element);
     }

@@ -23,7 +23,7 @@ final class ImmutableMap extends AbstractMapDecorator implements \blaze\collecti
      * {@inheritDoc}
      * Adds nothing to the map and returns false.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         return false;
     }
 
@@ -39,7 +39,7 @@ final class ImmutableMap extends AbstractMapDecorator implements \blaze\collecti
      * {@inheritDoc}
      * Removes nothing from the map and returns null.
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         return null;
     }
 

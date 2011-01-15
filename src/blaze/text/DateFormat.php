@@ -11,11 +11,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class DateFormat extends Object {
 
@@ -30,7 +26,7 @@ class DateFormat extends Object {
      */
     private $locale;
 
-    public function __construct($pattern, Locale $locale = null) {
+    public function __construct(\blaze\lang\String $pattern, Locale $locale = null) {
         $this->pattern = $pattern;
         if ($locale == null)
             $this->locale = Locale::getDefault();
@@ -68,8 +64,8 @@ class DateFormat extends Object {
      * @param blaze\lang\String|string $pattern
      * @return blaze\text\DateFormat
      */
-    public function setPattern($pattern) {
-        $this->pattern = String::asWrapper($pattern);
+    public function setPattern(\blaze\lang\String $pattern) {
+        $this->pattern = $pattern;
         return $this;
     }
 

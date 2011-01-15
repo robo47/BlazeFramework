@@ -6,10 +6,8 @@ namespace blaze\lang;
  * Description of Boolean
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @see     blaze\lang\Object
  * @since   1.0
-
  * @author  Christian Beikov
  */
 class Boolean extends Object implements NativeWrapper, Comparable {
@@ -171,14 +169,6 @@ class Boolean extends Object implements NativeWrapper, Comparable {
         if ($obj instanceof Boolean)
             return $this->value == $obj->value ? 0 : ($this->value ? 1 : -1);
         throw new ClassCastException('Could not cast ' . $obj->getClass()->getName() . ' to Boolean.');
-    }
-
-    public static function compare($obj1, $obj2) {
-        if ($obj1 === null || $obj2 === null)
-            throw new NullPointerException();
-        if ($obj1 instanceof Boolean && $obj2 instanceof Boolean)
-            return $obj1->value == $obj2->value ? 0 : ($obj1->value ? 1 : -1);
-        throw new ClassCastException('Could not cast ' . $obj1->getClass()->getName() . ' to Boolean.');
     }
 
     /**

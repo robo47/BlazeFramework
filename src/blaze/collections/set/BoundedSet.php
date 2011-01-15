@@ -40,7 +40,7 @@ final class BoundedSet extends AbstractSetDecorator implements \blaze\collection
      * {@inheritDoc}
      * When the set is full nothing is added and false is returned.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         if (!$this->isFull())
             return $this->set->add($obj);
         else

@@ -16,7 +16,7 @@ use blaze\lang\Object;
  */
 abstract class AbstractQueue extends \blaze\collections\collection\AbstractCollection implements \blaze\collections\Queue {
 
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->offer($obj);
     }
 

@@ -38,7 +38,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->add($obj);
     }
@@ -59,7 +59,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         $this->check($obj);
         return $this->bag->addCount($obj, $count);
     }
@@ -69,7 +69,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->remove($obj);
     }
@@ -90,7 +90,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeCount($obj, $count) {
+    public function removeCount(\blaze\lang\Reflectable $obj, \int $count) {
         $this->check($obj);
         return $this->bag->removeCount($obj);
     }
@@ -111,7 +111,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->contains($obj);
     }
@@ -132,7 +132,7 @@ final class TypedBag extends AbstractBagDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function getCount($obj) {
+    public function getCount(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->getCount($obj);
     }

@@ -27,7 +27,7 @@ interface SortedCollection extends \blaze\collections\Collection, \blaze\collect
      * @param boolean $inclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedCollection
      */
-    public function headCollection($toElement, $inclusive = true);
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true);
 
     /**
      * Returns a view of the current collection which starts at the fromElement and ends
@@ -38,7 +38,7 @@ interface SortedCollection extends \blaze\collections\Collection, \blaze\collect
      * @param boolean $toInclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedCollection
      */
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true);
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true);
 
     /**
      * Returns a view of the current collection which starts at the fromElement and ends
@@ -47,7 +47,7 @@ interface SortedCollection extends \blaze\collections\Collection, \blaze\collect
      * @param boolean $inclusive Specifies wether the element fromElement is included in the view or not.
      * @return blaze\collections\SortedCollection
      */
-    public function tailCollection($fromElement, $inclusive = true);
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true);
 }
 
 ?>

@@ -10,9 +10,7 @@ use blaze\netlet\NetletResponse;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
-
  */
 interface HttpNetletResponse extends NetletResponse {
     /**
@@ -238,26 +236,9 @@ interface HttpNetletResponse extends NetletResponse {
      * @return 	int The statuscode of the HTTP response.
      */
     public function getStatus();
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
-     */
+    
     //public function encodeRedirectURL($url);
 
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     * @todo	Something which has to be done, implementation or so
-     */
     //public function encodeURL($url);
 
     /**

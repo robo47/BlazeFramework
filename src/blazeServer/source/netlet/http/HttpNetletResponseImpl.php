@@ -11,10 +11,7 @@ use blaze\lang\Object,
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
  */
 class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNetletResponse {
 
@@ -98,24 +95,8 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
         return false;
     }
 
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     */
     //public function encodeRedirectURL($url){}
 
-    /**
-     * Description
-     *
-     * @param 	blaze\lang\Object $var Description of the parameter $var
-     * @return 	blaze\lang\Object Description of what the method returns
-     * @see 	Classes which could be useful for the understanding of this class. e.g. ClassName::methodName
-     * @throws	blaze\lang\Exception
-     */
     //public function encodeURL($url){}
 
     /**
@@ -239,15 +220,15 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
         return $this->writer;
     }
 
-    public function setContentLength($len) {
+    public function setContentLength(\int $len) {
         header('Content-Length: ' . $len);
     }
 
-    public function setContentType($type) {
+    public function setContentType(\blaze\lang\String $type) {
         header('Content-Type: ' . $type);
     }
 
-    public function setLocale($locale) {
+    public function setLocale(\blaze\util\Locale $locale) {
 
     }
 
@@ -271,7 +252,7 @@ class HttpNetletResponseImpl extends Object implements \blaze\netlet\http\HttpNe
         return $this->getHeader('Content-Type');
     }
 
-    public function setCharacterEncoding($charset) {
+    public function setCharacterEncoding(\blaze\lang\String $charset) {
         
     }
 

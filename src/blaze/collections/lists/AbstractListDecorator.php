@@ -28,23 +28,23 @@ abstract class AbstractListDecorator extends \blaze\collections\collection\Abstr
         $this->list = $list;
     }
 
-    public function addAllAt($index, \blaze\collections\Collection $c) {
+    public function addAllAt(\int $index, \blaze\collections\Collection $c) {
         return $this->list->addAllAt($index, $c);
     }
 
-    public function addAt($index, $obj) {
+    public function addAt(\int $index, \blaze\lang\Reflectable $obj) {
         return $this->list->addAt($index, $obj);
     }
 
-    public function get($index) {
+    public function get(\int $index) {
         return $this->list->get($index);
     }
 
-    public function indexOf($obj) {
+    public function indexOf(\blaze\lang\Reflectable $obj) {
         return $this->list->indexOf($obj);
     }
 
-    public function lastIndexOf($obj) {
+    public function lastIndexOf(\blaze\lang\Reflectable $obj) {
         return $this->list->lastIndexOf($obj);
     }
 
@@ -52,7 +52,7 @@ abstract class AbstractListDecorator extends \blaze\collections\collection\Abstr
         return $this->list->listIterator($index);
     }
 
-    public function removeAt($index) {
+    public function removeAt(\int $index) {
         return $this->list->removeAt($index);
     }
 
@@ -60,11 +60,11 @@ abstract class AbstractListDecorator extends \blaze\collections\collection\Abstr
         return $this->list->retainAll($obj);
     }
 
-    public function set($index, $obj) {
+    public function set(\int $index, \blaze\lang\Reflectable $obj) {
         return $this->list->set($index, $obj);
     }
 
-    public function subList($fromIndex, $toIndex, $fromInclusive = true, $toInclusive = false) {
+    public function subList(\int $fromIndex, \int $toIndex, $fromInclusive = true, $toInclusive = false) {
         return $this->list->subList($fromIndex, $toIndex, $fromInclusive, $toInclusive);
     }
 

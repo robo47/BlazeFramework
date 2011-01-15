@@ -38,7 +38,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->add($obj);
     }
@@ -59,7 +59,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function addCount($obj, $count) {
+    public function addCount(\blaze\lang\Reflectable $obj, \int $count) {
         $this->check($obj);
         return $this->bag->addCount($obj, $count);
     }
@@ -69,7 +69,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->remove($obj);
     }
@@ -90,7 +90,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function removeCount($obj, $count) {
+    public function removeCount(\blaze\lang\Reflectable $obj, \int $count) {
         $this->check($obj);
         return $this->bag->removeCount($obj);
     }
@@ -111,7 +111,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->contains($obj);
     }
@@ -132,7 +132,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function getCount($obj) {
+    public function getCount(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->bag->getCount($obj);
     }
@@ -142,7 +142,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function ceiling($element) {
+    public function ceiling(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->bag->ceiling($element);
     }
@@ -152,7 +152,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function floor($element) {
+    public function floor(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->bag->floor($element);
     }
@@ -162,7 +162,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function headBag($toElement, $inclusive = true) {
+    public function headBag(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         $this->check($toElement);
         return $this->bag->headBag($toElement, $inclusive);
     }
@@ -172,7 +172,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function headCollection($toElement, $inclusive = true) {
+    public function headCollection(\blaze\lang\Reflectable $toElement, $inclusive = true) {
         $this->check($toElement);
         return $this->bag->headCollection($toElement, $inclusive);
     }
@@ -182,7 +182,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function higher($element) {
+    public function higher(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->bag->higher($element);
     }
@@ -192,7 +192,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function lower($element) {
+    public function lower(\blaze\lang\Reflectable $element) {
         $this->check($element);
         return $this->bag->lower($element);
     }
@@ -202,7 +202,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function subBag($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subBag(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         $this->check($fromElement);
         $this->check($toElement);
         return $this->bag->subBag($fromElement, $toElement, $fromInclusive, $toInclusive);
@@ -213,7 +213,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function subCollection($fromElement, $toElement, $fromInclusive = true, $toInclusive = true) {
+    public function subCollection(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true) {
         $this->check($fromElement);
         $this->check($toElement);
         return $this->bag->subCollection($fromElement, $toElement, $fromInclusive, $toInclusive);
@@ -224,7 +224,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function tailBag($fromElement, $inclusive = true) {
+    public function tailBag(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         $this->check($fromElement);
         return $this->bag->tailBag($fromElement, $inclusive);
     }
@@ -234,7 +234,7 @@ final class TypedSortedBag extends AbstractSortedBagDecorator implements \blaze\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function tailCollection($fromElement, $inclusive = true) {
+    public function tailCollection(\blaze\lang\Reflectable $fromElement, $inclusive = true) {
         $this->check($fromElement);
         return $this->bag->tailCollection($fromElement, $inclusive);
     }

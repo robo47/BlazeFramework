@@ -30,25 +30,25 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
      * Returns the least key greater than or equal to the given key, or null if there is no such key.
      * @return mixed
      */
-    public function ceilingKey($key);
+    public function ceilingKey(\blaze\lang\Reflectable $key);
 
     /**
      * Returns the greatest key less than or equal to the given key, or null if there is no such key.
      * @return mixed
      */
-    public function floorKey($key);
+    public function floorKey(\blaze\lang\Reflectable $key);
 
     /**
      * Returns the least key strictly greater than the given key, or null if there is no such key.
      * @return mixed
      */
-    public function higherKey($key);
+    public function higherKey(\blaze\lang\Reflectable $key);
 
     /**
      * Returns the greatest key strictly less than the given key, or null if there is no such key.
      * @return mixed
      */
-    public function lowerKey($key);
+    public function lowerKey(\blaze\lang\Reflectable $key);
 
     /**
      * Returns a reverse order SortedSet view of the keys contained in this map.
@@ -90,25 +90,25 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
      *  Returns a key-value mapping associated with the least key greater than or equal to the given key, or null if there is no such key.
      * @return blaze\collections\MapEntry
      */
-    public function ceilingEntry($key);
+    public function ceilingEntry(\blaze\lang\Reflectable $key);
 
     /**
      *  Returns a key-value mapping associated with the greatest key less than or equal to the given key, or null if there is no such key.
      * @return blaze\collections\MapEntry
      */
-    public function floorEntry($key);
+    public function floorEntry(\blaze\lang\Reflectable $key);
 
     /**
      * Returns the least key strictly greater than the given key, or null if there is no such key.
      * @return blaze\collections\MapEntry
      */
-    public function higherEntry($key);
+    public function higherEntry(\blaze\lang\Reflectable $key);
 
     /**
      * Returns the greatest key strictly less than the given key, or null if there is no such key.
      * @return blaze\collections\MapEntry
      */
-    public function lowerEntry($key);
+    public function lowerEntry(\blaze\lang\Reflectable $key);
 
     /**
      * Returns a view of the current map which starts at the first element of the map
@@ -117,7 +117,7 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
      * @param boolean $inclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedMap
      */
-    public function headMap($toElement, $inclusive = true);
+    public function headMap(\blaze\lang\Reflectable $toElement, $inclusive = true);
 
     /**
      * Returns a view of the current map which starts at the fromElement and ends
@@ -128,7 +128,7 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
      * @param boolean $toInclusive Specifies wether the element toElement is included in the view or not.
      * @return blaze\collections\SortedMap
      */
-    public function subMap($fromElement, $toElement, $fromInclusive = true, $toInclusive = true);
+    public function subMap(\blaze\lang\Reflectable $fromElement, \blaze\lang\Reflectable $toElement, $fromInclusive = true, $toInclusive = true);
 
     /**
      * Returns a view of the current map which starts at the fromElement and ends
@@ -137,7 +137,7 @@ interface SortedMap extends \blaze\collections\Map, \blaze\collections\Sorted {
      * @param boolean $inclusive Specifies wether the element fromElement is included in the view or not.
      * @return blaze\collections\SortedMap
      */
-    public function tailMap($fromElement, $inclusive = true);
+    public function tailMap(\blaze\lang\Reflectable $fromElement, $inclusive = true);
 }
 
 ?>

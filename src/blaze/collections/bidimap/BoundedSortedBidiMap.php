@@ -40,7 +40,7 @@ final class BoundedSortedBidiMap extends AbstractSortedBidiMapDecorator implemen
      * {@inheritDoc}
      * When the sorted bidimap is full nothing is added and false is returned.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         if (!$this->isFull())
             return $this->bidiMap->put($key, $value);
         else

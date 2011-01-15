@@ -50,7 +50,7 @@ final class TypedMap extends AbstractMapDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function put($key, $value) {
+    public function put(\blaze\lang\Reflectable $key, \blaze\lang\Reflectable $value) {
         $this->checkKey($key);
         $this->checkValue($value);
         return $this->map->put($key, $value);
@@ -74,7 +74,7 @@ final class TypedMap extends AbstractMapDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsKey($key) {
+    public function containsKey(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->map->containsKey($key);
     }
@@ -84,7 +84,7 @@ final class TypedMap extends AbstractMapDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function containsValue($value) {
+    public function containsValue(\blaze\lang\Reflectable $value) {
         $this->checkValue($value);
         return $this->map->containsValue($value);
     }
@@ -94,7 +94,7 @@ final class TypedMap extends AbstractMapDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($key) {
+    public function remove(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->map->remove($key);
     }
@@ -104,7 +104,7 @@ final class TypedMap extends AbstractMapDecorator implements \blaze\collections\
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function get($key) {
+    public function get(\blaze\lang\Reflectable $key) {
         $this->checkKey($key);
         return $this->map->get($key);
     }

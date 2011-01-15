@@ -9,11 +9,7 @@ use blaze\lang\Object;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
-
  * @since   1.0
-
-
  */
 class InetAddress extends Object implements \blaze\io\Serializable {
 
@@ -204,7 +200,7 @@ class InetAddress extends Object implements \blaze\io\Serializable {
      * @throws IOException if a network error occurs
      * @since 1.5
      */
-    public function isReachable($timeout, NetworkInterface $netif = null, $ttl = 0) {
+    public function isReachable(\int $timeout, NetworkInterface $netif = null, $ttl = 0) {
         if ($ttl < 0)
             throw new IllegalArgumentException('ttl can\'t be negative');
         if ($timeout < 0)

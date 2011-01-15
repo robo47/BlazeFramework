@@ -38,7 +38,7 @@ final class TypedCollection extends AbstractCollectionDecorator implements \blaz
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function add($obj) {
+    public function add(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->collection->add($obj);
     }
@@ -59,7 +59,7 @@ final class TypedCollection extends AbstractCollectionDecorator implements \blaz
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function contains($obj) {
+    public function contains(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->collection->contains($obj);
     }
@@ -80,7 +80,7 @@ final class TypedCollection extends AbstractCollectionDecorator implements \blaz
      * Type checking is added.
      * @throws \blaze\lang\IllegalArgumentException When an element has an illegal type.
      */
-    public function remove($obj) {
+    public function remove(\blaze\lang\Reflectable $obj) {
         $this->check($obj);
         return $this->collection->remove($obj);
     }

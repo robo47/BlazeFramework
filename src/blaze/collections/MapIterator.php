@@ -19,28 +19,27 @@ namespace blaze\collections;
  *
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
-
  * @since   1.0
  */
 interface MapIterator extends Iterator {
 
     /**
      * Returns the key of the entry.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function getKey();
 
     /**
      * Returns the value of the entry.
-     * @return mixed
+     * @return \blaze\lang\Reflectable
      */
     public function getValue();
 
     /**
      * Sets the value of the entry, by setting the value the map has to be affected.
-     * @param mixed $value
+     * @param \blaze\lang\Reflectable  $value
      */
-    public function setValue($value);
+    public function setValue(\blaze\lang\Reflectable $value);
 }
 
 ?>

@@ -33,7 +33,7 @@ interface Cache {
      * @param mixed|blaze\lang\Object $value The value which should be cached
      * @return boolean True if the caching action was successfull, otherwise false
      */
-    public function put($key, $value);
+    public function put(\blaze\lang\String $key, $value);
 
     /**
      * Puts all entries of the map into the cache in an more efficient way than
@@ -51,7 +51,7 @@ interface Cache {
      * @param string|blaze\lang\String $key The key which to look for in the cache
      * @return boolean True if an entry in the cache exists, otherwise false
      */
-    public function contains($key);
+    public function contains(\blaze\lang\String $key);
 
     /**
      * This method checks wether a key with keyPrefix exists in the cache or not, it is
@@ -60,7 +60,7 @@ interface Cache {
      * @param string|blaze\lang\String $keyPrefix The prefix of the key which to look for in the cache
      * @return boolean True if an entry in the cache exists, otherwise false
      */
-    public function containsByPrefix($keyPrefix);
+    public function containsByPrefix(\blaze\lang\String $keyPrefix);
 
     /**
      * This method checks wether a key with keySuffix exists in the cache or not.
@@ -68,7 +68,7 @@ interface Cache {
      * @param string|blaze\lang\String $keySuffix The suffix of the key which to look for in the cache
      * @return boolean True if an entry in the cache exists, otherwise false
      */
-    public function containsBySuffix($keySuffix);
+    public function containsBySuffix(\blaze\lang\String $keySuffix);
 
     /**
      * This method checks wether the regex matches to any key in the cache or not.
@@ -76,7 +76,7 @@ interface Cache {
      * @param string|blaze\lang\String $regex The regex which a key has to match
      * @return boolean True if an entry in the cache exists, otherwise false
      */
-    public function containsByRegex($regex);
+    public function containsByRegex(\blaze\lang\String $regex);
 
     /**
      * Clear the cache
@@ -91,7 +91,7 @@ interface Cache {
      * @param string|blaze\lang\String $key The key which to look for in the cache
      * @return mixed|blaze\lang\Object The object or null if nothing was found.
      */
-    public function get($key);
+    public function get(\blaze\lang\String $key);
 
     /**
      * First the cache gets locked to be able to get consistent values. The keys
@@ -101,7 +101,7 @@ interface Cache {
      * @param string|blaze\lang\String $keyPrefix The prefix of a key which to look for in the cache
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys that start with keyPrefix, or an empty map
      */
-    public function getByPrefix($keyPrefix);
+    public function getByPrefix(\blaze\lang\String $keyPrefix);
 
     /**
      * First the cache gets locked to be able to get consistent values. The keys
@@ -111,7 +111,7 @@ interface Cache {
      * @param string|blaze\lang\String $keySuffix The suffix of a key which to look for in the cache
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys that end with keySuffix, or an empty map
      */
-    public function getBySuffix($keySuffix);
+    public function getBySuffix(\blaze\lang\String $keySuffix);
 
     /**
      * First the cache gets locked to be able to get consistent values. The keys
@@ -121,7 +121,7 @@ interface Cache {
      * @param string|blaze\lang\String $regex The regex which a key has to match
      * @return blaze\collections\Map Reruns a map which represents the cache entries which have keys match the regex, or an empty map
      */
-    public function getByRegex($regex);
+    public function getByRegex(\blaze\lang\String $regex);
 
     /**
      * Locks the cache to consistently invalidate the cache entry with the given key.
@@ -130,7 +130,7 @@ interface Cache {
      * @param string|blaze\lang\String $key The key which to look for in the cache
      * @return boolean False if the cache entry could not be invalidated, otherwise true
      */
-    public function remove($key);
+    public function remove(\blaze\lang\String $key);
 
     /**
      * Locks the cache to consistently invalidate cache entries. Entries which
@@ -139,7 +139,7 @@ interface Cache {
      * @param string|blaze\lang\String $keyPrefix The prefix of a key which to look for in the cache
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      */
-    public function removeByPrefix($keyPrefix);
+    public function removeByPrefix(\blaze\lang\String $keyPrefix);
 
     /**
      * Locks the cache to consistently invalidate cache entries. Entries which
@@ -148,7 +148,7 @@ interface Cache {
      * @param string|blaze\lang\String $keySuffix The suffix of a key which to look for in the cache
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      */
-    public function removeBySuffix($keySuffix);
+    public function removeBySuffix(\blaze\lang\String $keySuffix);
 
     /**
      * Locks the cache to consistently invalidate cache entries. Entries which
@@ -157,7 +157,7 @@ interface Cache {
      * @param string|blaze\lang\String $regex The regex which a key has to match
      * @return boolean False if one or more of the cache entries could not be invalidated, otherwise true
      */
-    public function removeByRegex($regex);
+    public function removeByRegex(\blaze\lang\String $regex);
 }
 
 ?>
