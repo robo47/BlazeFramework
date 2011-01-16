@@ -1,0 +1,21 @@
+<application>
+	<blazeApplication>
+		<taglibs>
+			<taglib componentFamily="blaze.web" renderKitFactory="blaze\web\render\RenderKitFactoryImpl">
+				<renderKit id="html4" class="blaze\web\render\html4\RenderKitImpl"/>
+				<renderKit id="html5" class="blaze\web\render\html5\RenderKitImpl"/>
+			</taglib>
+			<taglib componentFamily="blaze.event" renderKitFactory="blaze\web\render\RenderKitFactoryEventImpl">
+				<renderKit id="js" class="blaze\web\render\event\RenderKitImpl"/>
+			</taglib>
+		</taglibs>
+		<navigation>
+			<navigationRule indexView="index.xhtml">
+				<mapping pattern="/*"/>
+				<navigationAction action="navigate" view="nav.xhtml"/>
+				<navigationAction action="back" view="index.xhtml"/>
+				<navigationAction action="success" view="success.xhtml"/>
+			</navigationRule>
+		</navigation>
+	</blazeApplication>
+</application>
