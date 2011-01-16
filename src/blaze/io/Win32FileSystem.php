@@ -1,7 +1,9 @@
 <?php
 
 namespace blaze\io;
-
+/**
+ * Inpired by the File System API of Phing
+ */
 class Win32FileSystem extends FileSystem {
 
     protected $slash;

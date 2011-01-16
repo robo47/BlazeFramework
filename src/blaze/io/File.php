@@ -13,6 +13,8 @@ use blaze\lang\Object,
 
 /**
  * Description of File
+ * 
+ * Inpired by the File System API of Phing
  *
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
 

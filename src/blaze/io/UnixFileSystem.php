@@ -3,6 +3,8 @@
 namespace blaze\io;
 
 /**
+ * Inpired by the File System API of Phing
+ * 
  * UnixFileSystem class. This class encapsulates the basic file system functions
  * for platforms using the unix (posix)-stylish filesystem. It wraps php native
  * functions suppressing normal PHP error reporting and instead uses Exception
