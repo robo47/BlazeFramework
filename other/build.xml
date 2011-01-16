@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!--
+    BlazeFramework Phing build file.
+-->
+
+<project name="BlazeFramework" default="build" basedir="./..">
+	<property name="builddir" value="./build/" override="true" />
+    
+    <!-- 
+        Fileset for artifacts shared across all distributed packages.
+    -->
+    <fileset id="dist" dir=".">
+        <include name="cache"/>
+        <include name="src"/>
+        <include name="test"/>
+        <include name=".htaccess"/>
+        <include name="index.php"/>
+    </fileset>
+
+    <target name="main" description="main target">
+        <copy todir="${builddir}">
+            <fileset refid="dist" />
+        </copy>
+    </target>
+</project>

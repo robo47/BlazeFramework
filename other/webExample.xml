@@ -1,0 +1,54 @@
+<application>
+	<netletConfig>
+		<initParams>
+			<initParam name="" value=""/>
+		</initParams>
+		<netlets>
+			<netlet name="" class="">
+				<initParams>
+					<initParam name="" value=""/>
+				</initParams>
+				<mapping pattern=""/>
+			</netlet>
+		</netlets>
+		<filters>
+			<filter name="" class="">
+				<initParams>
+					<initParam name="" value=""/>
+				</initParams>
+				<mapping pattern=""/>
+			</filter>
+		</filters>
+		<!--<listeners>
+			<listener class=""/>
+		</listeners>-->
+	</netletConfig>
+	<blazeApplication>
+		<taglibs>
+			<taglib componentFamily="" renderKitFactory="">
+				<renderKit id="" class=""/>
+			</taglib>
+		</taglibs>
+		<nuts>
+			<nut name="" class="" scope=""/>
+		</nuts>
+		<phaseListeners>
+			<phaseListener class="">
+				<mapping pattern=""/>
+			</phaseListener>
+		</phaseListeners>
+		<tagDecorators>
+			<tagDecorator name="" class=""/>
+		</tagDecorators>
+		<sessionHandler class=""/>
+		<navigation>
+			<navigationRule indexView="">
+				<mapping pattern=""/>
+				<bindings>
+					<binding name="" default="" reference=""/>
+				</bindings>
+				<navigationAction action="" view=""/>
+			</navigationRule>
+		</navigation>
+	</blazeApplication>
+</application>
