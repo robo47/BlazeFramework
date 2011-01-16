@@ -136,10 +136,6 @@ class ClassLoader extends Object {
         // Check if the file exists, otherwise throw exception
 
         if (!file_exists($fullName)) {
-                    var_dump($fullName);
-        $e = new \Exception();
-        echo $e->getTraceAsString();
-        exit();
             throw new ClassNotFoundException($className);
         }
 
