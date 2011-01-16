@@ -8,13 +8,13 @@
     convertWarningsToExceptions="true"
     processIsolation="false"
     syntaxCheck="false"
-    forceCoversAnnotation="true"
+    forceCoversAnnotation="false"
     verbose="false"
 >
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
+            <directory>./src/</directory>
         </whitelist>
     </filter>
 
