@@ -130,6 +130,11 @@ class TreeSet extends AbstractSortedSet implements \blaze\lang\Cloneable, \blaze
         
     }
 
+    public function getIterator()
+    {
+        
+    }
+
 }
 
 ?>

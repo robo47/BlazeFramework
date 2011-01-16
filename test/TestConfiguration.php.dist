@@ -1,0 +1,9 @@
+<?php
+
+
+// blaze\ds\DataSourceManagerTest
+
+// Tests using a database are no unittests and should only be run if enviroment is configured for
+define('TESTS_BLAZE_DS_DATASOURCEMANAGER_ENABLED', false);
+
+define('TESTS_BLAZE_DS_DATASOURCEMANAGERTEST_DATABASE_DSN', 'bdsc:pdomysql://localhost:3306/test?UID=root&PWD=root');

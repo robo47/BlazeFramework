@@ -9,7 +9,7 @@ namespace blaze\collections\queue;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-final class TypedQueue extends AbstractQueueDecorator implements \blaze\queues\Typed {
+final class TypedQueue extends AbstractQueueDecorator implements \blaze\collections\Typed {
 
     /**
      * The object to check value types.

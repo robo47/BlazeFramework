@@ -18,9 +18,12 @@ class Logger extends Object {
     private $out;
     private $err;
 
-    public function __construct() {
-        $this->out = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter('D:\\xampp\\tmp\\blaze.log', true));
-        $this->err = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter('D:\\xampp\\tmp\\blazeError.log', true));
+    public function __construct($logpath = null) {
+        if ($logpath === null) {
+            $logpath = sys_get_temp_dir();
+        }
+        $this->out = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter($logpath . 'blaze.log', true));
+        $this->err = new \blaze\io\output\BufferedWriter(new \blaze\io\output\FileWriter($logpath . 'blazeError.log', true));
     }
 
     public function finalize() {

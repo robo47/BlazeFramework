@@ -11,7 +11,7 @@ namespace blaze\collections\queue;
  * @since   1.0
  * @todo    Implementation and documentation.
  */
-class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque, \blaze\lang\Cloneable, \blaze\io\Serializable {
+class ArrayDeque extends \blaze\collections\collection\AbstractCollection implements Deque, \blaze\lang\Cloneable, \blaze\io\Serializable {
 
     /**
      * @return boolean Wether the action was successfull or not
@@ -141,6 +141,10 @@ class ArrayDeque extends \blaze\collections\AbstractCollection implements Deque,
     }
 
     public function removeLastOccurrence(\blaze\lang\Reflectable $element) {
+        
+    }
+
+    public function size() {
         
     }
 

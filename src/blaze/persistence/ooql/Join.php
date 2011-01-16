@@ -72,6 +72,14 @@ class Join extends Object implements Fromable, Joinable {
         $this->joinType |= $joinType;
     }
 
+    public function getAlias() {
+
+    }
+
+    public function setAlias($alias) {
+        
+    }
+
 }
 
 ?>

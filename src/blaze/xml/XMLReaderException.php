@@ -12,7 +12,7 @@ namespace blaze\xml;
 
  * @author  Christian Beikov
  */
-class XMLReaderException extends Exception {
+class XMLReaderException extends \Exception {
 
 }
 

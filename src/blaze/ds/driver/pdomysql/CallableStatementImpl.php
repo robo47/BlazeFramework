@@ -260,6 +260,10 @@ class CallableStatementImpl extends AbstractCallableStatement implements \blaze\
         return $this->set($identifier, $value->getUnixTime());
     }
 
+    public function executeQuery($query = null) {
+        
+    }
+
 }
 
 ?>

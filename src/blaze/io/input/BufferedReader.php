@@ -47,7 +47,7 @@ class BufferedReader extends \blaze\io\Reader {
         return $this->in->read($len);
     }
 
-    public function readInto(\blaze\lang\StringBuffer $buffer, $off = -1, $len = -1) {
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1) {
         if ($len == -1)
             $len = $this->bufferSize;
 

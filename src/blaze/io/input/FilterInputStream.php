@@ -35,7 +35,7 @@ class FilterInputStream extends \blaze\io\InputStream {
         return $this->in->read($len);
     }
 
-    public function readInto(\blaze\lang\StringBuffer $buffer, $off = -1, $len = -1) {
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1) {
         return $this->in->readInto($buffer, $off, $len);
     }
 
@@ -53,6 +53,10 @@ class FilterInputStream extends \blaze\io\InputStream {
 
     public function isClosed() {
         return $this->in->isClosed();
+    }
+
+    public function available() {
+        
     }
 
 }

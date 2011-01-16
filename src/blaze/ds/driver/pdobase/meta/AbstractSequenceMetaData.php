@@ -3,7 +3,8 @@
 namespace blaze\ds\driver\pdobase\meta;
 
 use blaze\lang\Object,
- blaze\ds\meta\SchemaMetaData;
+    blaze\ds\meta\SchemaMetaData;
+
 
 /**
  * Description of AbstractSequenceMetaData
@@ -11,8 +12,9 @@ use blaze\lang\Object,
  * @author  Christian Beikov
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
+ * @todo Interface
  */
-abstract class AbstractSequenceMetaData extends Object implements SequenceMetaData {
+abstract class AbstractSequenceMetaData extends Object implements \blaze\ds\meta\SequenceMetaData {
 
     /**
      * @return \blaze\ds\meta\SchemaMetaData

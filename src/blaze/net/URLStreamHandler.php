@@ -54,56 +54,62 @@ class URLStreamHandler extends \blaze\lang\Object {
      * @param Proxy $p
      * @return URLConnection
      */
-    public function openConnection(URL $u, Proxy $p = null);
+    public function openConnection(URL $u, Proxy $p = null)
+    {
 
-    public function equals(URL $u1, URL $u2) {
-        $str1 = $u1->getUrlString();
-        $str2 = $u2->getUrlString();
-
-        return $str1 == $str2 || $str1->equals($str2);
     }
 
-    public function hashCode(URL $u) {
-        $h = 0;
+    // @todo You can't implement equals with another API than Object if you extend Object, php does not support method overloading with different parameters [ PHP Fatal error:  Declaration of blaze\net\URLStreamHandler::equals() must be compatible with that of blaze\lang\Reflectable::equals() in /.../src/blaze/net/URLStreamHandler.php on line 198
+//    public function equals(URL $u1, URL $u2) {
+//        $str1 = $u1->getUrlString();
+//        $str2 = $u2->getUrlString();
+//
+//        return $str1 == $str2 || $str1->equals($str2);
+//    }
 
-        // Generate the protocol part.
-        $protocol = $u->getProtocol();
-        if ($protocol != null)
-            $h += $protocol->hashCode();
 
-        // Generate the host part.
-        $addr = $this->getHostAddress($u);
-        if ($addr != null) {
-            $h += $addr->hashCode();
-        } else {
-            $host = $u->getHost();
-            if ($host != null)
-                $h += $host->toLowerCase()->hashCode();
-        }
-
-        // Generate the port part.
-        if ($u->getPort() == -1)
-            $h += $this->getDefaultPort();
-        else
-            $h += $u->getPort();
-
-        // Generate the path part.
-        $p = $u->getPath();
-        if ($p != null)
-            $h += $p->hashCode();
-
-        // Generate the query part.
-        $q = $u->getQuery();
-        if ($q != null)
-            $h += $q->hashCode();
-
-        // Generate the query part.
-        $f = $u->getFragment();
-        if ($f != null)
-            $h += $f->hashCode();
-
-        return $h;
-    }
+    // @todo You can't implement hashCode with another API than Object if you extend Object, [PHP Fatal error:  Declaration of blaze\net\URLStreamHandler::hashCode() must be compatible with that of blaze\lang\Reflectable::hashCode() in /.../src/blaze/net/URLStreamHandler.php on line 199]
+//    public function hashCode(URL $u) {
+//        $h = 0;
+//
+//        // Generate the protocol part.
+//        $protocol = $u->getProtocol();
+//        if ($protocol != null)
+//            $h += $protocol->hashCode();
+//
+//        // Generate the host part.
+//        $addr = $this->getHostAddress($u);
+//        if ($addr != null) {
+//            $h += $addr->hashCode();
+//        } else {
+//            $host = $u->getHost();
+//            if ($host != null)
+//                $h += $host->toLowerCase()->hashCode();
+//        }
+//
+//        // Generate the port part.
+//        if ($u->getPort() == -1)
+//            $h += $this->getDefaultPort();
+//        else
+//            $h += $u->getPort();
+//
+//        // Generate the path part.
+//        $p = $u->getPath();
+//        if ($p != null)
+//            $h += $p->hashCode();
+//
+//        // Generate the query part.
+//        $q = $u->getQuery();
+//        if ($q != null)
+//            $h += $q->hashCode();
+//
+//        // Generate the query part.
+//        $f = $u->getFragment();
+//        if ($f != null)
+//            $h += $f->hashCode();
+//
+//        return $h;
+//    }
 
     /**
      * Compare two urls to see whether they refer to the same file,

@@ -94,6 +94,24 @@ class HashBidiMap extends AbstractBidiMap {
         
     }
 
+    public function containsAll(\blaze\collections\Map $c) {
+        
+    }
+
+    public function removeAll(\blaze\collections\Map $obj) {
+        
+    }
+
+
+    public function retainAll(\blaze\collections\Map $obj) {
+        
+    }
+
+    public function getIterator()
+    {
+        
+    }
+
 }
 
 ?>

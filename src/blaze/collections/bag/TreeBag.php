@@ -38,9 +38,6 @@ class TreeBag extends AbstractBag implements SortedBag {
         
     }
 
-    public function contains(\blaze\lang\Reflectable $obj) {
-        
-    }
 
     public function containsAll(\blaze\collections\Collection $c) {
         
@@ -143,6 +140,14 @@ class TreeBag extends AbstractBag implements SortedBag {
     }
 
     public function uniqueSet() {
+        
+    }
+
+    public function pollFirst() {
+
+    }
+
+    public function pollLast() {
         
     }
 

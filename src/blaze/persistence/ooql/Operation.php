@@ -21,7 +21,6 @@ class Operation extends Object implements Argument, Operationable, Conditionable
     const OP_DIVIDE = '/';
     const OP_MULTIPLY = '*';
     const OP_MODULO = '%';
-    const OP_MINUS = '-';
 
     private $left;
     private $right;

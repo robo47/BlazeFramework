@@ -66,7 +66,7 @@ class NativePipedInputStream extends PipedInputStream {
         return $result;
     }
 
-    public function skip($n) {
+    public function skip(\long $n) {
         $this->checkClosed();
         $this->position += $n;
         fseek($this->nativeStream, $n, SEEK_CUR);

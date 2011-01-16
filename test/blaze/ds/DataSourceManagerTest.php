@@ -46,8 +46,10 @@ class DataSourceManagerTest extends \PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         //bdsc:<driver-name>://<Host>[:Port][/DB][?UID=User][&PWD=Password][&Option=Value]..
-
-        $this->bdsc[0] = 'bdsc:pdomysql://localhost:3306/test?UID=root';
+        if (!TESTS_BLAZE_DS_DATASOURCEMANAGER_ENABLED) {
+            $this->markTestSkipped('Skipped because disabled in configuration');
+        }
+        $this->bdsc[0] = TESTS_BLAZE_DS_DATASOURCEMANAGERTEST_DATABASE_DSN;
     }
 
     /**

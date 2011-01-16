@@ -244,7 +244,7 @@ class UnixFileSystem extends FileSystem {
     public function lister(File $f, $filter = null) {
         $dir = @opendir($f->getAbsolutePath()->toNative());
         if (!$dir) {
-            throw new Exception("Can't open directory " . $f->toString());
+            throw new IOException("Can't open directory " . $f->toString());
         }
         $vv = array();
         while (($file = @readdir($dir)) !== false) {

@@ -10,7 +10,7 @@ namespace blaze\collections\bidimap;
  * @link    http://blazeframework.sourceforge.net
  * @since   1.0
  */
-final class ImmutableSortedBidiMap extends AbstractSortedBidiMapDecorator implements \blaze\collections\Immutable {
+final class ImmutableSortedMap extends AbstractSortedBidiMapDecorator implements \blaze\collections\Immutable {
 
     public function clear() {
         return false;

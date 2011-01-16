@@ -31,7 +31,7 @@ interface Readable {
      * @return 	int Returns the number of chars which were read into it, or -1 if nothing could be read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public function readInto(StringBuffer $buffer, $off = -1, $len = -1);
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1);
 }
 
 ?>

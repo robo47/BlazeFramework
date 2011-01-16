@@ -32,7 +32,7 @@ abstract class InputStream extends Object implements Readable, Closeable, Markab
      */
     public abstract function skip(\long $n);
 
-    public function readInto(StringBuffer $buffer, $off = -1, $len = -1) {
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1) {
         $result = $this->read($len);
         $read = strlen($result);
 

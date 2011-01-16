@@ -110,8 +110,12 @@ class ConstraintMetaDataImpl extends AbstractConstraintMetaData {
 
     }
 
-    public function setConstraintName() {
+    public function setConstraintName($constraintName) {
 
+    }
+
+    public function getColumns() {
+        
     }
 
 }

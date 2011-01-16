@@ -772,7 +772,7 @@ class File extends Object implements StaticInitialization, Serializable, Compara
     public function setLastModified(\long $time) {
         $time = (int) $time;
         if ($time < 0) {
-            throw new Exception("IllegalArgumentException, Negative $time\n");
+            throw new \Exception("IllegalArgumentException, Negative $time\n");
         }
 
 

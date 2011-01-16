@@ -3,7 +3,7 @@
 namespace blaze\ds\driver\pdobase\meta;
 
 use blaze\lang\Object,
- blaze\ds\meta\ForeignKeyMetaData;
+ \blaze\ds\meta\ReferentialConstraintMetaData;
 
 /**
  * Description of AbstractReferentialConstraintMetaData

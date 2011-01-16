@@ -21,7 +21,7 @@ class HashSet extends AbstractSet implements \blaze\lang\Cloneable, \blaze\io\Se
     private $size;
     private $hashs;
 
-    public function __construct(\blaze\collections\Collection $collection =null) {
+    public function __construct(\blaze\collections\Collection $collection = null) {
 
         $this->data = array();
         $this->size = 0;

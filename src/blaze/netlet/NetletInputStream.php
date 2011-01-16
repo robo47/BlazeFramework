@@ -34,7 +34,7 @@ class NetletInputStream extends InputStream {
 
     }
 
-    public function skip($n) {
+    public function skip(\long $n) {
 
     }
 

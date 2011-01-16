@@ -3,7 +3,7 @@
 namespace blaze\ds\driver\pdobase\meta;
 
 use blaze\lang\Object,
- blaze\ds\meta\ConstraintMetaData;
+ blaze\ds\meta\PrimaryKeyConstraintMetaData;
 
 /**
  * Description of AbstractPrimaryKeyConstraintMetaData

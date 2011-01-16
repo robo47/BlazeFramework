@@ -113,19 +113,19 @@ class HttpNetletResponseWrapper extends \blaze\lang\Object implements \blaze\net
         $this->response->reset();
     }
 
-    public function setCharacterEncoding($charset) {
+    public function setCharacterEncoding(\blaze\lang\String $charset) {
         $this->response->setCharacterEncoding($charset);
     }
 
-    public function setContentLength($len) {
+    public function setContentLength(\int $len) {
         $this->response->setContentLength($len);
     }
 
-    public function setContentType($type) {
+    public function setContentType(\blaze\lang\String $type) {
         $this->response->setContentType($type);
     }
 
-    public function setLocale($locale) {
+    public function setLocale(\blaze\util\Locale $locale) {
         $this->response->setLocale($locale);
     }
 

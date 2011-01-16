@@ -49,12 +49,16 @@ class ReferentialConstraintMetaDataImpl extends \blaze\ds\driver\pdobase\meta\Ab
 
     }
 
-    public function setConstraintName() {
+    public function setConstraintName($constraintName) {
 
     }
 
     public function setReferencedColumn(\blaze\ds\meta\ColumnMetaData $referencedColumn) {
 
+    }
+
+    public function getColumns() {
+        ;
     }
 
 }

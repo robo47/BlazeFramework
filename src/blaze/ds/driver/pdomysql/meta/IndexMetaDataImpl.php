@@ -57,7 +57,7 @@ class IndexMetaDataImpl extends AbstractIndexMetaData {
         return \blaze\collections\Arrays::asList($columns);
     }
 
-    public function addColumn(\blaze\ds\meta\ColumnMetaData $column, $prefix = 0) {
+    public function addColumn($indexExpression, $prefix = 0, $ascending = true) {
 
     }
 

@@ -25,7 +25,7 @@ interface Bag extends Collection {
      * @param \blaze\lang\Reflectable  $obj
      * @return boolean
      */
-    public function getCount(\blaze\lang\Reflectable \int $obj);
+    public function getCount(\blaze\lang\Reflectable $obj);
 
     /**
      * Removes $count copies of the specified object from the Bag.

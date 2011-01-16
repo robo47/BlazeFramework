@@ -32,8 +32,9 @@ class PersistenceConfigurationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testConfigure(){
+        $this->markTestIncomplete('Missing blazeCMS-directory');
         $this->config = new cfg\Configuration();
-        $this->config->configureFile('D:\\xampp\\htdocs\\BlazeFrameworkServer\\src\\blazeCMS\\source\\persistence.cfg.xml');
+        $this->config->configureFile(SRC_PATH . 'blazeCMS/source/persistence.cfg.xml');
         $this->factory = $this->config->buildEntityManagerFactory();
         $this->entityManager = $this->factory->createEntityManager();
     }

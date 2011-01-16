@@ -72,7 +72,7 @@ class ObjectInputStream extends \blaze\io\input\FilterInputStream implements \bl
         return $result;
     }
 
-    public function readInto(\blaze\lang\StringBuffer $buffer, $off = -1, $len = -1) {
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1) {
         $result = unserialize($this->getNext());
         $read = strlen($str);
 

@@ -243,7 +243,7 @@ final class Inet4Address extends InetAddress {
      *          <code>false</code> otherwise.
      * @see     java.net.InetAddress#getAddress()
      */
-    public function equals(Object $obj) {
+    public function equals(\blaze\lang\Reflectable $obj) {
         return ($obj != null) && ($obj instanceof Inet4Address) &&
         ($obj->address == $this->address);
     }

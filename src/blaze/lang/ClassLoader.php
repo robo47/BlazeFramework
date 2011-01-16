@@ -134,8 +134,14 @@ class ClassLoader extends Object {
         $fullName = $this->classPath . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 
         // Check if the file exists, otherwise throw exception
-        if (!file_exists($fullName))
+
+        if (!file_exists($fullName)) {
+                    var_dump($fullName);
+        $e = new \Exception();
+        echo $e->getTraceAsString();
+        exit();
             throw new ClassNotFoundException($className);
+        }
 
         $this->classes[$className] = null;
         // Include the class which shall be loaded

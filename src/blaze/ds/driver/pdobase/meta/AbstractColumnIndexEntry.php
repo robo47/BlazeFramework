@@ -9,7 +9,7 @@ namespace blaze\ds\driver\pdobase\meta;
  * @license http://www.opensource.org/licenses/gpl-3.0.html GPL
  * @since   1.0
  */
-class AbstractColumnIndexEntry extends \blaze\lang\Object implements \blaze\ds\meta\ColumnIndexEntry {
+abstract class AbstractColumnIndexEntry extends \blaze\lang\Object implements \blaze\ds\meta\ColumnIndexEntry {
 
     /**
      *

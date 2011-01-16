@@ -196,6 +196,23 @@ class TreeBidiMap extends AbstractBidiMap implements \blaze\collections\bidimap\
         
     }
 
+    public function valueSet() {
+        
+    }
+
+    public function removeValue(\blaze\lang\Reflectable $value) {
+        
+    }
+
+    public function getKey(\blaze\lang\Reflectable $value) {
+        
+    }
+
+    public function getIterator()
+    {
+        
+    }
+
 }
 
 ?>

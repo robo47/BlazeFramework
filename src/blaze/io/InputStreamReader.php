@@ -34,7 +34,7 @@ class InputStreamReader extends Reader {
      *                  If a buffer is given, if returns the number of chars which were read into it, or -1 if nothing could be read.
      * @throws	blaze\lang\IOException Is thrown when an IO error occurs or when the underlying ressource is already closed
      */
-    public function read(StringBuffer $buffer = null, $off = -1, $len = -1) {
+    public function readInto(\blaze\lang\StringBuffer $buffer = null, $off = -1, $len = -1) {
         return $this->is->read($buffer, $off, $len);
     }
 
@@ -56,6 +56,14 @@ class InputStreamReader extends Reader {
      */
     public function skip(\long $n) {
         return $this->is->skip($n);
+    }
+
+    public function isClosed() {
+        
+    }
+
+    public function read($len = -1) {
+        
     }
 
 }
