@@ -1,1 +1,0 @@
-D:\xampp\php\php.exe "D:\Downloads\phpdoctor\phpdoc.php" "D:\xampp\htdocs\BlazeFrameworkServer\other\phpdoc.ini"

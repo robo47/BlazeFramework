@@ -44,11 +44,7 @@ class LocalCache implements Cache, \blaze\lang\StaticInitialization {
      * @access private
      */
     public static function staticInit() {
-<<<<<<< HEAD
         self::$standardDir = new \blaze\io\File(sys_get_temp_dir());
-=======
-        self::$standardDir = new \blaze\io\File(\blaze\lang\ClassLoader::getSystemClassLoader()->getClassPath()->toNative() . '/../cache');
->>>>>>> 30908ff908011e6657fa44fbda73dc71056c40b0
     }
 
     /**
